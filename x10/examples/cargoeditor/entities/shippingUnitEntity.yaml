@@ -1,0 +1,80 @@
+name: ShippingUnit
+description: Fine-grained informatino about cargo
+properties:
+  - name: unitType
+    dataType: shippingUnitTypeEnum
+    display: dropdown
+    mandatory: true
+    default: carton
+    label: Type
+
+  - name: count
+    dataType: int
+    mandatory: true
+
+  - name: atomicCount
+    dataType: int
+    label: Total cartons
+    mandatory: false
+    isRelevant: unitType === 'pallet'
+
+  - name: widthCm
+    dataType: float.1
+    units: m
+    mandatory: true
+    converter: unitSystemConverter(displayUnitSystem, cm, in)
+    isRelevant: specifiedBy === 'dimensions'
+    label: Width
+
+  - name: lengthCm
+    dataType: float.1
+    units: m
+    mandatory: true
+    converter: unitSystemConverter(displayUnitSystem, cm, in)
+    isRelevant: specifiedBy === 'dimensions'
+    label: Length
+
+  - name: heightCm
+    dataType: float.1
+    units: m
+    mandatory: true
+    converter: unitSystemConverter(displayUnitSystem, cm, in)
+    isRelevant: specifiedBy === 'dimensions'
+    label: Height
+
+  - name: volumeCubicM
+    dataType: float.3
+    units: m3
+    mandatory: true
+    converter: unitSystemConverter(displayUnitSystem, m3, cbf)
+    isRelevant: specifiedBy === 'volume'
+    label: Volume
+
+  - name: weightKg
+    dataType: float.1
+    units: kg
+    mandatory: true
+    converter: unitSystemConverter(displayUnitSystem, kg, lb)
+    label: Weight
+
+  - name: units
+    dataType: unitSystemEnum
+    mandatory: true
+    default: metric
+    ui: RadioButtonGroup
+
+  - name: specifiedBy
+    dataType: dimensionsOrVolumeEnum
+    display: pills
+    mandatory: true
+    default: dimensions
+    ui: RadioButtonGroup
+
+  - name: name
+    dataType: string
+    mandatory: false
+    label: Package name
+
+enums:
+  - name: shippingUnitTypeEnum
+    values: pallet, bag, bale, barrel, carton, create, roll, package, box, drum, bundle

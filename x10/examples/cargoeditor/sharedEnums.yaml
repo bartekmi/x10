@@ -1,0 +1,4 @@
+- name: unitSystemEnum
+  values: metric, imperial
+- name: dimensionsOrVolumeEnum
+  values: dimensions, volume

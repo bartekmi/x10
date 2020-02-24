@@ -1,0 +1,23 @@
+<PackageDetails model="[ShippingUnit]" team="bookings">
+  <MultiStacker addItemLabel="Add another package">
+    <!-- <PackageDetailsItem/> -->
+    <Column>
+      <Row>
+        <name/>
+        <unitType/>
+        <count/>
+      </Row>
+      <Row>
+        <specifiedBy/>
+        <units/>
+      </Row>
+      <Row>
+        <lengthCm/>
+        <widthCm/>
+        <heightCm/>
+        <volumeCubicM/>
+        <weightKg/>
+      </Row>
+    </Column>
+  </MultiStacker>
+</PackageDetails>

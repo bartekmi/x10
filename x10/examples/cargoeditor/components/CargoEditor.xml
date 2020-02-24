@@ -1,0 +1,10 @@
+<CargoEditor model="Cargo" team="bookings">
+  <Switcher showFirstChild="packageDetailsKnown"
+            onSwitchChanged="packageDetailsKnown"
+            switchToSecondChildLabel="Switch to package details"
+            switchToFirstChildLabel="Switch to cargo totals"
+  >
+    <PackageDetails path="shippingUnits"/>
+    <CargoTotals/>
+  </Switcher>
+</CargoEditor>

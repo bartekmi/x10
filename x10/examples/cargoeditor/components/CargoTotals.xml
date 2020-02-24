@@ -1,0 +1,7 @@
+<CargoTotals model="Cargo" team="bookings">
+  <Row>
+    <totalWeight/>
+    <totalVolume/>
+    <units/>
+  </Row>
+</CargoTotals>
