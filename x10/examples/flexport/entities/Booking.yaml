@@ -1,0 +1,22 @@
+name: Booking
+description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
+
+enums:
+  - name: State
+    values: waitingForPricing
+    icons: null, lightning
+
+associations:
+  - name: company
+    belongsTo: Company

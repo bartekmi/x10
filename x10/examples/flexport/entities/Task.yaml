@@ -1,0 +1,19 @@
+name: Task
+description: A task to be completed by someone
+
+attributes:
+  - name: headline
+    dataType: String
+    mandatory: true
+
+  - name: dueDate
+    dataType: Timestamp
+    readOnly: true
+
+associations:
+  - name: shipment
+    mayBelongTo: Shipment
+  - name: assignedToCompany
+    mayBelongTo: Company
+  - name: assignedToUser
+    mayBelongTo: User

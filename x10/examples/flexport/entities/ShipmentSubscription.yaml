@@ -1,0 +1,6 @@
+name: ShipmentSubscription
+description: A cross-reference between <Shipment> and <User> - if it exists, then the <User> will recieve notifications about events in the lifetime of the <Shipment>
+
+associations:
+  belongsTo: User
+  belongsTo: Shipment

@@ -1,0 +1,28 @@
+name: QuoteRequest
+description: A request for a quote that may eventually lead to a <Shipment>
+
+attributes:
+  - name: flexId
+    dataType: String
+    readOnly: true
+  - name: name
+    dataType: String
+    mandatory: true
+
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
+
+  - name: status
+    type: QuoteRequestStatus
+
+enums:
+  - name: QuoteRequestStatus
+    values: quoteRequested
+
+associations:
+  - name: company
+    belongsTo: Company

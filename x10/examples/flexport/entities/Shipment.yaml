@@ -1,0 +1,37 @@
+name: Shipment
+description: Encapsulates a shipment of goods from one location to another
+
+attributes:
+  - name: flexId
+    dataType: String
+    readOnly: true
+  - name: name
+    dataType: String
+    mandatory: true
+
+  - name: latitude
+    dataType: Float
+  - name: longitude
+    dateType: Float
+
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
+  - name: priority
+    dataType: Priority
+    mandatory: true
+    default: normal
+
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
+
+enums:
+  - name: Priority
+    values: normal, high
+    icons: null, lightning
+  - name: ShipmentStatus
+    values: awaitingArrivalAtDeparturePort
+
+associations:
+  - belongsTo: Company

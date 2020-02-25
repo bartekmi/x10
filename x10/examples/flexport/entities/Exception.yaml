@@ -1,0 +1,15 @@
+name: Exception
+description: A notification that something out-of-the-ordinary (usually bad) has happened to a Shipment
+
+attributes:
+  - name: headline
+    dataType: String
+    mandatory: true
+
+  - name: timestamp
+    dataType: Timestamp
+    mandatory: true
+
+associations:
+  - name: shipment
+    belongsTo: Shipment
