@@ -1,0 +1,17 @@
+name: Quote
+description: A proposed price to fulfill a <QuoteRequest>
+
+# TODO: Do I like this format better? On the down-side, the name of the field is same color as attributes
+# On the plus side, I find myself consistently wanting to do it this way.
+attributes:
+  - price:
+      dataType: money
+      mandatory: true
+  - expires:
+      dateType: date
+  - minTransitDays:
+      dataType: int
+      mandatory: true
+  - maxTransitDays:
+      dataType: int
+      mandatory: true

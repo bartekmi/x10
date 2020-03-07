@@ -1,0 +1,11 @@
+name: Carrier
+description: A company which provides freight services
+
+attributes:
+  - name:
+      dataType: String
+      mandatory: true
+  # TODO: Should carriers support multiple transport modes?
+  - transportationMode:
+      dataType: TransportationMode
+      mandatory: true

@@ -1,0 +1,44 @@
+<Dashboard model="null">
+    <VerticalStackPanel>
+        <RepellingRow>
+            <Row>
+                <!-- Top Left items: Logo, search bar -->
+                <FlexportLogo/>
+                <VerticalDivider/>
+                <SearchBox/>
+
+                <!-- Main Menu -->
+                <Menu>
+                    <MenuItem label="Overview" url="/dashboard"/>
+                    <MenuItem label="Shipments" url="/shipments"/>
+                    <MenuItem label="Quotes" url="/quote_requests"/>
+                    <MenuItem label="Bookings" url="/bookings"/>
+                    <MenuItem label="Orders" url="/purchase_orders"/>
+                    <MenuItem label="Billing" url="/billing"/>
+                    <MenuItem label="Your Business">
+                        <MenuItem label="Tasks" url="/tasks"/>
+                        <MenuItem label="Products" url="/products"/>
+                        <MenuItem label="Network" url="/network"/>
+                        <MenuItem label="Settings" url="/settings"/>
+                    </MenuItem>
+                    <MenuItem label="Insights">
+                        <MenuItem label="Analytics" url="/analytics"/>
+                        <MenuItem label="Reports" url="/reports"/>
+                    </MenuItem>
+                </Menu>
+            </Row>
+
+            <!-- Top-right icons -->
+            <Row>
+                <Messages/>
+                <Alerts/>
+                <VerticalDivider/>
+                <Avatar/>
+            </Row>
+        </RepellingRow>
+
+        <SpaContent/>
+
+        <Footer/>
+    </VerticalStackPanel>
+</Dashboard>

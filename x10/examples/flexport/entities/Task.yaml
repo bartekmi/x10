@@ -2,13 +2,34 @@ name: Task
 description: A task to be completed by someone
 
 attributes:
-  - name: headline
-    dataType: String
-    mandatory: true
+  - headline:
+      dataType: String
+      mandatory: true
 
-  - name: dueDate
-    dataType: Timestamp
-    readOnly: true
+  - createdAt:
+      dataType: Timestamp
+      readOnly: true
+
+  - dueDate:
+      dataType: Timestamp
+      readOnly: true
+
+  - type:
+      dataType: TaskType
+      readOnly: true
+
+derivedAttributes:
+  - dueDateHuman:
+      dataType: String
+  - completeByHuman:
+      dataType: String
+
+enums:
+  - TaskStatus:
+      values: requiresAction, completed, archived
+  - TaskType:
+      values: customFileUploadTask, customTask, completeOnboarding, payInvoice, reviewQuote
+      icons: upload, message, human, credit-card, dollar-sign
 
 associations:
   - name: shipment

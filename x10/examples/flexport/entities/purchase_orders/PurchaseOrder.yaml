@@ -1,0 +1,29 @@
+name: PurchaseOrder
+description: >
+  A (possibly long-lived) agreement between a Consignee and a Shipper to ship goods, 
+  possibly over multiple <Shipment>'s
+
+attributes:
+  - purchaseOrderNumber:
+      dataType: string
+      mandatory: true
+      label: PO#
+  - cargoReadyBy:
+      dataType: date
+  - mustArriveBy:
+      dataType: date
+  - state:
+      dateType: PurchaseOrderState
+      label: Status
+      mandatory: true
+
+enums:
+  - PurchaseOrderState
+      values: open, closed, cancelled
+
+associations:
+  - name: seller
+    hasOne: Company
+  - name: boyer
+    hasOne: Company
+  

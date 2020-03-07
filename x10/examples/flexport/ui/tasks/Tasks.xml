@@ -1,0 +1,41 @@
+<Tasks model="[Task]" url="/tasks">
+    <VerticalStackPanel>
+        <Heading1 text="Tasks"/>
+        <Divider/>
+
+        <Table>
+            <!-- Header -->
+            <Table.Header>
+                <RepellingRow>
+                    <Row>
+                        <Button label="=`Archive ${selected.count}` tasks" visibility="=selected.count > 0" onClick="archiveSelectedTasks(selected)"/>
+                        <FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
+                        <FilterMultiSelect label="Types" choices="=enumValues(TaskType)"/>
+                        <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>
+                    </Row>
+                    <TablePageControls/>
+                </RepellingRow>
+            </Table.Header>
+
+            <!-- Columns -->
+            <Table.Columns>
+                <TableSelectionColumn/>
+
+                <TableColumn header="Reference">
+                    <VerticalStackPanel>
+                        <flexId weight="bold"/>
+                        <name/>
+                    </VerticalStackPanel>
+                </TableColumn>
+
+                <headline weight="bold"/>
+                <shipment.transportationMode/>
+                <shipment.supplier/>
+                <shipment.finalDestination/>
+                <completeByHuman/>
+                <createdAt header="Posted"/>
+            </Table.Columns>
+
+        </Table>
+    </VerticalStackPanel>
+</Tasks>

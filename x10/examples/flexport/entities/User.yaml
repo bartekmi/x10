@@ -7,12 +7,12 @@ attributes:
     mandatory: true
   - name: lastName
     dataType: String
-    mandatory: true  
-    
+    mandatory: true
+
   - name: lastAccountActivity
     dataType: Timestamp
     readOnly: true
 
-associations: 
-  - company
+associations:
+  - name: company
     belongsTo: Company

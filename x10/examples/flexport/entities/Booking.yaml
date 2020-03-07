@@ -2,21 +2,28 @@ name: Booking
 description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
 
 attributes:
-  - name: name
-    dataType: String
-    mandatory: true
-  - name: transportationMode
-    dataType: TransportationMode
-    mandatory: true
-  - name: cargoReadyDate
-    dataType: Date
-    mandatory: true
+  - name:
+      dataType: String
+      mandatory: true
+  - state:
+      dataType: BookingState
+      mandatory: true
+  - transportationMode:
+      dataType: TransportationMode
+      mandatory: true
+  - cargoReadyDate:
+      dataType: Date
+      mandatory: true
 
 enums:
-  - name: State
-    values: waitingForPricing
-    icons: null, lightning
+  - BookingState
+    values: draft, waitingForPricing, awaitingReview
+    labels: Draft, Waiting For Pricing, Awaiting Your Review
+    icons: draft, dollar_sign, ticket
 
 associations:
-  - name: company
+  - shipper
     belongsTo: Company
+  - consignee
+    belongsTo: Company
+  - ownsOne: Cargo

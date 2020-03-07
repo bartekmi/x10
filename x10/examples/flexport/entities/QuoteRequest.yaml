@@ -1,28 +1,16 @@
 name: QuoteRequest
+parentEntity: ShipmentBase
 description: A request for a quote that may eventually lead to a <Shipment>
 
 attributes:
-  - name: flexId
-    dataType: String
-    readOnly: true
-  - name: name
-    dataType: String
-    mandatory: true
-
-  - name: transportationMode
-    dataType: TransportationMode
-    mandatory: true
-  - name: cargoReadyDate
-    dataType: Date
-    mandatory: true
-
-  - name: status
-    type: QuoteRequestStatus
+  - state:
+      type: QuoteRequestState
 
 enums:
-  - name: QuoteRequestStatus
-    values: quoteRequested
+  - QuoteRequestState:
+      values: quoteRequested, quotesReady, quoteAccepted, quoteExpired
+      icons: quotation_mark, callout, thumbs_up, dont
 
 associations:
-  - name: company
-    belongsTo: Company
+  - submittedBy
+    belongsTo: User

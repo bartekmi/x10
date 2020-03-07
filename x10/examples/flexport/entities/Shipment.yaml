@@ -1,37 +1,20 @@
 name: Shipment
+parentEntity: ShipmentBase
 description: Encapsulates a shipment of goods from one location to another
 
 attributes:
-  - name: flexId
-    dataType: String
-    readOnly: true
-  - name: name
-    dataType: String
-    mandatory: true
+  - latitude:
+      dataType: Float
+  - longitude:
+      dateType: Float
 
-  - name: latitude
-    dataType: Float
-  - name: longitude
-    dateType: Float
-
-  - name: transportationMode
-    dataType: TransportationMode
-    mandatory: true
-  - name: priority
-    dataType: Priority
-    mandatory: true
-    default: normal
-
-  - name: cargoReadyDate
-    dataType: Date
-    mandatory: true
+  - status:
+      dataType: ShipmentStatus
 
 enums:
-  - name: Priority
-    values: normal, high
-    icons: null, lightning
-  - name: ShipmentStatus
-    values: awaitingArrivalAtDeparturePort
+  - ShipmentStatus:
+      values: awaitingArrivalAtDeparturePort
 
 associations:
-  - belongsTo: Company
+  - name: currentLocation
+    hasOne: ShipmentLocation

@@ -2,6 +2,6 @@ name: Company
 description: A legal entity such as a corportation that typically buys or sells stuff
 
 attributes:
-  - name: legalName
-    dataType: string
-    mandatory: true
+  - legalName:
+      dataType: string
+      mandatory: true

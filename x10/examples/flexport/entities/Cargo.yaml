@@ -1,0 +1,12 @@
+name: Cargo
+description: Description of the actual physical goods to be shipped, including weight/volume, etc
+
+attributes:
+  - weight:
+      dataType: float.1
+      mandatory: true
+      units: kg
+  - volume:
+      dataType: float.3
+      mandatory: true
+      units: cbm
