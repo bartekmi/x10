@@ -1,0 +1,10 @@
+name: HsCode
+description: >
+  A physical goods classification for the purpose of paying tarriffs
+  in import/export
+
+attributes:
+  - hsCode:
+      dataType: string
+  - description
+      dataType: string

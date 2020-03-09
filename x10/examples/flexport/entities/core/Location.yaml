@@ -1,0 +1,22 @@
+name: Location
+description: A physical location
+defaultStringRepresentation: name
+
+attributes:
+  - name:
+      dataType: string
+      mandatory: true
+  - countryCode:
+      dataType: string
+      mandatory: true
+  - city:
+      dataType: string
+  - stateOrProvince:
+      dateType: string
+  - type:
+      dataType: LocationType
+
+enums:
+  - name: LocationType
+    values: port, airport, factory
+    icons: port, airport, factory

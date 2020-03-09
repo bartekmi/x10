@@ -1,0 +1,17 @@
+name: BookingHsCode
+description: A link to an <HsCode> specifying the contents of a <Booking>
+
+attributes:
+  - description:
+      dataType: String
+      mandatory: true
+      placeholderText: English description of product
+  - descriptionInLocalLanguage:
+      dataType: String
+      mandatory: true
+      placeholderText: Some Chinese stuff I can't copy
+
+associations:
+  - hsCode:
+      dataType: HsCode
+      mandatory: true

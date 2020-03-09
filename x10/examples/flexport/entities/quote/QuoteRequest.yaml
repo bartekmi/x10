@@ -1,0 +1,16 @@
+name: QuoteRequest
+inheritsFrom: ShipmentBase
+description: A request for a quote that may eventually lead to a <Shipment>
+
+attributes:
+  - state:
+      type: QuoteRequestState
+
+enums:
+  - QuoteRequestState:
+      values: quoteRequested, quotesReady, quoteAccepted, quoteExpired
+      icons: quotation_mark, callout, thumbs_up, dont
+
+associations:
+  - submittedBy:
+      dataType: User

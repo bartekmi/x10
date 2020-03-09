@@ -1,0 +1,11 @@
+name: ShipmentUser
+description: A <User> who is somehow related to a <Shipment>
+defaultStringRepresentation: user
+
+attributes:
+
+associations:
+  - hasOne: User
+  - hasOne: Shipment
+
+enums:

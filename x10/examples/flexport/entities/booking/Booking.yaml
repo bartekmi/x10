@@ -1,0 +1,106 @@
+name: Booking
+description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
+
+attributes:
+  - name:
+      dataType: String
+      mandatory: true
+      placeholderText: Description of shipment
+  - state:
+      dataType: BookingState
+      mandatory: true
+  - transportationMode:
+      dataType: TransportationMode
+      mandatory: true
+  - cargoReadyDate:
+      dataType: Date
+      mandatory: true
+  - targetDeliveryDate:
+      dataType: Date
+  - notifyParty:
+      dataType: String
+      toolTip: The company entity which should be notified of the arrival of the cargo
+      ui: TextArea
+  - isLcl:
+      dataType: Boolean
+      mandatory: true
+      default: fales
+      label: Shipment Type
+      ui: BooleanViaButtons
+      ui.trueLabel: "LCL"
+      ui.falseLabel: "FCL"
+  - incoterms:
+      dataType: Incoterms
+      mandatory: true
+  - wantsOriginService:
+      dataType: Boolean
+      default: true
+  - wantsExportCustomsService:
+      dataType: Boolean
+      default: false
+  - cargoReadyDate:
+      dataType: Date
+      mandatory: true
+  - descriptionOfProducts:
+      dataType: String
+      ui: TextArea
+      applicableWhen: transportationMode == 'truck'
+      toolTip: Please enter a short and concise description of products in this shipment
+  - specialInstructions:
+      dataType: String
+      ui: TextArea
+      placeholderText: Enter any special instructions, such as handling information
+
+derivedAttributes:
+  - isShipperBooking:
+      dataType: Boolean
+      function: =shipper == $user.company
+  - isConsigneeBooking:
+      dataType: Boolean
+      function: =consignee == $user.company
+  - requiresChineseProductDescription:
+      dataType: Boolean
+      function: =isShipperBooking && company.countryCode == 'CN'
+
+
+enums:
+  - BookingState
+    values: draft, waitingForPricing, awaitingReview
+    labels: Draft, Waiting For Pricing, Awaiting Your Review
+    icons: draft, dollar_sign, ticket
+
+associations:
+  - shipper:
+      dataType: Company
+      mandatory: true
+  - consignee:
+      dataType: Company
+      mandatory: true
+  - originLocation:
+      dataType: Location
+      mandatory: true
+  - originPort:
+      dataType: Port
+  - destinationLocation:
+      dataType: Location
+  - destinationPort:
+      dataType: Port
+  - cargo:
+      dataType: Cargo
+      ownedByThisEntity: true
+      mandatory: true
+  - bookingHsCodes:
+      dataType: BookingHsCode
+      ownedByThisEntity: true
+      many: true
+      mandatory: true
+      applicableWhen: transportationMode != 'truck'
+  - metadata:
+      dataType: MetadataValue
+      ownedByThisEntity: true
+      many: true
+      ui: MetadataEditor
+
+    
+
+      

@@ -1,0 +1,101 @@
+<BookingForm model="Booking">
+	<BookingForm.state>
+		<notifyPartySameAsConsignee dataType="Boolean" default="=isBlank(notifyParty)"/>
+	</BookingForm.state>
+	<VerticalStackPanel>
+		<Heading1 text="Create Booking"/>
+		<Divider/>
+		
+		<!-- TODO: Template area goes here-->
+		<FormSection label="Shipment Name">
+			<name/>
+		</FormSection>
+
+		<FormSection label="Involved Parties">
+			<Label text="What is your role in this trade?" mandatory="true">
+				<Row>
+					<SelectableButton label="Shipper" selected="=isShipperBooking" onSelectClick="selectShipperBooking"/>
+					<SelectableButton label="Consignee" selected="=isConsigneeBooking" onSelectClick="selectConsigneeBooking"/>
+				</Row>
+			</Label>
+			<shipper/>
+			<consignee/>
+			<Checkbox label="Notify party is same as consignee" isChecked="$state.notifyPartySameAsConsignee"/>
+			<notifyParty isVisible="=$state.notifyPartySameAsConsignee"/>
+		</FormSection>
+
+		<FormSection label="Transportation">
+			<transportationMode/>
+			<isLcl isVisible="=transportationMode == 'ocean'"/>
+			<isLtl isVisible="=transportationMode == 'truck'"/>
+			<ContainerTypesEditor isVisible="=transportationMode == 'ocean'"/>
+			<incoterms/>
+		</FormSection>
+
+		<FormSection label="Origin">
+			<wantsOriginService label="I want Flexport to handle transportation from the origin location to the port."/>
+			<originLocation/>
+			<originPort isVisible="=transportationMode != 'truck'" isMandatory="=!wantsOriginService"/>
+			<wantsExportCustomsService label="Do you need export customs services?"/>
+			<cargoReadyDate label="When will your cargo be ready for pickup?"/>
+		</FormSection>
+
+		<FormSection label="Destination">
+			<wantsDestinationService label="I want Flexport to deliver the cargo from the port to the destination location."/>
+			<destinationPort isVisible="=transportationMode != 'truck'" isMandatory="=!wantsDestinationService"/>
+			<destinationLocation isvisible="=wantsDestinationService" isMandatory="true"/>
+			<targetDeliveryDate label="What is your target dlivery date?"/>
+		</FormSection>
+
+		<FormSection label="Cargo" path="cargo">
+			<CargoEditor/>
+		</FormSection>
+
+		<FormSection label="Products & Compliance">
+			<List addItemLabel="Add row" path="bookingHsCodes">
+				<Grid>
+					<Grid.Columns>
+						<Column fraction="1"/>
+						<Column width="100"/>
+					</Grid.Columns>
+					<!-- If rows not specified, assume all "auto" rows -->
+
+					<!-- TODO: Is there a way to do this in a type-checed way? -->
+					<Label row="0" column="0" mandatory="true"
+						text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`" mandatory="true"
+						toolTip="Please enter a short and precise description of this product"
+						/>
+					<Label row="0" column="1" mandatory="true"
+						text="6 digit HS Code"
+						toolTip="6 digit HS Code is required for carrier booking as commodity identifier"/>
+
+					<description row="1" column="0"/>
+					<hsCode row="1" column="1"/>
+
+					<descriptionInLocalLanguage row="2" column="0" isVisible="=requiresChineseProductDescription"/>
+				</Grid>
+			</List>
+
+			<descriptionOfProducts/>
+
+			<DangerousCargoEditor path="cargo"/>
+		</FormSection>
+
+		<FormSection label="Shipment Tags">
+			<metadata/>
+		</FormSection>
+
+		<FormSection label="Special Instructions">
+			<specialInstructions/>
+		</FormSection>
+
+		<RepellingRow>
+			<Text>* Required</Text>
+			<Row>
+				<LinkButton label="Delete draft" confirmTitle="Cancel Booking?" confirmMessage="TODO" confirmDoItMessage="TODO" confirmBailOutMessage="TODO" action="/bookings/${id}/delete" successUrl="/bookings"/>
+				<FormButton label="Save draft" validate="false" action="/bookings/save_draft" successUrl="/bookings"/>
+				<FormButton label="Review booking" validate="true" action="/bookings/save_draft" successUrl="/bookings/${id}/review"/>
+			</Row>
+		</RepellingRow>
+	</VerticalStackPanel>
+</Bookings>
