@@ -1,7 +1,0 @@
-name: Bookmark
-description: A cross-reference between <User> and <Shipment>. If it exists, the <Shipment> is considered "book-marked" by the <User>
-
-associations:
-  - name: bookmarkable
-    belongsTo: Shipment, Booking, QuoteRequest
-  - belongsTo: User

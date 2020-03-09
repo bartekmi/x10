@@ -1,3 +1,10 @@
-- name: TransportationMode
-  values: air, ocean, truck
-  icons: airplane, boat, truck
+- TransportationMode:
+    values: air, ocean, truck
+    icons: airplane, boat, truck
+    label: Freight Method
+    ui: EnumCardSelector
+    default: ocean
+
+- Incoterms:
+    values: FOB, EXW, FAS, FCA, CPT, CFR
+    ui: IncotermsEditor
