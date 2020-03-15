@@ -1,3 +1,8 @@
 {
-  "files.autoSaveDelay": 1002
+  "files.autoSaveDelay": 1002,
+  "[yaml]": {
+    "editor.insertSpaces": true,
+     "editor.tabSize": 2,
+     "editor.detectIndentation": false,
+  }
 }
