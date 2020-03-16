@@ -5,7 +5,7 @@
       "label": "build",
       "command": "dotnet",
       "type": "process",
-      "args": ["build", "${workspaceFolder}/x10/x10.csproj"],
+      "args": ["build", "${workspaceFolder}/x10.sln"],
       "problemMatcher": "$tsc"
     },
     {
