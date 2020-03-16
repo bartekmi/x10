@@ -2,9 +2,9 @@ name: Person
 description: A human
 
 attributes:
-  - name:
-      dataType: String
-      mandatory: true
-  - dateOfBirth:
-      dataType: Date
-      mandatory: true
+  name:
+    dataType: String
+    mandatory: true
+  dateOfBirth:
+    dataType: Date
+    mandatory: true

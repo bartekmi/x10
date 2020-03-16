@@ -5,12 +5,11 @@ using Xunit;
 namespace x10.parsing {
   public class ParserYamlTest {
     [Fact]
-    public void Parse() {
+    public void ParseValid() {
       Parser parser  =new ParserYaml();
-      List<TreeNode> files = parser.RecursivelyParseDirectory("../../../parsing/data");
+      TreeNode file = parser.Parse("../../../parsing/data/Person.yaml");
 
-      Assert.Single(files);
-      TreeNode file = files.First();
+      Assert.True(parser.Messages.IsEmpty);
 
       Assert.IsType<TreeHash>(file);
       TreeHash root = file as TreeHash;
@@ -23,12 +22,12 @@ namespace x10.parsing {
       Assert.Equal(2, attributes.Attributes.Count);
 
       TreeHash name = attributes.FindHash("name");
-      VerifyAttribute(name, "dataType", "String", 6, 7, 6, 17);
-      VerifyAttribute(name, "mandatory", "true", 7, 7, 7, 18);
+      VerifyAttribute(name, "dataType", "String", 6, 5, 6, 15);
+      VerifyAttribute(name, "mandatory", "true", 7, 5, 7, 16);
 
       TreeHash dateOfBirth = attributes.FindHash("dateOfBirth");
-      VerifyAttribute(name, "dataType", "Date", 9, 7, 9, 17);
-      VerifyAttribute(name, "mandatory", "true", 10, 7, 10, 18);
+      VerifyAttribute(dateOfBirth, "dataType", "Date", 9, 5, 9, 15);
+      VerifyAttribute(dateOfBirth, "mandatory", "true", 10, 5, 10, 16);
     }
 
     private void VerifyAttribute(TreeHash root, string key, string expectedValue, 
@@ -40,11 +39,29 @@ namespace x10.parsing {
         TreeNode value = attribute.Value;
         Assert.Equal(expectedValue, value.ToString());
 
-        Assert.Equal(keyLine, attribute.LineNumber);
-        Assert.Equal(keyChar, attribute.CharacterPosition);
+        Assert.Equal(keyLine, attribute.Start.LineNumber);
+        Assert.Equal(keyChar, attribute.End.CharacterPosition);
         
-        Assert.Equal(valueLine, value.LineNumber);
-        Assert.Equal(valueChar, value.CharacterPosition);
+        Assert.Equal(valueLine, value.Start.LineNumber);
+        Assert.Equal(valueChar, value.End.CharacterPosition);
+    }
+
+    [Fact]
+    public void ParseInvalid() {
+      Parser parser = new ParserYaml();
+      TreeNode file = parser.Parse("../../../parsing/data/Broken.yaml");
+
+      Assert.Null(file);
+      Assert.Equal(1, parser.Messages.Count);
+      
+      CompileMessage error = parser.Messages.Messages.Single();
+      Assert.Equal(CompileMessageSeverity.Error, error.Severity);
+      Assert.Equal("Can't parse YAML file. Error: (Line: 4, Col: 1, Idx: 35) - (Line: 4, Col: 1, Idx: 35): While scanning a simple key, could not find expected ':'.", error.Message);
+
+      Assert.Equal(4, error.TreeElement.Start.LineNumber);
+      Assert.Equal(1, error.TreeElement.Start.CharacterPosition);
+      Assert.Equal(4, error.TreeElement.End.LineNumber);
+      Assert.Equal(1, error.TreeElement.End.CharacterPosition);
     }
 
     // Just leaving this here as an example of how to use [Theory]

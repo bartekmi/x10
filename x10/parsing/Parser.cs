@@ -7,11 +7,11 @@ namespace x10.parsing {
     public abstract TreeNode Parse(string filePath);
     public abstract string GetFileExtensionWithDot();
 
-    private MessageBucket _messages;
+    public MessageBucket Messages = new MessageBucket();  // Needed for testing
 
     public List<TreeNode> RecursivelyParseDirectory(string directoryPath) {
       List<TreeNode> parsed = new List<TreeNode>();
-      _messages = new MessageBucket();
+      Messages = new MessageBucket();
 
       RecursivelyParseDirectory(parsed, directoryPath);
 
@@ -28,6 +28,14 @@ namespace x10.parsing {
 
       foreach (string childDirPath in Directory.EnumerateDirectories(dirPath))
         RecursivelyParseDirectory(parsed, childDirPath);
+    }
+
+    protected void AddError(string message, TreeElement treeElement) {
+      Messages.Add(new CompileMessage() {
+        Severity = CompileMessageSeverity.Error,
+        Message = message,
+        TreeElement = treeElement,
+      });
     }
   }
 }

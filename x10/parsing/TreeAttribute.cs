@@ -7,5 +7,9 @@ namespace x10.parsing {
       Key = key;
       Value = value;
     }
+
+    public override string ToString() {
+      return string.Format("{0}: {1}", Key, Value);
+    }
   }
 }

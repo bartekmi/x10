@@ -1,2 +1,3 @@
-x10/obj/*
+*/obj/*
+*/bin/*
 x10/.DS_Store

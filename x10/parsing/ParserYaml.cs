@@ -3,15 +3,26 @@ using System.IO;
 using System.Linq;
 
 using YamlDotNet.RepresentationModel;
+using YamlDotNet.Core;
 
 using x10.utils;
 
 namespace x10.parsing {
   public class ParserYaml : Parser {
     public override TreeNode Parse(string path) {
-      YamlNode yamlRoot = YamlUtils.ReadYaml(path).RootNode;
-      TreeNode treeRoot = ParseRecursive(yamlRoot);
-      return treeRoot;
+      try {
+        YamlNode yamlRoot = YamlUtils.ReadYaml(path).RootNode;
+        TreeNode treeRoot = ParseRecursive(yamlRoot);
+        return treeRoot;
+      } catch (SyntaxErrorException e) {
+        AddError(string.Format("Can't parse YAML file. Error: " + e.Message),
+          new TreeFileError() {
+            FileInfo = new FileInfo(path),
+            Start = ToMark(e.Start),
+            End = ToMark(e.End),
+          });
+        return null;
+      }
     }
 
     private TreeNode ParseRecursive(YamlNode yamlNode) {
@@ -20,7 +31,7 @@ namespace x10.parsing {
 
       if (yamlNode is YamlSequenceNode) {
         treeNode = new TreeSequence();
-        foreach (YamlNode child in (yamlNode as YamlSequenceNode).Children) 
+        foreach (YamlNode child in (yamlNode as YamlSequenceNode).Children)
           ((TreeSequence)treeNode).AddChild(ParseRecursive(child));
 
       } else if (yamlNode is YamlMappingNode) {
@@ -28,6 +39,7 @@ namespace x10.parsing {
         foreach (var yamlChild in (yamlNode as YamlMappingNode)) {
           TreeNode treeChild = ParseRecursive(yamlChild.Value);
           TreeAttribute attribute = new TreeAttribute(yamlChild.Key.ToString(), treeChild);
+          SetLocation(attribute, yamlChild.Key);
           ((TreeHash)treeNode).AddAttribute(attribute);
         }
 
@@ -46,9 +58,17 @@ namespace x10.parsing {
       return ".yaml";
     }
 
-    private void SetLocation(TreeNode treeNode, YamlNode yaml) {
-      treeNode.LineNumber = yaml.Start.Line;
-      treeNode.CharacterPosition = yaml.Start.Column;
+    private void SetLocation(TreeElement treeNode, YamlNode yaml) {
+      treeNode.Start = ToMark(yaml.Start);
+      treeNode.End = ToMark(yaml.Start);
+    }
+
+    private PositionMark ToMark(Mark mark) {
+      return new PositionMark() {
+        Index = mark.Index,
+        LineNumber = mark.Line,
+        CharacterPosition = mark.Column,
+      };
     }
   }
 }
