@@ -1,0 +1,35 @@
+﻿[
+  {
+    "name": "Booking",
+    "description": "This is a booking",
+    "attributes": {
+      "name": {
+        "dataType": "String",
+        "mandatory": true,
+        "placeholderText": "Description of shiopment"
+      },
+      "state": {
+        "dataType": "BookingState",
+        "mandatory": true
+      }
+    }
+  },
+
+  {
+    "name": "Booking",
+    "description": "This is a booking",
+    "attributes": [
+      {
+        "name": "name",
+        "dataType": "String",
+        "mandatory": true,
+        "placeholderText": "Description of shipment"
+      },
+      {
+        "name": "state",
+        "dataType": "BookingState",
+        "mandatory":  true
+      }
+    ]
+  }
+]

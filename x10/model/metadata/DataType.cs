@@ -2,13 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+// This unpleasant circular dependency is due to the fact that DataType does double-dute as
+// our basic data types, and also enums defined in the 'definition' sister package
+// Consider deriving new type EnumDataType from DataType which would live in the 'definition' package
+using x10.model.definition;
+
 namespace x10.model.metadata {
-  public class DataType {
+  public class DataType : IAcceptsModelAttributeValues {
     public string Name { get; set; }
     public string Description { get; set; }
-    public Object[] EnumValues { get; set; }
+    public List<EnumValue> EnumValues { get; private set; }
     public Func<string, object> ParseFunction { get; set; }
     public string Examples { get; set; }
+    public List<ModelAttributeValue> AttributeValues { get; private set; }
+
+    public DataType() {
+      EnumValues = new List<EnumValue>();
+      AttributeValues = new List<ModelAttributeValue>();
+    }
 
     public object Parse(string text) {
       try {
@@ -85,6 +96,11 @@ namespace x10.model.metadata {
 
     public static void AddDataType(DataType customDataType) {
       All.Add(customDataType);
+    }
+
+    public static List<DataType> ModelEnums = new List<DataType>();
+    public static void AddModelEnum(DataType modelDataType) {
+      ModelEnums.Add(modelDataType);
     }
   }
 }

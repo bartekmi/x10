@@ -2,13 +2,13 @@ name: Booking
 description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
 
 attributes:
-  - name:
-      dataType: String
-      mandatory: true
-      placeholderText: Description of shipment
-  - state:
-      dataType: BookingState
-      mandatory: true
+  - name: name
+    dataType: String
+    mandatory: true
+    placeholderText: Description of shipment
+  - name: state
+    dataType: BookingState
+    mandatory: true
   - transportationMode:
       dataType: TransportationMode
       mandatory: true
@@ -52,22 +52,28 @@ attributes:
       placeholderText: Enter any special instructions, such as handling information
 
 derivedAttributes:
-  - isShipperBooking:
-      dataType: Boolean
-      function: =shipper == $user.company
-  - isConsigneeBooking:
-      dataType: Boolean
-      function: =consignee == $user.company
-  - requiresChineseProductDescription:
-      dataType: Boolean
-      function: =isShipperBooking && company.countryCode == 'CN'
+    isShipperBooking:
+        dataType: Boolean
+        function: =shipper == $user.company
+    isConsigneeBooking:
+        dataType: Boolean
+        function: =consignee == $user.company
+    requiresChineseProductDescription:
+        dataType: Boolean
+        function: =isShipperBooking && company.countryCode == 'CN'
 
 
 enums:
-  - BookingState
-    values: draft, waitingForPricing, awaitingReview
-    labels: Draft, Waiting For Pricing, Awaiting Your Review
-    icons: draft, dollar_sign, ticket
+  BookingState:
+    draft: 
+      label: Draft
+      icon: draft
+    waitingForPricing:
+      label: Waiting For Pricing
+      icon: dollar_sign
+    awaitingReview:
+      label: Awaiting Your Review
+      icon: ticket
 
 associations:
   - shipper:

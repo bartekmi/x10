@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Reflection;
 
 using x10.parsing;
@@ -29,7 +28,7 @@ namespace x10.compiler {
       return entities;
     }
 
-    private void ReadAttributes(TreeNode node, AppliesTo type, ModelComponent modelComponent) {
+    private void ReadAttributes(TreeNode node, AppliesTo type, IAcceptsModelAttributeValues modelComponent) {
       TreeHash hash = node as TreeHash;
       if (hash == null) {
         AddError(node, "Expected a Hash type node, but was: " + node.GetType().Name);
@@ -57,7 +56,7 @@ namespace x10.compiler {
             string.Format("Unknown attribute '{0}' on {1}", attribute.Key, type));
     }
 
-    private void ReadAttribute(TreeHash hash, AppliesTo type, ModelComponent modelComponent, ModelAttributeDefinition attrDef) {
+    private void ReadAttribute(TreeHash hash, AppliesTo type, IAcceptsModelAttributeValues modelComponent, ModelAttributeDefinition attrDef) {
       // Error if mandatory attribute missing
       TreeNode attrNode = hash.FindNode(attrDef.Name);
       if (attrNode == null) {
@@ -107,6 +106,10 @@ namespace x10.compiler {
           Definition = attrDef,
         });
       }
+
+      // Do validation, if requried
+      if (attrDef.ValidationFunction != null)
+        attrDef.ValidationFunction(Messages, scalarNode, modelComponent, type);
     }
 
     private Entity CompileEntity(TreeNode rootNodeUntyped) {
@@ -118,36 +121,60 @@ namespace x10.compiler {
 
       Entity entity = new Entity();
 
+      // Read top-level (entity) attributes
       ReadAttributes(rootNode, AppliesTo.Entity, entity);
 
-      List<>
-
-
-      // 3. Error if attribute is un-known
-      // 4. Apply custom validations - e.g. that name must match filename
-
-
-      // Errors
-      // Name must be present
-      entity.Name = GetMandatoryString(rootNode, "name");
-      bool isNameValid = false;
-      if (entity.Name != null)
-        isNameValid = CompileValidationUtils.ValidateEntityName(Messages, rootNode, entity.Name);
-
-      // Name must be same as filename
-      if (isNameValid) {
-        string fileNameNoExtension = Path.GetFileNameWithoutExtension(rootNode.FileInfo.FilePath);
-        if (entity.Name != fileNameNoExtension)
-          AddError(TreeUtils.GetValueNode(rootNode, "name"),
-            string.Format("The name of the entity '{0}' must match the name of the file: {1}",
-            entity.Name, fileNameNoExtension));
+      // Read Entity Attributes
+      TreeSequence attributes = TreeUtils.GetOptional<TreeSequence>(rootNode, "attributes", Messages);
+      if (attributes != null) {
+        foreach (TreeNode attribute in attributes.Children) {
+          X10Attribute x10Attribute = new X10Attribute();
+          entity.Members.Add(x10Attribute);
+          ReadAttributes(attribute, AppliesTo.Attribute, x10Attribute);
+        }
       }
-      // Extra un-known attributes
 
-      // Warnings
-      // Description should be present
+      // Read Associations
+      TreeSequence associations = TreeUtils.GetOptional<TreeSequence>(rootNode, "associations", Messages);
+      if (associations != null) {
+        foreach (TreeNode attribute in associations.Children) {
+          Association association = new Association();
+          entity.Members.Add(association);
+          ReadAttributes(attribute, AppliesTo.Association, association);
+        }
+      }
+
+      // Read Enums
+      TreeSequence enums = TreeUtils.GetOptional<TreeSequence>(rootNode, "enums", Messages);
+      if (enums != null) {
+        foreach (TreeNode treeNode in enums.Children) {
+          CompileEntity(treeNode);
+        }
+      }
 
       return entity;
+    }
+
+    private void CompileEnum(TreeNode enumRootNode) {
+      DataType theEnum = new DataType();
+      DataTypes.AddModelEnum(theEnum);
+      ReadAttributes(enumRootNode, AppliesTo.EnumValue, theEnum);
+
+      TreeHash enumHash = enumRootNode as TreeHash;
+      if (enumHash == null)
+        return;
+
+      TreeSequence enumValues = TreeUtils.GetOptional<TreeSequence>(enumHash, "values", Messages);
+      if (enumValues == null) {
+        AddError(enumHash, "Mandatory enum property 'values' missing");
+        return;
+      }
+
+      foreach (TreeNode enumValueNode in enumValues.Children) {
+        EnumValue enumValue = new EnumValue();
+        theEnum.EnumValues.Add(enumValue);
+        ReadAttributes(enumValueNode, AppliesTo.EnumValue, enumValue);
+      }
     }
 
     #region Utilities
