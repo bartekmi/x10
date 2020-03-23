@@ -24,7 +24,7 @@ attributes:
   - isLcl:
       dataType: Boolean
       mandatory: true
-      default: fales
+      default: false
       label: Shipment Type
       ui: BooleanViaButtons
       ui.trueLabel: "LCL"
