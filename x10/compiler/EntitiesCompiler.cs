@@ -129,7 +129,7 @@ namespace x10.compiler {
       // Ensure that the value of the attribute is a scalar (not a list, etc)
       TreeScalar scalarNode = attrNode as TreeScalar;
       if (scalarNode == null) {
-        AddError(scalarNode, string.Format("The attribute '{0}' should be simple string of the correct type, but is a {1}",
+        AddError(attrNode, string.Format("The attribute '{0}' should be simple string of the correct type, but is a {1}",
           attrDef.Name, attrNode.GetType().Name));
         return;
       }

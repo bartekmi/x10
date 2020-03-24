@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using x10.model.definition;
+using x10.model.metadata;
 using x10.parsing;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
-using System.IO;
 
 namespace x10.compiler {
   public class EntitiesCompilerTest {
@@ -25,6 +25,26 @@ namespace x10.compiler {
       List<Entity> entities = _compiler.Compile("../../../compiler/data");
       ShowErrors();
       Assert.Equal(0, _compiler.Messages.Count);
+    }
+
+    [Fact]
+    public void CompileWithSetterAndNonSetter() {
+      ModelAttributeDefinitions.All.Add(new ModelAttributeDefinition() {
+        Name = "customField",
+        Description = "This is a custom field with no setter",
+        AppliesTo = AppliesTo.Entity,
+        DataType = DataTypes.Singleton.String,
+      });
+
+      Entity entity = RunTest(@"
+name: Tmp
+description: My description...
+customField: My custom value
+");
+
+      Assert.Equal("Tmp", entity.Name);
+      Assert.Equal("My description...", entity.Description);
+      Assert.Equal("My custom value", AttributeUtils.FindValue(entity, "customField"));
     }
 
     [Fact]
@@ -67,7 +87,43 @@ name: Tmp
         "The attribute 'description' is missing from Entity", 2, 1);
     }
 
-    private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
+    [Fact]
+    public void AttributeNotScalar() {
+      RunTest(@"
+name: Tmp
+description: {}
+",
+        "The attribute 'description' should be simple string of the correct type, but is a TreeHash", 3, 14);
+    }
+
+    [Fact]
+    public void WrongTypeOfAttribute() {
+      RunTest(@"
+name: Tmp
+description: Description
+attributes:
+  - name: myBoolean
+    description: This is my boolean attribute
+    mandatory: 7
+",
+        "For attribute 'mandatory', could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False", 7, 16);
+    }
+
+    [Fact]
+    public void WrongDefaultValueType() {
+      RunTest(@"
+name: Tmp
+description: Description
+attributes:
+  - name: myBoolean
+    description: This is my boolean attribute
+    dataType: Boolean
+    default: 7
+",
+        "For attribute 'default', could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False", 8, 14);
+    }
+
+    private Entity RunTest(string yaml) {
       const string TMP_YAML_FILE = "Tmp.yaml";
       File.WriteAllText(TMP_YAML_FILE, yaml);
       ParserYaml parser = new ParserYaml();
@@ -75,8 +131,14 @@ name: Tmp
       rootNode.SetFileInfo(TMP_YAML_FILE);
       Assert.NotNull(rootNode);
 
-      _compiler.CompileEntity(rootNode);
+      Entity entity = _compiler.CompileEntity(rootNode);
       ShowErrors();
+
+      return entity;
+    }
+
+    private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
+      RunTest(yaml);
 
       CompileMessage message = _compiler.Messages.Messages.SingleOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);

@@ -122,6 +122,7 @@ namespace x10.model.metadata {
         Name = "dataType",
         Description = "The data type of this attribute",
         AppliesTo = AppliesTo.Attribute,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.DataType,
         Setter = "DataType",
       },
@@ -130,6 +131,7 @@ namespace x10.model.metadata {
         Description = "Default value for the attribute. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.Attribute,
         DataType = DataTypes.Singleton.SameAsDataType,
+        Setter = "DefaultValue",
       },
 
       //============================================================================
