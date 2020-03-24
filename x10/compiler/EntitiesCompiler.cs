@@ -121,7 +121,7 @@ namespace x10.compiler {
       TreeNode attrNode = hash.FindNode(attrDef.Name);
       if (attrNode == null) {
         if (attrDef.ErrorSeverityIfMissing != null)
-          AddMessage(attrDef.ErrorSeverityIfMissing.Value, attrNode,
+          AddMessage(attrDef.ErrorSeverityIfMissing.Value, hash,
             string.Format("The attribute '{0}' is missing from {1}", attrDef.Name, type));
         return;
       }
