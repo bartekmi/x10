@@ -6,6 +6,7 @@ namespace x10.parsing {
     public TreeAttribute(string key, TreeNode value) {
       Key = key;
       Value = value;
+      value.Parent = this;
     }
 
     public override string ToString() {

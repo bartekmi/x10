@@ -1,0 +1,49 @@
+﻿name: Correct
+description: This is a correct Entity declaration file
+
+attributes:
+  - name: stringAttr
+    description: This is a string attribute		
+    mandatory: true
+    readOnly: true
+    dataType: String
+    default: Hello World
+  - name: integerAttr
+    description: This is an integer attribute		
+    dataType: Integer
+    default: 7
+  - name: floatAttr
+    description: This is a float attribute		
+    dataType: Float
+    default: 3.14
+  - name: booleanAttr
+    description: This is a boolean attribute		
+    dataType: Boolean
+    default: true
+  - name: dateAttr
+    description: This is a date attribute		
+    dataType: Date
+    default: 2020-01-31
+  - name: timestampAttr
+    description: This is a timestamp attribute		
+    dataType: Timestamp
+    default: 2020-01-31 08:00:00
+
+associations:
+  - name: otherEntity
+    description: One-to-many association to OtherEntity
+    mandatory: true
+    dataType: OtherEntity
+    many: true
+    owns: true
+
+enums:
+  - name: MyEnum
+    description: This my very own enum
+    values:
+      - value: one
+        label: The number One
+        icon: one
+      - value: two
+
+

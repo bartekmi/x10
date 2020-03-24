@@ -16,8 +16,7 @@ namespace x10.parsing {
         return treeRoot;
       } catch (SyntaxErrorException e) {
         AddError(string.Format("Can't parse YAML file. Error: " + e.Message),
-          new TreeFileError() {
-            FileInfo = new FileInfo(path),
+          new TreeFileError(path) {
             Start = ToMark(e.Start),
             End = ToMark(e.End),
           });

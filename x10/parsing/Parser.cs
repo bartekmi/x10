@@ -23,6 +23,7 @@ namespace x10.parsing {
         if (!path.EndsWith(GetFileExtensionWithDot()))
           continue;
         TreeNode root = Parse(path);
+        root.SetFileInfo(path);
         parsed.Add(root);
       }
 

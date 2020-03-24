@@ -30,6 +30,10 @@ namespace x10.model.metadata {
     public bool AppliesToType(AppliesTo type) {
       return (AppliesTo & type) > 0;
     }
+
+    public override string ToString() {
+      return "ModelAttributeDefinition: " + Name;
+    }
   }
 
   public static class ModelAttributeDefinitions {
@@ -42,7 +46,7 @@ namespace x10.model.metadata {
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
         ErrorSeverityIfMissing = CompileMessageSeverity.Warning,
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "Description",
       },
 
@@ -53,7 +57,7 @@ namespace x10.model.metadata {
         Description = "The name of the model. Must be upper-case and match the filename of the file where it is defined. This is the tag used everywhere else to refer to the model",
         AppliesTo = AppliesTo.Entity,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "Name",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string entityName = scalarNode.Value.ToString();
@@ -77,7 +81,7 @@ namespace x10.model.metadata {
         Description = "The name of the attribute or association. Must be lower-case. This is the tag used everywhere else to refer to it",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "Name",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string name = scalarNode.Value.ToString();
@@ -98,15 +102,15 @@ namespace x10.model.metadata {
         Description = "Specifies whether an Attribute or Association is required. This will affect form validation and UI generation",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DefaultIfMissing = false,
-        DataType = DataTypes.Boolean,
-        Setter = "IsMandatory,",
+        DataType = DataTypes.Singleton.Boolean,
+        Setter = "IsMandatory",
       },
       new ModelAttributeDefinition() {
         Name = "readOnly",
         Description = "If true, this field can never be directly edited by a user. Determines what kind of UI is generated",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DefaultIfMissing = false,
-        DataType = DataTypes.Boolean,
+        DataType = DataTypes.Singleton.Boolean,
         Setter = "IsReadOnly",
       },
 
@@ -118,14 +122,14 @@ namespace x10.model.metadata {
         Name = "dataType",
         Description = "The data type of this attribute",
         AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.DataType,
+        DataType = DataTypes.Singleton.DataType,
         Setter = "DataType",
       },
       new ModelAttributeDefinition() {
         Name = "default",
         Description = "Default value for the attribute. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.SameAsDataType,
+        DataType = DataTypes.Singleton.SameAsDataType,
       },
 
       //============================================================================
@@ -135,8 +139,8 @@ namespace x10.model.metadata {
         Description = "The name of the Entity which this association is pointing to.",
         AppliesTo = AppliesTo.Association,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        DataType = DataTypes.String,
-        Setter = "ReferencedEntityName,",
+        DataType = DataTypes.Singleton.String,
+        Setter = "ReferencedEntityName",
         // Validation is not needed here, as incorrect values will be caught in the second pass
         // of the compilation process.
       },
@@ -145,7 +149,7 @@ namespace x10.model.metadata {
         Description = "If true, this is a one-to-many association.",
         AppliesTo = AppliesTo.Association,
         DefaultIfMissing = false,
-        DataType = DataTypes.Boolean,
+        DataType = DataTypes.Singleton.Boolean,
         Setter = "IsMany",
       },
       new ModelAttributeDefinition() {
@@ -153,7 +157,7 @@ namespace x10.model.metadata {
         Description = "If true, this object owns the child object(s) at the other end of the association.",
         AppliesTo = AppliesTo.Association,
         DefaultIfMissing = false,
-        DataType = DataTypes.Boolean,
+        DataType = DataTypes.Singleton.Boolean,
         Setter = "Owns",
       },
 
@@ -164,7 +168,7 @@ namespace x10.model.metadata {
         Description = "The name of the enum type. This is how the enum type is referred to everywhere else in the data models. Like any other type, must be upper-case.",
         AppliesTo = AppliesTo.EnumType,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "Name",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string name = scalarNode.Value.ToString();
@@ -183,7 +187,7 @@ namespace x10.model.metadata {
         // The design intent is that this be allowed to be any data type, but must follow the data type of
         // the owning DataType instance.
         // For now, we are just being a little bit lazy.
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
 
         Setter = "Value",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
@@ -195,7 +199,7 @@ namespace x10.model.metadata {
         Name = "label",
         Description = "The human-friendly label for this enum choice. This is what gets displayed to users on UI elements such as drop-downs. If missing, will be derived from the 'value'",
         AppliesTo = AppliesTo.EnumValue,
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "Label",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();
@@ -208,7 +212,7 @@ namespace x10.model.metadata {
         Name = "icon",
         Description = "The name of the icon that correspond to this enum value. Will be used in UI as appropriate.",
         AppliesTo = AppliesTo.EnumValue,
-        DataType = DataTypes.String,
+        DataType = DataTypes.Singleton.String,
         Setter = "IconName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();

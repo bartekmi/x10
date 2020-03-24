@@ -12,6 +12,7 @@ namespace x10.parsing {
 
     public void AddAttribute(TreeAttribute attribute) {
       Attributes.Add(attribute);
+      attribute.Parent = this;
     }
 
     public TreeNode FindNode(string key) {
