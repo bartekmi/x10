@@ -13,8 +13,13 @@ namespace x10.compiler {
     public MessageBucket Messages { get; private set; }
 
     #region Top Level Compile
+
+    public EntitiesCompiler() {
+      Messages = new MessageBucket();   // Testing can by-pass Compile()
+    }
+
     public List<Entity> Compile(string dirPath) {
-      Messages = new MessageBucket();
+      Messages.Clear();   // Always empty the bucket
       Parser parser = new ParserYaml();
       List<TreeNode> files = parser.RecursivelyParseDirectory(dirPath);
 
@@ -29,9 +34,9 @@ namespace x10.compiler {
       return entities;
     }
 
-    private Entity CompileEntity(TreeNode rootNodeUntyped) {
+    public Entity CompileEntity(TreeNode rootNodeUntyped) {   // TODO: make private and fix test
       TreeHash rootNode = rootNodeUntyped as TreeHash;
-      if (rootNodeUntyped == null) {
+      if (rootNode == null) {
         AddError(rootNodeUntyped, "The root node of an entity must be a Hash, but was: " + rootNodeUntyped.GetType().Name);
         return null;
       }

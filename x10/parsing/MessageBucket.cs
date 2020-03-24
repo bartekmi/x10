@@ -14,6 +14,10 @@ namespace x10.parsing {
       Messages = new List<CompileMessage>();
     }
 
+    public void Clear() {
+      Messages.Clear();
+    }
+
     public void AddError(TreeElement element, string message) {
       AddMessage(CompileMessageSeverity.Error, element, message);
     }
