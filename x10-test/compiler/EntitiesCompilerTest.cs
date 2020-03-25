@@ -123,6 +123,96 @@ attributes:
         "For attribute 'default', could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False", 8, 14);
     }
 
+    [Fact]
+    public void WrongFormatForEntityName() {
+      RunTest(@"
+name: tmp
+description: Description...
+",
+        "Invalid Entity name: 'tmp'. Must be upper-cased camel-case: e.g. 'User', 'PurchaseOrder'. Numbers are also allowed.", 2, 7);
+    }
+
+    [Fact]
+    public void EntityNameDoesNotMatchFilename() {
+      RunTest(@"
+name: Blurg
+description: Description...
+",
+        "The name of the entity 'Blurg' must match the name of the file: Tmp", 2, 7);
+    }
+
+    [Fact]
+    public void WrongFormatForAttributeName() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+attributes: 
+  - name: MyAttribute
+    description: Description...
+    dataType: String
+",
+        "Invalid Attribute name: 'MyAttribute'. Must be lower-case camel values: e.g. 'age', 'firstName'. Numbers are also allowed.", 6, 11);
+    }
+
+    [Fact]
+    public void WrongFormatForAssociationName() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+associations: 
+  - name: MyAssociation
+    description: Description...
+    dataType: Blurg
+",
+        "Invalid Association name: 'MyAssociation'. Must be lower-case camel values: e.g. 'sender', 'purchaseOrders'. Numbers are also allowed.", 6, 11);
+    }
+
+    [Fact]
+    public void WrongFormatForEnumName() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+enums: 
+  - name: myEnum
+    description: Description...
+",
+        "Invalid Enum name: 'myEnum'. Must be upper-cased camel-case: e.g. 'Gender', 'CalendarMonths', 'EnrollmentState'. Numbers are also allowed.", 6, 11);
+    }
+
+    [Fact]
+    public void WrongFormatForEnumValue() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+enums: 
+  - name: MyEnum
+    description: Description...
+    values:
+      - value: MyEnumValue
+",
+        "Invalid Enum value: 'MyEnumValue'. Must be lower-case camel values: e.g. 'male', 'awaitingApproval'. Numbers are also allowed.", 9, 16);
+    }
+
+    [Fact]
+    public void BlankEnumValueLabel() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+enums: 
+  - name: MyEnum
+    description: Description...
+    values:
+      - value: myEnumValue
+        label:
+",
+        "There should never be a blank enum value. If the value is optional, just make the attribute that uses it non-mandatory.", 10, 15);
+    }
+
     private Entity RunTest(string yaml) {
       const string TMP_YAML_FILE = "Tmp.yaml";
       File.WriteAllText(TMP_YAML_FILE, yaml);
@@ -148,8 +238,11 @@ attributes:
     }
 
     private void ShowErrors() {
-      foreach (CompileMessage message in _compiler.Messages.Messages)
-        _output.WriteLine(message.ToString());
+      if (_compiler.Messages.IsEmpty)
+        _output.WriteLine("No Errors");
+      else
+        foreach (CompileMessage message in _compiler.Messages.Messages)
+          _output.WriteLine(message.ToString());
     }
   }
 }

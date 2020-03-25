@@ -12,8 +12,8 @@ namespace x10.model {
       LowerCamelCase,
     }
 
-    private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("[A-Z][a-zA-Z0-9]+");
-    private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("[a-z][a-zA-Z0-9]+");
+    private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("^[A-Z][a-zA-Z0-9]+$");
+    private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]+$");
 
     public static bool ValidateEntityName(string entityName, TreeElement element, MessageBucket messages) {
       string examples = "'User', 'PurchaseOrder'";
