@@ -72,7 +72,7 @@ namespace x10.compiler {
         foreach (TreeNode enumRootNode in enums.Children)
           CompileEnum(enumRootNode);
 
-      // Check uniqueness
+      // Check uniqueness of members
       UniquenessChecker.Check("name",
         entity.Members,
         Messages,
@@ -101,6 +101,12 @@ namespace x10.compiler {
         theEnum.EnumValues.Add(enumValue);
         ReadAttributes(enumValueNode, AppliesTo.EnumValue, enumValue);
       }
+
+      // Check uniqueness of enum value names
+      UniquenessChecker.Check("value",
+        theEnum.EnumValues,
+        Messages,
+        "The value '{0}' is not unique among all the values of this Enum.");
     }
     #endregion
 

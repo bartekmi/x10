@@ -214,22 +214,42 @@ enums:
     }
 
     [Fact]
-    public void ViolateUniquenessOfMembers() {
+    public void ViolateUniquenessOfEntityMemberNames() {
       RunTest(@"
 name: Tmp
 description: Description...
 
 attributes: 
-  - name: myMember
+  - name: duplicate
+    description: Description...
+    dataType: String
+  - name: unique
     description: Description...
     dataType: String
 
 associations: 
-  - name: myMember
+  - name: duplicate
     description: Description...
     dataType: String
 ",
-      "The name 'myMember' is not unique among all the attributes and association of this Entity.", 6, 11);
+      "The name 'duplicate' is not unique among all the attributes and association of this Entity.", 6, 11);
+    }
+
+    [Fact]
+    public void ViolateUniquenessOfEnumValues() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+enums: 
+  - name: MyEnum
+    description: Description...
+    values:
+      - value: duplicate
+      - value: thisOneIsOk
+      - value: duplicate
+",
+        "The value 'duplicate' is not unique among all the values of this Enum.", 9, 16);
     }
 
     private Entity RunTest(string yaml) {
