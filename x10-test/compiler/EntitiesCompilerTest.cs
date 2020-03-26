@@ -214,7 +214,7 @@ enums:
     }
 
     [Fact]
-    public void ViolateUniquenessOfEntityMemberNames() {
+    public void EnsureUniquenessOfEntityMemberNames() {
       RunTest(@"
 name: Tmp
 description: Description...
@@ -236,7 +236,7 @@ associations:
     }
 
     [Fact]
-    public void ViolateUniquenessOfEnumValues() {
+    public void EnsureUniquenessOfEnumValues() {
       RunTest(@"
 name: Tmp
 description: Description...
@@ -250,6 +250,16 @@ enums:
       - value: duplicate
 ",
         "The value 'duplicate' is not unique among all the values of this Enum.", 9, 16);
+    }
+
+    [Fact(Skip = "Currently, YamlDotNet does not handle duplicate keys")]
+    public void EnsureUniquenessOfAttributes() {
+      RunTest(@"
+name: Tmp
+description: Description 1
+description: Description 2
+",
+        "TODO", 3, 1);
     }
 
     private Entity RunTest(string yaml) {
