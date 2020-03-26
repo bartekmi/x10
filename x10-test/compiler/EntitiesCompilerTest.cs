@@ -93,7 +93,7 @@ name: Tmp
 name: Tmp
 description: {}
 ",
-        "The attribute 'description' should be simple string of the correct type, but is a TreeHash", 3, 14);
+        "The attribute 'description' should be a simple string of the correct type, but is a TreeHash", 3, 14);
     }
 
     [Fact]
@@ -213,6 +213,25 @@ enums:
         "There should never be a blank enum value. If the value is optional, just make the attribute that uses it non-mandatory.", 10, 15);
     }
 
+    [Fact]
+    public void ViolateUniquenessOfMembers() {
+      RunTest(@"
+name: Tmp
+description: Description...
+
+attributes: 
+  - name: myMember
+    description: Description...
+    dataType: String
+
+associations: 
+  - name: myMember
+    description: Description...
+    dataType: String
+",
+      "The name 'myMember' is not unique among all the attributes and association of this Entity.", 6, 11);
+    }
+
     private Entity RunTest(string yaml) {
       const string TMP_YAML_FILE = "Tmp.yaml";
       File.WriteAllText(TMP_YAML_FILE, yaml);
@@ -230,7 +249,7 @@ enums:
     private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
       RunTest(yaml);
 
-      CompileMessage message = _compiler.Messages.Messages.SingleOrDefault(x => x.Message == expectedErrorMessage);
+      CompileMessage message = _compiler.Messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
 
       Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);

@@ -68,9 +68,15 @@ namespace x10.compiler {
 
       // Read Enums
       TreeSequence enums = TreeUtils.GetOptional<TreeSequence>(rootNode, "enums", Messages);
-      if (enums != null) 
-        foreach (TreeNode enumRootNode in enums.Children) 
+      if (enums != null)
+        foreach (TreeNode enumRootNode in enums.Children)
           CompileEnum(enumRootNode);
+
+      // Check uniqueness
+      UniquenessChecker.Check("name",
+        entity.Members,
+        Messages,
+        "The name '{0}' is not unique among all the attributes and association of this Entity.");
 
       return entity;
     }
@@ -129,7 +135,7 @@ namespace x10.compiler {
       // Ensure that the value of the attribute is a scalar (not a list, etc)
       TreeScalar scalarNode = attrNode as TreeScalar;
       if (scalarNode == null) {
-        AddError(attrNode, string.Format("The attribute '{0}' should be simple string of the correct type, but is a {1}",
+        AddError(attrNode, string.Format("The attribute '{0}' should be a simple string of the correct type, but is a {1}",
           attrDef.Name, attrNode.GetType().Name));
         return;
       }
@@ -160,12 +166,14 @@ namespace x10.compiler {
             attrDef.Setter, attrDef.Name, modelComponentType.Name));
         }
         info.SetValue(modelComponent, typedValue);
-      } else {
-        modelComponent.AttributeValues.Add(new ModelAttributeValue() {
-          Value = typedValue,
-          Definition = attrDef,
-        });
       }
+
+      // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
+      // this is the only way we can track where the attribute came from in the code.
+      modelComponent.AttributeValues.Add(new ModelAttributeValue(scalarNode) {
+        Value = typedValue,
+        Definition = attrDef,
+      });
 
       // Do validation, if requried
       if (attrDef.ValidationFunction != null)
