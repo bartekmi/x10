@@ -22,6 +22,14 @@ namespace x10.parsing {
       AddMessage(CompileMessageSeverity.Error, element, message);
     }
 
+    public void AddWarning(TreeElement element, string message) {
+      AddMessage(CompileMessageSeverity.Warning, element, message);
+    }
+
+    public void AddInfo(TreeElement element, string message) {
+      AddMessage(CompileMessageSeverity.Info, element, message);
+    }
+
     public void AddMessage(CompileMessageSeverity severity, TreeElement element, string message) {
       Add(new CompileMessage() {
         TreeElement = element,

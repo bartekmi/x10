@@ -11,10 +11,16 @@ namespace x10.parsing {
   public class ParserYaml : Parser {
     public override TreeNode Parse(string path) {
       try {
-        YamlNode yamlRoot = YamlUtils.ReadYaml(path).RootNode;
-        TreeNode treeRoot = ParseRecursive(yamlRoot);
+        YamlDocument document = YamlUtils.ReadYaml(path);
+        if (document == null) {
+          AddInfo("No YAML document read - empty file?", new TreeFileError(path));
+          return null;
+        }
+
+        TreeNode treeRoot = ParseRecursive(document.RootNode);
         return treeRoot;
-      } catch (SyntaxErrorException e) {
+      } catch (YamlException e) {
+        // TODO exception may have nested exceptions with more info
         AddError(string.Format("Can't parse YAML file. Error: " + e.Message),
           new TreeFileError(path) {
             Start = ToMark(e.Start),

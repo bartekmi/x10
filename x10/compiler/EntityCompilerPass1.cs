@@ -166,8 +166,7 @@ namespace x10.compiler {
       });
 
       // Do validation, if requried
-      if (attrDef.ValidationFunction != null)
-        attrDef.ValidationFunction(Messages, scalarNode, modelComponent, type);
+      attrDef.ValidationFunction?.Invoke(Messages, scalarNode, modelComponent, type);
     }
 
     private void ErrorOnUnknownAttributes(TreeHash hash, AppliesTo type, string[] ignoreAttributes) {

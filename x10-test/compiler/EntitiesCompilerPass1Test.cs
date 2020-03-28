@@ -273,7 +273,7 @@ description: Description 2
       Assert.NotNull(rootNode);
 
       Entity entity = _compiler.CompileEntity(rootNode);
-      ShowErrors();
+      TestUtils.DumpMessages(_compiler.Messages, _output);
 
       return entity;
     }
@@ -286,14 +286,6 @@ description: Description 2
 
       Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);
       Assert.Equal(expectedChar, message.TreeElement.Start.CharacterPosition);
-    }
-
-    private void ShowErrors() {
-      if (_compiler.Messages.IsEmpty)
-        _output.WriteLine("No Errors");
-      else
-        foreach (CompileMessage message in _compiler.Messages.Messages)
-          _output.WriteLine(message.ToString());
     }
   }
 }

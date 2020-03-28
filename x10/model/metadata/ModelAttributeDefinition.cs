@@ -37,6 +37,12 @@ namespace x10.model.metadata {
   }
 
   public static class ModelAttributeDefinitions {
+    // TODO: It would be nice to do some validation on these before using them -
+    // e.g. 1) test that setters are valid. Especially important if we allow this
+    //         to be expandable.
+    // e.g. 2) Ensure setters accept a value of the correct type (e.g. InheritsFrom is
+    //         wrong because it tried to use String to assign to Entity
+
     public static List<ModelAttributeDefinition> All = new List<ModelAttributeDefinition>() {
       //============================================================================
       // Everything
@@ -78,7 +84,7 @@ namespace x10.model.metadata {
         Description = "Optional parent entity name from which this entity 'inherits' all attributes and associations. The classic case is that Mouse and Lion would both inherit from Animal.",
         AppliesTo = AppliesTo.Entity,
         DataType = DataTypes.Singleton.String,
-        Setter = "InhertisFrom",
+        Setter = "InheritsFromName",
         // Entity name format validation is not needed, as it will be caught when no entity matches
       },
 

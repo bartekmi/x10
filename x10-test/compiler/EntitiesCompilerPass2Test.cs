@@ -142,7 +142,7 @@ namespace x10.compiler {
     private void RunTest(IEnumerable<Entity> entities) {
       EntityCompilerPass2 compiler = new EntityCompilerPass2(_messages, entities);
       compiler.CompileAllEntities();
-      ShowErrors();
+      TestUtils.DumpMessages(_messages, _output);
     }
 
     private void RunTest(IEnumerable<Entity> entities, string expectedErrorMessage, int expectedLine, int expectedChar) {
@@ -153,14 +153,6 @@ namespace x10.compiler {
 
       Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);
       Assert.Equal(expectedChar, message.TreeElement.Start.CharacterPosition);
-    }
-
-    private void ShowErrors() {
-      if (_messages.IsEmpty)
-        _output.WriteLine("No Errors");
-      else
-        foreach (CompileMessage message in _messages.Messages)
-          _output.WriteLine(message.ToString());
     }
     #endregion
   }

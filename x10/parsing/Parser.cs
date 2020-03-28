@@ -22,7 +22,11 @@ namespace x10.parsing {
       foreach (string path in Directory.EnumerateFiles(dirPath)) {
         if (!path.EndsWith(GetFileExtensionWithDot()))
           continue;
+        
         TreeNode root = Parse(path);
+        if (root == null)
+          continue;
+
         root.SetFileInfo(path);
         parsed.Add(root);
       }
@@ -32,11 +36,15 @@ namespace x10.parsing {
     }
 
     protected void AddError(string message, TreeElement treeElement) {
-      Messages.Add(new CompileMessage() {
-        Severity = CompileMessageSeverity.Error,
-        Message = message,
-        TreeElement = treeElement,
-      });
+      Messages.AddError(treeElement, message);
+    }
+
+    protected void AddWarning(string message, TreeElement treeElement) {
+      Messages.AddWarning(treeElement, message);
+    }
+
+    protected void AddInfo(string message, TreeElement treeElement) {
+      Messages.AddInfo(treeElement, message);
     }
   }
 }
