@@ -8,11 +8,11 @@ using x10.model.metadata;
 using x10.model.definition;
 
 namespace x10.compiler {
-  public class EntitiesCompiler {
+  public class EntitiesAndEnumsCompiler {
 
     public MessageBucket Messages { get; private set; }
 
-    public EntitiesCompiler() {
+    public EntitiesAndEnumsCompiler() {
       Messages = new MessageBucket();   // Testing can by-pass Compile()
     }
 
@@ -25,9 +25,13 @@ namespace x10.compiler {
 
       // Pass 1
       List<Entity> entities = new List<Entity>();
-      EntityCompilerPass1 pass1 = new EntityCompilerPass1(Messages);
+      AttributeReader attrReader = new AttributeReader(Messages);
+      EnumsCompiler enums = new EnumsCompiler(Messages, attrReader);
+      EntityCompilerPass1 pass1 = new EntityCompilerPass1(Messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
+        if (IsEnumFile(rootNode.FileInfo.FilePath))
+          enums.CompileEnumFile(rootNode);
         Entity entity = pass1.CompileEntity(rootNode);
         if (!string.IsNullOrWhiteSpace(entity?.Name))
           entities.Add(entity);
@@ -37,12 +41,11 @@ namespace x10.compiler {
       EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, entities);
       pass2.CompileAllEntities();
 
-      // Check uniqueness of Entity names
-
-
-      // Check uniqueness of Enum names (pending collecting enums from enum def files)
-
       return entities;
+    }
+
+    private static bool IsEnumFile(string path) {
+      return path.ToLower().EndsWith("enums");
     }
   }
 }

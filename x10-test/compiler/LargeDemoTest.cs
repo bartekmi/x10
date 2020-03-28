@@ -23,7 +23,7 @@ namespace x10.compiler {
     [Fact]
     public void CompileValidFile() {
       string rootDir = "../../../../x10/examples/flexport";
-      EntitiesCompiler compiler = new EntitiesCompiler();
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler();
       compiler.Compile(rootDir);
 
       TestUtils.DumpMessages(compiler.Messages, _output);

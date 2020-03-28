@@ -14,10 +14,15 @@ namespace x10.compiler {
   public class EntitiesCompilerPass1Test {
 
     private readonly ITestOutputHelper _output;
-    private EntityCompilerPass1 _compiler = new EntityCompilerPass1(new MessageBucket());
+    private MessageBucket _messages = new MessageBucket();
+    private EntityCompilerPass1 _compiler;
 
     public EntitiesCompilerPass1Test(ITestOutputHelper output) {
       _output = output;
+
+      AttributeReader attrReader = new AttributeReader(_messages);
+      EnumsCompiler enumsCompiler = new EnumsCompiler(_messages, attrReader);
+      _compiler = new EntityCompilerPass1(_messages, enumsCompiler, attrReader);
     }
 
     [Fact]
@@ -26,7 +31,7 @@ namespace x10.compiler {
       Entity entity = RunTest(correctYaml);
 
       Assert.NotNull(entity);
-      Assert.Equal(0, _compiler.Messages.Count);
+      Assert.Equal(0, _messages.Count);
     }
 
     [Fact]
@@ -273,7 +278,7 @@ description: Description 2
       Assert.NotNull(rootNode);
 
       Entity entity = _compiler.CompileEntity(rootNode);
-      TestUtils.DumpMessages(_compiler.Messages, _output);
+      TestUtils.DumpMessages(_messages, _output);
 
       return entity;
     }
@@ -281,7 +286,7 @@ description: Description 2
     private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
       RunTest(yaml);
 
-      CompileMessage message = _compiler.Messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
+      CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
 
       Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);
