@@ -133,6 +133,7 @@ namespace x10.model.metadata {
 
     public List<DataType> ModelEnums = new List<DataType>();
     public void AddModelEnum(DataType modelDataType) {
+      // TODO: ensure this is not a duplicate of a built-in type
       ModelEnums.Add(modelDataType);
     }
   }

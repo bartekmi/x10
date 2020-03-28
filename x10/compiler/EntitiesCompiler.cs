@@ -33,12 +33,14 @@ namespace x10.compiler {
           entities.Add(entity);
       }
 
-      // TODO: Check uniqueness of Entity names
-      // TODO: Check uniqueness of Enum names (pending collecting enums from enum def files)
-
       // Pass 2
       EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, entities);
       pass2.CompileAllEntities();
+
+      // Check uniqueness of Entity names
+
+
+      // Check uniqueness of Enum names (pending collecting enums from enum def files)
 
       return entities;
     }
