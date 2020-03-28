@@ -10,17 +10,19 @@ using x10.model.definition;
 namespace x10.compiler {
   internal class AttributeReader {
 
-    private MessageBucket _messages;
+    private readonly MessageBucket _messages;
 
     internal AttributeReader(MessageBucket messages) {
       _messages = messages;
     }
 
-    internal void ReadAttributes(TreeNode node, AppliesTo type, IAcceptsModelAttributeValues modelComponent, params string[] ignoreAttributes) {
+    // Read the attributes of this node (which should be a hash)
+    // Returns true if it was a hash node, false otherwise
+    internal bool ReadAttributes(TreeNode node, AppliesTo type, IAcceptsModelAttributeValues modelComponent, params string[] ignoreAttributes) {
       TreeHash hash = node as TreeHash;
       if (hash == null) {
         _messages.AddError(node, "Expected a Hash type node, but was: " + node.GetType().Name);
-        return;
+        return false;
       }
 
       // Iterate known attributes and extract
@@ -31,6 +33,7 @@ namespace x10.compiler {
           ReadAttribute(hash, type, modelComponent, attrDef);
 
       ErrorOnUnknownAttributes(hash, type, ignoreAttributes);
+      return true;
     }
 
     private void ReadAttribute(TreeHash hash, AppliesTo type, IAcceptsModelAttributeValues modelComponent, ModelAttributeDefinition attrDef) {

@@ -12,7 +12,7 @@ namespace x10.compiler {
   public class EntityCompilerPass2 {
 
     public MessageBucket Messages { get; private set; }
-    private IEnumerable<Entity> _entitiesList;
+    private readonly IEnumerable<Entity> _entitiesList;
     private Dictionary<string, List<Entity>> _entitiesByName;
 
     public EntityCompilerPass2(MessageBucket messages, IEnumerable<Entity> entitiesList) {

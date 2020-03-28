@@ -8,9 +8,9 @@ using x10.model.definition;
 namespace x10.compiler {
   public class EntityCompilerPass1 {
 
-    private MessageBucket _messages;
-    private EnumsCompiler _enumsCompiler;
-    private AttributeReader _attrReader;
+    private readonly MessageBucket _messages;
+    private readonly EnumsCompiler _enumsCompiler;
+    private readonly AttributeReader _attrReader;
 
     internal EntityCompilerPass1(MessageBucket messages, 
       EnumsCompiler enumsCompiler,
@@ -24,7 +24,7 @@ namespace x10.compiler {
     internal Entity CompileEntity(TreeNode rootNodeUntyped) {   
       TreeHash rootNode = rootNodeUntyped as TreeHash;
       if (rootNode == null) {
-        _messages.AddError(rootNodeUntyped, "The root node of an entity must be a Hash, but was: " + rootNodeUntyped.GetType().Name);
+        _messages.AddError(rootNodeUntyped, "The root node of an Entity file must be a Hash, but was: " + rootNodeUntyped.GetType().Name);
         return null;
       }
 

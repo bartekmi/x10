@@ -37,7 +37,7 @@ namespace x10.utils {
       if (child == null && exceptionIfMissing)
         throw new Exception("Key not found: " + key);
 
-      return child == null ? null : child.ToString();
+      return child?.ToString();
     }
 
     public static string[] GetCommaSeparatedString(YamlMappingNode node, string key, bool exceptionIfMissing = false) {

@@ -8,30 +8,36 @@ using x10.model.definition;
 
 namespace x10.compiler {
   public class EnumsCompiler {
-    public MessageBucket Messages { get; private set; }
-    private AttributeReader _attrReader;
+    private readonly MessageBucket _messages;
+    private readonly AttributeReader _attrReader;
 
     internal EnumsCompiler(MessageBucket messages, AttributeReader attrReader) {
-      Messages = messages;
+      _messages = messages;
       _attrReader = attrReader;
     }
 
-    internal void CompileEnumFile(TreeNode rootNode) {
+    internal void CompileEnumFile(TreeNode rootNodeUntyped) {
+      TreeSequence rootNode = rootNodeUntyped as TreeSequence;
+      if (rootNode == null) {
+        _messages.AddError(rootNodeUntyped, "The root node of an Enums file must be an Array, but was: " + rootNodeUntyped.GetType().Name);
+        return;
+      }
 
+      foreach (TreeNode enumRootNode in rootNode.Children)
+        CompileEnum(enumRootNode);
     }
 
     internal void CompileEnum(TreeNode enumRootNode) {
       DataType theEnum = new DataType();
-      DataTypes.Singleton.AddModelEnum(theEnum);
-      _attrReader.ReadAttributes(enumRootNode, AppliesTo.EnumType, theEnum, "values");
-
-      TreeHash enumHash = enumRootNode as TreeHash;
-      if (enumHash == null)
+      if (!_attrReader.ReadAttributes(enumRootNode, AppliesTo.EnumType, theEnum, "values"))
         return;
 
-      TreeSequence enumValues = TreeUtils.GetOptional<TreeSequence>(enumHash, "values", Messages);
+      DataTypes.Singleton.AddModelEnum(theEnum);
+
+      TreeHash enumHash = (TreeHash)enumRootNode;
+      TreeSequence enumValues = TreeUtils.GetOptional<TreeSequence>(enumHash, "values", _messages);
       if (enumValues == null) {
-        Messages.AddError(enumHash, "Mandatory enum property 'values' missing");
+        _messages.AddError(enumHash, "Mandatory enum property 'values' missing");
         return;
       }
 
@@ -44,7 +50,7 @@ namespace x10.compiler {
       // Check uniqueness of enum value names
       UniquenessChecker.Check("value",
         theEnum.EnumValues,
-        Messages,
+        _messages,
         "The value '{0}' is not unique among all the values of this Enum.");
     }
   }

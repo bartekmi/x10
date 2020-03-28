@@ -17,7 +17,7 @@ namespace x10.model.definition {
   public static class AttributeUtils {
     public static object FindValue(IAcceptsModelAttributeValues source, string attributeName) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
-      return value == null ? null : value.Value;
+      return value?.Value;
     }
 
     public static ModelAttributeValue FindAttribute(IAcceptsModelAttributeValues source, string attributeName) {

@@ -31,8 +31,7 @@ namespace x10.parsing {
     }
 
     private TreeNode ParseRecursive(YamlNode yamlNode) {
-
-      TreeNode treeNode = null;
+      TreeNode treeNode;
 
       if (yamlNode is YamlSequenceNode) {
         treeNode = new TreeSequence();

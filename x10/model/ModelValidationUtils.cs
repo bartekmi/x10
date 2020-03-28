@@ -41,9 +41,8 @@ namespace x10.model {
     }
 
     private static bool Validate(Style style, string text, string type, string examples, TreeElement element, MessageBucket messages) {
-
-      Regex regex = null;
-      string errorMessage = null;
+      Regex regex;
+      string errorMessage;
 
       switch (style) {
         case Style.UpperCamelCase:
