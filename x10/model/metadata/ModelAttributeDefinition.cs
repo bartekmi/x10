@@ -73,6 +73,14 @@ namespace x10.model.metadata {
           }
         }
       },
+      new ModelAttributeDefinition() {
+        Name = "inheritsFrom",
+        Description = "Optional parent entity name from which this entity 'inherits' all attributes and associations. The classic case is that Mouse and Lion would both inherit from Animal.",
+        AppliesTo = AppliesTo.Entity,
+        DataType = DataTypes.Singleton.String,
+        Setter = "InhertisFrom",
+        // Entity name format validation is not needed, as it will be caught when no entity matches
+      },
 
       //============================================================================
       // Attribute & Association
