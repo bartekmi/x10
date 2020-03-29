@@ -16,7 +16,7 @@ attributes:
     dataType: Date
 
   - name: state
-    dateType: PurchaseOrderState
+    dataType: PurchaseOrderState
     label: Status
     mandatory: true
 

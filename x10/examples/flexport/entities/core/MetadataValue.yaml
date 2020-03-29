@@ -7,5 +7,7 @@ attributes:
     mandatory: true
 
 associations:
-  - belongsTo: MetadataTag
-  - belongsTo: Shipment, Booking, QuoteRequest
+  - name: metadataTag
+    dataType: MetadataTag
+# Pending Interfaces
+#  - belongsTo: Shipment, Booking, QuoteRequest

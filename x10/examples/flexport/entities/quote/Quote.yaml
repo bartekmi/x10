@@ -9,12 +9,12 @@ attributes:
     mandatory: true
 
   - name: expires
-    dateType: date
+    dataType: Date
 
   - name: minTransitDays
-    dataType: int
+    dataType: Int
     mandatory: true
 
   - name: maxTransitDays
-    dataType: int
+    dataType: Int
     mandatory: true

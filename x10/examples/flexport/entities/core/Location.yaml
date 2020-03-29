@@ -1,26 +1,32 @@
 name: Location
 description: A physical location
-defaultStringRepresentation: name
+# Not sure yet if this is useful
+# defaultStringRepresentation: name
 
 attributes:
   - name: name
-    dataType: string
+    dataType: String
     mandatory: true
 
   - name: countryCode
-    dataType: string
+    dataType: String
     mandatory: true
 
   - name: city
-    dataType: string
+    dataType: String
 
   - name: stateOrProvince
-    dateType: string
+    dataType: String
 
   - name: type
     dataType: LocationType
 
 enums:
   - name: LocationType
-    values: port, airport, factory
-    icons: port, airport, factory
+    values: 
+      - value: port
+        icon: port
+      - value: airport
+        icon: airport
+      - value: factory
+        icon: factory

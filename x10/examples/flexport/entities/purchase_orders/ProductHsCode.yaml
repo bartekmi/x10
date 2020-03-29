@@ -3,12 +3,12 @@ description: >
   An assignment of a <Product> to an <HsCode> within the scope of a particular country
 
 attributes:
-  - countryCode:
-      dataType: string
-  - verifiedByBroker:
-      dataType: boolean
-  - archived:
-      dataType: boolean
+  - name: countryCode
+    dataType: String
+  - name: verifiedByBroker
+    dataType: Boolean
+  - name: archived
+    dataType: Boolean
 
 associations:
   - name: hsCode

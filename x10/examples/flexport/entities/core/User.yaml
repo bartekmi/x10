@@ -15,4 +15,4 @@ attributes:
 
 associations:
   - name: company
-    belongsTo: Company
+    dataType: Company

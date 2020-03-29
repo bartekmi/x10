@@ -9,13 +9,13 @@ attributes:
     readonly: true
 
   - name: estimatedArrival
-    dateType: Timestamp
+    dataType: Timestamp
   - name: actualArrival
-    dateType: Timestamp
+    dataType: Timestamp
   - name: estimatedDeparture
-    dateType: Timestamp
+    dataType: Timestamp
   - name: actualDeparture
-    dateType: Timestamp
+    dataType: Timestamp
 
 associations:
   - name: location

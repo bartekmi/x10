@@ -4,10 +4,10 @@ description: >
 
 attributes:
   - name: productName:
-    dataType: string
+    dataType: String
   - name: SKU
     description: "Stock Keeping Unit" - a unique product id within the <Company>
-    dataType: string
+    dataType: String
 
 associations:
   - name: company

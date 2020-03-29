@@ -3,15 +3,15 @@ description: A specific product on a <PurchaseOrder>
 
 attributes:
   - name: purchaseOrderNumber
-    dataType: string
+    dataType: String
     mandatory: true
     label: PO#
 
   - name: cargoReadyBy
-    dataType: date
+    dataType: Date
 
   - name: state
-    dateType: PurchaseOrderState
+    dataType: PurchaseOrderState
     label: Status
 
 enums:

@@ -3,7 +3,7 @@ description: A legal entity such as a corportation that typically buys or sells 
 
 attributes:
   - name: legalName
-    dataType: string
+    dataType: String
     mandatory: true
 
   - name: contryCode

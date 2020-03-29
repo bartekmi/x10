@@ -5,7 +5,7 @@ description: >
 
 attributes:
   - name: hsCode
-    dataType: string
+    dataType: String
 
   - name: description
-    dataType: string
+    dataType: String
