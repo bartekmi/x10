@@ -5,7 +5,7 @@ using System.Text;
 using x10.model.metadata;
 
 namespace x10.model.definition {
-  public abstract class X10Attribute : Member {
-    public DataType DataType { get; set; }
+  public class X10DerivedAttribute : X10Attribute {
+    public string Formula { get; set; }
   }
 }

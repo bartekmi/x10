@@ -12,8 +12,9 @@ namespace x10.model.metadata {
     Entity = 1,
     Association = 2,
     Attribute = 4,
-    EnumType = 8,
-    EnumValue = 16,
+    DerivedAttribute = 8,
+    EnumType = 16,
+    EnumValue = 32,
   }
 
   public class ModelAttributeDefinition {
@@ -60,7 +61,7 @@ namespace x10.model.metadata {
       new ModelAttributeDefinition() {
         Name = "label",
         Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinition() {
@@ -147,13 +148,22 @@ namespace x10.model.metadata {
       },
 
       //============================================================================
-      // Attributes
+      // Members
+      new ModelAttributeDefinition() {
+        Name = "placeholderText",
+        Description = "Placeholder text for UI components (e.g. the text that go into TextBoxe's before the user enters anything)",
+        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        DataType = DataTypes.Singleton.String,
+      },
+
+      //============================================================================
+      // Attributes (Regular and Derived)
 
       // It is crucial that this attribute be listed before the 'default' attribute
       new ModelAttributeDefinition() {
         Name = "dataType",
         Description = "The data type of this attribute",
-        AppliesTo = AppliesTo.Attribute,
+        AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.DataType,
         Setter = "DataType",
@@ -164,6 +174,14 @@ namespace x10.model.metadata {
         AppliesTo = AppliesTo.Attribute,
         DataType = DataTypes.Singleton.SameAsDataType,
         Setter = "DefaultValue",
+      },
+      new ModelAttributeDefinition() {
+        Name = "formula",
+        Description = "Formula that describes the value of this attribute in terms of other attributes (regular or derived)",
+        AppliesTo = AppliesTo.DerivedAttribute,
+        DataType = DataTypes.Singleton.String,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        Setter = "Formula",
       },
 
       //============================================================================

@@ -26,9 +26,10 @@ namespace x10.compiler {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler();
       compiler.Compile(rootDir);
 
-      TestUtils.DumpMessages(compiler.Messages, _output);
+      TestUtils.DumpMessages(compiler.Messages, _output, CompileMessageSeverity.Error);
 
-      Assert.Equal(0, compiler.Messages.Count);
+      int errorCount = compiler.Messages.FilteredMessages(CompileMessageSeverity.Error).Count();
+      Assert.Equal(0, errorCount);
     }
   }
 }

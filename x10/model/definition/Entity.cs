@@ -8,7 +8,9 @@ namespace x10.model.definition {
     public List<Member> Members { get; private set; }
 
     // Derived
-    public IEnumerable<X10Attribute> Attributes { get { return Members.OfType<X10Attribute>();  } }
+    public IEnumerable<X10Attribute> Attributes { get { return Members.OfType<X10Attribute>(); } }
+    public IEnumerable<X10RegularAttribute> RegularAttributes { get { return Members.OfType<X10RegularAttribute>(); } }
+    public IEnumerable<X10DerivedAttribute> DrivedAttributes { get { return Members.OfType<X10DerivedAttribute>(); } }
     public IEnumerable<Association> Associations { get { return Members.OfType<Association>(); } }
 
     // Rehydrated

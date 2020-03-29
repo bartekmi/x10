@@ -31,15 +31,25 @@ namespace x10.compiler {
       Entity entity = new Entity();
 
       // Read top-level (entity) attributes
-      _attrReader.ReadAttributes(rootNode, AppliesTo.Entity, entity, "attributes", "associations", "enums");
+      _attrReader.ReadAttributes(rootNode, AppliesTo.Entity, entity, "attributes", "associations", "enums", "derivedAttributes");
 
       // Read Entity Attributes
       TreeSequence attributes = TreeUtils.GetOptional<TreeSequence>(rootNode, "attributes", _messages);
       if (attributes != null) {
         foreach (TreeNode attribute in attributes.Children) {
-          X10Attribute x10Attribute = new X10Attribute();
+          X10Attribute x10Attribute = new X10RegularAttribute();
           entity.Members.Add(x10Attribute);
           _attrReader.ReadAttributes(attribute, AppliesTo.Attribute, x10Attribute);
+        }
+      }
+
+      // Read Entity Derived Attributes
+      TreeSequence derivedAttributes = TreeUtils.GetOptional<TreeSequence>(rootNode, "derivedAttributes", _messages);
+      if (derivedAttributes != null) {
+        foreach (TreeNode attribute in derivedAttributes.Children) {
+          X10Attribute x10Attribute = new X10DerivedAttribute();
+          entity.Members.Add(x10Attribute);
+          _attrReader.ReadAttributes(attribute, AppliesTo.DerivedAttribute, x10Attribute);
         }
       }
 

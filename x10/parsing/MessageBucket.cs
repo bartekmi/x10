@@ -14,6 +14,13 @@ namespace x10.parsing {
       Messages = new List<CompileMessage>();
     }
 
+    public IEnumerable<CompileMessage> FilteredMessages(CompileMessageSeverity? severities) {
+      if (severities == null)
+        return Messages;
+
+      return Messages.Where(x => (x.Severity & severities.Value) > 0);
+    }
+
     public void Clear() {
       Messages.Clear();
     }
