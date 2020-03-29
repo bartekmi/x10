@@ -5,6 +5,7 @@ using System.IO;
 using x10.parsing;
 using x10.model.definition;
 using System.Linq;
+using System.Reflection;
 
 namespace x10.model.metadata {
 
@@ -33,18 +34,17 @@ namespace x10.model.metadata {
       return (AppliesTo & type) > 0;
     }
 
+    public PropertyInfo GetPropertyInfo(Type type) {
+      if (Setter == null) return null;
+      return type.GetProperty(Setter, BindingFlags.Public | BindingFlags.Instance);
+    }
+
     public override string ToString() {
       return "ModelAttributeDefinition: " + Name;
     }
   }
 
   public static class ModelAttributeDefinitions {
-    // TODO: It would be nice to do some validation on these before using them -
-    // e.g. 1) test that setters are valid. Especially important if we allow this
-    //         to be expandable.
-    // e.g. 2) Ensure setters accept a value of the correct type (e.g. InheritsFrom is
-    //         wrong because it tried to use String to assign to Entity
-    // e.g. 3) No duplicate attributes for same applies-to type
 
     public static List<ModelAttributeDefinition> All = new List<ModelAttributeDefinition>() {
       //============================================================================

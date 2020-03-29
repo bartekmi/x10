@@ -80,7 +80,7 @@ namespace x10.compiler {
       // Otherwise, strore the attribute value in a ModelAttributeValue instance
       if (attrDef.Setter != null) {
         Type modelComponentType = modelComponent.GetType();
-        PropertyInfo info = modelComponentType.GetProperty(attrDef.Setter, BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo info = attrDef.GetPropertyInfo(modelComponentType);
         if (info == null) {
           throw new Exception(string.Format("Setter property '{0}' on Model Attribute Definition '{1}' does not exist on type {2}",
             attrDef.Setter, attrDef.Name, modelComponentType.Name));

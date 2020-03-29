@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 
 namespace x10.parsing {
-  public class ParserYamlTest {
+  public class ModelAttributeDefinitionValidatorTest {
     [Fact]
     public void ParseValid() {
       Parser parser  =new ParserYaml();
