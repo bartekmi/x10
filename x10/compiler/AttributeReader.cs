@@ -16,14 +16,20 @@ namespace x10.compiler {
       _messages = messages;
     }
 
+    internal static TreeHash EnsureObjectWithAttributresIsHash(TreeNode node, MessageBucket messages) {
+      if (node is TreeHash hash)
+        return hash;
+
+      messages.AddError(node, "Expected a Hash type node, but was: " + node.GetType().Name);
+      return null;
+    }
+
     // Read the attributes of this node (which should be a hash)
     // Returns true if it was a hash node, false otherwise
     internal bool ReadAttributes(TreeNode node, AppliesTo type, IAcceptsModelAttributeValues modelComponent, params string[] ignoreAttributes) {
-      TreeHash hash = node as TreeHash;
-      if (hash == null) {
-        _messages.AddError(node, "Expected a Hash type node, but was: " + node.GetType().Name);
+      TreeHash hash = EnsureObjectWithAttributresIsHash(node, _messages);
+      if (hash == null)
         return false;
-      }
 
       // Iterate known attributes and extract
       // NOTE: Attributes must be checked in order. Don't convert this to a hash.

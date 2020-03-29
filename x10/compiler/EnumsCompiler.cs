@@ -28,30 +28,43 @@ namespace x10.compiler {
     }
 
     internal void CompileEnum(TreeNode enumRootNode) {
-      DataType theEnum = new DataType();
-      if (!_attrReader.ReadAttributes(enumRootNode, AppliesTo.EnumType, theEnum, "values"))
+      TreeHash enumHash = AttributeReader.EnsureObjectWithAttributresIsHash(enumRootNode, _messages);
+      if (enumHash == null)
         return;
 
+      DataType theEnum = new DataType();
       DataTypes.Singleton.AddModelEnum(theEnum);
 
-      TreeHash enumHash = (TreeHash)enumRootNode;
-      TreeSequence enumValues = TreeUtils.GetOptional<TreeSequence>(enumHash, "values", _messages);
-      if (enumValues == null) {
-        _messages.AddError(enumHash, "Mandatory enum property 'values' missing");
-        return;
+      // Extract the enum values
+      TreeNode enumValues = TreeUtils.GetMandatoryAttribute(enumHash, "values", _messages);
+      if (enumValues != null) {
+        if (enumValues is TreeSequence sequence)
+          foreach (TreeNode enumValueNode in sequence.Children) {
+            EnumValue compositeEnumValue = new EnumValue();
+            theEnum.EnumValues.Add(compositeEnumValue);
+            _attrReader.ReadAttributes(enumValueNode, AppliesTo.EnumValue, compositeEnumValue);
+          }
+        else if (enumValues is TreeScalar scalar) {
+          string[] enumValuesArray = scalar.Value.ToString().Split(',');
+          foreach (string enumValue in enumValuesArray) {
+            EnumValue simpleEnumValue = new EnumValue() {
+              Value = enumValue.Trim(),
+            };
+            theEnum.EnumValues.Add(simpleEnumValue);
+            // TODO: Validate the enum values names
+          }
+        }
+
+        // Check uniqueness of enum value names
+        UniquenessChecker.Check("value",
+          theEnum.EnumValues,
+          _messages,
+          "The value '{0}' is not unique among all the values of this Enum.");
       }
 
-      foreach (TreeNode enumValueNode in enumValues.Children) {
-        EnumValue enumValue = new EnumValue();
-        theEnum.EnumValues.Add(enumValue);
-        _attrReader.ReadAttributes(enumValueNode, AppliesTo.EnumValue, enumValue);
-      }
-
-      // Check uniqueness of enum value names
-      UniquenessChecker.Check("value",
-        theEnum.EnumValues,
-        _messages,
-        "The value '{0}' is not unique among all the values of this Enum.");
+      // This must go after extracting values because the default value is checked
+      // for validity using the actual values
+      _attrReader.ReadAttributes(enumRootNode, AppliesTo.EnumType, theEnum, "values");
     }
   }
 }

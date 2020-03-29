@@ -9,9 +9,19 @@ using x10.utils;
 
 namespace x10.parsing {
   public class ParserYaml : Parser {
+
+    public TreeNode ParseFromString(string yaml) {
+      using (TextReader reader = new StringReader(yaml))
+        return ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
+    }
+
     public override TreeNode Parse(string path) {
+      return ParsePrivate(() => YamlUtils.ReadYaml(path), path);
+    }
+
+    private TreeNode ParsePrivate(Func<YamlDocument> yamlReaderFunc, string path) { 
       try {
-        YamlDocument document = YamlUtils.ReadYaml(path);
+        YamlDocument document = yamlReaderFunc();
         if (document == null) {
           AddInfo("No YAML document read - empty file?", new TreeFileError(path));
           return null;

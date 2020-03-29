@@ -20,6 +20,11 @@ namespace x10.model {
       return Validate(Style.UpperCamelCase, entityName, "Entity name", examples, element, messages);
     }
 
+    public static bool ValidateUiElementName(string uiElementName, TreeElement element, MessageBucket messages) {
+      string examples = "'DropDown', 'TextArea'";
+      return Validate(Style.UpperCamelCase, uiElementName, "UI Element name", examples, element, messages);
+    }
+
     public static bool ValidateAttributeName(string attributeName, TreeElement element, MessageBucket messages) {
       string examples = "'age', 'firstName'";
       return Validate(Style.LowerCamelCase, attributeName, "Attribute name", examples, element, messages);

@@ -14,7 +14,7 @@ namespace x10.compiler {
   public class EntitiesCompilerPass2Test {
 
     private readonly ITestOutputHelper _output;
-    private MessageBucket _messages = new MessageBucket();
+    private readonly MessageBucket _messages = new MessageBucket();
 
     public EntitiesCompilerPass2Test(ITestOutputHelper output) {
       _output = output;

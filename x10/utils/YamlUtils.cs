@@ -5,17 +5,25 @@ using YamlDotNet.RepresentationModel;
 
 namespace x10.utils {
   public static class YamlUtils {
-    public static YamlDocument ReadYaml(string path) {
-      using (StreamReader reader = new StreamReader(new FileStream(path, FileMode.Open))) {
-        YamlStream yaml = new YamlStream();
-        
-        yaml.Load(reader);
-        if (yaml.Documents.Count == 0)
-          return null;
+    public static YamlDocument ReadYamlFromString(string yaml) {
+      using (TextReader reader = new StringReader(yaml))
+        return ReadYaml(reader);
+    }
 
-        YamlDocument document = yaml.Documents[0];
-        return document;
-      }
+    public static YamlDocument ReadYaml(string path) {
+      using (StreamReader reader = new StreamReader(new FileStream(path, FileMode.Open)))
+        return ReadYaml(reader);
+    }
+
+    public static YamlDocument ReadYaml(TextReader reader) {
+      YamlStream yaml = new YamlStream();
+
+      yaml.Load(reader);
+      if (yaml.Documents.Count == 0)
+        return null;
+
+      YamlDocument document = yaml.Documents[0];
+      return document;
     }
 
     public static YamlSequenceNode GetSequence(YamlMappingNode node, string key) {

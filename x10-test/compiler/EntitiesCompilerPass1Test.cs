@@ -14,8 +14,8 @@ namespace x10.compiler {
   public class EntitiesCompilerPass1Test {
 
     private readonly ITestOutputHelper _output;
-    private MessageBucket _messages = new MessageBucket();
-    private EntityCompilerPass1 _compiler;
+    private readonly MessageBucket _messages = new MessageBucket();
+    private readonly EntityCompilerPass1 _compiler;
 
     public EntitiesCompilerPass1Test(ITestOutputHelper output) {
       _output = output;
@@ -60,7 +60,7 @@ customField: My custom value
 - one
 - two
 ",
-        "The root node of an entity must be a Hash, but was: TreeSequence", 2, 1);
+        "The root node of an Entity file must be a Hash, but was: TreeSequence", 2, 1);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ enums:
   - name: MyEnum
     description: This my awesome enum
 ",
-        "Mandatory enum property 'values' missing", 5, 5);
+        "Mandatory attribute 'values' is missing", 5, 5);
     }
 
     [Fact]
@@ -185,6 +185,8 @@ description: Description...
 enums: 
   - name: myEnum
     description: Description...
+    values:
+      - value: one
 ",
         "Invalid Enum name: 'myEnum'. Must be upper-cased camel-case: e.g. 'Gender', 'CalendarMonths', 'EnrollmentState'. Numbers are also allowed.", 6, 11);
     }

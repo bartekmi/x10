@@ -4,6 +4,7 @@ using System.IO;
 
 using x10.parsing;
 using x10.model.definition;
+using System.Linq;
 
 namespace x10.model.metadata {
 
@@ -42,10 +43,11 @@ namespace x10.model.metadata {
     //         to be expandable.
     // e.g. 2) Ensure setters accept a value of the correct type (e.g. InheritsFrom is
     //         wrong because it tried to use String to assign to Entity
+    // e.g. 3) No duplicate attributes for same applies-to type
 
     public static List<ModelAttributeDefinition> All = new List<ModelAttributeDefinition>() {
       //============================================================================
-      // Everything
+      // Misc
       new ModelAttributeDefinition() {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
@@ -54,6 +56,22 @@ namespace x10.model.metadata {
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
         DataType = DataTypes.Singleton.String,
         Setter = "Description",
+      },
+      new ModelAttributeDefinition() {
+        Name = "label",
+        Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
+        DataType = DataTypes.Singleton.String,
+      },
+      new ModelAttributeDefinition() {
+        Name = "ui",
+        Description = "The default UI element to render this type of item",
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
+        DataType = DataTypes.Singleton.String,
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          string value = scalarNode.Value.ToString();
+          ModelValidationUtils.ValidateUiElementName(value, scalarNode, messages);
+        }
       },
 
       //============================================================================
@@ -189,6 +207,20 @@ namespace x10.model.metadata {
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string name = scalarNode.Value.ToString();
           ModelValidationUtils.ValidateEnumName(name, scalarNode, messages);
+        }
+      },
+      new ModelAttributeDefinition() {
+        Name = "default",
+        Description = "Default value for any attributes of this type. This is significant when the user creates new entities of this type",
+        AppliesTo = AppliesTo.EnumType,
+        DataType = DataTypes.Singleton.String,
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          string defaultValue = scalarNode.Value.ToString();
+          DataType theEnum = (DataType)modelComponent;
+          if (theEnum.EnumValues != null && 
+              !theEnum.EnumValues.Any(x => x.Value.ToString() == defaultValue))
+            messages.AddError(scalarNode,
+              string.Format("The default value '{0}' is not one of the available enum values", defaultValue));
         }
       },
 

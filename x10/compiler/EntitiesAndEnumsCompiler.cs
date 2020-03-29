@@ -32,9 +32,11 @@ namespace x10.compiler {
       foreach (TreeNode rootNode in rootNodes) {
         if (IsEnumFile(rootNode.FileInfo.FilePath))
           enums.CompileEnumFile(rootNode);
-        Entity entity = pass1.CompileEntity(rootNode);
-        if (!string.IsNullOrWhiteSpace(entity?.Name))
-          entities.Add(entity);
+        else {
+          Entity entity = pass1.CompileEntity(rootNode);
+          if (!string.IsNullOrWhiteSpace(entity?.Name))
+            entities.Add(entity);
+        }
       }
 
       // Pass 2
@@ -45,7 +47,7 @@ namespace x10.compiler {
     }
 
     private static bool IsEnumFile(string path) {
-      return path.ToLower().EndsWith("enums");
+      return path.ToLower().EndsWith("enums.yaml");
     }
   }
 }

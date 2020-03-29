@@ -1,10 +1,17 @@
-- TransportationMode:
-    values: air, ocean, truck
-    icons: airplane, boat, truck
-    label: Freight Method
-    ui: EnumCardSelector
-    default: ocean
+- name: TransportationMode
+  description: The type of transportation mode used for the main leg of the journey
+  label: Freight Method
+  ui: EnumCardSelector
+  values: 
+    - value: air
+      icon: airplane
+    - value: ocean
+      icon: boat
+    - value: truck
+      icon: truck
+  default: ocean
 
-- Incoterms:
-    values: FOB, EXW, FAS, FCA, CPT, CFR
-    ui: IncotermsEditor
+- name: Incoterms
+  description: International standard payment agreement between shipper and consignee
+  ui: IncotermsEditor
+  values: FOB, EXW, FAS, FCA, CPT, CFR

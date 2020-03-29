@@ -1,4 +1,6 @@
 - name: unitSystemEnum
+  description: Choice of measure system: metric or imperial
   values: metric, imperial
 - name: dimensionsOrVolumeEnum
+  description: Choice of how to specify cargo volume
   values: dimensions, volume
