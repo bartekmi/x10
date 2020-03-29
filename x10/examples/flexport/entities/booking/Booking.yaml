@@ -6,102 +6,117 @@ attributes:
     dataType: String
     mandatory: true
     placeholderText: Description of shipment
+
   - name: state
     dataType: BookingState
     mandatory: true
-  - transportationMode:
-      dataType: TransportationMode
-      mandatory: true
-  - cargoReadyDate:
-      dataType: Date
-      mandatory: true
-  - targetDeliveryDate:
-      dataType: Date
-  - notifyParty:
-      dataType: String
-      toolTip: The company entity which should be notified of the arrival of the cargo
-      ui: TextArea
-  - isLcl:
-      dataType: Boolean
-      mandatory: true
-      default: false
-      label: Shipment Type
-      ui: BooleanViaButtons
-      ui.trueLabel: "LCL"
-      ui.falseLabel: "FCL"
-  - incoterms:
-      dataType: Incoterms
-      mandatory: true
-  - wantsOriginService:
-      dataType: Boolean
-      default: true
-  - wantsExportCustomsService:
-      dataType: Boolean
-      default: false
-  - cargoReadyDate:
-      dataType: Date
-      mandatory: true
-  - descriptionOfProducts:
-      dataType: String
-      ui: TextArea
-      applicableWhen: transportationMode == 'truck'
-      toolTip: Please enter a short and concise description of products in this shipment
-  - specialInstructions:
-      dataType: String
-      ui: TextArea
-      placeholderText: Enter any special instructions, such as handling information
+
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
+
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
+
+  - name: targetDeliveryDate
+    dataType: Date
+
+  - name: notifyParty
+    dataType: String
+    toolTip: The company entity which should be notified of the arrival of the cargo
+    ui: TextArea
+
+  - name: isLcl
+    dataType: Boolean
+    mandatory: true
+    default: false
+    label: Shipment Type
+    ui: BooleanViaButtons
+    ui.trueLabel: "LCL"
+    ui.falseLabel: "FCL"
+
+  - name: incoterms
+    dataType: Incoterms
+    mandatory: true
+
+  - name: wantsOriginService
+    dataType: Boolean
+    default: true
+
+  - name: wantsExportCustomsService
+    dataType: Boolean
+    default: false
+
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
+
+  - name: descriptionOfProducts
+    dataType: String
+    ui: TextArea
+    applicableWhen: transportationMode == 'truck'
+    toolTip: Please enter a short and concise description of products in this shipment
+
+  - name: specialInstructions
+    dataType: String
+    ui: TextArea
+    placeholderText: Enter any special instructions, such as handling information
 
 derivedAttributes:
-    isShipperBooking:
-        dataType: Boolean
-        function: =shipper == $user.company
-    isConsigneeBooking:
-        dataType: Boolean
-        function: =consignee == $user.company
-    requiresChineseProductDescription:
-        dataType: Boolean
-        function: =isShipperBooking && company.countryCode == 'CN'
+  - name: isShipperBooking
+    dataType: Boolean
+    function: =shipper == $user.company
+
+  - name: isConsigneeBooking
+    dataType: Boolean
+    function: =consignee == $user.company
+
+  - name: requiresChineseProductDescription
+    dataType: Boolean
+    function: =isShipperBooking && company.countryCode == 'CN'
 
 
 enums:
-  BookingState:
-    draft: 
-      label: Draft
-      icon: draft
-    waitingForPricing:
-      label: Waiting For Pricing
-      icon: dollar_sign
-    awaitingReview:
-      label: Awaiting Your Review
-      icon: ticket
+  - name: BookingState
+    values:
+      - value: draft
+        label: Draft
+        icon: draft
+      - value: waitingForPricing
+        label: Waiting For Pricing
+        icon: dollar_sign
+      - value: awaitingReview
+        label: Awaiting Your Review
+        icon: ticket
 
 associations:
-  - shipper:
+  - name: shipper
       dataType: Company
       mandatory: true
-  - consignee:
+  - name: consignee
       dataType: Company
       mandatory: true
-  - originLocation:
+  - originLocation
       dataType: Location
       mandatory: true
-  - originPort:
+  - name: originPort
       dataType: Port
-  - destinationLocation:
+  - name: destinationLocation
       dataType: Location
-  - destinationPort:
+  - name: destinationPort
       dataType: Port
-  - cargo:
+  - name: cargo
       dataType: Cargo
       ownedByThisEntity: true
       mandatory: true
-  - bookingHsCodes:
+  - name: bookingHsCodes
       dataType: BookingHsCode
       ownedByThisEntity: true
       many: true
       mandatory: true
       applicableWhen: transportationMode != 'truck'
-  - metadata:
+  - name: metadata
       dataType: MetadataValue
       ownedByThisEntity: true
       many: true

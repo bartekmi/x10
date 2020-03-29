@@ -4,7 +4,8 @@ description: >
   in import/export
 
 attributes:
-  - hsCode:
-      dataType: string
-  - description
-      dataType: string
+  - name: hsCode
+    dataType: string
+
+  - name: description
+    dataType: string

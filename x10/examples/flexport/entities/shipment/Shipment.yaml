@@ -3,18 +3,21 @@ inheritsFrom: ShipmentBase
 description: Encapsulates a shipment of goods from one location to another
 
 attributes:
-  - latitude:
-      dataType: Float
-  - longitude:
-      dateType: Float
+  - name: latitude
+    dataType: Float
+  - name: longitude
+    dateType: Float
 
-  - status:
-      dataType: ShipmentStatus
+  - name: status
+    dataType: ShipmentStatus
 
 enums:
-  - ShipmentStatus:
-      values: awaitingArrivalAtDeparturePort
+  - name: ShipmentStatus
+    values: awaitingArrivalAtDeparturePort
 
 associations:
   - name: currentLocation
-    hasOne: ShipmentLocation
+    dataType: ShipmentLocation
+  - name: bookmarks
+    dataType: Bookmark
+    multiple: true

@@ -11,5 +11,7 @@ attributes:
       dataType: boolean
 
 associations:
-  - belongsTo: HsCode
-  - belongsTo: Product
+  - name: hsCode
+    dataType: HsCode
+  - name: product
+    dataType: Product

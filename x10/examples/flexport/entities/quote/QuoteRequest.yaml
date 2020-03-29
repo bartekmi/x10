@@ -3,14 +3,21 @@ inheritsFrom: ShipmentBase
 description: A request for a quote that may eventually lead to a <Shipment>
 
 attributes:
-  - state:
-      type: QuoteRequestState
+  - name: state
+    dataType: QuoteRequestState
 
 enums:
-  - QuoteRequestState:
-      values: quoteRequested, quotesReady, quoteAccepted, quoteExpired
-      icons: quotation_mark, callout, thumbs_up, dont
+  - name: QuoteRequestState
+    values: 
+      - name: quoteRequested
+        icon: quotation_mark
+      - name: quotesReady
+        icon: callout
+      - name: quoteAccepted
+        icon: thumbs_up
+      - name: quoteExpired
+        icon: dont
 
 associations:
-  - submittedBy:
-      dataType: User
+  - name: submittedBy
+    dataType: User

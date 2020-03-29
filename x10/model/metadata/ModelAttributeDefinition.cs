@@ -126,7 +126,7 @@ namespace x10.model.metadata {
               ModelValidationUtils.ValidateAssociationName(name, scalarNode, messages);
               break;
             default:
-              throw new Exception("Unexpected appliesT: " + appliesTo);
+              throw new Exception("Unexpected appliesTo: " + appliesTo);
           }
         }
       },

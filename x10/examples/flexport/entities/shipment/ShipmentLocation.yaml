@@ -3,24 +3,26 @@ description: A particular stop in the life of a <Shipment>, including the origin
 defaultStringRepresentation: location
 
 attributes:
-  - role:
-      dataType: ShipmentLocationRole
-      mandatory: true
-      readonly: true
+  - name: role
+    dataType: ShipmentLocationRole
+    mandatory: true
+    readonly: true
 
-  - estimatedArrival:
-      dateType: Timestamp
-  - actualArrival:
-      dateType: Timestamp
-  - estimatedDeparture:
-      dateType: Timestamp
-  - actualDeparture:
-      dateType: Timestamp
+  - name: estimatedArrival
+    dateType: Timestamp
+  - name: actualArrival
+    dateType: Timestamp
+  - name: estimatedDeparture
+    dateType: Timestamp
+  - name: actualDeparture
+    dateType: Timestamp
 
 associations:
-  - hasOne: Location
-  - hasOne: Shipment
+  - name: location
+    dataType: Location
+  - name: shipment
+    dataType: Shipment
 
 enums:
-  - ShipmentLocationRole:
-      values: origin, originPort, destinationPort, finalDestination
+  - name: ShipmentLocationRole
+    values: origin, originPort, destinationPort, finalDestination

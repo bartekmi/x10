@@ -4,26 +4,29 @@ description: >
   possibly over multiple <Shipment>'s
 
 attributes:
-  - purchaseOrderNumber:
-      dataType: string
-      mandatory: true
-      label: PO#
-  - cargoReadyBy:
-      dataType: date
-  - mustArriveBy:
-      dataType: date
-  - state:
-      dateType: PurchaseOrderState
-      label: Status
-      mandatory: true
+  - name: purchaseOrderNumber
+    dataType: String
+    mandatory: true
+    label: PO#
+
+  - name: cargoReadyBy
+    dataType: Date
+
+  - name: mustArriveBy
+    dataType: Date
+
+  - name: state
+    dateType: PurchaseOrderState
+    label: Status
+    mandatory: true
 
 enums:
-  - PurchaseOrderState
-      values: open, closed, cancelled
+  - name: PurchaseOrderState
+    values: open, closed, cancelled
 
 associations:
   - name: seller
-    hasOne: Company
+    dataType: Company
   - name: boyer
-    hasOne: Company
+    dataType: Company
   

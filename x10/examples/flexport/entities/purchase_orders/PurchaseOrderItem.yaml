@@ -2,20 +2,23 @@ name: PurchaseOrderItem
 description: A specific product on a <PurchaseOrder>
 
 attributes:
-  - purchaseOrderNumber:
-      dataType: string
-      mandatory: true
-      label: PO#
-  - cargoReadyBy:
-      dataType: date
-  - state:
-      dateType: PurchaseOrderState
-      label: Status
+  - name: purchaseOrderNumber
+    dataType: string
+    mandatory: true
+    label: PO#
+
+  - name: cargoReadyBy
+    dataType: date
+
+  - name: state
+    dateType: PurchaseOrderState
+    label: Status
 
 enums:
-  - PurchaseOrderState
-      values: open, closed, cancelled
+  - name: PurchaseOrderState
+    values: open, closed, cancelled
 
 associations:
-  - belongsTo: PurchaseOrder
+  - name: purchaseOrders
+    dataType: PurchaseOrder
   

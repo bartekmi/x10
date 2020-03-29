@@ -3,11 +3,12 @@ description: >
   A type of physical product that can be associated with a <PurchaseOrderItem>
 
 attributes:
-  - productName:
-      dataType: string
-  - SKU
-      description: "Stock Keeping Unit" - a unique product id within the <Company>
-      dataType: string
+  - name: productName:
+    dataType: string
+  - name: SKU
+    description: "Stock Keeping Unit" - a unique product id within the <Company>
+    dataType: string
 
 associations:
-  - belongsTo: Company
+  - name: company
+    dataType: Company

@@ -5,7 +5,9 @@ defaultStringRepresentation: user
 attributes:
 
 associations:
-  - hasOne: User
-  - hasOne: Shipment
+  - name: user
+    dataType: User
+  - name: shipment
+    dataType: Shipment
 
 enums:

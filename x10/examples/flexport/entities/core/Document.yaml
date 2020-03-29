@@ -2,9 +2,9 @@ name: Document
 description: Any document for any purpose associated with any entity
 
 attributes:
-  - originalFilename:
-      dataType: string
+  - name: originalFilename
+    dataType: string
 
 associations:
-  - owner:
-      belongsTo: Shipment, Booking, Quote
+  - name: owner
+    belongsTo: Shipment, Booking, Quote
