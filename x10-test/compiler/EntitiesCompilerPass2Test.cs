@@ -6,9 +6,10 @@ using System.IO;
 using Xunit;
 using Xunit.Abstractions;
 
+using x10.parsing;
 using x10.model.definition;
 using x10.model.metadata;
-using x10.parsing;
+using x10.model;
 
 namespace x10.compiler {
   public class EntitiesCompilerPass2Test {
@@ -140,7 +141,8 @@ namespace x10.compiler {
     }
 
     private void RunTest(IEnumerable<Entity> entities) {
-      EntityCompilerPass2 compiler = new EntityCompilerPass2(_messages, entities);
+      AllEntities allEntities = new AllEntities(entities, _messages);
+      EntityCompilerPass2 compiler = new EntityCompilerPass2(_messages, allEntities);
       compiler.CompileAllEntities();
       TestUtils.DumpMessages(_messages, _output);
     }

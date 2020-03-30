@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 using x10.parsing;
 using x10.model.definition;
-using System.Linq;
-using System.Reflection;
 
 namespace x10.model.metadata {
 
@@ -28,6 +28,7 @@ namespace x10.model.metadata {
     public DataType DataType { get; set; }
     public string Setter { get; set; }
     public Action<MessageBucket, TreeScalar, IAcceptsModelAttributeValues, AppliesTo> ValidationFunction { get; set; }
+    public Action<MessageBucket, AllEntities, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
 
     // Derived
     public bool AppliesToType(AppliesTo type) {
@@ -104,7 +105,15 @@ namespace x10.model.metadata {
         AppliesTo = AppliesTo.Entity,
         DataType = DataTypes.Singleton.String,
         Setter = "InheritsFromName",
+        
         // Entity name format validation is not needed, as it will be caught when no entity matches
+        
+        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+          Entity entity = (Entity)modelComponent;
+          entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName,
+            entity,
+            attributeValue);
+        },
       },
 
       //============================================================================
@@ -165,8 +174,8 @@ namespace x10.model.metadata {
         Description = "The data type of this attribute",
         AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        DataType = DataTypes.Singleton.DataType,
-        Setter = "DataType",
+        DataType = DataTypes.Singleton.String,
+        Setter = "DataTypeName",
       },
       new ModelAttributeDefinition() {
         Name = "default",
@@ -193,8 +202,16 @@ namespace x10.model.metadata {
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "ReferencedEntityName",
+
         // Validation is not needed here, as incorrect values will be caught in the second pass
         // of the compilation process.
+
+        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+          Association association = (Association)modelComponent;
+          association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName,
+            association,
+            attributeValue);
+        },
       },
       new ModelAttributeDefinition() {
         Name = "many",
@@ -235,7 +252,7 @@ namespace x10.model.metadata {
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string defaultValue = scalarNode.Value.ToString();
           DataType theEnum = (DataType)modelComponent;
-          if (theEnum.EnumValues != null && 
+          if (theEnum.EnumValues != null &&
               !theEnum.EnumValues.Any(x => x.Value.ToString() == defaultValue))
             messages.AddError(scalarNode,
               string.Format("The default value '{0}' is not one of the available enum values", defaultValue));

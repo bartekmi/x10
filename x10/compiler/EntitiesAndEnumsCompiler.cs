@@ -6,6 +6,7 @@ using System.Reflection;
 using x10.parsing;
 using x10.model.metadata;
 using x10.model.definition;
+using x10.model;
 
 namespace x10.compiler {
   public class EntitiesAndEnumsCompiler {
@@ -40,7 +41,8 @@ namespace x10.compiler {
       }
 
       // Pass 2
-      EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, entities);
+      AllEntities allEntities = new AllEntities(entities, Messages);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, allEntities);
       pass2.CompileAllEntities();
 
       return entities;
