@@ -92,35 +92,35 @@ enums:
 
 associations:
   - name: shipper
-      dataType: Company
-      mandatory: true
+    dataType: Company
+    mandatory: true
   - name: consignee
-      dataType: Company
-      mandatory: true
-  - originLocation
-      dataType: Location
-      mandatory: true
+    dataType: Company
+    mandatory: true
+  - name: originLocation
+    dataType: Location
+    mandatory: true
   - name: originPort
-      dataType: Port
+    dataType: Port
   - name: destinationLocation
-      dataType: Location
+    dataType: Location
   - name: destinationPort
-      dataType: Port
+    dataType: Port
   - name: cargo
-      dataType: Cargo
-      ownedByThisEntity: true
-      mandatory: true
+    dataType: Cargo
+    ownedByThisEntity: true
+    mandatory: true
   - name: bookingHsCodes
-      dataType: BookingHsCode
-      ownedByThisEntity: true
-      many: true
-      mandatory: true
-      applicableWhen: transportationMode != 'truck'
+    dataType: BookingHsCode
+    ownedByThisEntity: true
+    many: true
+    mandatory: true
+    applicableWhen: transportationMode != 'truck'
   - name: metadata
-      dataType: MetadataValue
-      ownedByThisEntity: true
-      many: true
-      ui: MetadataEditor
+    dataType: MetadataValue
+    ownedByThisEntity: true
+    many: true
+    ui: MetadataEditor
 
       
 

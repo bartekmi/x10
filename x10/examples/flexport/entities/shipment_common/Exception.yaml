@@ -3,21 +3,21 @@ description: A notification that something out-of-the-ordinary (usually bad) has
 
 attributes:
   - name: headline
-      dataType: String
-      mandatory: true
+    dataType: String
+    mandatory: true
 
   - name: timestamp
-      dataType: Timestamp
-      mandatory: true
-      readOnly: true
+    dataType: Timestamp
+    mandatory: true
+    readOnly: true
 
   - name: type
-      dataType: ExceptionType
-      readOnly: true
+    dataType: ExceptionType
+    readOnly: true
 
 derivedAttributes:
   - name: timestampHuman
-      dataType: String
+    dataType: String
 
 associations:
   - name: shipment

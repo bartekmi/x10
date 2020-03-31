@@ -10,6 +10,10 @@ using x10.utils;
 namespace x10.parsing {
   public class ParserYaml : Parser {
 
+    public ParserYaml(MessageBucket messages) : base(messages) {
+      // Do nothing
+    }
+
     public TreeNode ParseFromString(string yaml) {
       using (TextReader reader = new StringReader(yaml))
         return ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);

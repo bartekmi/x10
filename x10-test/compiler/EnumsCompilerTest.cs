@@ -48,7 +48,7 @@ default: cat
     #region Utilities
 
     private void RunTest(string yaml) {
-      ParserYaml parser = new ParserYaml();
+      ParserYaml parser = new ParserYaml(_messages);
       TreeNode rootNode = parser.ParseFromString(yaml);
       Assert.NotNull(rootNode);
 

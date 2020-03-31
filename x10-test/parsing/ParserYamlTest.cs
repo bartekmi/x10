@@ -4,12 +4,15 @@ using Xunit;
 
 namespace x10.parsing {
   public class ModelAttributeDefinitionValidatorTest {
+
+    private MessageBucket _messages = new MessageBucket();
+
     [Fact]
     public void ParseValid() {
-      Parser parser  =new ParserYaml();
+      Parser parser  =new ParserYaml(_messages);
       TreeNode file = parser.Parse("../../../parsing/data/Person.yaml");
 
-      Assert.True(parser.Messages.IsEmpty);
+      Assert.True(_messages.IsEmpty);
 
       Assert.IsType<TreeHash>(file);
       TreeHash root = file as TreeHash;
@@ -48,13 +51,13 @@ namespace x10.parsing {
 
     [Fact]
     public void ParseInvalid() {
-      Parser parser = new ParserYaml();
+      Parser parser = new ParserYaml(_messages);
       TreeNode file = parser.Parse("../../../parsing/data/Broken.yaml");
 
       Assert.Null(file);
-      Assert.Equal(1, parser.Messages.Count);
+      Assert.Equal(1, _messages.Count);
       
-      CompileMessage error = parser.Messages.Messages.Single();
+      CompileMessage error = _messages.Messages.Single();
       Assert.Equal(CompileMessageSeverity.Error, error.Severity);
       Assert.Equal("Can't parse YAML file. Error: (Line: 4, Col: 1, Idx: 35) - (Line: 4, Col: 1, Idx: 35): While scanning a simple key, could not find expected ':'.", error.Message);
 

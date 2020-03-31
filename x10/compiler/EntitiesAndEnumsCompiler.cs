@@ -21,7 +21,7 @@ namespace x10.compiler {
       Messages.Clear();   // Always empty the bucket
 
       // Recursively parse entire directory
-      Parser parser = new ParserYaml();
+      Parser parser = new ParserYaml(Messages);
       List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath);
 
       // Pass 1

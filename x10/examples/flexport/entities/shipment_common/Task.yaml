@@ -30,7 +30,9 @@ enums:
   - name: TaskStatus
     values: requiresAction, completed, archived
   - name: TaskType
-    values: customFileUploadTask
+    values: 
+      - value: customFileUploadTask
+        icon: TODO
       - value: customTask
         icon: upload
       - value: completeOnboarding
