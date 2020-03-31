@@ -9,13 +9,13 @@ attributes:
 enums:
   - name: QuoteRequestState
     values: 
-      - name: quoteRequested
+      - value: quoteRequested
         icon: quotation_mark
-      - name: quotesReady
+      - value: quotesReady
         icon: callout
-      - name: quoteAccepted
+      - value: quoteAccepted
         icon: thumbs_up
-      - name: quoteExpired
+      - value: quoteExpired
         icon: dont
 
 associations:

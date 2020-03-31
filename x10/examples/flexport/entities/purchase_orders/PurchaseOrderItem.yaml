@@ -14,10 +14,6 @@ attributes:
     dataType: PurchaseOrderState
     label: Status
 
-enums:
-  - name: PurchaseOrderState
-    values: open, closed, cancelled
-
 associations:
   - name: purchaseOrders
     dataType: PurchaseOrder

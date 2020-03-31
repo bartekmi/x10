@@ -60,15 +60,8 @@ namespace x10.compiler {
         return;
       }
 
-      // There is a special case when the data type is not fixed, but must match
-      // the data type of the X10Attribute
-      DataType dataType = attrDef.DataType == DataTypes.Singleton.SameAsDataType ?
-        ((X10Attribute)modelComponent).DataType :
-        attrDef.DataType;
-      if (dataType == null)
-        return;
-
       // Attempt to parse the string attribute value according to its data type
+      DataType dataType = attrDef.DataType;
       object typedValue = dataType.Parse(scalarNode.Value.ToString());
       if (typedValue == null) {
         _messages.AddError(scalarNode, string.Format("For attribute '{0}', could not parse a(n) {1} from '{2}'. Examples of valid data of this type: {3}",

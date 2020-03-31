@@ -11,5 +11,9 @@ namespace x10.model.definition {
     public ModelAttributeValue(TreeElement treeElement) {
       TreeElement = treeElement;
     }
+
+    public override string ToString() {
+      return string.Format("Attribute Value: {0}", Value);
+    }
   }
 }

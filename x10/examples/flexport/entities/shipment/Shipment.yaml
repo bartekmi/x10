@@ -20,4 +20,4 @@ associations:
     dataType: ShipmentLocation
   - name: bookmarks
     dataType: Bookmark
-    multiple: true
+    many: true

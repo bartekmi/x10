@@ -1,0 +1,9 @@
+name: CountryCode
+description: List of ISO Country Codes
+
+attributes:
+  - name: code
+    dataType: String
+
+  - name: countryName
+    dataType: String

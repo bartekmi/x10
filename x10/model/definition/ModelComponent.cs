@@ -16,5 +16,9 @@ namespace x10.model.definition {
     protected ModelComponent() {
       AttributeValues = new List<ModelAttributeValue>();
     }
+
+    public override string ToString() {
+      return string.Format("{0} {1}", GetType().Name, Name);
+    }
   }
 }

@@ -18,6 +18,19 @@ namespace x10.model.metadata {
     EnumValue = 32,
   }
 
+  internal static class AppliesToHelper {
+    internal static AppliesTo GetForObject(IAcceptsModelAttributeValues element) {
+      if (element is Entity) return AppliesTo.Entity;
+      if (element is Association) return AppliesTo.Association;
+      if (element is X10RegularAttribute) return AppliesTo.Attribute;
+      if (element is X10DerivedAttribute) return AppliesTo.DerivedAttribute;
+      if (element is DataType) return AppliesTo.EnumType;
+      if (element is EnumValue) return AppliesTo.EnumValue;
+
+      throw new Exception("Unexpected type: " + element.GetType());
+    }
+  }
+
   public class ModelAttributeDefinition {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -115,13 +128,25 @@ namespace x10.model.metadata {
             attributeValue);
         },
       },
+      new ModelAttributeDefinition() {
+        Name = "defaultStringRepresentation",
+        Description = @"A formula expressed in terms of the members of this Entity to show 
+a default string representation of instances. Can recursively use associations if desired.
+Typical use would be if entities are going to be represented on a drop-down.",
+        AppliesTo = AppliesTo.Entity,
+        DataType = DataTypes.Singleton.String,
+
+        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+          // TODO: Validate the formula
+        },
+      },
 
       //============================================================================
       // Attribute & Association
       new ModelAttributeDefinition() {
         Name = "name",
         Description = "The name of the attribute or association. Must be lower-case. This is the tag used everywhere else to refer to it",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        AppliesTo = AppliesTo.Attribute | AppliesTo.Association | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "Name",
@@ -129,6 +154,7 @@ namespace x10.model.metadata {
           string name = scalarNode.Value.ToString();
           switch (appliesTo) {
             case AppliesTo.Attribute:
+            case AppliesTo.DerivedAttribute:
               ModelValidationUtils.ValidateAttributeName(name, scalarNode, messages);
               break;
             case AppliesTo.Association:
@@ -176,13 +202,37 @@ namespace x10.model.metadata {
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "DataTypeName",
+        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+          X10Attribute attr = (X10Attribute)modelComponent;
+          attr.DataType = DataTypes.Singleton.Find(attr.DataTypeName);
+
+          if (attr.DataType == null) {
+            ModelAttributeValue dataType = AttributeUtils.FindAttribute(attr, "dataType");
+            messages.AddError(dataType.TreeElement,
+              string.Format("Could not find a data type called: '{0}'", attr.DataTypeName));
+          }
+        },
       },
       new ModelAttributeDefinition() {
         Name = "default",
         Description = "Default value for the attribute. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.Singleton.SameAsDataType,
-        Setter = "DefaultValue",
+        DataType = DataTypes.Singleton.String,
+        Setter = "DefaultValueAsString",
+
+        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+          X10RegularAttribute attr = (X10RegularAttribute)modelComponent;
+          if (attr.DataType == null)
+            return;
+
+          attr.DefaultValue = attr.DataType.Parse(attr.DefaultValueAsString);
+          if (attr.DefaultValue == null) {
+            ModelAttributeValue defaultValue = AttributeUtils.FindAttribute(attr, "default");
+            messages.AddError(defaultValue.TreeElement,
+              string.Format("Could not parse a(n) {0} from '{1}' for attribute 'default'. Examples of valid data of this type: {2}",
+              attr.DataType.Name, attr.DefaultValueAsString, attr.DataType.Examples));
+          }
+        },
       },
       new ModelAttributeDefinition() {
         Name = "formula",

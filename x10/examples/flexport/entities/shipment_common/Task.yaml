@@ -2,39 +2,48 @@ name: Task
 description: A task to be completed by someone
 
 attributes:
-  - headline:
-      dataType: String
-      mandatory: true
+  - name: headline
+    dataType: String
+    mandatory: true
 
-  - createdAt:
-      dataType: Timestamp
-      readOnly: true
+  - name: createdAt
+    dataType: Timestamp
+    readOnly: true
 
-  - dueDate:
-      dataType: Timestamp
-      readOnly: true
+  - name: dueDate
+    dataType: Timestamp
+    readOnly: true
 
-  - type:
-      dataType: TaskType
-      readOnly: true
+  - name: type
+    dataType: TaskType
+    readOnly: true
 
 derivedAttributes:
-  - dueDateHuman:
-      dataType: String
-  - completeByHuman:
-      dataType: String
+  - name: dueDateHuman
+    dataType: String
+    formula: TODO
+  - name: completeByHuman
+    dataType: String
+    formula: TODO
 
 enums:
-  - TaskStatus:
-      values: requiresAction, completed, archived
-  - TaskType:
-      values: customFileUploadTask, customTask, completeOnboarding, payInvoice, reviewQuote
-      icons: upload, message, human, credit-card, dollar-sign
+  - name: TaskStatus
+    values: requiresAction, completed, archived
+  - name: TaskType
+    values: customFileUploadTask
+      - value: customTask
+        icon: upload
+      - value: completeOnboarding
+        icon: human
+      - value: payInvoice
+        icon: credit-card
+      - value: reviewQuote
+        icon: dollar-sign
 
 associations:
   - name: shipment
-    mayBelongTo: Shipment
+    dataType: Shipment
   - name: assignedToCompany
-    mayBelongTo: Company
+    dataType: Company
   - name: assignedToUser
-    mayBelongTo: User
+    dataType: User

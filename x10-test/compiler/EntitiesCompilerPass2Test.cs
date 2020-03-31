@@ -26,9 +26,11 @@ namespace x10.compiler {
       Entity building = new Entity() {
         Name = "Building",
       };
-      building.Members.Add(new Association() {
+      Association association = new Association() {
         ReferencedEntityName = "Apartment",
-      });
+      };
+      building.Members.Add(association);
+      AddAttribute(association, "dataType", "Apartment");
 
       Entity apartment = new Entity() {
         Name = "Apartment",
@@ -39,11 +41,33 @@ namespace x10.compiler {
     }
 
     [Fact]
+    public void WrongDefaultValueType() {
+      Entity entity = new Entity() {
+        Name = "MyEntity",
+      };
+      X10RegularAttribute attribute = new X10RegularAttribute() {
+        Name = "MyBooleanAttribute",
+        DataTypeName = "Boolean",
+        DefaultValueAsString = "7",
+      };
+      AddAttribute(attribute, "dataType", "Boolean");
+      AddAttribute(attribute, "default", "7");
+
+      entity.Members.Add(attribute);
+
+      RunTest(new Entity[] { entity },
+        "Could not parse a(n) Boolean from '7' for attribute 'default'. Examples of valid data of this type: True, False", 10, 20);
+    }
+
+
+    [Fact]
     public void RehydrateInheritanceParent() {
       Entity child = new Entity() {
         Name = "Child",
         InheritsFromName = "Parent",
       };
+      AddAttribute(child, "inheritsFrom", "Parent");
+
       Entity parent = new Entity() {
         Name = "Parent",
       };
@@ -132,11 +156,11 @@ namespace x10.compiler {
         }
       };
 
+      AppliesTo appliesTo = AppliesToHelper.GetForObject(entity);
       entity.AttributeValues.Add(new ModelAttributeValue(element) {
         Value = value,
-        Definition = new ModelAttributeDefinition() {
-          Name = name,
-        }
+        Definition = ModelAttributeDefinitions.All
+          .Single(x => x.Name == name && x.AppliesToType(appliesTo)),
       });
     }
 

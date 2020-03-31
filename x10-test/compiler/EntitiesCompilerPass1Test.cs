@@ -117,20 +117,6 @@ attributes:
     }
 
     [Fact]
-    public void WrongDefaultValueType() {
-      RunTest(@"
-name: Tmp
-description: Description
-attributes:
-  - name: myBoolean
-    description: This is my boolean attribute
-    dataType: Boolean
-    default: 7
-",
-        "For attribute 'default', could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False", 8, 14);
-    }
-
-    [Fact]
     public void WrongFormatForEntityName() {
       RunTest(@"
 name: tmp

@@ -34,10 +34,17 @@ namespace x10.compiler {
         "The Enum name '{0}' is not unique.");
 
 
-      foreach (Entity entity in _allEntities.All)
+      // If any of the ModelAttributeValue's - either for the entity, or
+      // for any members - have a Pass-2 action, invoke it.
+      // Examples of Pass-2 actions are hydrating 'InheritsFrom' and 'ReferencedEntity'
+      foreach (Entity entity in _allEntities.All) {
         foreach (ModelAttributeValue value in entity.AttributeValues)
-          if (value.Definition.Pass2Action != null)
-            value.Definition.Pass2Action(Messages, _allEntities, entity, value);
+          value.Definition.Pass2Action?.Invoke(Messages, _allEntities, entity, value);
+
+        foreach (Member member in entity.Members)
+          foreach (ModelAttributeValue value in member.AttributeValues)
+            value.Definition.Pass2Action?.Invoke(Messages, _allEntities, member, value);
+      }
     }
   }
 }

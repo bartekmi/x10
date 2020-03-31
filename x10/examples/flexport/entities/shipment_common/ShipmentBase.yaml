@@ -2,43 +2,50 @@ name: ShipmentBase
 description: Captures shared attributes and associations for <Shipment> and <QuoteRequest>
 
 attributes:
-  - flexId:
-      dataType: String
-      readOnly: true
-  - name:
-      dataType: String
-      mandatory: true
+  - name: flexId
+    dataType: String
+    readOnly: true
+  - name: name
+    dataType: String
+    mandatory: true
 
-  - transportationMode:
-      dataType: TransportationMode
-      mandatory: true
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
 
-  - priority:
-      dataType: Priority
-      mandatory: true
-      default: normal
+  - name: priority
+    dataType: Priority
+    mandatory: true
+    default: normal
 
-  - cargoReadyDate:
-      dataType: Date
-      mandatory: true
+  - name: cargoReadyDate
+    dataType: Date
+    mandatory: true
 
 enums:
-  - Priority:
-      values: normal, high
-      icons: null, lightning
-  - ShipmentStatus:
-      values: awaitingArrivalAtDeparturePort
+  - name: Priority
+    values: 
+      - value: normal
+      - value: high
+        icon: lightning
 
 associations:
-  - belongsTo: Company
-  - ownsOne: Cargo
+  - name: company
+    dataType: Company
+  - name: cargo
+    dataType: Cargo
   - name: metadata
-    hasMany: MetadataValue
+    dataType: MetadataValue
+    many: true
     ui: Metadata
-  - hasMany: Task
+  - name: tasks
+    dataType: Task
+    many: true
   - name: finalDestination
-    hasOne: ShipmentLocation
+    dataType: ShipmentLocation
   - name: supplier
-    mayHaveOne: Company
+    dataType: Company
   - name: users
-    hasMany: ShipmentUser
+    dataType: ShipmentUser
+    many: true
+

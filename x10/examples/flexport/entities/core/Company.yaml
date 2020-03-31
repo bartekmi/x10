@@ -6,6 +6,7 @@ attributes:
     dataType: String
     mandatory: true
 
+associations:
   - name: contryCode
     dataType: CountryCode
     mandatory: true

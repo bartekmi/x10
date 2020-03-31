@@ -2,26 +2,27 @@ name: Exception
 description: A notification that something out-of-the-ordinary (usually bad) has happened to a Shipment
 
 attributes:
-  - headline:
+  - name: headline
       dataType: String
       mandatory: true
 
-  - timestamp:
+  - name: timestamp
       dataType: Timestamp
       mandatory: true
       readOnly: true
 
-  - type:
+  - name: type
       dataType: ExceptionType
       readOnly: true
 
 derivedAttributes:
-  - timestampHuman:
+  - name: timestampHuman
       dataType: String
 
 associations:
-  - belongsTo: Shipment
+  - name: shipment
+    dataType: Shipment
 
 enums:
-  - ExceptionType:
-      - values: cargoBreakdownDelay, cargoBumpedFromBookedFlight, missingCargo
+  - name: ExceptionType:
+    values: cargoBreakdownDelay, cargoBumpedFromBookedFlight, missingCargo

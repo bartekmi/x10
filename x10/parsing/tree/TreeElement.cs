@@ -13,6 +13,13 @@ namespace x10.parsing {
       get { return Root._fileInfo; }
     }
 
+    public void CopyPropertiesFrom(TreeElement source) {
+      _fileInfo = source._fileInfo;
+      Parent = source.Parent;
+      Start = source.Start;
+      End = source.End;
+    }
+
     internal void SetFileInfo(string path) {
       _fileInfo = new FileInfo(path);
     }

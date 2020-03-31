@@ -5,16 +5,16 @@ description: A proposed price to fulfill a <QuoteRequest>
 # On the plus side, I find myself consistently wanting to do it this way.
 attributes:
   - name: price
-    dataType: money
+    dataType: Money
     mandatory: true
 
   - name: expires
     dataType: Date
 
   - name: minTransitDays
-    dataType: Int
+    dataType: Integer
     mandatory: true
 
   - name: maxTransitDays
-    dataType: Int
+    dataType: Integer
     mandatory: true

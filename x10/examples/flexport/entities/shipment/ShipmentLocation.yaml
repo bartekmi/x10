@@ -1,12 +1,12 @@
 name: ShipmentLocation
 description: A particular stop in the life of a <Shipment> including the original and final <Location>'s
-defaultStringRepresentation: location
+defaultStringRepresentation: =location
 
 attributes:
   - name: role
     dataType: ShipmentLocationRole
     mandatory: true
-    readonly: true
+    readOnly: true
 
   - name: estimatedArrival
     dataType: Timestamp

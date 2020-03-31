@@ -50,8 +50,6 @@ namespace x10.model.metadata {
       }
     }
 
-    public readonly DataType DataType;
-    public readonly DataType SameAsDataType;
     public readonly DataType Integer;
     public readonly DataType Float;
     public readonly DataType String;
@@ -59,9 +57,7 @@ namespace x10.model.metadata {
     public readonly DataType Date;
     public readonly DataType Timestamp;
 
-
     public readonly List<DataType> All;
-
 
     private DataTypes() {
 
@@ -101,18 +97,14 @@ namespace x10.model.metadata {
           Description = "A unique point in time, expressed in UTC time",
           ParseFunction = (s) => DateTime.Parse(s),
         },
+        new DataType() {
+          Name = "Money",
+          Description = "Fixed-point currency",
+          ParseFunction = (s) => Double.Parse(s),
+          Examples = "12.30, -208.12, 0",
+        },
       };
 
-      // These are the "Special" data types
-      DataType = new DataType() {
-        Name = "DataType",
-        Description = "A 'Meta' data-type - expects the name of a Data Type",
-        ParseFunction = (s) => {
-          return All.FirstOrDefault(x => x.Name == s);
-        },
-        Examples = string.Join(", ", All.Select(x => x.Name)),
-      };
-      SameAsDataType = new DataType();
 
       // Constants for the "regular" data types
       Integer = Find("Integer");
@@ -124,7 +116,14 @@ namespace x10.model.metadata {
     }
 
     public DataType Find(string dataTypeName) {
-      return All.SingleOrDefault(x => x.Name == dataTypeName);
+      DataType type = All.SingleOrDefault(x => x.Name == dataTypeName);
+
+      // TODO This should be encapsulated in something like AllEntities. Benefits:
+      // 1. Speed
+      // 2. Better error robustness - e.g. what to do when type is duplicated
+      if (type == null)
+        type = ModelEnums.FirstOrDefault(x => x.Name == dataTypeName);
+      return type;
     }
 
     public void AddDataType(DataType customDataType) {
