@@ -23,156 +23,122 @@ namespace x10.compiler {
 
     [Fact]
     public void RehydrateAssociation() {
-      Entity building = new Entity() {
-        Name = "Building",
-      };
-      Association association = new Association() {
-        ReferencedEntityName = "Apartment",
-      };
-      building.Members.Add(association);
-      AddAttribute(association, "dataType", "Apartment");
+      Entity apartment = CompilePass1(@"name: Apartment");
+      Entity building = CompilePass1(@"
+name: Building
+associations:
+  - name: apartments
+    dataType: Apartment
+");
 
-      Entity apartment = new Entity() {
-        Name = "Apartment",
-      };
-
-      RunTest(new Entity[] { building, apartment });
+      CompilePass2(building, apartment);
       Assert.Same(apartment, building.Associations.Single().ReferencedEntity);
     }
 
     [Fact]
-    public void WrongDefaultValueType() {
-      Entity entity = new Entity() {
-        Name = "MyEntity",
-      };
-      X10RegularAttribute attribute = new X10RegularAttribute() {
-        Name = "MyBooleanAttribute",
-        DataTypeName = "Boolean",
-        DefaultValueAsString = "7",
-      };
-      AddAttribute(attribute, "dataType", "Boolean");
-      AddAttribute(attribute, "default", "7");
-
-      entity.Members.Add(attribute);
-
-      RunTest(new Entity[] { entity },
-        "Could not parse a(n) Boolean from '7' for attribute 'default'. Examples of valid data of this type: True, False", 10, 20);
-    }
-
-
-    [Fact]
     public void RehydrateInheritanceParent() {
-      Entity child = new Entity() {
-        Name = "Child",
-        InheritsFromName = "Parent",
-      };
-      AddAttribute(child, "inheritsFrom", "Parent");
+      Entity child = CompilePass1(@"{name: Child, inheritsFrom: Parent}");
+      Entity parent = CompilePass1(@"name: Parent");
 
-      Entity parent = new Entity() {
-        Name = "Parent",
-      };
-
-      RunTest(new Entity[] { child, parent });
+      CompilePass2(child, parent);
       Assert.Same(parent, child.InheritsFrom);
     }
 
     [Fact]
-    public void ReferenceNotFound() {
-      Entity entity = CreateEntityWithInheritsFrom("DoesNotExist");
-      RunTest(new Entity[] { entity }, "Entity 'DoesNotExist' not found", 10, 20);
+    public void WrongDefaultValueType() {
+      RunTest(@"
+name: Tmp
+attributes:
+  - name: myAttribute
+    dataType: Boolean
+    default: 7
+",
+        "Could not parse a(n) Boolean from '7' for attribute 'default'. Examples of valid data of this type: True, False", 6, 14);
+    }
+
+    [Fact]
+    public void InheritsFromNotFound() {
+      RunTest(@"
+name: Tmp
+inheritsFrom: DoesNotExist
+",
+        "Entity 'DoesNotExist' not found", 3, 15);
     }
 
     [Fact]
     public void MultipleReferencesFound() {
-      Entity entity = CreateEntityWithInheritsFrom("Duplicate");
-      Entity duplicate1 = new Entity() {
-        Name = "Duplicate",
-      };
-      Entity duplicate2 = new Entity() {
-        Name = "Duplicate",
-      };
+      Entity entity = CompilePass1(@"
+name: Ancestor
+inheritsFrom: Duplicate");
+      Entity duplicate1 = CompilePass1("name: Duplicate");
+      Entity duplicate2 = CompilePass1("name: Duplicate");
 
-      RunTest(new Entity[] { entity, duplicate1, duplicate2 },
-        "Multiple entities with the name 'Duplicate' exist", 10, 20);
+
+      RunTest("Multiple entities with the name 'Duplicate' exist", 3, 15,
+        entity, duplicate1, duplicate2);
     }
 
     [Fact]
     public void UniquenessOfEntityNames() {
-      Entity entity1 = CreateEntity("MyEntity");
-      Entity entityUnique = CreateEntity("Unique");
-      Entity entity2 = CreateEntity("MyEntity");
+      Entity duplicate1 = CompilePass1("name: Duplicate");
+      Entity unique = CompilePass1("name: Unique");
+      Entity duplicate2 = CompilePass1("name: Duplicate");
 
-      RunTest(new Entity[] { entity1, entityUnique, entity2 },
-        "The Entity name 'MyEntity' is not unique.", 10, 20);
+      RunTest("The Entity name 'Duplicate' is not unique.", 1, 7,
+        duplicate1, unique, duplicate2);
     }
 
     [Fact]
     public void UniquenessOfEnumNames() {
+      CompilePass1(@"
+name: Dummy
+enums:
+  - name: Duplicate
+    values: a, b, c
+  - name: Duplicate
+    values: d, e, f
+");
 
-      DataTypes.Singleton.AddModelEnum(CreateEnum("Duplicate"));
-      DataTypes.Singleton.AddModelEnum(CreateEnum("Unique"));
-      DataTypes.Singleton.AddModelEnum(CreateEnum("Duplicate"));
-
-      RunTest(new Entity[] {},
-        "The Enum name 'Duplicate' is not unique.", 10, 20);
+      RunTest("The Enum name 'Duplicate' is not unique.", 4, 11);
     }
 
     #region Utilities
 
-    private DataType CreateEnum(string name) {
-      DataType theEnum = new DataType() {
-        Name = name,
-      };
-      AddAttribute(theEnum, "name", name);
-      return theEnum;
-    }
+    private Entity CompilePass1(string yaml) {
+      // Parse
+      ParserYaml parser = new ParserYaml(_messages);
+      TreeNode rootNode = parser.ParseFromString(yaml);
+      if (rootNode == null)
+        throw new Exception("Unalbe to parse yaml from: " + yaml);
 
-    private Entity CreateEntity(string name) {
-      Entity entity = new Entity() {
-        Name = name,
-      };
+      rootNode.SetFileInfo("Tmp.yaml");
 
-      AddAttribute(entity, "name", name);
-
-      return entity;
-    }
-
-    private Entity CreateEntityWithInheritsFrom(string parentEntityName) {
-      Entity entity = new Entity() {
-        Name = "MyEntity",
-        InheritsFromName = parentEntityName,
-      };
-
-      AddAttribute(entity, "inheritsFrom", parentEntityName);
+      // Pass 1
+      AttributeReader attrReader = new AttributeReader(_messages);
+      EnumsCompiler enums = new EnumsCompiler(_messages, attrReader);
+      EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
+      Entity entity = pass1.CompileEntity(rootNode);
 
       return entity;
     }
 
-    private void AddAttribute(IAcceptsModelAttributeValues entity, string name, string value) {
-      TreeElement element = new TreeScalar(null) {
-        Start = new PositionMark() {
-          LineNumber = 10,
-          CharacterPosition = 20,
-        }
-      };
+    private void CompilePass2(params Entity[] entities) {
 
-      AppliesTo appliesTo = AppliesToHelper.GetForObject(entity);
-      entity.AttributeValues.Add(new ModelAttributeValue(element) {
-        Value = value,
-        Definition = ModelAttributeDefinitions.All
-          .Single(x => x.Name == name && x.AppliesToType(appliesTo)),
-      });
-    }
-
-    private void RunTest(IEnumerable<Entity> entities) {
+      // Pass 2
       AllEntities allEntities = new AllEntities(entities, _messages);
-      EntityCompilerPass2 compiler = new EntityCompilerPass2(_messages, allEntities);
-      compiler.CompileAllEntities();
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities);
+      pass2.CompileAllEntities();
+
       TestUtils.DumpMessages(_messages, _output);
     }
 
-    private void RunTest(IEnumerable<Entity> entities, string expectedErrorMessage, int expectedLine, int expectedChar) {
-      RunTest(entities);
+    private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
+      Entity entity = CompilePass1(yaml);
+      RunTest(expectedErrorMessage, expectedLine, expectedChar, entity);
+    }
+
+    private void RunTest(string expectedErrorMessage, int expectedLine, int expectedChar, params Entity[] entities) {
+      CompilePass2(entities);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
@@ -180,6 +146,7 @@ namespace x10.compiler {
       Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);
       Assert.Equal(expectedChar, message.TreeElement.Start.CharacterPosition);
     }
+
     #endregion
   }
 }

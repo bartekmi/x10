@@ -81,12 +81,24 @@ namespace x10.model.metadata {
       new ModelAttributeDefinition() {
         Name = "ui",
         Description = "The default UI element to render this type of item",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string value = scalarNode.Value.ToString();
           ModelValidationUtils.ValidateUiElementName(value, scalarNode, messages);
         }
+      },
+      new ModelAttributeDefinition() {
+        Name = "toolTip",
+        Description = "The default UI Tool Tipe for this type of item",
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        DataType = DataTypes.Singleton.String,
+      },
+      new ModelAttributeDefinition() {
+        Name = "applicableWhen",
+        Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
+        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        DataType = DataTypes.Singleton.String,
       },
 
       //============================================================================

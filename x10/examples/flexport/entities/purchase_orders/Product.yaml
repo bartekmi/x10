@@ -5,8 +5,8 @@ description: >
 attributes:
   - name: productName
     dataType: String
-  - name: SKU
-    description: 'Stock Keeping Unit' -- a unique product id within the <Company>
+  - name: sku
+    description: "'Stock Keeping Unit' -- a unique product id within the <Company>"
     dataType: String
 
 associations:

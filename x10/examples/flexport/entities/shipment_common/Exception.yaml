@@ -18,11 +18,12 @@ attributes:
 derivedAttributes:
   - name: timestampHuman
     dataType: String
+    formula: =ToHuman(timestamp)
 
 associations:
   - name: shipment
     dataType: Shipment
 
 enums:
-  - name: ExceptionType:
+  - name: ExceptionType
     values: cargoBreakdownDelay, cargoBumpedFromBookedFlight, missingCargo

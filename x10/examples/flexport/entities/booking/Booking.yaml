@@ -48,10 +48,6 @@ attributes:
     dataType: Boolean
     default: false
 
-  - name: cargoReadyDate
-    dataType: Date
-    mandatory: true
-
   - name: descriptionOfProducts
     dataType: String
     ui: TextArea
@@ -66,15 +62,15 @@ attributes:
 derivedAttributes:
   - name: isShipperBooking
     dataType: Boolean
-    function: =shipper == $user.company
+    formula: =shipper == $user.company
 
   - name: isConsigneeBooking
     dataType: Boolean
-    function: =consignee == $user.company
+    formula: =consignee == $user.company
 
   - name: requiresChineseProductDescription
     dataType: Boolean
-    function: =isShipperBooking && company.countryCode == 'CN'
+    formula: =isShipperBooking && company.countryCode == 'CN'
 
 
 enums:
@@ -108,17 +104,17 @@ associations:
     dataType: Port
   - name: cargo
     dataType: Cargo
-    ownedByThisEntity: true
+    owns: true
     mandatory: true
   - name: bookingHsCodes
     dataType: BookingHsCode
-    ownedByThisEntity: true
+    owns: true
     many: true
     mandatory: true
     applicableWhen: transportationMode != 'truck'
   - name: metadata
     dataType: MetadataValue
-    ownedByThisEntity: true
+    owns: true
     many: true
     ui: MetadataEditor
 
