@@ -33,7 +33,7 @@
 
                     <!-- Shipment Status/Exception type -->
                     <Row>
-                        <Icon icon"square_with_bubble"/>
+                        <Icon icon="square_with_bubble"/>
                         <shipment.status/>
                         <Bullet/>
                         <type/>

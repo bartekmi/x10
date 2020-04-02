@@ -62,7 +62,7 @@
 
 					<!-- TODO: Is there a way to do this in a type-checed way? -->
 					<Label row="0" column="0" mandatory="true"
-						text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`" mandatory="true"
+						text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`" 
 						toolTip="Please enter a short and precise description of this product"
 						/>
 					<Label row="0" column="1" mandatory="true"
@@ -98,4 +98,4 @@
 			</Row>
 		</RepellingRow>
 	</VerticalStackPanel>
-</Bookings>
+</BookingForm>
