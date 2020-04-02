@@ -5,7 +5,9 @@ using System.Text;
 using Xunit.Abstractions;
 
 using x10.parsing;
-using System.Linq;
+
+using Xunit;
+[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
 namespace x10 {
   public class TestUtils {
