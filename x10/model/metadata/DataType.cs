@@ -37,6 +37,19 @@ namespace x10.model.metadata {
     public override string ToString() {
       return "DataType: " + Name;
     }
+
+    // Enum-related functions. At some point, we may extract an derived class for this
+    public bool IsEnum { get { return EnumValues.Count > 0; } }
+    public IEnumerable<object> EnumValueValues {
+      get {
+        return EnumValues.Select(x => x.Value);
+      }
+    }
+
+    public bool HasEnumValue (object value) {
+      return EnumValues.Any(x => x.Value.Equals(value));
+    }
+
   }
 
   public class DataTypes {

@@ -18,6 +18,7 @@ namespace x10.compiler {
 
     public LargeDemoTest(ITestOutputHelper output) {
       _output = output;
+      DataTypes.Singleton.ModelEnums.Clear();
     }
 
     [Fact]

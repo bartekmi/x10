@@ -19,5 +19,9 @@ namespace x10.model.metadata {
     public EnumValue() {
       AttributeValues = new List<ModelAttributeValue>();
     }
+
+    public override string ToString() {
+      return Value.ToString();
+    }
   }
 }

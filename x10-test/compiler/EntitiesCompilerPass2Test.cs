@@ -19,6 +19,7 @@ namespace x10.compiler {
 
     public EntitiesCompilerPass2Test(ITestOutputHelper output) {
       _output = output;
+      DataTypes.Singleton.ModelEnums.Clear();
     }
 
     [Fact]
@@ -54,6 +55,43 @@ attributes:
     default: 7
 ",
         "Could not parse a(n) Boolean from '7' for attribute 'default'. Examples of valid data of this type: True, False", 6, 14);
+    }
+
+    [Fact]
+    public void WrongDefaultValueForEnum() {
+      RunTest(@"
+name: Tmp
+attributes:
+  - name: myAttribute
+    dataType: MyEnum
+    default: Four
+
+enums:
+  - name: MyEnum
+    values: One, Two, Three
+",
+        "'Four' is not a valid member of the Enumerated Type 'MyEnum'. Valid values are: One, Two, Three.", 6, 14);
+    }
+
+    [Fact]
+    public void CorrectDefaultValueForEnum() {
+      Entity entity = CompilePass1(@"
+name: Tmp
+description: Desc...
+attributes:
+  - name: myAttribute
+    description: Desc...
+    dataType: MyEnum
+    default: Three
+
+enums:
+  - name: MyEnum
+    description: Desc...
+    values: One, Two, Three
+");
+      CompilePass2(entity);
+
+      Assert.Empty(_messages.Messages);
     }
 
     [Fact]

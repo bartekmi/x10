@@ -32,7 +32,10 @@ namespace x10.compiler {
       if (enumHash == null)
         return;
 
-      DataType theEnum = new DataType();
+      DataType theEnum = new DataType() {
+        // Note that this assumes all enums are string based.
+        ParseFunction = (s) => s,
+      };
       DataTypes.Singleton.AddModelEnum(theEnum);
 
       // Extract the enum values

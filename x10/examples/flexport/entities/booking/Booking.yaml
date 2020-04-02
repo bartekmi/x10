@@ -33,8 +33,26 @@ attributes:
     default: false
     label: Shipment Type
     ui: BooleanViaButtons
-    ui.trueLabel: "LCL"
-    ui.falseLabel: "FCL"
+
+# TODO I can forsee many cases (such as this one) where we'd like to include specific 
+# UI paremeters in the entities definitions. The danger here is that this may tie
+# the Entity definition too closesly to a particular UI library definition (which would be bad)
+# So we must use semantic-level attributes, not UI-specific ones.
+# Having said that, one can imagine a generic definition of an abstract BooleanViaButtons component
+# which has a number of parameters - such as the ones below.
+# If that were the case, what's the best way to specify such parameters? 
+# 1) The dot notation is one option
+# 2) Another option (perhaps more clean) would be a has option:
+# ui: 
+#   element: BooleanViaButtons
+#   trueLabel: LCL
+#   falseLabel: FCL
+#
+# In that case, "ui: BooleanViaButons" becomes a shorthand for the above with all attributes 
+# set as their default values
+#
+#    ui.trueLabel: "LCL"
+#    ui.falseLabel: "FCL"
 
   - name: incoterms
     dataType: Incoterms
