@@ -3,10 +3,10 @@
         <!-- Header: Label, count, 'see all' -->
         <RepellingRow>
             <Row>
-                <Heading3 text="Priority & Bookmarked Shipments"/>
+                <Heading3 text="Priority &amp; Bookmarked Shipments"/>
                 <Pill text="$count"/>
             </Row>
-            <LinkButton text="See all" url="/shipments?priority=high&bookmarked=true"/>
+            <LinkButton text="See all" url="/shipments?priority=high&amp;bookmarked=true"/>
         </RepellingRow>
 
         <HorizontalDivider/>

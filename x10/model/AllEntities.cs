@@ -7,8 +7,8 @@ using x10.parsing;
 
 namespace x10.model {
   public class AllEntities {
-    private Dictionary<string, List<Entity>> _entitiesByName;
-    private MessageBucket _messages;
+    private readonly Dictionary<string, List<Entity>> _entitiesByName;
+    private readonly MessageBucket _messages;
 
     public AllEntities(IEnumerable<Entity> entities, MessageBucket messages) {
       // The reason the values are a list is to account for problems where multiple entities with
@@ -23,7 +23,7 @@ namespace x10.model {
       get { return _entitiesByName.Values.SelectMany(x => x);  } 
     }
 
-    public Entity FindEntityByNameWithError(string entityName, IAcceptsModelAttributeValues modelComponent, ModelAttributeValue attributeValue) {
+    public Entity FindEntityByNameWithError(string entityName, ModelAttributeValue attributeValue) {
       // Check if entity exists
       if (!_entitiesByName.TryGetValue(entityName, out List<Entity> entities)) {
         _messages.AddError(attributeValue.TreeElement,

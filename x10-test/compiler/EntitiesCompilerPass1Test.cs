@@ -6,9 +6,10 @@ using System.IO;
 using Xunit;
 using Xunit.Abstractions;
 
+using x10.parsing;
+using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
-using x10.parsing;
 
 namespace x10.compiler {
   public class EntitiesCompilerPass1Test {
@@ -21,7 +22,7 @@ namespace x10.compiler {
       _output = output;
 
       AttributeReader attrReader = new AttributeReader(_messages);
-      EnumsCompiler enumsCompiler = new EnumsCompiler(_messages, attrReader);
+      EnumsCompiler enumsCompiler = new EnumsCompiler(_messages, new AllEnums(_messages), attrReader);
       _compiler = new EntityCompilerPass1(_messages, enumsCompiler, attrReader);
     }
 

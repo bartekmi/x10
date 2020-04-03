@@ -16,13 +16,14 @@ namespace x10.compiler {
 
     private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
+    private readonly AllEnums _allEnums;
 
     public EntitiesCompilerPass2Test(ITestOutputHelper output) {
       _output = output;
-      DataTypes.Singleton.ModelEnums.Clear();
-    }
+      _allEnums = new AllEnums(_messages);
+  }
 
-    [Fact]
+  [Fact]
     public void RehydrateAssociation() {
       Entity apartment = CompilePass1(@"name: Apartment");
       Entity building = CompilePass1(@"
@@ -153,7 +154,7 @@ enums:
 
       // Pass 1
       AttributeReader attrReader = new AttributeReader(_messages);
-      EnumsCompiler enums = new EnumsCompiler(_messages, attrReader);
+      EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
       Entity entity = pass1.CompileEntity(rootNode);
 
@@ -164,7 +165,7 @@ enums:
 
       // Pass 2
       AllEntities allEntities = new AllEntities(entities, _messages);
-      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
       pass2.CompileAllEntities();
 
       TestUtils.DumpMessages(_messages, _output);

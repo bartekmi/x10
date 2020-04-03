@@ -25,9 +25,10 @@ namespace x10.compiler {
       List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath);
 
       // Pass 1
+      AllEnums allEnums = new AllEnums(Messages);
       List<Entity> entities = new List<Entity>();
       AttributeReader attrReader = new AttributeReader(Messages);
-      EnumsCompiler enums = new EnumsCompiler(Messages, attrReader);
+      EnumsCompiler enums = new EnumsCompiler(Messages, allEnums,attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(Messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
@@ -42,7 +43,7 @@ namespace x10.compiler {
 
       // Pass 2
       AllEntities allEntities = new AllEntities(entities, Messages);
-      EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, allEntities);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, allEntities, allEnums);
       pass2.CompileAllEntities();
 
       return entities;

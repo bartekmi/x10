@@ -4,15 +4,17 @@ using System.Text;
 
 using x10.parsing;
 using x10.model.metadata;
-using x10.model.definition;
+using x10.model;
 
 namespace x10.compiler {
   public class EnumsCompiler {
     private readonly MessageBucket _messages;
+    private readonly AllEnums _allEnums;
     private readonly AttributeReader _attrReader;
 
-    internal EnumsCompiler(MessageBucket messages, AttributeReader attrReader) {
+    internal EnumsCompiler(MessageBucket messages, AllEnums allEnums, AttributeReader attrReader) {
       _messages = messages;
+      _allEnums = allEnums;
       _attrReader = attrReader;
     }
 
@@ -32,11 +34,10 @@ namespace x10.compiler {
       if (enumHash == null)
         return;
 
-      DataType theEnum = new DataType() {
+      DataTypeEnum theEnum = new DataTypeEnum() {
         // Note that this assumes all enums are string based.
         ParseFunction = (s) => s,
       };
-      DataTypes.Singleton.AddModelEnum(theEnum);
 
       // Extract the enum values
       TreeNode enumValues = TreeUtils.GetMandatoryAttribute(enumHash, "values", _messages);
@@ -68,6 +69,8 @@ namespace x10.compiler {
       // This must go after extracting values because the default value is checked
       // for validity using the actual values
       _attrReader.ReadAttributes(enumRootNode, AppliesTo.EnumType, theEnum, "values");
+
+      _allEnums.Add(theEnum);
     }
   }
 }

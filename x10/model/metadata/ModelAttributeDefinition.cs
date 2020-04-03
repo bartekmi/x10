@@ -41,7 +41,7 @@ namespace x10.model.metadata {
     public DataType DataType { get; set; }
     public string Setter { get; set; }
     public Action<MessageBucket, TreeScalar, IAcceptsModelAttributeValues, AppliesTo> ValidationFunction { get; set; }
-    public Action<MessageBucket, AllEntities, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
+    public Action<MessageBucket, AllEntities, AllEnums, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
 
     // Derived
     public bool AppliesToType(AppliesTo type) {
@@ -133,11 +133,9 @@ namespace x10.model.metadata {
         
         // Entity name format validation is not needed, as it will be caught when no entity matches
         
-        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           Entity entity = (Entity)modelComponent;
-          entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName,
-            entity,
-            attributeValue);
+          entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName, attributeValue);
         },
       },
       new ModelAttributeDefinition() {
@@ -148,7 +146,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         AppliesTo = AppliesTo.Entity,
         DataType = DataTypes.Singleton.String,
 
-        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           // TODO: Validate the formula
         },
       },
@@ -214,15 +212,9 @@ Typical use would be if entities are going to be represented on a drop-down.",
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "DataTypeName",
-        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           X10Attribute attr = (X10Attribute)modelComponent;
-          attr.DataType = DataTypes.Singleton.Find(attr.DataTypeName);
-
-          if (attr.DataType == null) {
-            ModelAttributeValue dataType = AttributeUtils.FindAttribute(attr, "dataType");
-            messages.AddError(dataType.TreeElement,
-              string.Format("Could not find a data type called: '{0}'", attr.DataTypeName));
-          }
+          attr.DataType = allEnums.FindDataTypeByNameWithError(attr.DataTypeName, attributeValue);
         },
       },
       new ModelAttributeDefinition() {
@@ -232,7 +224,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         DataType = DataTypes.Singleton.String,
         Setter = "DefaultValueAsString",
 
-        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           X10RegularAttribute attr = (X10RegularAttribute)modelComponent;
           if (attr.DataType == null)
             return;
@@ -253,11 +245,11 @@ Typical use would be if entities are going to be represented on a drop-down.",
           // This is especially true since this code does not really belong with the 'default' atribute. Potentially, other fields
           // might have to conform to a data type
 
-          if (attr.DataType.IsEnum) {
-            if (!attr.DataType.HasEnumValue(attr.DefaultValue)) {
+          if (attr.DataType is DataTypeEnum enumType) {
+            if (!enumType.HasEnumValue(attr.DefaultValue)) {
               messages.AddError(defaultValue.TreeElement,
                 string.Format("'{0}' is not a valid member of the Enumerated Type '{1}'. Valid values are: {2}.",
-                attr.DefaultValue, attr.DataType.Name, string.Join(", ", attr.DataType.EnumValueValues)));
+                attr.DefaultValue, attr.DataType.Name, string.Join(", ", enumType.EnumValueValues)));
             }
           }
         },
@@ -284,11 +276,9 @@ Typical use would be if entities are going to be represented on a drop-down.",
         // Validation is not needed here, as incorrect values will be caught in the second pass
         // of the compilation process.
 
-        Pass2Action = (messages, allEntities, modelComponent, attributeValue) => {
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           Association association = (Association)modelComponent;
-          association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName,
-            association,
-            attributeValue);
+          association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName, attributeValue);
         },
       },
       new ModelAttributeDefinition() {
@@ -329,7 +319,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         DataType = DataTypes.Singleton.String,
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string defaultValue = scalarNode.Value.ToString();
-          DataType theEnum = (DataType)modelComponent;
+          DataTypeEnum theEnum = (DataTypeEnum)modelComponent;
           if (theEnum.EnumValues != null &&
               !theEnum.EnumValues.Any(x => x.Value.ToString() == defaultValue))
             messages.AddError(scalarNode,

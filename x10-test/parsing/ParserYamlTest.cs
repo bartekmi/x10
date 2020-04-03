@@ -5,7 +5,7 @@ using Xunit;
 namespace x10.parsing {
   public class ModelAttributeDefinitionValidatorTest {
 
-    private MessageBucket _messages = new MessageBucket();
+    private readonly MessageBucket _messages = new MessageBucket();
 
     [Fact]
     public void ParseValid() {

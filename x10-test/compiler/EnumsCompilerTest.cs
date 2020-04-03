@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.IO;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using x10.model.definition;
-using x10.model.metadata;
+using x10.model;
 using x10.parsing;
 
 namespace x10.compiler {
@@ -20,7 +17,7 @@ namespace x10.compiler {
     public EnumsCompilerTest(ITestOutputHelper output) {
       _output = output;
       AttributeReader attrReader = new AttributeReader(_messages);
-      _compiler = new EnumsCompiler(_messages, attrReader);
+      _compiler = new EnumsCompiler(_messages, new AllEnums(_messages), attrReader);
     }
 
     [Fact]

@@ -51,7 +51,7 @@
 			<CargoEditor/>
 		</FormSection>
 
-		<FormSection label="Products & Compliance">
+		<FormSection label="Products &amp; Compliance">
 			<List addItemLabel="Add row" path="bookingHsCodes">
 				<Grid>
 					<Grid.Columns>

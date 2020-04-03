@@ -7,7 +7,7 @@ namespace x10.parsing {
     public abstract TreeNode Parse(string filePath);
     public abstract string GetFileExtensionWithDot();
 
-    private MessageBucket _messages;
+    private readonly MessageBucket _messages;
 
     protected Parser(MessageBucket messages) {
       _messages = messages;
