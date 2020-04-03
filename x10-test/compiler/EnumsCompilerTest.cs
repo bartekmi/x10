@@ -49,7 +49,7 @@ name: Animal
 description: My favorit animals
 values: monkey, cat, Dog
 ",
-        "Invalid Enum value: 'Dog'. Must be lower-case camel values: e.g. 'male', 'awaitingApproval'. Numbers are also allowed.", 4, 9);
+        "Invalid Enum value: 'Dog'. Must be lower-cased camelCase or ALL_CAPS: e.g. 'male', 'awaitingApproval, ASAP'. Numbers are also allowed.", 4, 9);
     }
 
     #region Utilities

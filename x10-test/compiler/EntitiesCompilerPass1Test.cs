@@ -112,9 +112,10 @@ description: Description
 attributes:
   - name: myBoolean
     description: This is my boolean attribute
+    dataType: Boolean
     mandatory: 7
 ",
-        "For attribute 'mandatory', could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False", 7, 16);
+        "Error parsing attribute 'mandatory': could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False.", 8, 16);
     }
 
     [Fact]
@@ -123,7 +124,7 @@ attributes:
 name: tmp
 description: Description...
 ",
-        "Invalid Entity name: 'tmp'. Must be upper-cased camel-case: e.g. 'User', 'PurchaseOrder'. Numbers are also allowed.", 2, 7);
+        "Invalid Entity name: 'tmp'. Must be upper-cased CamelCase: e.g. 'User', 'PurchaseOrder'. Numbers are also allowed.", 2, 7);
     }
 
     [Fact]
@@ -146,7 +147,7 @@ attributes:
     description: Description...
     dataType: String
 ",
-        "Invalid Attribute name: 'MyAttribute'. Must be lower-case camel values: e.g. 'age', 'firstName'. Numbers are also allowed.", 6, 11);
+        "Invalid Attribute name: 'MyAttribute'. Must be lower-cased camelCase: e.g. 'age', 'firstName'. Numbers are also allowed.", 6, 11);
     }
 
     [Fact]
@@ -160,7 +161,7 @@ associations:
     description: Description...
     dataType: Blurg
 ",
-        "Invalid Association name: 'MyAssociation'. Must be lower-case camel values: e.g. 'sender', 'purchaseOrders'. Numbers are also allowed.", 6, 11);
+        "Invalid Association name: 'MyAssociation'. Must be lower-cased camelCase: e.g. 'sender', 'purchaseOrders'. Numbers are also allowed.", 6, 11);
     }
 
     [Fact]
@@ -175,7 +176,7 @@ enums:
     values:
       - value: one
 ",
-        "Invalid Enum name: 'myEnum'. Must be upper-cased camel-case: e.g. 'Gender', 'CalendarMonths', 'EnrollmentState'. Numbers are also allowed.", 6, 11);
+        "Invalid Enum name: 'myEnum'. Must be upper-cased CamelCase: e.g. 'Gender', 'CalendarMonths', 'EnrollmentState'. Numbers are also allowed.", 6, 11);
     }
 
     [Fact]
@@ -190,7 +191,7 @@ enums:
     values:
       - value: MyEnumValue
 ",
-        "Invalid Enum value: 'MyEnumValue'. Must be lower-case camel values: e.g. 'male', 'awaitingApproval'. Numbers are also allowed.", 9, 16);
+        "Invalid Enum value: 'MyEnumValue'. Must be lower-cased camelCase or ALL_CAPS: e.g. 'male', 'awaitingApproval, ASAP'. Numbers are also allowed.", 9, 16);
     }
 
     [Fact]
@@ -255,7 +256,7 @@ name: Tmp
 description: Description 1
 description: Description 2
 ",
-        "TODO", 3, 1);
+        "???", 3, 1);
     }
 
     private Entity RunTest(string yaml) {

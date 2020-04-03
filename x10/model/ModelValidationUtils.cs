@@ -10,10 +10,12 @@ namespace x10.model {
     private enum Style {
       UpperCamelCase,
       LowerCamelCase,
+      LowerCamelCaseOrAllCaps,
     }
 
     private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("^[A-Z][a-zA-Z0-9]+$");
     private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]+$");
+    private readonly static Regex ALL_CAPS = new Regex("^[A-Z0-9_]+$");
 
     public static bool ValidateEntityName(string entityName, TreeElement element, MessageBucket messages) {
       string examples = "'User', 'PurchaseOrder'";
@@ -41,29 +43,34 @@ namespace x10.model {
     }
 
     public static bool ValidateEnumValue(string enumValue, TreeElement element, MessageBucket messages) {
-      string examples = "'male', 'awaitingApproval'";
-      return Validate(Style.LowerCamelCase, enumValue, "Enum value", examples, element, messages);
+      string examples = "'male', 'awaitingApproval, ASAP'";
+      return Validate(Style.LowerCamelCaseOrAllCaps, enumValue, "Enum value", examples, element, messages);
     }
 
     private static bool Validate(Style style, string text, string type, string examples, TreeElement element, MessageBucket messages) {
-      Regex regex;
+      Regex[] regexes;
       string errorMessage;
 
       switch (style) {
         case Style.UpperCamelCase:
-          regex = UPPER_CASE_CAMEL_REGEX;
-          errorMessage = string.Format("Must be upper-cased camel-case: e.g. {0}. Numbers are also allowed.", examples);
+          regexes = new Regex[] { UPPER_CASE_CAMEL_REGEX };
+          errorMessage = string.Format("Must be upper-cased CamelCase: e.g. {0}. Numbers are also allowed.", examples);
           break;
         case Style.LowerCamelCase:
-          regex = LOWER_CASE_CAMEL_REGEX;
-          errorMessage = string.Format("Must be lower-case camel values: e.g. {0}. Numbers are also allowed.", examples);
+          regexes = new Regex[] { LOWER_CASE_CAMEL_REGEX };
+          errorMessage = string.Format("Must be lower-cased camelCase: e.g. {0}. Numbers are also allowed.", examples);
+          break;
+        case Style.LowerCamelCaseOrAllCaps:
+          regexes = new Regex[] { LOWER_CASE_CAMEL_REGEX, ALL_CAPS };
+          errorMessage = string.Format("Must be lower-cased camelCase or ALL_CAPS: e.g. {0}. Numbers are also allowed.", examples);
           break;
         default:
           throw new Exception("Unknown style: " + style);
       }
 
-      if (MatchesRegex(regex, text))
-        return true;
+      foreach (Regex regex in regexes)
+        if (MatchesRegex(regex, text))
+          return true;
 
       messages.AddError(element,
         string.Format("Invalid {0}: '{1}'. {2}", type, text, errorMessage));

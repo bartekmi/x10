@@ -34,7 +34,7 @@ attributes:
     label: Shipment Type
     ui: BooleanViaButtons
 
-# TODO I can forsee many cases (such as this one) where we'd like to include specific 
+# FUTURE I can forsee many cases (such as this one) where we'd like to include specific 
 # UI paremeters in the entities definitions. The danger here is that this may tie
 # the Entity definition too closesly to a particular UI library definition (which would be bad)
 # So we must use semantic-level attributes, not UI-specific ones.

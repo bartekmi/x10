@@ -62,12 +62,9 @@ namespace x10.compiler {
 
       // Attempt to parse the string attribute value according to its data type
       DataType dataType = attrDef.DataType;
-      object typedValue = dataType.Parse(scalarNode.Value.ToString());
-      if (typedValue == null) {
-        _messages.AddError(scalarNode, string.Format("For attribute '{0}', could not parse a(n) {1} from '{2}'. Examples of valid data of this type: {3}",
-          attrDef.Name, dataType.Name, scalarNode.Value, dataType.Examples));
+      object typedValue = dataType.Parse(scalarNode.Value.ToString(), _messages, scalarNode, attrDef.Name);
+      if (typedValue == null) 
         return;
-      }
 
       // If a setter has been provided, use it; 
       // Otherwise, strore the attribute value in a ModelAttributeValue instance

@@ -6,7 +6,7 @@
 		<Heading1 text="Create Booking"/>
 		<Divider/>
 		
-		<!-- TODO: Template area goes here-->
+		<!-- FUTURE: Template area goes here-->
 		<FormSection label="Shipment Name">
 			<name/>
 		</FormSection>
@@ -60,7 +60,7 @@
 					</Grid.Columns>
 					<!-- If rows not specified, assume all "auto" rows -->
 
-					<!-- TODO: Is there a way to do this in a type-checed way? -->
+					<!-- FUTURE: Is there a way to do this in a type-checed way? -->
 					<Label row="0" column="0" mandatory="true"
 						text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`" 
 						toolTip="Please enter a short and precise description of this product"
@@ -92,7 +92,7 @@
 		<RepellingRow>
 			<Text>* Required</Text>
 			<Row>
-				<LinkButton label="Delete draft" confirmTitle="Cancel Booking?" confirmMessage="TODO" confirmDoItMessage="TODO" confirmBailOutMessage="TODO" action="/bookings/${id}/delete" successUrl="/bookings"/>
+				<LinkButton label="Delete draft" confirmTitle="Cancel Booking?" confirmMessage="FUTURE" confirmDoItMessage="FUTURE" confirmBailOutMessage="FUTURE" action="/bookings/${id}/delete" successUrl="/bookings"/>
 				<FormButton label="Save draft" validate="false" action="/bookings/save_draft" successUrl="/bookings"/>
 				<FormButton label="Review booking" validate="true" action="/bookings/save_draft" successUrl="/bookings/${id}/review"/>
 			</Row>

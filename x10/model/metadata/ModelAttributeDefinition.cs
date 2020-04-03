@@ -147,7 +147,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         DataType = DataTypes.Singleton.String,
 
         Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
-          // TODO: Validate the formula
+          // FUTURE: Validate the formula
         },
       },
 
@@ -230,28 +230,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
             return;
 
           ModelAttributeValue defaultValue = AttributeUtils.FindAttribute(attr, "default");
-
-          attr.DefaultValue = attr.DataType.Parse(attr.DefaultValueAsString);
-          if (attr.DefaultValue == null) {
-            messages.AddError(defaultValue.TreeElement,
-              string.Format("Could not parse a(n) {0} from '{1}' for attribute 'default'. Examples of valid data of this type: {2}",
-              attr.DataType.Name, attr.DefaultValueAsString, attr.DataType.Examples));
-          }
-
-          // TODO: Consider moving this code to an appropriate Parse method for all enum types
-          // In that case, the Parse() method may also need to take a MessageBucket and return true/false to indicate
-          // if a message was added to the bucket.
-
-          // This is especially true since this code does not really belong with the 'default' atribute. Potentially, other fields
-          // might have to conform to a data type
-
-          if (attr.DataType is DataTypeEnum enumType) {
-            if (!enumType.HasEnumValue(attr.DefaultValue)) {
-              messages.AddError(defaultValue.TreeElement,
-                string.Format("'{0}' is not a valid member of the Enumerated Type '{1}'. Valid values are: {2}.",
-                attr.DefaultValue, attr.DataType.Name, string.Join(", ", enumType.EnumValueValues)));
-            }
-          }
+          attr.DefaultValue = attr.DataType.Parse(attr.DefaultValueAsString, messages, defaultValue.TreeElement, "default");
         },
       },
       new ModelAttributeDefinition() {
@@ -367,7 +346,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "IconName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();
-          // TODO - we probably need to introduce the concept of an icon library
+          // FUTURE - we probably need to introduce the concept of an icon library
         }
       },
     };

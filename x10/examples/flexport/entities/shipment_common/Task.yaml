@@ -21,10 +21,10 @@ attributes:
 derivedAttributes:
   - name: dueDateHuman
     dataType: String
-    formula: TODO
+    formula: =FUTURE
   - name: completeByHuman
     dataType: String
-    formula: TODO
+    formula: =FUTURE
 
 enums:
   - name: TaskStatus
@@ -32,9 +32,9 @@ enums:
   - name: TaskType
     values: 
       - value: customFileUploadTask
-        icon: TODO
-      - value: customTask
         icon: upload
+      - value: customTask
+        icon: task
       - value: completeOnboarding
         icon: human
       - value: payInvoice

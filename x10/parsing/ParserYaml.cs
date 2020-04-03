@@ -34,8 +34,7 @@ namespace x10.parsing {
         TreeNode treeRoot = ParseRecursive(document.RootNode);
         return treeRoot;
       } catch (YamlException e) {
-        // TODO exception may have nested exceptions with more info
-        AddError("Can't parse YAML file. Error: " + e.Message,
+        AddError("Can't parse YAML file. Error: " + ExceptionUtils.GetMessageRecursively(e),
           new TreeFileError(path) {
             Start = ToMark(e.Start),
             End = ToMark(e.End),

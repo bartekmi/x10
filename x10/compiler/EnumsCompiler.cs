@@ -34,10 +34,7 @@ namespace x10.compiler {
       if (enumHash == null)
         return;
 
-      DataTypeEnum theEnum = new DataTypeEnum() {
-        // Note that this assumes all enums are string based.
-        ParseFunction = (s) => s,
-      };
+      DataTypeEnum theEnum = new DataTypeEnum();
 
       // Extract the enum values
       TreeNode enumValues = TreeUtils.GetMandatoryAttribute(enumHash, "values", _messages);

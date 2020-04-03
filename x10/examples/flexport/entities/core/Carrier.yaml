@@ -6,8 +6,6 @@ attributes:
     dataType: String
     mandatory: true
 
-# TODO: Should carriers support multiple transport modes?
-
   - name: transportationMode
     dataType: TransportationMode
     mandatory: true

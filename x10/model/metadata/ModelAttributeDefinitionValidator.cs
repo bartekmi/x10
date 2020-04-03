@@ -55,7 +55,7 @@ namespace x10.model.metadata {
             Definition = definition,
           });
         } else {
-          // TODO: Validate type of setter
+          // FUTURE: Validate type of setter
         }
       }
     }

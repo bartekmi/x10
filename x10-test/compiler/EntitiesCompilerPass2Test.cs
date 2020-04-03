@@ -55,7 +55,7 @@ attributes:
     dataType: Boolean
     default: 7
 ",
-        "Could not parse a(n) Boolean from '7' for attribute 'default'. Examples of valid data of this type: True, False", 6, 14);
+        "Error parsing attribute 'default': could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False.", 6, 14);
     }
 
     [Fact]
@@ -65,13 +65,13 @@ name: Tmp
 attributes:
   - name: myAttribute
     dataType: MyEnum
-    default: Four
+    default: four
 
 enums:
   - name: MyEnum
-    values: One, Two, Three
+    values: one, two, three
 ",
-        "'Four' is not a valid member of the Enumerated Type 'MyEnum'. Valid values are: One, Two, Three.", 6, 14);
+        "Error parsing attribute 'default': 'four' is not a valid member of the Enumerated Type 'MyEnum'. Valid values are: one, two, three.", 6, 14);
     }
 
     [Fact]
@@ -83,12 +83,12 @@ attributes:
   - name: myAttribute
     description: Desc...
     dataType: MyEnum
-    default: Three
+    default: three
 
 enums:
   - name: MyEnum
     description: Desc...
-    values: One, Two, Three
+    values: one, two, three
 ");
       CompilePass2(entity);
 
