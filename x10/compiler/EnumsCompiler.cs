@@ -51,11 +51,13 @@ namespace x10.compiler {
         else if (enumValues is TreeScalar scalar) {
           string[] enumValuesArray = scalar.Value.ToString().Split(',');
           foreach (string enumValue in enumValuesArray) {
+            string enumValueTrimmed = enumValue.Trim();
             EnumValue simpleEnumValue = new EnumValue() {
-              Value = enumValue.Trim(),
+              Value = enumValueTrimmed,
             };
             theEnum.EnumValues.Add(simpleEnumValue);
-            // TODO: Validate the enum values names
+            // FUTURE: Report exact character position of bad enum name
+            ModelValidationUtils.ValidateEnumValue(enumValueTrimmed, scalar, _messages);
           }
         }
 

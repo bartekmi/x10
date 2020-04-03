@@ -42,6 +42,16 @@ default: cat
       Assert.Equal(0, _messages.Count);
     }
 
+    [Fact]
+    public void BadEnumValueName() {
+      RunTest(@"
+name: Animal
+description: My favorit animals
+values: monkey, cat, Dog
+",
+        "Invalid Enum value: 'Dog'. Must be lower-case camel values: e.g. 'male', 'awaitingApproval'. Numbers are also allowed.", 4, 9);
+    }
+
     #region Utilities
 
     private void RunTest(string yaml) {
