@@ -263,7 +263,7 @@ description: Description 2
       const string TMP_YAML_FILE = "Tmp.yaml";
       File.WriteAllText(TMP_YAML_FILE, yaml);
       ParserYaml parser = new ParserYaml(_messages);
-      TreeNode rootNode = parser.Parse(TMP_YAML_FILE);
+      TreeNode rootNode = (TreeNode)parser.Parse(TMP_YAML_FILE);
       rootNode.SetFileInfo(TMP_YAML_FILE);
       Assert.NotNull(rootNode);
 

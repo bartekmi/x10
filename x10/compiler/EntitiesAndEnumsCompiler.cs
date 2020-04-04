@@ -22,7 +22,7 @@ namespace x10.compiler {
 
       // Recursively parse entire directory
       Parser parser = new ParserYaml(Messages);
-      List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath);
+      List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath).Cast<TreeNode>().ToList();
 
       // Pass 1
       AllEnums allEnums = new AllEnums(Messages);

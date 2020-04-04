@@ -17,12 +17,12 @@ namespace x10.parsing {
 
     public TreeNode FindNode(string key) {
       TreeAttribute attribute = FindAttribute(key);
-      return attribute == null ? null : attribute.Value;
+      return attribute?.Value;
     }
 
     public object FindValue(string key) {
       TreeScalar scalar = FindNode(key) as TreeScalar;
-      return scalar == null ? null : scalar.Value;
+      return scalar?.Value;
     }
 
     public TreeSequence FindSequence(string key) {

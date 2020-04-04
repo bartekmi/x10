@@ -1,0 +1,40 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace x10.parsing {
+  public class XmlElement : XmlBase {
+    public string Name { get; set; }
+    public List<XmlAttribute> Attributes { get; private set; }
+    public List<XmlBase> Children { get; private set; }
+
+    public XmlElement() {
+      Attributes = new List<XmlAttribute>();
+      Children = new List<XmlBase>();
+    }
+
+    public void AddAttribute(XmlAttribute attribute) {
+      Attributes.Add(attribute);
+      attribute.Parent = this;
+    }
+
+    public void AddChild(XmlBase child) {
+      Children.Add(child);
+      child.Parent = this;
+    }
+
+    public XmlScalar FindAttributeScalar(string key) {
+      XmlAttribute attribute = FindAttribute(key);
+      return attribute?.Value;
+    }
+
+    public object FindAttributeValue(string key) {
+      XmlScalar scalar = FindAttributeScalar(key);
+      return scalar?.Value;
+    }
+
+    public XmlAttribute FindAttribute(string key) {
+      return Attributes.SingleOrDefault(x => x.Key == key);
+    }
+  }
+}
