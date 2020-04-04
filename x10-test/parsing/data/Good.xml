@@ -1,0 +1,7 @@
+﻿<Level1 attr1="value1" attr2="value2">
+  <SelfClosing attr="sc1"/>
+  <SelfClosing attr="sc2"/>
+  <Level2>
+    <Level3 attr3="3"/>
+  </Level2>
+</Level1>
