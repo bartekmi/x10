@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 namespace x10.parsing {
   public class XmlElement : XmlBase {
-    public string Name { get; set; }
+    public string Name { get; private set; }
     public List<XmlAttribute> Attributes { get; private set; }
-    public List<XmlBase> Children { get; private set; }
+    public List<XmlElement> Children { get; private set; }
 
-    public XmlElement() {
+    public XmlElement(string name) {
+      Name = name;
       Attributes = new List<XmlAttribute>();
-      Children = new List<XmlBase>();
+      Children = new List<XmlElement>();
     }
 
     public void AddAttribute(XmlAttribute attribute) {
@@ -18,7 +19,7 @@ namespace x10.parsing {
       attribute.Parent = this;
     }
 
-    public void AddChild(XmlBase child) {
+    public void AddChild(XmlElement child) {
       Children.Add(child);
       child.Parent = this;
     }
@@ -35,6 +36,10 @@ namespace x10.parsing {
 
     public XmlAttribute FindAttribute(string key) {
       return Attributes.SingleOrDefault(x => x.Key == key);
+    }
+
+    public override string ToString() {
+      return string.Format("<{0}>", Name);
     }
   }
 }

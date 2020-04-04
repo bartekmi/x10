@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 
 namespace x10.parsing {
-  public class ModelAttributeDefinitionValidatorTest {
+  public class ParserYamlTest {
 
     private readonly MessageBucket _messages = new MessageBucket();
 

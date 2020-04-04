@@ -19,10 +19,10 @@ namespace x10.parsing {
 
     public override IParseRoot Parse(string path) {
       using (StreamReader reader = new StreamReader(path))
-      return ParsePrivate(reader, path);
+        return ParsePrivate(reader, path);
     }
 
-    private XmlElement ParsePrivate(TextReader reader, string path) { 
+    private XmlElement ParsePrivate(TextReader reader, string path) {
       try {
         using (XmlTextReader xmlReader = new XmlTextReader(reader))
           return ParsePrivateThrowsException(xmlReader);
@@ -39,28 +39,45 @@ namespace x10.parsing {
     }
 
     private XmlElement ParsePrivateThrowsException(XmlTextReader reader) {
-      XmlElement treeRoot = null;
+      XmlElement xmlRoot = null;
       XmlElement current = null;
 
       while (reader.Read()) {
         switch (reader.NodeType) {
           case XmlNodeType.Element:
-            XmlElement newNode = new XmlElement();
+            XmlElement newElement = new XmlElement(reader.Name);
+            SetLocation(newElement, reader);
+
             if (current == null)
-              treeRoot = newNode;
+              xmlRoot = newElement;
             else
-              current.AddChild(newNode);
-            current = newNode;
+              current.AddChild(newElement);
+
+            if (!reader.IsEmptyElement)
+              current = newElement;
+
+            ReadAttributes(reader, newElement);
+
             break;
-          case XmlNodeType.Attribute:
+
+          case XmlNodeType.EndElement:
+            current = (XmlElement)current.Parent;
             break;
           default:
             break;
         }
       }
 
+      return xmlRoot;
+    }
 
-      return treeRoot;
+    private void ReadAttributes(XmlTextReader reader, XmlElement element) {
+      for (int ii = 0; ii < reader.AttributeCount; ii++) {
+        reader.MoveToAttribute(ii);
+        XmlAttribute newAttribute = new XmlAttribute(reader.Name, new XmlScalar(reader.Value));
+        element.AddAttribute(newAttribute);
+        SetLocation(newAttribute, reader);
+      }
     }
 
     public override string GetFileExtensionWithDot() {
