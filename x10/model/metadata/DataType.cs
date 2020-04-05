@@ -35,31 +35,30 @@ namespace x10.model.metadata {
       // Do nothing
     }
 
-    public object Parse(string text, MessageBucket messages, TreeElement treeElement, string attributeName) {
+    public object Parse(string text, MessageBucket messages, IParseElement element, string attributeName) {
       try {
         ParseResult result = ParseFunction(text);
 
         // A null parese result indicates a parse failure. A suitable message may or may not have been provided.
         if (result.Result == null)
-          AddParseError(text, messages, treeElement, attributeName, result.ParseErrorMessage);
+          AddParseError(text, messages, element, attributeName, result.ParseErrorMessage);
 
         return result.Result;
       } catch {
-        AddParseError(text, messages, treeElement, attributeName, null);
+        AddParseError(text, messages, element, attributeName, null);
         return null;
       }
     }
 
-    private void AddParseError(string text, MessageBucket messages, TreeElement treeElement, string attributeName, string errorMessage) {
+    private void AddParseError(string text, MessageBucket messages, IParseElement element, string attributeName, string errorMessage) {
       if (errorMessage == null)
         errorMessage = string.Format("could not parse a(n) {0} from '{1}'. Examples of valid data of this type: {2}.",
           Name, text, Examples);
 
-
       string completeMessage = string.Format("Error parsing attribute '{0}': {1}",
         attributeName, errorMessage);
 
-      messages.AddError(treeElement, completeMessage);
+      messages.AddError(element, completeMessage);
     }
 
     public override string ToString() {

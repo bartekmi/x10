@@ -85,7 +85,7 @@ namespace x10.model.metadata {
         
         Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           Entity entity = (Entity)modelComponent;
-          entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName, attributeValue);
+          entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName, attributeValue.TreeElement);
         },
       },
       new ModelAttributeDefinition() {
@@ -207,7 +207,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
         Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           Association association = (Association)modelComponent;
-          association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName, attributeValue);
+          association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName, attributeValue.TreeElement);
         },
       },
       new ModelAttributeDefinition() {

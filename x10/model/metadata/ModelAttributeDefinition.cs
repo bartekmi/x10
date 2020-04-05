@@ -40,7 +40,6 @@ namespace x10.model.metadata {
     public Action<MessageBucket, TreeScalar, IAcceptsModelAttributeValues, AppliesTo> ValidationFunction { get; set; }
     public Action<MessageBucket, AllEntities, AllEnums, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
 
-    // Derived
     public bool AppliesToType(AppliesTo type) {
       return (AppliesTo & type) > 0;
     }

@@ -6,6 +6,5 @@ using x10.model.definition;
 
 namespace x10.ui.composition {
   public class UiChildModelReference : UiChild {
-    public Member ModelMember { get; set; }
   }
 }

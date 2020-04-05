@@ -23,16 +23,16 @@ namespace x10.model {
       get { return _entitiesByName.Values.SelectMany(x => x);  } 
     }
 
-    public Entity FindEntityByNameWithError(string entityName, ModelAttributeValue attributeValue) {
+    public Entity FindEntityByNameWithError(string entityName, IParseElement parseElement) {
       // Check if entity exists
       if (!_entitiesByName.TryGetValue(entityName, out List<Entity> entities)) {
-        _messages.AddError(attributeValue.TreeElement,
+        _messages.AddError(parseElement,
           string.Format("Entity '{0}' not found", entityName));
         return null;
       }
 
       if (entities.Count > 1) {
-        _messages.AddError(attributeValue.TreeElement,
+        _messages.AddError(parseElement,
           string.Format("Multiple entities with the name '{0}' exist", entityName));
         return null;
       }

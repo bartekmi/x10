@@ -67,7 +67,6 @@ namespace x10.compiler {
         return;
 
       // If a setter has been provided, use it; 
-      // Otherwise, strore the attribute value in a ModelAttributeValue instance
       if (attrDef.Setter != null) {
         Type modelComponentType = modelComponent.GetType();
         PropertyInfo info = attrDef.GetPropertyInfo(modelComponentType);

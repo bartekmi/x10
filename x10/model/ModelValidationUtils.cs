@@ -17,37 +17,37 @@ namespace x10.model {
     private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]+$");
     private readonly static Regex ALL_CAPS = new Regex("^[A-Z0-9_]+$");
 
-    public static bool ValidateEntityName(string entityName, TreeElement element, MessageBucket messages) {
+    public static bool ValidateEntityName(string entityName, IParseElement element, MessageBucket messages) {
       string examples = "'User', 'PurchaseOrder'";
       return Validate(Style.UpperCamelCase, entityName, "Entity name", examples, element, messages);
     }
 
-    public static bool ValidateUiElementName(string uiElementName, TreeElement element, MessageBucket messages) {
+    public static bool ValidateUiElementName(string uiElementName, IParseElement element, MessageBucket messages) {
       string examples = "'DropDown', 'TextArea'";
       return Validate(Style.UpperCamelCase, uiElementName, "UI Element name", examples, element, messages);
     }
 
-    public static bool ValidateAttributeName(string attributeName, TreeElement element, MessageBucket messages) {
+    public static bool ValidateAttributeName(string attributeName, IParseElement element, MessageBucket messages) {
       string examples = "'age', 'firstName'";
       return Validate(Style.LowerCamelCase, attributeName, "Attribute name", examples, element, messages);
     }
 
-    public static bool ValidateAssociationName(string associationName, TreeElement element, MessageBucket messages) {
+    public static bool ValidateAssociationName(string associationName, IParseElement element, MessageBucket messages) {
       string examples = "'sender', 'purchaseOrders'";
       return Validate(Style.LowerCamelCase, associationName, "Association name", examples, element, messages);
     }
 
-    public static bool ValidateEnumName(string enumName, TreeElement element, MessageBucket messages) {
+    public static bool ValidateEnumName(string enumName, IParseElement element, MessageBucket messages) {
       string examples = "'Gender', 'CalendarMonths', 'EnrollmentState'";
       return Validate(Style.UpperCamelCase, enumName, "Enum name", examples, element, messages);
     }
 
-    public static bool ValidateEnumValue(string enumValue, TreeElement element, MessageBucket messages) {
+    public static bool ValidateEnumValue(string enumValue, IParseElement element, MessageBucket messages) {
       string examples = "'male', 'awaitingApproval, ASAP'";
       return Validate(Style.LowerCamelCaseOrAllCaps, enumValue, "Enum value", examples, element, messages);
     }
 
-    private static bool Validate(Style style, string text, string type, string examples, TreeElement element, MessageBucket messages) {
+    private static bool Validate(Style style, string text, string type, string examples, IParseElement element, MessageBucket messages) {
       Regex[] regexes;
       string errorMessage;
 
