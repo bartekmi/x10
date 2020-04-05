@@ -25,21 +25,21 @@ namespace x10.parsing {
       Messages.Clear();
     }
 
-    public void AddError(IParseRoot element, string message) {
+    public void AddError(IParseElement element, string message) {
       AddMessage(CompileMessageSeverity.Error, element, message);
     }
 
-    public void AddWarning(IParseRoot element, string message) {
+    public void AddWarning(IParseElement element, string message) {
       AddMessage(CompileMessageSeverity.Warning, element, message);
     }
 
-    public void AddInfo(IParseRoot element, string message) {
+    public void AddInfo(IParseElement element, string message) {
       AddMessage(CompileMessageSeverity.Info, element, message);
     }
 
-    public void AddMessage(CompileMessageSeverity severity, IParseRoot element, string message) {
+    public void AddMessage(CompileMessageSeverity severity, IParseElement element, string message) {
       Add(new CompileMessage() {
-        TreeElement = element,
+        ParseElement = element,
         Message = message,
         Severity = severity,
       });

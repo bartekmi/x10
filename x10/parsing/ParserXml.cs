@@ -17,7 +17,7 @@ namespace x10.parsing {
         return ParsePrivate(reader, null);
     }
 
-    public override IParseRoot Parse(string path) {
+    public override IParseElement Parse(string path) {
       using (StreamReader reader = new StreamReader(path))
         return ParsePrivate(reader, path);
     }

@@ -1,5 +1,5 @@
 namespace x10.parsing {
-  public abstract class TreeElement : IParseRoot {
+  public abstract class TreeElement : IParseElement {
     private FileInfo _fileInfo;
     public TreeElement Parent { get; internal set; }
     public PositionMark Start { get; set; }

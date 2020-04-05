@@ -8,10 +8,10 @@ namespace x10.parsing {
   public class CompileMessage {
     public string Message { get; set; }
     public CompileMessageSeverity Severity { get; set; }
-    public IParseRoot TreeElement { get; set; }
+    public IParseElement ParseElement { get; set; }
 
     public override string ToString() {
-      return string.Format("{0}:{1}:{2} - {3}: {4}", TreeElement?.FileInfo?.FilePath, TreeElement?.Start?.LineNumber, TreeElement?.Start?.CharacterPosition, Severity, Message);
+      return string.Format("{0}:{1}:{2} - {3}: {4}", ParseElement?.FileInfo?.FilePath, ParseElement?.Start?.LineNumber, ParseElement?.Start?.CharacterPosition, Severity, Message);
     }
   }
 }

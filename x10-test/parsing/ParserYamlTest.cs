@@ -61,10 +61,10 @@ namespace x10.parsing {
       Assert.Equal(CompileMessageSeverity.Error, error.Severity);
       Assert.Equal("Can't parse YAML file. Error: (Line: 4, Col: 1, Idx: 35) - (Line: 4, Col: 1, Idx: 35): While scanning a simple key, could not find expected ':'.", error.Message);
 
-      Assert.Equal(4, error.TreeElement.Start.LineNumber);
-      Assert.Equal(1, error.TreeElement.Start.CharacterPosition);
-      Assert.Equal(4, error.TreeElement.End.LineNumber);
-      Assert.Equal(1, error.TreeElement.End.CharacterPosition);
+      Assert.Equal(4, error.ParseElement.Start.LineNumber);
+      Assert.Equal(1, error.ParseElement.Start.CharacterPosition);
+      Assert.Equal(4, error.ParseElement.End.LineNumber);
+      Assert.Equal(1, error.ParseElement.End.CharacterPosition);
     }
 
     // Just leaving this here as an example of how to use [Theory]

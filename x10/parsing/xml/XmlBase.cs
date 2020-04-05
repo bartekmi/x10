@@ -1,5 +1,5 @@
 namespace x10.parsing {
-  public abstract class XmlBase : IParseRoot {
+  public abstract class XmlBase : IParseElement {
     private FileInfo _fileInfo;
     public XmlBase Parent { get; internal set; }
     public PositionMark Start { get; set; }

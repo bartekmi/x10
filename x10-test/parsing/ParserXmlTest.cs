@@ -94,8 +94,8 @@ This is some gibberish - definitely <not> XML!!!
       CompileMessage error = _messages.Messages.Single();
 
       Assert.Equal(expectedError, error.Message);
-      Assert.Equal(line, error.TreeElement.Start.LineNumber);
-      Assert.Equal(character, error.TreeElement.Start.CharacterPosition);
+      Assert.Equal(line, error.ParseElement.Start.LineNumber);
+      Assert.Equal(character, error.ParseElement.Start.CharacterPosition);
     }
 
     #region Utilities

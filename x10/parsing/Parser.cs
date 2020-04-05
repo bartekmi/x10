@@ -4,7 +4,7 @@ using System.IO;
 
 namespace x10.parsing {
   public abstract class Parser {
-    public abstract IParseRoot Parse(string filePath);
+    public abstract IParseElement Parse(string filePath);
     public abstract string GetFileExtensionWithDot();
 
     private readonly MessageBucket _messages;
@@ -13,20 +13,20 @@ namespace x10.parsing {
       _messages = messages;
     }
 
-    public List<IParseRoot> RecursivelyParseDirectory(string directoryPath) {
-      List<IParseRoot> parsed = new List<IParseRoot>();
+    public List<IParseElement> RecursivelyParseDirectory(string directoryPath) {
+      List<IParseElement> parsed = new List<IParseElement>();
 
       RecursivelyParseDirectory(parsed, directoryPath);
 
       return parsed;
     }
 
-    private void RecursivelyParseDirectory(List<IParseRoot> parsed, string dirPath) {
+    private void RecursivelyParseDirectory(List<IParseElement> parsed, string dirPath) {
       foreach (string path in Directory.EnumerateFiles(dirPath)) {
         if (!path.EndsWith(GetFileExtensionWithDot()))
           continue;
 
-        IParseRoot root = Parse(path);
+        IParseElement root = Parse(path);
         if (root == null)
           continue;
 
@@ -38,15 +38,15 @@ namespace x10.parsing {
         RecursivelyParseDirectory(parsed, childDirPath);
     }
 
-    protected void AddError(string message, IParseRoot treeElement) {
+    protected void AddError(string message, IParseElement treeElement) {
       _messages.AddError(treeElement, message);
     }
 
-    protected void AddWarning(string message, IParseRoot treeElement) {
+    protected void AddWarning(string message, IParseElement treeElement) {
       _messages.AddWarning(treeElement, message);
     }
 
-    protected void AddInfo(string message, IParseRoot treeElement) {
+    protected void AddInfo(string message, IParseElement treeElement) {
       _messages.AddInfo(treeElement, message);
     }
   }

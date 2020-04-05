@@ -19,7 +19,7 @@ namespace x10.parsing {
         return ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
     }
 
-    public override IParseRoot Parse(string path) {
+    public override IParseElement Parse(string path) {
       return ParsePrivate(() => YamlUtils.ReadYaml(path), path);
     }
 

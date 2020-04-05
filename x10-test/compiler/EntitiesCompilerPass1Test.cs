@@ -279,8 +279,8 @@ description: Description 2
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
 
-      Assert.Equal(expectedLine, message.TreeElement.Start.LineNumber);
-      Assert.Equal(expectedChar, message.TreeElement.Start.CharacterPosition);
+      Assert.Equal(expectedLine, message.ParseElement.Start.LineNumber);
+      Assert.Equal(expectedChar, message.ParseElement.Start.CharacterPosition);
     }
   }
 }
