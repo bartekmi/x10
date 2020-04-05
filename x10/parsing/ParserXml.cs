@@ -27,7 +27,7 @@ namespace x10.parsing {
         using (XmlTextReader xmlReader = new XmlTextReader(reader))
           return ParsePrivateThrowsException(xmlReader);
       } catch (XmlException e) {
-        AddError("Can't parse YAML file. Error: " + ExceptionUtils.GetMessageRecursively(e),
+        AddError("Can't parse XML file. Error: " + ExceptionUtils.GetMessageRecursively(e),
           new TreeFileError(path) {
             Start = new PositionMark() {
               LineNumber = e.LineNumber,

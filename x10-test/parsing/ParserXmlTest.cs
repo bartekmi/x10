@@ -1,16 +1,24 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+
 using Xunit;
+using Xunit.Abstractions;
 
 namespace x10.parsing {
   public class ParserXmlTest {
 
+    private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
+    private readonly ParserXml _parser;
+
+    public ParserXmlTest(ITestOutputHelper output) {
+      _output = output;
+      _parser = new ParserXml(_messages);
+    }
 
     [Fact]
     public void ParseValid() {
-      Parser parser  = new ParserXml(_messages);
-      XmlElement root = (XmlElement)parser.Parse("../../../parsing/data/Good.xml");
+      XmlElement root = (XmlElement)_parser.Parse("../../../parsing/data/Good.xml");
 
       Assert.True(_messages.IsEmpty);
 
@@ -37,6 +45,60 @@ namespace x10.parsing {
       VerifyAttribute(level3, "attr3", "3", 5, 13);
     }
 
+    [Fact]
+    public void ParseMissingClosingTag() {
+      RunTest(@"
+<Level1>
+  <Level2/>
+", "Can't parse XML file. Error: Unexpected end of file has occurred. The following elements are not closed: Level1. Line 4, position 1.", 4, 1);
+    }
+
+    [Fact]
+    public void ParseWrongClosingTag() {
+      RunTest(@"
+<Level1>
+  <Level2/>
+</BadTag>
+", "Can't parse XML file. Error: The 'Level1' start tag on line 2 position 2 does not match the end tag of 'BadTag'. Line 4, position 3.", 4, 3);
+    }
+
+    [Fact]
+    public void ParseMissingClosingAngleBracket() {
+      RunTest(@"
+<Level1>
+  <Level2
+</Level1>
+", "Can't parse XML file. Error: Name cannot begin with the '<' character, hexadecimal value 0x3C. Line 4, position 1.", 4, 1);
+    }
+
+    [Fact]
+    public void ParseCompleteGibberish() {
+      RunTest(@"
+This is some gibberish - definitely <not> XML!!!
+", "Can't parse XML file. Error: Data at the root level is invalid. Line 2, position 1.", 2, 1);
+    }
+
+    [Fact]
+    public void ParseAmpersand() {
+      RunTest(@"
+<Level1>
+  <Level2 attr=""this & that""/>
+</Level1>
+", "Can't parse XML file. Error: An error occurred while parsing EntityName. Line 3, position 23.", 3, 23);
+    }
+
+    private void RunTest(string xml, string expectedError, int line, int character) {
+      _parser.ParseFromString(xml);
+
+      TestUtils.DumpMessages(_messages, _output);
+      CompileMessage error = _messages.Messages.Single();
+
+      Assert.Equal(expectedError, error.Message);
+      Assert.Equal(line, error.TreeElement.Start.LineNumber);
+      Assert.Equal(character, error.TreeElement.Start.CharacterPosition);
+    }
+
+    #region Utilities
     private void VerifyElement(XmlElement element, string name, int attrCount, int childCount, int line, int character) {
       Assert.Equal(name, element.Name);
       Assert.Equal(attrCount, element.Attributes.Count);
@@ -56,5 +118,6 @@ namespace x10.parsing {
         Assert.Equal(keyLine, attribute.Start.LineNumber);
         Assert.Equal(keyChar, attribute.Start.CharacterPosition);
     }
+    #endregion
   }
 }
