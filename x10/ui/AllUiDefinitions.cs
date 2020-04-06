@@ -7,33 +7,44 @@ using x10.ui.metadata;
 
 namespace x10.model {
   public class AllUiDefinitions {
-    private readonly Dictionary<string, List<UiDefinition>> _definitionsByName;
+    private readonly Dictionary<string, List<UiDefinition>> _uiDefinitionsByName;
     private readonly MessageBucket _messages;
+    private readonly UiLibrary[] _libraries;
 
-    public AllUiDefinitions(IEnumerable<UiDefinition> definitions, MessageBucket messages) {
-      // The reason the values are a list is to account for problems where multiple entities with
+    public AllUiDefinitions(MessageBucket messages, IEnumerable<UiDefinition> components, params UiLibrary[] libraries) {
+      // The reason the values are a list is to account for problems where multiple UI components with
       // the same name have been defined 
-      var entitiesGroupedByName = definitions.GroupBy(x => x.Name);
-      _definitionsByName = entitiesGroupedByName.ToDictionary(g => g.Key, g => new List<UiDefinition>(g));
+      var componentsGroupedByName = components.GroupBy(x => x.Name);
+      _uiDefinitionsByName = componentsGroupedByName.ToDictionary(g => g.Key, g => new List<UiDefinition>(g));
 
       _messages = messages;
+      _libraries = libraries;
     }
 
-    public IEnumerable<UiDefinition> All { 
-      get { return _definitionsByName.Values.SelectMany(x => x);  } 
+    public IEnumerable<UiDefinition> All {
+      get { return _uiDefinitionsByName.Values.SelectMany(x => x); }
     }
 
-    public UiDefinition FindDefinitionByNameWithError(string entityName, IParseElement parseElement) {
-      // Check if entity exists
-      if (!_definitionsByName.TryGetValue(entityName, out List<UiDefinition> definitions)) {
+    public UiDefinition FindDefinitionByNameWithError(string componentName, IParseElement parseElement) {
+      // FUTURE: At some point, we'll have to worry about name spaces and name collisions. We are not
+      // there yet.
+
+      foreach (UiLibrary library in _libraries) {
+        UiDefinition definition = library.FindComponentByName(componentName);
+        if (definition != null)
+          return definition;
+      }
+
+      // Check if component exists
+      if (!_uiDefinitionsByName.TryGetValue(componentName, out List<UiDefinition> definitions)) {
         _messages.AddError(parseElement,
-          string.Format("Entity '{0}' not found", entityName));
+          string.Format("UI Component '{0}' not found", componentName));
         return null;
       }
 
       if (definitions.Count > 1) {
         _messages.AddError(parseElement,
-          string.Format("Multiple entities with the name '{0}' exist", entityName));
+          string.Format("Multiple UI Components with the name '{0}' exist", componentName));
         return null;
       }
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using x10.parsing;
 using x10.model.metadata;
-using x10.ui.composition;
 using x10.model;
+using x10.ui.composition;
+using x10.ui.metadata;
 
-namespace x10.ui.metadata {
+namespace x10.compiler {
 
   public static class UiAttributeDefinitions {
 
