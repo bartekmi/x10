@@ -84,7 +84,7 @@ namespace x10.compiler {
         return dataModel;
 
 
-      XmlBase pathScalar = UiAttributeUtils.FindAttribute(child, "path").XmlBase;
+      XmlScalar pathScalar = UiAttributeUtils.FindAttribute(child, "path").XmlScalar;
 
       string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
 
@@ -106,7 +106,7 @@ namespace x10.compiler {
       return dataModel;
     }
 
-    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase pathScalar) {
+    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlScalar pathScalar) {
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
         _messages.AddError(pathScalar,

@@ -19,7 +19,6 @@ namespace x10.ui.metadata {
   public abstract class UiAttributeDefinition {
     public string Name { get; set; }
     public string Description { get; set; }
-    public DataType DataType { get; set; }
 
     public UiAppliesTo AppliesTo { get; set; }
 

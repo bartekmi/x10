@@ -6,5 +6,6 @@ using x10.model.metadata;
 
 namespace x10.ui.metadata {
   public class UiAttributeDefinitionPrimitive : UiAttributeDefinition {
+    public DataType DataType { get; set; }
   }
 }

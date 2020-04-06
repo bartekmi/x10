@@ -10,10 +10,10 @@ namespace x10.ui.composition {
     public UiAttributeDefinition Definition { get; set; }
     public object Value { get;set; }
 
-    public XmlBase XmlBase { get; set; }
+    public XmlScalar XmlScalar { get; set; }
 
-    public UiAttributeValue(XmlBase xmlBase) {
-      XmlBase = xmlBase;
+    public UiAttributeValue(XmlScalar xmlScalar) {
+      XmlScalar = xmlScalar;
     }
 
     public override string ToString() {

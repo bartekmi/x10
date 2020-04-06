@@ -44,11 +44,18 @@ namespace x10.compiler {
         return;
       }
 
-      // Attempt to parse the string attribute value according to its data type
-      DataType dataType = attrDef.DataType;
-      object typedValue = dataType.Parse(attrNode.Value.ToString(), _messages, attrNode.Value, attrDef.Name);
-      if (typedValue == null)
-        return;
+      object typedValue;
+      if (attrDef is UiAttributeDefinitionPrimitive attrPrimitive) {
+        // Attempt to parse the string attribute value according to its data type
+        DataType dataType = attrPrimitive.DataType;
+        typedValue = dataType.Parse(attrNode.Value.ToString(), _messages, attrNode.Value, attrDef.Name);
+        if (typedValue == null)
+          return;
+      } else if (attrDef is UiAttributeDefinitionComplex attrComplex) {
+        // TODO... Not yet sure if/how we'll handle complex attributes at this level
+        throw new NotImplementedException();
+      } else
+        throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
 
       // If a setter has been provided, use it; 
       if (attrDef.Setter != null) {

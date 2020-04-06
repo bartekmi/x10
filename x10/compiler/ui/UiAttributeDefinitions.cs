@@ -80,7 +80,7 @@ namespace x10.compiler {
         DataType = DataTypes.Singleton.String,
         Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
           UiChild uiChild = (UiChild)uiComponent;
-          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
+          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlScalar);
         },
       },
       new UiAttributeDefinitionPrimitive() {
@@ -114,7 +114,7 @@ namespace x10.compiler {
         DataType = DataTypes.Singleton.String,
         Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
           UiChild uiChild = (UiChild)uiComponent;
-          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
+          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlScalar);
         },
       },
     };
