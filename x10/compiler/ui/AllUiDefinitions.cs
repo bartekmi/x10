@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 
 using x10.parsing;
+using x10.ui.composition;
 using x10.ui.metadata;
 
-namespace x10.model {
+namespace x10.compiler {
   public class AllUiDefinitions {
-    private readonly Dictionary<string, List<UiDefinition>> _uiDefinitionsByName;
+    private readonly Dictionary<string, List<UiDefinitionX10>> _uiDefinitionsByName;
     private readonly MessageBucket _messages;
     private readonly UiLibrary[] _libraries;
 
-    public AllUiDefinitions(MessageBucket messages, IEnumerable<UiDefinition> components, params UiLibrary[] libraries) {
+    public AllUiDefinitions(MessageBucket messages, IEnumerable<UiDefinitionX10> components, params UiLibrary[] libraries) {
       // The reason the values are a list is to account for problems where multiple UI components with
       // the same name have been defined 
       var componentsGroupedByName = components.GroupBy(x => x.Name);
-      _uiDefinitionsByName = componentsGroupedByName.ToDictionary(g => g.Key, g => new List<UiDefinition>(g));
+      _uiDefinitionsByName = componentsGroupedByName.ToDictionary(g => g.Key, g => new List<UiDefinitionX10>(g));
 
       _messages = messages;
       _libraries = libraries;
     }
 
-    public IEnumerable<UiDefinition> All {
+    public IEnumerable<UiDefinitionX10> All {
       get { return _uiDefinitionsByName.Values.SelectMany(x => x); }
     }
 
@@ -36,7 +37,7 @@ namespace x10.model {
       }
 
       // Check if component exists
-      if (!_uiDefinitionsByName.TryGetValue(componentName, out List<UiDefinition> definitions)) {
+      if (!_uiDefinitionsByName.TryGetValue(componentName, out List<UiDefinitionX10> definitions)) {
         _messages.AddError(parseElement,
           string.Format("UI Component '{0}' not found", componentName));
         return null;
@@ -49,6 +50,17 @@ namespace x10.model {
       }
 
       return definitions.Single();
+    }
+
+    internal void UiComponentUniquenessCheck() {
+      foreach (var definitions in _uiDefinitionsByName.Where(x => x.Value.Count() > 1)) {
+        foreach (UiDefinitionX10 definition in definitions.Value) {
+          UiAttributeValue attribute = UiAttributeUtils.FindAttribute(definition, UiAttributeDefinitions.ELEMENT_NAME);
+          _messages.AddError(attribute.XmlBase,
+            String.Format("The UI Component name '{0}' is not unique.", definitions.Key));
+        }
+
+      }
     }
   }
 }

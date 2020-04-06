@@ -6,6 +6,7 @@ using x10.model.definition;
 using x10.parsing;
 
 namespace x10.compiler {
+  // TODO: follow the pattern of UI - move this into the "All" containers
   internal static class UniquenessChecker {
     internal static void Check(string uniqueAttribute,
       IEnumerable<IAcceptsModelAttributeValues> elements,

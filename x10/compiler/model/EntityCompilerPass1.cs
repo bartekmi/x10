@@ -38,7 +38,7 @@ namespace x10.compiler {
       if (attributes != null) {
         foreach (TreeNode attribute in attributes.Children) {
           X10Attribute x10Attribute = new X10RegularAttribute();
-          entity.Members.Add(x10Attribute);
+          entity.AddMembers(x10Attribute);
           _attrReader.ReadAttributes(attribute, AppliesTo.Attribute, x10Attribute);
         }
       }
@@ -48,7 +48,7 @@ namespace x10.compiler {
       if (derivedAttributes != null) {
         foreach (TreeNode attribute in derivedAttributes.Children) {
           X10Attribute x10Attribute = new X10DerivedAttribute();
-          entity.Members.Add(x10Attribute);
+          entity.AddMembers(x10Attribute);
           _attrReader.ReadAttributes(attribute, AppliesTo.DerivedAttribute, x10Attribute);
         }
       }
@@ -58,7 +58,7 @@ namespace x10.compiler {
       if (associations != null) {
         foreach (TreeNode attribute in associations.Children) {
           Association association = new Association();
-          entity.Members.Add(association);
+          entity.AddMembers(association);
           _attrReader.ReadAttributes(attribute, AppliesTo.Association, association);
         }
       }

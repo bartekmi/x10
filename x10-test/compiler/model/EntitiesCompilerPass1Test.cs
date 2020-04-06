@@ -28,7 +28,7 @@ namespace x10.compiler {
 
     [Fact]
     public void CompileValidFile() {
-      string correctYaml = File.ReadAllText("../../../compiler/data/Correct.yaml");
+      string correctYaml = File.ReadAllText("../../../compiler/model/data/Correct.yaml");
       Entity entity = RunTest(correctYaml);
 
       Assert.NotNull(entity);

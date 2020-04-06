@@ -4,10 +4,10 @@ using System.Linq;
 
 using x10.parsing;
 
-// This unpleasant circular dependency is due to the fact that DataType does double-dute as
-// our basic data types, and also enums defined in the 'definition' sister package
-// Consider deriving new type EnumDataType from DataType which would live in the 'definition' package
-using x10.model.definition;
+// This unpleasant circular dependency is due to the fact that DataType must have a default
+// UI element if none is specified by Member of UiChildModelReference
+// One solution would be to have a separate dictionary where this can be looked up
+using x10.ui.metadata;
 
 namespace x10.model.metadata {
 
@@ -30,6 +30,8 @@ namespace x10.model.metadata {
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
+    public UiDefinition Ui { get; internal set; }
+
 
     public DataType() {
       // Do nothing

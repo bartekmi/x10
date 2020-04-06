@@ -6,6 +6,7 @@ using x10.model;
 using x10.model.metadata;
 
 using x10.ui.composition;
+using x10.compiler;
 
 namespace x10.ui.metadata {
 

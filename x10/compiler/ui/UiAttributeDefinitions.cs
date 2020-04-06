@@ -7,6 +7,7 @@ using x10.model.metadata;
 using x10.model;
 using x10.ui.composition;
 using x10.ui.metadata;
+using System.Text.RegularExpressions;
 
 namespace x10.compiler {
 
@@ -14,7 +15,7 @@ namespace x10.compiler {
 
     // Reserved attribute name for the "Name" of the XML node - i.e. the thing
     // that goes in the <> brackets: <MyElement>
-    private const string ELEMENT_NAME = "Name";
+    public const string ELEMENT_NAME = "Name";
 
     public static List<UiAttributeDefinition> All = new List<UiAttributeDefinition>() {
 
@@ -51,6 +52,7 @@ namespace x10.compiler {
         Name = "model",
         Description = "The name of the X10 model that this UIDefinition expects as data",
         AppliesTo = UiAppliesTo.UiDefinition,
+        IsMandatory = true,
         DataType = DataTypes.Singleton.String,
 
         Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
@@ -63,6 +65,7 @@ namespace x10.compiler {
         Description = "If true, this UiDefinition expects a list of models (e.g. it's a table)",
         AppliesTo = UiAppliesTo.UiDefinition,
         DataType = DataTypes.Singleton.Boolean,
+        Setter = "IsMany",
         DefaultValue = false,
       },
 
@@ -84,8 +87,13 @@ namespace x10.compiler {
         Description = "A logical 'path' from the parent data Entity down to a lower-level Member. Use dot (.) to link multiple descending steps - e.g. 'address.city'",
         AppliesTo = UiAppliesTo.UiComponentUse,
         DataType = DataTypes.Singleton.String,
-        Pass1Action = (messages, allEntities, allEnums, uiComponent, attributeValue) => {
-          // TODO: validate path and set the referred-to Member
+        Setter = "Path",
+        Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
+          Regex pathRegex = new Regex("[a-zA-Z0-9](\\.[a-zA-Z0-9])*");
+          if (!pathRegex.IsMatch(xmlScalar.ToString()))
+            messages.AddError(xmlScalar,
+              string.Format("Illegal path '{0}'. Path must consist of valid member names separated by periods (.). For example: 'name' or 'client.address.zip'"
+              , xmlScalar));
         },
       },
 
@@ -96,9 +104,7 @@ namespace x10.compiler {
         Description = "The name of the Entity Member (attribute or association) being referenced",
         AppliesTo = UiAppliesTo.UiModelReference,
         DataType = DataTypes.Singleton.String,
-        Pass1Action = (messages, allEntities, allEnums, uiComponent, attributeValue) => {
-          // TODO: validate the one-member "path" and set ModelMember
-        },
+        Setter = "Path",
       },
       new UiAttributeDefinitionPrimitive() {
         Name = "ui",

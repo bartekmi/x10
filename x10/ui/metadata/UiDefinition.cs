@@ -24,6 +24,6 @@ namespace x10.ui.metadata {
     public Entity ComponentDataModel { get; set; }
 
     // Is the Component Data Model a list?
-    public bool IsMultiple { get; set; }
+    public bool IsMany { get; set; }
   }
 }

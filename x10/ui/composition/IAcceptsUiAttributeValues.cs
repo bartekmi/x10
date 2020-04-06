@@ -14,7 +14,7 @@ namespace x10.ui.composition {
     XmlBase XmlElement { get; }
   }
 
-  public static class AttributeUtils {
+  public static class UiAttributeUtils {
     public static object FindValue(IAcceptsUiAttributeValues source, string attributeName) {
       UiAttributeValue value = FindAttribute(source, attributeName);
       return value?.Value;
