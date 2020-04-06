@@ -87,6 +87,13 @@ This is some gibberish - definitely <not> XML!!!
 ", "Can't parse XML file. Error: An error occurred while parsing EntityName. Line 3, position 23.", 3, 23);
     }
 
+    [Fact]
+    public void ParseDuplicateAttributes() {
+      RunTest(@"
+<Level1 attr1='Hello' attr1='World'/>
+", "TODO", 3, 23);
+    }
+
     private void RunTest(string xml, string expectedError, int line, int character) {
       _parser.ParseFromString(xml);
 

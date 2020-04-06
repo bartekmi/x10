@@ -15,8 +15,4 @@
     <ProjectReference Include="..\x10\x10.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="compiler\ui\" />
-  </ItemGroup>
-
 </Project>

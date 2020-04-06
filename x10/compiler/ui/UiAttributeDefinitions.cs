@@ -26,6 +26,7 @@ namespace x10.compiler {
         Description = "The name of the UI Definition (component) being defined",
         AppliesTo = UiAppliesTo.UiDefinition,
         DataType = DataTypes.Singleton.String,
+        Setter = "Name",
 
         Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
           string uiDefinitionName = xmlScalar.Value.ToString();

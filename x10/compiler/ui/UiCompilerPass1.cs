@@ -16,7 +16,7 @@ namespace x10.compiler {
       _attrReader = attributeReader;
     }
 
-    internal UiDefinition CompileUiDefinition(XmlElement rootNode) {
+    internal UiDefinitionX10 CompileUiDefinition(XmlElement rootNode) {
       UiDefinitionX10 definition = new UiDefinitionX10();
 
       // Read top-level (entity) attributes
@@ -32,7 +32,7 @@ namespace x10.compiler {
         return definition;
       }
       if (topLevelChildCount > 1) {
-        _messages.AddWarning(rootNode,
+        _messages.AddError(rootNode,
           String.Format("UI Component definition '{0}' has multiple children.",
           rootNode.Name));
         return null;

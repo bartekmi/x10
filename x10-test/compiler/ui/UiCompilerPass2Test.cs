@@ -12,13 +12,13 @@ using x10.model.metadata;
 using x10.model;
 
 namespace x10.compiler {
-  public class EntitiesCompilerPass2Test {
+  public class UiCompilerPass2Test {
 
     private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
     private readonly AllEnums _allEnums;
 
-    public EntitiesCompilerPass2Test(ITestOutputHelper output) {
+    public UiCompilerPass2Test(ITestOutputHelper output) {
       _output = output;
       _allEnums = new AllEnums(_messages);
   }
@@ -144,11 +144,30 @@ enums:
     #region Utilities
 
     private Entity CompilePass1(string yaml) {
-      return TestUtils.EntityCompilePass1(_messages, _allEnums, yaml);
+      // Parse
+      ParserYaml parser = new ParserYaml(_messages);
+      TreeNode rootNode = parser.ParseFromString(yaml);
+      if (rootNode == null)
+        throw new Exception("Unalbe to parse yaml from: " + yaml);
+
+      rootNode.SetFileInfo("Tmp.yaml");
+
+      // Pass 1
+      AttributeReader attrReader = new AttributeReader(_messages);
+      EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
+      EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
+      Entity entity = pass1.CompileEntity(rootNode);
+
+      return entity;
     }
 
     private void CompilePass2(params Entity[] entities) {
-      TestUtils.EntityCompilePass2(_messages, _allEnums, entities);
+
+      // Pass 2
+      AllEntities allEntities = new AllEntities(entities, _messages);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
+      pass2.CompileAllEntities();
+
       TestUtils.DumpMessages(_messages, _output);
     }
 
