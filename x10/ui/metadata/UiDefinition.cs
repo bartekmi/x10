@@ -25,5 +25,9 @@ namespace x10.ui.metadata {
 
     // Is the Component Data Model a list?
     public bool IsMany { get; set; }
+
+    public override string ToString() {
+      return "UiDefinition: " + Name;
+    }
   }
 }

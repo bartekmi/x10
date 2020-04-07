@@ -18,5 +18,9 @@ namespace x10.ui.metadata {
       _definitionsByName.TryGetValue(componentName, out UiDefinition definition);
       return definition;
     }
+
+    public override string ToString() {
+      return "UI Library: " + Name;
+    }
   }
 }

@@ -14,60 +14,10 @@ using x10.ui.metadata;
 using x10.ui.composition;
 
 namespace x10.compiler {
-  public class UiCompilerPass1Test {
+  public class UiCompilerPass1Test : UiCompilerTestBase {
 
-    private readonly ITestOutputHelper _output;
-    private readonly MessageBucket _messages = new MessageBucket();
-    private readonly AllEntities _allEntities;
-    private readonly UiCompilerPass1 _compiler;
-
-    public UiCompilerPass1Test(ITestOutputHelper output) {
-      _output = output;
-
-      AllEnums allEnums = new AllEnums(_messages);
-      _allEntities = CreateEntities(allEnums);
-      UiAttributeReader attrReader = new UiAttributeReader(_messages, _allEntities, allEnums);
-      _compiler = new UiCompilerPass1(_messages, attrReader);
-    }
-
-    private AllEntities CreateEntities(AllEnums allEnums) {
-      // At this point, allEnums is unused
-      AllEntities allEntities = TestUtils.EntityCompile(_messages, new string[] {
-        @"
-name: Building
-description: dummy
-attributes:
-  - name: name
-    description: dummy
-    dataType: String
-  - name: apartmentCount
-    description: dummy
-    dataType: Integer
-associations:
-  - name: apartments
-    description: dummy
-    dataType: Apartment
-    many: true
-",
-        @"
-name: Apartment
-description: dummy
-attributes:
-  - name: number
-    description: dummy
-    dataType: Integer
-  - name: squreFootage
-    description: dummy
-    dataType: Float
-",
-      });
-
-      if (_messages.HasErrors) {
-        TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
-        throw new Exception("Entities did not load cleanly - see output");
-      }
-
-      return allEntities;
+    public UiCompilerPass1Test(ITestOutputHelper output) : base(output) {
+      // Do nothing
     }
 
     [Fact]
@@ -169,21 +119,13 @@ attributes:
       RunTest(@"
 <MyOtherComponent/>
 ",
-        "The name of the UI Component 'MyOtherComponent' must match the name of the file: MyComponent", 2, 2);
+        "The name of the UI Component 'MyOtherComponent' must match the name of the file: MyComponent", 
+        2, 2, CompileMessageSeverity.Error, "MyComponent.xml");
     }
 
     #region Utilities
-    private UiDefinitionX10 RunTest(string xml, string fileName = "MyComponent.xml") {
-      ParserXml parser = new ParserXml(_messages);
-      XmlElement rootNode = parser.ParseFromString(xml, fileName);
-
-      if (rootNode == null) {
-        TestUtils.DumpMessages(_messages, _output);
-        Assert.NotNull(rootNode);
-      }
-
-      UiDefinitionX10 definition = _compiler.CompileUiDefinition(rootNode);
-
+    private UiDefinitionX10 RunTest(string xml, string fileName = null) {
+      UiDefinitionX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output, fileName);
       TestUtils.DumpMessages(_messages, _output);
 
       return definition;
@@ -193,9 +135,10 @@ attributes:
       string expectedErrorMessage, 
       int expectedLine, 
       int expectedChar, 
-      CompileMessageSeverity expectedSeverity = CompileMessageSeverity.Error) {
+      CompileMessageSeverity expectedSeverity = CompileMessageSeverity.Error,
+      string fileName = null) {
 
-      RunTest(xml);
+      RunTest(xml, fileName);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);

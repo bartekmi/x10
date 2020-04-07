@@ -14,29 +14,28 @@ namespace x10.compiler {
 
   internal class UiDataModel {
     internal Entity Entity { get; private set; }
-    internal X10Attribute Attribute { get; private set; }
     internal bool IsMany { get; private set; }
+    internal Member Member { get; private set; }
 
     internal UiDataModel(Entity entity, bool isMany) {
       Entity = entity;
       IsMany = isMany;
     }
 
-    internal UiDataModel(X10Attribute attribute) {
-      Entity = attribute.Owner;
-      Attribute = attribute;
+    internal UiDataModel(Member member) {
+      Member = member;
     }
   }
 
 
-  public class UiEntityCompilerPass2 {
+  public class UiCompilerPass2 {
 
     public MessageBucket _messages { get; private set; }
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
     private readonly AllUiDefinitions _allUiDefinitions;
 
-    public UiEntityCompilerPass2(
+    public UiCompilerPass2(
       MessageBucket messages,
       AllEntities allEntities,
       AllEnums allEnums,
@@ -48,7 +47,7 @@ namespace x10.compiler {
       _allUiDefinitions = allUiDefinitions;
     }
 
-    internal void CompileAllEntities() {
+    internal void CompileAllUiDefinitions() {
 
       // Verify Uniqueness of all UI Component names
       _allUiDefinitions.UiComponentUniquenessCheck();
@@ -72,7 +71,7 @@ namespace x10.compiler {
         }
     }
 
-    // TODO: Should this code live in UiAttributeDefintions (Pass2)
+    // TODO: Should this code live in UiAttributeDefintions (Pass2)?
     private UiDataModel ResolvePath(UiDataModel dataModel, UiChild child) {
       if (dataModel == null)
         return null;
@@ -83,19 +82,23 @@ namespace x10.compiler {
       if (path == null)
         return dataModel;
 
-
-      XmlScalar pathScalar = UiAttributeUtils.FindAttribute(child, "path").XmlScalar;
-
-      string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
-
-      foreach (string pathComponent in pathComponents) {
-        dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
+      if (child is UiChildModelReference modelReference) {
+        dataModel = AdvancePathByOne(dataModel, path, child.XmlElement);
         if (dataModel == null)
-          break;
-      }
-
-      if (child is UiChildModelReference modelReference)
+          return null;
+        child.ModelMember = dataModel.Member;
         child.RenderAs = ResolveUiComponent(modelReference);
+      } else if (child is UiChildComponentUse componentUse) {
+        XmlScalar pathScalar = UiAttributeUtils.FindAttribute(child, "path").XmlScalar;
+        string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
+
+        foreach (string pathComponent in pathComponents) {
+          dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
+          if (dataModel == null)
+            return null;
+        }
+      } else
+        throw new Exception("Unexpected child type: " + child.GetType().Name);
 
       // TODO: validate the compatibility of the resolved data model and the receiving component:
       // One->One and Many->Many ok, but mismatch is an error.
@@ -106,23 +109,15 @@ namespace x10.compiler {
       return dataModel;
     }
 
-    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlScalar pathScalar) {
+    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
-        _messages.AddError(pathScalar,
+        _messages.AddError(xmlBase,
           string.Format("Member {0} does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
         return null;
       }
 
-      UiDataModel newModel;
-      if (member is Association association) {
-        newModel = new UiDataModel(association.ReferencedEntity, association.IsMany);
-      } else if (member is X10Attribute attribute) {
-        newModel = new UiDataModel(attribute);
-      } else
-        throw new Exception("Unexpected member type: " + member.GetType().Name);
-
-      return newModel;
+      return new UiDataModel(member);
     }
 
     // For a model reference component (e.g. <myField>), we resolve the actual ui component to use at three levels:

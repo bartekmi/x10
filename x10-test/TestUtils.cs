@@ -11,6 +11,8 @@ using x10.model.definition;
 using x10.model.metadata;
 using x10.model;
 using x10.compiler;
+using x10.ui.composition;
+using x10.ui.metadata;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
@@ -24,6 +26,7 @@ namespace x10 {
           output.WriteLine(message.ToString());
     }
 
+    #region Model Compilation
     public static Entity EntityCompilePass1(MessageBucket _messages, AllEnums _allEnums, string yaml, string fileName = null) {
       // Parse
       ParserYaml parser = new ParserYaml(_messages);
@@ -60,14 +63,55 @@ namespace x10 {
       pass2.CompileAllEntities();
     }
 
-    public static AllEntities EntityCompile(MessageBucket messages, params string[] yamls) {
-      AllEnums allEnums = new AllEnums(messages);
-
+    public static AllEntities EntityCompile(MessageBucket messages, AllEnums allEnums, params string[] yamls) {
       IEnumerable<Entity> entities = yamls.Select(x => EntityCompilePass1(messages, allEnums, x));
       Entity[] entitiesArray = entities.ToArray();
       EntityCompilePass2(messages, allEnums, entitiesArray);
 
       return new AllEntities(entitiesArray, messages);
     }
+    #endregion
+
+    #region UI Compilation
+    public static UiDefinitionX10 UiCompilePass1(string xml, 
+      MessageBucket _messages,
+      UiCompilerPass1 _compiler,
+      ITestOutputHelper _output,
+      string fileName = null
+      ) {
+
+      ParserXml parser = new ParserXml(_messages);
+
+      XmlElement rootNode = parser.ParseFromString(xml, fileName);
+      rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
+
+      if (rootNode == null) {
+        TestUtils.DumpMessages(_messages, _output);
+        Assert.NotNull(rootNode);
+      }
+
+      UiDefinitionX10 definition = _compiler.CompileUiDefinition(rootNode);
+      return definition;
+    }
+
+    private static string ExtractFileName(XmlElement rootNode, string overrideFileName) {
+      if (overrideFileName != null)
+        return overrideFileName;
+
+      return rootNode.Name + ".xml";
+    }
+
+    public static void UiCompilePass2(MessageBucket messages,
+      AllEntities allEntities,
+      AllEnums allEnums,
+      UiLibrary uiLibrary,
+      params UiDefinitionX10[] uiDefinitions
+      ) {
+      AllUiDefinitions allUiDefinitions = new AllUiDefinitions(messages, uiDefinitions, uiLibrary);
+      UiCompilerPass2 pass2 = new UiCompilerPass2(messages, allEntities, allEnums, allUiDefinitions);
+      pass2.CompileAllUiDefinitions();
+    }
+
+    #endregion
   }
 }
