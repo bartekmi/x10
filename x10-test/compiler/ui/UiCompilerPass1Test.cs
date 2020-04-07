@@ -18,14 +18,15 @@ namespace x10.compiler {
 
     private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
+    private readonly AllEntities _allEntities;
     private readonly UiCompilerPass1 _compiler;
 
     public UiCompilerPass1Test(ITestOutputHelper output) {
       _output = output;
 
       AllEnums allEnums = new AllEnums(_messages);
-      AllEntities allEntities = CreateEntities(allEnums);
-      UiAttributeReader attrReader = new UiAttributeReader(_messages, allEntities, allEnums);
+      _allEntities = CreateEntities(allEnums);
+      UiAttributeReader attrReader = new UiAttributeReader(_messages, _allEntities, allEnums);
       _compiler = new UiCompilerPass1(_messages, attrReader);
     }
 
@@ -72,18 +73,31 @@ attributes:
     [Fact]
     public void CompileSuccess() {
       UiDefinitionX10 definition = RunTest(@"
-<MyComponent description='My description...' model='Building'>
+<MyComponent description='My description...' model='Building' many='true'>
   <VerticalGroup>
     <name/>
     <apartmentCount ui='MyFunkyIntComponent'/>
-    <Table path='apartments'/>
+    <Table path='apartments.rooms'/>
   </VerticalGroup>
 </MyComponent>
 ");
 
       Assert.Equal("MyComponent", definition.Name);
       Assert.Equal("My description...", definition.Description);
-      // TODO: Verify data as expected
+      Assert.Same(_allEntities.FindEntityByName("Building"), definition.ComponentDataModel);
+      Assert.True(definition.IsMany);
+
+      UiChildComponentUse verticalGroup = (UiChildComponentUse)definition.RootChild;
+      Assert.Equal("VerticalGroup", UiAttributeUtils.FindValue(verticalGroup, ParserXml.ELEMENT_NAME));
+      Assert.Equal(3, verticalGroup.Children.Count);
+
+      UiChildModelReference apartmentCount = (UiChildModelReference)verticalGroup.Children[1];
+      Assert.Equal("apartmentCount", apartmentCount.Path);
+      Assert.Equal("MyFunkyIntComponent", UiAttributeUtils.FindValue(apartmentCount, "ui"));
+
+      UiChildComponentUse table = (UiChildComponentUse)verticalGroup.Children[2];
+      Assert.Equal("Table", UiAttributeUtils.FindValue(table, ParserXml.ELEMENT_NAME));
+      Assert.Equal("apartments.rooms", table.Path);
     }
 
     [Fact]
@@ -111,6 +125,27 @@ attributes:
 <MyComponent description='My description...' />
 ",
         "The attribute 'model' is missing from UiDefinition", 2, 2);
+    }
+
+    [Fact]
+    public void WarnIfNoChildrenAtRoot() {
+      RunTest(@"
+<MyComponent />
+",
+        "UI Component definition 'MyComponent' contains no children. It will not be rendered as a visual component",
+        2, 2, CompileMessageSeverity.Warning);
+    }
+
+    [Fact]
+    public void ErrorIfMultipleChildrenAtRoot() {
+      RunTest(@"
+<MyComponent>
+  <child1/>
+  <child2/>
+</MyComponent>
+",
+        "UI Component definition 'MyComponent' has multiple children.",
+        2, 2);
     }
 
     [Fact]
@@ -154,11 +189,17 @@ attributes:
       return definition;
     }
 
-    private void RunTest(string xml, string expectedErrorMessage, int expectedLine, int expectedChar) {
+    private void RunTest(string xml, 
+      string expectedErrorMessage, 
+      int expectedLine, 
+      int expectedChar, 
+      CompileMessageSeverity expectedSeverity = CompileMessageSeverity.Error) {
+
       RunTest(xml);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
+      Assert.Equal(expectedSeverity, message.Severity);
 
       Assert.Equal(expectedLine, message.ParseElement.Start.LineNumber);
       Assert.Equal(expectedChar, message.ParseElement.Start.CharacterPosition);

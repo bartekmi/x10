@@ -23,6 +23,10 @@ namespace x10.model {
       get { return _entitiesByName.Values.SelectMany(x => x);  } 
     }
 
+    public Entity FindEntityByName(string entityName) {
+      return _entitiesByName[entityName].Single();
+    }
+
     public Entity FindEntityByNameWithError(string entityName, IParseElement parseElement) {
       // Check if entity exists
       if (!_entitiesByName.TryGetValue(entityName, out List<Entity> entities)) {

@@ -10,5 +10,10 @@ namespace x10.ui.composition {
     public UiChildComponentUse() {
       Children = new List<UiChild>();
     }
+
+    internal void AddChild(UiChild uiChild) {
+      Children.Add(uiChild);
+      // Likely, in the future, we'll need to keep track of parent. Do it here.
+    }
   }
 }

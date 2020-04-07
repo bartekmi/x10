@@ -44,17 +44,21 @@ namespace x10.compiler {
       return definition;
     }
 
-    private UiChild ParseRecursively(XmlElement element) {
-      if (IsUiModelReference(element)) {  // Model Reference (starts with lower-case)
-        UiChildModelReference child = new UiChildModelReference();
-        _attrReader.ReadAttributes(element, UiAppliesTo.UiModelReference, child);
+    private UiChild ParseRecursively(XmlElement xmlElement) {
+      if (IsUiModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
+        UiChildModelReference uiElement = new UiChildModelReference();
+        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiModelReference, uiElement);
 
-        return child;
+        return uiElement;
       } else {  // Component Use (starts with upper-case)
-        UiChildComponentUse child = new UiChildComponentUse();
-        _attrReader.ReadAttributes(element, UiAppliesTo.UiComponentUse, child);
+        UiChildComponentUse uiElement = new UiChildComponentUse();
+        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiComponentUse, uiElement);
 
-        return child;
+        foreach (XmlElement xmlChild in xmlElement.Children) {
+          uiElement.AddChild(ParseRecursively(xmlChild));
+        }
+
+        return uiElement;
       }
     }
 
