@@ -7,6 +7,9 @@ using x10.ui.composition;
 using x10.ui.metadata;
 
 namespace x10.compiler {
+  // The first pass does very little - creates a 'Class Def' and parses the top-level attributes
+  // It also validates that there should be a single Root Xml node
+  // FUTURE: Register declared UI Attribute Definitions
   public class UiCompilerPass1 {
 
     private readonly MessageBucket _messages;
@@ -18,7 +21,7 @@ namespace x10.compiler {
     }
 
     internal ClassDefX10 CompileUiDefinition(XmlElement rootNode) {
-      ClassDefX10 definition = new ClassDefX10();
+      ClassDefX10 definition = new ClassDefX10(rootNode);
 
       // Read top-level (entity) attributes
       _attrReader.ReadAttributes(rootNode, UiAppliesTo.UiDefinition, definition);
@@ -40,53 +43,8 @@ namespace x10.compiler {
       }
 
       XmlElement rootChild = rootNode.Children.Single();
-      definition.RootChild = ParseRecursively(rootChild);
 
       return definition;
-    }
-
-    private Instance ParseRecursively(XmlElement xmlElement) {
-      Instance uiElement;
-      UiAppliesTo? appliesTo;
-
-      if (IsModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
-        uiElement = new InstanceModelRef();
-        appliesTo = UiAppliesTo.UiModelReference;
-      } else if (IsUiDefinitionUse(xmlElement)) { 
-        uiElement = new InstanceClassDefUse();
-        appliesTo = UiAppliesTo.UiComponentUse;
-
-        foreach (XmlElement xmlChild in xmlElement.Children)
-          ((InstanceClassDefUse)uiElement).AddChild(ParseRecursively(xmlChild));
-      } else if (IsComplexAttribute(xmlElement)) {
-        throw new NotImplementedException();
-      } else {
-        _messages.AddError(xmlElement,
-          string.Format("Xml Element name '{0}' was not recognized as either a Entity *memberName* or a *UiComponentName* or as a *Complex.property*",
-          xmlElement.Name));
-        return null;
-      }
-
-      uiElement.XmlElement = xmlElement;
-      _attrReader.ReadAttributes(xmlElement, appliesTo.Value, uiElement);
-
-      return uiElement;
-    }
-
-    private bool IsModelReference(XmlElement element) {
-      return ModelValidationUtils.IsMemberName(element.Name);
-    }
-
-    private bool IsComplexAttribute(XmlElement element) {
-      string parentElementName = ((XmlElement)element.Parent)?.Name;
-      if (parentElementName == null)
-        return false;
-
-      return element.Name.StartsWith(parentElementName + ".");
-    }
-
-    private bool IsUiDefinitionUse(XmlElement element) {
-      return ModelValidationUtils.IsUiElementName(element.Name);
     }
   }
 }

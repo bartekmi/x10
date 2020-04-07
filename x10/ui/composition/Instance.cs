@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 using x10.parsing;
 using x10.model.definition;
@@ -24,8 +25,14 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlBase XmlElement { get; set; }
 
+
+    // Constructor
     protected Instance() {
       AttributeValues = new List<UiAttributeValue>();
+    }
+
+    public UiAttributeValue PrimaryValue {
+      get { return AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); }
     }
   }
 }

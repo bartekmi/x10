@@ -108,7 +108,9 @@ namespace x10 {
       params ClassDefX10[] uiDefinitions
       ) {
       AllUiDefinitions allUiDefinitions = new AllUiDefinitions(messages, uiDefinitions, uiLibrary);
-      UiCompilerPass2 pass2 = new UiCompilerPass2(messages, allEntities, allEnums, allUiDefinitions);
+
+      UiAttributeReader attrReader = new UiAttributeReader(messages, allEntities, allEnums);
+      UiCompilerPass2 pass2 = new UiCompilerPass2(messages, attrReader, allEntities, allEnums, allUiDefinitions);
       pass2.CompileAllUiDefinitions();
     }
 

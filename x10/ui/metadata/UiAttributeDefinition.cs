@@ -43,6 +43,21 @@ namespace x10.ui.metadata {
     public Action<MessageBucket, AllEntities, AllEnums, XmlScalar, IAcceptsUiAttributeValues> Pass1Action { get; set; }
     public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2Action { get; set; }
 
+
+    public UiAttributeValue CreateAndAddValue(Instance instance, XmlBase xmlBase) {
+      UiAttributeValue value;
+      if (this is UiAttributeDefinitionAtomic)
+        value = new UiAttributeValueAtomic(xmlBase);
+      else if (this is UiAttributeDefinitionComplex)
+        value = new UiAttributeValueComplex(xmlBase);
+      else
+        throw new Exception("Unexpected type of attribute: " + GetType().Name);
+
+      instance.AttributeValues.Add(value);
+
+      return value;
+    }
+
     public bool AppliesToType(UiAppliesTo type) {
       return (AppliesTo & type) > 0;
     }

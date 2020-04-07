@@ -39,13 +39,14 @@ namespace x10.compiler {
 
       InstanceClassDefUse verticalGroup = (InstanceClassDefUse)definition.RootChild;
       Assert.Equal("VerticalGroup", UiAttributeUtils.FindValue(verticalGroup, ParserXml.ELEMENT_NAME));
-      Assert.Equal(3, verticalGroup.Children.Count);
+      List<Instance> vGroupChildren = ((UiAttributeValueComplex)verticalGroup.PrimaryValue).Instances;
+      Assert.Equal(3, vGroupChildren.Count);
 
-      InstanceModelRef apartmentCount = (InstanceModelRef)verticalGroup.Children[1];
+      InstanceModelRef apartmentCount = (InstanceModelRef)vGroupChildren[1];
       Assert.Equal("apartmentCount", apartmentCount.Path);
       Assert.Equal("MyFunkyIntComponent", UiAttributeUtils.FindValue(apartmentCount, "ui"));
 
-      InstanceClassDefUse table = (InstanceClassDefUse)verticalGroup.Children[2];
+      InstanceClassDefUse table = (InstanceClassDefUse)vGroupChildren[2];
       Assert.Equal("Table", UiAttributeUtils.FindValue(table, ParserXml.ELEMENT_NAME));
       Assert.Equal("apartments.rooms", table.Path);
     }

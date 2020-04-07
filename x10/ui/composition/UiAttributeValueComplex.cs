@@ -7,10 +7,14 @@ using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public class UiAttributeValueComplex : UiAttributeValue {
-    public List<Instance> Instances { get; set; }
+    public List<Instance> Instances { get; private set; }
 
-    public UiAttributeValueComplex(XmlElement xmlElement) : base(xmlElement) {
-      // To nothing
+    public UiAttributeValueComplex(XmlBase xmlBase) : base(xmlBase) {
+      Instances = new List<Instance>();
+    }
+
+    public void AddInstance(Instance instance) {
+      Instances.Add(instance);
     }
 
     public override string ToString() {

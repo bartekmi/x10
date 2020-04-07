@@ -42,18 +42,21 @@ namespace x10.compiler {
 
   public class UiCompilerPass2 {
 
-    private MessageBucket _messages;
+    private readonly MessageBucket _messages;
+    private readonly UiAttributeReader _attrReader;
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
     private readonly AllUiDefinitions _allUiDefinitions;
 
-    public UiCompilerPass2(
+    internal UiCompilerPass2(
       MessageBucket messages,
+      UiAttributeReader attributeReader,
       AllEntities allEntities,
       AllEnums allEnums,
       AllUiDefinitions allUiDefinitions) {
 
       _messages = messages;
+      _attrReader = attributeReader;
       _allEntities = allEntities;
       _allEnums = allEnums;
       _allUiDefinitions = allUiDefinitions;
@@ -64,13 +67,87 @@ namespace x10.compiler {
       // Verify Uniqueness of all UI Component names
       _allUiDefinitions.UiComponentUniquenessCheck();
 
-      // Invoke Pass 2 actions
       foreach (ClassDefX10 definition in _allUiDefinitions.All) {
         InvokePass2Actions(definition);
+
+        XmlElement rootXmlChild = ((XmlElement)definition.XmlElement).Children.SingleOrDefault();
+        if (rootXmlChild == null)
+          continue;   // Pass 1 already warns about this
+
+        // Walk the XML tree and create a data model based on Instance and UiAttributeValue
+        definition.RootChild = ParseRecursively(rootXmlChild);
+
+        // Invoke Pass 2 actions
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
       }
     }
 
+
+    #region Pass 2.1
+    private Instance ParseRecursively(XmlElement xmlElement) {
+      Instance instance;
+      UiAppliesTo? appliesTo;
+
+      if (IsModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
+        instance = new InstanceModelRef();
+        appliesTo = UiAppliesTo.UiModelReference;
+        // TODO: Error if has XML children
+      } else if (IsClassDefUse(xmlElement)) {   // Class Definition Use (starts with upper-case)
+        instance = new InstanceClassDefUse();
+        appliesTo = UiAppliesTo.UiComponentUse;
+
+        ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(xmlElement.Name, xmlElement);
+        if (classDef == null)
+          return null;
+
+        UiAttributeDefinition primaryAttributeDef = classDef.PrimaryAttributeDef;
+        if (primaryAttributeDef == null) {
+          // TODO: IF no Primary attributes - should be now children
+        } else {
+          UiAttributeValueComplex complexValue = (UiAttributeValueComplex)primaryAttributeDef.CreateAndAddValue(instance, xmlElement);
+
+          // TODO - errors:
+          // 2) Attr mandatory but missing
+          // 3) Single but multiple were provided
+
+          foreach (XmlElement xmlChild in xmlElement.Children) 
+            complexValue.AddInstance(ParseRecursively(xmlChild));
+        }
+      } else if (IsComplexAttribute(xmlElement)) {
+        throw new NotImplementedException();
+      } else {
+        _messages.AddError(xmlElement,
+          string.Format("Xml Element name '{0}' was not recognized as either a Entity *memberName* or a *UiComponentName* or as a *Complex.property*",
+          xmlElement.Name));
+        return null;
+      }
+
+      instance.XmlElement = xmlElement;
+      _attrReader.ReadAttributes(xmlElement, appliesTo.Value, instance);
+
+      return instance;
+    }
+
+
+    private bool IsModelReference(XmlElement element) {
+      return ModelValidationUtils.IsMemberName(element.Name);
+    }
+
+    private bool IsComplexAttribute(XmlElement element) {
+      string parentElementName = ((XmlElement)element.Parent)?.Name;
+      if (parentElementName == null)
+        return false;
+
+      return element.Name.StartsWith(parentElementName + ".");
+    }
+
+    private bool IsClassDefUse(XmlElement element) {
+      return ModelValidationUtils.IsUiElementName(element.Name);
+    }
+    #endregion
+
+
+    #region Pass 2.2
     private void CompileRecursively(Instance element, UiDataModel parentDataModel) {
       if (element == null)
         return;
@@ -78,9 +155,9 @@ namespace x10.compiler {
       InvokePass2Actions(element);
       UiDataModel myDataModel = ResolvePath(parentDataModel, element);
 
-      if (element is InstanceClassDefUse componentUse)
-        foreach (Instance instance in componentUse.Children) 
-          CompileRecursively(instance, myDataModel);
+      foreach (UiAttributeValueComplex value in element.AttributeValues.OfType<UiAttributeValueComplex>())
+        foreach (Instance childInstance in value.Instances)
+          CompileRecursively(childInstance, myDataModel);
     }
 
     // TODO: Should this code live in UiAttributeDefintions (Pass2)?
@@ -156,20 +233,6 @@ namespace x10.compiler {
       foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())
         value.Definition.Pass2Action?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
     }
+    #endregion
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
