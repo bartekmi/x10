@@ -22,9 +22,17 @@ namespace x10.model {
       return Validate(Style.UpperCamelCase, entityName, "Entity name", examples, element, messages);
     }
 
+    public static bool IsUiElementName(string name) {
+      return Is(Style.UpperCamelCase, name);
+    }
+
     public static bool ValidateUiElementName(string uiElementName, IParseElement element, MessageBucket messages) {
       string examples = "'DropDown', 'TextArea'";
       return Validate(Style.UpperCamelCase, uiElementName, "UI Element name", examples, element, messages);
+    }
+
+    public static bool IsMemberName(string name) {
+      return Is(Style.LowerCamelCase, name);
     }
 
     public static bool ValidateAttributeName(string attributeName, IParseElement element, MessageBucket messages) {
@@ -45,6 +53,10 @@ namespace x10.model {
     public static bool ValidateEnumValue(string enumValue, IParseElement element, MessageBucket messages) {
       string examples = "'male', 'awaitingApproval, ASAP'";
       return Validate(Style.LowerCamelCaseOrAllCaps, enumValue, "Enum value", examples, element, messages);
+    }
+
+    private static bool Is(Style style, string text) {
+      return Validate(style, text, null, null, null, null);
     }
 
     private static bool Validate(Style style, string text, string type, string examples, IParseElement element, MessageBucket messages) {
@@ -72,8 +84,9 @@ namespace x10.model {
         if (MatchesRegex(regex, text))
           return true;
 
-      messages.AddError(element,
-        string.Format("Invalid {0}: '{1}'. {2}", type, text, errorMessage));
+      if (messages != null)
+        messages.AddError(element,
+          string.Format("Invalid {0}: '{1}'. {2}", type, text, errorMessage));
 
       return false;
     }

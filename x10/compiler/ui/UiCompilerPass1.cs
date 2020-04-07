@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using x10.model;
 using x10.parsing;
 using x10.ui.composition;
 using x10.ui.metadata;
@@ -46,27 +47,47 @@ namespace x10.compiler {
 
     private UiChild ParseRecursively(XmlElement xmlElement) {
       UiChild uiElement;
-      UiAppliesTo appliesTo;
+      UiAppliesTo? appliesTo;
 
-      if (IsUiModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
+      if (IsModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
         uiElement = new UiChildModelReference();
         appliesTo = UiAppliesTo.UiModelReference;
-      } else {  // Component Use (starts with upper-case)
+      } else if (IsUiDefinitionUse(xmlElement)) { 
         uiElement = new UiChildComponentUse();
         appliesTo = UiAppliesTo.UiComponentUse;
 
         foreach (XmlElement xmlChild in xmlElement.Children)
           ((UiChildComponentUse)uiElement).AddChild(ParseRecursively(xmlChild));
+      } else if (IsComplexAttribute(xmlElement)) {
+        uiElement = new UiChildComplexAttribute();
+        appliesTo = null;
+      } else {
+        _messages.AddError(xmlElement,
+          string.Format("Xml Element name '{0}' was not recognized as either a Entity *memberName* or a *UiComponentName* or as a *Complex.property*",
+          xmlElement.Name));
+        return null;
       }
 
       uiElement.XmlElement = xmlElement;
-      _attrReader.ReadAttributes(xmlElement, appliesTo, uiElement);
+      _attrReader.ReadAttributes(xmlElement, appliesTo.Value, uiElement);
 
       return uiElement;
     }
 
-    private bool IsUiModelReference(XmlElement element) {
-      return char.IsLower(element.Name[0]);
+    private bool IsModelReference(XmlElement element) {
+      return ModelValidationUtils.IsMemberName(element.Name);
+    }
+
+    private bool IsComplexAttribute(XmlElement element) {
+      string parentElementName = ((XmlElement)element.Parent)?.Name;
+      if (parentElementName == null)
+        return false;
+
+      return element.Name.StartsWith(parentElementName + ".");
+    }
+
+    private bool IsUiDefinitionUse(XmlElement element) {
+      return ModelValidationUtils.IsUiElementName(element.Name);
     }
   }
 }
