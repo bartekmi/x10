@@ -55,7 +55,7 @@ namespace x10.compiler {
     internal void UiComponentUniquenessCheck() {
       foreach (var definitions in _uiDefinitionsByName.Where(x => x.Value.Count() > 1)) {
         foreach (UiDefinitionX10 definition in definitions.Value) {
-          UiAttributeValue attribute = UiAttributeUtils.FindAttribute(definition, UiAttributeDefinitions.ELEMENT_NAME);
+          UiAttributeValue attribute = UiAttributeUtils.FindAttribute(definition, ParserXml.ELEMENT_NAME);
           _messages.AddError(attribute.XmlScalar,
             String.Format("The UI Component name '{0}' is not unique.", definitions.Key));
         }

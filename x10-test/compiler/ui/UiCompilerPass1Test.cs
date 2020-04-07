@@ -96,10 +96,11 @@ attributes:
       });
 
       UiDefinitionX10 definition = RunTest(@"
-<MyComponent description='My description...' customField='My custom value'/>
+<MyComponent description='My description...' model='Building' customField='My custom value'/>
 ");
 
-      Assert.Equal("Tmp", definition.Name);
+      Assert.False(_messages.HasErrors);
+      Assert.Equal("MyComponent", definition.Name);
       Assert.Equal("My description...", definition.Description);
       Assert.Equal("My custom value", UiAttributeUtils.FindValue(definition, "customField"));
     }
@@ -107,9 +108,9 @@ attributes:
     [Fact]
     public void MissingAttribute() {
       RunTest(@"
-<MyComponent description='My description...' customField='My custom value'/>
+<MyComponent description='My description...' />
 ",
-        "The attribute 'model' is missing from UI Definition", 2, 1);
+        "The attribute 'model' is missing from UiDefinition", 2, 2);
     }
 
     [Fact]
@@ -117,7 +118,7 @@ attributes:
       RunTest(@"
 <MyComponent many='7'/>
 ",
-        "Error parsing attribute 'many': could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False.", 8, 16);
+        "Error parsing attribute 'many': could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False.", 2, 14);
     }
 
     [Fact]
@@ -125,7 +126,7 @@ attributes:
       RunTest(@"
 <myComponent/>
 ",
-        "Invalid Entity name: 'myComponent'. Must be upper-cased CamelCase: e.g. TBD. Numbers are also allowed.", 1, 2);
+        "Invalid UI Element name: 'myComponent'. Must be upper-cased CamelCase: e.g. 'DropDown', 'TextArea'. Numbers are also allowed.", 2, 2);
     }
 
     [Fact]
@@ -133,7 +134,7 @@ attributes:
       RunTest(@"
 <MyOtherComponent/>
 ",
-        "The name of the entity 'MyOtherComponent' must match the name of the file: MyComponent", 1, 1);
+        "The name of the UI Component 'MyOtherComponent' must match the name of the file: MyComponent", 2, 2);
     }
 
     #region Utilities

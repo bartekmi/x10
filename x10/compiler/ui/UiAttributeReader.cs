@@ -34,7 +34,11 @@ namespace x10.compiler {
       ErrorOnUnknownAttributes(element, type);
     }
 
-    private void ReadAttribute(XmlElement element, UiAppliesTo type, IAcceptsUiAttributeValues modelComponent, UiAttributeDefinition attrDef) {
+    private void ReadAttribute(XmlElement element, 
+      UiAppliesTo type, 
+      IAcceptsUiAttributeValues modelComponent, 
+      UiAttributeDefinition attrDef) {
+
       // Error if mandatory attribute missing
       XmlAttribute attrNode = element.FindAttribute(attrDef.Name);
       if (attrNode == null) {

@@ -23,25 +23,30 @@ namespace x10.parsing {
       Assert.True(_messages.IsEmpty);
 
       // Level 1
-      VerifyElement(root, "Level1", 2, 3, 1, 2);
+      VerifyElement(root, "Level1", 3, 3, 1, 2);
+      VerifyAttribute(root, "Name", "Level1", 1, 2);
       VerifyAttribute(root, "attr1", "value1", 1, 9);
       VerifyAttribute(root, "attr2", "value2", 1, 24);
 
       XmlElement sc1 = root.Children[0];
-      VerifyElement(sc1, "SelfClosing", 1, 0, 2, 4);
+      VerifyElement(sc1, "SelfClosing", 2, 0, 2, 4);
+      VerifyAttribute(sc1, "Name", "SelfClosing", 2, 4);
       VerifyAttribute(sc1, "attr", "sc1", 2, 16);
 
       XmlElement sc2 = root.Children[1];
-      VerifyElement(sc2, "SelfClosing", 1, 0, 3, 4);
+      VerifyElement(sc2, "SelfClosing", 2, 0, 3, 4);
+      VerifyAttribute(sc2, "Name", "SelfClosing", 3, 4);
       VerifyAttribute(sc2, "attr", "sc2", 3, 16);
 
       // Level 2
       XmlElement level2 = root.Children[2];
-      VerifyElement(level2, "Level2", 0, 1, 4, 4);
+      VerifyElement(level2, "Level2", 1, 1, 4, 4);
+      VerifyAttribute(level2, "Name", "Level2", 4, 4);
 
       // Level 3
       XmlElement level3 = level2.Children[0];
-      VerifyElement(level3, "Level3", 1, 0, 5, 6);
+      VerifyElement(level3, "Level3", 2, 0, 5, 6);
+      VerifyAttribute(level3, "Name", "Level3", 5, 6);
       VerifyAttribute(level3, "attr3", "3", 5, 13);
     }
 
@@ -91,7 +96,7 @@ This is some gibberish - definitely <not> XML!!!
     public void ParseDuplicateAttributes() {
       RunTest(@"
 <Level1 attr1='Hello' attr1='World'/>
-", "TODO", 3, 23);
+", "Can't parse XML file. Error: 'attr1' is a duplicate attribute name. Line 2, position 23.", 2, 23);
     }
 
     private void RunTest(string xml, string expectedError, int line, int character) {

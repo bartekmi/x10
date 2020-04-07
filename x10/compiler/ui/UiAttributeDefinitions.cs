@@ -2,27 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
+using x10.parsing;
 using x10.model.metadata;
 using x10.model;
 using x10.ui.composition;
 using x10.ui.metadata;
-using System.Text.RegularExpressions;
 
 namespace x10.compiler {
 
   public static class UiAttributeDefinitions {
-
-    // Reserved attribute name for the "Name" of the XML node - i.e. the thing
-    // that goes in the <> brackets: <MyElement>
-    public const string ELEMENT_NAME = "Name";
 
     public static List<UiAttributeDefinition> All = new List<UiAttributeDefinition>() {
 
       //=========================================================================
       // UI Definition
       new UiAttributeDefinitionPrimitive() {
-        Name = ELEMENT_NAME,
+        Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the UI Definition (component) being defined",
         AppliesTo = UiAppliesTo.UiDefinition,
         DataType = DataTypes.Singleton.String,
@@ -74,7 +71,7 @@ namespace x10.compiler {
       //=========================================================================
       // UI Component Use
       new UiAttributeDefinitionPrimitive() {
-        Name = ELEMENT_NAME,
+        Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the UI Definition (component) being referenced",
         AppliesTo = UiAppliesTo.UiComponentUse,
         DataType = DataTypes.Singleton.String,
@@ -101,7 +98,7 @@ namespace x10.compiler {
       //=========================================================================
       // UI Model Refrence
       new UiAttributeDefinitionPrimitive() {
-        Name = ELEMENT_NAME,
+        Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the Entity Member (attribute or association) being referenced",
         AppliesTo = UiAppliesTo.UiModelReference,
         DataType = DataTypes.Singleton.String,
