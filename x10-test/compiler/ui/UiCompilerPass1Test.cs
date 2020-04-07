@@ -21,37 +21,6 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void CompileSuccess() {
-      ClassDefX10 definition = RunTest(@"
-<MyComponent description='My description...' model='Building' many='true'>
-  <VerticalGroup>
-    <name/>
-    <apartmentCount ui='MyFunkyIntComponent'/>
-    <Table path='apartments.rooms'/>
-  </VerticalGroup>
-</MyComponent>
-");
-
-      Assert.Equal("MyComponent", definition.Name);
-      Assert.Equal("My description...", definition.Description);
-      Assert.Same(_allEntities.FindEntityByName("Building"), definition.ComponentDataModel);
-      Assert.True(definition.IsMany);
-
-      InstanceClassDefUse verticalGroup = (InstanceClassDefUse)definition.RootChild;
-      Assert.Equal("VerticalGroup", UiAttributeUtils.FindValue(verticalGroup, ParserXml.ELEMENT_NAME));
-      List<Instance> vGroupChildren = ((UiAttributeValueComplex)verticalGroup.PrimaryValue).Instances;
-      Assert.Equal(3, vGroupChildren.Count);
-
-      InstanceModelRef apartmentCount = (InstanceModelRef)vGroupChildren[1];
-      Assert.Equal("apartmentCount", apartmentCount.Path);
-      Assert.Equal("MyFunkyIntComponent", UiAttributeUtils.FindValue(apartmentCount, "ui"));
-
-      InstanceClassDefUse table = (InstanceClassDefUse)vGroupChildren[2];
-      Assert.Equal("Table", UiAttributeUtils.FindValue(table, ParserXml.ELEMENT_NAME));
-      Assert.Equal("apartments.rooms", table.Path);
-    }
-
-    [Fact]
     public void CompileWithSetterAndNonSetter() {
       UiAttributeDefinitions.All.Add(new UiAttributeDefinitionAtomic() {
         Name = "customField",

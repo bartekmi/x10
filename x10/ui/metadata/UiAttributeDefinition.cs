@@ -33,6 +33,11 @@ namespace x10.ui.metadata {
     // and it has no default value.
     public bool IsMandatory { get; set; }
 
+    // If true, multiple instances of values are allowed.
+    // For complex attribute values, this means multiple Instances.
+    // For atomic attribute values, the Value property will store an array
+    public bool IsMany { get; set; }
+
     // if true, this property should be treated as part of the state 
     // of the component for the purpose of code-generation.
     public bool IsState { get; set; }
@@ -53,6 +58,7 @@ namespace x10.ui.metadata {
       else
         throw new Exception("Unexpected type of attribute: " + GetType().Name);
 
+      value.Definition = this;
       instance.AttributeValues.Add(value);
 
       return value;

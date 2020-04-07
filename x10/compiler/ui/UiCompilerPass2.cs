@@ -102,15 +102,26 @@ namespace x10.compiler {
 
         UiAttributeDefinition primaryAttributeDef = classDef.PrimaryAttributeDef;
         if (primaryAttributeDef == null) {
-          // TODO: IF no Primary attributes - should be now children
+          if (xmlElement.Children.Count > 0)
+            _messages.AddError(xmlElement,
+              string.Format("Class Definition '{0}' does not accept child elements (because it does not have a primary Attribute Definition)",
+              xmlElement.Name));
         } else {
           UiAttributeValueComplex complexValue = (UiAttributeValueComplex)primaryAttributeDef.CreateAndAddValue(instance, xmlElement);
 
-          // TODO - errors:
-          // 2) Attr mandatory but missing
-          // 3) Single but multiple were provided
+          // Attribute mandatory but missing
+          if (primaryAttributeDef.IsMandatory && xmlElement.Children.Count == 0)
+            _messages.AddError(xmlElement,
+              string.Format("Class Definition '{0}' must have children, but doesn't",
+              xmlElement.Name));
 
-          foreach (XmlElement xmlChild in xmlElement.Children) 
+          // Single attribute but multiple children provided
+          if (!primaryAttributeDef.IsMany && xmlElement.Children.Count > 1)
+            _messages.AddError(xmlElement,
+              string.Format("Class Definition '{0}' accepts only a single child, but it has {1}",
+              xmlElement.Name, xmlElement.Children.Count));
+
+          foreach (XmlElement xmlChild in xmlElement.Children)
             complexValue.AddInstance(ParseRecursively(xmlChild));
         }
       } else if (IsComplexAttribute(xmlElement)) {
