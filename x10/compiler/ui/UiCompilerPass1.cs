@@ -17,8 +17,8 @@ namespace x10.compiler {
       _attrReader = attributeReader;
     }
 
-    internal UiDefinitionX10 CompileUiDefinition(XmlElement rootNode) {
-      UiDefinitionX10 definition = new UiDefinitionX10();
+    internal ClassDefX10 CompileUiDefinition(XmlElement rootNode) {
+      ClassDefX10 definition = new ClassDefX10();
 
       // Read top-level (entity) attributes
       _attrReader.ReadAttributes(rootNode, UiAppliesTo.UiDefinition, definition);
@@ -45,22 +45,21 @@ namespace x10.compiler {
       return definition;
     }
 
-    private UiChild ParseRecursively(XmlElement xmlElement) {
-      UiChild uiElement;
+    private Instance ParseRecursively(XmlElement xmlElement) {
+      Instance uiElement;
       UiAppliesTo? appliesTo;
 
       if (IsModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
-        uiElement = new UiChildModelReference();
+        uiElement = new InstanceModelRef();
         appliesTo = UiAppliesTo.UiModelReference;
       } else if (IsUiDefinitionUse(xmlElement)) { 
-        uiElement = new UiChildComponentUse();
+        uiElement = new InstanceClassDefUse();
         appliesTo = UiAppliesTo.UiComponentUse;
 
         foreach (XmlElement xmlChild in xmlElement.Children)
-          ((UiChildComponentUse)uiElement).AddChild(ParseRecursively(xmlChild));
+          ((InstanceClassDefUse)uiElement).AddChild(ParseRecursively(xmlChild));
       } else if (IsComplexAttribute(xmlElement)) {
-        uiElement = new UiChildComplexAttribute();
-        appliesTo = null;
+        throw new NotImplementedException();
       } else {
         _messages.AddError(xmlElement,
           string.Format("Xml Element name '{0}' was not recognized as either a Entity *memberName* or a *UiComponentName* or as a *Complex.property*",

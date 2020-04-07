@@ -5,7 +5,7 @@ using System.Linq;
 using x10.parsing;
 
 // This unpleasant circular dependency is due to the fact that DataType must have a default
-// UI element if none is specified by Member of UiChildModelReference
+// UI element if none is specified by Member or InstanceModelReference
 // One solution would be to have a separate dictionary where this can be looked up
 using x10.ui.metadata;
 
@@ -30,7 +30,7 @@ namespace x10.model.metadata {
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
-    public UiDefinition Ui { get; internal set; }
+    public ClassDef Ui { get; internal set; }
 
 
     public DataType() {

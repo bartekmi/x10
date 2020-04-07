@@ -5,12 +5,12 @@ using x10.parsing;
 using x10.ui.metadata;
 
 namespace x10.ui.composition {
-  public class UiDefinitionX10 : UiDefinition, IAcceptsUiAttributeValues {
-    public UiChild RootChild { get; set; }
+  public class ClassDefX10 : ClassDef, IAcceptsUiAttributeValues {
+    public Instance RootChild { get; set; }
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlBase XmlElement { get; set; }
 
-    public UiDefinitionX10() {
+    public ClassDefX10() {
       AttributeValues = new List<UiAttributeValue>();
     }
   }

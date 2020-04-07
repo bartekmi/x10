@@ -7,6 +7,6 @@ namespace x10.ui.metadata {
     // Every complex attribute definition (enalogous to an attribute in WPF
     // which has to be defined with the <Class.Attribute> syntax) is defined
     // by a non-UI UiDefinition object
-    public UiDefinitionNative UiDefinition { get; set; }
+    public ClassDefNative UiDefinition { get; set; }
   }
 }

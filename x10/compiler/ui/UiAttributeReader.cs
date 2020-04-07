@@ -49,7 +49,7 @@ namespace x10.compiler {
       }
 
       object typedValue;
-      if (attrDef is UiAttributeDefinitionPrimitive attrPrimitive) {
+      if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
         // Attempt to parse the string attribute value according to its data type
         DataType dataType = attrPrimitive.DataType;
         typedValue = dataType.Parse(attrNode.Value.ToString(), _messages, attrNode.Value, attrDef.Name);
@@ -74,7 +74,7 @@ namespace x10.compiler {
 
       // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
       // this is the only way we can track where the attribute came from in the code.
-      UiAttributeValue attrValue = new UiAttributeValue(attrNode.Value) {
+      UiAttributeValue attrValue = new UiAttributeValueAtomic(attrNode.Value) {
         Value = typedValue,
         Definition = attrDef,
       };

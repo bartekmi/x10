@@ -21,14 +21,14 @@ namespace x10.compiler {
     private UiLibrary _library;
 
     public UiCompilerPass2Test(ITestOutputHelper output) : base(output) {
-      List<UiDefinition> definitions = new List<UiDefinition>() {
-        new UiDefinitionNative() {
+      List<ClassDef> definitions = new List<ClassDef>() {
+        new ClassDefNative() {
           Name = "VerticalGroup",
         },
-        new UiDefinitionNative() {
+        new ClassDefNative() {
           Name = "Table",
         },
-        new UiDefinitionNative() {
+        new ClassDefNative() {
           Name = "MyFunkyIntComponent",
         },
       };
@@ -41,7 +41,7 @@ namespace x10.compiler {
 
     [Fact]
     public void CompileSuccess() {
-      UiDefinitionX10 outer = CompilePass1(@"
+      ClassDefX10 outer = CompilePass1(@"
 <Outer description='My description...' model='Building'>
   <VerticalGroup>
     <name/>
@@ -51,7 +51,7 @@ namespace x10.compiler {
 </Outer>
 ");
 
-      UiDefinitionX10 inner = CompilePass1(@"
+      ClassDefX10 inner = CompilePass1(@"
 <Inner description='My description...' model='Apartment' many='true'>
   <Table>
   </Table>
@@ -86,22 +86,22 @@ namespace x10.compiler {
 
     #region Utilities
 
-    private UiDefinitionX10 CompilePass1(string xml) {
-      UiDefinitionX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output);
+    private ClassDefX10 CompilePass1(string xml) {
+      ClassDefX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output);
       return definition;
     }
 
-    private void CompilePass2(params UiDefinitionX10[] uiDefinitions) {
+    private void CompilePass2(params ClassDefX10[] uiDefinitions) {
       TestUtils.UiCompilePass2(_messages, _allEntities, _allEnums, _library, uiDefinitions);
       TestUtils.DumpMessages(_messages, _output);
     }
 
     private void RunTest(string xml, string expectedErrorMessage, int expectedLine, int expectedChar) {
-      UiDefinitionX10 definiton = CompilePass1(xml);
+      ClassDefX10 definiton = CompilePass1(xml);
       RunTest(expectedErrorMessage, expectedLine, expectedChar, definiton);
     }
 
-    private void RunTest(string expectedErrorMessage, int expectedLine, int expectedChar, params UiDefinitionX10[] definitions) {
+    private void RunTest(string expectedErrorMessage, int expectedLine, int expectedChar, params ClassDefX10[] definitions) {
       CompilePass2(definitions);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);

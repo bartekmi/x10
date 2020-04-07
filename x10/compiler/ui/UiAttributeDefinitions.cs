@@ -18,7 +18,7 @@ namespace x10.compiler {
 
       //=========================================================================
       // UI Definition
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the UI Definition (component) being defined",
         AppliesTo = UiAppliesTo.UiDefinition,
@@ -39,14 +39,14 @@ namespace x10.compiler {
           }
         },
       },
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the UI Definition. Used for documentary purposes and int GUI builder tools.",
         AppliesTo = UiAppliesTo.UiDefinition,
         DataType = DataTypes.Singleton.String,
         Setter = "Description",
       },
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = "model",
         Description = "The name of the X10 model that this UIDefinition expects as data",
         AppliesTo = UiAppliesTo.UiDefinition,
@@ -54,11 +54,11 @@ namespace x10.compiler {
         DataType = DataTypes.Singleton.String,
 
         Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
-          UiDefinition definition = (UiDefinition)uiComponent;
+          ClassDef definition = (ClassDef)uiComponent;
           definition.ComponentDataModel = allEntities.FindEntityByNameWithError(xmlScalar.Value.ToString(), xmlScalar);
         },
       },
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = "many",
         Description = "If true, this UiDefinition expects a list of models (e.g. it's a table)",
         AppliesTo = UiAppliesTo.UiDefinition,
@@ -70,17 +70,17 @@ namespace x10.compiler {
 
       //=========================================================================
       // UI Component Use
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the UI Definition (component) being referenced",
         AppliesTo = UiAppliesTo.UiComponentUse,
         DataType = DataTypes.Singleton.String,
         Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
-          UiChild uiChild = (UiChild)uiComponent;
-          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlScalar);
+          Instance instance = (Instance)uiComponent;
+          instance.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
         },
       },
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = "path",
         Description = "A logical 'path' from the parent data Entity down to a lower-level Member. Use dot (.) to link multiple descending steps - e.g. 'address.city'",
         AppliesTo = UiAppliesTo.UiComponentUse,
@@ -97,21 +97,21 @@ namespace x10.compiler {
 
       //=========================================================================
       // UI Model Refrence
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the Entity Member (attribute or association) being referenced",
         AppliesTo = UiAppliesTo.UiModelReference,
         DataType = DataTypes.Singleton.String,
         Setter = "Path",
       },
-      new UiAttributeDefinitionPrimitive() {
+      new UiAttributeDefinitionAtomic() {
         Name = "ui",
         Description = "The name of a visual UiDefinition which will be used to display this node",
         AppliesTo = UiAppliesTo.UiModelReference,
         DataType = DataTypes.Singleton.String,
         Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
-          UiChild uiChild = (UiChild)uiComponent;
-          uiChild.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlScalar);
+          Instance instance = (Instance)uiComponent;
+          instance.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
         },
       },
     };

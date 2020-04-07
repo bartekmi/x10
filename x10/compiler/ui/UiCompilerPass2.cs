@@ -42,7 +42,7 @@ namespace x10.compiler {
 
   public class UiCompilerPass2 {
 
-    public MessageBucket _messages { get; private set; }
+    private MessageBucket _messages;
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
     private readonly AllUiDefinitions _allUiDefinitions;
@@ -65,43 +65,43 @@ namespace x10.compiler {
       _allUiDefinitions.UiComponentUniquenessCheck();
 
       // Invoke Pass 2 actions
-      foreach (UiDefinitionX10 definition in _allUiDefinitions.All) {
+      foreach (ClassDefX10 definition in _allUiDefinitions.All) {
         InvokePass2Actions(definition);
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
       }
     }
 
-    private void CompileRecursively(UiChild element, UiDataModel parentDataModel) {
+    private void CompileRecursively(Instance element, UiDataModel parentDataModel) {
       if (element == null)
         return;
 
       InvokePass2Actions(element);
       UiDataModel myDataModel = ResolvePath(parentDataModel, element);
 
-      if (element is UiChildComponentUse componentUse)
-        foreach (UiChild child in componentUse.Children) 
-          CompileRecursively(child, myDataModel);
+      if (element is InstanceClassDefUse componentUse)
+        foreach (Instance instance in componentUse.Children) 
+          CompileRecursively(instance, myDataModel);
     }
 
     // TODO: Should this code live in UiAttributeDefintions (Pass2)?
-    private UiDataModel ResolvePath(UiDataModel dataModel, UiChild child) {
+    private UiDataModel ResolvePath(UiDataModel dataModel, Instance instance) {
       if (dataModel == null)
         return null;
 
-      string path = child.Path;
+      string path = instance.Path;
 
       // It is perfectly valid for a UiChildComponentUse to not specify a path
       if (path == null)
         return dataModel;
 
-      if (child is UiChildModelReference modelReference) {
-        dataModel = AdvancePathByOne(dataModel, path, child.XmlElement);
+      if (instance is InstanceModelRef modelReference) {
+        dataModel = AdvancePathByOne(dataModel, path, instance.XmlElement);
         if (dataModel == null)
           return null;
-        child.ModelMember = dataModel.Member;
-        child.RenderAs = ResolveUiComponent(modelReference);
-      } else if (child is UiChildComponentUse componentUse) {
-        XmlScalar pathScalar = UiAttributeUtils.FindAttribute(child, "path").XmlScalar;
+        instance.ModelMember = dataModel.Member;
+        instance.RenderAs = ResolveUiComponent(modelReference);
+      } else if (instance is InstanceClassDefUse componentUse) {
+        XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
         string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
 
         foreach (string pathComponent in pathComponents) {
@@ -110,7 +110,7 @@ namespace x10.compiler {
             return null;
         }
       } else
-        throw new Exception("Unexpected child type: " + child.GetType().Name);
+        throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
       // TODO: validate the compatibility of the resolved data model and the receiving component:
       // One->One and Many->Many ok, but mismatch is an error.
@@ -136,7 +136,7 @@ namespace x10.compiler {
     // 1. The reference itself may dicatate a component
     // 2. The Member may dictate a component
     // 3. Finally, the DataType MUST dictate a component
-    private UiDefinition ResolveUiComponent(UiChildModelReference modelReference) {
+    private ClassDef ResolveUiComponent(InstanceModelRef modelReference) {
       // If this has been set, it comes from the Pass2 action in UiAttributeDefinitions
       if (modelReference.RenderAs != null)
         return modelReference.RenderAs;
@@ -153,7 +153,7 @@ namespace x10.compiler {
     }
 
     private void InvokePass2Actions(IAcceptsUiAttributeValues component) {
-      foreach (UiAttributeValue value in component.AttributeValues)
+      foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())
         value.Definition.Pass2Action?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
     }
   }

@@ -22,7 +22,7 @@ namespace x10.compiler {
 
     [Fact]
     public void CompileSuccess() {
-      UiDefinitionX10 definition = RunTest(@"
+      ClassDefX10 definition = RunTest(@"
 <MyComponent description='My description...' model='Building' many='true'>
   <VerticalGroup>
     <name/>
@@ -37,29 +37,29 @@ namespace x10.compiler {
       Assert.Same(_allEntities.FindEntityByName("Building"), definition.ComponentDataModel);
       Assert.True(definition.IsMany);
 
-      UiChildComponentUse verticalGroup = (UiChildComponentUse)definition.RootChild;
+      InstanceClassDefUse verticalGroup = (InstanceClassDefUse)definition.RootChild;
       Assert.Equal("VerticalGroup", UiAttributeUtils.FindValue(verticalGroup, ParserXml.ELEMENT_NAME));
       Assert.Equal(3, verticalGroup.Children.Count);
 
-      UiChildModelReference apartmentCount = (UiChildModelReference)verticalGroup.Children[1];
+      InstanceModelRef apartmentCount = (InstanceModelRef)verticalGroup.Children[1];
       Assert.Equal("apartmentCount", apartmentCount.Path);
       Assert.Equal("MyFunkyIntComponent", UiAttributeUtils.FindValue(apartmentCount, "ui"));
 
-      UiChildComponentUse table = (UiChildComponentUse)verticalGroup.Children[2];
+      InstanceClassDefUse table = (InstanceClassDefUse)verticalGroup.Children[2];
       Assert.Equal("Table", UiAttributeUtils.FindValue(table, ParserXml.ELEMENT_NAME));
       Assert.Equal("apartments.rooms", table.Path);
     }
 
     [Fact]
     public void CompileWithSetterAndNonSetter() {
-      UiAttributeDefinitions.All.Add(new UiAttributeDefinitionPrimitive() {
+      UiAttributeDefinitions.All.Add(new UiAttributeDefinitionAtomic() {
         Name = "customField",
         Description = "This is a custom field with no setter",
         AppliesTo = UiAppliesTo.UiDefinition,
         DataType = DataTypes.Singleton.String,
       });
 
-      UiDefinitionX10 definition = RunTest(@"
+      ClassDefX10 definition = RunTest(@"
 <MyComponent description='My description...' model='Building' customField='My custom value'/>
 ");
 
@@ -124,8 +124,8 @@ namespace x10.compiler {
     }
 
     #region Utilities
-    private UiDefinitionX10 RunTest(string xml, string fileName = null) {
-      UiDefinitionX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output, fileName);
+    private ClassDefX10 RunTest(string xml, string fileName = null) {
+      ClassDefX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output, fileName);
       TestUtils.DumpMessages(_messages, _output);
 
       return definition;

@@ -25,9 +25,8 @@ namespace x10.ui.metadata {
     // Optional default value for the attribute.Must match Data Type
     public object DefaultValue { get; set; }
 
-    // A UI Component may have a maximum of one “writeable” attribute - it is the attribute 
-    // which actually changes a property of the attached data Entity instance. 
-    // An example would be the Text property for a TextInput control.
+    // A UI Definition can have (at most) one "Primary" attribute - this is the attribute
+    // that is used for the children in the XML tree
     public bool IsPrimary { get; set; }
 
     // If true, the property must be provided. An error is generated if a mandatory property is omitted 
@@ -42,7 +41,7 @@ namespace x10.ui.metadata {
     public string Setter { get; set; }
 
     public Action<MessageBucket, AllEntities, AllEnums, XmlScalar, IAcceptsUiAttributeValues> Pass1Action { get; set; }
-    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValue> Pass2Action { get; set; }
+    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2Action { get; set; }
 
     public bool AppliesToType(UiAppliesTo type) {
       return (AppliesTo & type) > 0;

@@ -73,7 +73,7 @@ namespace x10 {
     #endregion
 
     #region UI Compilation
-    public static UiDefinitionX10 UiCompilePass1(string xml, 
+    public static ClassDefX10 UiCompilePass1(string xml, 
       MessageBucket _messages,
       UiCompilerPass1 _compiler,
       ITestOutputHelper _output,
@@ -90,7 +90,7 @@ namespace x10 {
         Assert.NotNull(rootNode);
       }
 
-      UiDefinitionX10 definition = _compiler.CompileUiDefinition(rootNode);
+      ClassDefX10 definition = _compiler.CompileUiDefinition(rootNode);
       return definition;
     }
 
@@ -105,7 +105,7 @@ namespace x10 {
       AllEntities allEntities,
       AllEnums allEnums,
       UiLibrary uiLibrary,
-      params UiDefinitionX10[] uiDefinitions
+      params ClassDefX10[] uiDefinitions
       ) {
       AllUiDefinitions allUiDefinitions = new AllUiDefinitions(messages, uiDefinitions, uiLibrary);
       UiCompilerPass2 pass2 = new UiCompilerPass2(messages, allEntities, allEnums, allUiDefinitions);

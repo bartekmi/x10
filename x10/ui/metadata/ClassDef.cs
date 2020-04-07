@@ -4,7 +4,7 @@ using System.Text;
 using x10.model.definition;
 
 namespace x10.ui.metadata {
-  public abstract class UiDefinition {
+  public abstract class ClassDef {
     public string Name { get; set; }
     public string Description { get; set; }
 

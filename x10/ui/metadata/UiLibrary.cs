@@ -8,14 +8,14 @@ namespace x10.ui.metadata {
     public string Name { get; set; }
     public string Description { get; set; }
 
-    private Dictionary<string, UiDefinition> _definitionsByName;
+    private Dictionary<string, ClassDef> _definitionsByName;
 
-    public UiLibrary(IEnumerable<UiDefinition> definitions) {
+    public UiLibrary(IEnumerable<ClassDef> definitions) {
       _definitionsByName = definitions.ToDictionary(x => x.Name);
     }
 
-    public UiDefinition FindComponentByName(string componentName) {
-      _definitionsByName.TryGetValue(componentName, out UiDefinition definition);
+    public ClassDef FindComponentByName(string componentName) {
+      _definitionsByName.TryGetValue(componentName, out ClassDef definition);
       return definition;
     }
 

@@ -16,7 +16,7 @@ namespace x10.ui.composition {
 
   public static class UiAttributeUtils {
     public static object FindValue(IAcceptsUiAttributeValues source, string attributeName) {
-      UiAttributeValue value = FindAttribute(source, attributeName);
+      UiAttributeValueAtomic value = FindAttribute(source, attributeName) as UiAttributeValueAtomic;
       return value?.Value;
     }
 
