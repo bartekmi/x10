@@ -45,21 +45,24 @@ namespace x10.compiler {
     }
 
     private UiChild ParseRecursively(XmlElement xmlElement) {
+      UiChild uiElement;
+      UiAppliesTo appliesTo;
+
       if (IsUiModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
-        UiChildModelReference uiElement = new UiChildModelReference();
-        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiModelReference, uiElement);
-
-        return uiElement;
+        uiElement = new UiChildModelReference();
+        appliesTo = UiAppliesTo.UiModelReference;
       } else {  // Component Use (starts with upper-case)
-        UiChildComponentUse uiElement = new UiChildComponentUse();
-        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiComponentUse, uiElement);
+        uiElement = new UiChildComponentUse();
+        appliesTo = UiAppliesTo.UiComponentUse;
 
-        foreach (XmlElement xmlChild in xmlElement.Children) {
-          uiElement.AddChild(ParseRecursively(xmlChild));
-        }
-
-        return uiElement;
+        foreach (XmlElement xmlChild in xmlElement.Children)
+          ((UiChildComponentUse)uiElement).AddChild(ParseRecursively(xmlChild));
       }
+
+      uiElement.XmlElement = xmlElement;
+      _attrReader.ReadAttributes(xmlElement, appliesTo, uiElement);
+
+      return uiElement;
     }
 
     private bool IsUiModelReference(XmlElement element) {

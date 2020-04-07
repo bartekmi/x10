@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using x10.model.definition;
 
 namespace x10.ui.composition {
   public class UiChildComponentUse : UiChild {
@@ -14,6 +15,10 @@ namespace x10.ui.composition {
     internal void AddChild(UiChild uiChild) {
       Children.Add(uiChild);
       // Likely, in the future, we'll need to keep track of parent. Do it here.
+    }
+
+    public override string ToString() {
+      return string.Format("Component Use @ {0}. Member = {1}", Path, ModelMember?.Name);
     }
   }
 }

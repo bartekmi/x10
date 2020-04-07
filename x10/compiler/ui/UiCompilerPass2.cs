@@ -23,7 +23,19 @@ namespace x10.compiler {
     }
 
     internal UiDataModel(Member member) {
+      if (member is Association association) {
+        Entity = association.ReferencedEntity;
+        IsMany = association.IsMany;
+      } else {
+        Entity = member.Owner;
+        IsMany = false;
+      }
+
       Member = member;
+    }
+
+    public override string ToString() {
+      return string.Format("Entity: {0}, IsMany: {1}, Member: {2}", Entity?.Name, IsMany, Member?.Name);
     }
   }
 
@@ -55,20 +67,20 @@ namespace x10.compiler {
       // Invoke Pass 2 actions
       foreach (UiDefinitionX10 definition in _allUiDefinitions.All) {
         InvokePass2Actions(definition);
-        RecursiveyInvokePass2(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
+        CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
       }
     }
 
-    private void RecursiveyInvokePass2(UiChild element, UiDataModel dataModel) {
+    private void CompileRecursively(UiChild element, UiDataModel parentDataModel) {
       if (element == null)
         return;
 
       InvokePass2Actions(element);
+      UiDataModel myDataModel = ResolvePath(parentDataModel, element);
+
       if (element is UiChildComponentUse componentUse)
-        foreach (UiChild child in componentUse.Children) {
-          UiDataModel childDataModel = ResolvePath(dataModel, child);
-          RecursiveyInvokePass2(child, childDataModel);
-        }
+        foreach (UiChild child in componentUse.Children) 
+          CompileRecursively(child, myDataModel);
     }
 
     // TODO: Should this code live in UiAttributeDefintions (Pass2)?
