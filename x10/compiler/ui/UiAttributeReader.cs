@@ -74,11 +74,8 @@ namespace x10.compiler {
 
       // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
       // this is the only way we can track where the attribute came from in the code.
-      UiAttributeValue attrValue = new UiAttributeValueAtomic(attrNode.Value) {
-        Value = typedValue,
-        Definition = attrDef,
-      };
-      modelComponent.AttributeValues.Add(attrValue);
+      UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, attrNode.Value);
+      attrValue.Value = typedValue;
 
       // Do validation, if requried
       attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, attrNode.Value, modelComponent);

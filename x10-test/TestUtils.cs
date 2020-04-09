@@ -83,12 +83,13 @@ namespace x10 {
       ParserXml parser = new ParserXml(_messages);
 
       XmlElement rootNode = parser.ParseFromString(xml, fileName);
-      rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
 
       if (rootNode == null) {
         TestUtils.DumpMessages(_messages, _output);
         Assert.NotNull(rootNode);
       }
+
+      rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
 
       ClassDefX10 definition = _compiler.CompileUiDefinition(rootNode);
       return definition;

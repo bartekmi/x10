@@ -48,18 +48,25 @@ namespace x10.ui.metadata {
     public Action<MessageBucket, AllEntities, AllEnums, XmlScalar, IAcceptsUiAttributeValues> Pass1Action { get; set; }
     public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2Action { get; set; }
 
+    protected UiAttributeDefinition() {
+      // Some sensible defaults...
+      AppliesTo = UiAppliesTo.UiComponentUse;
+      IsPrimary = false;
+      IsMandatory = false;
+      IsMany = false;
+      IsState = false;
+    }
 
-    public UiAttributeValue CreateAndAddValue(Instance instance, XmlBase xmlBase) {
+    public UiAttributeValue CreateValueAndAddToOwner(IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
       UiAttributeValue value;
-      if (this is UiAttributeDefinitionAtomic)
-        value = new UiAttributeValueAtomic(xmlBase);
-      else if (this is UiAttributeDefinitionComplex)
-        value = new UiAttributeValueComplex(xmlBase);
+      if (this is UiAttributeDefinitionAtomic defAtomic)
+        value = new UiAttributeValueAtomic(defAtomic, xmlBase);
+      else if (this is UiAttributeDefinitionComplex defComplex)
+        value = new UiAttributeValueComplex(defComplex, xmlBase);
       else
         throw new Exception("Unexpected type of attribute: " + GetType().Name);
 
-      value.Definition = this;
-      instance.AttributeValues.Add(value);
+      owner.AttributeValues.Add(value);
 
       return value;
     }

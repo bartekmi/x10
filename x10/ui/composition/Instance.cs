@@ -9,7 +9,7 @@ using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public abstract class Instance : IAcceptsUiAttributeValues {
-    // The Entity Member which is being displayed/edited by this UiChild
+    // The Entity Member which is being displayed/edited by this Instance
     // If null, this is the root child, or one of its consecutive children
     // where no path has been set yet.
     public Member ModelMember { get; set; }

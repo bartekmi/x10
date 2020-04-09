@@ -28,7 +28,6 @@ namespace x10.compiler {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Children",
-              AppliesTo = UiAppliesTo.UiComponentUse,
               IsMany = true,
             },
           },
@@ -38,15 +37,46 @@ namespace x10.compiler {
           AttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
-              Name = "Children",
-              AppliesTo = UiAppliesTo.UiComponentUse,
+              Name = "Columns",
               IsMany = true,
+            },
+            new UiAttributeDefinitionComplex() {
+              Name = "Header",
+              IsMany = true,
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "TableColumn",
+          AttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Renderer",
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              DataType = DataTypes.Singleton.String,
             },
           },
         },
         new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
+        new ClassDefNative() {
+          Name = "Button",
+          AttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "action",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+          },
         },
       };
 
@@ -64,7 +94,16 @@ namespace x10.compiler {
   <VerticalGroup>
     <name/>
     <apartmentCount ui='MyFunkyIntComponent'/>
-    <Table path='apartments.rooms'/>
+    <Table path='apartments.rooms'>
+      <Table.Header>
+        <HelpIcon text='A useful help message...'/>
+      </Table.Header>
+      <name/>
+      <squareFootage/>
+      <TableColumn label='View Image'>
+        <Button label='View Image' action='TODO'/>
+      </TableColumn>
+    </Table>
   </VerticalGroup>
 </MyComponent>
 ");

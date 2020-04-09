@@ -11,7 +11,8 @@ namespace x10.ui.composition {
 
     public XmlBase XmlBase { get; set; }
 
-    public UiAttributeValue(XmlBase xmlBase) {
+    protected UiAttributeValue(UiAttributeDefinition attrDefinition, XmlBase xmlBase) {
+      Definition = attrDefinition;
       XmlBase = xmlBase;
     }
   }

@@ -9,7 +9,7 @@ namespace x10.ui.composition {
   public class UiAttributeValueAtomic : UiAttributeValue {
     public object Value { get;set; }
 
-    public UiAttributeValueAtomic(XmlBase xmlBase) : base(xmlBase) {
+    public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, XmlBase xmlBase) : base(attrDefinition, xmlBase) {
       // Do nothing
     }
 

@@ -75,81 +75,99 @@ namespace x10.compiler {
           continue;   // Pass 1 already warns about this
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
-        definition.RootChild = ParseRecursively(rootXmlChild);
+        definition.RootChild = ParseInstance(rootXmlChild);
 
         // Invoke Pass 2 actions
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
       }
     }
 
-
     #region Pass 2.1
-    private Instance ParseRecursively(XmlElement xmlElement) {
-      Instance instance;
-      UiAppliesTo? appliesTo;
 
-      if (IsModelReference(xmlElement)) {  // Model Reference (starts with lower-case)
-        instance = new InstanceModelRef();
-        appliesTo = UiAppliesTo.UiModelReference;
-        // TODO: Error if has XML children
-      } else if (IsClassDefUse(xmlElement)) {   // Class Definition Use (starts with upper-case)
-        instance = new InstanceClassDefUse();
-        appliesTo = UiAppliesTo.UiComponentUse;
-
-        ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(xmlElement.Name, xmlElement);
-        if (classDef == null)
-          return null;
-
-        UiAttributeDefinition primaryAttributeDef = classDef.PrimaryAttributeDef;
-        if (primaryAttributeDef == null) {
-          if (xmlElement.Children.Count > 0)
-            _messages.AddError(xmlElement,
-              string.Format("Class Definition '{0}' does not accept child elements (because it does not have a primary Attribute Definition)",
-              xmlElement.Name));
-        } else {
-          UiAttributeValueComplex complexValue = (UiAttributeValueComplex)primaryAttributeDef.CreateAndAddValue(instance, xmlElement);
-
-          // Attribute mandatory but missing
-          if (primaryAttributeDef.IsMandatory && xmlElement.Children.Count == 0)
-            _messages.AddError(xmlElement,
-              string.Format("Class Definition '{0}' must have children, but doesn't",
-              xmlElement.Name));
-
-          // Single attribute but multiple children provided
-          if (!primaryAttributeDef.IsMany && xmlElement.Children.Count > 1)
-            _messages.AddError(xmlElement,
-              string.Format("Class Definition '{0}' accepts only a single child, but it has {1}",
-              xmlElement.Name, xmlElement.Children.Count));
-
-          foreach (XmlElement xmlChild in xmlElement.Children)
-            complexValue.AddInstance(ParseRecursively(xmlChild));
-        }
-      } else if (IsComplexAttribute(xmlElement)) {
-        throw new NotImplementedException();
+    private Instance ParseInstance(XmlElement xmlElement) {
+      if (IsModelReference(xmlElement)) {
+        InstanceModelRef instance = new InstanceModelRef() {
+          XmlElement = xmlElement,
+        };
+        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiModelReference, instance);
+        return instance;
+      } else if (IsClassDefUse(xmlElement)) {
+        InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
+        if (instance != null)
+          _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiComponentUse, instance);
+        return instance;
       } else {
-        _messages.AddError(xmlElement,
-          string.Format("Xml Element name '{0}' was not recognized as either a Entity *memberName* or a *UiComponentName* or as a *Complex.property*",
-          xmlElement.Name));
+        // TODO... error
+        throw new NotImplementedException();
+      }
+    }
+
+    private InstanceClassDefUse ParseClassDefInstance(XmlElement element) {
+      ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(element.Name, element);
+      if (classDef == null)
         return null;
+
+      InstanceClassDefUse instance = new InstanceClassDefUse(classDef);
+
+      List<XmlElement> primaryAtributeXmls = new List<XmlElement>();
+      foreach (XmlElement xmlChild in element.Children) {
+        if (IsComplexAttribute(xmlChild, out string attributeName)) {
+          UiAttributeDefinition attrDefinition = classDef.FindComplexAttributeWithError(attributeName, _messages, element);
+          if (attrDefinition == null)
+            continue;
+
+          if (attrDefinition is UiAttributeDefinitionComplex complexAttrDef) {
+            // TODO: Error if no children and continue
+            UiAttributeValueComplex attributeValue = ParseComplexAttribute(xmlChild.Children, complexAttrDef);
+            instance.AttributeValues.Add(attributeValue);
+          } else {
+            // TODO: Error and continue
+          }
+        } else if (IsModelReference(xmlChild) || IsClassDefUse(xmlChild))
+          primaryAtributeXmls.Add(xmlChild);
       }
 
-      instance.XmlElement = xmlElement;
-      _attrReader.ReadAttributes(xmlElement, appliesTo.Value, instance);
+      if (primaryAtributeXmls.Count > 0) {
+        UiAttributeValueComplex primaryAttributeValue = ParseComplexAttribute(primaryAtributeXmls, classDef.PrimaryAttributeDef);
+        instance.AttributeValues.Add(primaryAttributeValue);
+      } else {
+        // TODO: Eror if primary attribute is mandatory
+      }
 
       return instance;
     }
 
+    private UiAttributeValueComplex ParseComplexAttribute(List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
+      UiAttributeValueComplex complexValue = new UiAttributeValueComplex(attrDefinition, children.First().Parent);
+
+      foreach (XmlElement child in children) {
+        if (IsComplexAttribute(child, out string attributeName))
+          _messages.AddError(child, "Nesting a Complex Attribute immediately within another is nonsensical.");
+        else {
+          Instance instance = ParseInstance(child);
+          complexValue.AddInstance(instance);
+        }
+      }
+
+      return complexValue;
+    }
 
     private bool IsModelReference(XmlElement element) {
       return ModelValidationUtils.IsMemberName(element.Name);
     }
 
-    private bool IsComplexAttribute(XmlElement element) {
+    private bool IsComplexAttribute(XmlElement element, out string attributeName) {
+      attributeName = null;
       string parentElementName = ((XmlElement)element.Parent)?.Name;
       if (parentElementName == null)
         return false;
 
-      return element.Name.StartsWith(parentElementName + ".");
+      string prefix = parentElementName + ".";
+      if (!element.Name.StartsWith(prefix) || element.Name.Length <= prefix.Length)
+        return false;
+
+      attributeName = element.Name.Substring(prefix.Length);
+      return true;
     }
 
     private bool IsClassDefUse(XmlElement element) {

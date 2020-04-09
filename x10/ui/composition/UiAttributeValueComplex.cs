@@ -9,7 +9,7 @@ namespace x10.ui.composition {
   public class UiAttributeValueComplex : UiAttributeValue {
     public List<Instance> Instances { get; private set; }
 
-    public UiAttributeValueComplex(XmlBase xmlBase) : base(xmlBase) {
+    public UiAttributeValueComplex(UiAttributeDefinitionComplex attrDefinition, XmlBase xmlBase) : base(attrDefinition, xmlBase) {
       Instances = new List<Instance>();
     }
 
