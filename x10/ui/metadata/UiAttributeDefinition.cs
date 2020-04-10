@@ -60,9 +60,9 @@ namespace x10.ui.metadata {
     public UiAttributeValue CreateValueAndAddToOwner(IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
       UiAttributeValue value;
       if (this is UiAttributeDefinitionAtomic defAtomic)
-        value = new UiAttributeValueAtomic(defAtomic, xmlBase);
+        value = new UiAttributeValueAtomic(defAtomic, owner, xmlBase);
       else if (this is UiAttributeDefinitionComplex defComplex)
-        value = new UiAttributeValueComplex(defComplex, xmlBase);
+        value = new UiAttributeValueComplex(defComplex, owner, xmlBase);
       else
         throw new Exception("Unexpected type of attribute: " + GetType().Name);
 

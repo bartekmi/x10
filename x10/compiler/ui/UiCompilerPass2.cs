@@ -118,8 +118,7 @@ namespace x10.compiler {
 
           if (attrDefinition is UiAttributeDefinitionComplex complexAttrDef) {
             // TODO: Error if no children and continue
-            UiAttributeValueComplex attributeValue = ParseComplexAttribute(xmlChild.Children, complexAttrDef);
-            instance.AttributeValues.Add(attributeValue);
+            UiAttributeValueComplex attributeValue = ParseComplexAttribute(instance, xmlChild.Children, complexAttrDef);
           } else {
             // TODO: Error and continue
           }
@@ -128,8 +127,7 @@ namespace x10.compiler {
       }
 
       if (primaryAtributeXmls.Count > 0) {
-        UiAttributeValueComplex primaryAttributeValue = ParseComplexAttribute(primaryAtributeXmls, classDef.PrimaryAttributeDef);
-        instance.AttributeValues.Add(primaryAttributeValue);
+        UiAttributeValueComplex primaryAttributeValue = ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
       } else {
         // TODO: Eror if primary attribute is mandatory
       }
@@ -137,15 +135,16 @@ namespace x10.compiler {
       return instance;
     }
 
-    private UiAttributeValueComplex ParseComplexAttribute(List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
-      UiAttributeValueComplex complexValue = new UiAttributeValueComplex(attrDefinition, children.First().Parent);
+    private UiAttributeValueComplex ParseComplexAttribute(Instance owner, List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
+      UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrDefinition.CreateValueAndAddToOwner(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
         if (IsComplexAttribute(child, out string attributeName))
           _messages.AddError(child, "Nesting a Complex Attribute immediately within another is nonsensical.");
         else {
           Instance instance = ParseInstance(child);
-          complexValue.AddInstance(instance);
+          if (instance != null)
+            complexValue.AddInstance(instance);
         }
       }
 

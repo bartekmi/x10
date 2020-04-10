@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+
+using x10.utils;
 using x10.parsing;
 using x10.ui.metadata;
+using System.Linq;
 
 namespace x10.ui.composition {
   public class ClassDefX10 : ClassDef, IAcceptsUiAttributeValues {
@@ -13,6 +17,25 @@ namespace x10.ui.composition {
     public ClassDefX10(XmlElement xmlRoot) {
       XmlElement = xmlRoot;
       AttributeValues = new List<UiAttributeValue>();
+    }
+
+
+    public void Print(TextWriter writer, int indent) {
+      PrintUtils.Indent(writer, indent);
+      writer.Write("<" + Name);
+
+      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>()) {
+        writer.Write(" ");
+        atomic.Print(writer);
+      }
+
+      writer.WriteLine(">");
+
+      if (RootChild != null)
+        RootChild.Print(writer, indent + 1);
+
+      PrintUtils.Indent(writer, indent);
+      writer.WriteLine("</" + Name + ">");
     }
   }
 }

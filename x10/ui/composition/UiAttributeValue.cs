@@ -7,12 +7,13 @@ using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public abstract class UiAttributeValue {
-    public UiAttributeDefinition Definition { get; set; }
+    public UiAttributeDefinition Definition { get; private set; }
+    public IAcceptsUiAttributeValues Owner { get; private set; }
+    public XmlBase XmlBase { get; private set; }
 
-    public XmlBase XmlBase { get; set; }
-
-    protected UiAttributeValue(UiAttributeDefinition attrDefinition, XmlBase xmlBase) {
+    protected UiAttributeValue(UiAttributeDefinition attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
       Definition = attrDefinition;
+      Owner = owner;
       XmlBase = xmlBase;
     }
   }

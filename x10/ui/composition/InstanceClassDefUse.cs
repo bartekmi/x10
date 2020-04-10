@@ -11,6 +11,10 @@ namespace x10.ui.composition {
       RenderAs = classDef;
     }
 
+    public override string GetElementName() {
+      return RenderAs.Name;
+    }
+
     public override string ToString() {
       return string.Format("Component Use @ {0}. Member = {1}", Path, ModelMember?.Name);
     }
