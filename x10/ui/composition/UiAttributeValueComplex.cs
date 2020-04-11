@@ -20,22 +20,22 @@ namespace x10.ui.composition {
       Instances.Add(instance);
     }
 
-    public void Print(TextWriter writer, int indent) {
+    public void Print(TextWriter writer, int indent, PrintConfig config = null) {
       if (Definition.IsPrimary)
-        PrintValues(writer, indent);
+        PrintValues(writer, indent, config);
       else {
         string parentClassDefName = ((Instance)Owner).RenderAs.Name;
         PrintUtils.Indent(writer, indent);
         writer.WriteLine("<{0}.{1}>", parentClassDefName, Definition.Name);
-        PrintValues(writer, indent + 1);
+        PrintValues(writer, indent + 1, config);
         PrintUtils.Indent(writer, indent);
         writer.WriteLine("</{0}.{1}>", parentClassDefName, Definition.Name);
       }
     }
 
-    private void PrintValues(TextWriter writer, int indent) {
+    private void PrintValues(TextWriter writer, int indent, PrintConfig config = null) {
       foreach (Instance instance in Instances)
-        instance.Print(writer, indent);
+        instance.Print(writer, indent, config);
     }
 
 

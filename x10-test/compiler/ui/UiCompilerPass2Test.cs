@@ -95,7 +95,7 @@ namespace x10.compiler {
     }
     #endregion
 
-
+    #region Pass 2.1
     [Fact]
     public void CompileSuccessPass2_1() {
       ClassDefX10 definition = RunTest(@"
@@ -200,14 +200,50 @@ namespace x10.compiler {
 </Outer>
 ", "Member nonExistent does not exist on Entity Apartment.", 4, 6);
     }
+    #endregion
+
+    #region Pass 2.2 - Path Resolution, Model Ref UI Resolution
+    [Fact]
+    public void PathResolution() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <VerticalGroup>       <!-- No path -->
+    <name/>             <!-- Path for a Model Reference -->
+    <Table path='apartments.rooms'>   <!-- double member path-->
+      <name/>
+      <TableColumn>
+        <Button path='paintColor'/>    <!-- Many to single -->
+      </TableColumn>
+    </Table>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition, new PrintConfig() { AlwaysPrintPath = true });
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <VerticalGroup path=''>
+    <name path='name'/>
+    <Table path='apartments.rooms'>
+      <name path='name'/>
+      <TableColumn path=''>
+        <Button path='paintColor'/>
+      </TableColumn>
+    </Table>
+  </VerticalGroup>
+</MyComponent>
+", result);
+    }
+    #endregion
 
     #region Utilities
 
-    private string Print(ClassDefX10 classDef) {
+    private string Print(ClassDefX10 classDef, PrintConfig config = null) {
       _output.WriteLine("");
 
       using (StringWriter writer = new StringWriter()) {
-        classDef.Print(writer, 0);
+        classDef.Print(writer, 0, config);
         _output.WriteLine(writer.ToString());
         return writer.ToString();
       }

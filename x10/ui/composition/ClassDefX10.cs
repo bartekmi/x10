@@ -19,8 +19,7 @@ namespace x10.ui.composition {
       AttributeValues = new List<UiAttributeValue>();
     }
 
-
-    public void Print(TextWriter writer, int indent) {
+    public void Print(TextWriter writer, int indent, PrintConfig config = null) {
       PrintUtils.Indent(writer, indent);
       writer.Write("<" + Name);
 
@@ -30,7 +29,7 @@ namespace x10.ui.composition {
       writer.WriteLine(">");
 
       if (RootChild != null)
-        RootChild.Print(writer, indent + 1);
+        RootChild.Print(writer, indent + 1, config);
 
       PrintUtils.Indent(writer, indent);
       writer.WriteLine("</" + Name + ">");

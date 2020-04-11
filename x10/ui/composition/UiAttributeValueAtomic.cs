@@ -24,7 +24,7 @@ namespace x10.ui.composition {
     }
 
     public override string ToString() {
-      return string.Format("Atomic Value: {0}", Value);
+      return string.Format("{0}='{1}'", Definition?.Name, Value);
     }
   }
 }

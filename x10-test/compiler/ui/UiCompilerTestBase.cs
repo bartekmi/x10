@@ -61,6 +61,22 @@ attributes:
   - name: squreFootage
     description: dummy
     dataType: Float
+associations:
+  - name: rooms
+    description: dummy
+    dataType: Room
+    many: true
+",
+        @"
+name: Room
+description: dummy
+attributes:
+  - name: name
+    description: dummy
+    dataType: String
+  - name: paintColor
+    description: dummy
+    dataType: String
 ",
       });
 

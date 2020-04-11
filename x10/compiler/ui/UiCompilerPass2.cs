@@ -82,7 +82,7 @@ namespace x10.compiler {
       }
     }
 
-    #region Pass 2.1
+    #region Pass 2.1 - Build the Instance/AttributeValue tree
 
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
@@ -177,16 +177,15 @@ namespace x10.compiler {
 
     #endregion
 
-
     #region Pass 2.2 - Resolve Paths
-    private void CompileRecursively(Instance element, UiDataModel parentDataModel) {
-      if (element == null)
+    private void CompileRecursively(Instance instance, UiDataModel parentDataModel) {
+      if (instance == null)
         return;
 
-      InvokePass2Actions(element);
-      UiDataModel myDataModel = ResolvePath(parentDataModel, element);
+      InvokePass2Actions(instance);
+      UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
 
-      foreach (UiAttributeValueComplex value in element.AttributeValues.OfType<UiAttributeValueComplex>())
+      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues)
         foreach (Instance childInstance in value.Instances)
           CompileRecursively(childInstance, myDataModel);
     }

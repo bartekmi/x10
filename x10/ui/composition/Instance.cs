@@ -47,12 +47,16 @@ namespace x10.ui.composition {
       get { return AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); }
     }
 
-    public void Print(TextWriter writer, int indent) {
+    public void Print(TextWriter writer, int indent, PrintConfig config = null) {
       PrintUtils.Indent(writer, indent);
       writer.Write("<" + GetElementName());
 
       foreach (UiAttributeValueAtomic atomic in AtomicAttributeValues) 
         atomic.Print(writer);
+
+      if (config != null && config.AlwaysPrintPath)
+        if (!AtomicAttributeValues.Any(x => x.Definition.Name == "path"))
+          writer.Write(" path='{0}'", Path);
 
       if (ComplexAttributeValues.Count() == 0)
         writer.WriteLine("/>");
@@ -60,7 +64,7 @@ namespace x10.ui.composition {
         writer.WriteLine(">");
 
         foreach (UiAttributeValueComplex complex in ComplexAttributeValues)
-          complex.Print(writer, indent + 1);
+          complex.Print(writer, indent + 1, config);
 
         PrintUtils.Indent(writer, indent);
         writer.WriteLine("</" + GetElementName() + ">");
