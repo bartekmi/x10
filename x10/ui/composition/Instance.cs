@@ -51,10 +51,8 @@ namespace x10.ui.composition {
       PrintUtils.Indent(writer, indent);
       writer.Write("<" + GetElementName());
 
-      foreach (UiAttributeValueAtomic atomic in AtomicAttributeValues) {
-        writer.Write(" ");
+      foreach (UiAttributeValueAtomic atomic in AtomicAttributeValues) 
         atomic.Print(writer);
-      }
 
       if (ComplexAttributeValues.Count() == 0)
         writer.WriteLine("/>");

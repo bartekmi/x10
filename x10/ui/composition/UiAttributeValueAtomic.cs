@@ -19,6 +19,7 @@ namespace x10.ui.composition {
       if (Definition.Name == ParserXml.ELEMENT_NAME)
         return;
 
+      writer.Write(" ");
       writer.Write("{0}='{1}'", Definition.Name, Value);
     }
 

@@ -24,10 +24,8 @@ namespace x10.ui.composition {
       PrintUtils.Indent(writer, indent);
       writer.Write("<" + Name);
 
-      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>()) {
-        writer.Write(" ");
+      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>()) 
         atomic.Print(writer);
-      }
 
       writer.WriteLine(">");
 

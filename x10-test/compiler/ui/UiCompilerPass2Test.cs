@@ -117,13 +117,25 @@ namespace x10.compiler {
 </MyComponent>
 ");
 
-      _output.WriteLine("");
+      string result = Print(definition);
 
-      using (StringWriter writer = new StringWriter()) {
-        definition.Print(writer, 0);
-        _output.WriteLine(writer.ToString());
-      }
-
+      Assert.Equal(@"<MyComponent description='My description...' model='Building' many='True'>
+  <VerticalGroup>
+    <name/>
+    <apartmentCount ui='MyFunkyIntComponent'/>
+    <Table path='apartments.rooms'>
+      <Table.Header>
+        <HelpIcon/>
+      </Table.Header>
+      <name/>
+      <squareFootage/>
+      <TableColumn>
+        <Button/>
+      </TableColumn>
+    </Table>
+  </VerticalGroup>
+</MyComponent>
+", result);
     }
 
     [Fact]
@@ -141,13 +153,31 @@ namespace x10.compiler {
       ClassDefX10 inner = CompilePass1(@"
 <Inner description='My description...' model='Apartment' many='true'>
   <Table>
+    <number/>
   </Table>
 </Inner>
 ");
 
       CompilePass2(inner, outer);
       Assert.Empty(_messages.Messages);
+
+      Assert.Equal(@"<Outer description='My description...' model='Building'>
+  <VerticalGroup>
+    <name/>
+    <apartmentCount ui='MyFunkyIntComponent'/>
+    <Inner path='apartments'/>
+  </VerticalGroup>
+</Outer>
+", Print(outer));
+
+      Assert.Equal(@"<Inner description='My description...' model='Apartment' many='True'>
+  <Table>
+    <number/>
+  </Table>
+</Inner>
+", Print(inner));
     }
+
 
     [Fact]
     public void NonExistentComponentUse() {
@@ -172,6 +202,16 @@ namespace x10.compiler {
     }
 
     #region Utilities
+
+    private string Print(ClassDefX10 classDef) {
+      _output.WriteLine("");
+
+      using (StringWriter writer = new StringWriter()) {
+        classDef.Print(writer, 0);
+        _output.WriteLine(writer.ToString());
+        return writer.ToString();
+      }
+    }
 
     private ClassDefX10 CompilePass1(string xml) {
       ClassDefX10 definition = TestUtils.UiCompilePass1(xml, _messages, _compilerPass1, _output);

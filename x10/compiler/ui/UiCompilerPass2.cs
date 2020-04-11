@@ -151,6 +151,7 @@ namespace x10.compiler {
       return complexValue;
     }
 
+    #region Helpers
     private bool IsModelReference(XmlElement element) {
       return ModelValidationUtils.IsMemberName(element.Name);
     }
@@ -174,8 +175,10 @@ namespace x10.compiler {
     }
     #endregion
 
+    #endregion
 
-    #region Pass 2.2
+
+    #region Pass 2.2 - Resolve Paths
     private void CompileRecursively(Instance element, UiDataModel parentDataModel) {
       if (element == null)
         return;
