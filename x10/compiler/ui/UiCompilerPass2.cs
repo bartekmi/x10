@@ -97,15 +97,15 @@ namespace x10.compiler {
           _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiComponentUse, instance);
         return instance;
       } else {
-        // TODO... error
-        throw new NotImplementedException();
+        _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
+        return null;
       }
     }
 
     private InstanceClassDefUse ParseClassDefInstance(XmlElement element) {
       ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(element.Name, element);
       if (classDef == null)
-        return null;
+        return null;    // Error provided by FindDefinitionByNameWithError() above
 
       InstanceClassDefUse instance = new InstanceClassDefUse(classDef);
 
@@ -113,42 +113,43 @@ namespace x10.compiler {
       foreach (XmlElement xmlChild in element.Children) {
         if (IsComplexAttribute(xmlChild, out string attributeName)) {
           UiAttributeDefinition attrDefinition = classDef.FindComplexAttributeWithError(attributeName, _messages, element);
-          if (attrDefinition == null)
+          if (attrDefinition == null) {
+            _messages.AddError(xmlChild,
+              string.Format("Complex Attribute '{0}' does not exist on Component '{1}'",
+              attributeName, classDef.Name));
             continue;
+          }
 
           if (attrDefinition is UiAttributeDefinitionComplex complexAttrDef) {
-            // TODO: Error if no children and continue
-            UiAttributeValueComplex attributeValue = ParseComplexAttribute(instance, xmlChild.Children, complexAttrDef);
+            if (xmlChild.Children.Count == 0) {
+              _messages.AddWarning(xmlChild, "Empty Complex Attribute");
+              continue;
+            }
+            ParseComplexAttribute(instance, xmlChild.Children, complexAttrDef);
           } else {
-            // TODO: Error and continue
+            _messages.AddError(xmlChild,
+              string.Format("Atomic Attribute '{0}' of Component '{1}' found where Complex Attribute expected.",
+              attributeName, classDef.Name));
+            continue;
           }
         } else if (IsModelReference(xmlChild) || IsClassDefUse(xmlChild))
           primaryAtributeXmls.Add(xmlChild);
       }
 
-      if (primaryAtributeXmls.Count > 0) {
-        UiAttributeValueComplex primaryAttributeValue = ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
-      } else {
-        // TODO: Eror if primary attribute is mandatory
-      }
+      if (primaryAtributeXmls.Count > 0) 
+        ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
 
       return instance;
     }
 
-    private UiAttributeValueComplex ParseComplexAttribute(Instance owner, List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
+    private void ParseComplexAttribute(Instance owner, List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
       UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrDefinition.CreateValueAndAddToOwner(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
-        if (IsComplexAttribute(child, out string attributeName))
-          _messages.AddError(child, "Nesting a Complex Attribute immediately within another is nonsensical.");
-        else {
-          Instance instance = ParseInstance(child);
-          if (instance != null)
-            complexValue.AddInstance(instance);
-        }
+        Instance instance = ParseInstance(child);
+        if (instance != null)
+          complexValue.AddInstance(instance);
       }
-
-      return complexValue;
     }
 
     #region Helpers
@@ -177,7 +178,7 @@ namespace x10.compiler {
 
     #endregion
 
-    #region Pass 2.2 - Resolve Paths
+    #region Pass 2.2 - Resolve Paths, Resolve "Render-As" components, Read Attributes
     private void CompileRecursively(Instance instance, UiDataModel parentDataModel) {
       if (instance == null)
         return;
@@ -232,7 +233,7 @@ namespace x10.compiler {
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
         _messages.AddError(xmlBase,
-          string.Format("Member {0} does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
+          string.Format("Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
         return null;
       }
 
@@ -257,6 +258,28 @@ namespace x10.compiler {
       }
 
       return null;
+    }
+
+    // TODO: This is dead code right now
+    private void ValidateAttributes(Instance instance) {
+      ClassDef classDef = instance.RenderAs;
+      // Error if mandatory attributes missing
+      foreach (UiAttributeDefinition attrDefinition in classDef.AttributeDefinitions)
+        if (!instance.AttributeValues.Any(x => x.Definition == attrDefinition))
+          if (attrDefinition.IsMandatory) {
+            string attrType;
+            if (attrDefinition is UiAttributeDefinitionComplex attrComplex)
+              if (attrComplex.IsPrimary)
+                attrType = "Primary";
+              else
+                attrType = "Complex";
+            else
+              attrType = "Atomic";
+
+            _messages.AddError(instance.XmlElement,
+              string.Format("Mandatory {0} Attribute '{1}' of Component '{2}' missing.",
+              attrType, attrDefinition.Name, classDef.Name));
+          }
     }
 
     private void InvokePass2Actions(IAcceptsUiAttributeValues component) {

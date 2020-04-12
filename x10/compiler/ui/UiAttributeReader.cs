@@ -30,8 +30,6 @@ namespace x10.compiler {
       foreach (UiAttributeDefinition attrDef in UiAttributeDefinitions.All)
         if (attrDef.AppliesToType(type))
           ReadAttribute(element, type, modelComponent, attrDef);
-
-      ErrorOnUnknownAttributes(element, type);
     }
 
     private void ReadAttribute(XmlElement element, 
@@ -77,19 +75,8 @@ namespace x10.compiler {
       UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, attrNode.Value);
       attrValue.Value = typedValue;
 
-      // Do validation, if requried
+      // Do Pass-1 action, if one exists
       attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, attrNode.Value, modelComponent);
-    }
-
-    private void ErrorOnUnknownAttributes(XmlElement element, UiAppliesTo type) {
-      HashSet<string> validAttributeNames =
-        new HashSet<string>(UiAttributeDefinitions.All.Where(x => x.AppliesToType(type))
-          .Select(x => x.Name));
-
-      foreach (XmlAttribute attribute in element.Attributes)
-        if (!validAttributeNames.Contains(attribute.Key))
-          _messages.AddError(attribute,
-            string.Format("Unknown attribute '{0}' on {1}", attribute.Key, type));
     }
   }
 }

@@ -7,10 +7,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 using x10.parsing;
-using x10.model.definition;
 using x10.model.metadata;
-using x10.model;
-using x10.compiler;
 using x10.ui.composition;
 using x10.ui.metadata;
 
@@ -39,10 +36,11 @@ namespace x10.compiler {
               IsPrimary = true,
               Name = "Columns",
               IsMany = true,
+              IsMandatory = true,
             },
             new UiAttributeDefinitionComplex() {
               Name = "Header",
-              IsMany = true,
+              IsMandatory = true,
             },
           },
         },
@@ -153,6 +151,9 @@ namespace x10.compiler {
       ClassDefX10 inner = CompilePass1(@"
 <Inner description='My description...' model='Apartment' many='true'>
   <Table>
+    <Table.Header>
+      <Button label='Hi' action='doSomething'/>
+    </Table.Header>
     <number/>
   </Table>
 </Inner>
@@ -172,12 +173,14 @@ namespace x10.compiler {
 
       Assert.Equal(@"<Inner description='My description...' model='Apartment' many='True'>
   <Table>
+    <Table.Header>
+      <Button/>
+    </Table.Header>
     <number/>
   </Table>
 </Inner>
 ", Print(inner));
     }
-
 
     [Fact]
     public void NonExistentComponentUse() {
@@ -191,14 +194,49 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void BadModelReference() {
+    public void ExpectingInstanceButDidNotGetOne() {
       RunTest(@"
 <Outer description='My description...' model='Building'>
-  <Table path='apartments'>
-    <nonExistent/>
+  <Outer.Property/>
+</Outer>
+", "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.", 3, 4);
+    }
+
+    [Fact]
+    public void EmptyComplexAttribute() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <Table>
+    <Table.Header>
+    </Table.Header>
   </Table>
 </Outer>
-", "Member nonExistent does not exist on Entity Apartment.", 4, 6);
+", "Empty Complex Attribute", 4, 6);
+    }
+
+    [Fact]
+    public void BadComplexAttribute() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <Table>
+    <Table.Bogus>
+    </Table.Bogus>
+  </Table>
+</Outer>
+", "Complex Attribute 'Bogus' does not exist on Component 'Table'", 4, 6);
+    }
+
+    [Fact]
+    public void NonComplexAttributeWhereComplexExpected() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <Table>
+    <TableColumn>
+      <TableColumn.label/>
+    </TableColumn>
+  </Table>
+</Outer>
+", "Atomic Attribute 'label' of Component 'TableColumn' found where Complex Attribute expected.", 5, 8);
     }
     #endregion
 
@@ -235,6 +273,54 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+
+    [Fact]
+    public void NonExistentPathMember() {
+      RunTest(@"
+<Outer model='Building'>
+  <VerticalGroup path='bogus'>
+    <Button path='doubleBogus'/>   <!-- Does not get here -->
+  </VerticalGroup>
+</Outer>
+", "Member 'bogus' does not exist on Entity Building.", 3, 18);
+    }
+
+    [Fact]
+    public void NonExistentNestedPathMember() {
+      RunTest(@"
+<Outer model='Building'>
+  <VerticalGroup path='apartments.windows'/>
+</Outer>
+", "Member 'windows' does not exist on Entity Apartment.", 3, 18);
+    }
+
+    [Fact]
+    public void BadModelReference() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <Table path='apartments'>
+    <nonExistent/>
+  </Table>
+</Outer>
+", "Member 'nonExistent' does not exist on Entity Apartment.", 4, 6);
+    }
+
+    [Fact(Skip = "Pending attribute validation, pending attribute ingestion")]
+    public void MissingMandatoryAttributes() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <VerticalGroup>
+    <Table/>
+    <Button/>
+  </VerticalGroup>
+</Outer>
+",
+      "Mandatory Primary Attribute 'Coluns' of Component 'Table' missing.",
+      "Mandatory Complex Attribute 'Header' of Component 'Table' missing.",
+      "Mandatory Atomic Attribute 'label' of Component 'Button' missing.");
+    }
+
+
     #endregion
 
     #region Utilities
@@ -260,8 +346,18 @@ namespace x10.compiler {
     }
 
     private void RunTest(string xml, string expectedErrorMessage, int expectedLine, int expectedChar) {
-      ClassDefX10 definiton = CompilePass1(xml);
-      RunTest(expectedErrorMessage, expectedLine, expectedChar, definiton);
+      ClassDefX10 definition = CompilePass1(xml);
+      RunTest(expectedErrorMessage, expectedLine, expectedChar, definition);
+    }
+
+    private void RunTest(string xml, params string[] expectedErrorMessages) {
+      ClassDefX10 definition = CompilePass1(xml);
+      CompilePass2(new ClassDefX10[] { definition });
+
+      foreach (string expectedErrorMessage in expectedErrorMessages) {
+        CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
+        Assert.NotNull(message);
+      }
     }
 
     private void RunTest(string expectedErrorMessage, int expectedLine, int expectedChar, params ClassDefX10[] definitions) {
