@@ -10,10 +10,13 @@ using x10.ui.composition;
 
 namespace x10.compiler {
 
+  #region Data Model
   internal class UiDataModel {
     internal Entity Entity { get; private set; }
     internal bool IsMany { get; private set; }
     internal Member Member { get; private set; }
+
+    private UiDataModel() { }
 
     internal UiDataModel(Entity entity, bool isMany) {
       Entity = entity;
@@ -38,11 +41,21 @@ namespace x10.compiler {
     public override string ToString() {
       return string.Format("Entity: {0}, IsMany: {1}, Member: {2}", Entity?.Name, IsMany, Member?.Name);
     }
+
+    internal UiDataModel ReduceManyToOne() {
+      return new UiDataModel() {
+        Entity = Entity,
+        IsMany = false,
+        Member = Member,
+      };
+    }
   }
+  #endregion
 
 
   public class UiCompilerPass2 {
 
+    #region Properties, Constructor, Top Level
     private readonly MessageBucket _messages;
     private readonly UiAttributeReader _attrReader;
     private readonly AllEntities _allEntities;
@@ -82,6 +95,7 @@ namespace x10.compiler {
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
     }
+    #endregion
 
     #region Pass 2.1 - Build the Instance/AttributeValue tree
 
@@ -111,7 +125,7 @@ namespace x10.compiler {
       List<XmlElement> primaryAtributeXmls = new List<XmlElement>();
       foreach (XmlElement xmlChild in xmlElement.Children) {
         if (IsComplexAttribute(xmlChild, out string attributeName)) {
-          UiAttributeDefinition attrDefinition = classDef.FindComplexAttributeWithError(attributeName, _messages, xmlElement);
+          UiAttributeDefinition attrDefinition = classDef.FindAttribute(attributeName);
           if (attrDefinition == null) {
             _messages.AddError(xmlChild,
               string.Format("Complex Attribute '{0}' does not exist on Component '{1}'",
@@ -185,9 +199,11 @@ namespace x10.compiler {
       InvokePass2Actions(instance);
       UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
 
-      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues)
+      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
+        UiDataModel childDataModel = value.DefinitionComplex.ReducesManyToOne ? myDataModel.ReduceManyToOne() : myDataModel;
         foreach (Instance childInstance in value.Instances)
-          CompileRecursively(childInstance, myDataModel);
+          CompileRecursively(childInstance, childDataModel);
+      }
     }
 
     private UiDataModel ResolvePath(UiDataModel dataModel, Instance instance) {

@@ -10,6 +10,7 @@ using x10.utils;
 namespace x10.ui.composition {
   public class UiAttributeValueComplex : UiAttributeValue {
     public List<Instance> Instances { get; private set; }
+    public UiAttributeDefinitionComplex DefinitionComplex { get { return (UiAttributeDefinitionComplex)Definition; } }
 
     public UiAttributeValueComplex(UiAttributeDefinitionComplex attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase) 
       : base(attrDefinition, owner, xmlBase) {

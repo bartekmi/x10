@@ -39,6 +39,7 @@ namespace x10.compiler {
               Name = "Columns",
               IsMany = true,
               IsMandatory = true,
+              ReducesManyToOne = true,
             },
             new UiAttributeDefinitionComplex() {
               Name = "Header",
@@ -126,6 +127,7 @@ namespace x10.compiler {
 </MyComponent>
 ");
 
+      // There are errors, but we don't care about them for this test (Only testing compile 2.1)
       string result = Print(definition);
 
       Assert.Equal(@"<MyComponent description='My description...' model='Building' many='True'>
@@ -202,6 +204,8 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ", "UI Component 'Bogus' not found", 4, 6);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
@@ -211,36 +215,42 @@ namespace x10.compiler {
   <Outer.Property/>
 </Outer>
 ", "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.", 3, 4);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
     public void EmptyComplexAttribute() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <Table>
     <Table.Header>
     </Table.Header>
   </Table>
 </Outer>
 ", "Empty Complex Attribute", 4, 6);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
     public void BadComplexAttribute() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <Table>
     <Table.Bogus>
     </Table.Bogus>
   </Table>
 </Outer>
 ", "Complex Attribute 'Bogus' does not exist on Component 'Table'", 4, 6);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
     public void NonComplexAttributeWhereComplexExpected() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <Table>
     <TableColumn>
       <TableColumn.label/>
@@ -248,6 +258,8 @@ namespace x10.compiler {
   </Table>
 </Outer>
 ", "Atomic Attribute 'label' of Component 'TableColumn' found where Complex Attribute expected.", 5, 8);
+
+      Assert.Single(_messages.Messages);
     }
     #endregion
 
@@ -294,6 +306,8 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ", "Member 'bogus' does not exist on Entity Building.", 3, 18);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
@@ -303,23 +317,27 @@ namespace x10.compiler {
   <VerticalGroup path='apartments.windows'/>
 </Outer>
 ", "Member 'windows' does not exist on Entity Apartment.", 3, 18);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
     public void BadModelReference() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <Table path='apartments'>
     <nonExistent/>
   </Table>
 </Outer>
 ", "Member 'nonExistent' does not exist on Entity Apartment.", 4, 6);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact(Skip = "Pending attribute validation, pending attribute ingestion")]
     public void MissingMandatoryAttributes() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <VerticalGroup>
     <Table/>
     <Button/>
@@ -329,12 +347,14 @@ namespace x10.compiler {
       "Mandatory Primary Attribute 'Coluns' of Component 'Table' missing.",
       "Mandatory Complex Attribute 'Header' of Component 'Table' missing.",
       "Mandatory Atomic Attribute 'label' of Component 'Button' missing.");
+
+      Assert.Equal(3, _messages.Messages.Count);
     }
 
     [Fact]
     public void WrongEntityType() {
       RunTest(@"
-<Outer description='My description...' model='Building'>
+<Outer description='My description...' model='Building' many='true'>
   <Table path='apartments'>
     <TableColumn>
       <RoomViewer3D/>
@@ -342,6 +362,8 @@ namespace x10.compiler {
   </Table>
 </Outer>
 ", "Data Type mismatch. Component RoomViewer3D expects Entity 'Room', but the path is delivering Entity 'Apartment'", 5, 8);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
@@ -351,6 +373,8 @@ namespace x10.compiler {
   <Table/>
 </Outer>
 ", "The component Table expects MANY Entities, but the path is delivering a SINGLE 'Building' Entity", 3, 4);
+
+      Assert.Single(_messages.Messages);
     }
 
     [Fact]
@@ -360,6 +384,8 @@ namespace x10.compiler {
   <MyFunkyIntComponent path='apartmentCount'/>
 </Outer>
 ", "The component MyFunkyIntComponent expects a SINGLE value, but the path is delivering MANY 'Building.apartmentCount' values", 3, 4);
+
+      Assert.Single(_messages.Messages);
     }
 
     #endregion

@@ -79,12 +79,8 @@ namespace x10.ui.metadata {
     }
 
 
-    public UiAttributeDefinition FindComplexAttributeWithError(string attrName, MessageBucket messages, XmlBase xmlBase) {
-      UiAttributeDefinition attribute = AttributeDefinitions.SingleOrDefault(x => x.Name == attrName);
-      if (attribute == null)
-        messages.AddError(xmlBase,
-          string.Format("Attribute {0} not found on Class Definition {1}", attrName, Name));
-      return attribute;
+    public UiAttributeDefinition FindAttribute(string attrName) {
+      return AttributeDefinitions.SingleOrDefault(x => x.Name == attrName);
     }
 
     public override string ToString() {

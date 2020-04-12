@@ -4,9 +4,13 @@ using System.Text;
 
 namespace x10.ui.metadata {
   public class UiAttributeDefinitionComplex : UiAttributeDefinition {
-    // Every complex attribute definition (enalogous to an attribute in WPF
+    // The type of every complex attribute definition (enalogous to an attribute in WPF
     // which has to be defined with the <Class.Attribute> syntax) is defined
     // by a UiDefinition object
     public ClassDef UiDefinition { get; set; }
+    
+    // If true, the data model passed to this attribute "reduces" from many to one.
+    // Classical case for this is the child of a multi-display component such as list or table
+    public bool ReducesManyToOne { get; set; }
   }
 }
