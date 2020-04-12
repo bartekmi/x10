@@ -85,6 +85,11 @@ namespace x10.compiler {
             },
           },
         },
+        new ClassDefNative() {
+          Name = "RoomViewer3D",
+          ComponentDataModel = _allEntities.FindEntityByName("Room"),
+          AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
       };
 
       _library = new UiLibrary(definitions) {
@@ -320,6 +325,18 @@ namespace x10.compiler {
       "Mandatory Atomic Attribute 'label' of Component 'Button' missing.");
     }
 
+    [Fact]
+    public void WrongEntityType() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <Table path='apartments'>
+    <TableColumn>
+      <RoomViewer3D/>
+    </TableColumn>
+  </Table>
+</Outer>
+", "Data Type mismatch. Component RoomViewer3D expects Entity 'Room', but the path is delivering Entity 'Apartment'", 5, 8);
+    }
 
     #endregion
 

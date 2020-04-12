@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 using x10.parsing;
-using x10.model.metadata;
 using x10.model.definition;
 using x10.model;
 using x10.ui.metadata;
@@ -86,9 +84,7 @@ namespace x10.compiler {
 
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
-        InstanceModelRef instance = new InstanceModelRef() {
-          XmlElement = xmlElement,
-        };
+        InstanceModelRef instance = new InstanceModelRef(xmlElement);
         _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiModelReference, instance);
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
@@ -102,17 +98,17 @@ namespace x10.compiler {
       }
     }
 
-    private InstanceClassDefUse ParseClassDefInstance(XmlElement element) {
-      ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(element.Name, element);
+    private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement) {
+      ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(xmlElement.Name, xmlElement);
       if (classDef == null)
         return null;    // Error provided by FindDefinitionByNameWithError() above
 
-      InstanceClassDefUse instance = new InstanceClassDefUse(classDef);
+      InstanceClassDefUse instance = new InstanceClassDefUse(classDef, xmlElement);
 
       List<XmlElement> primaryAtributeXmls = new List<XmlElement>();
-      foreach (XmlElement xmlChild in element.Children) {
+      foreach (XmlElement xmlChild in xmlElement.Children) {
         if (IsComplexAttribute(xmlChild, out string attributeName)) {
-          UiAttributeDefinition attrDefinition = classDef.FindComplexAttributeWithError(attributeName, _messages, element);
+          UiAttributeDefinition attrDefinition = classDef.FindComplexAttributeWithError(attributeName, _messages, xmlElement);
           if (attrDefinition == null) {
             _messages.AddError(xmlChild,
               string.Format("Complex Attribute '{0}' does not exist on Component '{1}'",
@@ -198,33 +194,44 @@ namespace x10.compiler {
 
       string path = instance.Path;
 
-      // It is perfectly valid for a UiChildComponentUse to not specify a path
-      if (path == null)
-        return dataModel;
-
-      if (instance is InstanceModelRef modelReference) {
-        dataModel = AdvancePathByOne(dataModel, path, instance.XmlElement);
-        if (dataModel == null)
-          return null;
-        instance.ModelMember = dataModel.Member;
-        instance.RenderAs = ResolveUiComponent(modelReference);
-      } else if (instance is InstanceClassDefUse componentUse) {
-        XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
-        string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
-
-        foreach (string pathComponent in pathComponents) {
-          dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
+      if (path != null) {
+        if (instance is InstanceModelRef modelReference) {
+          dataModel = AdvancePathByOne(dataModel, path, instance.XmlElement);
           if (dataModel == null)
             return null;
-        }
-      } else
-        throw new Exception("Unexpected instance type: " + instance.GetType().Name);
+          instance.ModelMember = dataModel.Member;
+          instance.RenderAs = ResolveUiComponent(modelReference);
+        } else if (instance is InstanceClassDefUse componentUse) {
+          XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
+          string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
+
+          foreach (string pathComponent in pathComponents) {
+            dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
+            if (dataModel == null)
+              return null;
+          }
+        } else
+          throw new Exception("Unexpected instance type: " + instance.GetType().Name);
+      } else {
+        // It is perfectly valid for a UiChildComponentUse to not specify a path
+      }
+
+      ClassDef renderAs = instance.RenderAs;
+      Entity expectedEntity = renderAs?.ComponentDataModel;
+
+      if (expectedEntity != null) {
+        if (dataModel.Entity == null) {
+          // There must have been an error in path somewhere up the chain. Nothing new to report.
+        } else if (expectedEntity == dataModel.Entity) {
+          // All is well - the Entity type handed down by path matches what the component expects
+        } else
+          _messages.AddError(instance.XmlElement,
+            string.Format("Data Type mismatch. Component {0} expects Entity '{1}', but the path is delivering Entity '{2}'",
+            renderAs.Name, expectedEntity.Name, dataModel.Entity.Name));
+      }
 
       // TODO: validate the compatibility of the resolved data model and the receiving component:
       // One->One and Many->Many ok, but mismatch is an error.
-
-      // TODO: validate the compatibility of resolved component with respect to the Entity
-      // If the component declares and entity, it must match.
 
       return dataModel;
     }

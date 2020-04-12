@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-using x10.model.definition;
+using x10.parsing;
 
 namespace x10.ui.composition {
   public class InstanceModelRef : Instance {
+
+    public InstanceModelRef(XmlElement xmlElement) : base(xmlElement) {
+      // Do nothing
+    }
 
     public override string GetElementName() {
       return Path;
