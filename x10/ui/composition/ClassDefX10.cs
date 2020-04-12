@@ -12,7 +12,7 @@ namespace x10.ui.composition {
   public class ClassDefX10 : ClassDef, IAcceptsUiAttributeValues {
     public Instance RootChild { get; set; }
     public List<UiAttributeValue> AttributeValues { get; private set; }
-    public XmlBase XmlElement { get; set; }
+    public XmlElement XmlElement { get; set; }
 
     public ClassDefX10(XmlElement xmlRoot) {
       XmlElement = xmlRoot;

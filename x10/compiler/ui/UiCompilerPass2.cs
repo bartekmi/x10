@@ -20,13 +20,16 @@ namespace x10.compiler {
       IsMany = isMany;
     }
 
-    internal UiDataModel(Member member) {
+    internal UiDataModel(Member member, bool isMany) {
       if (member is Association association) {
         Entity = association.ReferencedEntity;
+        // FUTURE: I believe there's an edge case here where if we are already in a isMany context,
+        // and the association referred to is also 'Many', this would be difficult to handle, and also
+        // quite advanced (A list of lists)
         IsMany = association.IsMany;
       } else {
         Entity = member.Owner;
-        IsMany = false;
+        IsMany = isMany;
       }
 
       Member = member;
@@ -76,7 +79,7 @@ namespace x10.compiler {
         definition.RootChild = ParseInstance(rootXmlChild);
 
         // Invoke Pass 2 actions
-        CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany));
+        CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
     }
 
@@ -85,12 +88,12 @@ namespace x10.compiler {
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
         InstanceModelRef instance = new InstanceModelRef(xmlElement);
-        _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiModelReference, instance);
+        _attrReader.ReadAttributes(UiAppliesTo.UiModelReference, instance);
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
         InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
         if (instance != null)
-          _attrReader.ReadAttributes(xmlElement, UiAppliesTo.UiComponentUse, instance);
+          _attrReader.ReadAttributes(UiAppliesTo.UiComponentUse, instance);
         return instance;
       } else {
         _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
@@ -187,7 +190,6 @@ namespace x10.compiler {
           CompileRecursively(childInstance, myDataModel);
     }
 
-    // TODO: Should this code live in UiAttributeDefintions (Pass2)?
     private UiDataModel ResolvePath(UiDataModel dataModel, Instance instance) {
       if (dataModel == null)
         return null;
@@ -216,13 +218,22 @@ namespace x10.compiler {
         // It is perfectly valid for a UiChildComponentUse to not specify a path
       }
 
+      ValidateDataModelCompatibility(dataModel, instance);
+
+      return dataModel;
+    }
+
+    private void ValidateDataModelCompatibility(UiDataModel dataModel, Instance instance) {
       ClassDef renderAs = instance.RenderAs;
+      if (renderAs == null)
+        return;
+
       Entity expectedEntity = renderAs?.ComponentDataModel;
 
       if (expectedEntity != null) {
         if (dataModel.Entity == null) {
           // There must have been an error in path somewhere up the chain. Nothing new to report.
-        } else if (expectedEntity == dataModel.Entity) {
+        } else if (dataModel.Entity.IsA(expectedEntity)) {
           // All is well - the Entity type handed down by path matches what the component expects
         } else
           _messages.AddError(instance.XmlElement,
@@ -230,10 +241,32 @@ namespace x10.compiler {
             renderAs.Name, expectedEntity.Name, dataModel.Entity.Name));
       }
 
-      // TODO: validate the compatibility of the resolved data model and the receiving component:
+      // Validate the compatibility of the resolved data model and the receiving component:
       // One->One and Many->Many ok, but mismatch is an error.
+      if (renderAs.CaresAboutDataModel) {
+        string dataModelFromPath = dataModel.Member == null ?
+          dataModel.Entity.Name :
+          string.Format("{0}.{1}", dataModel.Entity.Name, dataModel.Member.Name);
 
-      return dataModel;
+        string entityOrScalarProvided = dataModel.Member is X10Attribute ?
+          (dataModel.IsMany ? "values" : "value") :
+          (dataModel.IsMany ? "Entities" : "Entity");
+
+        string entityOrScalarExpected = renderAs.DataModelType == DataModelType.Scalar ?
+          (renderAs.IsMany.Value ? "values" : "value") :
+          (renderAs.IsMany.Value ? "Entities" : "Entity");
+
+        if (renderAs.IsMany.Value && !dataModel.IsMany)
+          _messages.AddError(instance.XmlElement,
+            string.Format("The component {0} expects MANY {1}, but the path is delivering a SINGLE '{2}' {3}",
+            renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
+        else if (!renderAs.IsMany.Value && dataModel.IsMany)
+          _messages.AddError(instance.XmlElement,
+            string.Format("The component {0} expects a SINGLE {1}, but the path is delivering MANY '{2}' {3}",
+            renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
+      }
+
+      // TODO: Also validate expected vs. received DataModelType
     }
 
     private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
@@ -244,7 +277,7 @@ namespace x10.compiler {
         return null;
       }
 
-      return new UiDataModel(member);
+      return new UiDataModel(member, dataModel.IsMany);
     }
 
     // For a model reference component (e.g. <myField>), we resolve the actual ui component to use at three levels:

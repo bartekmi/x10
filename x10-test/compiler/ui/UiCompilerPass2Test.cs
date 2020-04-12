@@ -31,6 +31,8 @@ namespace x10.compiler {
         },
         new ClassDefNative() {
           Name = "Table",
+          IsMany = true,
+          DataModelType = DataModelType.Entity,
           AttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
@@ -59,6 +61,8 @@ namespace x10.compiler {
         },
         new ClassDefNative() {
           Name = "MyFunkyIntComponent",
+          IsMany = false,
+          DataModelType = DataModelType.Scalar,
           AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
         new ClassDefNative() {
@@ -88,6 +92,8 @@ namespace x10.compiler {
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
+          DataModelType = DataModelType.Entity,
+          IsMany = false,
           AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
       };
@@ -336,6 +342,24 @@ namespace x10.compiler {
   </Table>
 </Outer>
 ", "Data Type mismatch. Component RoomViewer3D expects Entity 'Room', but the path is delivering Entity 'Apartment'", 5, 8);
+    }
+
+    [Fact]
+    public void ExpectedManyGotOne() {
+      RunTest(@"
+<Outer model='Building'>
+  <Table/>
+</Outer>
+", "The component Table expects MANY Entities, but the path is delivering a SINGLE 'Building' Entity", 3, 4);
+    }
+
+    [Fact]
+    public void ExpectedOneGotMany() {
+      RunTest(@"
+<Outer model='Building' many='true'>
+  <MyFunkyIntComponent path='apartmentCount'/>
+</Outer>
+", "The component MyFunkyIntComponent expects a SINGLE value, but the path is delivering MANY 'Building.apartmentCount' values", 3, 4);
     }
 
     #endregion

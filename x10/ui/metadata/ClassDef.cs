@@ -7,6 +7,12 @@ using x10.parsing;
 using x10.model.definition;
 
 namespace x10.ui.metadata {
+
+  public enum DataModelType {
+    Scalar,
+    Entity,
+  }
+
   public abstract class ClassDef {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -27,10 +33,19 @@ namespace x10.ui.metadata {
     public Entity ComponentDataModel { get; set; }
 
     // Is the Component Data Model a list?
-    public bool IsMany { get; set; }
+    public bool? IsMany { get; set; }
+
+    // If present, specifies the type of the expected data model
+    public DataModelType? DataModelType { get; set; }
+
+    // Inheritance - in the object-oriented sense. Children inherit all the Attribute
+    // Definitions of their ancestors
+    public ClassDef InheritsFrom { get; set; }
 
     // Derived
-
+    public bool CaresAboutDataModel {
+      get { return DataModelType != null && IsMany != null; }
+    }
 
     // For now, we will limit the primary attribute to be complex. In general, this should 
     // not have to be the case. In particular, it would be very convenient to have a Text
@@ -44,6 +59,25 @@ namespace x10.ui.metadata {
         return (UiAttributeDefinitionComplex)attribute;
       }
     }
+
+    //----------------------------------------------------------------------------------
+
+    protected ClassDef() {
+      // Do nothing= 
+    }
+
+    // Is-a in an object-oriented sense. Returns true if the passed in parameter is this class-def
+    // or if this class is a descndent of classDefOrAncestor
+    public bool IsA(ClassDef classDefOrAncestor) {
+      ClassDef classDef = this;
+      while (classDef != null) {
+        if (classDef == classDefOrAncestor)
+          return true;
+        classDef = classDef.InheritsFrom;
+      }
+      return false;
+    }
+
 
     public UiAttributeDefinition FindComplexAttributeWithError(string attrName, MessageBucket messages, XmlBase xmlBase) {
       UiAttributeDefinition attribute = AttributeDefinitions.SingleOrDefault(x => x.Name == attrName);

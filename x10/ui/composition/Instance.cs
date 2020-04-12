@@ -28,7 +28,7 @@ namespace x10.ui.composition {
     public ClassDef RenderAs { get; set; }
 
     public List<UiAttributeValue> AttributeValues { get; private set; }
-    public XmlBase XmlElement { get; private set; }
+    public XmlElement XmlElement { get; private set; }
 
     // Derived
     public IEnumerable<UiAttributeValueAtomic> AtomicAttributeValues {

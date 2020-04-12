@@ -26,7 +26,7 @@ namespace x10.compiler {
       };
 
       // Read top-level (entity) attributes
-      _attrReader.ReadAttributes(rootNode, UiAppliesTo.UiDefinition, definition);
+      _attrReader.ReadAttributes(UiAppliesTo.UiDefinition, definition);
 
       // Top-level definition node generally should have exactly one child node
       // We allow for a non-node placeholder, but with a warning.

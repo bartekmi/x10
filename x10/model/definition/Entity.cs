@@ -20,6 +20,18 @@ namespace x10.model.definition {
       Members = new List<Member>();
     }
 
+    // Is-a in an object-oriented sense. Returns true if the passed in parameter is this Entity
+    // or if this Entity is a descndent of classDefOrAncestor
+    public bool IsA(Entity entityOrAncestor) {
+      Entity entity = this;
+      while (entity != null) {
+        if (entity == entityOrAncestor)
+          return true;
+        entity = entity.InheritsFrom;
+      }
+      return false;
+    }
+
     public Member FindMemberByName(string name) {
       // TODO: Consider making this similar to the other 'All...' classes where an appropriate
       // message is generated if member is missing or duplicated

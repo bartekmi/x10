@@ -11,7 +11,7 @@ namespace x10.ui.composition {
 
     // The xml element from which this building block was created so if there are errors,
     // we can trace them back to the code file and location
-    XmlBase XmlElement { get; }
+    XmlElement XmlElement { get; }
   }
 
   public static class UiAttributeUtils {
