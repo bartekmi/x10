@@ -62,6 +62,9 @@ namespace x10.compiler {
     private readonly AllEnums _allEnums;
     private readonly AllUiDefinitions _allUiDefinitions;
 
+    private static readonly string[] PASS_2_1_MODEL_REF_ATTRIBUTES = new string[] { ParserXml.ELEMENT_NAME, "ui" };
+    private static readonly string[] PASS_2_1_CLASS_DEF_USE_ATTRIBUTES = new string[] { ParserXml.ELEMENT_NAME, "path" };
+
     internal UiCompilerPass2(
       MessageBucket messages,
       UiAttributeReader attributeReader,
@@ -102,12 +105,12 @@ namespace x10.compiler {
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
         InstanceModelRef instance = new InstanceModelRef(xmlElement);
-        _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiModelReference, ParserXml.ELEMENT_NAME, "ui");
+        _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiModelReference, PASS_2_1_MODEL_REF_ATTRIBUTES);
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
         InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
         if (instance != null)
-          _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiComponentUse, ParserXml.ELEMENT_NAME, "path");
+          _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiComponentUse, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
         return instance;
       } else {
         _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
@@ -202,10 +205,10 @@ namespace x10.compiler {
       UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
         instance.RenderAs = ResolveUiComponent(modelReference);
-        //_attrReader.ReadAttributes(UiAppliesTo.UiModelReference, instance);
-      } else if (instance is InstanceClassDefUse) {
-        //_attrReader.ReadAttributes(UiAppliesTo.UiComponentUse, instance);
-      } else
+        _attrReader.ReadAttributesForInstance(instance, PASS_2_1_MODEL_REF_ATTRIBUTES);
+      } else if (instance is InstanceClassDefUse)
+        _attrReader.ReadAttributesForInstance(instance, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
+      else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
       // Recurse

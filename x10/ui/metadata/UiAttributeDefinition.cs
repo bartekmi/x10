@@ -20,7 +20,9 @@ namespace x10.ui.metadata {
     public string Name { get; set; }
     public string Description { get; set; }
 
-    public UiAppliesTo AppliesTo { get; set; }
+    // If specified, this determines what type of entity this attribute applies to
+    // Normally, this is only used for attributes defined in 'UiAttributeDefinitions"
+    public UiAppliesTo? AppliesTo { get; set; }
 
     // Optional default value for the attribute.Must match Data Type
     public object DefaultValue { get; set; }

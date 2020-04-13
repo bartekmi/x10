@@ -28,14 +28,21 @@ namespace x10.compiler {
       _allEnums = allEnums;
     }
 
-    // Read the attributes of this element
-    internal void ReadAttributes(UiAppliesTo type, IAcceptsUiAttributeValues modelComponent) {
-      // Iterate known attributes and extract
-      // NOTE: Attributes must be checked in order. Don't convert this to a hash.
-      // Reason: 'dataType' must be parsed before the 'default' attribute
-      foreach (UiAttributeDefinition attrDef in UiAttributeDefinitions.All)
-        if (attrDef.AppliesToType(type))
-          ReadAttribute(modelComponent, attrDef);
+    internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
+      ReadAttributesPrivate(UiAppliesTo.UiDefinition, classDef, UiAttributeDefinitions.All);
+    }
+
+    internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {
+      IEnumerable<UiAttributeDefinition> classDefAttrs = instance.RenderAs?.AtomicAttributeDefinitions;
+      IEnumerable<UiAttributeDefinition> allAttrs = classDefAttrs == null ?
+        UiAttributeDefinitions.All :
+        UiAttributeDefinitions.All.Concat(classDefAttrs);
+
+      allAttrs = allAttrs.Where(x => !attributesToExclude.Contains(x.Name));
+
+      UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
+
+      ReadAttributesPrivate(appliesTo, instance, allAttrs);
     }
 
     internal void ReadSpecificAttributes(IAcceptsUiAttributeValues modelComponent,
@@ -47,6 +54,12 @@ namespace x10.compiler {
         UiAttributeDefinition attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
         ReadAttribute(modelComponent, attrDef);
       }
+    }
+
+    private void ReadAttributesPrivate(UiAppliesTo appliesTo, IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinition> attrDefs) {
+      foreach (UiAttributeDefinition attrDef in attrDefs)
+        if (attrDef.AppliesToType(appliesTo))
+          ReadAttribute(modelComponent, attrDef);
     }
 
     private void ReadAttribute(

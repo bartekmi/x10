@@ -24,7 +24,7 @@ namespace x10.compiler {
       ClassDefX10 definition = new ClassDefX10(rootNode);
 
       // Read top-level (entity) attributes
-      _attrReader.ReadAttributes(UiAppliesTo.UiDefinition, definition);
+      _attrReader.ReadAttributesForClassDef(definition);
 
       // Top-level definition node generally should have exactly one child node
       // We allow for a non-node placeholder, but with a warning.

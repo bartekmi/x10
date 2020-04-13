@@ -151,12 +151,12 @@ namespace x10.compiler {
     <apartmentCount ui='MyFunkyIntComponent'/>
     <Table path='apartments.rooms'>
       <Table.Header>
-        <HelpIcon/>
+        <HelpIcon text='A useful help message...'/>
       </Table.Header>
       <name/>
       <squareFootage/>
-      <TableColumn>
-        <Button/>
+      <TableColumn label='View Image'>
+        <Button label='View Image' action='TODO'/>
       </TableColumn>
     </Table>
   </VerticalGroup>
@@ -202,7 +202,7 @@ namespace x10.compiler {
       Assert.Equal(@"<Inner description='My description...' model='Apartment' many='True'>
   <Table>
     <Table.Header>
-      <Button/>
+      <Button label='Hi' action='doSomething'/>
     </Table.Header>
     <number/>
   </Table>
@@ -288,7 +288,7 @@ namespace x10.compiler {
     <Table path='apartments.rooms'>   <!-- double member path-->
       <name/>
       <TableColumn>
-        <Button path='paintColor'/>    <!-- Many to single -->
+        <Button path='paintColor' label='Boo' action='doSomething'/>    <!-- Many to single -->
       </TableColumn>
     </Table>
   </VerticalGroup>
@@ -304,7 +304,7 @@ namespace x10.compiler {
     <Table path='apartments.rooms'>
       <name path='name'/>
       <TableColumn path=''>
-        <Button path='paintColor'/>
+        <Button path='paintColor' label='Boo' action='doSomething'/>
       </TableColumn>
     </Table>
   </VerticalGroup>
@@ -317,7 +317,7 @@ namespace x10.compiler {
       RunTest(@"
 <Outer model='Building'>
   <VerticalGroup path='bogus'>
-    <Button path='doubleBogus'/>   <!-- Does not get here -->
+    <Button path='doubleBogus' label='Boo' action='doSomething'/>   <!-- Does not get here -->
   </VerticalGroup>
 </Outer>
 ", "Member 'bogus' does not exist on Entity Building.", 3, 18);
