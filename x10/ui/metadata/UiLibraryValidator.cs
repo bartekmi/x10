@@ -15,9 +15,14 @@ namespace x10.ui.metadata {
     }
 
     public void HydrateAndValidate(UiLibrary library) {
+      int blankNameClassDefs = library.All.Count(x => string.IsNullOrWhiteSpace(x.Name));
+      if (blankNameClassDefs > 0)
+        _messages.AddError(null, "{0} Class Definitions have a blank name", blankNameClassDefs);
+
       foreach (ClassDef classDef in library.All) {
         HydrateOwner(classDef);
-        HydrateEnsureBaseClassPresent(library, classDef);
+        HydrateAndValidateBaseClass(library, classDef);
+        EnsureMandatoryFieldsPresent(classDef);
       }
 
       foreach (ClassDef classDef in library.All)
@@ -28,6 +33,9 @@ namespace x10.ui.metadata {
         foreach (ClassDef classDef in library.All) {
           EnsureNoDuplicateAttributes(classDef);
           EnsureMaxOnePrimaryAttribute(classDef);
+
+          foreach (UiAttributeDefinition attrDef in classDef.LocalAttributeDefinitions)
+            ValidateAttribute(library, attrDef);
         }
     }
 
@@ -36,16 +44,27 @@ namespace x10.ui.metadata {
         attrDef.Owner = classDef;
     }
 
-    private void HydrateEnsureBaseClassPresent(UiLibrary library, ClassDef classDef) {
-      if (classDef.InheritsFromName == null && classDef.InheritsFrom == null)
-        _messages.AddError(null, "{0} does not specify Inherits-From", classDef.Name);
+    private void HydrateAndValidateBaseClass(UiLibrary library, ClassDef classDef) {
+      string description = string.Format("Inherits-From parent of Class Definition {0}", classDef.Name);
+      classDef.InheritsFrom = HydrateAndValidateClassDef(library, description, classDef.InheritsFrom, classDef.InheritsFromName);
+    }
 
-      if (classDef.InheritsFromName != null) {
-        classDef.InheritsFrom = library.FindComponentByName(classDef.InheritsFromName);
-        if (classDef.InheritsFrom == null)
-          _messages.AddError(null, "Specified Inherits-From {0} on Class Definition {1} does not exist.",
-            classDef.InheritsFromName, classDef.Name);
+    private ClassDef HydrateAndValidateClassDef(UiLibrary library, string description, ClassDef theObject, string name) {
+      if (name == null && theObject == null)
+        _messages.AddError(null, "{0} is not defined", description);
+
+      if (name != null) {
+        theObject = library.FindComponentByName(name);
+        if (theObject == null)
+          _messages.AddError(null, "{0} '{1}' does not exist.",
+            description, name);
       }
+
+      return theObject;
+    }
+
+    private void EnsureMandatoryFieldsPresent(ClassDef classDef) {
+      // TODO
     }
 
     private void EnsureNoDuplicateAttributes(ClassDef classDef) {
@@ -77,6 +96,18 @@ namespace x10.ui.metadata {
         }
 
       } while (pointer != null);
+    }
+
+    private void ValidateAttribute(UiLibrary library, UiAttributeDefinition attrDef) {
+      if (string.IsNullOrWhiteSpace(attrDef.Name)) {
+        _messages.AddError(null, "{0} contains an attribute with no name", attrDef.Owner.Name);
+        return;
+      }
+
+      if (attrDef is UiAttributeDefinitionComplex attrComplex) {
+        string description = string.Format("Type of Complex Attribute {0}.{1}", attrDef.Owner.Name, attrDef.Name);
+        attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName);
+      }
     }
   }
 }

@@ -55,6 +55,7 @@ namespace x10.compiler {
               IsPrimary = true,
               Name = "Children",
               IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
             },
           }
         },
@@ -70,10 +71,12 @@ namespace x10.compiler {
               IsMany = true,
               IsMandatory = true,
               ReducesManyToOne = true,
+              ComplexAttributeTypeName = "TableColumn",
             },
             new UiAttributeDefinitionComplex() {
               Name = "Header",
               IsMandatory = true,
+              ComplexAttributeType = ClassDefNative.Visual,
             },
           },
         },
@@ -84,6 +87,7 @@ namespace x10.compiler {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Renderer",
+              ComplexAttributeType = ClassDefNative.Visual,
             },
             new UiAttributeDefinitionAtomic() {
               Name = "label",
@@ -280,6 +284,25 @@ namespace x10.compiler {
       Assert.Equal(2, _messages.Messages.Count);
     }
 
+
+    [Fact]
+    public void WrongComplexAttributeType() {
+      RunTest(@"
+<Outer description='My description...' model='Building' many='true'>
+  <Table>
+    <HelpIcon/>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+  </Table>
+</Outer>
+",
+      "Complex Attribute value must be of type TableColumn or inherit from it",
+      4, 6);
+
+      Assert.Single(_messages.Messages);
+    }
+
     [Fact]
     public void BadComplexAttribute() {
       RunTest(@"
@@ -453,7 +476,7 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void WrongAttributeType() {
+    public void WrongAtomicAttributeType() {
       RunTest(@"
 <Outer description='My description...' model='Building'>
   <HelpIcon difficulty='seven'/>

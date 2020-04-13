@@ -166,13 +166,22 @@ namespace x10.compiler {
       return instance;
     }
 
-    private void ParseComplexAttribute(Instance owner, List<XmlElement> children, UiAttributeDefinitionComplex attrDefinition) {
-      UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrDefinition.CreateValueAndAddToOwner(owner, children.First().Parent);
+    private void ParseComplexAttribute(Instance owner, 
+      List<XmlElement> children, 
+      UiAttributeDefinitionComplex attrComplex) {
+
+      UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrComplex.CreateValueAndAddToOwner(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
         Instance instance = ParseInstance(child);
-        if (instance != null)
+        if (instance != null) {
+          if (instance.RenderAs != null && !instance.RenderAs.IsA(attrComplex.ComplexAttributeType))
+            _messages.AddError(child,
+             "Complex Attribute value must be of type {0} or inherit from it", 
+             attrComplex.ComplexAttributeType.Name);
+
           complexValue.AddInstance(instance);
+        }
       }
     }
 
@@ -207,7 +216,7 @@ namespace x10.compiler {
       if (instance == null)
         return;
 
-      // Process this instance
+      // Process this instance...
       InvokePass2Actions(instance);
 
       UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
@@ -219,7 +228,7 @@ namespace x10.compiler {
       else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
-      // Recurse
+      // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
         UiDataModel childDataModel = value.DefinitionComplex.ReducesManyToOne ? myDataModel.ReduceManyToOne() : myDataModel;
         foreach (Instance childInstance in value.Instances)

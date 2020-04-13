@@ -26,7 +26,7 @@ namespace x10.ui.metadata {
         },
       });
 
-      RunTest(library, "MyFunkyIntComponent does not specify Inherits-From");
+      RunTest(library, "Inherits-From parent of Class Definition MyFunkyIntComponent is not defined");
     }
 
     [Fact]

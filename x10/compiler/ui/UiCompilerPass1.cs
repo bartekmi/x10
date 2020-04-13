@@ -21,7 +21,9 @@ namespace x10.compiler {
     }
 
     internal ClassDefX10 CompileUiDefinition(XmlElement rootNode) {
-      ClassDefX10 definition = new ClassDefX10(rootNode);
+      ClassDefX10 definition = new ClassDefX10(rootNode) {
+        InheritsFrom = ClassDefNative.Visual,
+      };
 
       // Read top-level (entity) attributes
       _attrReader.ReadAttributesForClassDef(definition);
