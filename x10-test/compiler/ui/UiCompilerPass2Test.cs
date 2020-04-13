@@ -25,43 +25,34 @@ namespace x10.compiler {
           Name = "MyFunkyIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
         new ClassDefNative() {
           Name = "MyAverageIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
         new ClassDefNative() {
           Name = "MyBasicIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
         new ClassDefNative() {
           Name = "TextEdit",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
 
         // Complex Components
-        new ClassDefNative() {
-          Name = "VerticalGroup",
-          AttributeDefinitions = new List<UiAttributeDefinition>() {
+        new ClassDefNative(new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Children",
               IsMany = true,
             },
-          },
+          }) {
+          Name = "VerticalGroup",
         },
-        new ClassDefNative() {
-          Name = "Table",
-          IsMany = true,
-          DataModelType = DataModelType.Entity,
-          AttributeDefinitions = new List<UiAttributeDefinition>() {
+        new ClassDefNative(new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Columns",
@@ -73,11 +64,12 @@ namespace x10.compiler {
               Name = "Header",
               IsMandatory = true,
             },
-          },
+          }) {
+          Name = "Table",
+          IsMany = true,
+          DataModelType = DataModelType.Entity,
         },
-        new ClassDefNative() {
-          Name = "TableColumn",
-          AttributeDefinitions = new List<UiAttributeDefinition>() {
+        new ClassDefNative(new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Renderer",
@@ -86,20 +78,18 @@ namespace x10.compiler {
               Name = "label",
               DataType = DataTypes.Singleton.String,
             },
-          },
+          }) {
+          Name = "TableColumn",
         },
-        new ClassDefNative() {
-          Name = "HelpIcon",
-          AttributeDefinitions = new List<UiAttributeDefinition>() {
+        new ClassDefNative(new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "text",
               DataType = DataTypes.Singleton.String,
             },
-          },
+          }) {
+          Name = "HelpIcon",
         },
-        new ClassDefNative() {
-          Name = "Button",
-          AttributeDefinitions = new List<UiAttributeDefinition>() {
+        new ClassDefNative(new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "label",
               IsMandatory = true,
@@ -110,14 +100,14 @@ namespace x10.compiler {
               IsMandatory = true,
               DataType = DataTypes.Singleton.String,
             },
-          },
+          }) {
+          Name = "Button",
         },
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
           DataModelType = DataModelType.Entity,
           IsMany = false,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
         },
       };
 

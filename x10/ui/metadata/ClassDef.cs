@@ -21,7 +21,7 @@ namespace x10.ui.metadata {
     // We put this here at the base class level in anticipation of having a mechanism
     // of definition attributes on X10 components so as to make them re-usable
     // with tweaks.
-    public List<UiAttributeDefinition> AttributeDefinitions { get; set; }
+    public IEnumerable<UiAttributeDefinition> _attributeDefinitions { get; private set; }
 
     // Is this a visual component (as opposed to just a logical one
     // like TableColumn, etc). If true, can participate in the visual 
@@ -46,6 +46,19 @@ namespace x10.ui.metadata {
     public bool CaresAboutDataModel {
       get { return DataModelType != null && IsMany != null; }
     }
+    public IEnumerable<UiAttributeDefinition> AttributeDefinitions {
+      get {
+        return InheritsFrom == null ?
+          _attributeDefinitions :
+          InheritsFrom.AttributeDefinitions.Concat(_attributeDefinitions);
+      }
+    }
+    public IEnumerable<UiAttributeDefinitionAtomic> AtomicAttributeDefinitions {
+      get { return AttributeDefinitions.OfType<UiAttributeDefinitionAtomic>(); }
+    }
+    public IEnumerable<UiAttributeDefinitionComplex> ComplexAttributeDefinitions {
+      get { return AttributeDefinitions.OfType<UiAttributeDefinitionComplex>(); }
+    }
 
     // For now, we will limit the primary attribute to be complex. In general, this should 
     // not have to be the case. In particular, it would be very convenient to have a Text
@@ -62,8 +75,8 @@ namespace x10.ui.metadata {
 
     //----------------------------------------------------------------------------------
 
-    protected ClassDef() {
-      // Do nothing= 
+    protected ClassDef(IEnumerable<UiAttributeDefinition> attrDefinitions) {
+      _attributeDefinitions = attrDefinitions;
     }
 
     // Is-a in an object-oriented sense. Returns true if the passed in parameter is this class-def

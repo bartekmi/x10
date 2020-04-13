@@ -14,7 +14,7 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; set; }
 
-    public ClassDefX10(XmlElement xmlRoot) {
+    public ClassDefX10(XmlElement xmlRoot) : base(new List<UiAttributeDefinition>()) {
       XmlElement = xmlRoot;
       AttributeValues = new List<UiAttributeValue>();
     }

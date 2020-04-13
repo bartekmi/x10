@@ -102,12 +102,12 @@ namespace x10.compiler {
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
         InstanceModelRef instance = new InstanceModelRef(xmlElement);
-        _attrReader.ReadAttributes(instance, UiAppliesTo.UiModelReference, ParserXml.ELEMENT_NAME, "ui");
+        _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiModelReference, ParserXml.ELEMENT_NAME, "ui");
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
         InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
         if (instance != null)
-          _attrReader.ReadAttributes(instance, UiAppliesTo.UiComponentUse, ParserXml.ELEMENT_NAME, "path");
+          _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiComponentUse, ParserXml.ELEMENT_NAME, "path");
         return instance;
       } else {
         _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");

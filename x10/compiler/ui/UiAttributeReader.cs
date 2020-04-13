@@ -38,7 +38,7 @@ namespace x10.compiler {
           ReadAttribute(modelComponent, attrDef);
     }
 
-    internal void ReadAttributes(IAcceptsUiAttributeValues modelComponent,
+    internal void ReadSpecificAttributes(IAcceptsUiAttributeValues modelComponent,
       UiAppliesTo appliesTo,
       params string[] attributeNames
       ) {

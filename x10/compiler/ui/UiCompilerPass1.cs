@@ -21,9 +21,7 @@ namespace x10.compiler {
     }
 
     internal ClassDefX10 CompileUiDefinition(XmlElement rootNode) {
-      ClassDefX10 definition = new ClassDefX10(rootNode) {
-        AttributeDefinitions = new List<UiAttributeDefinition>(),
-      };
+      ClassDefX10 definition = new ClassDefX10(rootNode);
 
       // Read top-level (entity) attributes
       _attrReader.ReadAttributes(UiAppliesTo.UiDefinition, definition);
