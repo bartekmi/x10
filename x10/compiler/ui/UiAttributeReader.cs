@@ -73,9 +73,15 @@ namespace x10.compiler {
 
       if (attrNode == null) {
         if (attrDef.DefaultValue == null) {
-          if (attrDef.IsMandatory)
+          if (attrDef.IsMandatory) {
+            string classDefOwnership = attrDef.Owner == null ?
+              "" :
+              string.Format(" of Class Definition '{0}'", attrDef.Owner.Name);
+
             _messages.AddError(xmlElement,
-              string.Format("Required attribute '{0}' is missing", attrDef.Name));
+              string.Format("Mandatory Atomic Attribute '{0}'{1} is missing",
+              attrDef.Name, classDefOwnership));
+          }
           return;
         } else
           typedValue = attrDef.DefaultValue;

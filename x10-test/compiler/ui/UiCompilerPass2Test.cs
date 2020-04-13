@@ -241,11 +241,12 @@ namespace x10.compiler {
   <Table>
     <Table.Header>
     </Table.Header>
+    <name/>
   </Table>
 </Outer>
 ", "Empty Complex Attribute", 4, 6);
 
-      Assert.Single(_messages.Messages);
+      Assert.Equal(2, _messages.Messages.Count);
     }
 
     [Fact]
@@ -255,6 +256,10 @@ namespace x10.compiler {
   <Table>
     <Table.Bogus>
     </Table.Bogus>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <name/>
   </Table>
 </Outer>
 ", "Complex Attribute 'Bogus' does not exist on Component 'Table'", 4, 6);
@@ -270,6 +275,9 @@ namespace x10.compiler {
     <TableColumn>
       <TableColumn.label/>
     </TableColumn>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
   </Table>
 </Outer>
 ", "Atomic Attribute 'label' of Component 'TableColumn' found where Complex Attribute expected.", 5, 8);
@@ -286,6 +294,9 @@ namespace x10.compiler {
   <VerticalGroup>       <!-- No path -->
     <name/>             <!-- Path for a Model Reference -->
     <Table path='apartments.rooms'>   <!-- double member path-->
+      <Table.Header>
+        <HelpIcon/>
+      </Table.Header>
       <name/>
       <TableColumn>
         <Button path='paintColor' label='Boo' action='doSomething'/>    <!-- Many to single -->
@@ -302,6 +313,9 @@ namespace x10.compiler {
   <VerticalGroup path=''>
     <name path='name'/>
     <Table path='apartments.rooms'>
+      <Table.Header>
+        <HelpIcon path=''/>
+      </Table.Header>
       <name path='name'/>
       <TableColumn path=''>
         <Button path='paintColor' label='Boo' action='doSomething'/>
@@ -341,15 +355,18 @@ namespace x10.compiler {
       RunTest(@"
 <Outer description='My description...' model='Building' many='true'>
   <Table path='apartments'>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
     <nonExistent/>
   </Table>
 </Outer>
-", "Member 'nonExistent' does not exist on Entity Apartment.", 4, 6);
+", "Member 'nonExistent' does not exist on Entity Apartment.", 7, 6);
 
       Assert.Single(_messages.Messages);
     }
 
-    [Fact(Skip = "Pending attribute validation, pending attribute ingestion")]
+    [Fact]
     public void MissingMandatoryAttributes() {
       RunTest(@"
 <Outer description='My description...' model='Building' many='true'>
@@ -359,11 +376,12 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ",
-      "Mandatory Primary Attribute 'Coluns' of Component 'Table' missing.",
-      "Mandatory Complex Attribute 'Header' of Component 'Table' missing.",
-      "Mandatory Atomic Attribute 'label' of Component 'Button' missing.");
+      "Mandatory Primary Attribute 'Columns' of Class Definition 'Table' is missing",
+      "Mandatory Complex Attribute 'Header' of Class Definition 'Table' is missing",
+      "Mandatory Atomic Attribute 'label' of Class Definition 'Button' is missing",
+      "Mandatory Atomic Attribute 'action' of Class Definition 'Button' is missing");
 
-      Assert.Equal(3, _messages.Messages.Count);
+      Assert.Equal(4, _messages.Messages.Count);
     }
 
     #region ValidateDataModelCompatibility
@@ -375,6 +393,9 @@ namespace x10.compiler {
     <TableColumn>
       <RoomViewer3D/>
     </TableColumn>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
   </Table>
 </Outer>
 ", "Data Type mismatch. Component RoomViewer3D expects Entity 'Room', but the path is delivering Entity 'Apartment'", 5, 8);
@@ -386,7 +407,12 @@ namespace x10.compiler {
     public void ExpectedManyGotOne() {
       RunTest(@"
 <Outer model='Building'>
-  <Table/>
+  <Table>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <name/>
+  </Table>
 </Outer>
 ", "The component Table expects MANY Entities, but the path is delivering a SINGLE 'Building' Entity", 3, 4);
 
@@ -471,6 +497,8 @@ namespace x10.compiler {
 
       foreach (string expectedErrorMessage in expectedErrorMessages) {
         CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
+        if (message == null)
+          _output.WriteLine("Did not find: " + expectedErrorMessage);
         Assert.NotNull(message);
       }
     }

@@ -152,8 +152,16 @@ namespace x10.compiler {
           primaryAtributeXmls.Add(xmlChild);
       }
 
+      // Is there a Primary Complex attribute? If so, parse it.
       if (primaryAtributeXmls.Count > 0)
         ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
+
+      // Validate mandatory comlex attributes
+      foreach (UiAttributeDefinitionComplex complexAttr in classDef.ComplexAttributeDefinitions)
+        if (complexAttr.IsMandatory && !instance.ComplexAttributeValues.Any(x => x.Definition == complexAttr)) 
+          _messages.AddError(xmlElement,
+            string.Format("Mandatory {0} Attribute '{1}' of Class Definition '{2}' is missing",
+            complexAttr.IsPrimary? "Primary" : "Complex", complexAttr.Name, classDef.Name));
 
       return instance;
     }

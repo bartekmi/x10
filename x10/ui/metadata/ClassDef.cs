@@ -77,6 +77,8 @@ namespace x10.ui.metadata {
 
     protected ClassDef(IEnumerable<UiAttributeDefinition> attrDefinitions) {
       _attributeDefinitions = attrDefinitions;
+      foreach (UiAttributeDefinition attrDef in AttributeDefinitions)
+        attrDef.Owner = this;
     }
 
     // Is-a in an object-oriented sense. Returns true if the passed in parameter is this class-def

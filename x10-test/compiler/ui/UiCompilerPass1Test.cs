@@ -44,7 +44,7 @@ namespace x10.compiler {
       RunTest(@"
 <MyComponent description='My description...' />
 ",
-        "Required attribute 'model' is missing", 2, 2);
+        "Mandatory Atomic Attribute 'model' is missing", 2, 2);
     }
 
     [Fact]

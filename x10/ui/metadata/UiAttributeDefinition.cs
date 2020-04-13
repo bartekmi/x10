@@ -19,6 +19,7 @@ namespace x10.ui.metadata {
   public abstract class UiAttributeDefinition {
     public string Name { get; set; }
     public string Description { get; set; }
+    public ClassDef Owner { get; internal set; }
 
     // If specified, this determines what type of entity this attribute applies to
     // Normally, this is only used for attributes defined in 'UiAttributeDefinitions"
