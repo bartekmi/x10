@@ -75,7 +75,7 @@ namespace x10.ui.metadata {
     }
 
     public bool AppliesToType(UiAppliesTo type) {
-      return (AppliesTo & type) > 0;
+      return AppliesTo == null || (AppliesTo.Value & type) > 0;
     }
 
     public PropertyInfo GetPropertyInfo(Type type) {

@@ -121,6 +121,8 @@ namespace x10.compiler {
     #endregion
 
     #region Pass 2.1
+
+    #region Success
     [Fact]
     public void CompileSuccessPass2_1() {
       ClassDefX10 definition = RunTest(@"
@@ -209,7 +211,9 @@ namespace x10.compiler {
 </Inner>
 ", Print(inner));
     }
+    #endregion
 
+    #region Errors
     [Fact]
     public void NonExistentComponentUse() {
       RunTest(@"
@@ -285,8 +289,11 @@ namespace x10.compiler {
       Assert.Single(_messages.Messages);
     }
     #endregion
+    #endregion
 
     #region Pass 2.2 - Path Resolution, Model Ref UI Resolution
+
+    #region Success - Path Resolution
     [Fact]
     public void PathResolution() {
       ClassDefX10 definition = RunTest(@"
@@ -325,7 +332,9 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+    #endregion
 
+    #region Path-Related Errors
     [Fact]
     public void NonExistentPathMember() {
       RunTest(@"
@@ -365,7 +374,9 @@ namespace x10.compiler {
 
       Assert.Single(_messages.Messages);
     }
+    #endregion
 
+    #region Attribute Errors - Missing Mandatory and Unknown
     [Fact]
     public void MissingMandatoryAttributes() {
       RunTest(@"
@@ -383,6 +394,23 @@ namespace x10.compiler {
 
       Assert.Equal(4, _messages.Messages.Count);
     }
+
+    [Fact]
+    public void UnknownAttribute() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <VerticalGroup>
+    <name foo='some value'/>
+    <HelpIcon bar='blurg'/>
+  </VerticalGroup>
+</Outer>
+",
+      "Unknown attribute 'foo'",
+      "Unknown attribute 'bar'");
+
+      Assert.Equal(2, _messages.Messages.Count);
+    }
+    #endregion
 
     #region ValidateDataModelCompatibility
     [Fact]

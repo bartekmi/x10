@@ -29,7 +29,7 @@ namespace x10.compiler {
     }
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
-      ReadAttributesPrivate(UiAppliesTo.UiDefinition, classDef, UiAttributeDefinitions.All);
+      ReadAttributesPrivate(UiAppliesTo.UiDefinition, classDef, UiAttributeDefinitions.All, new string[0]);
     }
 
     internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {
@@ -38,11 +38,10 @@ namespace x10.compiler {
         UiAttributeDefinitions.All :
         UiAttributeDefinitions.All.Concat(classDefAttrs);
 
-      allAttrs = allAttrs.Where(x => !attributesToExclude.Contains(x.Name));
 
       UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
 
-      ReadAttributesPrivate(appliesTo, instance, allAttrs);
+      ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude);
     }
 
     internal void ReadSpecificAttributes(IAcceptsUiAttributeValues modelComponent,
@@ -56,10 +55,18 @@ namespace x10.compiler {
       }
     }
 
-    private void ReadAttributesPrivate(UiAppliesTo appliesTo, IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinition> attrDefs) {
-      foreach (UiAttributeDefinition attrDef in attrDefs)
-        if (attrDef.AppliesToType(appliesTo))
+    private void ReadAttributesPrivate(UiAppliesTo appliesTo, 
+      IAcceptsUiAttributeValues modelComponent, 
+      IEnumerable<UiAttributeDefinition> attrDefs,
+      string[] attributesToExclude) {
+
+      IEnumerable<UiAttributeDefinition> applicableAttrDefs = attrDefs.Where(x => x.AppliesToType(appliesTo));
+      IEnumerable<UiAttributeDefinition> applicableMinusExcluded = applicableAttrDefs.Where(x => !attributesToExclude.Contains(x.Name));
+
+      foreach (UiAttributeDefinition attrDef in applicableMinusExcluded)
           ReadAttribute(modelComponent, attrDef);
+
+      ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
     }
 
     private void ReadAttribute(
@@ -118,6 +125,16 @@ namespace x10.compiler {
 
         // Do Pass-1 action, if one exists
         attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, attrNode.Value, modelComponent);
+      }
+    }
+
+    private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinition> applicableAttrDefs) {
+      HashSet<string> validAttributeNames = new HashSet<string>(applicableAttrDefs.Select(x => x.Name));
+
+      foreach (XmlAttribute attribute in modelComponent.XmlElement.Attributes) {
+        if (!validAttributeNames.Contains(attribute.Key))
+          _messages.AddError(attribute,
+            string.Format("Unknown attribute '{0}'", attribute.Key));
       }
     }
   }
