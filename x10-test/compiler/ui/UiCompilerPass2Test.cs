@@ -86,6 +86,10 @@ namespace x10.compiler {
               Name = "text",
               DataType = DataTypes.Singleton.String,
             },
+            new UiAttributeDefinitionAtomic() {
+              Name = "difficulty",
+              DataType = DataTypes.Singleton.Integer,
+            },
           }) {
           Name = "HelpIcon",
         },
@@ -423,6 +427,19 @@ namespace x10.compiler {
       "Unknown attribute 'bar'");
 
       Assert.Equal(2, _messages.Messages.Count);
+    }
+
+    [Fact]
+    public void WrongAttributeType() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <HelpIcon difficulty='seven'/>
+</Outer>
+",
+      "Error parsing attribute 'difficulty': could not parse a(n) Integer from 'seven'. Examples of valid data of this type: 1, 7, -8.",
+      3, 13);
+
+      Assert.Single(_messages.Messages);
     }
     #endregion
 
