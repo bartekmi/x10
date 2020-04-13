@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using x10.ui.metadata;
 
 namespace x10.model.definition {
   public class Entity : ModelComponent{
     public String InheritsFromName { get; set; }
     public List<Member> Members { get; private set; }
+    public string UiName { get; set; }
 
     // Derived
     public IEnumerable<X10Attribute> Attributes { get { return Members.OfType<X10Attribute>(); } }
@@ -14,7 +16,8 @@ namespace x10.model.definition {
     public IEnumerable<Association> Associations { get { return Members.OfType<Association>(); } }
 
     // Rehydrated
-    public Entity InheritsFrom { get; set; }
+    public Entity InheritsFrom { get; internal set; }
+    public ClassDef Ui { get; internal set; }
 
     public Entity() {
       Members = new List<Member>();

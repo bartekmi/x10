@@ -30,7 +30,7 @@ namespace x10.model.metadata {
       Assert.Equal(2, errors.Count);
 
       Assert.Equal("Attribute 'missing': Setter property 'NoSuchSetter' does not exist on type x10.model.definition.Entity", errors.First().ToString());
-      Assert.Equal("Attribute 'missing': Setter property 'NoSuchSetter' does not exist on type x10.model.metadata.DataType", errors.Last().ToString());
+      Assert.Equal("Attribute 'missing': Setter property 'NoSuchSetter' does not exist on type x10.model.metadata.DataTypeEnum", errors.Last().ToString());
     }
 
     [Fact]

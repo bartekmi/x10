@@ -45,6 +45,10 @@ attributes:
   - name: apartmentCount
     description: dummy
     dataType: Integer
+  - name: ageInYears
+    description: dummy
+    dataType: Integer
+    ui: MyAverageIntComponent
 associations:
   - name: apartments
     description: dummy

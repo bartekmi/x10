@@ -10,6 +10,7 @@ using x10.parsing;
 using x10.model.metadata;
 using x10.ui.composition;
 using x10.ui.metadata;
+using x10.model.definition;
 
 namespace x10.compiler {
   public class UiCompilerPass2Test : UiCompilerTestBase {
@@ -19,6 +20,33 @@ namespace x10.compiler {
 
     public UiCompilerPass2Test(ITestOutputHelper output) : base(output) {
       List<ClassDef> definitions = new List<ClassDef>() {
+        // Basic Components
+        new ClassDefNative() {
+          Name = "MyFunkyIntComponent",
+          IsMany = false,
+          DataModelType = DataModelType.Scalar,
+          AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
+        new ClassDefNative() {
+          Name = "MyAverageIntComponent",
+          IsMany = false,
+          DataModelType = DataModelType.Scalar,
+          AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
+        new ClassDefNative() {
+          Name = "MyBasicIntComponent",
+          IsMany = false,
+          DataModelType = DataModelType.Scalar,
+          AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
+        new ClassDefNative() {
+          Name = "TextEdit",
+          IsMany = false,
+          DataModelType = DataModelType.Scalar,
+          AttributeDefinitions = new List<UiAttributeDefinition>(),
+        },
+
+        // Complex Components
         new ClassDefNative() {
           Name = "VerticalGroup",
           AttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -61,12 +89,6 @@ namespace x10.compiler {
           },
         },
         new ClassDefNative() {
-          Name = "MyFunkyIntComponent",
-          IsMany = false,
-          DataModelType = DataModelType.Scalar,
-          AttributeDefinitions = new List<UiAttributeDefinition>(),
-        },
-        new ClassDefNative() {
           Name = "HelpIcon",
           AttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
@@ -102,6 +124,9 @@ namespace x10.compiler {
       _library = new UiLibrary(definitions) {
         Name = "Test Library",
       };
+
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent");
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
     }
     #endregion
 
@@ -351,6 +376,7 @@ namespace x10.compiler {
       Assert.Equal(3, _messages.Messages.Count);
     }
 
+    #region ValidateDataModelCompatibility
     [Fact]
     public void WrongEntityType() {
       RunTest(@"
@@ -387,6 +413,38 @@ namespace x10.compiler {
 
       Assert.Single(_messages.Messages);
     }
+    #endregion
+
+    #region Model Ref UI Component Resolution
+
+    [Fact]
+    public void ResolveModelReferenceUiComponent() {
+      ClassDefX10 definition = RunTest(@"
+<Outer description='My description...' model='Building'>
+  <VerticalGroup>
+    <apartmentCount/>
+    <apartmentCount ui='MyFunkyIntComponent'/>
+    <ageInYears/>
+    <ageInYears ui='MyFunkyIntComponent'/>
+  </VerticalGroup>
+</Outer>
+");
+
+      Assert.Empty(_messages.Messages);
+
+      string result = Print(definition, new PrintConfig() { AlwaysPrintRenderAs = true });
+      Assert.Equal(@"<Outer description='My description...' model='Building'>
+  <VerticalGroup>
+    <apartmentCount renderAs='MyBasicIntComponent'/>
+    <apartmentCount ui='MyFunkyIntComponent' renderAs='MyFunkyIntComponent'/>
+    <ageInYears renderAs='MyAverageIntComponent'/>
+    <ageInYears ui='MyFunkyIntComponent' renderAs='MyFunkyIntComponent'/>
+  </VerticalGroup>
+</Outer>
+", result);
+
+    }
+    #endregion
 
     #endregion
 
@@ -439,6 +497,11 @@ namespace x10.compiler {
 
     private ClassDefX10 RunTest(string xml) {
       ClassDefX10 definition = CompilePass1(xml);
+
+      AllUiDefinitions allUiDefinitions = new AllUiDefinitions(_messages, null, _library);
+      foreach (Entity entity in _allEntities.All)
+        (new EntityCompilerPass3(allUiDefinitions)).CompileEntity(entity);
+
       CompilePass2(definition);
 
       return definition;

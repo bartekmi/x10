@@ -30,7 +30,6 @@ namespace x10.model.metadata {
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
-    public ClassDef Ui { get; internal set; }
 
 
     public DataType() {

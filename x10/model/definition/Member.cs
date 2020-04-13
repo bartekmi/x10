@@ -9,6 +9,7 @@ namespace x10.model.definition {
     public bool IsMandatory { get; set; }
     public bool IsReadOnly { get; set; }
     public Entity Owner { get; internal set; }
+    public string UiName { get; internal set; }
     public ClassDef Ui { get; internal set; }
   }
 }

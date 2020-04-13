@@ -33,6 +33,7 @@ namespace x10.model.metadata {
         Description = "The default UI element to render this type of item",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
+        Setter = "UiName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string value = scalarNode.Value.ToString();
           ModelValidationUtils.ValidateUiElementName(value, scalarNode, messages);

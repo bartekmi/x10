@@ -55,9 +55,15 @@ namespace x10.ui.composition {
       foreach (UiAttributeValueAtomic atomic in AtomicAttributeValues) 
         atomic.Print(writer);
 
-      if (config != null && config.AlwaysPrintPath)
-        if (!AtomicAttributeValues.Any(x => x.Definition.Name == "path"))
-          writer.Write(" path='{0}'", Path);
+      if (config != null) {
+        if (config.AlwaysPrintPath)
+          if (!AtomicAttributeValues.Any(x => x.Definition.Name == "path"))
+            writer.Write(" path='{0}'", Path);
+
+        if (config.AlwaysPrintRenderAs)
+          if (this is InstanceModelRef modelRef)
+            writer.Write(" renderAs='{0}'", modelRef.RenderAs == null ? "NULL" : modelRef.RenderAs.Name);
+      }
 
       if (ComplexAttributeValues.Count() == 0)
         writer.WriteLine("/>");

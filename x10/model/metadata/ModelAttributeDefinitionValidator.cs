@@ -92,7 +92,7 @@ namespace x10.model.metadata {
         case AppliesTo.Entity:
           return typeof(Entity);
         case AppliesTo.EnumType:
-          return typeof(DataType);
+          return typeof(DataTypeEnum);
         case AppliesTo.EnumValue:
           return typeof(EnumValue);
         default:

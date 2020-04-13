@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
 using x10.ui.metadata;
@@ -15,6 +15,8 @@ namespace x10.compiler {
     public AllUiDefinitions(MessageBucket messages, IEnumerable<ClassDefX10> components, params UiLibrary[] libraries) {
       // The reason the values are a list is to account for problems where multiple UI components with
       // the same name have been defined 
+      if (components == null)
+        components = new ClassDefX10[0];
       var componentsGroupedByName = components.GroupBy(x => x.Name);
       _uiDefinitionsByName = componentsGroupedByName.ToDictionary(g => g.Key, g => new List<ClassDefX10>(g));
 
@@ -59,8 +61,18 @@ namespace x10.compiler {
           _messages.AddError(attribute.XmlBase,
             String.Format("The UI Component name '{0}' is not unique.", definitions.Key));
         }
-
       }
+    }
+
+    internal ClassDef FindUiComponentForDataType(DataType dataType) {
+      foreach (UiLibrary library in _libraries) {
+        ClassDef uiComponent = library.FindUiComponentForDataType(dataType);
+        if (uiComponent != null)
+          return uiComponent;
+      }
+
+      throw new Exception(string.Format("DataType {0} does not have an associated UI Component. This should have been validated earlier",
+        dataType.Name));
     }
   }
 }

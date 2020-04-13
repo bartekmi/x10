@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using x10.model.metadata;
 
 namespace x10.ui.metadata {
   public class UiLibrary {
@@ -9,9 +10,11 @@ namespace x10.ui.metadata {
     public string Description { get; set; }
 
     private Dictionary<string, ClassDef> _definitionsByName;
+    private Dictionary<DataType, ClassDef> _dataTypesToComponent;
 
     public UiLibrary(IEnumerable<ClassDef> definitions) {
       _definitionsByName = definitions.ToDictionary(x => x.Name);
+      _dataTypesToComponent = new Dictionary<DataType, ClassDef>();
     }
 
     public ClassDef FindComponentByName(string componentName) {
@@ -21,6 +24,20 @@ namespace x10.ui.metadata {
 
     public override string ToString() {
       return "UI Library: " + Name;
+    }
+
+    public void AddDataTypeToComponentAssociation(DataType dataType, string componentName) {
+      ClassDef uiComponent = FindComponentByName(componentName);
+      if (uiComponent == null)
+        throw new Exception(string.Format("Attempting to set default component for data type {0}. Component {1} does not exist",
+          dataType.Name, componentName));
+
+      _dataTypesToComponent[dataType] = uiComponent;
+    }
+
+    public ClassDef FindUiComponentForDataType(DataType dataType) {
+      _dataTypesToComponent.TryGetValue(dataType, out ClassDef uiComponent);
+      return uiComponent;
     }
   }
 }
