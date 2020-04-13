@@ -14,6 +14,17 @@ namespace x10.compiler {
 
   public static class UiAttributeDefinitions {
 
+    public static UiAttributeDefinition FindAttribute(UiAppliesTo appliesTo, string attributeName) {
+      UiAttributeDefinition attrDef = All.SingleOrDefault(x => 
+        x.AppliesToType(appliesTo) && x.Name == attributeName);
+
+      if (attrDef == null)
+        throw new Exception(string.Format("Attribute {0} - applies to {1} - does not exist",
+          attributeName, appliesTo));
+
+      return attrDef;
+    }
+
     public static List<UiAttributeDefinition> All = new List<UiAttributeDefinition>() {
 
       //=========================================================================

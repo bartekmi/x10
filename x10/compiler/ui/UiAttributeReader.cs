@@ -10,6 +10,12 @@ using x10.ui.composition;
 using x10.model;
 
 namespace x10.compiler {
+
+  internal enum UiAttributeReaderPass {
+    Pass2_1,
+    Pass2_2,
+  }
+
   internal class UiAttributeReader {
 
     private readonly MessageBucket _messages;
@@ -29,11 +35,21 @@ namespace x10.compiler {
       // Reason: 'dataType' must be parsed before the 'default' attribute
       foreach (UiAttributeDefinition attrDef in UiAttributeDefinitions.All)
         if (attrDef.AppliesToType(type))
-          ReadAttribute(type, modelComponent, attrDef);
+          ReadAttribute(modelComponent, attrDef);
+    }
+
+    internal void ReadAttributes(IAcceptsUiAttributeValues modelComponent,
+      UiAppliesTo appliesTo,
+      params string[] attributeNames
+      ) {
+
+      foreach (string attributeName in attributeNames) {
+        UiAttributeDefinition attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
+        ReadAttribute(modelComponent, attrDef);
+      }
     }
 
     private void ReadAttribute(
-      UiAppliesTo type,
       IAcceptsUiAttributeValues modelComponent,
       UiAttributeDefinition attrDef) {
 
@@ -46,7 +62,7 @@ namespace x10.compiler {
         if (attrDef.DefaultValue == null) {
           if (attrDef.IsMandatory)
             _messages.AddError(xmlElement,
-              string.Format("The attribute '{0}' is missing from {1}", attrDef.Name, type));
+              string.Format("Required attribute '{0}' is missing", attrDef.Name));
           return;
         } else
           typedValue = attrDef.DefaultValue;

@@ -102,12 +102,12 @@ namespace x10.compiler {
     private Instance ParseInstance(XmlElement xmlElement) {
       if (IsModelReference(xmlElement)) {
         InstanceModelRef instance = new InstanceModelRef(xmlElement);
-        _attrReader.ReadAttributes(UiAppliesTo.UiModelReference, instance);
+        _attrReader.ReadAttributes(instance, UiAppliesTo.UiModelReference, ParserXml.ELEMENT_NAME, "ui");
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
         InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
         if (instance != null)
-          _attrReader.ReadAttributes(UiAppliesTo.UiComponentUse, instance);
+          _attrReader.ReadAttributes(instance, UiAppliesTo.UiComponentUse, ParserXml.ELEMENT_NAME, "path");
         return instance;
       } else {
         _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
@@ -149,7 +149,7 @@ namespace x10.compiler {
           primaryAtributeXmls.Add(xmlChild);
       }
 
-      if (primaryAtributeXmls.Count > 0) 
+      if (primaryAtributeXmls.Count > 0)
         ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
 
       return instance;
@@ -196,9 +196,19 @@ namespace x10.compiler {
       if (instance == null)
         return;
 
+      // Process this instance
       InvokePass2Actions(instance);
-      UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
 
+      UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
+      if (instance is InstanceModelRef modelReference) {
+        instance.RenderAs = ResolveUiComponent(modelReference);
+        //_attrReader.ReadAttributes(UiAppliesTo.UiModelReference, instance);
+      } else if (instance is InstanceClassDefUse) {
+        //_attrReader.ReadAttributes(UiAppliesTo.UiComponentUse, instance);
+      } else
+        throw new Exception("Unexpected instance type: " + instance.GetType().Name);
+
+      // Recurse
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
         UiDataModel childDataModel = value.DefinitionComplex.ReducesManyToOne ? myDataModel.ReduceManyToOne() : myDataModel;
         foreach (Instance childInstance in value.Instances)
@@ -218,7 +228,6 @@ namespace x10.compiler {
           if (dataModel == null)
             return null;
           instance.ModelMember = dataModel.Member;
-          instance.RenderAs = ResolveUiComponent(modelReference);
         } else if (instance is InstanceClassDefUse componentUse) {
           XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
           string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.

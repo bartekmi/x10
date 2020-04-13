@@ -44,7 +44,7 @@ namespace x10.compiler {
       RunTest(@"
 <MyComponent description='My description...' />
 ",
-        "The attribute 'model' is missing from UiDefinition", 2, 2);
+        "Required attribute 'model' is missing", 2, 2);
     }
 
     [Fact]
