@@ -25,34 +25,45 @@ namespace x10.compiler {
           Name = "MyFunkyIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
+          InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "MyAverageIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
+          InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "MyBasicIntComponent",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
+          InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "TextEdit",
           IsMany = false,
           DataModelType = DataModelType.Scalar,
+          InheritsFrom = ClassDefNative.Visual,
         },
 
         // Complex Components
-        new ClassDefNative(new List<UiAttributeDefinition>() {
+        new ClassDefNative() {
+          Name = "VerticalGroup",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Children",
               IsMany = true,
             },
-          }) {
-          Name = "VerticalGroup",
+          }
         },
-        new ClassDefNative(new List<UiAttributeDefinition>() {
+        new ClassDefNative() {
+          Name = "Table",
+          IsMany = true,
+          DataModelType = DataModelType.Entity,
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Columns",
@@ -64,12 +75,12 @@ namespace x10.compiler {
               Name = "Header",
               IsMandatory = true,
             },
-          }) {
-          Name = "Table",
-          IsMany = true,
-          DataModelType = DataModelType.Entity,
+          },
         },
-        new ClassDefNative(new List<UiAttributeDefinition>() {
+        new ClassDefNative() {
+          Name = "TableColumn",
+          InheritsFrom = ClassDefNative.Object,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
               Name = "Renderer",
@@ -78,10 +89,12 @@ namespace x10.compiler {
               Name = "label",
               DataType = DataTypes.Singleton.String,
             },
-          }) {
-          Name = "TableColumn",
+          },
         },
-        new ClassDefNative(new List<UiAttributeDefinition>() {
+        new ClassDefNative() {
+          Name = "HelpIcon",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "text",
               DataType = DataTypes.Singleton.String,
@@ -90,10 +103,12 @@ namespace x10.compiler {
               Name = "difficulty",
               DataType = DataTypes.Singleton.Integer,
             },
-          }) {
-          Name = "HelpIcon",
+          },
         },
-        new ClassDefNative(new List<UiAttributeDefinition>() {
+        new ClassDefNative() {
+          Name = "Button",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "label",
               IsMandatory = true,
@@ -104,14 +119,14 @@ namespace x10.compiler {
               IsMandatory = true,
               DataType = DataTypes.Singleton.String,
             },
-          }) {
-          Name = "Button",
+          },
         },
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
           DataModelType = DataModelType.Entity,
           IsMany = false,
+          InheritsFrom = ClassDefNative.Visual,
         },
       };
 
@@ -121,6 +136,14 @@ namespace x10.compiler {
 
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent");
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
+
+      UiLibraryValidator libraryValidator = new UiLibraryValidator(_messages);
+      libraryValidator.HydrateAndValidate(_library);
+
+      if (_messages.Count > 0) {
+        TestUtils.DumpMessages(_messages, _output);
+        Assert.Empty(_messages.Messages);
+      }
     }
     #endregion
 

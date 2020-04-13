@@ -15,8 +15,10 @@ namespace x10.ui.metadata {
     }
 
     public void HydrateAndValidate(UiLibrary library) {
-      foreach (ClassDef classDef in library.All) 
+      foreach (ClassDef classDef in library.All) {
+        HydrateOwner(classDef);
         HydrateEnsureBaseClassPresent(library, classDef);
+      }
 
       foreach (ClassDef classDef in library.All)
         EnsureNoCircularInheritance(classDef);
@@ -27,6 +29,11 @@ namespace x10.ui.metadata {
           EnsureNoDuplicateAttributes(classDef);
           EnsureMaxOnePrimaryAttribute(classDef);
         }
+    }
+
+    private void HydrateOwner(ClassDef classDef) {
+      foreach (UiAttributeDefinition attrDef in classDef.LocalAttributeDefinitions)
+        attrDef.Owner = classDef;
     }
 
     private void HydrateEnsureBaseClassPresent(UiLibrary library, ClassDef classDef) {

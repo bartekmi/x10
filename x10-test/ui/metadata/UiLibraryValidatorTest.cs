@@ -32,24 +32,26 @@ namespace x10.ui.metadata {
     [Fact]
     public void EnsureNoDuplicateAttributes() {
       UiLibrary library = new UiLibrary(new List<ClassDef>() {
-        new ClassDefNative(new UiAttributeDefinition[] {
-          new UiAttributeDefinitionAtomic() {
-            Name = "myDuplicate",
-          },
-        }) {
+        new ClassDefNative() {
           Name = "MyDerived",
           InheritsFromName = "MyBase",
+          LocalAttributeDefinitions = new UiAttributeDefinition[] {
+            new UiAttributeDefinitionAtomic() {
+              Name = "myDuplicate",
+            },
+          },
         },
-        new ClassDefNative(new UiAttributeDefinition[] {
-          new UiAttributeDefinitionAtomic() {
-            Name = "myDuplicate",
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "myUnique",
-          },
-        }) {
+        new ClassDefNative() {
           Name = "MyBase",
           InheritsFrom = ClassDefNative.Object,
+          LocalAttributeDefinitions =new UiAttributeDefinition[] {
+            new UiAttributeDefinitionAtomic() {
+              Name = "myDuplicate",
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "myUnique",
+            },
+          },
         },
       });
 
@@ -59,18 +61,19 @@ namespace x10.ui.metadata {
     [Fact]
     public void EnsureMaxOnePrimaryAttribute() {
       UiLibrary library = new UiLibrary(new List<ClassDef>() {
-        new ClassDefNative(new UiAttributeDefinition[] {
-          new UiAttributeDefinitionAtomic() {
-            Name = "myAttr1",
-            IsPrimary = true,
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "myAttr2",
-            IsPrimary = true,
-          },
-        }) {
+        new ClassDefNative() {
           Name = "MyClassDef",
           InheritsFrom = ClassDefNative.Object,
+          LocalAttributeDefinitions =new UiAttributeDefinition[] {
+            new UiAttributeDefinitionAtomic() {
+              Name = "myAttr1",
+              IsPrimary = true,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "myAttr2",
+              IsPrimary = true,
+            },
+          },
         },
       });
 
@@ -94,17 +97,37 @@ namespace x10.ui.metadata {
         },
       });
 
-      RunTest(library, "A is involved in a circular inheritance dependency");
+      RunTest(library,
+        "A is involved in a circular inheritance dependency",
+        "B is involved in a circular inheritance dependency",
+        "C is involved in a circular inheritance dependency");
+    }
+
+    [Fact]
+    public void EnsureNoCircularInheritancePontsToSelf() {
+      UiLibrary library = new UiLibrary(new List<ClassDef>() {
+        new ClassDefNative() {
+          Name = "A",
+          InheritsFromName = "A",
+        },
+      });
+
+      RunTest(library,
+        "A is involved in a circular inheritance dependency");
     }
 
     #region Utils
-    private void RunTest(UiLibrary library, string expectedErrorMessage) {
+    private void RunTest(UiLibrary library, params string[] expectedErrorMessages) {
       _validator.HydrateAndValidate(library);
 
       TestUtils.DumpMessages(_messages, _output);
 
-      CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
-      Assert.NotNull(message);
+      foreach (string expectedErrorMessage in expectedErrorMessages) {
+        CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
+        if (message == null)
+          _output.WriteLine("Missing error message: " + expectedErrorMessage);
+        Assert.NotNull(message);
+      }
     }
     #endregion
   }
