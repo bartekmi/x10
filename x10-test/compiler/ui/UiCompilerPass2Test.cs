@@ -288,6 +288,20 @@ namespace x10.compiler {
 
       Assert.Single(_messages.Messages);
     }
+
+    [Fact]
+    public void UnknownAttributeInClassDef() {
+      RunTest(@"
+<Outer description='My description...' model='Building' foo='Junk'>
+  <VerticalGroup>
+  </VerticalGroup>
+</Outer>
+",
+      "Unknown attribute 'foo'", 2, 57);
+
+      Assert.Single(_messages.Messages);
+    }
+
     #endregion
     #endregion
 
