@@ -8,7 +8,7 @@ namespace x10.model.metadata {
   public class ModelAttributeDefinitionValidatorTest {
 
     private readonly ITestOutputHelper _output;
-    private ModelAttributeDefinitionValidator _validator = new ModelAttributeDefinitionValidator();
+    private readonly ModelAttributeDefinitionValidator _validator = new ModelAttributeDefinitionValidator();
 
     public ModelAttributeDefinitionValidatorTest(ITestOutputHelper output) {
       _output = output;

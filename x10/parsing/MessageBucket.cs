@@ -25,8 +25,8 @@ namespace x10.parsing {
       Messages.Clear();
     }
 
-    public void AddError(IParseElement element, string message) {
-      AddMessage(CompileMessageSeverity.Error, element, message);
+    public void AddError(IParseElement element, string message, params object[] substitutions) {
+      AddMessage(CompileMessageSeverity.Error, element, message, substitutions);
     }
 
     public void AddWarning(IParseElement element, string message) {
@@ -37,7 +37,11 @@ namespace x10.parsing {
       AddMessage(CompileMessageSeverity.Info, element, message);
     }
 
-    public void AddMessage(CompileMessageSeverity severity, IParseElement element, string message) {
+    public void AddMessage(CompileMessageSeverity severity, IParseElement element, string message, params object[] substitutions) {
+
+      if (substitutions != null && substitutions.Length > 0)
+        message = string.Format(message, substitutions);
+
       Add(new CompileMessage() {
         ParseElement = element,
         Message = message,

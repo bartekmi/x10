@@ -42,8 +42,6 @@ namespace x10.compiler {
         return null;
       }
 
-      XmlElement rootChild = rootNode.Children.Single();
-
       return definition;
     }
   }

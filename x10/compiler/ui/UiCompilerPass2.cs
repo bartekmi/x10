@@ -234,12 +234,12 @@ namespace x10.compiler {
       string path = instance.Path;
 
       if (path != null) {
-        if (instance is InstanceModelRef modelReference) {
+        if (instance is InstanceModelRef) {
           dataModel = AdvancePathByOne(dataModel, path, instance.XmlElement);
           if (dataModel == null)
             return null;
           instance.ModelMember = dataModel.Member;
-        } else if (instance is InstanceClassDefUse componentUse) {
+        } else if (instance is InstanceClassDefUse) {
           XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
           string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
 
@@ -334,28 +334,6 @@ namespace x10.compiler {
       }
 
       return null;
-    }
-
-    // TODO: This is dead code right now
-    private void ValidateAttributes(Instance instance) {
-      ClassDef classDef = instance.RenderAs;
-      // Error if mandatory attributes missing
-      foreach (UiAttributeDefinition attrDefinition in classDef.AttributeDefinitions)
-        if (!instance.AttributeValues.Any(x => x.Definition == attrDefinition))
-          if (attrDefinition.IsMandatory) {
-            string attrType;
-            if (attrDefinition is UiAttributeDefinitionComplex attrComplex)
-              if (attrComplex.IsPrimary)
-                attrType = "Primary";
-              else
-                attrType = "Complex";
-            else
-              attrType = "Atomic";
-
-            _messages.AddError(instance.XmlElement,
-              string.Format("Mandatory {0} Attribute '{1}' of Component '{2}' missing.",
-              attrType, attrDefinition.Name, classDef.Name));
-          }
     }
 
     private void InvokePass2Actions(IAcceptsUiAttributeValues component) {

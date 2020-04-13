@@ -17,5 +17,16 @@ namespace x10.ui.metadata {
     public ClassDefNative(IEnumerable<UiAttributeDefinition> attrDefinitions) : base(attrDefinitions) {
       // Do nothing
     }
+
+    #region Primordial Components
+    public static ClassDefNative Object = new ClassDefNative() {
+      Name = "ClassDefObject",
+    };
+
+    public static ClassDefNative Visual = new ClassDefNative() {
+      Name = "ClassDefVisual",
+      InheritsFrom = Object,
+    };
+    #endregion
   }
 }

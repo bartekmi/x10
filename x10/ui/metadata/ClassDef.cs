@@ -21,7 +21,7 @@ namespace x10.ui.metadata {
     // We put this here at the base class level in anticipation of having a mechanism
     // of definition attributes on X10 components so as to make them re-usable
     // with tweaks.
-    public IEnumerable<UiAttributeDefinition> _attributeDefinitions { get; private set; }
+    private readonly IEnumerable<UiAttributeDefinition> _attributeDefinitions;
 
     // Is this a visual component (as opposed to just a logical one
     // like TableColumn, etc). If true, can participate in the visual 
@@ -38,8 +38,13 @@ namespace x10.ui.metadata {
     // If present, specifies the type of the expected data model
     public DataModelType? DataModelType { get; set; }
 
-    // Inheritance - in the object-oriented sense. Children inherit all the Attribute
-    // Definitions of their ancestors
+    // Spacifies Inheritance base class - in the object-oriented sense. Children inherit 
+    // all the Attribute Definitions of their ancestors
+    // This name will be hydrated into the actual object
+    public string InheritsFromName { get; set; }
+
+    // Hydrated
+
     public ClassDef InheritsFrom { get; set; }
 
     // Derived

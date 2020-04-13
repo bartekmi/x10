@@ -99,7 +99,7 @@ namespace x10.compiler {
           typedValue = dataType.Parse(attrNode.Value.ToString(), _messages, attrNode.Value, attrDef.Name);
           if (typedValue == null)
             return;
-        } else if (attrDef is UiAttributeDefinitionComplex attrComplex) {
+        } else if (attrDef is UiAttributeDefinitionComplex) {
           // TODO... Not yet sure if/how we'll handle complex attributes at this level
           throw new NotImplementedException();
         } else

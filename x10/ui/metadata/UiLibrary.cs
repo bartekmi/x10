@@ -9,9 +9,13 @@ namespace x10.ui.metadata {
     public string Name { get; set; }
     public string Description { get; set; }
 
-    private Dictionary<string, ClassDef> _definitionsByName;
-    private Dictionary<DataType, ClassDef> _dataTypesToComponent;
+    private readonly Dictionary<string, ClassDef> _definitionsByName;
+    private readonly Dictionary<DataType, ClassDef> _dataTypesToComponent;
 
+    // Derived
+    public IEnumerable<ClassDef> All { get { return _definitionsByName.Values; } }
+
+    // Constructor
     public UiLibrary(IEnumerable<ClassDef> definitions) {
       _definitionsByName = definitions.ToDictionary(x => x.Name);
       _dataTypesToComponent = new Dictionary<DataType, ClassDef>();
@@ -20,10 +24,6 @@ namespace x10.ui.metadata {
     public ClassDef FindComponentByName(string componentName) {
       _definitionsByName.TryGetValue(componentName, out ClassDef definition);
       return definition;
-    }
-
-    public override string ToString() {
-      return "UI Library: " + Name;
     }
 
     public void AddDataTypeToComponentAssociation(DataType dataType, string componentName) {
@@ -38,6 +38,10 @@ namespace x10.ui.metadata {
     public ClassDef FindUiComponentForDataType(DataType dataType) {
       _dataTypesToComponent.TryGetValue(dataType, out ClassDef uiComponent);
       return uiComponent;
+    }
+
+    public override string ToString() {
+      return "UI Library: " + Name;
     }
   }
 }

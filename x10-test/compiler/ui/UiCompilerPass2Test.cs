@@ -16,7 +16,7 @@ namespace x10.compiler {
   public class UiCompilerPass2Test : UiCompilerTestBase {
 
     #region Test Setup
-    private UiLibrary _library;
+    private readonly UiLibrary _library;
 
     public UiCompilerPass2Test(ITestOutputHelper output) : base(output) {
       List<ClassDef> definitions = new List<ClassDef>() {

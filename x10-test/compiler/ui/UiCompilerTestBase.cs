@@ -25,14 +25,14 @@ namespace x10.compiler {
       _output = output;
 
       _allEnums = new AllEnums(_messages);
-      _allEntities = CreateEntities(_allEnums);
+      _allEntities = CreateEntities();
 
       UiAttributeReader attrReader = new UiAttributeReader(_messages, _allEntities, _allEnums);
       _compilerPass1 = new UiCompilerPass1(_messages, attrReader);
     }
 
 
-    private AllEntities CreateEntities(AllEnums allEnums) {
+    private AllEntities CreateEntities() {
       // At this point, allEnums is unused
       AllEntities allEntities = TestUtils.EntityCompile(_messages, _allEnums, new string[] {
         @"
