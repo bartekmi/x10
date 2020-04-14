@@ -25,7 +25,7 @@
         <cargoReadyDate/>
         <TableColumn path="shipper">
           <VerticalStackPanel>
-            <name weight="bold"/>
+            <legalName weight="bold"/>
             <cityAndState/>
           </VerticalStackPanel>
         </TableColumn>

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using x10.model.metadata;
+
 using x10.parsing;
+using x10.model.definition;
 using x10.ui.composition;
 using x10.ui.metadata;
 
@@ -65,14 +66,14 @@ namespace x10.compiler {
       }
     }
 
-    internal ClassDef FindUiComponentForDataType(DataType dataType, IParseElement parseElement) {
+    internal ClassDef FindUiComponentForDataType(X10Attribute attribute, IParseElement parseElement) {
       foreach (UiLibrary library in _libraries) {
-        ClassDef uiComponent = library.FindUiComponentForDataType(dataType);
+        ClassDef uiComponent = library.FindUiComponentForDataType(attribute);
         if (uiComponent != null)
           return uiComponent;
       }
 
-      _messages.AddError(parseElement, "DataType {0} does not have an associated UI Component.", dataType.Name);
+      _messages.AddError(parseElement, "DataType {0} does not have an associated UI Component.", attribute.DataType.Name);
       return null;
     }
   }

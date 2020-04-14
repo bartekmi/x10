@@ -53,7 +53,6 @@ namespace x10.ui.metadata {
 
     protected UiAttributeDefinition() {
       // Some sensible defaults...
-      AppliesTo = UiAppliesTo.UiComponentUse;
       IsPrimary = false;
       IsMandatory = false;
       IsMany = false;

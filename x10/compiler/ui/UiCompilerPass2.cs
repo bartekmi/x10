@@ -352,7 +352,7 @@ namespace x10.compiler {
         if (member.Ui != null)
           return member.Ui;
         if (member is X10Attribute attribute)
-          return _allUiDefinitions.FindUiComponentForDataType(attribute.DataType, modelReference.XmlElement);
+          return _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
       }
 
       return null;

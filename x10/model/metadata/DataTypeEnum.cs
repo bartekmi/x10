@@ -41,6 +41,9 @@ namespace x10.model.metadata {
       get {
         return EnumValues.Select(x => x.Value);
       }
+      set {
+        EnumValues = value.Select(x => new EnumValue(x)).ToList();
+      }
     }
 
     public bool HasEnumValue(object value) {

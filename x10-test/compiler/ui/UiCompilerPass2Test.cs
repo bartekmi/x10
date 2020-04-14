@@ -44,6 +44,15 @@ namespace x10.compiler {
           AtomicDataModel = DataTypes.Singleton.String,
           IsMany = false,
           InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "weight",
+              DataType = new DataTypeEnum() {
+                Name = "FontWeight",
+                EnumValueValues = new string[] { "normal", "bold" },
+              }
+            },
+          }
         },
 
         // Complex Components
@@ -351,7 +360,7 @@ namespace x10.compiler {
     #endregion
     #endregion
 
-    #region Pass 2.2 - Path Resolution, Model Ref UI Resolution
+    #region Pass 2.2 - Path Resolution, Model Ref UI Resolution, Attribute Reading
 
     #region Success - Path Resolution
     [Fact]
@@ -389,6 +398,23 @@ namespace x10.compiler {
       </TableColumn>
     </Table>
   </VerticalGroup>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void EnumAttributeReading() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <name weight='bold'/>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <name weight='bold'/>
 </MyComponent>
 ", result);
     }

@@ -20,6 +20,12 @@ namespace x10.model.metadata {
       AttributeValues = new List<ModelAttributeValue>();
     }
 
+    public EnumValue(object value) : this() {
+      if (value == null)
+        throw new Exception("Value cannot be null");
+      Value = value;
+    }
+
     public override string ToString() {
       return Value.ToString();
     }
