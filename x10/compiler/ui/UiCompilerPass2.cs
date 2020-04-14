@@ -7,6 +7,7 @@ using x10.model.definition;
 using x10.model;
 using x10.ui.metadata;
 using x10.ui.composition;
+using x10.model.metadata;
 
 namespace x10.compiler {
 
@@ -273,8 +274,9 @@ namespace x10.compiler {
       if (renderAs == null)
         return;
 
-      Entity expectedEntity = renderAs?.ComponentDataModel;
+      Entity expectedEntity = renderAs.ComponentDataModel;
 
+      // Ensure correct Entity delivered (if applicable)
       if (expectedEntity != null) {
         if (dataModel.Entity == null) {
           // There must have been an error in path somewhere up the chain. Nothing new to report.
@@ -284,6 +286,16 @@ namespace x10.compiler {
           _messages.AddError(instance.XmlElement,
             string.Format("Data Type mismatch. Component {0} expects Entity '{1}', but the path is delivering Entity '{2}'",
             renderAs.Name, expectedEntity.Name, dataModel.Entity.Name));
+      }
+
+      // Ensure correct atomic type delivered (if applicable)
+      if (dataModel.Member is X10Attribute x10attribute) {
+        DataType dataTypeProvided = x10attribute.DataType;
+        if (renderAs.DataModelType == DataModelType.Scalar)
+          if (renderAs.AtomicDataModel != dataTypeProvided)
+            _messages.AddError(instance.XmlElement,
+              "The component {0} expects {1}, but the path is delivering {2}",
+              renderAs.Name, renderAs.AtomicDataModel.Name, dataTypeProvided.Name);
       }
 
       // Validate the compatibility of the resolved data model and the receiving component:
@@ -310,8 +322,6 @@ namespace x10.compiler {
             string.Format("The component {0} expects a SINGLE {1}, but the path is delivering MANY '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
       }
-
-      // TODO: Also validate expected vs. received DataModelType
     }
 
     private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
@@ -339,7 +349,7 @@ namespace x10.compiler {
         if (member.Ui != null)
           return member.Ui;
         if (member is X10Attribute attribute)
-          return _allUiDefinitions.FindUiComponentForDataType(attribute.DataType);
+          return _allUiDefinitions.FindUiComponentForDataType(attribute.DataType, modelReference.XmlElement);
       }
 
       return null;

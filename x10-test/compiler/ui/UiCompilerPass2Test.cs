@@ -23,26 +23,26 @@ namespace x10.compiler {
         // Basic Components
         new ClassDefNative() {
           Name = "MyFunkyIntComponent",
+          AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          DataModelType = DataModelType.Scalar,
           InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "MyAverageIntComponent",
+          AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          DataModelType = DataModelType.Scalar,
           InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "MyBasicIntComponent",
+          AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          DataModelType = DataModelType.Scalar,
           InheritsFrom = ClassDefNative.Visual,
         },
         new ClassDefNative() {
           Name = "TextEdit",
+          AtomicDataModel = DataTypes.Singleton.String,
           IsMany = false,
-          DataModelType = DataModelType.Scalar,
           InheritsFrom = ClassDefNative.Visual,
         },
 
@@ -61,8 +61,8 @@ namespace x10.compiler {
         },
         new ClassDefNative() {
           Name = "Table",
+          ComponentDataModel = Entity.Object,
           IsMany = true,
-          DataModelType = DataModelType.Entity,
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
@@ -128,7 +128,6 @@ namespace x10.compiler {
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
-          DataModelType = DataModelType.Entity,
           IsMany = false,
           InheritsFrom = ClassDefNative.Visual,
         },
@@ -141,10 +140,7 @@ namespace x10.compiler {
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent");
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
 
-      UiLibraryValidator libraryValidator = new UiLibraryValidator(_messages);
-      libraryValidator.HydrateAndValidate(_library);
-
-      if (_messages.Count > 0) {
+      if (_library.HydrateAndValidate(_messages)) {
         TestUtils.DumpMessages(_messages, _output);
         Assert.Empty(_messages.Messages);
       }
@@ -531,6 +527,17 @@ namespace x10.compiler {
   <MyFunkyIntComponent path='apartmentCount'/>
 </Outer>
 ", "The component MyFunkyIntComponent expects a SINGLE value, but the path is delivering MANY 'Building.apartmentCount' values", 3, 4);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
+    public void WrongAtomicDataType() {
+      RunTest(@"
+<Outer model='Building'>
+  <MyFunkyIntComponent path='name'/>
+</Outer>
+", "The component MyFunkyIntComponent expects Integer, but the path is delivering String", 3, 4);
 
       Assert.Single(_messages.Messages);
     }

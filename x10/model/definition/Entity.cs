@@ -21,6 +21,7 @@ namespace x10.model.definition {
 
     public Entity() {
       Members = new List<Member>();
+      InheritsFrom = Object;    // May be explicitly overridden in definition
     }
 
     // Is-a in an object-oriented sense. Returns true if the passed in parameter is this Entity
@@ -46,5 +47,11 @@ namespace x10.model.definition {
       member.Owner = this;
       Members.Add(member);
     }
+
+    #region Primordial Entities
+    public static Entity Object = new Entity() {
+      Name = "EntityObject",
+    };
+    #endregion
   }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 using x10.parsing;
 using x10.model.definition;
+using x10.model.metadata;
 
 namespace x10.ui.metadata {
 
@@ -23,20 +24,15 @@ namespace x10.ui.metadata {
     // with tweaks.
     public IEnumerable<UiAttributeDefinition> LocalAttributeDefinitions;
 
-    // Is this a visual component (as opposed to just a logical one
-    // like TableColumn, etc). If true, can participate in the visual 
-    // hierarchy tree.
-    public bool IsUi { get; set; }
-
     // Every x10 UI Component must have a data model. In addition, specilized
     // "native" components might be crafted which also reference X10 data models.
     public Entity ComponentDataModel { get; set; }
 
+    // For Components which deal with atomic data (e.g. TextField) this specifies the expected data type
+    public DataType AtomicDataModel { get; set; }
+
     // Is the Component Data Model a list?
     public bool? IsMany { get; set; }
-
-    // If present, specifies the type of the expected data model
-    public DataModelType? DataModelType { get; set; }
 
     // Spacifies Inheritance base class - in the object-oriented sense. Children inherit 
     // all the Attribute Definitions of their ancestors
@@ -44,10 +40,18 @@ namespace x10.ui.metadata {
     public string InheritsFromName { get; set; }
 
     // Hydrated
-
     public ClassDef InheritsFrom { get; set; }
 
     // Derived
+
+    // If present, specifies the type of the expected data model
+    public DataModelType? DataModelType {
+      get {
+        if (ComponentDataModel == null && AtomicDataModel == null)
+          return null;
+        return AtomicDataModel == null ? metadata.DataModelType.Entity : metadata.DataModelType.Scalar;
+      }
+    }
     public bool CaresAboutDataModel {
       get { return DataModelType != null && IsMany != null; }
     }

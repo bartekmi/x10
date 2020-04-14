@@ -6,15 +6,15 @@ using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.ui.metadata {
-  public class UiLibraryValidator {
+  internal class UiLibraryValidator {
 
     private readonly MessageBucket _messages;
 
-    public UiLibraryValidator(MessageBucket messages) {
+    internal UiLibraryValidator(MessageBucket messages) {
       _messages = messages;
     }
 
-    public void HydrateAndValidate(UiLibrary library) {
+    internal void HydrateAndValidate(UiLibrary library) {
       int blankNameClassDefs = library.All.Count(x => string.IsNullOrWhiteSpace(x.Name));
       if (blankNameClassDefs > 0)
         _messages.AddError(null, "{0} Class Definitions have a blank name", blankNameClassDefs);
@@ -23,6 +23,7 @@ namespace x10.ui.metadata {
         HydrateOwner(classDef);
         HydrateAndValidateBaseClass(library, classDef);
         EnsureMandatoryFieldsPresent(classDef);
+        EnsureCorrectDataModelSpecification(classDef);
       }
 
       foreach (ClassDef classDef in library.All)
@@ -37,6 +38,15 @@ namespace x10.ui.metadata {
           foreach (UiAttributeDefinition attrDef in classDef.LocalAttributeDefinitions)
             ValidateAttribute(library, attrDef);
         }
+    }
+
+    private void EnsureCorrectDataModelSpecification(ClassDef classDef) {
+      if (classDef.AtomicDataModel != null && classDef.ComponentDataModel != null)
+        _messages.AddError(null, "{0}: Only one of Atomic or Component data model can be specified", classDef.Name);
+
+      if (classDef.AtomicAttributeDefinitions == null && classDef.ComponentDataModel == null &&
+        classDef.IsMany != null)
+        _messages.AddError(null, "{0}: Do not specify IsMany if model type not provided", classDef.Name);
     }
 
     private void HydrateOwner(ClassDef classDef) {

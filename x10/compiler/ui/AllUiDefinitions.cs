@@ -65,15 +65,15 @@ namespace x10.compiler {
       }
     }
 
-    internal ClassDef FindUiComponentForDataType(DataType dataType) {
+    internal ClassDef FindUiComponentForDataType(DataType dataType, IParseElement parseElement) {
       foreach (UiLibrary library in _libraries) {
         ClassDef uiComponent = library.FindUiComponentForDataType(dataType);
         if (uiComponent != null)
           return uiComponent;
       }
 
-      throw new Exception(string.Format("DataType {0} does not have an associated UI Component. This should have been validated earlier",
-        dataType.Name));
+      _messages.AddError(parseElement, "DataType {0} does not have an associated UI Component.", dataType.Name);
+      return null;
     }
   }
 }

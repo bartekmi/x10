@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using x10.model.metadata;
+using x10.parsing;
 
 namespace x10.ui.metadata {
   public class UiLibrary {
@@ -38,6 +39,16 @@ namespace x10.ui.metadata {
     public ClassDef FindUiComponentForDataType(DataType dataType) {
       _dataTypesToComponent.TryGetValue(dataType, out ClassDef uiComponent);
       return uiComponent;
+    }
+
+    public bool HydrateAndValidate(MessageBucket messages) {
+      UiLibraryValidator validator = new UiLibraryValidator(messages);
+
+      int messageCountBefore = messages.Messages.Count;
+      validator.HydrateAndValidate(this);
+      int messageCountAfter = messages.Messages.Count;
+
+      return messageCountBefore == messageCountAfter;
     }
 
     public override string ToString() {

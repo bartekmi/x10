@@ -9,6 +9,7 @@ using Xunit.Abstractions;
 using x10.parsing;
 using x10.model;
 using x10.ui.libraries;
+using x10.ui.metadata;
 
 namespace x10.compiler {
   public class LargeDemoTest {
@@ -35,8 +36,15 @@ namespace x10.compiler {
 
     [Fact]
     public void CompileEverything() {
+      UiLibrary library = BaseLibrary.Singleton();
+
+      if (library.HydrateAndValidate(_messages)) {
+        TestUtils.DumpMessages(_messages, _output);
+        Assert.Empty(_messages.Messages);
+      }
+
       string rootDir = "../../../../x10/examples/flexport";
-      TopLevelCompiler compiler = new TopLevelCompiler(_messages, BaseLibrary.Singleton);
+      TopLevelCompiler compiler = new TopLevelCompiler(_messages, library);
       compiler.Compile(rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
 
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
