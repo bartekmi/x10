@@ -28,11 +28,11 @@ namespace x10.compiler {
     public static List<UiAttributeDefinition> All = new List<UiAttributeDefinition>() {
 
       //=========================================================================
-      // UI Definition
+      // Calss Definition (ClassDef)
       new UiAttributeDefinitionAtomic() {
         Name = ParserXml.ELEMENT_NAME,
         Description = "The name of the UI Definition (component) being defined",
-        AppliesTo = UiAppliesTo.UiDefinition,
+        AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,
         Setter = "Name",
 
@@ -53,14 +53,14 @@ namespace x10.compiler {
       new UiAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the UI Definition. Used for documentary purposes and int GUI builder tools.",
-        AppliesTo = UiAppliesTo.UiDefinition,
+        AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,
         Setter = "Description",
       },
       new UiAttributeDefinitionAtomic() {
         Name = "model",
         Description = "The name of the X10 model that this UIDefinition expects as data",
-        AppliesTo = UiAppliesTo.UiDefinition,
+        AppliesTo = UiAppliesTo.ClassDef,
         IsMandatory = true,
         DataType = DataTypes.Singleton.String,
 
@@ -72,10 +72,22 @@ namespace x10.compiler {
       new UiAttributeDefinitionAtomic() {
         Name = "many",
         Description = "If true, this UiDefinition expects a list of models (e.g. it's a table)",
-        AppliesTo = UiAppliesTo.UiDefinition,
+        AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsMany",
         DefaultValue = false,
+      },
+      new UiAttributeDefinitionAtomic() {
+        Name = "url",
+        Description = "For top-level components, this is the top-level string to which the application can jump to show the UI",
+        AppliesTo = UiAppliesTo.ClassDef,
+        DataType = DataTypes.Singleton.String,
+      },
+      new UiAttributeDefinitionAtomic() {
+        Name = "query",
+        Description = "Analogous to GraphQL query parameters - or SQL query parameters. Narrows the scope of data from a pure 'Entity' stream",
+        AppliesTo = UiAppliesTo.ClassDef,
+        DataType = DataTypes.Singleton.String,
       },
 
 

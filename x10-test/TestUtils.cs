@@ -74,24 +74,24 @@ namespace x10 {
 
     #region UI Compilation
     public static ClassDefX10 UiCompilePass1(string xml, 
-      MessageBucket _messages,
-      UiCompilerPass1 _compiler,
-      ITestOutputHelper _output,
+      MessageBucket messages,
+      UiCompilerPass1 compiler,
+      ITestOutputHelper output,
       string fileName = null
       ) {
 
-      ParserXml parser = new ParserXml(_messages);
+      ParserXml parser = new ParserXml(messages);
 
       XmlElement rootNode = parser.ParseFromString(xml, fileName);
 
       if (rootNode == null) {
-        TestUtils.DumpMessages(_messages, _output);
+        TestUtils.DumpMessages(messages, output);
         Assert.NotNull(rootNode);
       }
 
       rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
 
-      ClassDefX10 definition = _compiler.CompileUiDefinition(rootNode);
+      ClassDefX10 definition = compiler.CompileUiDefinition(rootNode);
       return definition;
     }
 

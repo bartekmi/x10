@@ -17,7 +17,8 @@ namespace x10.compiler {
       // the same name have been defined 
       if (components == null)
         components = new ClassDefX10[0];
-      var componentsGroupedByName = components.GroupBy(x => x.Name);
+
+      var componentsGroupedByName = components.Where(x => x != null).GroupBy(x => x.Name);
       _uiDefinitionsByName = componentsGroupedByName.ToDictionary(g => g.Key, g => new List<ClassDefX10>(g));
 
       _messages = messages;

@@ -11,25 +11,24 @@ using x10.model;
 namespace x10.compiler {
   public class EntitiesAndEnumsCompiler {
 
-    public MessageBucket Messages { get; private set; }
+    private readonly MessageBucket _messages;
+    private readonly AllEnums _allEnums;
 
-    public EntitiesAndEnumsCompiler() {
-      Messages = new MessageBucket();   // Testing can by-pass Compile()
+    public EntitiesAndEnumsCompiler(MessageBucket messages, AllEnums allEnums) {
+      _messages = messages;
+      _allEnums = allEnums;
     }
 
     public List<Entity> Compile(string dirPath) {
-      Messages.Clear();   // Always empty the bucket
-
       // Recursively parse entire directory
-      Parser parser = new ParserYaml(Messages);
+      Parser parser = new ParserYaml(_messages);
       List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath).Cast<TreeNode>().ToList();
 
       // Pass 1
-      AllEnums allEnums = new AllEnums(Messages);
       List<Entity> entities = new List<Entity>();
-      AttributeReader attrReader = new AttributeReader(Messages);
-      EnumsCompiler enums = new EnumsCompiler(Messages, allEnums,attrReader);
-      EntityCompilerPass1 pass1 = new EntityCompilerPass1(Messages, enums, attrReader);
+      AttributeReader attrReader = new AttributeReader(_messages);
+      EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums,attrReader);
+      EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
         if (IsEnumFile(rootNode.FileInfo.FilePath))
@@ -42,8 +41,8 @@ namespace x10.compiler {
       }
 
       // Pass 2
-      AllEntities allEntities = new AllEntities(entities, Messages);
-      EntityCompilerPass2 pass2 = new EntityCompilerPass2(Messages, allEntities, allEnums);
+      AllEntities allEntities = new AllEntities(entities, _messages);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
       pass2.CompileAllEntities();
 
       return entities;

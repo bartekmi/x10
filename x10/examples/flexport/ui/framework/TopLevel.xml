@@ -1,4 +1,4 @@
-<Dashboard model="null">
+<TopLevel model="null">
     <VerticalStackPanel>
         <RepellingRow>
             <Row>
@@ -41,4 +41,4 @@
 
         <Footer/>
     </VerticalStackPanel>
-</Dashboard>
+</TopLevel>

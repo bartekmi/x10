@@ -1,4 +1,4 @@
-<PriorityAndBookmarkedShipments model="[Shipment]" query="Shipments(priority: high, bookmarked: true)">
+<PriorityAndBookmarkedShipments model="Shipment" many="true" query="Shipments(priority: high, bookmarked: true)">
     <VerticalStackPanel>
         <!-- Header: Label, count, 'see all' -->
         <RepellingRow>

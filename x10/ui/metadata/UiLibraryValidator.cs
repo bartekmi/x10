@@ -8,7 +8,7 @@ using x10.parsing;
 namespace x10.ui.metadata {
   public class UiLibraryValidator {
 
-    private MessageBucket _messages;
+    private readonly MessageBucket _messages;
 
     public UiLibraryValidator(MessageBucket messages) {
       _messages = messages;

@@ -1,4 +1,4 @@
-<Tasks model="[Task]" url="/tasks">
+<Tasks model="Task" many="true" url="/tasks">
     <VerticalStackPanel>
         <Heading1 text="Tasks"/>
         <Divider/>

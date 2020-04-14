@@ -29,7 +29,7 @@ namespace x10.compiler {
     }
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
-      ReadAttributesPrivate(UiAppliesTo.UiDefinition, classDef, UiAttributeDefinitions.All, new string[0]);
+      ReadAttributesPrivate(UiAppliesTo.ClassDef, classDef, UiAttributeDefinitions.All, new string[0]);
     }
 
     internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {

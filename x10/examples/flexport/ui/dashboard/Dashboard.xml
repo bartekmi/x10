@@ -1,30 +1,30 @@
 <Dashboard model="null">
-    <VerticalStackPanel>
-        <!-- Dashboard Header Row -->
-        <RepellingRow>
-            <Row>
-                <Heading1 path="/CurrentUser" text="Hello, ${firstName}!"/>
-                <Filters/>
-            </Row>
-            <Row>
-                <HollowButton content="Get a quote" ClickUrl="/quote_requests/new"/>
-                <Button content="Book a shipment" ClickUrl="/bookings/new"/>
-            </Row>
-        </RepellingRow>
+  <VerticalStackPanel>
+    <!-- Dashboard Header Row -->
+    <RepellingRow>
+      <Row>
+        <Heading1 path="/CurrentUser" text="Hello, ${firstName}!"/>
+        <Filters/>
+      </Row>
+      <Row>
+        <HollowButton content="Get a quote" ClickUrl="/quote_requests/new"/>
+        <Button content="Book a shipment" ClickUrl="/bookings/new"/>
+      </Row>
+    </RepellingRow>
 
-        <HorizontalDivider/>
+    <HorizontalDivider/>
 
-        <!-- Dashboard Content -->
-        <PackingLayout>
-            <Map/>
-            <Tasks/>
-            <PriorityAndBookmarkedShipments/>
-            <!-- <PriorityAndBookmarkedShipments path="/Shipments(priority: high, hasBookmark: true)"/> -->
-            <Exceptions/>
-            <Calendar/>
-            <Bookings/>
-            <QuoteRequests/>
-        </PackingLayout>
-        <Footer/>
-    </VerticalStackPanel>
+    <!-- Dashboard Content -->
+    <PackingLayout>
+      <Map/>
+      <DashboardTasks/>
+      <PriorityAndBookmarkedShipments/>
+      <!-- <PriorityAndBookmarkedShipments path="/Shipments(priority: high, hasBookmark: true)"/> -->
+      <DashboardExceptions/>
+      <Calendar/>
+      <DashboardBookings/>
+      <DashboardQuoteRequests/>
+    </PackingLayout>
+    <Footer/>
+  </VerticalStackPanel>
 </Dashboard>

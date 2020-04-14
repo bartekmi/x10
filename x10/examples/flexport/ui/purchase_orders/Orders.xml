@@ -1,4 +1,4 @@
-<Order model="[PurchaseOrders]" url="/orders">
+<Orders model="PurchaseOrder" many="true" url="/orders">
     <VerticalStackPanel>
         <Heading1 text="Purchase Orders"/>
         <Divider/>
@@ -47,4 +47,4 @@
 
         </Table>
     </VerticalStackPanel>
-</Order>
+</Orders>

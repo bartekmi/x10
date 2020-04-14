@@ -1,4 +1,4 @@
-<Quotes model="[QuoteRequest]" url="/quote_requests">
+<Quotes model="QuoteRequest" many="true" url="/quote_requests">
     <VerticalStackPanel>
         <Heading1 text="Quotes"/>
         <Divider/>

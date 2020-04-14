@@ -1,4 +1,4 @@
-<Bookings model="[Booking]">
+<Bookings model="Booking" many="true">
     <VerticalStackPanel>
         <Heading1 text="Bookings"/>
         <Divider/>

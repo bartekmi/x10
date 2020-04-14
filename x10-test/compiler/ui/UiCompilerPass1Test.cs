@@ -25,7 +25,7 @@ namespace x10.compiler {
       UiAttributeDefinitions.All.Add(new UiAttributeDefinitionAtomic() {
         Name = "customField",
         Description = "This is a custom field with no setter",
-        AppliesTo = UiAppliesTo.UiDefinition,
+        AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,
       });
 

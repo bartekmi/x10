@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using x10.model;
 using x10.model.definition;
 using x10.ui.metadata;
 
@@ -13,6 +13,11 @@ namespace x10.compiler {
       _allUiDefinitions = allUiDefinitions;
     }
 
+    internal void CompileAllEntities(AllEntities allEntities) {
+      foreach (Entity entity in allEntities.All)
+        CompileEntity(entity);
+    }
+
     internal void CompileEntity(Entity entity) {
       entity.Ui = FindUiComponentWithError(entity.UiName, entity);
 
@@ -21,11 +26,11 @@ namespace x10.compiler {
     }
 
     private ClassDef FindUiComponentWithError(string uiName, ModelComponent modelComponent) {
-      var uiAttribute = AttributeUtils.FindAttribute(modelComponent, "ui");
-      if (uiAttribute == null)
+      ModelAttributeValue attrUi = AttributeUtils.FindAttribute(modelComponent, "ui");
+      if (attrUi == null)
         return null;
 
-      return _allUiDefinitions.FindDefinitionByNameWithError(uiName, uiAttribute.TreeElement);
+      return _allUiDefinitions.FindDefinitionByNameWithError(uiName, attrUi.TreeElement);
     }
   }
 }
