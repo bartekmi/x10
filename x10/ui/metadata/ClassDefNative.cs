@@ -22,6 +22,12 @@ namespace x10.ui.metadata {
     public static ClassDefNative Visual = new ClassDefNative() {
       Name = "ClassDefVisual",
       InheritsFrom = Object,
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "visible",
+              DataType = DataTypes.Singleton.Boolean,
+            },
+          }
     };
     #endregion
   }

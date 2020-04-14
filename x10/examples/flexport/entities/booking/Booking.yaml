@@ -77,6 +77,12 @@ attributes:
     ui: TextArea
     placeholderText: Enter any special instructions, such as handling information
 
+  - name: weightKg
+    dataType: Float
+
+  - name: volumeCm
+    dataType: Float
+
 derivedAttributes:
   - name: isShipperBooking
     dataType: Boolean

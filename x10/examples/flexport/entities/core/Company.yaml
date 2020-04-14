@@ -5,6 +5,17 @@ attributes:
   - name: legalName
     dataType: String
     mandatory: true
+  - name: city
+    dataType: String
+    mandatory: true
+  - name: state
+    dataType: String
+    mandatory: true
+
+derivedAttributes:
+  - name: cityAndState
+    dataType: String
+    formula: =`${city}, ${state}`
 
 associations:
   - name: contryCode

@@ -8,9 +8,10 @@ using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public class UiAttributeValueAtomic : UiAttributeValue {
-    public object Value { get;set; }
+    public object Value { get; set; }
+    public string Formula { get; set; }
 
-    public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase) 
+    public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase)
       : base(attrDefinition, owner, xmlBase) {
       // Do nothing
     }
@@ -24,6 +25,8 @@ namespace x10.ui.composition {
     }
 
     public override string ToString() {
+      if (Formula != null)
+        return string.Format("{0} =>'{1}'", Definition?.Name, Formula);
       return string.Format("{0}='{1}'", Definition?.Name, Value);
     }
   }

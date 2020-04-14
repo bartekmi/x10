@@ -31,12 +31,12 @@
         </TableColumn>
         <TableColumn path="consignee">
           <VerticalStackPanel>
-            <name weight="bold"/>
+            <legalName weight="bold"/>
             <cityAndState/>
           </VerticalStackPanel>
         </TableColumn>
-        <weight/>
-        <volume/>
+        <weightKg/>
+        <volumeCm/>
         <state/>
         <TableColumn label="Action">
           <UrlButton label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>

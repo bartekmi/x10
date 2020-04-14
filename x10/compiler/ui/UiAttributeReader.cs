@@ -69,6 +69,10 @@ namespace x10.compiler {
       ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
     }
 
+    public static bool IsFormula(string valueOrFormula) {
+      return valueOrFormula.Trim().StartsWith("=");
+    }
+
     private void ReadAttribute(
       IAcceptsUiAttributeValues modelComponent,
       UiAttributeDefinition attrDef) {
@@ -76,7 +80,8 @@ namespace x10.compiler {
       // Error if mandatory attribute missing
       XmlElement xmlElement = modelComponent.XmlElement;
       XmlAttribute attrNode = xmlElement.FindAttribute(attrDef.Name);
-      object typedValue;
+      object typedValue = null;
+      string formula = null;
 
       if (attrNode == null) {
         if (attrDef.DefaultValue == null) {
@@ -94,20 +99,23 @@ namespace x10.compiler {
           typedValue = attrDef.DefaultValue;
       } else {
         if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
-          // Attempt to parse the string attribute value according to its data type
           DataType dataType = attrPrimitive.DataType;
-          typedValue = dataType.Parse(attrNode.Value.ToString(), _messages, attrNode.Value, attrDef.Name);
-          if (typedValue == null)
-            return;
-        } else if (attrDef is UiAttributeDefinitionComplex) {
-          // TODO... Not yet sure if/how we'll handle complex attributes at this level
-          throw new NotImplementedException();
+          string attrValue = attrNode.Value.ToString();
+          if (IsFormula(attrValue))
+            formula = attrValue;
+          else {
+            typedValue = dataType.Parse(attrValue, _messages, attrNode.Value, attrDef.Name);
+            if (typedValue == null)
+              return;
+          }
         } else
           throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
       }
 
       // If a setter has been provided, use it; 
       if (attrDef.Setter != null) {
+        // TODO: Error if user attempted to provide a formula
+
         Type modelComponentType = modelComponent.GetType();
         PropertyInfo info = attrDef.GetPropertyInfo(modelComponentType);
         if (info == null) {
@@ -122,6 +130,7 @@ namespace x10.compiler {
         // this is the only way we can track where the attribute came from in the code.
         UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, attrNode.Value);
         attrValue.Value = typedValue;
+        attrValue.Formula = formula;
 
         // Do Pass-1 action, if one exists
         attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, attrNode.Value, modelComponent);
