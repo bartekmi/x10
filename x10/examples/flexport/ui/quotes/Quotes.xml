@@ -1,7 +1,7 @@
 <Quotes model="QuoteRequest" many="true" url="/quote_requests">
     <VerticalStackPanel>
         <Heading1 text="Quotes"/>
-        <Divider/>
+        <HorizontalDivider/>
 
         <Table>
             <!-- Header -->

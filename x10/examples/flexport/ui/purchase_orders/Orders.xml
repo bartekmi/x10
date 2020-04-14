@@ -1,7 +1,7 @@
 <Orders model="PurchaseOrder" many="true" url="/orders">
     <VerticalStackPanel>
         <Heading1 text="Purchase Orders"/>
-        <Divider/>
+        <HorizontalDivider/>
 
         <Table>
             <!-- Header -->

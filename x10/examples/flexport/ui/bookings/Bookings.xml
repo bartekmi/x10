@@ -1,50 +1,51 @@
 <Bookings model="Booking" many="true">
-    <VerticalStackPanel>
-        <Heading1 text="Bookings"/>
-        <Divider/>
+  <VerticalStackPanel>
+    <Heading1 text="Bookings"/>
+    <HorizontalDivider/>
 
-        <Table>
-            <!-- Header -->
-            <Table.Header>
-                <RepellingRow>
-                    <Row>
-                        <!-- TODO: Filters -->
-                    </Row>
-                    <Row>
-                        <Button content="Manage Templates" url="/booking_templates"/>
-                        <Button content="Create Booking" url="/bookings_new"/>
-                    </Row>
-                </RepellingRow>
-            </Table.Header>
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+        <RepellingRow>
+          <Row>
+            <!-- TODO: Filters -->
+          </Row>
+          <Row>
+            <UrlButton label="Manage Templates" url="/booking_templates"/>
+            <UrlButton label="Create Booking" url="/bookings_new"/>
+          </Row>
+        </RepellingRow>
+      </Table.Header>
 
-            <!-- Columns -->
-            <Table.Columns>
-                <name/>
-                <transportationMode.icon/>
-                <cargoReadyDate/>
-                <TableColumn path="shipper">
-                    <VerticalStackPanel>
-                        <name weight="bold"/>
-                        <cityAndState/>
-                    </VerticalStackPanel>
-                </TableColumn>
-                <TableColumn path="consignee">
-                    <VerticalStackPanel>
-                        <name weight="bold"/>
-                        <cityAndState/>
-                    </VerticalStackPanel>
-                </TableColumn>
-                <weight/>
-                <volume/>
-                <state/>
-                <TableColumn label="Action">
-                    <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
-                    <Row visible="=state != draft">
-                        <Button label="View" url="/bookings/${id}"/>
-                        <Button label="Edit" url="/bookings/${id}/amend"/>
-                    </Row>
-                </TableColumn>
-            </Table.Columns>
-        </Table>
-    </VerticalStackPanel>
+      <!-- Columns -->
+      <Table.Columns>
+        <name/>
+        <transportationMode/>
+        <!-- <transportationMode.icon/>   TODO: Signify that I just want the icon -->
+        <cargoReadyDate/>
+        <TableColumn path="shipper">
+          <VerticalStackPanel>
+            <name weight="bold"/>
+            <cityAndState/>
+          </VerticalStackPanel>
+        </TableColumn>
+        <TableColumn path="consignee">
+          <VerticalStackPanel>
+            <name weight="bold"/>
+            <cityAndState/>
+          </VerticalStackPanel>
+        </TableColumn>
+        <weight/>
+        <volume/>
+        <state/>
+        <TableColumn label="Action">
+          <UrlButton label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
+          <Row visible="=state != draft">
+            <UrlButton label="View" url="/bookings/${id}"/>
+            <UrlButton label="Edit" url="/bookings/${id}/amend"/>
+          </Row>
+        </TableColumn>
+      </Table.Columns>
+    </Table>
+  </VerticalStackPanel>
 </Bookings>

@@ -325,6 +325,9 @@ namespace x10.compiler {
     }
 
     private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
+      if (dataModel.Entity == null)
+        return null;
+
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
         _messages.AddError(xmlBase,

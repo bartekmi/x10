@@ -1,7 +1,7 @@
 <Tasks model="Task" many="true" url="/tasks">
     <VerticalStackPanel>
         <Heading1 text="Tasks"/>
-        <Divider/>
+        <HorizontalDivider/>
 
         <Table>
             <!-- Header -->

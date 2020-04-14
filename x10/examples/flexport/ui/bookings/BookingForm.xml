@@ -4,7 +4,7 @@
 	</BookingForm.state>
 	<VerticalStackPanel>
 		<Heading1 text="Create Booking"/>
-		<Divider/>
+		<HorizontalDivider/>
 		
 		<!-- FUTURE: Template area goes here-->
 		<FormSection label="Shipment Name">
