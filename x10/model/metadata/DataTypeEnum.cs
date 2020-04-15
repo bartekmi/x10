@@ -24,6 +24,10 @@ namespace x10.model.metadata {
       ParseFunction = (text) => ParseEnum(text);
     }
 
+    public DataTypeEnum(IEnumerable<object> enumValues) :this() {
+      EnumValueValues = enumValues;
+    }
+
     private ParseResult ParseEnum(string text) {
       if (HasEnumValue(text))
         return new ParseResult(text);

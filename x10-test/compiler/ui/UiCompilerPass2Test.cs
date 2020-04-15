@@ -654,7 +654,7 @@ namespace x10.compiler {
     private ClassDefX10 RunTest(string xml) {
       ClassDefX10 definition = CompilePass1(xml);
 
-      AllUiDefinitions allUiDefinitions = new AllUiDefinitions(_messages, null, _library);
+      AllUiDefinitions allUiDefinitions = new AllUiDefinitions(_messages, null, new UiLibrary[] { _library });
       foreach (Entity entity in _allEntities.All)
         (new EntityCompilerPass3(allUiDefinitions)).CompileEntity(entity);
 
@@ -662,7 +662,6 @@ namespace x10.compiler {
 
       return definition;
     }
-
 
     #endregion
   }

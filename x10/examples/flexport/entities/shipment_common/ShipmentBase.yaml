@@ -22,13 +22,6 @@ attributes:
     dataType: Date
     mandatory: true
 
-enums:
-  - name: Priority
-    values: 
-      - value: normal
-      - value: high
-        icon: lightning
-
 associations:
   - name: company
     dataType: Company

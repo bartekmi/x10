@@ -6,25 +6,25 @@
         <Heading3 text="Exceptions"/>
         <Pill text="=count"/>
       </Row>
-      <LinkButton text="See all" url="/shipments?has_exception=true"/>
+      <LinkButton label="See all" url="/shipments?has_exception=true"/>
     </RepellingRow>
 
     <HorizontalDivider/>
 
     <!-- The actual content -->
     <List>
-      <StretchingRow>
+      <RepellingRow>
         <Icon icon="=type"/>
         <VerticalStackPanel>
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
             <Row>
-              <flexId weight="bold"/>
+              <shipment.flexId weight="bold"/>
               <Bullet/>
               <shipment.name/>
             </Row>
             <Row>
-              <priority/>
+              <shipment.priority/>
               <BookmarkEditor/>
             </Row>
           </RepellingRow>
@@ -33,7 +33,7 @@
 
           <!-- Shipment Status/Exception type -->
           <Row>
-            <Icon icon="square_with_bubble"/>
+            <Icon icon="square-with-bubble"/>
             <shipment.status/>
             <Bullet/>
             <type/>
@@ -51,7 +51,7 @@
             </Row>
           </RepellingRow>
         </VerticalStackPanel>
-      </StretchingRow>
+      </RepellingRow>
     </List>
   </VerticalStackPanel>
 </DashboardExceptions>

@@ -11,9 +11,9 @@ namespace x10.compiler {
   public class AllUiDefinitions {
     private readonly Dictionary<string, List<ClassDefX10>> _uiDefinitionsByName;
     private readonly MessageBucket _messages;
-    private readonly UiLibrary[] _libraries;
+    private readonly IEnumerable<UiLibrary> _libraries;
 
-    public AllUiDefinitions(MessageBucket messages, IEnumerable<ClassDefX10> components, params UiLibrary[] libraries) {
+    public AllUiDefinitions(MessageBucket messages, IEnumerable<ClassDefX10> components, IEnumerable<UiLibrary> libraries) {
       // The reason the values are a list is to account for problems where multiple UI components with
       // the same name have been defined 
       if (components == null)

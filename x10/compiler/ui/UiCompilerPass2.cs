@@ -171,6 +171,9 @@ namespace x10.compiler {
       List<XmlElement> children, 
       UiAttributeDefinitionComplex attrComplex) {
 
+      if (attrComplex == null)
+        return;
+
       UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrComplex.CreateValueAndAddToOwner(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
@@ -302,8 +305,8 @@ namespace x10.compiler {
       // One->One and Many->Many ok, but mismatch is an error.
       if (renderAs.CaresAboutDataModel) {
         string dataModelFromPath = dataModel.Member == null ?
-          dataModel.Entity.Name :
-          string.Format("{0}.{1}", dataModel.Entity.Name, dataModel.Member.Name);
+          dataModel.Entity?.Name :
+          string.Format("{0}.{1}", dataModel.Entity?.Name, dataModel.Member.Name);
 
         string entityOrScalarProvided = dataModel.Member is X10Attribute ?
           (dataModel.IsMany ? "values" : "value") :

@@ -15,3 +15,10 @@
   description: International standard payment agreement between shipper and consignee
   ui: IncotermsEditor
   values: FOB, EXW, FAS, FCA, CPT, CFR
+
+- name: Priority
+  values: 
+    - value: normal
+    - value: high
+      icon: lightning
+

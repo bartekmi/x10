@@ -7,8 +7,8 @@
         <Filters/>
       </Row>
       <Row>
-        <HollowButton content="Get a quote" ClickUrl="/quote_requests/new"/>
-        <Button content="Book a shipment" ClickUrl="/bookings/new"/>
+        <HollowButton label="Get a quote" url="/quote_requests/new"/>
+        <Button label="Book a shipment" url="/bookings/new"/>
       </Row>
     </RepellingRow>
 
@@ -25,6 +25,5 @@
       <DashboardBookings/>
       <DashboardQuoteRequests/>
     </PackingLayout>
-    <Footer/>
   </VerticalStackPanel>
 </Dashboard>

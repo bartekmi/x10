@@ -10,12 +10,16 @@
                     <Row>
                         <Button label="Upload CSV">
                             <Button.Action>
-                                <UploadAction label="Upload Orders by CSV" fileFilter="*.csv" backEndTarget="/purchase_order_upload"/>
+                                <UploadAction dialogTitle="Upload Orders by CSV" 
+                                              fileFilter="*.csv" 
+                                              backEndTarget="/purchase_order_upload"/>
                             </Button.Action>
                         </Button>
-                        <Button label="Upload CSV">
+                        <Button label="Download CSV">
                             <Button.Action>
-                                <BackEndAction confirmDialogTitle="Purchase Orders Dwonload" confirmDialogText="We'll send you an email with your purchase orders shortly."/>
+                                <BackEndAction dialogTitle="Purchase Orders Download" 
+                                               dialogText="We'll send you an email with your purchase orders shortly."
+                                               backEndTarget="emailPurchaseOrdes"/>
                             </Button.Action>
                         </Button>
 

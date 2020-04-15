@@ -12,11 +12,11 @@ namespace x10.compiler {
   public class TopLevelCompiler {
 
     private readonly MessageBucket _messages;
-    private readonly UiLibrary _library;
+    private readonly IEnumerable<UiLibrary> _libraries;
 
-    public TopLevelCompiler(MessageBucket messages, UiLibrary library) {
+    public TopLevelCompiler(MessageBucket messages, IEnumerable<UiLibrary> libraries) {
       _messages = messages;
-      _library = library;
+      _libraries = libraries;
     }
 
     internal void Compile(string rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions) {
@@ -40,7 +40,7 @@ namespace x10.compiler {
         ClassDefX10 classDef = uiPass1.CompileUiDefinition(rootXmlElement);
         classDefs.Add(classDef);
       }
-      allUiDefinitions = new AllUiDefinitions(_messages, classDefs, _library);
+      allUiDefinitions = new AllUiDefinitions(_messages, classDefs, _libraries);
 
       // Entities - Pass 3
       EntityCompilerPass3 entitiesPass3 = new EntityCompilerPass3(allUiDefinitions);

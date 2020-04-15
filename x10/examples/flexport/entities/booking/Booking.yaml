@@ -2,6 +2,10 @@ name: Booking
 description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
 
 attributes:
+  - name: flexId
+    dataType: String
+    readOnly: true
+
   - name: name
     dataType: String
     mandatory: true
@@ -83,6 +87,11 @@ attributes:
   - name: volumeCm
     dataType: Float
 
+  - name: priority
+    dataType: Priority
+    mandatory: true
+    default: normal
+
 derivedAttributes:
   - name: isShipperBooking
     dataType: Boolean
@@ -105,7 +114,7 @@ enums:
         icon: draft
       - value: waitingForPricing
         label: Waiting For Pricing
-        icon: dollar_sign
+        icon: dollar-sign
       - value: awaitingReview
         label: Awaiting Your Review
         icon: ticket

@@ -9,9 +9,31 @@ namespace x10.ui.libraries {
   public class BaseLibrary {
 
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
-      // No-Data Formatting Components
-        new ClassDefNative() {
+      #region No-Data Formatting Components
+      new ClassDefNative() {
           Name = "Heading1",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              // IsPrimary = true,    FUTURE: This is a prime candidate for a "primary" atomic attribute that receives text
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+            },
+          }
+        },
+        new ClassDefNative() {
+          Name = "Heading2",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              // IsPrimary = true,    FUTURE: This is a prime candidate for a "primary" atomic attribute that receives text
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+            },
+          }
+        },
+        new ClassDefNative() {
+          Name = "Heading3",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
@@ -25,20 +47,67 @@ namespace x10.ui.libraries {
           Name = "HorizontalDivider",
           InheritsFrom = ClassDefNative.Visual,
         },
-
-        // Atomic Components
         new ClassDefNative() {
-          Name = "TextEdit",
+          Name = "VerticalDivider",
+          InheritsFrom = ClassDefNative.Visual,
+        },
+        new ClassDefNative() {
+          Name = "Bullet",
+          InheritsFrom = ClassDefNative.Visual,
+        },
+      #endregion
+
+      #region  Atomic Display Components
+      new ClassDefNative() {
+          Name = "Text",
           InheritsFrom = ClassDefNative.Visual,
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.String,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+            },
             new UiAttributeDefinitionAtomic() {
               Name = "weight",
               DataType = new DataTypeEnum() {
                 Name = "FontWeight",
                 EnumValueValues = new string[] { "normal", "bold" },
               }
+            },
+          }
+        },
+      #endregion
+
+      #region Atomic Edit Components
+      new ClassDefNative() {
+          Name = "TextEdit",
+          InheritsFrom = ClassDefNative.Visual,
+          IsMany = false,
+          AtomicDataModel = DataTypes.Singleton.String,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "weight",
+              DataType = new DataTypeEnum() {
+                Name = "FontWeight",
+                EnumValueValues = new string[] { "normal", "bold" },
+              }
+            },
+          }
+        },
+        new ClassDefNative() {
+          Name = "Pill",
+          InheritsFrom = ClassDefNative.Visual,
+          IsMany = false,
+          AtomicDataModel = DataTypes.Singleton.String,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
             },
           }
         },
@@ -79,15 +148,34 @@ namespace x10.ui.libraries {
           AtomicDataModel = DataTypes.Singleton.Date,
         },
         new ClassDefNative() {
+          Name = "TimestampEditor",
+          InheritsFrom = ClassDefNative.Visual,
+          IsMany = false,
+          AtomicDataModel = DataTypes.Singleton.Timestamp,
+        },
+        new ClassDefNative() {
           Name = "DropDown",
           InheritsFrom = ClassDefNative.Visual,
           IsMany = false,
           AtomicDataModel = new DataTypeEnum(),
         },
+      #endregion
 
-        // Layout Components
-        new ClassDefNative() {
+      #region Layout Components
+      new ClassDefNative() {
           Name = "VerticalStackPanel",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          }
+        },
+        new ClassDefNative() {
+          Name = "PackingLayout",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
@@ -122,9 +210,10 @@ namespace x10.ui.libraries {
             },
           }
         },
+      #endregion
 
-        // Complex Components
-        new ClassDefNative() {
+      #region Complex Components
+      new ClassDefNative() {
           Name = "Table",
           ComponentDataModel = Entity.Object,
           IsMany = true,
@@ -161,6 +250,24 @@ namespace x10.ui.libraries {
           },
         },
         new ClassDefNative() {
+          Name = "List",
+          ComponentDataModel = Entity.Object,
+          IsMany = true,
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "ItemTemplate",
+              IsMandatory = true,
+              ReducesManyToOne = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          },
+        },
+      #endregion
+
+      #region Button / Menu
+        new ClassDefNative() {
           Name = "HelpIcon",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -171,6 +278,51 @@ namespace x10.ui.libraries {
             new UiAttributeDefinitionAtomic() {
               Name = "difficulty",
               DataType = DataTypes.Singleton.Integer,
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "Action",
+          InheritsFrom = ClassDefNative.Object,
+        },
+        new ClassDefNative() {
+          Name = "UploadAction",
+          InheritsFromName = "Action",
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "dialogTitle",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "fileFilter",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "backEndTarget",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "BackEndAction",
+          InheritsFromName = "Action",
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "dialogTitle",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "dialogText",
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "backEndTarget",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
             },
           },
         },
@@ -187,6 +339,10 @@ namespace x10.ui.libraries {
               Name = "action",
               DataType = DataTypes.Singleton.String,
             },
+            new UiAttributeDefinitionComplex() {
+              Name = "Action",
+              ComplexAttributeTypeName = "Action",
+            },
             new UiAttributeDefinitionAtomic() {
               Name = "url",
               DataType = DataTypes.Singleton.String,
@@ -198,21 +354,51 @@ namespace x10.ui.libraries {
           Name = "HollowButton",
           InheritsFromName = "Button",
         },
-
-        // Model-Specific... TODO: will be moved to a separate library
         new ClassDefNative() {
-          Name = "Metadata",
-          InheritsFrom = ClassDefNative.Visual,
-          // ComponentDataModel...
+          Name = "LinkButton",
+          InheritsFromName = "Button",
         },
         new ClassDefNative() {
-          Name = "MetadataEditor",
+          Name = "SpaContent",
           InheritsFrom = ClassDefNative.Visual,
-          // ComponentDataModel...
         },
-      };
+        new ClassDefNative() {
+          Name = "Menu",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "Children",
+              IsMandatory = true,
+              IsMany = true,
+              ComplexAttributeTypeName = "MenuItem",
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "MenuItem",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "url",
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionComplex() {
+              Name = "Children",
+              IsPrimary = true,
+              IsMany = true,
+              ComplexAttributeTypeName = "MenuItem",
+            },
+          },
+        },
+      #endregion
+    };
 
-
+    #region Glue it Together
     private static UiLibrary _singleton;
     public static UiLibrary Singleton() {
       if (_singleton == null)
@@ -230,10 +416,12 @@ namespace x10.ui.libraries {
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit");
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor");
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor");
 
       library.SetComponentForEnums("DropDown");
 
       return library;
     }
+    #endregion
   }
 }
