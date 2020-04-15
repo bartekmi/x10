@@ -11,8 +11,8 @@
             <!-- TODO: Filters -->
           </Row>
           <Row>
-            <UrlButton label="Manage Templates" url="/booking_templates"/>
-            <UrlButton label="Create Booking" url="/bookings_new"/>
+            <Button label="Manage Templates" url="/booking_templates"/>
+            <Button label="Create Booking" url="/bookings_new"/>
           </Row>
         </RepellingRow>
       </Table.Header>
@@ -39,10 +39,10 @@
         <volumeCm/>
         <state/>
         <TableColumn label="Action">
-          <UrlButton label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
+          <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
           <Row visible="=state != draft">
-            <UrlButton label="View" url="/bookings/${id}"/>
-            <UrlButton label="Edit" url="/bookings/${id}/amend"/>
+            <Button label="View" url="/bookings/${id}"/>
+            <Button label="Edit" url="/bookings/${id}/amend"/>
           </Row>
         </TableColumn>
       </Table.Columns>

@@ -1,0 +1,42 @@
+<DashboardTasks model="Task" many="true">
+    <VerticalStackPanel>
+        <!-- Header: Label, count, 'see all' -->
+        <RepellingRow>
+            <Row>
+                <Heading3 text="Tasks"/>
+                <Pill text="$count"/>
+            </Row>
+            <LinkButton text="See all" url="/tasks"/>
+        </RepellingRow>
+
+        <HorizontalDivider/>
+
+        <!-- The actual content -->
+        <List>
+            <StretchingRow>
+                <Icon icon="=type"/>
+                <VerticalStackPanel>
+                    <Row>
+                        <flexId weight="bold"/>
+                        <Bullet/>
+                        <shipment.name/>
+                    </Row>
+                    <Row>
+                        <shipment.metadata/>
+                    </Row>
+                    <RepellingRow>
+                        <Row>
+                            <Icon icon="=shipment.transportationMode"/>
+                            <headline/>
+                            <Bullet/>
+                            <dueDateHuman/>
+                        </Row>
+                        <Row>
+                            Due <dueDate weight="bold"/>
+                        </Row>
+                    </RepellingRow>
+                </VerticalStackPanel>
+            </StretchingRow>
+        </List>
+    </VerticalStackPanel>
+</DashboardTasks>
