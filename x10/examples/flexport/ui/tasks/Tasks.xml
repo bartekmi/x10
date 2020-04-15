@@ -1,41 +1,41 @@
 <Tasks model="Task" many="true" url="/tasks">
-    <VerticalStackPanel>
-        <Heading1 text="Tasks"/>
-        <HorizontalDivider/>
+  <VerticalStackPanel>
+    <Heading1 text="Tasks"/>
+    <HorizontalDivider/>
 
-        <Table>
-            <!-- Header -->
-            <Table.Header>
-                <RepellingRow>
-                    <Row>
-                        <Button label="=`Archive ${selected.count}` tasks" visibility="=selected.count > 0" onClick="archiveSelectedTasks(selected)"/>
-                        <FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
-                        <FilterMultiSelect label="Types" choices="=enumValues(TaskType)"/>
-                        <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>
-                    </Row>
-                    <TablePageControls/>
-                </RepellingRow>
-            </Table.Header>
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+        <RepellingRow>
+          <Row>
+            <Button label="=`Archive ${selected.count}` tasks" visible="=selected.count > 0" action="archiveSelectedTasks(selected)"/>
+            <FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
+            <FilterMultiSelect label="Types" choices="=enumValues(TaskType)"/>
+            <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>
+          </Row>
+          <TablePageControls/>
+        </RepellingRow>
+      </Table.Header>
 
-            <!-- Columns -->
-            <Table.Columns>
-                <TableSelectionColumn/>
+      <!-- Columns -->
+      <Table.Columns>
+        <TableSelectionColumn/>
 
-                <TableColumn header="Reference">
-                    <VerticalStackPanel>
-                        <flexId weight="bold"/>
-                        <name/>
-                    </VerticalStackPanel>
-                </TableColumn>
+        <TableColumn label="Reference">
+          <VerticalStackPanel>
+            <shipment.flexId weight="bold"/>
+            <shipment.name/>
+          </VerticalStackPanel>
+        </TableColumn>
 
-                <headline weight="bold"/>
-                <shipment.transportationMode/>
-                <shipment.supplier/>
-                <shipment.finalDestination/>
-                <completeByHuman/>
-                <createdAt header="Posted"/>
-            </Table.Columns>
+        <headline weight="bold"/>
+        <shipment.transportationMode/>
+        <shipment.supplier/>
+        <shipment.finalDestination/>
+        <completeByHuman/>
+        <createdAt label="Posted"/>
+      </Table.Columns>
 
-        </Table>
-    </VerticalStackPanel>
+    </Table>
+  </VerticalStackPanel>
 </Tasks>

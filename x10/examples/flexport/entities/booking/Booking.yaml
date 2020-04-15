@@ -11,8 +11,8 @@ attributes:
     mandatory: true
     placeholderText: Description of shipment
 
-  - name: state
-    dataType: BookingState
+  - name: status
+    dataType: BookingStatus
     mandatory: true
 
   - name: transportationMode
@@ -107,7 +107,7 @@ derivedAttributes:
 
 
 enums:
-  - name: BookingState
+  - name: BookingStatus
     values:
       - value: draft
         label: Draft

@@ -17,6 +17,11 @@ attributes:
   - name: actualDeparture
     dataType: Timestamp
 
+derivedAttributes:
+  - name: arrivalDate
+    dataType: Timestamp
+    formula: actuaArrival ?? estimatedArrival
+
 associations:
   - name: location
     dataType: Location

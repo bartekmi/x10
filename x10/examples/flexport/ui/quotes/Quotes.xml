@@ -1,59 +1,59 @@
 <Quotes model="QuoteRequest" many="true" url="/quote_requests">
-    <VerticalStackPanel>
-        <Heading1 text="Quotes"/>
-        <HorizontalDivider/>
+  <VerticalStackPanel>
+    <Heading1 text="Quotes"/>
+    <HorizontalDivider/>
 
-        <Table>
-            <!-- Header -->
-            <Table.Header>
-                <RepellingRow>
-                    <Row>
-                        <FilterSingleSelect path="state"/>
-                        <FilterRadioButtons path="transportationMode"/>
-                        <FilterSearchableProperty path="shipper"/>
-                        <FilterMultiSelect path="users"/>
-                    </Row>
-                    <Row>
-                        <Button label="Request Quote" url="/quote_requests/new"/>
-                        <Button label="Book Shipment" url="/shipments/new"/>
-                    </Row>
-                </RepellingRow>
-            </Table.Header>
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+        <RepellingRow>
+          <Row>
+            <FilterSingleSelect path="state"/>
+            <FilterRadioButtons path="transportationMode"/>
+            <FilterSearchableProperty path="shipper"/>
+            <FilterMultiSelect path="users"/>
+          </Row>
+          <Row>
+            <Button label="Request Quote" url="/quote_requests/new"/>
+            <Button label="Book Shipment" url="/shipments/new"/>
+          </Row>
+        </RepellingRow>
+      </Table.Header>
 
-            <!-- Columns -->
-            <Table.Columns>
-                <TableColumn label="Name">
-                    <VerticalStackPanel>
-                        <flexId weight="bold"/>
-                        <name/>
-                        <metadata/>
-                    </VerticalStackPanel>
-                </TableColumn>
+      <!-- Columns -->
+      <Table.Columns>
+        <TableColumn label="Name">
+          <VerticalStackPanel>
+            <flexId weight="bold"/>
+            <name/>
+            <metadata/>
+          </VerticalStackPanel>
+        </TableColumn>
 
-                <transportationMode/>
-                <cargoReadyDate/>
-                <from/>
-                <to/>
+        <transportationMode/>
+        <cargoReadyDate/>
+        <origin/>
+        <finalDestination/>
 
-                <TableColumn>
-                    <VerticalStackPanel>
-                        <cargo.weight/>
-                        <cargo.volume/>
-                    </VerticalStackPanel>
-                </TableColumn>
+        <TableColumn>
+          <VerticalStackPanel>
+            <cargo.weight/>
+            <cargo.volume/>
+          </VerticalStackPanel>
+        </TableColumn>
 
-                <submittedBy/>
-                <state/>
+        <submittedBy/>
+        <state/>
 
-                <TableColumn label="Action">
-                    <!-- Consider an element which enforces all enums are covered (like switch) -->
-                    <Button label="View Request" url="/bookings/${booking.id}/edit" visible="=state == 'quoteRequested'"/>
-                    <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'qoutesReady'"/>
-                    <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'accepted'"/>
-                    <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'expired'"/>
-                </TableColumn>
-            </Table.Columns>
+        <TableColumn label="Action">
+          <!-- Consider an element which enforces all enums are covered (like switch) -->
+          <Button label="View Request" url="/bookings/${booking.id}/edit" visible="=state == 'quoteRequested'"/>
+          <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'qoutesReady'"/>
+          <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'accepted'"/>
+          <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'expired'"/>
+        </TableColumn>
+      </Table.Columns>
 
-        </Table>
-    </VerticalStackPanel>
+    </Table>
+  </VerticalStackPanel>
 </Quotes>

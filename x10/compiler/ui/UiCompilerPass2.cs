@@ -132,8 +132,8 @@ namespace x10.compiler {
           UiAttributeDefinition attrDefinition = classDef.FindAttribute(attributeName);
           if (attrDefinition == null) {
             _messages.AddError(xmlChild,
-              string.Format("Complex Attribute '{0}' does not exist on Component '{1}'",
-              attributeName, classDef.Name));
+              "Complex Attribute '{0}' does not exist on Component '{1}'",
+              attributeName, classDef.Name);
             continue;
           }
 
@@ -145,12 +145,14 @@ namespace x10.compiler {
             ParseComplexAttribute(instance, xmlChild.Children, complexAttrDef);
           } else {
             _messages.AddError(xmlChild,
-              string.Format("Atomic Attribute '{0}' of Component '{1}' found where Complex Attribute expected.",
-              attributeName, classDef.Name));
+              "Atomic Attribute '{0}' of Component '{1}' found where Complex Attribute expected.",
+              attributeName, classDef.Name);
             continue;
           }
         } else if (IsModelReference(xmlChild) || IsClassDefUse(xmlChild))
           primaryAtributeXmls.Add(xmlChild);
+        else
+          _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
       }
 
       // Is there a Primary Complex attribute? If so, parse it.
@@ -159,16 +161,16 @@ namespace x10.compiler {
 
       // Validate mandatory comlex attributes
       foreach (UiAttributeDefinitionComplex complexAttr in classDef.ComplexAttributeDefinitions)
-        if (complexAttr.IsMandatory && !instance.ComplexAttributeValues.Any(x => x.Definition == complexAttr)) 
+        if (complexAttr.IsMandatory && !instance.ComplexAttributeValues.Any(x => x.Definition == complexAttr))
           _messages.AddError(xmlElement,
             string.Format("Mandatory {0} Attribute '{1}' of Class Definition '{2}' is missing",
-            complexAttr.IsPrimary? "Primary" : "Complex", complexAttr.Name, classDef.Name));
+            complexAttr.IsPrimary ? "Primary" : "Complex", complexAttr.Name, classDef.Name));
 
       return instance;
     }
 
-    private void ParseComplexAttribute(Instance owner, 
-      List<XmlElement> children, 
+    private void ParseComplexAttribute(Instance owner,
+      List<XmlElement> children,
       UiAttributeDefinitionComplex attrComplex) {
 
       if (attrComplex == null)
@@ -181,7 +183,7 @@ namespace x10.compiler {
         if (instance != null) {
           if (instance.RenderAs != null && !instance.RenderAs.IsA(attrComplex.ComplexAttributeType))
             _messages.AddError(child,
-             "Complex Attribute value must be of type {0} or inherit from it", 
+             "Complex Attribute value must be of type {0} or inherit from it",
              attrComplex.ComplexAttributeType.Name);
 
           complexValue.AddInstance(instance);
@@ -191,7 +193,13 @@ namespace x10.compiler {
 
     #region Helpers
     private bool IsModelReference(XmlElement element) {
-      return ModelValidationUtils.IsMemberName(element.Name);
+      string name = element.Name;
+      if (name.StartsWith(".") || name.EndsWith("."))
+        return false;
+      string[] pieces = element.Name.Split(".");
+
+      return pieces.Length > 0 &&
+        pieces.All(x => ModelValidationUtils.IsMemberName(x));
     }
 
     private bool IsComplexAttribute(XmlElement element, out string attributeName) {
@@ -246,25 +254,25 @@ namespace x10.compiler {
 
       string path = instance.Path;
 
-      if (path != null) {
-        if (instance is InstanceModelRef) {
-          dataModel = AdvancePathByOne(dataModel, path, instance.XmlElement);
+      if (path != null) {   // It is perfectly valid for a UiChildComponentUse to not specify a path
+        XmlBase pathScalar;
+
+        if (instance is InstanceModelRef) 
+          pathScalar = instance.XmlElement;
+        else if (instance is InstanceClassDefUse)
+          pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
+        else
+          throw new Exception("Unexpected instance type: " + instance.GetType().Name);
+
+        string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
+
+        foreach (string pathComponent in pathComponents) {
+          dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
           if (dataModel == null)
             return null;
-          instance.ModelMember = dataModel.Member;
-        } else if (instance is InstanceClassDefUse) {
-          XmlBase pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
-          string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
+        }
 
-          foreach (string pathComponent in pathComponents) {
-            dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
-            if (dataModel == null)
-              return null;
-          }
-        } else
-          throw new Exception("Unexpected instance type: " + instance.GetType().Name);
-      } else {
-        // It is perfectly valid for a UiChildComponentUse to not specify a path
+        instance.ModelMember = dataModel.Member;
       }
 
       ValidateDataModelCompatibility(dataModel, instance);

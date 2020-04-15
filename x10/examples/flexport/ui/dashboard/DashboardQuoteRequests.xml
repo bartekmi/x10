@@ -19,18 +19,18 @@
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
             <Row>
-              <shipment.flexId weight="bold"/>
+              <flexId weight="bold"/>
               <Bullet/>
-              <shipment.name/>
+              <name/>
             </Row>
             <BookmarkEditor/>
           </RepellingRow>
 
-          <shipment.metadata/>
+          <metadata/>
 
           <RepellingRow>
             <Row>
-              <Icon icon="=shipment.transportationMode"/>
+              <Icon icon="=transportationMode"/>
               <state/>
             </Row>
             <Row>

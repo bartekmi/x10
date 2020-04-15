@@ -17,7 +17,7 @@ namespace x10.ui.composition {
     }
 
     public override string ToString() {
-      return string.Format("Component Use @ {0}. Member = {1}", Path, ModelMember?.Name);
+      return string.Format("ClassDef Use of {0}. Path: {1}. Member: {2}", RenderAs.Name, Path, ModelMember?.Name);
     }
   }
 }

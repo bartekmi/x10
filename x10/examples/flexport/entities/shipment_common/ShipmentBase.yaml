@@ -34,6 +34,8 @@ associations:
   - name: tasks
     dataType: Task
     many: true
+  - name: origin
+    dataType: ShipmentLocation
   - name: finalDestination
     dataType: ShipmentLocation
   - name: supplier

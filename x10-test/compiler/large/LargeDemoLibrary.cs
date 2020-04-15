@@ -76,6 +76,10 @@ namespace x10.compiler {
           },
           new UiAttributeDefinitionAtomic() {
             Name = "path",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "choices",
             IsMany = true,
             DataType = DataTypes.Singleton.String,
           },

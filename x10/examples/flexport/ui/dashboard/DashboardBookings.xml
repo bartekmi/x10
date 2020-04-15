@@ -21,7 +21,7 @@
             <Row>
               <flexId weight="bold"/>
               <Bullet/>
-              <shipment.name/>
+              <name/>
             </Row>
             <Row>
               <priority/>
@@ -29,20 +29,18 @@
             </Row>
           </RepellingRow>
 
-          <shipment.metadata/>
+          <metadata/>
 
           <!-- Shipment Status/Exception type -->
           <Row>
             <Icon icon="square-with-bubble"/>
-            <shipment.status/>
-            <Bullet/>
-            <type/>
+            <status/>
           </Row>
 
           <RepellingRow>
             <Row>
               <Icon icon="=shipment.transportationMode"/>
-              <state/>
+              <status/>
             </Row>
             <Row>
               CRD <cargoReadyDate weight="bold"/>

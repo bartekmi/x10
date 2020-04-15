@@ -268,6 +268,10 @@ namespace x10.ui.libraries {
           },
         },
         new ClassDefNative() {
+          Name = "TableSelectionColumn",
+          InheritsFromName = "TableColumn",
+        },
+        new ClassDefNative() {
           Name = "TablePageControls",
           InheritsFrom = ClassDefNative.Visual,
           // ComponentDataModel...

@@ -458,10 +458,9 @@ namespace x10.compiler {
       Assert.Empty(_messages.Messages);
       string result = Print(definition);
 
-      Assert.Equal(@"<MyComponent model='FancyRoom'>
+      Assert.Equal(@"<MyComponent model='Building'>
   <VerticalGroup>
-    <name/>
-    <fancinessQuotient/>
+    <demoApartment.number/>
   </VerticalGroup>
 </MyComponent>
 ", result);
