@@ -212,7 +212,25 @@ namespace x10.ui.libraries {
         },
       #endregion
 
-      #region Complex Components
+      #region List
+        new ClassDefNative() {
+          Name = "List",
+          ComponentDataModel = Entity.Object,
+          IsMany = true,
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "ItemTemplate",
+              IsMandatory = true,
+              ReducesManyToOne = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          },
+        },
+      #endregion
+
+      #region Table
       new ClassDefNative() {
           Name = "Table",
           ComponentDataModel = Entity.Object,
@@ -250,24 +268,14 @@ namespace x10.ui.libraries {
           },
         },
         new ClassDefNative() {
-          Name = "List",
-          ComponentDataModel = Entity.Object,
-          IsMany = true,
+          Name = "TablePageControls",
           InheritsFrom = ClassDefNative.Visual,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionComplex() {
-              IsPrimary = true,
-              Name = "ItemTemplate",
-              IsMandatory = true,
-              ReducesManyToOne = true,
-              ComplexAttributeType = ClassDefNative.Visual,
-            },
-          },
+          // ComponentDataModel...
         },
       #endregion
 
-      #region Button / Menu
-        new ClassDefNative() {
+      #region Button / Actions
+      new ClassDefNative() {
           Name = "HelpIcon",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -362,12 +370,16 @@ namespace x10.ui.libraries {
           Name = "SpaContent",
           InheritsFrom = ClassDefNative.Visual,
         },
+      #endregion
+
+      #region Menu
         new ClassDefNative() {
           Name = "Menu",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               Name = "Children",
+              IsPrimary = true,
               IsMandatory = true,
               IsMany = true,
               ComplexAttributeTypeName = "MenuItem",

@@ -22,7 +22,7 @@
 
             <!-- Columns -->
             <Table.Columns>
-                <TableColumn header="Name">
+                <TableColumn label="Name">
                     <VerticalStackPanel>
                         <flexId weight="bold"/>
                         <name/>

@@ -27,6 +27,6 @@ enums:
 associations:
   - name: seller
     dataType: Company
-  - name: boyer
+  - name: buyer
     dataType: Company
   
