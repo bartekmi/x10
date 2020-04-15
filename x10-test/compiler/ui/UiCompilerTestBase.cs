@@ -54,6 +54,10 @@ associations:
     description: dummy
     dataType: Apartment
     many: true
+  - name: demoApartment
+    description: dummy
+    dataType: Apartment
+    many: false
 ",
         @"
 name: Apartment
@@ -81,6 +85,15 @@ attributes:
   - name: paintColor
     description: dummy
     dataType: String
+",
+        @"
+name: FancyRoom
+description: Fancy dummy
+inheritsFrom: Room
+attributes:
+  - name: fancinessQuotient
+    description: dummy
+    dataType: Integer
 ",
       });
 

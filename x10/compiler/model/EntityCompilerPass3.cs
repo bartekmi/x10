@@ -21,7 +21,7 @@ namespace x10.compiler {
     internal void CompileEntity(Entity entity) {
       entity.Ui = FindUiComponentWithError(entity.UiName, entity);
 
-      foreach (Member member in entity.Members)
+      foreach (Member member in entity.LocalMembers)
         member.Ui = FindUiComponentWithError(member.UiName, member);
     }
 

@@ -47,7 +47,7 @@ namespace x10.compiler {
         foreach (ModelAttributeValue value in entity.AttributeValues)
           value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, entity, value);
 
-        foreach (Member member in entity.Members)
+        foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
             value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, member, value);
       }

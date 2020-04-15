@@ -418,9 +418,55 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+
+    [Fact]
+    public void ResolveDerivedEntityAttributes() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='FancyRoom'>
+  <VerticalGroup>
+    <name/>
+    <fancinessQuotient/>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='FancyRoom'>
+  <VerticalGroup>
+    <name/>
+    <fancinessQuotient/>
+  </VerticalGroup>
+</MyComponent>
+", result);
+    }
     #endregion
 
-    #region Path-Related Errors
+    #region Path-Related Tests
+
+    [Fact]
+    public void NestedModelReferencePath() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <VerticalGroup>
+    <demoApartment.number/>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='FancyRoom'>
+  <VerticalGroup>
+    <name/>
+    <fancinessQuotient/>
+  </VerticalGroup>
+</MyComponent>
+", result);
+    }
+
     [Fact]
     public void NonExistentPathMember() {
       RunTest(@"

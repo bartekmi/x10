@@ -6,10 +6,18 @@ using x10.ui.metadata;
 namespace x10.model.definition {
   public class Entity : ModelComponent{
     public String InheritsFromName { get; set; }
-    public List<Member> Members { get; private set; }
+    public List<Member> LocalMembers { get; private set; }
     public string UiName { get; set; }
 
     // Derived
+    public IEnumerable<Member> Members {
+      get {
+        return InheritsFrom == null ?
+          LocalMembers :
+          InheritsFrom.Members.Concat(LocalMembers);
+      }
+    }
+
     public IEnumerable<X10Attribute> Attributes { get { return Members.OfType<X10Attribute>(); } }
     public IEnumerable<X10RegularAttribute> RegularAttributes { get { return Members.OfType<X10RegularAttribute>(); } }
     public IEnumerable<X10DerivedAttribute> DrivedAttributes { get { return Members.OfType<X10DerivedAttribute>(); } }
@@ -20,7 +28,7 @@ namespace x10.model.definition {
     public ClassDef Ui { get; internal set; }
 
     public Entity() {
-      Members = new List<Member>();
+      LocalMembers = new List<Member>();
       InheritsFrom = Object;    // May be explicitly overridden in definition
     }
 
@@ -45,7 +53,7 @@ namespace x10.model.definition {
 
     internal void AddMembers(Member member) {
       member.Owner = this;
-      Members.Add(member);
+      LocalMembers.Add(member);
     }
 
     #region Primordial Entities
