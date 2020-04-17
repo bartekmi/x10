@@ -43,5 +43,14 @@ namespace x10.model {
 
       return entities.Single();
     }
+
+    internal Entity FindContextEntityWithError(IParseElement parseElement) {
+      Entity contextEntity = FindEntityByNameWithError(ModelValidationUtils.CONTEXT_ENTITY_NAME, parseElement);
+      if (contextEntity == null)
+        _messages.AddError(parseElement,
+          "In order to use Context-level data (a typical example would be the currently logged-in User), " +
+          "you must define an Entity called {0}", ModelValidationUtils.CONTEXT_ENTITY_NAME);
+      return contextEntity;
+    }
   }
 }

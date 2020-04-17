@@ -109,7 +109,7 @@ namespace x10.compiler {
         DataType = DataTypes.Singleton.String,
         Setter = "Path",
         Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
-          Regex pathRegex = new Regex("[a-zA-Z0-9](\\.[a-zA-Z0-9])*");
+          Regex pathRegex = new Regex("/*[a-zA-Z0-9](\\.[a-zA-Z0-9])*");
           if (!pathRegex.IsMatch(xmlScalar.ToString()))
             messages.AddError(xmlScalar,
               string.Format("Illegal path '{0}'. Path must consist of valid member names separated by periods (.). For example: 'name' or 'client.address.zip'"

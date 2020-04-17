@@ -3,7 +3,7 @@
     <!-- Dashboard Header Row -->
     <RepellingRow>
       <Row>
-        <Heading1 path="/CurrentUser" text="Hello, ${firstName}!"/>
+        <Heading1 path="/currentUser" text="Hello, ${firstName}!"/>
         <Filters/>
       </Row>
       <Row>

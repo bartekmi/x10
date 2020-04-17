@@ -95,6 +95,22 @@ attributes:
     description: dummy
     dataType: Integer
 ",
+        @"
+name: __Context__
+description: Top level context
+associations:
+  - name: currentUser
+    description: Current logged-in user
+    dataType: User
+",
+        @"
+name: User
+description: A user of the system with log-in credentials
+attributes:
+  - name: firstName
+    description: dummy
+    dataType: String
+",
       });
 
       if (_messages.HasErrors) {

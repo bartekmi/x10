@@ -462,6 +462,23 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+
+    [Fact]
+    public void ReadContextData() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <TextEdit path='/currentUser.firstName'/>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <TextEdit path='/currentUser.firstName'/>
+</MyComponent>
+", result);
+    }
     #endregion
 
     #region Path-Related Tests

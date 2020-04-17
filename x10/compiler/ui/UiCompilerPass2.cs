@@ -285,6 +285,12 @@ namespace x10.compiler {
     }
 
     private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
+
+      if (pathComponent.StartsWith('/')) {
+        dataModel = new UiDataModel(_allEntities.FindContextEntityWithError(xmlBase), false);
+        pathComponent = pathComponent.Substring(1);
+      }
+
       if (dataModel.Entity == null)
         return null;
 
