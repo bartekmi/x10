@@ -1,3 +1,10 @@
 ﻿<Footer>
-  <Text text="TODO"/>
+  <RawHtml>
+    <p>
+      Under now circumstances should you copy this website.
+    </p>
+    <p>
+      We'll sue your pants off!.
+    </p>
+  </RawHtml>
 </Footer>

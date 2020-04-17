@@ -127,6 +127,8 @@ namespace x10.compiler {
         return null;    // Error provided by FindDefinitionByNameWithError() above
 
       InstanceClassDefUse instance = new InstanceClassDefUse(classDef, xmlElement);
+      if (classDef == ClassDefNative.RawHtml)
+        return instance;
 
       List<XmlElement> primaryAtributeXmls = new List<XmlElement>();
       foreach (XmlElement xmlChild in xmlElement.Children) {

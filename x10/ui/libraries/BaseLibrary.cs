@@ -412,6 +412,10 @@ namespace x10.ui.libraries {
           },
         },
       #endregion
+
+      #region Primordial Components (Not Abstract)
+        ClassDefNative.RawHtml,
+      #endregion
     };
 
     #region Glue it Together

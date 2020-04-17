@@ -140,6 +140,7 @@ namespace x10.compiler {
           IsMany = false,
           InheritsFrom = ClassDefNative.Visual,
         },
+        ClassDefNative.RawHtml,
       };
 
       _library = new UiLibrary(definitions) {
@@ -247,6 +248,26 @@ namespace x10.compiler {
 </Inner>
 ", Print(inner));
     }
+
+    [Fact]
+    public void RawHtmlSpecialComponent() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent description='My description...'>
+  <RawHtml>
+    <p> This should be <b>ignored</b> by the compiler</p>
+  </RawHtml>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent description='My description...'>
+  <RawHtml/>
+</MyComponent>
+", result);
+    }
+
     #endregion
 
     #region Errors
