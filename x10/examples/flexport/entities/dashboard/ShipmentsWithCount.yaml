@@ -1,0 +1,13 @@
+﻿name: ShipmentsWithCount
+description: First 'N' list of Shipments plus total count
+
+attributes:
+  - name: count
+    dataType: Integer
+    readOnly: true
+    mandatory: true
+
+associations:
+  - name: shipoments
+    dataType: Shipment
+    many: true

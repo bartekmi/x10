@@ -1,0 +1,13 @@
+﻿name: QuoteRequestsWithCount
+description: First 'N' list of Quote Requests plus total count
+
+attributes:
+  - name: count
+    dataType: Integer
+    readOnly: true
+    mandatory: true
+
+associations:
+  - name: quoteRequests
+    dataType: QuoteRequest
+    many: true

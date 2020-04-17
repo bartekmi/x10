@@ -1,0 +1,13 @@
+﻿name: BookingsWithCount
+description: First 'N' list of Bookings plus total count
+
+attributes:
+  - name: count
+    dataType: Integer
+    readOnly: true
+    mandatory: true
+
+associations:
+  - name: bookings
+    dataType: Booking
+    many: true

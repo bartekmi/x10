@@ -103,7 +103,6 @@ namespace x10.ui.libraries {
           Name = "Pill",
           InheritsFrom = ClassDefNative.Visual,
           IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "text",

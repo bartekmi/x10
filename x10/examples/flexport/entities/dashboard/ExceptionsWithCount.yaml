@@ -1,0 +1,13 @@
+﻿name: ExceptionsWithCount
+description: First 'N' list of Exceptions plus total count
+
+attributes:
+  - name: count
+    dataType: Integer
+    readOnly: true
+    mandatory: true
+
+associations:
+  - name: exceptions
+    dataType: Exception
+    many: true

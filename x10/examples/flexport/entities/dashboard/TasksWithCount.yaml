@@ -1,0 +1,13 @@
+﻿name: TasksWithCount
+description: First 'N' list of Tasks plus total count
+
+attributes:
+  - name: count
+    dataType: Integer
+    readOnly: true
+    mandatory: true
+
+associations:
+  - name: tasks
+    dataType: Task
+    many: true

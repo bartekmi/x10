@@ -1,10 +1,10 @@
-<DashboardBookings model="Booking" many="true">
+<DashboardBookings model="BookingsWithCount">
   <VerticalStackPanel>
     <!-- Header: Label, count, 'see all' -->
     <RepellingRow>
       <Row>
         <Heading3 text="Bookings"/>
-        <Pill text="=count"/>
+        <Pill path="count"/>
       </Row>
       <LinkButton label="See all" url="/bookings"/>
     </RepellingRow>
@@ -12,7 +12,7 @@
     <HorizontalDivider/>
 
     <!-- The actual content -->
-    <List>
+    <List path="bookings">
       <RepellingRow>
         <Icon icon="=state"/>
         <VerticalStackPanel>

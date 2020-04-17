@@ -246,7 +246,10 @@ namespace x10.compiler {
 
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
-        UiDataModel childDataModel = value.DefinitionComplex.ReducesManyToOne ? myDataModel.ReduceManyToOne() : myDataModel;
+        UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ? 
+          myDataModel.ReduceManyToOne() : 
+          myDataModel;
+
         foreach (Instance childInstance in value.Instances)
           CompileRecursively(childInstance, childDataModel);
       }
