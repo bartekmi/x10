@@ -43,7 +43,8 @@
               <status/>
             </Row>
             <Row>
-              CRD <cargoReadyDate weight="bold"/>
+              <Text text="CRD"/>
+              <cargoReadyDate weight="bold"/>
             </Row>
           </RepellingRow>
         </VerticalStackPanel>
