@@ -41,7 +41,7 @@ namespace x10.compiler {
       }
 
       // Pass 2
-      AllEntities allEntities = new AllEntities(entities, _messages);
+      AllEntities allEntities = new AllEntities(_messages, entities);
       EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
       pass2.CompileAllEntities();
 

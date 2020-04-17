@@ -284,6 +284,20 @@ namespace x10.compiler {
       return dataModel;
     }
 
+    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
+      if (dataModel.Entity == null)
+        return null;
+
+      Member member = dataModel.Entity.FindMemberByName(pathComponent);
+      if (member == null) {
+        _messages.AddError(xmlBase,
+          string.Format("Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
+        return null;
+      }
+
+      return new UiDataModel(member, dataModel.IsMany);
+    }
+
     private void ValidateDataModelCompatibility(UiDataModel dataModel, Instance instance) {
       ClassDef renderAs = instance.RenderAs;
       if (renderAs == null || dataModel.IsEmpty)
@@ -337,20 +351,6 @@ namespace x10.compiler {
             string.Format("The component {0} expects a SINGLE {1}, but the path is delivering MANY '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
       }
-    }
-
-    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
-      if (dataModel.Entity == null)
-        return null;
-
-      Member member = dataModel.Entity.FindMemberByName(pathComponent);
-      if (member == null) {
-        _messages.AddError(xmlBase,
-          string.Format("Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
-        return null;
-      }
-
-      return new UiDataModel(member, dataModel.IsMany);
     }
 
     // For a model reference component (e.g. <myField>), we resolve the actual ui component to use at three levels:

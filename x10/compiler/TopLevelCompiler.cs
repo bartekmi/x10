@@ -24,7 +24,7 @@ namespace x10.compiler {
       allEnums = new AllEnums(_messages);
       EntitiesAndEnumsCompiler entityCompiler = new EntitiesAndEnumsCompiler(_messages, allEnums);
       List<Entity> entities = entityCompiler.Compile(rootDir);
-      allEntities = new AllEntities(entities, _messages);
+      allEntities = new AllEntities(_messages, entities);
 
       // Parse Xml Files
       ParserXml parser = new ParserXml(_messages);

@@ -5,8 +5,17 @@ using x10.ui.metadata;
 
 namespace x10.model.definition {
   public class Entity : ModelComponent{
+
+    private List<Member> _localMembers = new List<Member>();
+    public List<Member> LocalMembers {
+      get { return _localMembers; }
+      set {
+        foreach (Member member in value)
+          AddMembers(member);
+      }
+    }
+
     public String InheritsFromName { get; set; }
-    public List<Member> LocalMembers { get; private set; }
     public string UiName { get; set; }
 
     // Derived
@@ -28,7 +37,6 @@ namespace x10.model.definition {
     public ClassDef Ui { get; internal set; }
 
     public Entity() {
-      LocalMembers = new List<Member>();
       InheritsFrom = Object;    // May be explicitly overridden in definition
     }
 

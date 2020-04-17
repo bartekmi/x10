@@ -7,6 +7,8 @@ using x10.parsing;
 namespace x10.model {
   public static class ModelValidationUtils {
 
+    public const string CONTEXT_ENTITY_NAME = "__Context__";
+
     private enum Style {
       UpperCamelCase,
       LowerCamelCase,
@@ -18,6 +20,8 @@ namespace x10.model {
     private readonly static Regex ALL_CAPS = new Regex("^[A-Z0-9_]+$");
 
     public static bool ValidateEntityName(string entityName, IParseElement element, MessageBucket messages) {
+      if (entityName == CONTEXT_ENTITY_NAME)
+        return true;
       string examples = "'User', 'PurchaseOrder'";
       return Validate(Style.UpperCamelCase, entityName, "Entity name", examples, element, messages);
     }

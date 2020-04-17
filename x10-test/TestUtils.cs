@@ -58,7 +58,7 @@ namespace x10 {
 
 
     public static void EntityCompilePass2(MessageBucket _messages, AllEnums _allEnums, params Entity[] entities) {
-      AllEntities allEntities = new AllEntities(entities, _messages);
+      AllEntities allEntities = new AllEntities(_messages, entities);
       EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
       pass2.CompileAllEntities();
     }
@@ -68,7 +68,7 @@ namespace x10 {
       Entity[] entitiesArray = entities.ToArray();
       EntityCompilePass2(messages, allEnums, entitiesArray);
 
-      return new AllEntities(entitiesArray, messages);
+      return new AllEntities(messages, entitiesArray);
     }
     #endregion
 

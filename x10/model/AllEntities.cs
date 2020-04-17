@@ -7,16 +7,16 @@ using x10.parsing;
 
 namespace x10.model {
   public class AllEntities {
-    private readonly Dictionary<string, List<Entity>> _entitiesByName;
     private readonly MessageBucket _messages;
+    private readonly Dictionary<string, List<Entity>> _entitiesByName;
+    
+    public AllEntities(MessageBucket messages, IEnumerable<Entity> entities, Entity contextEntity = null) {
+      _messages = messages;
 
-    public AllEntities(IEnumerable<Entity> entities, MessageBucket messages) {
       // The reason the values are a list is to account for problems where multiple entities with
       // the same name have been defined 
       var entitiesGroupedByName = entities.GroupBy(x => x.Name);
       _entitiesByName = entitiesGroupedByName.ToDictionary(g => g.Key, g => new List<Entity>(g));
-
-      _messages = messages;
     }
 
     public IEnumerable<Entity> All { 
