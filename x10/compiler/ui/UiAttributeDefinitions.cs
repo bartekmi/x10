@@ -61,7 +61,6 @@ namespace x10.compiler {
         Name = "model",
         Description = "The name of the X10 model that this UIDefinition expects as data",
         AppliesTo = UiAppliesTo.ClassDef,
-        IsMandatory = true,
         DataType = DataTypes.Singleton.String,
 
         Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {

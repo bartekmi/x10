@@ -40,14 +40,6 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void MissingAttribute() {
-      RunTest(@"
-<MyComponent description='My description...' />
-",
-        "Mandatory Atomic Attribute 'model' is missing", 2, 2);
-    }
-
-    [Fact]
     public void WarnIfNoChildrenAtRoot() {
       RunTest(@"
 <MyComponent />

@@ -17,6 +17,9 @@ namespace x10.compiler {
     internal bool IsMany { get; private set; }
     internal Member Member { get; private set; }
 
+    // Derived
+    internal bool IsEmpty { get { return Entity == null; } }
+
     private UiDataModel() { }
 
     internal UiDataModel(Entity entity, bool isMany) {
@@ -95,7 +98,6 @@ namespace x10.compiler {
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
         definition.RootChild = ParseInstance(rootXmlChild);
 
-        // Invoke Pass 2 actions
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
     }
@@ -282,7 +284,7 @@ namespace x10.compiler {
 
     private void ValidateDataModelCompatibility(UiDataModel dataModel, Instance instance) {
       ClassDef renderAs = instance.RenderAs;
-      if (renderAs == null)
+      if (renderAs == null || dataModel.IsEmpty)
         return;
 
       Entity expectedEntity = renderAs.ComponentDataModel;
