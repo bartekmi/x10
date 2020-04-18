@@ -22,6 +22,7 @@ namespace x10.ui.metadata {
       foreach (ClassDef classDef in library.All) {
         HydrateOwner(classDef);
         HydrateAndValidateBaseClass(library, classDef);
+        HydrateAndValidateModelRefWrapper(library, classDef);
         EnsureMandatoryFieldsPresent(classDef);
         EnsureCorrectDataModelSpecification(classDef);
       }
@@ -56,11 +57,20 @@ namespace x10.ui.metadata {
 
     private void HydrateAndValidateBaseClass(UiLibrary library, ClassDef classDef) {
       string description = string.Format("Inherits-From parent of Class Definition {0}", classDef.Name);
-      classDef.InheritsFrom = HydrateAndValidateClassDef(library, description, classDef.InheritsFrom, classDef.InheritsFromName);
+      classDef.InheritsFrom = HydrateAndValidateClassDef(library, description, classDef.InheritsFrom, classDef.InheritsFromName, true);
     }
 
-    private ClassDef HydrateAndValidateClassDef(UiLibrary library, string description, ClassDef theObject, string name) {
-      if (name == null && theObject == null)
+    private void HydrateAndValidateModelRefWrapper(UiLibrary library, ClassDef classDef) {
+      string description = string.Format("Model Reference Wrapper of Class Definition {0}", classDef.Name);
+      classDef.ModelRefWrapperComponent = HydrateAndValidateClassDef(library, 
+        description, 
+        classDef.ModelRefWrapperComponent, 
+        classDef.ModelRefWrapperComponentName,
+        false);
+    }
+
+    private ClassDef HydrateAndValidateClassDef(UiLibrary library, string description, ClassDef theObject, string name, bool isMandatory) {
+      if (isMandatory && name == null && theObject == null)
         _messages.AddError(null, "{0} is not defined", description);
 
       if (name != null) {
@@ -74,7 +84,7 @@ namespace x10.ui.metadata {
     }
 
     private void EnsureMandatoryFieldsPresent(ClassDef classDef) {
-      // TODO
+      // So for, nothing urgent here
     }
 
     private void EnsureNoDuplicateAttributes(ClassDef classDef) {
@@ -116,7 +126,7 @@ namespace x10.ui.metadata {
 
       if (attrDef is UiAttributeDefinitionComplex attrComplex) {
         string description = string.Format("Type of Complex Attribute {0}.{1}", attrDef.Owner.Name, attrDef.Name);
-        attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName);
+        attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName, true);
       }
     }
   }

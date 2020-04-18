@@ -29,6 +29,8 @@ namespace x10.ui.composition {
 
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; private set; }
+    public UiAttributeValue Owner { get; private set; }
+
 
     // Derived
     public IEnumerable<UiAttributeValueAtomic> AtomicAttributeValues {
@@ -37,10 +39,14 @@ namespace x10.ui.composition {
     public IEnumerable<UiAttributeValueComplex> ComplexAttributeValues {
       get { return AttributeValues.OfType<UiAttributeValueComplex>(); }
     }
+    public Instance Parent { 
+      get { return Owner?.Owner as Instance; }
+    }
 
     // Constructor
-    protected Instance(XmlElement xmlElement) {
+    protected Instance(XmlElement xmlElement, UiAttributeValue owner) {
       XmlElement = xmlElement;
+      Owner = owner;
       AttributeValues = new List<UiAttributeValue>();
     }
 

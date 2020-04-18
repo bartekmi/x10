@@ -8,7 +8,7 @@ using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public class InstanceClassDefUse : Instance {
-    public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement) : base(xmlElement) {
+    public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement, UiAttributeValue owner) : base(xmlElement, owner) {
       RenderAs = classDef;
     }
 

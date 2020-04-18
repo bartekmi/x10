@@ -96,7 +96,7 @@ namespace x10.compiler {
           continue;   // Pass 1 already warns about this
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
-        definition.RootChild = ParseInstance(rootXmlChild);
+        definition.RootChild = ParseInstance(rootXmlChild, null);
 
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
@@ -105,13 +105,13 @@ namespace x10.compiler {
 
     #region Pass 2.1 - Build the Instance/AttributeValue tree
 
-    private Instance ParseInstance(XmlElement xmlElement) {
+    private Instance ParseInstance(XmlElement xmlElement, UiAttributeValue owner) {
       if (IsModelReference(xmlElement)) {
-        InstanceModelRef instance = new InstanceModelRef(xmlElement);
+        InstanceModelRef instance = new InstanceModelRef(xmlElement, owner);
         _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiModelReference, PASS_2_1_MODEL_REF_ATTRIBUTES);
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
-        InstanceClassDefUse instance = ParseClassDefInstance(xmlElement);
+        InstanceClassDefUse instance = ParseClassDefInstance(xmlElement, owner);
         if (instance != null)
           _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiComponentUse, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
         return instance;
@@ -121,12 +121,12 @@ namespace x10.compiler {
       }
     }
 
-    private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement) {
+    private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement, UiAttributeValue owner) {
       ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(xmlElement.Name, xmlElement);
       if (classDef == null)
         return null;    // Error provided by FindDefinitionByNameWithError() above
 
-      InstanceClassDefUse instance = new InstanceClassDefUse(classDef, xmlElement);
+      InstanceClassDefUse instance = new InstanceClassDefUse(classDef, xmlElement, owner);
       if (classDef == ClassDefNative.RawHtml)
         return instance;
 
@@ -183,15 +183,9 @@ namespace x10.compiler {
       UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrComplex.CreateValueAndAddToOwner(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
-        Instance instance = ParseInstance(child);
-        if (instance != null) {
-          if (instance.RenderAs != null && !instance.RenderAs.IsA(attrComplex.ComplexAttributeType))
-            _messages.AddError(child,
-             "Complex Attribute value must be of type {0} or inherit from it",
-             attrComplex.ComplexAttributeType.Name);
-
+        Instance instance = ParseInstance(child, complexValue);
+        if (instance != null) 
           complexValue.AddInstance(instance);
-        }
       }
     }
 
@@ -244,6 +238,8 @@ namespace x10.compiler {
       else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
+      ValidateRenderAsType(instance);
+
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
         UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ? 
@@ -255,6 +251,7 @@ namespace x10.compiler {
       }
     }
 
+    #region Resolve Path
     private UiDataModel ResolvePath(UiDataModel dataModel, Instance instance) {
       if (dataModel == null)
         return null;
@@ -361,6 +358,7 @@ namespace x10.compiler {
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
       }
     }
+    #endregion
 
     // For a model reference component (e.g. <myField>), we resolve the actual ui component to use at three levels:
     // 1. The reference itself may dicatate a component
@@ -371,6 +369,10 @@ namespace x10.compiler {
       if (modelReference.RenderAs != null)
         return modelReference.RenderAs;
 
+      ClassDef modelRefWrapper = modelReference.Parent?.RenderAs.ModelRefWrapperComponent;
+      if (modelRefWrapper != null)
+        return modelRefWrapper;
+
       Member member = modelReference.ModelMember;
       if (member != null) {
         if (member.Ui != null)
@@ -380,6 +382,18 @@ namespace x10.compiler {
       }
 
       return null;
+    }
+
+    private void ValidateRenderAsType(Instance instance) {
+      UiAttributeValueComplex owner = (instance.Owner as UiAttributeValueComplex);
+      ClassDef requiredType = owner?.DefinitionComplex.ComplexAttributeType;
+      if (requiredType == null)
+        return;
+
+      if (instance.RenderAs != null && !instance.RenderAs.IsA(requiredType))
+        _messages.AddError(instance.XmlElement,
+         "Complex Attribute value must be of type {0} or inherit from it",
+         requiredType.Name);
     }
 
     private void InvokePass2Actions(IAcceptsUiAttributeValues component) {

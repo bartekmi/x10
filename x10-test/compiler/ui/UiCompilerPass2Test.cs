@@ -73,6 +73,7 @@ namespace x10.compiler {
           ComponentDataModel = Entity.Object,
           IsMany = true,
           InheritsFrom = ClassDefNative.Visual,
+          ModelRefWrapperComponentName = "TableColumn",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
@@ -383,7 +384,7 @@ namespace x10.compiler {
 
     #region Pass 2.2 - Path Resolution, Model Ref UI Resolution, Attribute Reading
 
-    #region Success - Path Resolution
+    #region Success
     [Fact]
     public void PathResolution() {
       ClassDefX10 definition = RunTest(@"
