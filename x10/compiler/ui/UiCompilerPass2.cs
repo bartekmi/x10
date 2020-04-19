@@ -16,6 +16,7 @@ namespace x10.compiler {
     internal Entity Entity { get; private set; }
     internal bool IsMany { get; private set; }
     internal Member Member { get; private set; }
+    internal ModelAttributeDefinition AttributeDef { get; private set; }
 
     // Derived
     internal bool IsEmpty { get { return Entity == null; } }
@@ -40,6 +41,13 @@ namespace x10.compiler {
       }
 
       Member = member;
+    }
+
+    internal UiDataModel(UiDataModel previous, ModelAttributeDefinition attrDef) {
+      Entity = previous.Entity;
+      Member = previous.Member;
+      IsMany = previous.IsMany;
+      AttributeDef = attrDef;
     }
 
     public override string ToString() {
@@ -308,6 +316,7 @@ namespace x10.compiler {
 
     private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
 
+      // Root-Level (Context) paths are indicated by a leading '/'
       if (pathComponent.StartsWith('/')) {
         dataModel = new UiDataModel(_allEntities.FindContextEntityWithError(xmlBase), false);
         pathComponent = pathComponent.Substring(1);
@@ -316,10 +325,25 @@ namespace x10.compiler {
       if (dataModel.Entity == null)
         return null;
 
+      // Special handling for enum types - enum values can have an extra level of path which is an Attribute 
+      // of the Enum Value (e.g. icon)
+      if (dataModel.Member != null && 
+        dataModel.Member is X10Attribute x10Attr &&
+        x10Attr.DataType is DataTypeEnum) {
+
+        ModelAttributeDefinition modelAttrDefinition = ModelAttributeDefinitions.Find(AppliesTo.EnumValue, pathComponent);
+        if (modelAttrDefinition == null) {
+          _messages.AddError(xmlBase, "Attribute '{0}' does not exist on Enum Values", pathComponent);
+          return null;
+        }
+
+        return new UiDataModel(dataModel, modelAttrDefinition);
+      }
+
+
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
-        _messages.AddError(xmlBase,
-          string.Format("Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name));
+        _messages.AddError(xmlBase, "Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name);
         return null;
       }
 

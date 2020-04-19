@@ -301,5 +301,9 @@ Typical use would be if entities are going to be represented on a drop-down.",
         }
       },
     };
+
+    public static ModelAttributeDefinition Find(AppliesTo appliesTo, string name) {
+      return All.SingleOrDefault(x => x.AppliesToType(appliesTo) && x.Name == name);
+    }
   }
 }

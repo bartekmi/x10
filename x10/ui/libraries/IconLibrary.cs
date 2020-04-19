@@ -8,8 +8,7 @@ using x10.ui.metadata;
 namespace x10.ui.libraries {
   public class IconLibrary {
 
-
-    private readonly static DataType IconType = new DataTypeEnum(new string[] {
+    private readonly static DataType _iconType = new DataTypeEnum(new string[] {
       "dollar-sign",
       "draft",
       "square-with-bubble",
@@ -18,7 +17,7 @@ namespace x10.ui.libraries {
       Name = "Icon",
     };
 
-    private readonly static List<ClassDef> definitions = new List<ClassDef>() {
+    private readonly static List<ClassDef> _classDefs = new List<ClassDef>() {
         new ClassDefNative() {
           Name = "Icon",
           InheritsFrom = ClassDefNative.Visual,
@@ -27,7 +26,7 @@ namespace x10.ui.libraries {
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "icon",
-              DataType = IconType,
+              DataType = _iconType,
             },
           }
         },
@@ -41,11 +40,11 @@ namespace x10.ui.libraries {
     }
 
     private static UiLibrary CreateLibrary() {
-      UiLibrary library = new UiLibrary(definitions) {
+      UiLibrary library = new UiLibrary(_classDefs) {
         Name = "Icon Library",
       };
 
-      library.AddDataTypeToComponentAssociation(IconType, "Icon");
+      library.AddDataTypeToComponentAssociation(_iconType, "Icon");
 
       return library;
     }

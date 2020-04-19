@@ -69,11 +69,24 @@ attributes:
   - name: squreFootage
     description: dummy
     dataType: Float
+  - name: balconyType
+    description: dummy
+    dataType: BalconyType
 associations:
   - name: rooms
     description: dummy
     dataType: Room
     many: true
+
+enums:
+  - name: BalconyType
+    description: dummy
+    values: 
+      - value: open
+        icon: open
+      - value: covered
+        icon: covered
+      - value: none
 ",
         @"
 name: Room
