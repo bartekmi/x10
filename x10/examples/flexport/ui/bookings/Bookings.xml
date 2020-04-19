@@ -37,7 +37,7 @@
         </TableColumn>
         <weightKg/>
         <volumeCm/>
-        <state/>
+        <status/>
         <TableColumn label="Action">
           <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
           <Row visible="=state != draft">

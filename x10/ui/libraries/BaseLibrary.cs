@@ -62,32 +62,13 @@ namespace x10.ui.libraries {
           Name = "Text",
           InheritsFrom = ClassDefNative.Visual,
           IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "text",
               DataType = DataTypes.Singleton.String,
             },
             new UiAttributeDefinitionAtomic() {
-              Name = "weight",
-              DataType = new DataTypeEnum() {
-                Name = "FontWeight",
-                EnumValueValues = new string[] { "normal", "bold" },
-              }
-            },
-          }
-        },
-      #endregion
-
-      #region Atomic Edit Components
-      new ClassDefNative() {
-          Name = "TextEdit",
-          InheritsFrom = ClassDefNative.Visual,
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "text",
+              Name = "label",
               DataType = DataTypes.Singleton.String,
             },
             new UiAttributeDefinitionAtomic() {
@@ -101,36 +82,39 @@ namespace x10.ui.libraries {
         },
         new ClassDefNative() {
           Name = "Pill",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "text",
-              DataType = DataTypes.Singleton.String,
-            },
-          }
+        },
+      #endregion
+
+      #region Atomic Edit Components
+      new ClassDefNative() {
+          Name = "TextEdit",
+          InheritsFromName = "Text",
+          IsMany = false,
+          AtomicDataModel = DataTypes.Singleton.String,
         },
         new ClassDefNative() {
           Name = "TextArea",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.String,
         },
         new ClassDefNative() {
           Name = "IntEdit",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Integer,
         },
         new ClassDefNative() {
           Name = "FloatEdit",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Integer,
         },
         new ClassDefNative() {
           Name = "Checkbox",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Boolean,
         },
@@ -142,19 +126,19 @@ namespace x10.ui.libraries {
         },
         new ClassDefNative() {
           Name = "DateEditor",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Date,
         },
         new ClassDefNative() {
           Name = "TimestampEditor",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Timestamp,
         },
         new ClassDefNative() {
           Name = "DropDown",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = new DataTypeEnum(),
         },

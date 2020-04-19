@@ -26,6 +26,12 @@ namespace x10.ui.metadata {
             new UiAttributeDefinitionAtomic() {
               Name = "visible",
               DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = false,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "editable",
+              DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = true,
             },
           }
     };

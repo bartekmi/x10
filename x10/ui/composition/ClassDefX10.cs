@@ -11,8 +11,11 @@ using System.Linq;
 namespace x10.ui.composition {
   public class ClassDefX10 : ClassDef, IAcceptsUiAttributeValues {
     public Instance RootChild { get; set; }
+
+    // IAcceptsUiAttributeValues
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; set; }
+    public ClassDef ClassDef { get { return this; } }
 
     public ClassDefX10(XmlElement xmlRoot) {
       XmlElement = xmlRoot;
@@ -23,7 +26,7 @@ namespace x10.ui.composition {
       PrintUtils.Indent(writer, indent);
       writer.Write("<" + Name);
 
-      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>()) 
+      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>())
         atomic.Print(writer);
 
       writer.WriteLine(">");

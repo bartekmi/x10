@@ -27,9 +27,14 @@ namespace x10.ui.composition {
     // Every UI child eventually must resolve to a visual (UI) component
     public ClassDef RenderAs { get; set; }
 
+    // All but the root-level Instance are owned by a UiAttributeValue
+    public UiAttributeValue Owner { get; private set; }
+
+    // IAcceptsUiAttributeValues
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; private set; }
-    public UiAttributeValue Owner { get; private set; }
+    public ClassDef ClassDef { get { return RenderAs; } }
+
 
 
     // Derived

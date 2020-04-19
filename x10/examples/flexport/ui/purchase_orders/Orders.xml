@@ -1,54 +1,54 @@
 <Orders model="PurchaseOrder" many="true" url="/orders">
-    <VerticalStackPanel>
-        <Heading1 text="Purchase Orders"/>
-        <HorizontalDivider/>
+  <VerticalStackPanel>
+    <Heading1 text="Purchase Orders"/>
+    <HorizontalDivider/>
 
-        <Table>
-            <!-- Header -->
-            <Table.Header>
-                <RepellingRow>
-                    <Row>
-                        <Button label="Upload CSV">
-                            <Button.Action>
-                                <UploadAction dialogTitle="Upload Orders by CSV" 
-                                              fileFilter="*.csv" 
-                                              backEndTarget="/purchase_order_upload"/>
-                            </Button.Action>
-                        </Button>
-                        <Button label="Download CSV">
-                            <Button.Action>
-                                <BackEndAction dialogTitle="Purchase Orders Download" 
-                                               dialogText="We'll send you an email with your purchase orders shortly."
-                                               backEndTarget="emailPurchaseOrdes"/>
-                            </Button.Action>
-                        </Button>
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+        <RepellingRow>
+          <Row>
+            <Button label="Upload CSV">
+              <Button.Action>
+                <UploadAction dialogTitle="Upload Orders by CSV"
+                              fileFilter="*.csv"
+                              backEndTarget="/purchase_order_upload"/>
+              </Button.Action>
+            </Button>
+            <Button label="Download CSV">
+              <Button.Action>
+                <BackEndAction dialogTitle="Purchase Orders Download"
+                               dialogText="We'll send you an email with your purchase orders shortly."
+                               backEndTarget="emailPurchaseOrdes"/>
+              </Button.Action>
+            </Button>
 
-                        <Filters>
-                            <MABD/>
-                            <cargoReadyDate/>
-                            <otherParty/>
-                        </Filters>
+            <Filters>
+              <MABD/>
+              <cargoReadyDate/>
+              <otherParty/>
+            </Filters>
 
-                        <FilterMultiSelect label="Progress" path="progress"/>
-                        <FilterMultiSelect label="Statuses" path="state"/>
-                    </Row>
-                    <TablePageControls/>
-                </RepellingRow>
-            </Table.Header>
+            <FilterMultiSelect label="Progress" path="progress"/>
+            <FilterMultiSelect label="Statuses" path="state"/>
+          </Row>
+          <TablePageControls/>
+        </RepellingRow>
+      </Table.Header>
 
-            <!-- Columns -->
-            <Table.Columns>
-                <purchaseOrderNumber/>
-                <cargoReadyBy/>
-                <mustArriveBy/>
-                <buyer/>
-                <seller/>
-                <TableColumn>
-                    <Text text="=`${shippedItemCount}/${totalItemCount} lines booked`"/>
-                </TableColumn>
-                <state editable="true"/>
-            </Table.Columns>
+      <!-- Columns -->
+      <Table.Columns>
+        <purchaseOrderNumber/>
+        <cargoReadyBy/>
+        <mustArriveBy/>
+        <buyer/>
+        <seller/>
+        <TableColumn>
+          <Text text="=`${shippedItemCount}/${totalItemCount} lines booked`"/>
+        </TableColumn>
+        <state editable="true"/>
+      </Table.Columns>
 
-        </Table>
-    </VerticalStackPanel>
+    </Table>
+  </VerticalStackPanel>
 </Orders>

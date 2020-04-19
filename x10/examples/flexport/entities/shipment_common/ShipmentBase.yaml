@@ -23,7 +23,9 @@ attributes:
     mandatory: true
 
 associations:
-  - name: company
+  - name: shipper
+    dataType: Company
+  - name: consignee
     dataType: Company
   - name: cargo
     dataType: Cargo

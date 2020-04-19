@@ -18,11 +18,17 @@ attributes:
   - name: state
     dataType: PurchaseOrderState
     label: Status
-    mandatory: true
+    readOnly: true
+
+  - name: progress
+    dataType: PurchaseOrderProgress
+    readOnly: true
 
 enums:
   - name: PurchaseOrderState
     values: open, closed, cancelled
+  - name: PurchaseOrderProgress
+    values: unbooked, partiallyBooked, booked
 
 associations:
   - name: seller

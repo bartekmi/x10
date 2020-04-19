@@ -41,5 +41,15 @@ namespace x10.parsing {
     public override string ToString() {
       return string.Format("<{0}>", Name);
     }
+
+    internal XmlElement CloneFileLocation() {
+      XmlElement clone = new XmlElement(Name);
+
+      clone.Parent = Parent;
+      clone.Start = Start;
+      clone.End = End;
+
+      return clone;
+    }
   }
 }

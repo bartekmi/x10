@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
+using x10.parsing;
+using x10.ui.composition;
+
 namespace x10.ui.metadata {
   public class UiAttributeDefinitionComplex : UiAttributeDefinition {
     // The type of every complex attribute definition (enalogous to an attribute in WPF
@@ -15,5 +18,9 @@ namespace x10.ui.metadata {
     // If true, the data model passed to this attribute "reduces" from many to one.
     // Classical case for this is the child of a multi-display component such as list or table
     public bool ReducesManyToOne { get; set; }
+
+    public UiAttributeValueComplex CreateValueAndAddToOwnerComplex(IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
+      return (UiAttributeValueComplex)CreateValueAndAddToOwner(owner, xmlBase);
+    }
   }
 }

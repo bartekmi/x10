@@ -193,8 +193,12 @@ namespace x10.compiler {
       <Table.Header>
         <HelpIcon text='A useful help message...'/>
       </Table.Header>
-      <name/>
-      <squareFootage/>
+      <TableColumn>
+        <name/>
+      </TableColumn>
+      <TableColumn>
+        <squareFootage/>
+      </TableColumn>
       <TableColumn label='View Image'>
         <Button label='View Image' action='TODO'/>
       </TableColumn>
@@ -244,7 +248,9 @@ namespace x10.compiler {
     <Table.Header>
       <Button label='Hi' action='doSomething'/>
     </Table.Header>
-    <number/>
+    <TableColumn>
+      <number/>
+    </TableColumn>
   </Table>
 </Inner>
 ", Print(inner));
@@ -374,7 +380,7 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ",
-      "Unknown attribute 'foo'", 2, 57);
+      "Unknown attribute 'foo' on Class Definition 'Outer'", 2, 57);
 
       Assert.Single(_messages.Messages);
     }
@@ -414,7 +420,9 @@ namespace x10.compiler {
       <Table.Header>
         <HelpIcon path=''/>
       </Table.Header>
-      <name path='name'/>
+      <TableColumn path=''>
+        <name path='name'/>
+      </TableColumn>
       <TableColumn path=''>
         <Button path='paintColor' label='Boo' action='doSomething'/>
       </TableColumn>
@@ -575,8 +583,8 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ",
-      "Unknown attribute 'foo'",
-      "Unknown attribute 'bar'");
+      "Unknown attribute 'foo' on Class Definition 'TextEdit'",
+      "Unknown attribute 'bar' on Class Definition 'HelpIcon'");
 
       Assert.Equal(2, _messages.Messages.Count);
     }

@@ -143,7 +143,7 @@ namespace x10.compiler {
       foreach (XmlAttribute attribute in modelComponent.XmlElement.Attributes) {
         if (!validAttributeNames.Contains(attribute.Key))
           _messages.AddError(attribute,
-            string.Format("Unknown attribute '{0}'", attribute.Key));
+            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", attribute.Key, modelComponent.ClassDef?.Name));
       }
     }
   }

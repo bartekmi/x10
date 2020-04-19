@@ -107,8 +107,7 @@ namespace x10.compiler {
 
     private Instance ParseInstance(XmlElement xmlElement, UiAttributeValue owner) {
       if (IsModelReference(xmlElement)) {
-        InstanceModelRef instance = new InstanceModelRef(xmlElement, owner);
-        _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiModelReference, PASS_2_1_MODEL_REF_ATTRIBUTES);
+        Instance instance = ParseModelRefInstance(xmlElement, owner);
         return instance;
       } else if (IsClassDefUse(xmlElement)) {
         InstanceClassDefUse instance = ParseClassDefInstance(xmlElement, owner);
@@ -119,6 +118,29 @@ namespace x10.compiler {
         _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
         return null;
       }
+    }
+
+    private Instance ParseModelRefInstance(XmlElement xmlElement, UiAttributeValue owner) {
+      Instance modelRefInstance;
+      Instance returnInstance;
+
+      // For some components, occurrences of InstanceModelRef are wrapped in another "adapter" 
+      // component. Classic case is that model ref's in a Table are wrapped in TableColumn
+      Instance parent = owner?.Owner as Instance;
+      ClassDef wrapperClassDef = parent?.RenderAs?.ModelRefWrapperComponent;
+      if (wrapperClassDef != null) {
+        XmlElement fakeXmlElemnt = xmlElement.CloneFileLocation();
+        returnInstance = new InstanceClassDefUse(wrapperClassDef, fakeXmlElemnt, owner);
+        UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef;
+        UiAttributeValueComplex primaryAttrValue = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(returnInstance, fakeXmlElemnt);
+        modelRefInstance = new InstanceModelRef(xmlElement, primaryAttrValue);
+        primaryAttrValue.AddInstance(modelRefInstance);
+      } else
+        returnInstance = modelRefInstance = new InstanceModelRef(xmlElement, owner);
+
+      _attrReader.ReadSpecificAttributes(modelRefInstance, UiAppliesTo.UiModelReference, PASS_2_1_MODEL_REF_ATTRIBUTES);
+
+      return returnInstance;
     }
 
     private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement, UiAttributeValue owner) {
@@ -184,7 +206,7 @@ namespace x10.compiler {
 
       foreach (XmlElement child in children) {
         Instance instance = ParseInstance(child, complexValue);
-        if (instance != null) 
+        if (instance != null)
           complexValue.AddInstance(instance);
       }
     }
@@ -231,7 +253,7 @@ namespace x10.compiler {
 
       UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
-        instance.RenderAs = ResolveUiComponent(modelReference);
+        ResolveUiComponent(modelReference);
         _attrReader.ReadAttributesForInstance(instance, PASS_2_1_MODEL_REF_ATTRIBUTES);
       } else if (instance is InstanceClassDefUse)
         _attrReader.ReadAttributesForInstance(instance, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
@@ -242,8 +264,8 @@ namespace x10.compiler {
 
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
-        UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ? 
-          myDataModel.ReduceManyToOne() : 
+        UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
+          myDataModel.ReduceManyToOne() :
           myDataModel;
 
         foreach (Instance childInstance in value.Instances)
@@ -261,7 +283,7 @@ namespace x10.compiler {
       if (path != null) {   // It is perfectly valid for a UiChildComponentUse to not specify a path
         XmlBase pathScalar;
 
-        if (instance is InstanceModelRef) 
+        if (instance is InstanceModelRef)
           pathScalar = instance.XmlElement;
         else if (instance is InstanceClassDefUse)
           pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
@@ -364,24 +386,21 @@ namespace x10.compiler {
     // 1. The reference itself may dicatate a component
     // 2. The Member may dictate a component
     // 3. Finally, the DataType MUST dictate a component
-    private ClassDef ResolveUiComponent(InstanceModelRef modelReference) {
+    private void ResolveUiComponent(InstanceModelRef modelReference) {
+      ClassDef classDefForModelRef = null;
+      Member member = modelReference.ModelMember;
+
       // If this has been set, it comes from the Pass2 action in UiAttributeDefinitions
       if (modelReference.RenderAs != null)
-        return modelReference.RenderAs;
-
-      ClassDef modelRefWrapper = modelReference.Parent?.RenderAs.ModelRefWrapperComponent;
-      if (modelRefWrapper != null)
-        return modelRefWrapper;
-
-      Member member = modelReference.ModelMember;
-      if (member != null) {
+        classDefForModelRef = modelReference.RenderAs;
+      else if (member != null) {
         if (member.Ui != null)
-          return member.Ui;
-        if (member is X10Attribute attribute)
-          return _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
+          classDefForModelRef = member.Ui;
+        else if (member is X10Attribute attribute)
+          classDefForModelRef = _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
       }
 
-      return null;
+      modelReference.RenderAs = classDefForModelRef;
     }
 
     private void ValidateRenderAsType(Instance instance) {

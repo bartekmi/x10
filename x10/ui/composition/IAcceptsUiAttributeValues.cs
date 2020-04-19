@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using x10.parsing;
+using x10.ui.metadata;
 
 namespace x10.ui.composition {
   public interface IAcceptsUiAttributeValues {
@@ -12,6 +13,8 @@ namespace x10.ui.composition {
     // The xml element from which this building block was created so if there are errors,
     // we can trace them back to the code file and location
     XmlElement XmlElement { get; }
+
+    ClassDef ClassDef { get; }
   }
 
   public static class UiAttributeUtils {
