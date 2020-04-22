@@ -210,7 +210,7 @@ namespace x10.compiler {
       if (attrComplex == null)
         return;
 
-      UiAttributeValueComplex complexValue = (UiAttributeValueComplex)attrComplex.CreateValueAndAddToOwner(owner, children.First().Parent);
+      UiAttributeValueComplex complexValue = attrComplex.CreateValueAndAddToOwnerComplex(owner, children.First().Parent);
 
       foreach (XmlElement child in children) {
         Instance instance = ParseInstance(child, complexValue);
@@ -330,7 +330,7 @@ namespace x10.compiler {
       if (dataModel.Member != null && 
         dataModel.Member is X10Attribute x10Attr &&
         x10Attr.DataType is DataTypeEnum) {
-
+        // TODO: Check for other edge cases, such as trying to go beyond an attribute which is not an enumerated type
         ModelAttributeDefinition modelAttrDefinition = ModelAttributeDefinitions.Find(AppliesTo.EnumValue, pathComponent);
         if (modelAttrDefinition == null) {
           _messages.AddError(xmlBase, "Attribute '{0}' does not exist on Enum Values", pathComponent);
@@ -339,7 +339,6 @@ namespace x10.compiler {
 
         return new UiDataModel(dataModel, modelAttrDefinition);
       }
-
 
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
