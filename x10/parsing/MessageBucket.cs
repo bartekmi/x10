@@ -29,12 +29,12 @@ namespace x10.parsing {
       AddMessage(CompileMessageSeverity.Error, element, message, substitutions);
     }
 
-    public void AddWarning(IParseElement element, string message) {
-      AddMessage(CompileMessageSeverity.Warning, element, message);
+    public void AddWarning(IParseElement element, string message, params object[] substitutions) {
+      AddMessage(CompileMessageSeverity.Warning, element, message, substitutions);
     }
 
-    public void AddInfo(IParseElement element, string message) {
-      AddMessage(CompileMessageSeverity.Info, element, message);
+    public void AddInfo(IParseElement element, string message, params object[] substitutions) {
+      AddMessage(CompileMessageSeverity.Info, element, message, substitutions);
     }
 
     public void AddMessage(CompileMessageSeverity severity, IParseElement element, string message, params object[] substitutions) {

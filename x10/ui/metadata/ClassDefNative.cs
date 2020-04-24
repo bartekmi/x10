@@ -41,6 +41,47 @@ namespace x10.ui.metadata {
       Description = "A placeholder within which you can put raw HTML which will be rendered in the UI. No validation will be performed by the compiler.",
       InheritsFrom = Visual,
     };
+
+
+    public static ClassDefNative State = new ClassDefNative() {
+      Name = "State",
+      Description = "Defines a single state variable on a UI Component",
+      InheritsFrom = Object,
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "variable",
+              DataType = DataTypes.Singleton.String,
+              IsMandatory = true,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "dataType",
+              DataType = DataTypes.Singleton.String,
+              IsMandatory = true,
+              Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
+                string typeName = xmlScalar.Value.ToString();
+                allEnums.FindDataTypeByNameWithError(typeName, xmlScalar);
+              }
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "default",
+              DataType = DataTypes.Singleton.String,
+              DefaultValue = true,
+            },
+          }
+    };
+
+    public static ClassDefNative UiClassDefClassDef = new ClassDefNative() {
+      Name = "UiClassDef",
+      Description = "This 'meta' class definition actually specifies what attributes are allowed on a UI Class Def",
+      InheritsFrom = Object,
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "state",
+              ComplexAttributeType = State,
+              IsMany = true,
+            },
+          }
+    };
     #endregion
   }
 }

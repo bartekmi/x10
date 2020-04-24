@@ -165,7 +165,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "DataTypeName",
         Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           X10Attribute attr = (X10Attribute)modelComponent;
-          attr.DataType = allEnums.FindDataTypeByNameWithError(attr.DataTypeName, attributeValue);
+          attr.DataType = allEnums.FindDataTypeByNameWithError(attr.DataTypeName, attributeValue.TreeElement);
         },
       },
       new ModelAttributeDefinition() {

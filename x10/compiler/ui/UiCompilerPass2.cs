@@ -99,7 +99,7 @@ namespace x10.compiler {
       foreach (ClassDefX10 definition in _allUiDefinitions.All) {
         InvokePass2Actions(definition);
 
-        XmlElement rootXmlChild = ((XmlElement)definition.XmlElement).Children.SingleOrDefault();
+        XmlElement rootXmlChild = ParseComponentDefinition(definition);
         if (rootXmlChild == null)
           continue;   // Pass 1 already warns about this
 
@@ -108,6 +108,29 @@ namespace x10.compiler {
 
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
+    }
+
+    private XmlElement ParseComponentDefinition(ClassDefX10 definition) {
+      XmlElement rootElement = (XmlElement)definition.XmlElement;
+
+      List<XmlElement> primaryAtributeXmls = ParseComplexAndPrimaryAttributes(rootElement, ClassDefNative.UiClassDefClassDef, definition);
+      ValidateMandatoryComplexAttributes(ClassDefNative.UiClassDefClassDef, definition);
+
+      // Is there a Primary Complex attribute? If so, parse it.
+      if (primaryAtributeXmls.Count == 0) {
+        _messages.AddWarning(rootElement,
+          "UI Component Definition '{0}' is empty (if it has any complex attributes, these don't count). " +
+          " It will not be rendered as a visual component.",
+          definition.Name);
+        return null;
+      } else if (primaryAtributeXmls.Count > 1) {
+        _messages.AddError(rootElement,
+          "UI Component Definition '{0}' has multiple root-level components",
+          definition.Name);
+        return null;
+      }
+
+      return primaryAtributeXmls.Single();
     }
     #endregion
 
@@ -160,6 +183,18 @@ namespace x10.compiler {
       if (classDef == ClassDefNative.RawHtml)
         return instance;
 
+      List<XmlElement> primaryAtributeXmls = ParseComplexAndPrimaryAttributes(xmlElement, classDef, instance);
+
+      // Is there a Primary Complex attribute? If so, parse it.
+      if (primaryAtributeXmls.Count > 0)
+        ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
+
+      ValidateMandatoryComplexAttributes(classDef, instance);
+
+      return instance;
+    }
+
+    private List<XmlElement> ParseComplexAndPrimaryAttributes(XmlElement xmlElement, ClassDef classDef, IAcceptsUiAttributeValues owner) {
       List<XmlElement> primaryAtributeXmls = new List<XmlElement>();
       foreach (XmlElement xmlChild in xmlElement.Children) {
         if (IsComplexAttribute(xmlChild, out string attributeName)) {
@@ -176,7 +211,7 @@ namespace x10.compiler {
               _messages.AddWarning(xmlChild, "Empty Complex Attribute");
               continue;
             }
-            ParseComplexAttribute(instance, xmlChild.Children, complexAttrDef);
+            ParseComplexAttribute(owner, xmlChild.Children, complexAttrDef);
           } else {
             _messages.AddError(xmlChild,
               "Atomic Attribute '{0}' of Component '{1}' found where Complex Attribute expected.",
@@ -186,24 +221,23 @@ namespace x10.compiler {
         } else if (IsModelReference(xmlChild) || IsClassDefUse(xmlChild))
           primaryAtributeXmls.Add(xmlChild);
         else
-          _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
+          _messages.AddError(xmlChild, 
+            "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\>) " +
+            "or a Complex Attribute (e.g. SomeComponent.property) but got {0}.", xmlChild.Name);
       }
 
-      // Is there a Primary Complex attribute? If so, parse it.
-      if (primaryAtributeXmls.Count > 0)
-        ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
-
-      // Validate mandatory comlex attributes
-      foreach (UiAttributeDefinitionComplex complexAttr in classDef.ComplexAttributeDefinitions)
-        if (complexAttr.IsMandatory && !instance.ComplexAttributeValues.Any(x => x.Definition == complexAttr))
-          _messages.AddError(xmlElement,
-            string.Format("Mandatory {0} Attribute '{1}' of Class Definition '{2}' is missing",
-            complexAttr.IsPrimary ? "Primary" : "Complex", complexAttr.Name, classDef.Name));
-
-      return instance;
+      return primaryAtributeXmls;
     }
 
-    private void ParseComplexAttribute(Instance owner,
+    private void ValidateMandatoryComplexAttributes(ClassDef classDef, IAcceptsUiAttributeValues owner) {
+      foreach (UiAttributeDefinitionComplex complexAttr in classDef.ComplexAttributeDefinitions)
+        if (complexAttr.IsMandatory && !owner.AttributeValues.Any(x => x.Definition == complexAttr))
+          _messages.AddError(owner.XmlElement,
+            "Mandatory {0} Attribute '{1}' of Class Definition '{2}' is missing",
+            complexAttr.IsPrimary ? "Primary" : "Complex", complexAttr.Name, classDef.Name);
+    }
+
+    private void ParseComplexAttribute(IAcceptsUiAttributeValues owner,
       List<XmlElement> children,
       UiAttributeDefinitionComplex attrComplex) {
 

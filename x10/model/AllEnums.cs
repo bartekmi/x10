@@ -30,7 +30,7 @@ namespace x10.model {
       get { return _enumsByName.Values.SelectMany(x => x);  } 
     }
 
-    public DataType FindDataTypeByNameWithError(string typeName, ModelAttributeValue attributeValue) {
+    public DataType FindDataTypeByNameWithError(string typeName, IParseElement parseElement) {
 
       DataType builtInDataType = DataTypes.Singleton.Find(typeName);
       if (builtInDataType != null)
@@ -38,13 +38,13 @@ namespace x10.model {
 
       // Check if enum exists
       if (!_enumsByName.TryGetValue(typeName, out List<DataTypeEnum> entities)) {
-        _messages.AddError(attributeValue.TreeElement,
+        _messages.AddError(parseElement,
           string.Format("Neither Enum nor a built-in data tyes '{0}' is defined", typeName));
         return null;
       }
 
       if (entities.Count > 1) {
-        _messages.AddError(attributeValue.TreeElement,
+        _messages.AddError(parseElement,
           string.Format("Multiple Enums with the name '{0}' exist", typeName));
         return null;
       }

@@ -28,21 +28,8 @@ namespace x10.compiler {
       // Read top-level (entity) attributes
       _attrReader.ReadAttributesForClassDef(definition);
 
-      // Top-level definition node generally should have exactly one child node
-      // We allow for a non-node placeholder, but with a warning.
-      int topLevelChildCount = rootNode.Children.Count;
-      if (topLevelChildCount == 0) {
-        _messages.AddWarning(rootNode,
-          String.Format("UI Component definition '{0}' contains no children. It will not be rendered as a visual component",
-          rootNode.Name));
-        return definition;
-      }
-      if (topLevelChildCount > 1) {
-        _messages.AddError(rootNode,
-          String.Format("UI Component definition '{0}' has multiple children.",
-          rootNode.Name));
-        return null;
-      }
+      // TODO: What's the point anymore
+      // Perhaps we can separate Compiler 2.1 and 2.2
 
       return definition;
     }

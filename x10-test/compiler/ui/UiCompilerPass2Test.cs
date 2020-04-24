@@ -148,6 +148,7 @@ namespace x10.compiler {
           InheritsFrom = ClassDefNative.Visual,
         },
         ClassDefNative.RawHtml,
+        ClassDefNative.State,
       };
 
       _library = new UiLibrary(definitions) {
@@ -282,6 +283,27 @@ namespace x10.compiler {
 ", result);
     }
 
+    [Fact]
+    public void StateDefinition() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent description='My description...'>
+  <MyComponent.state>
+    <State variable='myVar1' dataType='String' default='Hello World' />
+    <State variable='myVar2' dataType='Integer' default='7' />
+    <State variable='myVar3' dataType='Date' />
+  </MyComponent.state>
+  <RawHtml/>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent description='My description...'>
+</MyComponent>
+", result);
+    }
+
     #endregion
 
     #region Errors
@@ -299,12 +321,23 @@ namespace x10.compiler {
     }
 
     [Fact]
+    public void NoUiComponentDefinition() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+</Outer>
+", "UI Component Definition 'Outer' is empty (if it has any complex attributes, these don't count).  It will not be rendered as a visual component.", 2, 2);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
     public void ExpectingInstanceButDidNotGetOne() {
       RunTest(@"
 <Outer description='My description...' model='Building'>
-  <Outer.Property/>
+  <_a/>
+  <name/>
 </Outer>
-", "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.", 3, 4);
+", "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\>) or a Complex Attribute (e.g. SomeComponent.property) but got _a.", 3, 4);
 
       Assert.Single(_messages.Messages);
     }
@@ -348,15 +381,15 @@ namespace x10.compiler {
       RunTest(@"
 <Outer description='My description...' model='Building' many='true'>
   <Table>
+    <name/>
     <Table.Bogus>
     </Table.Bogus>
     <Table.Header>
       <HelpIcon/>
     </Table.Header>
-    <name/>
   </Table>
 </Outer>
-", "Complex Attribute 'Bogus' does not exist on Component 'Table'", 4, 6);
+", "Complex Attribute 'Bogus' does not exist on Component 'Table'", 5, 6);
 
       Assert.Single(_messages.Messages);
     }
