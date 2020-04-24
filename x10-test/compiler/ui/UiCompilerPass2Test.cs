@@ -20,7 +20,7 @@ namespace x10.compiler {
 
     public UiCompilerPass2Test(ITestOutputHelper output) : base(output) {
       List<ClassDef> definitions = new List<ClassDef>() {
-        // Basic Components
+        #region Basic Components
         new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
@@ -55,13 +55,26 @@ namespace x10.compiler {
           }
         },
         new ClassDefNative() {
+          Name = "Checkbox",
+          AtomicDataModel = DataTypes.Singleton.Boolean,
+          IsMany = false,
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "checked",
+              DataType = DataTypes.Singleton.Boolean,
+            },
+          }
+        },
+        new ClassDefNative() {
           Name = "DropDown",
           InheritsFrom = ClassDefNative.Visual,
           IsMany = false,
           AtomicDataModel = new DataTypeEnum(),
         },
+        #endregion
 
-        // Complex Components
+        #region Complex Components
         new ClassDefNative() {
           Name = "VerticalGroup",
           InheritsFrom = ClassDefNative.Visual,
@@ -141,6 +154,8 @@ namespace x10.compiler {
             },
           },
         },
+        
+        #endregion
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
@@ -157,6 +172,7 @@ namespace x10.compiler {
 
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent");
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
       _library.SetComponentForEnums("DropDown");
 
       if (_library.HydrateAndValidate(_messages)) {
@@ -305,6 +321,7 @@ namespace x10.compiler {
     <State variable='myVar2' dataType='Integer' default='7'/>
     <State variable='myVar3' dataType='Date'/>
   </MyComponent.state>
+  <RawHtml/>
 </MyComponent>
 ", result);
     }
@@ -456,19 +473,19 @@ namespace x10.compiler {
 ");
 
       Assert.Empty(_messages.Messages);
-      string result = Print(definition, new PrintConfig() { AlwaysPrintPath = true });
+      string result = Print(definition);
 
       Assert.Equal(@"<MyComponent model='Building'>
-  <VerticalGroup path=''>
-    <name path='name'/>
+  <VerticalGroup>
+    <name/>
     <Table path='apartments.rooms'>
       <Table.Header>
-        <HelpIcon path=''/>
+        <HelpIcon/>
       </Table.Header>
-      <TableColumn path=''>
-        <name path='name'/>
+      <TableColumn>
+        <name/>
       </TableColumn>
-      <TableColumn path=''>
+      <TableColumn>
         <Button path='paintColor' label='Boo' action='doSomething'/>
       </TableColumn>
     </Table>
@@ -530,6 +547,29 @@ namespace x10.compiler {
 
       Assert.Equal(@"<MyComponent model='Building'>
   <TextEdit path='/currentUser.firstName'/>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void ModelRefResolution() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <VerticalGroup>
+    <name/>
+    <hasUndergroundParking/>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition, new PrintConfig() { AlwaysPrintRenderAs = true });
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <VerticalGroup>
+    <name renderAs='TextEdit'/>
+    <hasUndergroundParking renderAs='Checkbox'/>
+  </VerticalGroup>
 </MyComponent>
 ", result);
     }

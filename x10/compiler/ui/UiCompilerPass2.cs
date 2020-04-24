@@ -101,11 +101,11 @@ namespace x10.compiler {
 
         XmlElement rootXmlChild = ParseComponentDefinition(definition);
         if (rootXmlChild == null)
-          continue;   // Pass 1 already warns about this
+          continue;   
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
         definition.RootChild = ParseInstance(rootXmlChild, null);
-        foreach (var attribute in definition.ComplexAttributeValues())
+        foreach (UiAttributeValueComplex attribute in definition.ComplexAttributeValues())
           foreach (Instance instance in attribute.Instances)
             CompileRecursively(instance, null);
 

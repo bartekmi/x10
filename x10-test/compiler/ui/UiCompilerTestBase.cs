@@ -49,6 +49,9 @@ attributes:
     description: dummy
     dataType: Integer
     ui: MyAverageIntComponent
+  - name: hasUndergroundParking
+    description: dummy
+    dataType: Boolean
 associations:
   - name: apartments
     description: dummy

@@ -47,24 +47,21 @@ namespace x10.ui.composition {
         atomic.Print(writer);
 
       if (config != null) {
-        if (config.AlwaysPrintPath) {
-          object path = source.FindValue("path");
-          if (path != null)
-            writer.Write(" path='{0}'", path);
-        }
-
         if (config.AlwaysPrintRenderAs)
           if (source is InstanceModelRef modelRef)
             writer.Write(" renderAs='{0}'", modelRef.RenderAs == null ? "NULL" : modelRef.RenderAs.Name);
       }
 
-      if (source.ComplexAttributeValues().Count() == 0)
+      if (source.ComplexAttributeValues().Count() == 0 && !(source is ClassDefX10))
         writer.WriteLine("/>");
       else {
         writer.WriteLine(">");
 
         foreach (UiAttributeValueComplex complex in source.ComplexAttributeValues())
           complex.Print(writer, indent + 1, config);
+
+        if (source is ClassDefX10 classDef)
+          classDef.RootChild.Print(writer, indent + 1, config);
 
         PrintUtils.Indent(writer, indent);
         writer.WriteLine("</" + source.GetElementName() + ">");
