@@ -55,6 +55,25 @@ namespace x10.ui.libraries {
           Name = "Bullet",
           InheritsFrom = ClassDefNative.Visual,
         },
+        new ClassDefNative() {
+          Name = "Label",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "mandatory",
+              DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = false,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "toolTip",
+              DataType = DataTypes.Singleton.String,
+            },
+          }
+        },
       #endregion
 
       #region  Atomic Display Components
@@ -117,6 +136,12 @@ namespace x10.ui.libraries {
           InheritsFromName = "Text",
           IsMany = false,
           AtomicDataModel = DataTypes.Singleton.Boolean,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "checked",
+              DataType = DataTypes.Singleton.Boolean,
+            },
+          },
         },
         new ClassDefNative() {
           Name = "BooleanViaButtons",
@@ -193,10 +218,44 @@ namespace x10.ui.libraries {
             },
           }
         },
+
+      #region Grid
+      new ClassDefNative() {
+          Name = "Grid",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+            new UiAttributeDefinitionComplex() {
+              Name = "Columns",
+              IsMany = true,
+              ComplexAttributeTypeName = "Column",
+            },
+          }
+        },
+        new ClassDefNative() {
+          Name = "Column",
+          InheritsFrom = ClassDefNative.Object,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "width",
+              DataType = DataTypes.Singleton.Float,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "fraction",
+              DataType = DataTypes.Singleton.Float,
+            },
+          },
+        },
+      #endregion
       #endregion
 
       #region List
-        new ClassDefNative() {
+      new ClassDefNative() {
           Name = "List",
           ComponentDataModel = Entity.Object,
           IsMany = true,
@@ -208,6 +267,11 @@ namespace x10.ui.libraries {
               IsMandatory = true,
               ReducesManyToOne = true,
               ComplexAttributeType = ClassDefNative.Visual,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "addItemLabel",
+              DataType = DataTypes.Singleton.String,
+              DefaultValue = "Add item",
             },
           },
         },
@@ -282,7 +346,7 @@ namespace x10.ui.libraries {
           InheritsFrom = ClassDefNative.Object,
         },
         new ClassDefNative() {
-          Name = "UploadAction",
+          Name = "ActionWithDialog",
           InheritsFromName = "Action",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
@@ -290,6 +354,26 @@ namespace x10.ui.libraries {
               IsMandatory = true,
               DataType = DataTypes.Singleton.String,
             },
+            new UiAttributeDefinitionAtomic() {
+              Name = "dialogText",
+              DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "danger",
+              DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = false,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "successUrl",
+              DataType = DataTypes.Singleton.String,
+            },
+            // TODO: Add optional confirm and cancel text
+          },
+        },
+        new ClassDefNative() {
+          Name = "UploadAction",
+          InheritsFromName = "ActionWithDialog",
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "fileFilter",
               IsMandatory = true,
@@ -304,17 +388,8 @@ namespace x10.ui.libraries {
         },
         new ClassDefNative() {
           Name = "BackEndAction",
-          InheritsFromName = "Action",
+          InheritsFromName = "ActionWithDialog",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "dialogTitle",
-              IsMandatory = true,
-              DataType = DataTypes.Singleton.String,
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "dialogText",
-              DataType = DataTypes.Singleton.String,
-            },
             new UiAttributeDefinitionAtomic() {
               Name = "backEndTarget",
               IsMandatory = true,
@@ -335,13 +410,13 @@ namespace x10.ui.libraries {
               Name = "action",
               DataType = DataTypes.Singleton.String,
             },
-            new UiAttributeDefinitionComplex() {
-              Name = "Action",
-              ComplexAttributeTypeName = "Action",
-            },
             new UiAttributeDefinitionAtomic() {
               Name = "url",
               DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionComplex() {
+              Name = "Action",
+              ComplexAttributeTypeName = "Action",
             },
           },
           // TODO: Add cross-validation... Either action or url must be provided
@@ -397,8 +472,52 @@ namespace x10.ui.libraries {
         },
       #endregion
 
+      #region Form
+        new ClassDefNative() {
+          Name = "Form",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "Child",
+              IsPrimary = true,
+              IsMandatory = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "FormSection",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "Child",
+              IsPrimary = true,
+              IsMandatory = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              DataType = DataTypes.Singleton.String,
+              IsMandatory = true,
+            },
+          },
+        },
+        new ClassDefNative() {
+          Name = "FormButton",
+          InheritsFromName = "Button",
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "validate",
+              IsMandatory = true,
+              DataType = DataTypes.Singleton.Boolean,
+            },
+          },
+        },
+
+      #endregion
+
       #region Primordial Components (Not Abstract)
-        ClassDefNative.RawHtml,
+      ClassDefNative.RawHtml,
         ClassDefNative.State,
       #endregion
     };

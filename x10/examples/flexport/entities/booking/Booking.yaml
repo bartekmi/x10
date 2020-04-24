@@ -58,6 +58,13 @@ attributes:
 #    ui.trueLabel: "LCL"
 #    ui.falseLabel: "FCL"
 
+  - name: isLtl
+    dataType: Boolean
+    mandatory: true
+    default: false
+    label: Shipment Type
+    ui: BooleanViaButtons
+
   - name: incoterms
     dataType: Incoterms
     mandatory: true
@@ -65,6 +72,10 @@ attributes:
   - name: wantsOriginService
     dataType: Boolean
     default: true
+
+  - name: wantsDestinationService
+    dataType: Boolean
+    default: false
 
   - name: wantsExportCustomsService
     dataType: Boolean

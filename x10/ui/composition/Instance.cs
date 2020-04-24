@@ -35,15 +35,7 @@ namespace x10.ui.composition {
     public XmlElement XmlElement { get; private set; }
     public ClassDef ClassDef { get { return RenderAs; } }
 
-
-
     // Derived
-    public IEnumerable<UiAttributeValueAtomic> AtomicAttributeValues {
-      get { return AttributeValues.OfType<UiAttributeValueAtomic>(); }
-    }
-    public IEnumerable<UiAttributeValueComplex> ComplexAttributeValues {
-      get { return AttributeValues.OfType<UiAttributeValueComplex>(); }
-    }
     public Instance Parent { 
       get { return Owner?.Owner as Instance; }
     }
@@ -57,36 +49,6 @@ namespace x10.ui.composition {
 
     public UiAttributeValue PrimaryValue {
       get { return AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); }
-    }
-
-    public void Print(TextWriter writer, int indent, PrintConfig config = null) {
-      PrintUtils.Indent(writer, indent);
-      writer.Write("<" + GetElementName());
-
-      foreach (UiAttributeValueAtomic atomic in AtomicAttributeValues) 
-        atomic.Print(writer);
-
-      if (config != null) {
-        if (config.AlwaysPrintPath)
-          if (!AtomicAttributeValues.Any(x => x.Definition.Name == "path"))
-            writer.Write(" path='{0}'", Path);
-
-        if (config.AlwaysPrintRenderAs)
-          if (this is InstanceModelRef modelRef)
-            writer.Write(" renderAs='{0}'", modelRef.RenderAs == null ? "NULL" : modelRef.RenderAs.Name);
-      }
-
-      if (ComplexAttributeValues.Count() == 0)
-        writer.WriteLine("/>");
-      else {
-        writer.WriteLine(">");
-
-        foreach (UiAttributeValueComplex complex in ComplexAttributeValues)
-          complex.Print(writer, indent + 1, config);
-
-        PrintUtils.Indent(writer, indent);
-        writer.WriteLine("</" + GetElementName() + ">");
-      }
     }
   }
 }

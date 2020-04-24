@@ -16,26 +16,13 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; set; }
     public ClassDef ClassDef { get { return this; } }
+    public string GetElementName() {
+      return Name;
+    }
 
     public ClassDefX10(XmlElement xmlRoot) {
       XmlElement = xmlRoot;
       AttributeValues = new List<UiAttributeValue>();
-    }
-
-    public void Print(TextWriter writer, int indent, PrintConfig config = null) {
-      PrintUtils.Indent(writer, indent);
-      writer.Write("<" + Name);
-
-      foreach (UiAttributeValueAtomic atomic in AttributeValues.Cast<UiAttributeValueAtomic>())
-        atomic.Print(writer);
-
-      writer.WriteLine(">");
-
-      if (RootChild != null)
-        RootChild.Print(writer, indent + 1, config);
-
-      PrintUtils.Indent(writer, indent);
-      writer.WriteLine("</" + Name + ">");
     }
   }
 }

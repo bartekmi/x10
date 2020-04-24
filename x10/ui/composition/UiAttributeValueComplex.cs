@@ -25,12 +25,11 @@ namespace x10.ui.composition {
       if (Definition.IsPrimary)
         PrintValues(writer, indent, config);
       else {
-        string parentClassDefName = ((Instance)Owner).RenderAs.Name;
         PrintUtils.Indent(writer, indent);
-        writer.WriteLine("<{0}.{1}>", parentClassDefName, Definition.Name);
+        writer.WriteLine("<{0}.{1}>", Owner.GetElementName(), Definition.Name);
         PrintValues(writer, indent + 1, config);
         PrintUtils.Indent(writer, indent);
-        writer.WriteLine("</{0}.{1}>", parentClassDefName, Definition.Name);
+        writer.WriteLine("</{0}.{1}>", Owner.GetElementName(), Definition.Name);
       }
     }
 

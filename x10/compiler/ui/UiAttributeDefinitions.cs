@@ -84,7 +84,7 @@ namespace x10.compiler {
       },
       new UiAttributeDefinitionAtomic() {
         Name = "query",
-        Description = "Analogous to GraphQL query parameters - or SQL query parameters. Narrows the scope of data from a pure 'Entity' stream",
+        Description = "Analogous to GraphQL query parameters - or SQL query parameters. Narrows the scope of data from a all 'Entities' accessible to user",
         AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,
       },

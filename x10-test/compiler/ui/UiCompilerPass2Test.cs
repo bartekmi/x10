@@ -300,6 +300,11 @@ namespace x10.compiler {
       string result = Print(definition);
 
       Assert.Equal(@"<MyComponent description='My description...'>
+  <MyComponent.state>
+    <State variable='myVar1' dataType='String' default='Hello World'/>
+    <State variable='myVar2' dataType='Integer' default='7'/>
+    <State variable='myVar3' dataType='Date'/>
+  </MyComponent.state>
 </MyComponent>
 ", result);
     }

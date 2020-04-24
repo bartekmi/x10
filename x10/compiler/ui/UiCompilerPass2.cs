@@ -105,6 +105,9 @@ namespace x10.compiler {
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
         definition.RootChild = ParseInstance(rootXmlChild, null);
+        foreach (var attribute in definition.ComplexAttributeValues())
+          foreach (Instance instance in attribute.Instances)
+            CompileRecursively(instance, null);
 
         CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
       }
@@ -305,7 +308,7 @@ namespace x10.compiler {
       ValidateRenderAsType(instance);
 
       // Recurse...
-      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues) {
+      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues()) {
         UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
           myDataModel.ReduceManyToOne() :
           myDataModel;
