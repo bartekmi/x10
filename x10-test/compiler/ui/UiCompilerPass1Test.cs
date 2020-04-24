@@ -36,28 +36,7 @@ namespace x10.compiler {
       Assert.False(_messages.HasErrors);
       Assert.Equal("MyComponent", definition.Name);
       Assert.Equal("My description...", definition.Description);
-      Assert.Equal("My custom value", UiAttributeUtils.FindValue(definition, "customField"));
-    }
-
-    [Fact]
-    public void WarnIfNoChildrenAtRoot() {
-      RunTest(@"
-<MyComponent />
-",
-        "UI Component definition 'MyComponent' contains no children. It will not be rendered as a visual component",
-        2, 2, CompileMessageSeverity.Warning);
-    }
-
-    [Fact]
-    public void ErrorIfMultipleChildrenAtRoot() {
-      RunTest(@"
-<MyComponent>
-  <child1/>
-  <child2/>
-</MyComponent>
-",
-        "UI Component definition 'MyComponent' has multiple children.",
-        2, 2);
+      Assert.Equal("My custom value", definition.FindValue("customField"));
     }
 
     [Fact]

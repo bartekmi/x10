@@ -17,13 +17,13 @@ namespace x10.ui.composition {
     ClassDef ClassDef { get; }
   }
 
-  public static class UiAttributeUtils {
-    public static object FindValue(IAcceptsUiAttributeValues source, string attributeName) {
-      UiAttributeValueAtomic value = FindAttribute(source, attributeName) as UiAttributeValueAtomic;
+  public static class IAcceptsUiAttributeValuesExtensions {
+    public static object FindValue(this IAcceptsUiAttributeValues source, string attributeName) {
+      UiAttributeValueAtomic value = FindAttributeValue(source, attributeName) as UiAttributeValueAtomic;
       return value?.Value;
     }
 
-    public static UiAttributeValue FindAttribute(IAcceptsUiAttributeValues source, string attributeName) {
+    public static UiAttributeValue FindAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       return source.AttributeValues
         .FirstOrDefault(x => x.Definition.Name == attributeName);
     }

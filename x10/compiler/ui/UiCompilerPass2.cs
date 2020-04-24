@@ -328,7 +328,7 @@ namespace x10.compiler {
         if (instance is InstanceModelRef)
           pathScalar = instance.XmlElement;
         else if (instance is InstanceClassDefUse)
-          pathScalar = UiAttributeUtils.FindAttribute(instance, "path").XmlBase;
+          pathScalar = instance.FindAttributeValue("path").XmlBase;
         else
           throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
