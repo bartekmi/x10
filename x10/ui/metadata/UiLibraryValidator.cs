@@ -44,10 +44,6 @@ namespace x10.ui.metadata {
     private void EnsureCorrectDataModelSpecification(ClassDef classDef) {
       if (classDef.AtomicDataModel != null && classDef.ComponentDataModel != null)
         _messages.AddError(null, "{0}: Only one of Atomic or Component data model can be specified", classDef.Name);
-
-      if (classDef.AtomicAttributeDefinitions == null && classDef.ComponentDataModel == null &&
-        classDef.IsMany != null)
-        _messages.AddError(null, "{0}: Do not specify IsMany if model type not provided", classDef.Name);
     }
 
     private void HydrateOwner(ClassDef classDef) {

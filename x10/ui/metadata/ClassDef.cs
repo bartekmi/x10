@@ -18,7 +18,7 @@ namespace x10.ui.metadata {
     public string Name { get; set; }
     public string Description { get; set; }
 
-    // Attributes are (almost) always defined on native components
+    // Attributes are currently only defined on native components
     // We put this here at the base class level in anticipation of having a mechanism
     // of definition attributes on X10 components so as to make them re-usable
     // with tweaks.
