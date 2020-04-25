@@ -8,6 +8,7 @@ using x10.model.metadata;
 using x10.ui.metadata;
 using x10.ui.composition;
 using x10.model;
+using System.Text.RegularExpressions;
 
 namespace x10.compiler {
 
@@ -39,7 +40,6 @@ namespace x10.compiler {
         UiAttributeDefinitions.All.Concat(classDefAttrs) :
         UiAttributeDefinitions.All;
 
-
       UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
 
       ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude, classDefKnown);
@@ -70,10 +70,6 @@ namespace x10.compiler {
 
       if (errorOnUnknownAttributes)
         ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
-    }
-
-    public static bool IsFormula(string valueOrFormula) {
-      return valueOrFormula.Trim().StartsWith("=");
     }
 
     private void ReadAttribute(
@@ -148,6 +144,19 @@ namespace x10.compiler {
           _messages.AddError(attribute,
             string.Format("Unknown attribute '{0}' on Class Definition '{1}'", attribute.Key, modelComponent.ClassDef?.Name));
       }
+    }
+
+    public static bool IsFormula(string valueOrFormula) {
+      return valueOrFormula.Trim().StartsWith("=");
+    }
+
+    public static bool IsAttachedAttribute(string attributeName) {
+      string[] pieces = attributeName.Split('.');
+      if (pieces.Length != 2)
+        return false;
+
+      return ModelValidationUtils.IsUiElementName(pieces[0]) &&
+        ModelValidationUtils.IsUiAtomicAttributeName(pieces[1]);
     }
   }
 }

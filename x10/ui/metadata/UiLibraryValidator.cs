@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using x10.model;
 using x10.model.metadata;
 using x10.parsing;
 
@@ -23,7 +24,7 @@ namespace x10.ui.metadata {
         HydrateOwner(classDef);
         HydrateAndValidateBaseClass(library, classDef);
         HydrateAndValidateModelRefWrapper(library, classDef);
-        EnsureMandatoryFieldsPresent(classDef);
+        EnsurePropertiesValid(classDef);
         EnsureCorrectDataModelSpecification(classDef);
       }
 
@@ -58,9 +59,9 @@ namespace x10.ui.metadata {
 
     private void HydrateAndValidateModelRefWrapper(UiLibrary library, ClassDef classDef) {
       string description = string.Format("Model Reference Wrapper of Class Definition {0}", classDef.Name);
-      classDef.ModelRefWrapperComponent = HydrateAndValidateClassDef(library, 
-        description, 
-        classDef.ModelRefWrapperComponent, 
+      classDef.ModelRefWrapperComponent = HydrateAndValidateClassDef(library,
+        description,
+        classDef.ModelRefWrapperComponent,
         classDef.ModelRefWrapperComponentName,
         false);
     }
@@ -79,8 +80,10 @@ namespace x10.ui.metadata {
       return theObject;
     }
 
-    private void EnsureMandatoryFieldsPresent(ClassDef classDef) {
-      // So for, nothing urgent here
+    private void EnsurePropertiesValid(ClassDef classDef) {
+      MessageBucket messages = new MessageBucket();
+      if (!ModelValidationUtils.ValidateUiElementName(classDef.Name, null, messages))
+        throw new Exception(messages.Messages.Single().Message);
     }
 
     private void EnsureNoDuplicateAttributes(ClassDef classDef) {
@@ -124,6 +127,16 @@ namespace x10.ui.metadata {
         string description = string.Format("Type of Complex Attribute {0}.{1}", attrDef.Owner.Name, attrDef.Name);
         attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName, true);
       }
+
+      MessageBucket messages = new MessageBucket();
+      if (attrDef is UiAttributeDefinitionAtomic) {
+        if (!ModelValidationUtils.ValidateUiAtomicAttributeName(attrDef.Name, null, messages))
+          throw new Exception(messages.Messages.Single().Message);
+      } else if (attrDef is UiAttributeDefinitionComplex) {
+        if (!ModelValidationUtils.ValidateUiComplexAttributeName(attrDef.Name, null, messages))
+          throw new Exception(messages.Messages.Single().Message);
+      } else
+        throw new Exception("Unexpected attribute definition type: " + attrDef.GetType().Name);
     }
   }
 }

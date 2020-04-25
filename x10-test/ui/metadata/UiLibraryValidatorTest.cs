@@ -84,36 +84,36 @@ namespace x10.ui.metadata {
     public void EnsureNoCircularInheritance() {
       UiLibrary library = new UiLibrary(new List<ClassDef>() {
         new ClassDefNative() {
-          Name = "A",
-          InheritsFromName = "C",
+          Name = "Ax",
+          InheritsFromName = "Cx",
         },
         new ClassDefNative() {
-          Name = "B",
-          InheritsFromName = "A",
+          Name = "Bx",
+          InheritsFromName = "Ax",
         },
         new ClassDefNative() {
-          Name = "C",
-          InheritsFromName = "B",
+          Name = "Cx",
+          InheritsFromName = "Bx",
         },
       });
 
       RunTest(library,
-        "A is involved in a circular inheritance dependency",
-        "B is involved in a circular inheritance dependency",
-        "C is involved in a circular inheritance dependency");
+        "Ax is involved in a circular inheritance dependency",
+        "Bx is involved in a circular inheritance dependency",
+        "Cx is involved in a circular inheritance dependency");
     }
 
     [Fact]
     public void EnsureNoCircularInheritancePontsToSelf() {
       UiLibrary library = new UiLibrary(new List<ClassDef>() {
         new ClassDefNative() {
-          Name = "A",
-          InheritsFromName = "A",
+          Name = "Ax",
+          InheritsFromName = "Ax",
         },
       });
 
       RunTest(library,
-        "A is involved in a circular inheritance dependency");
+        "Ax is involved in a circular inheritance dependency");
     }
 
     #region Utils

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using x10.parsing;
@@ -30,9 +31,27 @@ namespace x10.model {
       return Is(Style.UpperCamelCase, name);
     }
 
+    public static bool IsUiAtomicAttributeName(string name) {
+      return Is(Style.LowerCamelCase, name);
+    }
+
+    public static bool IsUiComplexAttributeName(string name) {
+      return Is(Style.UpperCamelCase, name);
+    }
+
     public static bool ValidateUiElementName(string uiElementName, IParseElement element, MessageBucket messages) {
       string examples = "'DropDown', 'TextArea'";
       return Validate(Style.UpperCamelCase, uiElementName, "UI Element name", examples, element, messages);
+    }
+
+    public static bool ValidateUiAtomicAttributeName(string attrName, IParseElement element, MessageBucket messages) {
+      string examples = "'visible', 'borderColor'";
+      return Validate(Style.LowerCamelCase, attrName, "UI Atomic Attribute Name name", examples, element, messages);
+    }
+
+    public static bool ValidateUiComplexAttributeName(string attrName, IParseElement element, MessageBucket messages) {
+      string examples = "'Columns', 'HeaderRows'";
+      return Validate(Style.UpperCamelCase, attrName, "UI Complex Attribute name", examples, element, messages);
     }
 
     public static bool IsMemberName(string name) {
