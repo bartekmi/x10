@@ -62,18 +62,18 @@
             <!-- If rows not specified, assume all "auto" rows -->
 
             <!-- FUTURE: Is there a way to do this in a type-checed way? -->
-            <Label row="0" column="0" mandatory="true"
+            <Label Grid.row="0" Grid.column="0" mandatory="true"
               text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`"
               toolTip="Please enter a short and precise description of this product"
 						/>
-            <Label row="0" column="1" mandatory="true"
+            <Label Grid.row="0" Grid.column="1" mandatory="true"
               text="6 digit HS Code"
               toolTip="6 digit HS Code is required for carrier booking as commodity identifier"/>
 
-            <description row="1" column="0"/>
-            <hsCode row="1" column="1"/>
+            <description Grid.row="1" Grid.column="0"/>
+            <hsCode Grid.row="1" Grid.column="1"/>
 
-            <descriptionInLocalLanguage row="2" column="0" visible="=requiresChineseProductDescription"/>
+            <descriptionInLocalLanguage Grid.row="2" Grid.column="0" visible="=requiresChineseProductDescription"/>
           </Grid>
         </List>
 

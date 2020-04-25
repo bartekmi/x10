@@ -20,8 +20,13 @@ namespace x10.ui.composition {
       if (Definition.Name == ParserXml.ELEMENT_NAME)
         return;
 
+      UiAttributeDefinitionAtomic attrDef = (UiAttributeDefinitionAtomic)Definition;
+
       writer.Write(" ");
-      writer.Write("{0}='{1}'", Definition.Name, Formula == null ? Value : Formula);
+      writer.Write("{0}{1}='{2}'",
+        attrDef.IsAttached ? attrDef.Owner.Name + "." : null,
+        Definition.Name, 
+        Formula == null ? Value : Formula);
     }
 
     public override string ToString() {

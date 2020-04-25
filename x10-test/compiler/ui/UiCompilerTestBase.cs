@@ -27,7 +27,7 @@ namespace x10.compiler {
       _allEnums = new AllEnums(_messages);
       _allEntities = CreateEntities();
 
-      UiAttributeReader attrReader = new UiAttributeReader(_messages, _allEntities, _allEnums);
+      UiAttributeReader attrReader = new UiAttributeReader(_messages, _allEntities, _allEnums, null);
       _compilerPass1 = new UiCompilerPass1(_messages, attrReader);
     }
 

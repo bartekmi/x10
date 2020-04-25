@@ -64,7 +64,6 @@ namespace x10.compiler {
   }
   #endregion
 
-
   public class UiCompilerPass2 {
 
     #region Properties, Constructor, Top Level
@@ -101,7 +100,7 @@ namespace x10.compiler {
 
         XmlElement rootXmlChild = ParseComponentDefinition(definition);
         if (rootXmlChild == null)
-          continue;   
+          continue;
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
         definition.RootChild = ParseInstance(rootXmlChild, null);
@@ -189,8 +188,14 @@ namespace x10.compiler {
       List<XmlElement> primaryAtributeXmls = ParseComplexAndPrimaryAttributes(xmlElement, classDef, instance);
 
       // Is there a Primary Complex attribute? If so, parse it.
-      if (primaryAtributeXmls.Count > 0)
-        ParseComplexAttribute(instance, primaryAtributeXmls, classDef.PrimaryAttributeDef);
+      if (primaryAtributeXmls.Count > 0) {
+        UiAttributeDefinitionComplex primaryAttrDef = classDef.PrimaryAttributeDef;
+        if (primaryAttrDef == null)
+          _messages.AddError(xmlElement, "Class Definition '{0}' does not define a Primary Attribute, yet has child elements.",
+            classDef.Name);
+        else
+          ParseComplexAttribute(instance, primaryAtributeXmls, primaryAttrDef);
+      }
 
       ValidateMandatoryComplexAttributes(classDef, instance);
 
@@ -224,7 +229,7 @@ namespace x10.compiler {
         } else if (IsModelReference(xmlChild) || IsClassDefUse(xmlChild))
           primaryAtributeXmls.Add(xmlChild);
         else
-          _messages.AddError(xmlChild, 
+          _messages.AddError(xmlChild,
             "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\>) " +
             "or a Complex Attribute (e.g. SomeComponent.property) but got {0}.", xmlChild.Name);
       }
@@ -364,7 +369,7 @@ namespace x10.compiler {
 
       // Special handling for enum types - enum values can have an extra level of path which is an Attribute 
       // of the Enum Value (e.g. icon)
-      if (dataModel.Member != null && 
+      if (dataModel.Member != null &&
         dataModel.Member is X10Attribute x10Attr &&
         x10Attr.DataType is DataTypeEnum) {
         // TODO: Check for other edge cases, such as trying to go beyond an attribute which is not an enumerated type

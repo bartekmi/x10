@@ -67,6 +67,5 @@ namespace x10.ui.composition {
         writer.WriteLine("</" + source.GetElementName() + ">");
       }
     }
-
   }
 }

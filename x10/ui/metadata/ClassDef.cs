@@ -114,6 +114,14 @@ namespace x10.ui.metadata {
       return AttributeDefinitions.SingleOrDefault(x => x.Name == attrName);
     }
 
+    public UiAttributeDefinitionAtomic FindAtomicAttribute(string attrName) {
+      return AtomicAttributeDefinitions.SingleOrDefault(x => x.Name == attrName);
+    }
+
+    public UiAttributeDefinitionComplex FindComplexAttribute(string attrName) {
+      return ComplexAttributeDefinitions.SingleOrDefault(x => x.Name == attrName);
+    }
+
     public override string ToString() {
       return "UiDefinition: " + Name;
     }

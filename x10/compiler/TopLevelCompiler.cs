@@ -32,8 +32,8 @@ namespace x10.compiler {
         .Cast<XmlElement>();
 
       // UI Compile - Pass 1
-      UiCompilerPass1 uiPass1 = new UiCompilerPass1(_messages,
-        new UiAttributeReader(_messages, allEntities, allEnums));
+      UiAttributeReader attrReaderForPass1 = new UiAttributeReader(_messages, allEntities, allEnums, null);
+      UiCompilerPass1 uiPass1 = new UiCompilerPass1(_messages, attrReaderForPass1);
 
       List<ClassDefX10> classDefs = new List<ClassDefX10>();
       foreach (var rootXmlElement in rootXmlElements) {
@@ -47,8 +47,8 @@ namespace x10.compiler {
       entitiesPass3.CompileAllEntities(allEntities);
 
       // UI Compile - Pass 2
-      UiAttributeReader attrReader = new UiAttributeReader(_messages, allEntities, allEnums);
-      UiCompilerPass2 uiPass2 = new UiCompilerPass2(_messages, attrReader, allEntities, allEnums, allUiDefinitions);
+      UiAttributeReader attrReaderForPass2 = new UiAttributeReader(_messages, allEntities, allEnums, allUiDefinitions);
+      UiCompilerPass2 uiPass2 = new UiCompilerPass2(_messages, attrReaderForPass2, allEntities, allEnums, allUiDefinitions);
       uiPass2.CompileAllUiDefinitions();
     }
   }

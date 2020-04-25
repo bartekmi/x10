@@ -22,11 +22,13 @@ namespace x10.compiler {
     private readonly MessageBucket _messages;
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
+    private readonly AllUiDefinitions _allClassDefs;
 
-    internal UiAttributeReader(MessageBucket messages, AllEntities allEntities, AllEnums allEnums) {
+    internal UiAttributeReader(MessageBucket messages, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allClassDefs) {
       _messages = messages;
       _allEntities = allEntities;
       _allEnums = allEnums;
+      _allClassDefs = allClassDefs;
     }
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
@@ -43,6 +45,7 @@ namespace x10.compiler {
       UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
 
       ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude, classDefKnown);
+      ReadAttachedAttributes(instance);
     }
 
     internal void ReadSpecificAttributes(IAcceptsUiAttributeValues modelComponent,
@@ -78,38 +81,23 @@ namespace x10.compiler {
 
       // Error if mandatory attribute missing
       XmlElement xmlElement = modelComponent.XmlElement;
-      XmlAttribute attrNode = xmlElement.FindAttribute(attrDef.Name);
-      object typedValue = null;
-      string formula = null;
+      XmlAttribute xmlAttribute = xmlElement.FindAttribute(attrDef.Name);
 
-      if (attrNode == null) {
-        if (attrDef.DefaultValue == null) {
-          if (attrDef.IsMandatory) {
-            string classDefOwnership = attrDef.Owner == null ?
-              "" :
-              string.Format(" of Class Definition '{0}'", attrDef.Owner.Name);
+      // Mising mandatory attribute
+      if (xmlAttribute == null && attrDef.DefaultValue == null && attrDef.IsMandatory) {
+        string classDefOwnership = attrDef.Owner == null ?
+          "" :
+          string.Format(" of Class Definition '{0}'", attrDef.Owner.Name);
 
-            _messages.AddError(xmlElement,
-              string.Format("Mandatory Atomic Attribute '{0}'{1} is missing",
-              attrDef.Name, classDefOwnership));
-          }
-          return;
-        } else
-          typedValue = attrDef.DefaultValue;
-      } else {
-        if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
-          DataType dataType = attrPrimitive.DataType;
-          string attrValue = attrNode.Value.ToString();
-          if (IsFormula(attrValue))
-            formula = attrValue;
-          else {
-            typedValue = dataType.Parse(attrValue, _messages, attrNode.Value, attrDef.Name);
-            if (typedValue == null)
-              return;
-          }
-        } else
-          throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
+        _messages.AddError(xmlElement,
+          string.Format("Mandatory Atomic Attribute '{0}'{1} is missing",
+          attrDef.Name, classDefOwnership));
+        return;
       }
+
+      object typedValue = attrDef.DefaultValue;
+      if (xmlAttribute != null)
+        typedValue = ParseAttributeAndAddToInstance(attrDef, xmlAttribute, modelComponent);
 
       // If a setter has been provided, use it; 
       if (attrDef.Setter != null) {
@@ -123,40 +111,92 @@ namespace x10.compiler {
         }
         info.SetValue(modelComponent, typedValue);
       }
-
-      if (attrNode != null) {   // It is null if default was used
-        // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
-        // this is the only way we can track where the attribute came from in the code.
-        UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, attrNode.Value);
-        attrValue.Value = typedValue;
-        attrValue.Formula = formula;
-
-        // Do Pass-1 action, if one exists
-        attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, attrNode.Value, modelComponent);
-      }
     }
 
     private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinition> applicableAttrDefs) {
       HashSet<string> validAttributeNames = new HashSet<string>(applicableAttrDefs.Select(x => x.Name));
 
-      foreach (XmlAttribute attribute in modelComponent.XmlElement.Attributes) {
-        if (!validAttributeNames.Contains(attribute.Key))
-          _messages.AddError(attribute,
-            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", attribute.Key, modelComponent.ClassDef?.Name));
+      foreach (XmlAttribute xmlAttribute in modelComponent.XmlElement.Attributes) {
+        if (IsAttachedAttribute(xmlAttribute.Key, out _, out _))
+          continue;
+
+        if (!validAttributeNames.Contains(xmlAttribute.Key))
+          _messages.AddError(xmlAttribute,
+            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", xmlAttribute.Key, modelComponent.ClassDef?.Name));
       }
     }
+
+    private void ReadAttachedAttributes(Instance instance) {
+      foreach (XmlAttribute xmlAttribute in instance.XmlElement.Attributes) {
+        if (IsAttachedAttribute(xmlAttribute.Key, out string ownerClassDefName, out string attrName)) {
+          ClassDef classDef = _allClassDefs.FindDefinitionByNameWithError(ownerClassDefName, xmlAttribute);
+          if (classDef == null)
+            continue;
+
+          UiAttributeDefinitionAtomic attrDef = classDef.FindAtomicAttribute(attrName);
+          if (attrDef == null) {
+            _messages.AddError(xmlAttribute, "Atomic attribute '{0}' not found on Class Definition '{1}'",
+              attrName, classDef.Name);
+            continue;
+          }
+
+          ParseAttributeAndAddToInstance(attrDef, xmlAttribute, instance);
+        }
+      }
+    }
+
+    private object ParseAttributeAndAddToInstance(UiAttributeDefinition attrDef, XmlAttribute xmlAttribute, IAcceptsUiAttributeValues modelComponent) {
+      object typedValue = attrDef.DefaultValue;
+      string formula = null;
+
+      // Parse value (or don't if it's a formula)
+      if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
+        DataType dataType = attrPrimitive.DataType;
+        string attrValue = xmlAttribute.Value.ToString();
+        if (IsFormula(attrValue))
+          formula = attrValue;
+        else {
+          typedValue = dataType.Parse(attrValue, _messages, xmlAttribute.Value, attrDef.Name);
+          if (typedValue == null)
+            return null;
+        }
+      } else
+        throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
+
+      if (xmlAttribute != null) {   // It is null if default was used
+        // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
+        // this is the only way we can track where the attribute came from in the code.
+        UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, xmlAttribute.Value);
+        attrValue.Value = typedValue;
+        attrValue.Formula = formula;
+
+        // Do Pass-1 action, if one exists
+        attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, xmlAttribute.Value, modelComponent);
+      }
+
+      return typedValue;
+    }
+
 
     public static bool IsFormula(string valueOrFormula) {
       return valueOrFormula.Trim().StartsWith("=");
     }
 
-    public static bool IsAttachedAttribute(string attributeName) {
+    public static bool IsAttachedAttribute(string attributeName, out string ownerClassDefName, out string attrName) {
+      ownerClassDefName = null;
+      attrName = null;
+
       string[] pieces = attributeName.Split('.');
       if (pieces.Length != 2)
         return false;
 
-      return ModelValidationUtils.IsUiElementName(pieces[0]) &&
-        ModelValidationUtils.IsUiAtomicAttributeName(pieces[1]);
+      if (ModelValidationUtils.IsUiElementName(pieces[0]) && ModelValidationUtils.IsUiAtomicAttributeName(pieces[1])) {
+        ownerClassDefName = pieces[0];
+        attrName = pieces[1];
+        return true;
+      }
+
+      return false;
     }
   }
 }

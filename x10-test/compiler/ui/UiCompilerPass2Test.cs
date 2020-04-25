@@ -154,14 +154,38 @@ namespace x10.compiler {
             },
           },
         },
-        
+
         #endregion
+
+        #region With Attached Property
+        new ClassDefNative() {
+          Name = "WithAttached",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "myAttached",
+              DataType = DataTypes.Singleton.Integer,
+              IsAttached = true,
+            },
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          },
+        },
+        #endregion
+
+        #region Application Specific
         new ClassDefNative() {
           Name = "RoomViewer3D",
           ComponentDataModel = _allEntities.FindEntityByName("Room"),
           IsMany = false,
           InheritsFrom = ClassDefNative.Visual,
         },
+        #endregion 
+
         ClassDefNative.RawHtml,
         ClassDefNative.State,
       };
@@ -443,6 +467,20 @@ namespace x10.compiler {
 </Outer>
 ",
       "Unknown attribute 'foo' on Class Definition 'Outer'", 2, 57);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
+    public void ChildContentInComponentWithNoPrimaryAttribute() {
+      RunTest(@"
+<Outer description='My description...'>
+  <TextEdit>
+    <HelpIcon/>
+  </TextEdit>
+</Outer>
+",
+      "Class Definition 'TextEdit' does not define a Primary Attribute, yet has child elements.", 3, 4);
 
       Assert.Single(_messages.Messages);
     }
@@ -804,6 +842,62 @@ namespace x10.compiler {
 ",
       "Could not identify UI Component for Association 'apartments' of Entity 'Building'",
       3, 4);
+
+      Assert.Single(_messages.Messages);
+    }
+    #endregion
+
+    #region Attached Attributes
+
+    [Fact]
+    public void AttachedAttributeSuccess() {
+      ClassDefX10 definition = RunTest(@"
+<Outer description='My description...' model='Building'>
+  <WithAttached>
+    <apartmentCount WithAttached.myAttached='1'/>
+  </WithAttached>
+</Outer>
+");
+
+      Assert.Empty(_messages.Messages);
+
+      string result = Print(definition);
+      Assert.Equal(@"<Outer description='My description...' model='Building'>
+  <WithAttached>
+    <apartmentCount WithAttached.myAttached='1'/>
+  </WithAttached>
+</Outer>
+", result);
+    }
+
+    [Fact]
+    public void AttachedAttributeSuccessBadEntity() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <WithAttached>
+    <apartmentCount BadEntity.myAttached='1'/>
+  </WithAttached>
+</Outer>
+
+",
+      "UI Component 'BadEntity' not found",
+      4, 21);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
+    public void AttachedAttributeSuccessBadAttribute() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <WithAttached>
+    <apartmentCount WithAttached.badAttribute='1'/>
+  </WithAttached>
+</Outer>
+
+",
+      "Atomic attribute 'badAttribute' not found on Class Definition 'WithAttached'",
+      4, 21);
 
       Assert.Single(_messages.Messages);
     }
