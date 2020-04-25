@@ -36,9 +36,9 @@ namespace x10.compiler {
     }
 
     internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {
-      IEnumerable<UiAttributeDefinition> classDefAttrs = instance.RenderAs?.AtomicAttributeDefinitions;
+      IEnumerable<UiAttributeDefinitionAtomic> classDefAttrs = instance.RenderAs?.AtomicAttributeDefinitions;
       bool classDefKnown = classDefAttrs != null;
-      IEnumerable<UiAttributeDefinition> allAttrs = classDefKnown ?
+      IEnumerable<UiAttributeDefinitionAtomic> allAttrs = classDefKnown ?
         UiAttributeDefinitions.All.Concat(classDefAttrs) :
         UiAttributeDefinitions.All;
 
@@ -54,21 +54,21 @@ namespace x10.compiler {
       ) {
 
       foreach (string attributeName in attributeNames) {
-        UiAttributeDefinition attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
+        UiAttributeDefinitionAtomic attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
         ReadAttribute(modelComponent, attrDef);
       }
     }
 
     private void ReadAttributesPrivate(UiAppliesTo appliesTo,
       IAcceptsUiAttributeValues modelComponent,
-      IEnumerable<UiAttributeDefinition> attrDefs,
+      IEnumerable<UiAttributeDefinitionAtomic> attrDefs,
       string[] attributesToExclude,
       bool errorOnUnknownAttributes) {
 
-      IEnumerable<UiAttributeDefinition> applicableAttrDefs = attrDefs.Where(x => x.AppliesToType(appliesTo));
-      IEnumerable<UiAttributeDefinition> applicableMinusExcluded = applicableAttrDefs.Where(x => !attributesToExclude.Contains(x.Name));
+      IEnumerable<UiAttributeDefinitionAtomic> applicableAttrDefs = attrDefs.Where(x => x.AppliesToType(appliesTo));
+      IEnumerable<UiAttributeDefinitionAtomic> applicableMinusExcluded = applicableAttrDefs.Where(x => !attributesToExclude.Contains(x.Name));
 
-      foreach (UiAttributeDefinition attrDef in applicableMinusExcluded)
+      foreach (UiAttributeDefinitionAtomic attrDef in applicableMinusExcluded)
         ReadAttribute(modelComponent, attrDef);
 
       if (errorOnUnknownAttributes)
@@ -77,7 +77,7 @@ namespace x10.compiler {
 
     private void ReadAttribute(
       IAcceptsUiAttributeValues modelComponent,
-      UiAttributeDefinition attrDef) {
+      UiAttributeDefinitionAtomic attrDef) {
 
       // Error if mandatory attribute missing
       XmlElement xmlElement = modelComponent.XmlElement;
@@ -113,7 +113,7 @@ namespace x10.compiler {
       }
     }
 
-    private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinition> applicableAttrDefs) {
+    private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinitionAtomic> applicableAttrDefs) {
       HashSet<string> validAttributeNames = new HashSet<string>(applicableAttrDefs.Select(x => x.Name));
 
       foreach (XmlAttribute xmlAttribute in modelComponent.XmlElement.Attributes) {
@@ -145,7 +145,7 @@ namespace x10.compiler {
       }
     }
 
-    private object ParseAttributeAndAddToInstance(UiAttributeDefinition attrDef, XmlAttribute xmlAttribute, IAcceptsUiAttributeValues modelComponent) {
+    private object ParseAttributeAndAddToInstance(UiAttributeDefinitionAtomic attrDef, XmlAttribute xmlAttribute, IAcceptsUiAttributeValues modelComponent) {
       object typedValue = attrDef.DefaultValue;
       string formula = null;
 
@@ -164,9 +164,7 @@ namespace x10.compiler {
         throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
 
       if (xmlAttribute != null) {   // It is null if default was used
-        // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
-        // this is the only way we can track where the attribute came from in the code.
-        UiAttributeValueAtomic attrValue = (UiAttributeValueAtomic)attrDef.CreateValueAndAddToOwner(modelComponent, xmlAttribute.Value);
+        UiAttributeValueAtomic attrValue = attrDef.CreateValueAndAddToOwnerAtomic(modelComponent, xmlAttribute.Value);
         attrValue.Value = typedValue;
         attrValue.Formula = formula;
 

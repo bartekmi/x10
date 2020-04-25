@@ -14,8 +14,8 @@ namespace x10.compiler {
 
   public static class UiAttributeDefinitions {
 
-    public static UiAttributeDefinition FindAttribute(UiAppliesTo appliesTo, string attributeName) {
-      UiAttributeDefinition attrDef = All.SingleOrDefault(x => 
+    public static UiAttributeDefinitionAtomic FindAttribute(UiAppliesTo appliesTo, string attributeName) {
+      UiAttributeDefinitionAtomic attrDef = All.SingleOrDefault(x => 
         x.AppliesToType(appliesTo) && x.Name == attributeName);
 
       if (attrDef == null)
@@ -25,7 +25,7 @@ namespace x10.compiler {
       return attrDef;
     }
 
-    public static List<UiAttributeDefinition> All = new List<UiAttributeDefinition>() {
+    public static List<UiAttributeDefinitionAtomic> All = new List<UiAttributeDefinitionAtomic>() {
 
       //=========================================================================
       // Calss Definition (ClassDef)
