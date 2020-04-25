@@ -56,8 +56,8 @@
         <List addItemLabel="Add row" path="bookingHsCodes">
           <Grid>
             <Grid.Columns>
-              <Column fraction="1"/>
-              <Column width="100"/>
+              <GridColumn fraction="1"/>
+              <GridColumn width="100"/>
             </Grid.Columns>
             <!-- If rows not specified, assume all "auto" rows -->
 

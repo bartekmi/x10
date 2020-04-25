@@ -180,6 +180,8 @@ namespace x10.ui.libraries {
       #endregion
 
       #region Layout Components
+
+      #region Vertical
       new ClassDefNative() {
           Name = "VerticalStackPanel",
           InheritsFrom = ClassDefNative.Visual,
@@ -192,19 +194,10 @@ namespace x10.ui.libraries {
             },
           }
         },
-        new ClassDefNative() {
-          Name = "PackingLayout",
-          InheritsFrom = ClassDefNative.Visual,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionComplex() {
-              IsPrimary = true,
-              Name = "Children",
-              IsMany = true,
-              ComplexAttributeType = ClassDefNative.Visual,
-            },
-          }
-        },
-        new ClassDefNative() {
+      #endregion
+      
+      #region Horizontal
+      new ClassDefNative() {
           Name = "Row",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -218,6 +211,21 @@ namespace x10.ui.libraries {
         },
         new ClassDefNative() {
           Name = "RepellingRow",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          }
+        },
+      #endregion
+
+      #region 2-Dimensional
+      new ClassDefNative() {
+          Name = "PackingLayout",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
@@ -243,12 +251,27 @@ namespace x10.ui.libraries {
             new UiAttributeDefinitionComplex() {
               Name = "Columns",
               IsMany = true,
-              ComplexAttributeTypeName = "Column",
+              ComplexAttributeTypeName = "GridColumn",
+            },
+            new UiAttributeDefinitionComplex() {
+              Name = "Rows",
+              IsMany = true,
+              ComplexAttributeTypeName = "GridRow",
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "column",
+              IsAttached = true,
+              DataType = DataTypes.Singleton.Integer,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "row",
+              IsAttached = true,
+              DataType = DataTypes.Singleton.Integer,
             },
           }
         },
         new ClassDefNative() {
-          Name = "Column",
+          Name = "GridColumn",
           InheritsFrom = ClassDefNative.Object,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
@@ -261,7 +284,23 @@ namespace x10.ui.libraries {
             },
           },
         },
+        new ClassDefNative() {
+          Name = "GridRow",
+          InheritsFrom = ClassDefNative.Object,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "height",
+              DataType = DataTypes.Singleton.Float,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "fraction",
+              DataType = DataTypes.Singleton.Float,
+            },
+          },
+        },
       #endregion
+      #endregion
+
       #endregion
 
       #region List
