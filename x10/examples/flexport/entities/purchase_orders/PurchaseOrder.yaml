@@ -24,6 +24,11 @@ attributes:
     dataType: PurchaseOrderProgress
     readOnly: true
 
+# TODO: We'd like to have "derived attributes" which are associatoins
+#derivedAttributes:
+#  - name: otherParty
+#    formula: 
+
 enums:
   - name: PurchaseOrderState
     values: open, closed, cancelled

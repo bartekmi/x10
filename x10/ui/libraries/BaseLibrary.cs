@@ -60,6 +60,11 @@ namespace x10.ui.libraries {
           Name = "Label",
           InheritsFrom = ClassDefNative.Visual,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "Content",
+              IsPrimary = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
             new UiAttributeDefinitionAtomic() {
               Name = "text",
               DataType = DataTypes.Singleton.String,
@@ -471,6 +476,21 @@ namespace x10.ui.libraries {
           // TODO: Add cross-validation... Either action or url must be provided
         },
         new ClassDefNative() {
+          Name = "SelectableButton",
+          InheritsFromName = "Button",
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "selected",
+              DataType = DataTypes.Singleton.Boolean,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "onSelect",
+              // TODO: Consider introducing a new data-type: EventHandler
+              DataType = DataTypes.Singleton.String,
+            },
+          },
+        },
+        new ClassDefNative() {
           Name = "HollowButton",
           InheritsFromName = "Button",
         },
@@ -567,7 +587,7 @@ namespace x10.ui.libraries {
 
       #region Primordial Components (Not Abstract)
       ClassDefNative.RawHtml,
-        ClassDefNative.State,
+      ClassDefNative.State,
       #endregion
     };
 

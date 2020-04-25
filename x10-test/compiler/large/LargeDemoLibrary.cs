@@ -8,7 +8,6 @@ using x10.ui.metadata;
 namespace x10.compiler {
   public class LargeDemoLibrary {
 
-
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
         new ClassDefNative() {
           Name = "Metadata",
@@ -58,6 +57,14 @@ namespace x10.compiler {
         new ClassDefNative() {
           Name = "Filters",
           InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+          }
         },
         new ClassDefNative() {
           Name = "ShipmentProgressIndicator",

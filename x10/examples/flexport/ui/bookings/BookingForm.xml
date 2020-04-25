@@ -15,8 +15,8 @@
       <FormSection label="Involved Parties">
         <Label text="What is your role in this trade?" mandatory="true">
           <Row>
-            <SelectableButton label="Shipper" selected="=isShipperBooking" onSelectClick="selectShipperBooking"/>
-            <SelectableButton label="Consignee" selected="=isConsigneeBooking" onSelectClick="selectConsigneeBooking"/>
+            <SelectableButton label="Shipper" selected="=isShipperBooking" onSelect="selectShipperBooking"/>
+            <SelectableButton label="Consignee" selected="=isConsigneeBooking" onSelect="selectConsigneeBooking"/>
           </Row>
         </Label>
         <shipper/>

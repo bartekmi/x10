@@ -24,9 +24,9 @@
             </Button>
 
             <Filters>
-              <MABD/>
-              <cargoReadyDate/>
-              <otherParty/>
+              <mustArriveBy/>
+              <cargoReadyBy/>
+              <!--<otherParty/>-->
             </Filters>
 
             <FilterMultiSelect label="Progress" path="progress"/>
