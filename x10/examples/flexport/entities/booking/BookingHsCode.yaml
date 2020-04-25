@@ -16,3 +16,4 @@ associations:
   - name: hsCode
     dataType: HsCode
     mandatory: true
+    ui: AssociationEditor

@@ -29,19 +29,20 @@ namespace x10.compiler {
     }
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
-      ReadAttributesPrivate(UiAppliesTo.ClassDef, classDef, UiAttributeDefinitions.All, new string[0]);
+      ReadAttributesPrivate(UiAppliesTo.ClassDef, classDef, UiAttributeDefinitions.All, new string[0], true);
     }
 
     internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {
       IEnumerable<UiAttributeDefinition> classDefAttrs = instance.RenderAs?.AtomicAttributeDefinitions;
-      IEnumerable<UiAttributeDefinition> allAttrs = classDefAttrs == null ?
-        UiAttributeDefinitions.All :
-        UiAttributeDefinitions.All.Concat(classDefAttrs);
+      bool classDefKnown = classDefAttrs != null;
+      IEnumerable<UiAttributeDefinition> allAttrs = classDefKnown ?
+        UiAttributeDefinitions.All.Concat(classDefAttrs) :
+        UiAttributeDefinitions.All;
 
 
       UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
 
-      ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude);
+      ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude, classDefKnown);
     }
 
     internal void ReadSpecificAttributes(IAcceptsUiAttributeValues modelComponent,
@@ -55,18 +56,20 @@ namespace x10.compiler {
       }
     }
 
-    private void ReadAttributesPrivate(UiAppliesTo appliesTo, 
-      IAcceptsUiAttributeValues modelComponent, 
+    private void ReadAttributesPrivate(UiAppliesTo appliesTo,
+      IAcceptsUiAttributeValues modelComponent,
       IEnumerable<UiAttributeDefinition> attrDefs,
-      string[] attributesToExclude) {
+      string[] attributesToExclude,
+      bool errorOnUnknownAttributes) {
 
       IEnumerable<UiAttributeDefinition> applicableAttrDefs = attrDefs.Where(x => x.AppliesToType(appliesTo));
       IEnumerable<UiAttributeDefinition> applicableMinusExcluded = applicableAttrDefs.Where(x => !attributesToExclude.Contains(x.Name));
 
       foreach (UiAttributeDefinition attrDef in applicableMinusExcluded)
-          ReadAttribute(modelComponent, attrDef);
+        ReadAttribute(modelComponent, attrDef);
 
-      ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
+      if (errorOnUnknownAttributes)
+        ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
     }
 
     public static bool IsFormula(string valueOrFormula) {

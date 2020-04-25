@@ -21,7 +21,7 @@ namespace x10.ui.composition {
         return;
 
       writer.Write(" ");
-      writer.Write("{0}='{1}'", Definition.Name, Value);
+      writer.Write("{0}='{1}'", Definition.Name, Formula == null ? Value : Formula);
     }
 
     public override string ToString() {

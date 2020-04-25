@@ -21,3 +21,4 @@ enums:
 associations:
   - name: submittedBy
     dataType: User
+    ui: AssociationEditor

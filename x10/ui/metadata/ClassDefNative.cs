@@ -33,6 +33,11 @@ namespace x10.ui.metadata {
               DataType = DataTypes.Singleton.Boolean,
               DefaultValue = true,
             },
+            new UiAttributeDefinitionAtomic() {
+              Name = "mandatory",
+              DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = true,
+            },
           }
     };
 
@@ -41,7 +46,6 @@ namespace x10.ui.metadata {
       Description = "A placeholder within which you can put raw HTML which will be rendered in the UI. No validation will be performed by the compiler.",
       InheritsFrom = Visual,
     };
-
 
     public static ClassDefNative State = new ClassDefNative() {
       Name = "State",

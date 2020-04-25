@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.ui.composition;
 using x10.ui.metadata;
 
 namespace x10.ui.libraries {
@@ -64,9 +65,9 @@ namespace x10.ui.libraries {
               DataType = DataTypes.Singleton.String,
             },
             new UiAttributeDefinitionAtomic() {
-              Name = "mandatory",
-              DataType = DataTypes.Singleton.Boolean,
-              DefaultValue = false,
+              Name = "mandatoryIndicator",
+              DataType = new DataTypeEnum(new string[] {"none", "mandatory", "optional" }),
+              DefaultValue = "none",
             },
             new UiAttributeDefinitionAtomic() {
               Name = "toolTip",
@@ -108,65 +109,74 @@ namespace x10.ui.libraries {
 
       #region Atomic Edit Components
       new ClassDefNative() {
-          Name = "TextEdit",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
-        },
-        new ClassDefNative() {
-          Name = "TextArea",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
-        },
-        new ClassDefNative() {
-          Name = "IntEdit",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Integer,
-        },
-        new ClassDefNative() {
-          Name = "FloatEdit",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Integer,
-        },
-        new ClassDefNative() {
-          Name = "Checkbox",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Boolean,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "checked",
-              DataType = DataTypes.Singleton.Boolean,
-            },
+        Name = "TextEdit",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.String,
+      },
+      new ClassDefNative() {
+        Name = "TextArea",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.String,
+      },
+      new ClassDefNative() {
+        Name = "IntEdit",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Integer,
+      },
+      new ClassDefNative() {
+        Name = "FloatEdit",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Integer,
+      },
+      new ClassDefNative() {
+        Name = "Checkbox",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Boolean,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "checked",
+            DataType = DataTypes.Singleton.Boolean,
           },
         },
-        new ClassDefNative() {
-          Name = "BooleanViaButtons",
-          InheritsFrom = ClassDefNative.Visual,
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Boolean,
-        },
-        new ClassDefNative() {
-          Name = "DateEditor",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Date,
-        },
-        new ClassDefNative() {
-          Name = "TimestampEditor",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.Timestamp,
-        },
-        new ClassDefNative() {
-          Name = "DropDown",
-          InheritsFromName = "Text",
-          IsMany = false,
-          AtomicDataModel = new DataTypeEnum(),
-        },
+      },
+      new ClassDefNative() {
+        Name = "BooleanViaButtons",
+        InheritsFrom = ClassDefNative.Visual,
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Boolean,
+      },
+      new ClassDefNative() {
+        Name = "DateEditor",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Date,
+      },
+      new ClassDefNative() {
+        Name = "TimestampEditor",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Timestamp,
+      },
+      new ClassDefNative() {
+        Name = "DropDown",
+        InheritsFromName = "Text",
+        IsMany = false,
+        AtomicDataModel = new DataTypeEnum(),
+      },
+      #endregion
+
+      #region Association Edit Components
+      new ClassDefNative() {
+        Name = "AssociationEditor",
+        InheritsFrom = ClassDefNative.Visual,
+        IsMany = false,
+      },
+
       #endregion
 
       #region Layout Components

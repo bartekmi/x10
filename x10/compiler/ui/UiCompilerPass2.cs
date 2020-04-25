@@ -458,6 +458,11 @@ namespace x10.compiler {
           classDefForModelRef = member.Ui;
         else if (member is X10Attribute attribute)
           classDefForModelRef = _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
+        else if (member is Association)
+          _messages.AddError(modelReference.XmlElement, "Could not identify UI Component for Association '{0}' of Entity '{1}'",
+            member.Name, member.Owner.Name);
+        else
+          throw new Exception("Unexpected member type: " + member.GetType().Name);
       }
 
       modelReference.RenderAs = classDefForModelRef;

@@ -38,10 +38,13 @@ associations:
     many: true
   - name: origin
     dataType: ShipmentLocation
+    ui: AssociationEditor
   - name: finalDestination
     dataType: ShipmentLocation
+    ui: AssociationEditor
   - name: supplier
     dataType: Company
+    ui: AssociationEditor
   - name: users
     dataType: ShipmentUser
     many: true

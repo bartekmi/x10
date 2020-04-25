@@ -552,12 +552,11 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void ModelRefResolution() {
+    public void ModelRefWithAttributes() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent model='Building'>
   <VerticalGroup>
-    <name/>
-    <hasUndergroundParking/>
+    <hasUndergroundParking visible='=apartments.count > 10'/>
   </VerticalGroup>
 </MyComponent>
 ");
@@ -567,8 +566,7 @@ namespace x10.compiler {
 
       Assert.Equal(@"<MyComponent model='Building'>
   <VerticalGroup>
-    <name renderAs='TextEdit'/>
-    <hasUndergroundParking renderAs='Checkbox'/>
+    <hasUndergroundParking visible='=apartments.count > 10' renderAs='Checkbox'/>
   </VerticalGroup>
 </MyComponent>
 ", result);
@@ -795,7 +793,19 @@ namespace x10.compiler {
   </VerticalGroup>
 </Outer>
 ", result);
+    }
 
+    [Fact]
+    public void ModelRefForAssociationWithNoUi() {
+      RunTest(@"
+<Outer description='My description...' model='Building'>
+  <apartments/>
+</Outer>
+",
+      "Could not identify UI Component for Association 'apartments' of Entity 'Building'",
+      3, 4);
+
+      Assert.Single(_messages.Messages);
     }
     #endregion
 

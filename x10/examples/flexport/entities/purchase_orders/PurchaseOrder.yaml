@@ -33,6 +33,8 @@ enums:
 associations:
   - name: seller
     dataType: Company
+    ui: AssociationEditor
   - name: buyer
     dataType: Company
+    ui: AssociationEditor
   

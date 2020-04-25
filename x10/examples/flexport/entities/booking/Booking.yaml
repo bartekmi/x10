@@ -134,18 +134,24 @@ associations:
   - name: shipper
     dataType: Company
     mandatory: true
+    ui: AssociationEditor
   - name: consignee
     dataType: Company
     mandatory: true
+    ui: AssociationEditor
   - name: originLocation
     dataType: Location
     mandatory: true
+    ui: AssociationEditor
   - name: originPort
     dataType: Port
+    ui: AssociationEditor
   - name: destinationLocation
     dataType: Location
+    ui: AssociationEditor
   - name: destinationPort
     dataType: Port
+    ui: AssociationEditor
   - name: cargo
     dataType: Cargo
     owns: true
