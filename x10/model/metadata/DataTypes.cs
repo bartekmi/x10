@@ -17,6 +17,7 @@ namespace x10.model.metadata {
 
     public readonly DataType Integer;
     public readonly DataType Float;
+    public readonly DataType Money;
     public readonly DataType String;
     public readonly DataType Boolean;
     public readonly DataType Date;
@@ -72,11 +73,12 @@ namespace x10.model.metadata {
 
 
       // Constants for the "regular" data types
-      Integer = Find("Integer");
-      Float = Find("Float");
-      String = Find("String");
       Boolean = Find("Boolean");
       Date = Find("Date");
+      Float = Find("Float");
+      Integer = Find("Integer");
+      Money = Find("Money");
+      String = Find("String");
       Timestamp = Find("Timestamp");
     }
 

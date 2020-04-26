@@ -10,7 +10,15 @@ namespace x10.model.metadata {
 
   public static class ModelAttributeDefinitions {
 
-    public static List<ModelAttributeDefinition> All = new List<ModelAttributeDefinition>() {
+    public static List<ModelAttributeDefinition> All { get; private set; }
+
+    static ModelAttributeDefinitions() {
+      All = new List<ModelAttributeDefinition>();
+      All.AddRange(_baseAttributes);
+      All.AddRange(_sqlGeneration);
+    }
+
+    private static List<ModelAttributeDefinition> _baseAttributes = new List<ModelAttributeDefinition>() {
       //============================================================================
       // Misc
       new ModelAttributeDefinition() {
@@ -101,6 +109,14 @@ Typical use would be if entities are going to be represented on a drop-down.",
           // FUTURE: Validate the formula
         },
       },
+      new ModelAttributeDefinition() {
+        Name = "abstract",
+        Description = "Only serves as base class for other Entities",
+        AppliesTo = AppliesTo.Entity,
+        DataType = DataTypes.Singleton.Boolean,
+        DefaultIfMissing = false,
+        Setter = "IsAbstract",
+      },
 
       //============================================================================
       // Attribute & Association
@@ -180,7 +196,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           if (attr.DataType == null)
             return;
 
-          ModelAttributeValue defaultValue = AttributeUtils.FindAttribute(attr, "default");
+          ModelAttributeValue defaultValue = attr.FindAttribute("default");
           attr.DefaultValue = attr.DataType.Parse(attr.DefaultValueAsString, messages, defaultValue.TreeElement, "default");
         },
       },
@@ -297,7 +313,6 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "IconName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();
-          // FUTURE - we probably need to introduce the concept of an icon library
         }
       },
     };
@@ -305,5 +320,20 @@ Typical use would be if entities are going to be represented on a drop-down.",
     public static ModelAttributeDefinition Find(AppliesTo appliesTo, string name) {
       return All.SingleOrDefault(x => x.AppliesToType(appliesTo) && x.Name == name);
     }
+
+    #region SQL Generation
+    // FUTURE: This type of thing shold be MEF'ed-in
+    public const string SQL_DO_NOT_GENERATE = "sqlDoNotGenerate";
+    private static IEnumerable<ModelAttributeDefinition> _sqlGeneration =
+       new List<ModelAttributeDefinition>() {
+        new ModelAttributeDefinition() {
+          Name = SQL_DO_NOT_GENERATE,
+          Description = @"By default, an SQL table and data is generated for Entites. Prevent this behavior by setting this property to True.",
+          AppliesTo = AppliesTo.Entity,
+          DataType = DataTypes.Singleton.Boolean,
+          DefaultIfMissing = false,
+        },
+      };
+    #endregion
   }
 }

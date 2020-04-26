@@ -19,7 +19,7 @@
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
             <Row>
-              <flexId weight="bold"/>
+              <shipment.flexId weight="bold"/>
               <Bullet/>
               <name/>
             </Row>

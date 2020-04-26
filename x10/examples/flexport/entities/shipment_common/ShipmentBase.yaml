@@ -1,10 +1,8 @@
 name: ShipmentBase
 description: Captures shared attributes and associations for <Shipment> and <QuoteRequest>
+abstract: true
 
 attributes:
-  - name: flexId
-    dataType: String
-    readOnly: true
   - name: name
     dataType: String
     mandatory: true
@@ -22,6 +20,11 @@ attributes:
     dataType: Date
     mandatory: true
 
+derivedAttributes:
+  - name: flexId
+    dataType: String
+    formula: 'Flex-#{id}'
+
 associations:
   - name: shipper
     dataType: Company
@@ -29,13 +32,6 @@ associations:
     dataType: Company
   - name: cargo
     dataType: Cargo
-  - name: metadata
-    dataType: MetadataValue
-    many: true
-    ui: Metadata
-  - name: tasks
-    dataType: Task
-    many: true
   - name: origin
     dataType: ShipmentLocation
     ui: AssociationEditor
@@ -45,7 +41,15 @@ associations:
   - name: supplier
     dataType: Company
     ui: AssociationEditor
+
   - name: users
     dataType: ShipmentUser
+    many: true
+  - name: metadata
+    dataType: MetadataValue
+    many: true
+    ui: Metadata
+  - name: tasks
+    dataType: Task
     many: true
 

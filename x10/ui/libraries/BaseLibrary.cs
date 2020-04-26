@@ -123,7 +123,7 @@ namespace x10.ui.libraries {
         Name = "TextArea",
         InheritsFromName = "Text",
         IsMany = false,
-        AtomicDataModel = DataTypes.Singleton.String,
+        AtomicDataModel = DataTypes.Singleton.String,   
       },
       new ClassDefNative() {
         Name = "IntEdit",

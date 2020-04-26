@@ -13,7 +13,7 @@ namespace x10.compiler {
       MessageBucket messages,
       string errorMessageWithPlaceholder) {
 
-      var collisions = elements.GroupBy(x => AttributeUtils.FindValue(x, uniqueAttribute))
+      var collisions = elements.GroupBy(x => x.FindValue(uniqueAttribute))
         .Where(g => g.Count() > 1);
 
       foreach (var collision in collisions) {
@@ -21,7 +21,7 @@ namespace x10.compiler {
           if (collision.Key == null)
             continue;
 
-          ModelAttributeValue attribute = AttributeUtils.FindAttribute(element, uniqueAttribute);
+          ModelAttributeValue attribute = element.FindAttribute(uniqueAttribute);
           messages.AddError(attribute.TreeElement,
             String.Format(errorMessageWithPlaceholder, collision.Key));
         }

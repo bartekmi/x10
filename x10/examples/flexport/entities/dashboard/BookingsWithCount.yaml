@@ -1,5 +1,6 @@
 ﻿name: BookingsWithCount
 description: First 'N' list of Bookings plus total count
+sqlDoNotGenerate: true
 
 attributes:
   - name: count

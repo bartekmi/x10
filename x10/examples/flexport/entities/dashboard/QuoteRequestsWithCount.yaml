@@ -1,5 +1,6 @@
 ﻿name: QuoteRequestsWithCount
 description: First 'N' list of Quote Requests plus total count
+sqlDoNotGenerate: true
 
 attributes:
   - name: count

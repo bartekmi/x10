@@ -2,10 +2,6 @@ name: Booking
 description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
 
 attributes:
-  - name: flexId
-    dataType: String
-    readOnly: true
-
   - name: name
     dataType: String
     mandatory: true
@@ -131,6 +127,9 @@ enums:
         icon: ticket
 
 associations:
+  - name: shipment
+    dataType: Shipment
+    ui: AssociationEditor
   - name: shipper
     dataType: Company
     mandatory: true

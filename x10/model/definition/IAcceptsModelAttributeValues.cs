@@ -14,15 +14,22 @@ namespace x10.model.definition {
     TreeElement TreeElement { get; }
   }
 
-  public static class AttributeUtils {
-    public static object FindValue(IAcceptsModelAttributeValues source, string attributeName) {
+  public static class IAcceptsUiAttributeValuesExtensions {
+    public static object FindValue(this IAcceptsModelAttributeValues source, string attributeName) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
       return value?.Value;
     }
 
-    public static ModelAttributeValue FindAttribute(IAcceptsModelAttributeValues source, string attributeName) {
+    public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {
       return source.AttributeValues
         .FirstOrDefault(x => x.Definition.Name == attributeName);
+    }
+
+    public static bool FindBoolean(this IAcceptsModelAttributeValues source, string attrName, bool defaultIfNotFound) {
+      object value = FindValue(source, attrName);
+      if (!(value is bool))
+        return defaultIfNotFound;
+      return (bool)value;
     }
   }
 }

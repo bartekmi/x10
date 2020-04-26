@@ -1,5 +1,6 @@
 ﻿name: ExceptionsWithCount
 description: First 'N' list of Exceptions plus total count
+sqlDoNotGenerate: true
 
 attributes:
   - name: count

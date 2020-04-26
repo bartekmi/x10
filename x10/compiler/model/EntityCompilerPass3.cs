@@ -26,7 +26,7 @@ namespace x10.compiler {
     }
 
     private ClassDef FindUiComponentWithError(string uiName, ModelComponent modelComponent) {
-      ModelAttributeValue attrUi = AttributeUtils.FindAttribute(modelComponent, "ui");
+      ModelAttributeValue attrUi = modelComponent.FindAttribute("ui");
       if (attrUi == null)
         return null;
 

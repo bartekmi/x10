@@ -52,7 +52,7 @@ customField: My custom value
 
       Assert.Equal("Tmp", entity.Name);
       Assert.Equal("My description...", entity.Description);
-      Assert.Equal("My custom value", AttributeUtils.FindValue(entity, "customField"));
+      Assert.Equal("My custom value", entity.FindValue("customField"));
     }
 
     [Fact]

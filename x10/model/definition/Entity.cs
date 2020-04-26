@@ -17,6 +17,7 @@ namespace x10.model.definition {
 
     public String InheritsFromName { get; set; }
     public string UiName { get; set; }
+    public bool IsAbstract { get; set; }
 
     // Derived
     public IEnumerable<Member> Members {
