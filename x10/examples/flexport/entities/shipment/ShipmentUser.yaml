@@ -7,7 +7,9 @@ attributes:
 associations:
   - name: user
     dataType: User
-  - name: shipment
-    dataType: Shipment
+
+# TODO: Having this here, blows up SQL Schema generation, although it should be harmless
+#  - name: shipment
+#    dataType: Shipment
 
 enums:
