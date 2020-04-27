@@ -22,3 +22,6 @@
     - value: high
       icon: lightning
 
+- name: CountryCode
+  values: US, CN, CA, DE
+

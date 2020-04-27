@@ -21,7 +21,7 @@ namespace x10.gen.sql {
 
     public static void Generate(IEnumerable<Entity> entities, string filename) {
       entities = entities.Where(x =>
-        !x.FindBoolean(ModelAttributeDefinitions.SQL_DO_NOT_GENERATE, false) &&
+        !x.FindBoolean(DataGenLibrary.SQL_DO_NOT_GENERATE, false) &&
         !x.IsAbstract &&
         x.Name != ModelValidationUtils.CONTEXT_ENTITY_NAME);
 

@@ -25,12 +25,14 @@ namespace x10.gen.sql {
     }
 
     [Fact]
-    public void CompileEntityFiles() {
+    public void GenerateSqlSchema() {
       string INPUT_DIR = "../../../../x10/examples/flexport";
       string OUTPUT_FILE = @"C:\TEMP\x10_schema.sql";
 
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
+
+      Assert.False(_messages.HasErrors);
 
       SqlSchemaGenerator.Generate(entities, OUTPUT_FILE);
     }
