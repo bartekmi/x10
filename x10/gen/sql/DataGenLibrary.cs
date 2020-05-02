@@ -48,12 +48,6 @@ namespace x10.gen.sql {
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "datagen_by_percentage",
-        Description = @"Percentage-based generation strategy",
-        AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.Singleton.String,
-      },
-      new ModelAttributeDefinitionAtomic() {
         Name = "datagen_from_source",
         Description = @"Extract data referring to a previously named source",
         AppliesTo = AppliesTo.Attribute,
