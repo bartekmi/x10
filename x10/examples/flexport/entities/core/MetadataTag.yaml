@@ -5,7 +5,9 @@ attributes:
   - name: label
     dataType: String
     mandatory: true
+    datagen_pattern: (PO | SKU | Ref | TRK)
 
 associations:
   - name: company
+    mandatory: true
     dataType: Company

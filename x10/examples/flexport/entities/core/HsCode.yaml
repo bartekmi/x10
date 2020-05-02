@@ -6,6 +6,9 @@ description: >
 attributes:
   - name: hsCode
     dataType: String
+    datagen_pattern: DD.DD.DD.DD
+    datagen_unique: true
 
   - name: description
     dataType: String
+    datagen_pattern: (50% => <adjective> <plural-noun>; 50% => <plural-noun>)

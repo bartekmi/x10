@@ -176,7 +176,7 @@ namespace x10.compiler {
     }
 
 
-    public static bool IsFormula(string valueOrFormula) {
+    private static bool IsFormula(string valueOrFormula) {
       return valueOrFormula.Trim().StartsWith("=");
     }
 

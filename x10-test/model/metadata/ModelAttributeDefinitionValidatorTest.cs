@@ -17,7 +17,7 @@ namespace x10.model.metadata {
     [Fact]
     public void ValidatePresenceOfSetter() {
       List<ModelAttributeDefinition> definitions = new List<ModelAttributeDefinition>() {
-        new ModelAttributeDefinition() {
+        new ModelAttributeDefinitionAtomic() {
           Name = "missing",
           AppliesTo = AppliesTo.Entity | AppliesTo.EnumType,
           Setter = "NoSuchSetter",
@@ -36,11 +36,11 @@ namespace x10.model.metadata {
     [Fact]
     public void ValidateNoDuplicates() {
       List<ModelAttributeDefinition> definitions = new List<ModelAttributeDefinition>() {
-        new ModelAttributeDefinition() {
+        new ModelAttributeDefinitionAtomic() {
           Name = "duplicate",
           AppliesTo = AppliesTo.Entity | AppliesTo.EnumType,
         },
-        new ModelAttributeDefinition() {
+        new ModelAttributeDefinitionAtomic() {
           Name = "duplicate",
           AppliesTo = AppliesTo.EnumType | AppliesTo.EnumValue 
         }

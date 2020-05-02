@@ -4,8 +4,5 @@ description: Any document for any purpose associated with any entity
 attributes:
   - name: originalFilename
     dataType: String
+    datagen_pattern: <adjective>_<nount>_document.(75% => pdf; 25% => jpg)
 
-#associations:
-# Pending interface types
-#  - name: owner
-#    dataType: Shipment, Booking, Quote

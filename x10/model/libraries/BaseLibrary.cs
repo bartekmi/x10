@@ -28,7 +28,7 @@ namespace x10.model.libraries {
     private static List<ModelAttributeDefinition> _attributes = new List<ModelAttributeDefinition>() {
       //============================================================================
       // Misc
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
@@ -37,13 +37,13 @@ namespace x10.model.libraries {
         DataType = DataTypes.Singleton.String,
         Setter = "Description",
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "label",
         Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "ui",
         Description = "The default UI element to render this type of item",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
@@ -54,22 +54,30 @@ namespace x10.model.libraries {
           ModelValidationUtils.ValidateUiElementName(value, scalarNode, messages);
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "toolTip",
         Description = "The default UI Tool Tipe for this type of item",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "applicableWhen",
         Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
         AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
       },
+      new ModelAttributeDefinitionComplex() {
+        Name = "validations",
+        Description = "A list of validations at the Entity, Attribute or Association level",
+        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.Entity,
+        ParseFunction = (messages, treeElement) => {
+          return null;
+        },
+      },
 
       //============================================================================
       // Entity
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "name",
         Description = "The name of the model. Must be upper-case and match the filename of the file where it is defined. This is the tag used everywhere else to refer to the model",
         AppliesTo = AppliesTo.Entity,
@@ -90,7 +98,7 @@ namespace x10.model.libraries {
           }
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "inheritsFrom",
         Description = "Optional parent entity name from which this entity 'inherits' all attributes and associations. The classic case is that Mouse and Lion would both inherit from Animal.",
         AppliesTo = AppliesTo.Entity,
@@ -104,7 +112,7 @@ namespace x10.model.libraries {
           entity.InheritsFrom = allEntities.FindEntityByNameWithError(entity.InheritsFromName, attributeValue.TreeElement);
         },
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "defaultStringRepresentation",
         Description = @"A formula expressed in terms of the members of this Entity to show 
 a default string representation of instances. Can recursively use associations if desired.
@@ -116,7 +124,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           // FUTURE: Validate the formula
         },
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "abstract",
         Description = "Only serves as base class for other Entities",
         AppliesTo = AppliesTo.Entity,
@@ -127,7 +135,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
       //============================================================================
       // Attribute & Association
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "name",
         Description = "The name of the attribute or association. Must be lower-case. This is the tag used everywhere else to refer to it",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association | AppliesTo.DerivedAttribute,
@@ -149,7 +157,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           }
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "mandatory",
         Description = "Specifies whether an Attribute or Association is required. This will affect form validation and UI generation",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
@@ -157,7 +165,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsMandatory",
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "readOnly",
         Description = "If true, this field can never be directly edited by a user. Determines what kind of UI is generated",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
@@ -168,7 +176,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
       //============================================================================
       // Members
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "placeholderText",
         Description = "Placeholder text for UI components (e.g. the text that go into TextBoxe's before the user enters anything)",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
@@ -179,7 +187,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       // Attributes (Regular and Derived)
 
       // It is crucial that this attribute be listed before the 'default' attribute
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "dataType",
         Description = "The data type of this attribute",
         AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
@@ -191,23 +199,14 @@ Typical use would be if entities are going to be represented on a drop-down.",
           attr.DataType = allEnums.FindDataTypeByNameWithError(attr.DataTypeName, attributeValue.TreeElement);
         },
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "default",
         Description = "Default value for the attribute. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.Singleton.String,
-        Setter = "DefaultValueAsString",
-
-        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
-          X10RegularAttribute attr = (X10RegularAttribute)modelComponent;
-          if (attr.DataType == null)
-            return;
-
-          ModelAttributeValue defaultValue = attr.FindAttribute("default");
-          attr.DefaultValue = attr.DataType.Parse(attr.DefaultValueAsString, messages, defaultValue.TreeElement, "default");
-        },
+        DataTypeMustBeSameAsAttribute = true,
+        Setter = "DefaultValue",
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "formula",
         Description = "Formula that describes the value of this attribute in terms of other attributes (regular or derived)",
         AppliesTo = AppliesTo.DerivedAttribute,
@@ -218,7 +217,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
       //============================================================================
       // Associations
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "dataType",
         Description = "The name of the Entity which this association is pointing to.",
         AppliesTo = AppliesTo.Association,
@@ -234,7 +233,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           association.ReferencedEntity = allEntities.FindEntityByNameWithError(association.ReferencedEntityName, attributeValue.TreeElement);
         },
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "many",
         Description = "If true, this is a one-to-many association.",
         AppliesTo = AppliesTo.Association,
@@ -242,7 +241,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsMany",
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "owns",
         Description = "If true, this object owns the child object(s) at the other end of the association.",
         AppliesTo = AppliesTo.Association,
@@ -253,7 +252,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
       //============================================================================
       // Enum Types
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "name",
         Description = "The name of the enum type. This is how the enum type is referred to everywhere else in the data models. Like any other type, must be upper-case.",
         AppliesTo = AppliesTo.EnumType,
@@ -265,7 +264,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           ModelValidationUtils.ValidateEnumName(name, scalarNode, messages);
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "default",
         Description = "Default value for any attributes of this type. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.EnumType,
@@ -282,7 +281,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
 
       //============================================================================
       // Enums Values
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "value",
         Description = "The raw value or symbol for this enum choice. This is what gets stored and communicated in the underlying data. Must be lower-case.",
         AppliesTo = AppliesTo.EnumValue,
@@ -299,7 +298,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
           ModelValidationUtils.ValidateEnumValue(value, scalarNode, messages);
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "label",
         Description = "The human-friendly label for this enum choice. This is what gets displayed to users on UI elements such as drop-downs. If missing, will be derived from the 'value'",
         AppliesTo = AppliesTo.EnumValue,
@@ -312,7 +311,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
             "There should never be a blank enum value. If the value is optional, just make the attribute that uses it non-mandatory.");
         }
       },
-      new ModelAttributeDefinition() {
+      new ModelAttributeDefinitionAtomic() {
         Name = "icon",
         Description = "The name of the icon that correspond to this enum value. Will be used in UI as appropriate.",
         AppliesTo = AppliesTo.EnumValue,

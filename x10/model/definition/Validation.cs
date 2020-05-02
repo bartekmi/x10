@@ -10,9 +10,13 @@ namespace x10.model.definition {
     Error,
   }
 
-  public class Validator {
+  public class Validation {
     public string Message { get; set; }
     public ValidatorSeverity Severity { get; set; }
-    public string Rule { get; set; }
+    public string Trigger { get; set; }
+
+    public Validation() {
+      Severity = ValidatorSeverity.Error;
+    }
   }
 }

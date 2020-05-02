@@ -37,7 +37,7 @@ namespace x10.compiler {
 
     [Fact]
     public void CompileWithSetterAndNonSetter() {
-      ModelAttributeDefinitions.All.Add(new ModelAttributeDefinition() {
+      ModelAttributeDefinitions.All.Add(new ModelAttributeDefinitionAtomic() {
         Name = "customField",
         Description = "This is a custom field with no setter",
         AppliesTo = AppliesTo.Entity,

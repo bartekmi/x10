@@ -28,16 +28,14 @@ namespace x10.model.metadata {
     }
   }
 
-  public class ModelAttributeDefinition {
+  public abstract class ModelAttributeDefinition {
     public string Name { get; set; }
     public string Description { get; set; }
     public AppliesTo AppliesTo { get; set; }
     public CompileMessageSeverity? ErrorSeverityIfMissing { get; set; }
     public object DefaultIfMissing { get; set; }
     public string MessageIfMissing { get; set; }
-    public DataType DataType { get; set; }
     public string Setter { get; set; }
-    public Action<MessageBucket, TreeScalar, IAcceptsModelAttributeValues, AppliesTo> ValidationFunction { get; set; }
     public Action<MessageBucket, AllEntities, AllEnums, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
 
     public bool AppliesToType(AppliesTo type) {

@@ -6,7 +6,7 @@ attributes:
   - name: name
     dataType: String
     mandatory: true
-    datagen_pattern: adjective noun ('Shipping' | 'Transport' | 'Ltd.')
+    datagen_pattern: <adjective> <noun> ('Shipping' | 'Transport' | 'Ltd.')
 
   - name: transportationMode
     dataType: TransportationMode

@@ -48,8 +48,25 @@ namespace x10.compiler {
           value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, entity, value);
 
         foreach (Member member in entity.LocalMembers)
-          foreach (ModelAttributeValue value in member.AttributeValues)
+          foreach (ModelAttributeValue value in member.AttributeValues) {
+            if ((value.Definition as ModelAttributeDefinitionAtomic)?.DataTypeMustBeSameAsAttribute == true) 
+              ConvertValueToDataTypeOfAttribute(member as X10Attribute, value);
             value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, member, value);
+          }
+      }
+    }
+
+    private void ConvertValueToDataTypeOfAttribute(X10Attribute attr, ModelAttributeValue value) {
+      if (attr?.DataType == null)
+        return;
+
+      string stringValue = value.Value.ToString();
+      if (AttributeReader.IsFormula(stringValue))
+        value.Formula = stringValue;
+      else {
+        object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
+        value.Value = typedValue;
+        AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
       }
     }
   }

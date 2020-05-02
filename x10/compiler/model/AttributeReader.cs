@@ -52,21 +52,47 @@ namespace x10.compiler {
         return;
       }
 
-      // Ensure that the value of the attribute is a scalar (not a list, etc)
-      TreeScalar scalarNode = attrNode as TreeScalar;
-      if (scalarNode == null) {
-        _messages.AddError(attrNode, string.Format("The attribute '{0}' should be a simple string of the correct type, but is a {1}",
-          attrDef.Name, attrNode.GetType().Name));
-        return;
-      }
+      object typedValue;
 
-      // Attempt to parse the string attribute value according to its data type
-      DataType dataType = attrDef.DataType;
-      object typedValue = dataType.Parse(scalarNode.Value.ToString(), _messages, scalarNode, attrDef.Name);
-      if (typedValue == null) 
-        return;
+      if (attrDef is ModelAttributeDefinitionAtomic attrDefAtomic) {
+        // Ensure that the value of the attribute is a scalar (not a list, etc)
+        TreeScalar scalarNode = attrNode as TreeScalar;
+        if (scalarNode == null) {
+          _messages.AddError(attrNode, string.Format("The attribute '{0}' should be a simple string of the correct type, but is a {1}",
+            attrDef.Name, attrNode.GetType().Name));
+          return;
+        }
+
+        // Attempt to parse the string attribute value according to its data type
+        string value = scalarNode.Value.ToString();
+        if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
+          typedValue = value;
+        else {
+          DataType dataType = attrDefAtomic.DataType;
+          typedValue = dataType.Parse(value, _messages, scalarNode, attrDef.Name);
+          if (typedValue == null)
+            return;
+        }
+
+        // Do validation, if requried
+        attrDefAtomic.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
+      } else if (attrDef is ModelAttributeDefinitionComplex attrDefComplex) {
+        typedValue = attrDefComplex.ParseFunction.Invoke(_messages, attrNode);
+      } else
+        throw new Exception("Unexpected type: " + attrDef.GetType().Name);
 
       // If a setter has been provided, use it; 
+      SetValueViaSetter(attrDef, modelComponent, typedValue);
+
+      // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
+      // this is the only way we can track where the attribute came from in the code.
+      modelComponent.AttributeValues.Add(new ModelAttributeValue(attrNode) {
+        Value = typedValue,
+        Definition = attrDef,
+      });
+    }
+
+    internal static void SetValueViaSetter(ModelAttributeDefinition attrDef, IAcceptsModelAttributeValues modelComponent, object typedValue) {
       if (attrDef.Setter != null) {
         Type modelComponentType = modelComponent.GetType();
         PropertyInfo info = attrDef.GetPropertyInfo(modelComponentType);
@@ -76,16 +102,6 @@ namespace x10.compiler {
         }
         info.SetValue(modelComponent, typedValue);
       }
-
-      // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
-      // this is the only way we can track where the attribute came from in the code.
-      modelComponent.AttributeValues.Add(new ModelAttributeValue(scalarNode) {
-        Value = typedValue,
-        Definition = attrDef,
-      });
-
-      // Do validation, if requried
-      attrDef.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
     }
 
     private void ErrorOnUnknownAttributes(TreeHash hash, AppliesTo type, string[] ignoreAttributes) {
@@ -103,5 +119,8 @@ namespace x10.compiler {
       }
     }
 
+    internal static bool IsFormula(string valueOrFormula) {
+      return valueOrFormula.Trim().StartsWith("=");
+    }
   }
 }

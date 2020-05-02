@@ -2,24 +2,31 @@ name: Location
 description: A physical location
 # Not sure yet if this is useful
 # defaultStringRepresentation: name
+datagen_quantity: 2000
+datagen_sources: 25% => us_cities.csv AS us; 75% => cn_cities.csv as cn
 
 attributes:
   - name: name
     dataType: String
-    mandatory: true
-
-  - name: countryCode
-    dataType: String
-    mandatory: true
-
-  - name: city
-    dataType: String
-
-  - name: stateOrProvince
-    dataType: String
 
   - name: type
     dataType: LocationType
+    datagen_pattern: (5% => port; 5% => airport; 5% => factory)
+
+  - name: city
+    dataType: String
+    mandatory: true
+    datagen_from_source: us => city; cn => city
+
+  - name: stateOrProvince
+    dataType: String
+    datagen_from_source: us => state_id; cn => admin
+
+  - name: contryCode
+    dataType: CountryCode
+    mandatory: true
+    datagen_from_source: us => 'US'; cn => 'CN'
+
 
 enums:
   - name: LocationType

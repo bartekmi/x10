@@ -1,18 +1,24 @@
 name: User
 description: A user of the system
+datagen_quantity: 3000
 
 attributes:
   - name: firstName
     dataType: String
     mandatory: true
+    datagen_pattern: <firstName> 
   - name: lastName
     dataType: String
     mandatory: true
+    datagen_pattern: <lastName> 
 
   - name: lastAccountActivity
     dataType: Timestamp
     readOnly: true
+    datagen_min: 2020-01-01
+    datagen_max: 2020-04-01
 
 associations:
   - name: company
+    mandatory: true
     dataType: Company

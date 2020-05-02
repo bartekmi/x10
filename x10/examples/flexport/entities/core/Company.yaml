@@ -1,30 +1,22 @@
 name: Company
 description: A legal entity such as a corportation that typically buys or sells stuff
 datagen_quantity: 1000
-datagen_sources: 25% => us_cities.csv AS us, 75% => cn_cities.csv as cn
 
 attributes:
   - name: legalName
     dataType: String
     mandatory: true
-    datagen_pattern: adjective noun ('Corp.' | 'Company' | 'Ltd.' | '')
+    datagen_pattern: <adjective> <noun> ('Corp.' | 'Company' | 'Ltd.' | '')
     datagen_unique: true
-  - name: city
-    dataType: String
-    mandatory: true
-    datagen_from_source: us => city, cn => city
-  - name: state
-    dataType: String
-    mandatory: true
-    datagen_from_source: us => state_id, cn => admin
-  - name: contryCode
-    dataType: CountryCode
-    mandatory: true
-    datagen_from_source: us => 'US', cn => 'CN'
 
 derivedAttributes:
   - name: cityAndState
     dataType: String
-    formula: =`${city}, ${state}`
+    formula: =interpolate(${city}, ${state})
+
+associations:
+  - name: location
+    mandatory: true
+    dataType: Location
 
 

@@ -5,9 +5,9 @@ attributes:
   - name: value
     dataType: String
     mandatory: true
+    datagen_pattern: (DDDDD | LLDDD | LLDDDLD)
 
 associations:
   - name: metadataTag
+    mandatory: true
     dataType: MetadataTag
-# Pending Interfaces
-#  - belongsTo: Shipment, Booking, QuoteRequest
