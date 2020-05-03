@@ -19,11 +19,14 @@ namespace x10.gen.sql {
       ReverseAssociation,
     }
 
+    public static bool Ignore(Entity entity) {
+      return entity.FindBoolean(DataGenLibrary.NO_SQL_SCHEMA, false) ||
+        entity.IsAbstract ||
+        entity.Name == ModelValidationUtils.CONTEXT_ENTITY_NAME;
+    }
+
     public static void Generate(IEnumerable<Entity> entities, string filename) {
-      entities = entities.Where(x =>
-        !x.FindBoolean(DataGenLibrary.SQL_DO_NOT_GENERATE, false) &&
-        !x.IsAbstract &&
-        x.Name != ModelValidationUtils.CONTEXT_ENTITY_NAME);
+      entities = entities.Where(x => !Ignore(x));
 
       ReverseAssociationCalculator reverse = new ReverseAssociationCalculator(entities);
 
@@ -189,63 +192,6 @@ namespace x10.gen.sql {
     private static bool IsDefinedInBothDirections(IEnumerable<ReverseOwner> reverses, Association association) {
       return reverses.Any(x => x.ActualOwner == association.ReferencedEntity);
     }
-    #endregion
-
-    #region Dead Code after we've moved to generating FK constraints later
-    //private static IEnumerable<Entity> SortAccordingToDependency(IEnumerable<Entity> entities, ReverseAssociationCalculator reverse) {
-    //  HashSet<Entity> included = new HashSet<Entity>();
-    //  HashSet<Entity> notIncluded = new HashSet<Entity>(entities);
-    //  List<Entity> ordered = new List<Entity>();
-
-    //  int previousOrderedCount = 0;
-    //  while (notIncluded.Count > 0) {
-
-    //    foreach (Entity entity in notIncluded.ToList()) {
-    //      if (AllDependenciesReady(entity, included, reverse)) {
-    //        included.Add(entity);
-    //        notIncluded.Remove(entity);
-    //        ordered.Add(entity);
-    //      }
-    //    }
-
-    //    if (previousOrderedCount == ordered.Count)
-    //      throw new Exception("This thing will never finish. Remaining: \n\r" +
-    //        CreateCircularDependencyMessage(notIncluded, reverse));
-    //    previousOrderedCount = ordered.Count;
-    //  }
-
-    //  return ordered;
-    //}
-
-    //private static string CreateCircularDependencyMessage(HashSet<Entity> notIncluded, ReverseAssociationCalculator reverse) {
-    //  StringBuilder builder = new StringBuilder();
-
-    //  foreach (Entity entity in notIncluded.OrderBy(x => x.Name)) {
-    //    IEnumerable<Entity> unfulfilledDependencies = FindDependencies(entity, reverse).Intersect(notIncluded);
-    //    builder.AppendLine(string.Format("{0} still depends on {1}",
-    //      entity.Name,
-    //      string.Join(", ", unfulfilledDependencies.Select(x => x.Name).OrderBy(x => x))));
-    //  }
-
-    //  return builder.ToString();
-    //}
-
-    //private static List<Entity> FindDependencies(Entity entity, ReverseAssociationCalculator reverse) {
-    //  List<Entity> dependencies =
-    //    entity.Associations.Where(x => !x.IsMany).Select(x => x.ReferencedEntity)
-    //    .Concat(reverse.Get(entity).Select(x => x.ActualOwner))
-    //    .Distinct()
-    //    .ToList();  // Making it a list helps with debugging
-
-    //  return dependencies;
-    //}
-
-    //private static bool AllDependenciesReady(Entity entity, HashSet<Entity> included, ReverseAssociationCalculator reverse) {
-    //  List<Entity> dependencies = FindDependencies(entity, reverse);
-    //  return dependencies.All(x => included.Contains(x));
-    //}
-
-
     #endregion
   }
 }

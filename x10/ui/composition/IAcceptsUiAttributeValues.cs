@@ -26,6 +26,11 @@ namespace x10.ui.composition {
       return value?.Value;
     }
 
+    public static T FindValue<T>(this IAcceptsUiAttributeValues source, string attributeName) where T : class {
+      UiAttributeValueAtomic value = FindAttributeValue(source, attributeName) as UiAttributeValueAtomic;
+      return value?.Value as T;
+    }
+
     public static UiAttributeValue FindAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       return source.AttributeValues
         .FirstOrDefault(x => x.Definition.Name == attributeName);

@@ -141,6 +141,7 @@ associations:
   - name: shipment
     dataType: Shipment
     ui: AssociationEditor
+    owns: true
 
   - name: shipper
     dataType: Company
@@ -191,12 +192,14 @@ associations:
     many: true
     mandatory: true
     applicableWhen: transportationMode != 'truck'
+    datagen_quantity: 1..3
 
   - name: metadata
     dataType: MetadataValue
     owns: true
     many: true
     ui: MetadataEditor
+    datagen_quantity: 0..2
 
 
 enums:

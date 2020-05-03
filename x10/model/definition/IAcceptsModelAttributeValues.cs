@@ -20,6 +20,17 @@ namespace x10.model.definition {
       return value?.Value;
     }
 
+    public static bool FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName, out T objValue) {
+      ModelAttributeValue value = FindAttribute(source, attributeName);
+      objValue = (T)value?.Value;
+      return value != null;
+    }
+
+    public static T FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName) where T : class {
+      ModelAttributeValue value = FindAttribute(source, attributeName);
+      return value?.Value as T;
+    }
+
     public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {
       return source.AttributeValues
         .FirstOrDefault(x => x.Definition.Name == attributeName);
