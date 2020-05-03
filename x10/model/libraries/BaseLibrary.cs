@@ -31,7 +31,7 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType | AppliesTo.EnumValue,
         ErrorSeverityIfMissing = CompileMessageSeverity.Warning,
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
         DataType = DataTypes.Singleton.String,
