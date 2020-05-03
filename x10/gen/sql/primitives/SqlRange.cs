@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace x10.gen.sql.primitives {
-  internal class Range {
+  internal class SqlRange {
     internal int From;
     internal int To;
 
@@ -12,7 +12,7 @@ namespace x10.gen.sql.primitives {
       return random.Next(From, To + 1);
     }
 
-    internal static Range Parse(string text) {
+    internal static SqlRange Parse(string text) {
       string[] pieces = text.Trim().Split("..");
       if (pieces.Length != 2)
         return null;
@@ -24,7 +24,7 @@ namespace x10.gen.sql.primitives {
       if (to <= from)
         return null;
 
-      return new Range() {
+      return new SqlRange() {
         From = from,
         To = to,
       };

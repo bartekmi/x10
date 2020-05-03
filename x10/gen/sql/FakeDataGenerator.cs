@@ -31,7 +31,7 @@ namespace x10.gen.sql {
       }
     }
 
-    private static readonly Range DEFAULT_ASSOCIATION_RANGE = Range.Parse("0..3");
+    private static readonly SqlRange DEFAULT_ASSOCIATION_RANGE = SqlRange.Parse("0..3");
 
     private readonly Random _random;
     private readonly Dictionary<Entity, EntityInfo> _entityInfo;
@@ -145,7 +145,7 @@ namespace x10.gen.sql {
 
     private int GetCount(Association association) {
       if (association.IsMany) {
-        Range range = association.FindValue<Range>("datagen_quantity") ?? DEFAULT_ASSOCIATION_RANGE;
+        SqlRange range = association.FindValue<SqlRange>("datagen_quantity") ?? DEFAULT_ASSOCIATION_RANGE;
         return range.GetRandom(_random);
       } else
         return 1;   // TODO: Consider probability if not mandatory
