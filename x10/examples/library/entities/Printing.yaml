@@ -1,0 +1,31 @@
+﻿name: Printing
+description: A printing of Title for distribution
+
+attributes:
+  - name: numberOfPages
+    dataType: Integer
+    toolTip: When in doubt, use final numbered page in the volume.
+    mandatory: true
+
+  - name: printingCompany
+    dataType: String
+    mandatory: true
+
+  - name: printingDate
+    dataType: Date
+    mandatory: true
+    validations:
+      - message: Printing Date must be equal to or later than the Title's Publication Date
+        trigger: title.publicationDate > printingDate
+
+  - name: name
+    dataType: String
+    toolTip: The title of the book, for this specific printing eg. first edition, second edition, etc.
+    mandatory: true
+
+  - name: copyrightDate
+    dataType: Date
+    mandatory: true
+    validations:
+      - message: Copyright Date cannot be earlier than the Printing Date.
+        trigger: copyrightDate < printingDate

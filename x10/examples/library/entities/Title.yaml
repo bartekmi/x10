@@ -1,0 +1,51 @@
+﻿name: Title
+description: A published work
+
+attributes:
+  - name: originalTitle
+    dataType: String
+    toolTip: First name under which this Title was published
+    mandatory: true
+  
+  - name: author
+    dataType: String
+    mandatory: true
+
+  - name: publicationDate
+    dataType: Date
+    mandatory: true
+
+  - name: genre
+    dataType: Genre
+    mandatory: true
+
+  - name: language
+    dataType: Language
+    mandatory: true
+
+  - name: readingLevel
+    dataType: ReadingLevel
+    validations: 
+      - message: Reading Level is necessary if the Genre is Kids Books
+        trigger: genre == Kids Books && readingLevel == null
+
+
+
+associations:
+  - name: printings
+    dataType: Printing
+    many: true
+    owns: true
+
+
+
+
+enums:
+  - name: Genre
+    values: history, horror, fiction, youngAdult, fantasy, scienceFiction, kidsBooks
+
+  - name: Language
+    values: english, greek, hebrew, french, spanish
+
+  - name: ReadingLevel
+    values: pre, K, 1, 2, 3, 4
