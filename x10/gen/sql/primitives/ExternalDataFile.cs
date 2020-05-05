@@ -22,8 +22,9 @@ namespace x10.gen.sql.primitives {
       return _rows[index];
     }
 
-    internal void Parse() {
-      string[] lines = File.ReadAllLines(Path);
+    internal void Parse(string rootDir) {
+      string fullPath = System.IO.Path.Combine(rootDir, Path);
+      string[] lines = File.ReadAllLines(fullPath);
 
       ColumnNameToIndex = ExtractColumns(lines[0]);
 

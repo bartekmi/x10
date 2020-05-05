@@ -142,6 +142,7 @@ associations:
     dataType: Shipment
     ui: AssociationEditor
     owns: true
+    datagen_quantity: 1
 
   - name: shipper
     dataType: Company

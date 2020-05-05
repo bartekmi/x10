@@ -24,15 +24,15 @@ namespace x10.gen.sql.primitives {
       _messages = new MessageBucket();
     }
 
+    private const string FILE_DIR = @"../../../../data";
+
     [Fact]
     public void ParseCnCities() {
-      string INPUT_FILE = "../../../../data/cn_cities.csv";
-
       ExternalDataFile external = new ExternalDataFile() {
-        Path = INPUT_FILE,
+        Path = "cn_cities.csv",
       };
 
-      external.Parse();
+      external.Parse(FILE_DIR);
 
       Assert.Equal(9, external.ColumnNameToIndex.Count);
       Assert.Equal(0, external.ColumnNameToIndex["city"]);
@@ -48,9 +48,9 @@ namespace x10.gen.sql.primitives {
 
     [Fact]
     public void ParseOtheFiles() {
-      TestRead("../../../../data/us_cities.csv", 19, 28890 - 1);
-      TestRead("../../../../data/first_names.csv", 2, 6783 - 1);
-      TestRead("../../../../data/last_names.csv", 1, 2089 - 1);
+      TestRead("us_cities.csv", 19, 28890 - 1);
+      TestRead("first_names.csv", 2, 6783 - 1);
+      TestRead("last_names.csv", 1, 2089 - 1);
     }
 
     private void TestRead(string path, int expectedColumns, int expectedRows) {
@@ -58,7 +58,7 @@ namespace x10.gen.sql.primitives {
         Path = path,
       };
 
-      external.Parse();
+      external.Parse(FILE_DIR);
 
       Assert.Equal(expectedColumns, external.ColumnNameToIndex.Count);
       Assert.Equal(expectedRows, external.Count);

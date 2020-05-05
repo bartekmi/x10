@@ -13,6 +13,13 @@ namespace x10.gen.sql.primitives {
     }
 
     internal static SqlRange Parse(string text) {
+      if (int.TryParse(text, out int singleValue)) {
+        return new SqlRange() {
+          From = singleValue,
+          To = singleValue,
+        };
+      }
+
       string[] pieces = text.Trim().Split("..");
       if (pieces.Length != 2)
         return null;

@@ -22,7 +22,11 @@ namespace x10.model.definition {
 
     public static bool FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName, out T objValue) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
-      objValue = (T)value?.Value;
+      objValue = default(T);
+      if (value == null) 
+        return false;
+      
+      objValue = (T)(value.Value);
       return value != null;
     }
 
