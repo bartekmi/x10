@@ -12,6 +12,11 @@ namespace x10.gen.sql.primitives {
     private List<DataFileRow> _rows = new List<DataFileRow>();
     internal Dictionary<string, int> ColumnNameToIndex;
 
+    internal int Count { get { return _rows.Count; } }
+    internal DataFileRow GetRow(int index) {
+      return _rows[index];
+    }
+
     internal DataFileRow GetRandomRow(Random random) {
       int index = random.Next(_rows.Count);
       return _rows[index];

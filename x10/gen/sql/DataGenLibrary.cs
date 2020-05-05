@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.model.metadata;
 
@@ -23,6 +24,13 @@ namespace x10.gen.sql {
     internal const string MAX = "datagen_max";
     internal const string RANDOM_TEXT = "datagen_random_text";
     internal const string NO_SQL_SCHEMA = "datagen_no_sql_schema";
+
+    private static readonly DataType RANGE_DATA_TYPE = new DataType() {
+      Name = "SqlRange",
+      Description = "Range of two integers",
+      ParseFunction = (x) => new ParseResult(SqlRange.Parse(x)),
+      Examples = "7, 0..2, 4..8"
+    };
 
     private readonly static List<ModelAttributeDefinition> _attributes = new List<ModelAttributeDefinition>() {
       // Entity Level
@@ -88,12 +96,22 @@ namespace x10.gen.sql {
         AppliesTo = AppliesTo.Attribute,
         DataTypeMustBeSameAsAttribute = true,
       },
+
+      // Association Level
+      new ModelAttributeDefinitionAtomic() {
+        Name = QUANTITY,
+        Description = @"The number of rows of data to generate for this owned association. Either an exact quantity like '5' or a range like 0..2",
+        AppliesTo = AppliesTo.Association,
+        DataType = RANGE_DATA_TYPE,
+      },
     };
 
     private static ModelLibrary CreateLibrary() {
       ModelLibrary library = new ModelLibrary(_attributes) {
         Name = "Data Generation Library",
       };
+
+      DataTypes.Singleton.AddDataType(RANGE_DATA_TYPE);
 
       return library;
     }

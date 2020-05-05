@@ -1,3 +1,4 @@
+name,gender
 John,boy
 William,boy
 James,boy
@@ -1836,7 +1837,7 @@ Ovila,boy
 Reynold,boy
 Reynolds,boy
 Susie,boy
-True,boy
+TRUE,boy
 Alwin,boy
 Casimir,boy
 Vergil,boy
