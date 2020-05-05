@@ -29,3 +29,13 @@ attributes:
     validations:
       - message: Copyright Date cannot be earlier than the Printing Date.
         trigger: copyrightDate < printingDate
+
+
+
+
+
+associations:
+  - name: books
+    dataType: Book
+    many: true
+    owns: true
