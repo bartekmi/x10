@@ -21,9 +21,8 @@ attributes:
   - name: balance
     dataType: money
     mandatory: true
+    readOnly: true
   
-
-
 
 associations:
   - name: loan

@@ -42,8 +42,9 @@ namespace x10.compiler {
         if (enumValues is TreeSequence sequence)
           foreach (TreeNode enumValueNode in sequence.Children) {
             EnumValue compositeEnumValue = new EnumValue();
-            theEnum.EnumValues.Add(compositeEnumValue);
-            _attrReader.ReadAttributes(enumValueNode, AppliesTo.EnumValue, compositeEnumValue);
+            bool isHash = _attrReader.ReadAttributes(enumValueNode, AppliesTo.EnumValue, compositeEnumValue);
+            if (isHash)
+              theEnum.EnumValues.Add(compositeEnumValue);
           }
         else if (enumValues is TreeScalar scalar) {
           string[] enumValuesArray = scalar.Value.ToString().Split(',');

@@ -52,6 +52,19 @@ values: monkey, cat, Dog
         "Invalid Enum value: 'Dog'. Must be lower-cased camelCase or ALL_CAPS: e.g. 'male', 'awaitingApproval, ASAP'. Numbers are also allowed.", 4, 9);
     }
 
+    [Fact]
+    public void EnumAsYamlListOfString() {
+      RunTest(@"
+name: Animal
+description: My favorite animals
+default: dog
+values:
+  - cat
+  - dog
+",
+        "Expected a Hash type node, but was: TreeScalar", 6, 5);
+    }
+
     #region Utilities
 
     private void RunTest(string yaml) {
