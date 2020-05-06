@@ -1,0 +1,26 @@
+name: ChargeRefundEvent
+description: a money transaction to clear an Account's balance.
+
+attributes:
+  - name: amount
+    dataType: Money
+    mandatory: true
+    ##enter as a negative value if giving money back to accountholder, ie. refund
+  
+  - name: dateTime
+    dataType: DateTime
+    mandatory: true
+
+  - name: description
+    dataTpe: String
+  
+  - name: paymentMethod
+    dataType: PaymentMethod
+    mandatory: true
+
+
+
+
+enums:
+  - name: PaymentMethod
+    values: card, cash, "payPal", cheque

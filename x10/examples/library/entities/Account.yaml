@@ -1,0 +1,44 @@
+name: Account
+description: An account held by a customer, by which they take books out on loan.
+
+attributes:
+  - name: holderName
+    dataType: String
+    mandatory: true
+
+  - name: dateOpened
+    dataType: Date
+    mandatory: true
+
+  - name: isActive
+    dataType: Bool
+    mandatory: true
+
+  - name: accountNumber
+    dataType: Integer
+    mandatory: true
+  
+  - name: balance
+    dataType: money
+    mandatory: true
+  
+
+
+
+associations:
+  - name: loan
+    dataType: Loan
+    many: true
+
+  - name: chargeRefundDue
+    dataType: ChargeRefundDue
+    many: true
+
+  - name: chargeRefundEvent
+    dataType: ChargeRefundEvent
+    many: true
+  
+  - name: libraryCard
+    dataType: LibraryCard
+    many: true
+    owns: true

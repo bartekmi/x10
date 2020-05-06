@@ -1,0 +1,39 @@
+name: LoanItem
+description: An individual item loaned out
+
+attributes:
+  - name: isOpen
+    dataType: IsOpen
+    toolTip: Open Loans have no due date; Normal Loans must have a due date.
+    mandatory: true
+
+  - name: dueDate
+    dataType: Date
+    applicableWhen: isOpen == normal
+    mandatory: true
+    validations:
+      - message: Due Date must be later than the Check-Out Date. A Due Date is necessary unless it is an open loan.
+        trigger: loan.checkOutDate < dueDate
+  
+  - name: returnDate
+      dataType: Date
+  
+  - name: conditionOut
+    dataType: book.Condition
+    mandatory: true
+
+  - name: conditionIn
+    dataType: book.Condition
+    mandatory: true
+  
+
+
+associations:
+  - name: book
+    dataType: Book
+
+
+
+enums:
+  - name: IsOpen
+    values: normal, openLoan

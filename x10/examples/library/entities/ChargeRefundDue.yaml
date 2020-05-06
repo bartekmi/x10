@@ -1,0 +1,37 @@
+name: ChargeRefundDue
+description: An money amount assigned to an account, but not yet paid.
+
+attributes:
+  - name: amount
+    dataType: Money
+    mandatory: true
+    ##enter as a negative value if giving money back to accountholder, ie. refund
+  
+  - name: descriptionEnum
+    dataType: DescriptionEnum
+    mandatory: true
+
+  - name: descriptionString
+    dataType: String
+    applicableWhen: descriptionEnum == other
+
+  - name: dateTime
+    dataType: DateTime
+    mandatory: true
+
+
+
+associations:
+  - name: loanItem
+    dataType: LoanItem
+
+
+
+enums:
+  - name: DescriptionEnum
+    default: lateFee
+    values:
+      - lateFee
+      - bookPurchase
+      - refund
+      - other

@@ -1,0 +1,13 @@
+name: Loan
+description: A "check-out" by a customer, linked at an Account.
+
+attributes:
+  - name: checkOutDate
+    dataType: Date
+
+
+associations:
+  - name: loanItem
+    dataType: LoanItem
+    many: true
+    owns: true

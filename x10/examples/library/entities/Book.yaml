@@ -1,0 +1,37 @@
+name: Book
+description: A physical, individual book
+
+attributes:
+  - name: barcodeNumber
+    dataType: Integer
+    mandatory: true
+
+  - name: condition
+    dataType: Condition
+    mandatory: true
+  
+  - name: satus
+    dataType: Status
+    mandatory: true
+  
+  - name: isActive
+    dataType: Bool
+    mandatory: true
+
+
+
+
+
+enums:
+  - name: Condition
+    values: newOrLikeNew, good, medium, poor
+  
+  - name: Status
+    values: 
+      - onShelf
+      - onLoan 
+      - onOpenLoan
+      - returned
+      - storage
+      - repair
+      - lost

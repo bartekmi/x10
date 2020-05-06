@@ -1,0 +1,20 @@
+name: LibraryCard
+description: A Library Card issues to an account
+
+attributes:
+  - name: barcodeNumber
+    dataType: Integer
+    mandatory: true
+
+  - name: dateIssued
+    dataType: Date
+    mandatory: true
+
+  - name: cardHolder ##usually should match account.holderName, but doesn't need to.
+    dataType: String
+    mandatory: true
+  
+  - name: isActive
+    dataType: Bool
+    mandatory: true
+

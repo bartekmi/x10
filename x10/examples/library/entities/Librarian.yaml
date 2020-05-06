@@ -1,0 +1,27 @@
+name: StaffMemeber
+description: A staff member authorized to check out books, take payment, or issue refunds
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+  
+  - name: hireDate
+    dataType: Date
+    mandatory: true
+  
+  - name: isActive
+    dataType: Bool
+    mandatory: true
+
+
+
+
+associations:
+  - name: loan
+    dataType: Loan
+    many: true
+  
+  - name: chargeRefundEvent
+    dataType: ChargeRefundEvent
+    many: true
