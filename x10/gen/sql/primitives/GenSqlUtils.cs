@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace x10.gen.sql.primitives {
   internal static class GenSqlUtils {
     internal static Dictionary<string, string> ToDictionary(string poorMansJson) {
+      poorMansJson = poorMansJson.Trim();
+      if (!poorMansJson.StartsWith("(") || poorMansJson.EndsWith(")"))
+        return null;
+
+      poorMansJson = poorMansJson[1..^1];
+
       Dictionary<string, string> dictionary = new Dictionary<string, string>();
       string[] pairs = poorMansJson.Split(";");
 
@@ -43,10 +50,21 @@ namespace x10.gen.sql.primitives {
 
       return null;
     }
+
+    internal static List<WithProbability> ToListWithProbability(Dictionary<string, string> dictionary) {
+      return dictionary.Select(x => new WithProbability() {
+        Probability = ParsePercentage(x.Key),
+        Value = x.Value,
+      }).ToList();
+    }
   }
 
   internal interface IWithProbability {
     double Probability { get; }
   }
 
+  internal class WithProbability : IWithProbability {
+    public double Probability { get; internal set; }
+    public string Value { get; set; }
+  }
 }

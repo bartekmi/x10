@@ -56,7 +56,7 @@ namespace x10.gen.sql {
     // );
     private static void GenerateTable(TextWriter writer, Entity entity, ReverseAssociationCalculator reverseAssociations) {
 
-      writer.WriteLine("CREATE TABLE \"{0}\" (", Snake(entity.Name));
+      writer.WriteLine("CREATE TABLE \"{0}\" (", GetTableName(entity));
       writer.WriteLine("  id serial PRIMARY KEY,");
 
       IEnumerable<ReverseOwner> reverses = reverseAssociations.Get(entity);
@@ -112,29 +112,20 @@ namespace x10.gen.sql {
 
     private static void WriteAttribute(TextWriter writer, X10Attribute attribute) {
       writer.Write("  {0} {1}{2}NULL",
-        Snake(attribute.Name),
+        GetDbColumnName(attribute),
         GetType(attribute.DataType),
         attribute.IsMandatory ? " NOT " : " ");
     }
 
     private static void WriteForwardAssociation(TextWriter writer, Association association) {
       writer.Write("  {0}_id INTEGER{1}NULL",
-        Snake(association.Name),
+        GetDbColumnName(association),
         association.IsMandatory ? " NOT " : " ");
     }
 
     private static void WriteReverseAssociation(TextWriter writer, ReverseOwner reverse) {
       writer.Write("  {0}_id INTEGER NOT NULL",
-        Snake(reverse.ActualOwner.Name));
-    }
-
-    private static string Snake(string camelCase) {
-      return NameUtils.CamelCaseToSnakeCase(camelCase);
-    }
-
-    private static string QuotedSnake(string camelCase) {
-      string snakeCase = NameUtils.CamelCaseToSnakeCase(camelCase);
-      return '"' + snakeCase + '"';
+        GetTableName(reverse.ActualOwner));
     }
 
     // https://www.postgresql.org/docs/9.5/datatype.html
@@ -173,22 +164,32 @@ namespace x10.gen.sql {
           // duplicate constraints for the same association
         } else {
           writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{2}\"(id);",
-          Snake(entity.Name),
-          Snake(association.Name),
-          Snake(association.ReferencedEntity.Name)));
+          GetTableName(entity),
+          GetDbColumnName(association),
+          GetTableName(association.ReferencedEntity)));
         }
       }
 
       foreach (Association association in manyAssociations)
         writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{1}\"(id);",
-          Snake(association.ReferencedEntity.Name),
-          Snake(entity.Name)));
+          GetTableName(association.ReferencedEntity),
+          GetTableName(entity)));
 
       writer.WriteLine();
     }
     #endregion
 
     #region Utilities
+
+
+    internal static string GetDbColumnName(Member member) {
+      return NameUtils.CamelCaseToSnakeCase(member.Name);
+    }
+
+    internal static string GetTableName(Entity entity) {
+      return NameUtils.CamelCaseToSnakeCase(entity.Name);
+    }
+
     private static bool IsDefinedInBothDirections(IEnumerable<ReverseOwner> reverses, Association association) {
       return reverses.Any(x => x.ActualOwner == association.ReferencedEntity);
     }

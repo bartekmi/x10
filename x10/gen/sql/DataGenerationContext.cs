@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using x10.gen.sql.primitives;
@@ -9,6 +10,7 @@ namespace x10.gen.sql {
   internal class DataGenerationContext {
     internal Dictionary<string, ExternalDataFile> ExternalDataFiles;
     internal Random Random;
+    private StaticDictionaries _staticDictionaries = new StaticDictionaries();
 
     internal const string DATA_FILES_ROOT = @"C:\x10\x10\data";  // TODO: Move to config
 
@@ -48,6 +50,24 @@ namespace x10.gen.sql {
       if (dataFile == null)
         return null;
       return dataFile.GetRandomRow(Random);
+    }
+
+    internal string GetRandomDictionaryEntry(string dictionaryName) {
+      return _staticDictionaries.GetRandomEntry(Random, dictionaryName);
+    }
+
+    class StaticDictionaries {
+      private Dictionary<string, string[]> _dictionaries = new Dictionary<string, string[]>();
+      
+      internal string GetRandomEntry(Random random, string dictionaryName) {
+        if (!_dictionaries.TryGetValue(dictionaryName, out string[] entries)) {
+          string path = Path.Combine(DataGenerationContext.DATA_FILES_ROOT, dictionaryName + ".csv");
+          entries = File.ReadAllLines(path);
+          _dictionaries[dictionaryName] = entries;
+        }
+
+        return entries[random.Next(entries.Length)];
+      }
     }
   }
 }

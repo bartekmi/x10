@@ -16,16 +16,16 @@ attributes:
   - name: city
     dataType: String
     mandatory: true
-    datagen_from_source: us => city; cn => city
+    datagen_from_source: (us => city; cn => city)
 
   - name: stateOrProvince
     dataType: String
-    datagen_from_source: us => state_id; cn => admin
+    datagen_from_source: (us => state_id; cn => admin)
 
   - name: contryCode
     dataType: CountryCode
     mandatory: true
-    datagen_from_source: us => 'US'; cn => 'CN'
+    datagen_from_source: (us => 'US'; cn => 'CN')
 
 
 enums:

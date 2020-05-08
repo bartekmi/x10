@@ -19,15 +19,25 @@ namespace x10.compiler {
       _allEnums = allEnums;
     }
 
+    public List<Entity> CompileFromYamlStrings(params string[] yamls) {
+      // Recursively parse entire directory
+      ParserYaml parser = new ParserYaml(_messages);
+      IEnumerable<TreeNode> rootNodes = parser.ParseFromStrings(yamls);
+      return CompilePrivate(rootNodes);
+    }
+
     public List<Entity> Compile(string dirPath) {
       // Recursively parse entire directory
       Parser parser = new ParserYaml(_messages);
       List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath).Cast<TreeNode>().ToList();
+      return CompilePrivate(rootNodes);
+    }
 
+    private List<Entity> CompilePrivate(IEnumerable<TreeNode> rootNodes) { 
       // Pass 1
       List<Entity> entities = new List<Entity>();
       AttributeReader attrReader = new AttributeReader(_messages);
-      EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums,attrReader);
+      EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {

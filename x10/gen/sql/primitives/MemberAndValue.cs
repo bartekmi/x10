@@ -9,5 +9,4 @@ namespace x10.gen.sql.primitives {
     internal Member Member;
     internal object Value;
   }
-
 }

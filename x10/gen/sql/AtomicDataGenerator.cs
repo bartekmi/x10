@@ -48,10 +48,13 @@ namespace x10.gen.sql {
         double offsetDays = random.NextDouble() * (max - min) + min;
         value = DateTime.Now.AddDays(offsetDays);
       } else if (x10Attr.DataType == DataTypes.Singleton.String) {
-        object fromSource = x10Attr.FindValue(DataGenLibrary.FROM_SOURCE);
-        if (fromSource != null) {
-          Dictionary<string, string> rules = GenSqlUtils.ToDictionary(fromSource.ToString());
-        }
+        string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
+        string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
+
+        if (fromSource != null)
+          value = GenerateFromSource(random, context, fromSource);
+        else if (pattern != null)
+          value = GenerateFromPattern(random, context, pattern);
 
       }
 
@@ -59,6 +62,48 @@ namespace x10.gen.sql {
         Member = x10Attr,
         Value = value,
       };
+    }
+
+    private static string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
+      // Dictionary of probabilities
+      Dictionary<string, string> dictionary = GenSqlUtils.ToDictionary(pattern);
+      if (dictionary != null)
+        return GenerateFromPatternDictionary(random, context, dictionary);
+
+      // Character Replacement
+      return GenerateFromPatternCharReplacement(random, pattern);
+    }
+
+    private static string GenerateFromPatternDictionary(Random random, DataGenerationContext context, Dictionary<string, string> dictionary) {
+      List<WithProbability> list = GenSqlUtils.ToListWithProbability(dictionary);
+      WithProbability randomChoice = GenSqlUtils.GetRandom(random, list);
+      return GenerateFromPattern(random, context, randomChoice.Value);
+    }
+
+    private static string GenerateFromPatternCharReplacement(Random random, string pattern) {
+      StringBuilder builder = new StringBuilder();
+
+      foreach (char c in pattern) {
+        char txC = c;
+
+        switch (c) {
+          case 'D':
+            txC = (char)(random.Next(10) + '0');
+            break;
+          case 'L':
+            txC = (char)(random.Next(26) + 'A');
+            break;
+        }
+
+        builder.Append(txC);
+      }
+          
+      return builder.ToString();
+    }
+
+    private static object GenerateFromSource(Random random, DataGenerationContext context, string fromSource) {
+      Dictionary<string, string> rules = GenSqlUtils.ToDictionary(fromSource);
+      return null;
     }
   }
 }

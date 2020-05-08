@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 
 using YamlDotNet.RepresentationModel;
@@ -19,11 +20,26 @@ namespace x10.parsing {
         return ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
     }
 
+    public IEnumerable<TreeNode> ParseFromStrings(params string[] yamls) {
+      List<TreeNode> parsed = new List<TreeNode>();
+
+      foreach (string yaml in yamls)
+        using (TextReader reader = new StringReader(yaml)) {
+          TreeNode node = ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
+          if (node == null)
+            throw new Exception("Could not parse YAML: " + yaml);
+          node.SetFileInfo("Entity.yaml");
+          parsed.Add(node);
+        }
+
+      return parsed;
+    }
+
     public override IParseElement Parse(string path) {
       return ParsePrivate(() => YamlUtils.ReadYaml(path), path);
     }
 
-    private TreeNode ParsePrivate(Func<YamlDocument> yamlReaderFunc, string path) { 
+    private TreeNode ParsePrivate(Func<YamlDocument> yamlReaderFunc, string path) {
       try {
         YamlDocument document = yamlReaderFunc();
         if (document == null) {

@@ -17,12 +17,16 @@ namespace x10.gen.sql {
       internal int Id;
       internal Entity Entity;
       internal List<MemberAndValue> Values = new List<MemberAndValue>();
+
+      public object[] ValueForSql { get; internal set; }
     }
 
     private class EntityInfo {
       internal int NextId = 1;
       internal List<Row> Rows = new List<Row>();
       internal DataGenerationContext Context;
+      internal Entity Entity;
+      internal int OrderIndex;
 
       internal int RandomExistingId(Random random) {
         if (Rows.Count == 0)
@@ -36,29 +40,97 @@ namespace x10.gen.sql {
     private readonly Random _random;
     private readonly Dictionary<Entity, EntityInfo> _entityInfo;
     private readonly HashSet<Entity> _unprocessedRootEntities;
+    private int _tableOrderIndex;
 
-    public static void Generate(IEnumerable<Entity> entities, string filename) {
-      IEnumerable<Entity> relevantEntities = entities.Where(x => !SqlSchemaGenerator.Ignore(x));
-      FakeDataGenerator generator = new FakeDataGenerator(relevantEntities);
-      generator.Generate();
-
-      DumpData(generator._entityInfo, filename);
+    public static void Generate(IEnumerable<Entity> entities, Random random, string filename) {
+      using (TextWriter writer = new StreamWriter(filename))
+        GeneratePrivate(entities, random, writer);
     }
 
-    private static void DumpData(Dictionary<Entity, EntityInfo> entityInfo, string filename) {
-      using (TextWriter writer = new StreamWriter(filename)) {
-        // TODO... Print content of all rows in appropriate order
+    public static string GenerateIntoString(IEnumerable<Entity> entities, Random random) {
+      using (TextWriter writer = new StringWriter()) {
+        GeneratePrivate(entities, random, writer);
+        return writer.ToString();
       }
     }
 
-    private FakeDataGenerator(IEnumerable<Entity> entities) {
-      _random = new Random();
+    public static void GeneratePrivate(IEnumerable<Entity> entities, Random random, TextWriter writer) {
+      IEnumerable<Entity> relevantEntities = entities.Where(x => !SqlSchemaGenerator.Ignore(x));
+      FakeDataGenerator generator = new FakeDataGenerator(relevantEntities, random);
+      generator.Generate();
+
+      DumpData(generator._entityInfo, writer);
+    }
+
+    #region Write to File
+
+    // Sample:
+
+    // INSERT INTO my_table (id, col1, col2, ...) VALUES
+    // (1, val1, val2, ...),
+    // ...
+    // (N, val1, val2, ...);
+    private static void DumpData(Dictionary<Entity, EntityInfo> entityInfos, TextWriter writer) {
+      IEnumerable<EntityInfo> infos = entityInfos.Values
+        .Where(x => x.Rows.Count > 0)
+        .OrderBy(x => x.OrderIndex);
+
+      foreach (EntityInfo entityInfo in infos) {
+        // Write the INSERT statement
+        Entity entity = entityInfo.Entity;
+        IEnumerable<string> dbColumnNames = entity.Members.Select(x => SqlSchemaGenerator.GetDbColumnName(x));
+
+        writer.WriteLine("INSERT INTO {0} (id, {1}) VALUES",
+          SqlSchemaGenerator.GetTableName(entity),
+          string.Join(", ", dbColumnNames)
+        );
+
+        // Write the data
+        foreach (Row row in entityInfo.Rows) {
+          writer.WriteLine("({0}, {1}){2}",
+            row.Id,
+            string.Join(", ", row.Values.Select(x => ToSql(x))),
+            row == entityInfo.Rows.Last() ? ";" : ",");
+        }
+      }
+    }
+
+    private static string ToSql(MemberAndValue memberAndValue) {
+      Member member = memberAndValue.Member;
+      object value = memberAndValue.Value;
+
+      if (value == null)
+        return "NULL";
+
+      bool quote = false;
+
+      if (member is X10Attribute x10Attribute) {
+        DataType dataType = x10Attribute.DataType;
+
+        if (dataType == DataTypes.Singleton.Date ||
+        dataType == DataTypes.Singleton.String ||
+        dataType == DataTypes.Singleton.Timestamp ||
+        dataType is DataTypeEnum)
+          quote = true;
+      }
+
+      if (quote)
+        return string.Format("'{0}'", value);
+      else
+        return value.ToString();
+    }
+    #endregion
+
+    #region Data Creation
+    private FakeDataGenerator(IEnumerable<Entity> entities, Random random) {
       _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
         Context = DataGenerationContext.CreateContext(_random, x),
+        Entity = x,
       });
 
       IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
       _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
+      _random = random;
     }
 
     private void Generate() {
@@ -75,6 +147,7 @@ namespace x10.gen.sql {
           GenerateForEntity(dependency);
 
       // Generate all rows
+      _entityInfo[entity].OrderIndex = _tableOrderIndex++;    // Ensures correct dependency order when printing
       int count = GetCount(entity);
       for (int ii = 0; ii < count; ii++)
         GenerateRow(entity, null);
@@ -115,11 +188,9 @@ namespace x10.gen.sql {
               Member = association,
               Value = parent.Id,
             });
-          else
-            row.Values.Add(CreateAssociationValue(association));
-        else {
-          // Must be a derived attribute... Ignore
-        }
+          else {
+            // Must be a derived attribute... Ignore
+          }
       return row;
     }
 
@@ -130,6 +201,7 @@ namespace x10.gen.sql {
         Value = _entityInfo[association.ReferencedEntity].RandomExistingId(_random),
       };
     }
+    #endregion
 
     #region Utilities
 
@@ -158,16 +230,15 @@ namespace x10.gen.sql {
     }
 
     private IEnumerable<Entity> GetImmediateDependencies(Entity entity) {
-      return entity.Associations.Where(x => !x.Owns).Select(x => x.ReferencedEntity);
+      IEnumerable<Entity> dependencies = entity.Associations
+        .Where(x => !x.Owns)
+        .Select(x => x.ReferencedEntity)
+        .Distinct();
+
+      string depsList = string.Join(", ", dependencies.Select(x => x.Name));
+      Console.WriteLine("Deps for {0}: {1}", entity.Name, depsList);
+      return dependencies;
     }
     #endregion
-
-    // Sample:
-
-    // INSERT INTO my_table (id, col1, col2, ...) VALUES
-    // (1, val1, val2, ...),
-    // ...
-    // (N, val1, val2, ...);
-    //private static void GenerateDataForTable(TextWriter writer, Entity entity, ReverseAssociationCalculator reverseAssociations) {
   }
 }
