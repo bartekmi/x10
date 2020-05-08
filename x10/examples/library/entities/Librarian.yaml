@@ -10,11 +10,6 @@ attributes:
   - name: hireDate
     dataType: Date
     mandatory: true
-  
-  - name: isActive
-    dataType: Boolean
-    mandatory: true
-
 
 
 
