@@ -11,7 +11,7 @@ attributes:
     mandatory: true
 
   - name: isActive
-    dataType: Bool
+    dataType: Boolean
     mandatory: true
 
   - name: accountNumber
@@ -19,7 +19,7 @@ attributes:
     mandatory: true
   
   - name: balance
-    dataType: money
+    dataType: Money
     mandatory: true
     readOnly: true
   

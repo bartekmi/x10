@@ -15,8 +15,8 @@ attributes:
     dataType: String
     applicableWhen: descriptionEnum == other
 
-  - name: dateTime
-    dataType: DateTime
+  - name: timestamp
+    dataType: Timestamp
     mandatory: true
 
 
@@ -31,7 +31,7 @@ enums:
   - name: DescriptionEnum
     default: lateFee
     values:
-      - lateFee
-      - bookPurchase
-      - refund
-      - other
+      - value: lateFee
+      - value: bookPurchase
+      - value: refund
+      - value: other

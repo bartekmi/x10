@@ -7,12 +7,12 @@ attributes:
     mandatory: true
     ##enter as a negative value if giving money back to accountholder, ie. refund
   
-  - name: dateTime
-    dataType: DateTime
+  - name: timestamp
+    dataType: Timestamp
     mandatory: true
 
   - name: description
-    dataTpe: String
+    dataType: String
   
   - name: paymentMethod
     dataType: PaymentMethod
@@ -23,4 +23,4 @@ attributes:
 
 enums:
   - name: PaymentMethod
-    values: card, cash, "payPal", cheque
+    values: card, cash, paypal, cheque

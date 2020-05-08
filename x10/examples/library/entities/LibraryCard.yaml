@@ -15,6 +15,6 @@ attributes:
     mandatory: true
   
   - name: isActive
-    dataType: Bool
+    dataType: Boolean
     mandatory: true
 

@@ -1,4 +1,4 @@
-name: StaffMemeber
+name: Librarian
 description: A staff member authorized to check out books, take payment, or issue refunds
 
 attributes:
@@ -11,7 +11,7 @@ attributes:
     mandatory: true
   
   - name: isActive
-    dataType: Bool
+    dataType: Boolean
     mandatory: true
 
 

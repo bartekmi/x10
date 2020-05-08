@@ -16,7 +16,7 @@ attributes:
         trigger: loan.checkOutDate < dueDate
   
   - name: returnDate
-      dataType: Date
+    dataType: Date
   
   - name: conditionOut
     dataType: book.Condition

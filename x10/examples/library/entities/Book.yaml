@@ -15,7 +15,7 @@ attributes:
     mandatory: true
   
   - name: isActive
-    dataType: Bool
+    dataType: Boolean
     mandatory: true
 
 
@@ -28,10 +28,10 @@ enums:
   
   - name: Status
     values: 
-      - onShelf
-      - onLoan 
-      - onOpenLoan
-      - returned
-      - storage
-      - repair
-      - lost
+      - value: onShelf
+      - value: onLoan 
+      - value: onOpenLoan
+      - value: returned
+      - value: storage
+      - value: repair
+      - value: lost
