@@ -19,11 +19,11 @@ attributes:
     dataType: Date
   
   - name: conditionOut
-    dataType: book.Condition
+    dataType: Condition
     mandatory: true
 
   - name: conditionIn
-    dataType: book.Condition
+    dataType: Condition
     mandatory: true
   
 

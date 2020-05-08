@@ -10,8 +10,8 @@ attributes:
     dataType: Condition
     mandatory: true
   
-  - name: satus
-    dataType: Status
+  - name: bookSatus
+    dataType: BookStatus
     mandatory: true
   
   - name: isActive
@@ -26,7 +26,7 @@ enums:
   - name: Condition
     values: newOrLikeNew, good, medium, poor
   
-  - name: Status
+  - name: BookStatus
     values: 
       - value: onShelf
       - value: onLoan 

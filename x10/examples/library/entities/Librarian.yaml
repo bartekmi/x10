@@ -1,4 +1,5 @@
 name: Librarian
+inheritsFrom: AuthorizingEntity
 description: A staff member authorized to check out books, take payment, or issue refunds
 
 attributes:
@@ -18,10 +19,6 @@ attributes:
 
 
 associations:
-  - name: loan
-    dataType: Loan
-    many: true
-  
   - name: chargeRefundEvent
     dataType: ChargeRefundEvent
     many: true
