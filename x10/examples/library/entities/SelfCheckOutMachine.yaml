@@ -1,0 +1,37 @@
+name: SelfCheckOutMachine
+inheritsFrom: AuthorizingEntity
+description: Machine that allows customers to check out Loans themselves. Cannot deal with money transactions.
+
+attributes:
+  - name: makeModel
+    dataType: String
+    mandatory: true
+
+  - name: serialNumber
+    dataType: Integer
+    mandatory: true
+
+  - name: productionDate
+    dataType: Date
+    mandatory: true
+  
+  - name: startUseDate  ## When the machine was first put into service.
+    dataType: Date
+    mandatory: true
+    validations:
+      - message: StartUseDate must be after ProductionDate
+        trigger: startUseDate < productionDate
+  
+  - name: lastServiceDate
+    dataType: Date
+  
+  - name: machineStatus
+    dataType: MachineStatus
+    mandatory: true
+
+
+
+
+enums:
+  - name: MachineStatus
+    values: operational, outOfOrder, activeWorkOrder

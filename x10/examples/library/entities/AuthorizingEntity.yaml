@@ -1,0 +1,16 @@
+name: AuthorizingEntity
+description: Allows customers to officially deal with the library.
+abstract: true
+
+attributes:
+  - name: isActive
+    dataType: Boolean
+    mandatory: true
+
+
+
+
+associations:
+  - name: loan
+    dataType: Loan
+    many: true
