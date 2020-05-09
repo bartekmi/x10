@@ -1,0 +1,246 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using YamlDotNet.Core.Tokens;
+
+namespace x10.gen.sql.primitives {
+  // Parses strings like:
+  // Some text ( 50% = <adjective> | 50% = <noun> *DD.DD* (80% = Hello | 20% = World)) ... more text
+
+  // Strategy: 
+  // Pass 1: Parse parentheses
+
+
+  // The resulting parse tree should be, where each line represents a Chunk (??) represents a delimiter
+  // and indentation represents children.
+
+  // (Root)
+  //   Some text 
+  //   (()):
+  //     <adjective> @ 50%
+  //     
+  //         (<>): noun
+  //         (**): DD.DD
+  //         (()): 
+  //            Hello @ 80%
+  //            World @ 20%
+  //    ... more text
+
+  #region Helper Classes
+
+  abstract class Node {
+    internal abstract void Print(StringBuilder builder);
+    internal double Probability;
+    internal List<Node> Children = new List<Node>();
+  }
+
+  enum DelimiterType {
+    DictionaryReplace,
+    CharacterReplace,
+  }
+
+  // Defines a special delimiter - e.g. (...)
+  class Delimiter {
+    internal DelimiterType Type;
+    internal char Open;
+    internal char Close;
+
+    internal Delimiter(DelimiterType type, char open, char close) {
+      Type = type;
+      Open = open;
+      Close = close;
+    }
+  }
+
+  class NodeText : Node {
+    internal Delimiter Delimiter;
+    private StringBuilder _builder = new StringBuilder();
+
+    // Derived
+    private string _trimmedText;
+    internal String Text { get { return _trimmedText ?? _builder.ToString(); } }
+    internal DelimiterType? Type { get { return Delimiter?.Type; } }
+    internal bool Empty { get { return _builder.Length == 0; } }
+
+    internal void Add(char c) {
+      _builder.Append(c);
+    }
+
+    internal void TrimStart() {
+      _trimmedText = Text.TrimStart();
+    }
+
+    internal void TrimEnd() {
+      _trimmedText = Text.TrimEnd();
+    }
+
+    internal override void Print(StringBuilder builder) {
+      builder.Append(Text);
+    }
+  }
+
+  class NodeConcat : Node {
+    internal override void Print(StringBuilder builder) {
+      foreach (Node child in Children)
+        child.Print(builder);
+    }
+
+    // Trim whitespace at both ends
+    internal void Trim() {
+      if (Children.First() is NodeText first)
+        first.TrimStart();
+      if (Children.Last() is NodeText last)
+        last.TrimEnd();
+    }
+  }
+
+  class NodeProbabilities : Node {
+    internal override void Print(StringBuilder builder) {
+      builder.Append("( ");
+      foreach (Node child in Children) {
+        builder.Append(child.Probability * 100);
+        builder.Append("% = ");
+        child.Print(builder);
+        if (child != Children.Last())
+          builder.Append(" | ");
+      }
+      builder.Append(" )");
+    }
+  }
+  #endregion
+
+  #region Tokenizer
+  internal class Tokenizer {
+    private int _index = 0;
+    private string _text;
+
+    // Derived
+    internal bool HasMore { get { return _index < _text.Length; } }
+
+    internal Tokenizer(string text) {
+      _text = text;
+    }
+
+    internal char Next() {
+      if (!HasMore)
+        throw new Exception("Unexpected end of string");
+      return _text[_index++];
+    }
+
+    internal char? Peek() {
+      if (HasMore)
+        return _text[_index];
+      return null;
+    }
+
+    internal void Expect(char c) {
+      EatWhitespace();
+
+      char next = Next();
+      if (next != c)
+        throw new Exception(string.Format("Expected {0} but got {1} at index {2}", c, next, _index - 1));
+    }
+
+    internal void EatWhitespace() {
+      while (Peek() == ' ' || Peek() == '\t')
+        Next();
+    }
+  }
+  #endregion
+
+  #region Parser
+  internal static class DataGenLanguageParser {
+    private static readonly Delimiter[] DELIMITERS = new Delimiter[] {
+      new Delimiter(DelimiterType.DictionaryReplace, '<', '>'),
+      new Delimiter(DelimiterType.CharacterReplace, '*', '*'),
+    };
+
+    internal static Node Parse(string text) {
+      Tokenizer tokenizer = new Tokenizer(text);
+      return Parse(tokenizer);
+    }
+
+    private static Node Parse(Tokenizer tokenizer) {
+      NodeConcat concat = new NodeConcat();
+
+      NodeText text = new NodeText(); // Current running text accumulator
+
+      while (true) {
+        char? next = tokenizer.Peek();
+        if (next == null || next.Value == '|' || next.Value == ')')
+          break;
+
+        if (next.Value == '(') {
+          if (!text.Empty) {
+            concat.Children.Add(text);
+            text = new NodeText();
+          }
+          concat.Children.Add(ParseProbabilities(tokenizer));
+        } else
+          text.Add(tokenizer.Next());
+      }
+
+      if (!text.Empty) 
+        concat.Children.Add(text);
+
+      concat.Trim();
+
+      return concat;
+    }
+
+    private static Node ParseProbabilities(Tokenizer tokenizer) {
+      NodeProbabilities probabilities = new NodeProbabilities();
+      tokenizer.Expect('(');
+
+      while (true) {
+        double probability = ParseProbability(tokenizer);
+        tokenizer.Expect('=');
+
+        Node child = Parse(tokenizer);
+        child.Probability = probability;
+        probabilities.Children.Add(child);
+
+        char terminator = tokenizer.Next();
+        if (terminator == ')')
+          break;
+        if (terminator != '|')
+          throw new Exception("Unexpected terminator " + terminator);
+      }
+
+      return probabilities;
+    }
+
+    private static double ParseProbability(Tokenizer tokenizer) {
+      int percentage = ParseInt(tokenizer);
+      if (percentage < 0 || percentage > 100)
+        throw new Exception("Percentage must be between 0 and 100");
+      tokenizer.Expect('%');
+      return percentage / 100.0;
+    }
+
+    private static int ParseInt(Tokenizer tokenizer) {
+      tokenizer.EatWhitespace();
+      int result = 0;
+      bool encounteredDigit = false;
+
+      do {
+        char? c = tokenizer.Peek();
+        if (c == null || !char.IsDigit(c.Value))
+          break;
+
+        tokenizer.Next();
+        result *= 10;
+        result += c.Value - '0';
+        encounteredDigit = true;
+      } while (true);
+
+      if (!encounteredDigit)
+        throw new Exception("Could not parse integer");
+
+      return result;
+    }
+  }
+  #endregion
+}

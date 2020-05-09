@@ -211,28 +211,6 @@ enums:
     }
 
     [Fact]
-    public void EnsureUniquenessOfEntityMemberNames() {
-      RunTest(@"
-name: Tmp
-description: Description...
-
-attributes: 
-  - name: duplicate
-    description: Description...
-    dataType: String
-  - name: unique
-    description: Description...
-    dataType: String
-
-associations: 
-  - name: duplicate
-    description: Description...
-    dataType: String
-",
-      "The name 'duplicate' is not unique among all the attributes and association of this Entity.", 6, 11);
-    }
-
-    [Fact]
     public void EnsureUniquenessOfEnumValues() {
       RunTest(@"
 name: Tmp

@@ -47,10 +47,10 @@ namespace x10.gen.sql.primitives {
     }
 
     [Fact]
-    public void ParseOtheFiles() {
+    public void ParseTheFiles() {
       TestRead("us_cities.csv", 19, 28890 - 1);
-      TestRead("first_names.csv", 2, 6783 - 1);
-      TestRead("last_names.csv", 1, 2089 - 1);
+      TestRead("first_name.csv", 2, 6783 - 1);
+      TestRead("last_name.csv", 1, 2089 - 1);
     }
 
     private void TestRead(string path, int expectedColumns, int expectedRows) {
