@@ -25,34 +25,40 @@ namespace x10.gen.sql.primitives {
 
     [Fact]
     public void ParseText() {
-      RunTest("Start text",
-        "Start text");
+      RunTest("Start text");
+    }
+
+    [Fact]
+    public void ParseTextWithDelimiters() {
+      RunTest("*LL.DD*");
+    }
+
+    [Fact]
+    public void ParseConcatWithDelimiters() {
+      RunTest("Start *LL.DD* Middle <noun> End");
     }
 
     [Fact]
     public void ParseProbabilities() {
-      RunTest("( 10% = Hello | 90% = World )",
-        "( 10% = Hello | 90% = World )");
+      RunTest("( 10% = Hello | 90% = World )");
     }
 
     [Fact]
     public void ParseConcat() {
-      RunTest("Start ( 10% = Hello | 90% = World) Finish",
-        "Start ( 10% = Hello | 90% = World ) Finish");
+      RunTest("Start ( 10% = Hello | 90% = World ) Finish");
     }
 
     [Fact]
     public void ParseConcatAndRecursiveProbabilities() {
-      RunTest("Start text ( 50% = First | 50% = Second ( 80% = Hello | 20% = World ) ) End Text",
-        "Start text ( 50% = First | 50% = Second ( 80% = Hello | 20% = World ) ) End Text");
+      RunTest("Start text ( 50% = First | 50% = Second ( 80% = Hello | 20% = World ) ) End Text");
     }
 
-    private void RunTest(string input, string output) {
+    private void RunTest(string input, string output = null) {
       Node node = DataGenLanguageParser.Parse(input);
       StringBuilder builder = new StringBuilder();
       node.Print(builder);
 
-      Assert.Equal(output, builder.ToString());
+      Assert.Equal(output ?? input, builder.ToString());
     }
   }
 }

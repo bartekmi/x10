@@ -123,14 +123,14 @@ namespace x10.gen.sql {
 
     #region Data Creation
     private FakeDataGenerator(IEnumerable<Entity> entities, Random random) {
+      IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
+      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
+      _random = random;
+
       _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
         Context = DataGenerationContext.CreateContext(_random, x),
         Entity = x,
       });
-
-      IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
-      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
-      _random = random;
     }
 
     private void Generate() {

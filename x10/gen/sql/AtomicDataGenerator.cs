@@ -55,7 +55,6 @@ namespace x10.gen.sql {
           value = GenerateFromSource(random, context, fromSource);
         else if (pattern != null)
           value = GenerateFromPattern(random, context, pattern);
-
       }
 
       return new MemberAndValue() {
@@ -65,24 +64,57 @@ namespace x10.gen.sql {
     }
 
     private static string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
-      // Dictionary of probabilities
-      Dictionary<string, string> dictionary = GenSqlUtils.ToDictionary(pattern);
-      if (dictionary != null)
-        return GenerateFromPatternDictionary(random, context, dictionary);
-
-      // Character Replacement
-      return GenerateFromPatternCharReplacement(random, pattern);
-    }
-
-    private static string GenerateFromPatternDictionary(Random random, DataGenerationContext context, Dictionary<string, string> dictionary) {
-      List<WithProbability> list = GenSqlUtils.ToListWithProbability(dictionary);
-      WithProbability randomChoice = GenSqlUtils.GetRandom(random, list);
-      return GenerateFromPattern(random, context, randomChoice.Value);
-    }
-
-    private static string GenerateFromPatternCharReplacement(Random random, string pattern) {
+      Node node = DataGenLanguageParser.Parse(pattern);
       StringBuilder builder = new StringBuilder();
 
+      GenerateForNode(random, context, builder, node);
+
+      return builder.ToString();
+    }
+
+    private static void GenerateForNode(Random random, DataGenerationContext context, StringBuilder builder, Node node) {
+      if (node is NodeConcat nodeConcat) {
+        GenerateForNodeConcat(random, context, builder, nodeConcat);
+      } else if (node is NodeText nodeText) {
+        GenerateForNodeText(random, context, builder, nodeText);
+      } else if (node is NodeProbabilities nodeProbabilities) {
+        GenerateForNodeProbabilities(random, context, builder, nodeProbabilities);
+      } else
+        throw new Exception("Unexpected node type: " + node.GetType().Name);
+    }
+
+    private static void GenerateForNodeConcat(Random random, DataGenerationContext context, StringBuilder builder, NodeConcat nodeConcat) {
+      foreach (Node child in nodeConcat.Children)
+        GenerateForNode(random, context, builder, child);
+    }
+
+    private static void GenerateForNodeText(Random random, DataGenerationContext context, StringBuilder builder, NodeText nodeText) {
+      if (nodeText.Delimiter == null)
+        builder.Append(nodeText.Text);
+      else {
+        DelimiterType type = nodeText.Delimiter.Type;
+        switch (type) {
+          case DelimiterType.CharacterReplace:
+            GenerateCharacterReplace(random, builder, nodeText.Text);
+            break;
+          case DelimiterType.DictionaryReplace:
+            GenerateDictionaryReplace(context, builder, nodeText.Text);
+            break;
+        }
+      }
+    }
+
+    private static void GenerateForNodeProbabilities(Random random, DataGenerationContext context, StringBuilder builder, NodeProbabilities nodeProbabilities) {
+      Node selectedNode = GenSqlUtils.GetRandom(random, nodeProbabilities.Children);
+      GenerateForNode(random, context, builder, selectedNode);
+    }
+
+    private static void GenerateDictionaryReplace(DataGenerationContext context, StringBuilder builder, string dictionaryName) {
+      string value = context.GetRandomDictionaryEntry(dictionaryName.Trim());
+      builder.Append(value);
+    }
+
+    private static void GenerateCharacterReplace(Random random, StringBuilder builder, string pattern) {
       foreach (char c in pattern) {
         char txC = c;
 
@@ -97,8 +129,6 @@ namespace x10.gen.sql {
 
         builder.Append(txC);
       }
-          
-      return builder.ToString();
     }
 
     private static object GenerateFromSource(Random random, DataGenerationContext context, string fromSource) {

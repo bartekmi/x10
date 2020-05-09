@@ -56,11 +56,11 @@ attributes:
 
   - name: charReplacement
     dataType: String
-    datagen_pattern: ZZ.DD.LLL
+    datagen_pattern: ~ZZ.DD.LLL~
 
   - name: percentagePattern
     dataType: String
-    datagen_pattern: (50% => <adjective> <plural-noun> | 50% => <plural-noun>)
+    datagen_pattern: (50% = <adjective> <noun> | 50% = <noun>)
 ";
 
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));

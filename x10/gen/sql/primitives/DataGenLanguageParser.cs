@@ -7,34 +7,32 @@ using YamlDotNet.Core.Tokens;
 
 namespace x10.gen.sql.primitives {
   // Parses strings like:
-  // Some text ( 50% = <adjective> | 50% = <noun> *DD.DD* (80% = Hello | 20% = World)) ... more text
+  // Some text ( 50% = <adjective> | 50% = <noun> *LLDD.DD* (80% = Hello | 20% = World)) more text
 
-  // Strategy: 
-  // Pass 1: Parse parentheses
+  // (The intention is to generate data like...)
+  // Some text red more text
+  // Some text horse AF52.69 Hello more text
 
+  // The resulting parse tree should be:
 
-  // The resulting parse tree should be, where each line represents a Chunk (??) represents a delimiter
-  // and indentation represents children.
-
-  // (Root)
-  //   Some text 
-  //   (()):
-  //     <adjective> @ 50%
-  //     
-  //         (<>): noun
-  //         (**): DD.DD
-  //         (()): 
-  //            Hello @ 80%
-  //            World @ 20%
-  //    ... more text
+  // (Concat)
+  //    (Text) "Some text "
+  //    (Probabilities)
+  //      (Concat @ 50%)
+  //        (Text @ <>) "adjective"
+  //      (Concat @ 50%)
+  //        (Text @ <>) "noun"
+  //        (Text) " "
+  //        (Text @ **) "DD.DD"
+  //        (Text) " "
+  //        (Probabilities): 
+  //          (Concat @ 80%)
+  //            (Text) "Hello"
+  //          (Concat @ 20%)
+  //            (Text) "World"
+  //   (Text) " more text"
 
   #region Helper Classes
-
-  abstract class Node {
-    internal abstract void Print(StringBuilder builder);
-    internal double Probability;
-    internal List<Node> Children = new List<Node>();
-  }
 
   enum DelimiterType {
     DictionaryReplace,
@@ -52,6 +50,12 @@ namespace x10.gen.sql.primitives {
       Open = open;
       Close = close;
     }
+  }
+
+  abstract class Node : IWithProbability {
+    internal abstract void Print(StringBuilder builder);
+    public double Probability { get; internal set; }
+    internal List<Node> Children = new List<Node>();
   }
 
   class NodeText : Node {
@@ -77,7 +81,11 @@ namespace x10.gen.sql.primitives {
     }
 
     internal override void Print(StringBuilder builder) {
-      builder.Append(Text);
+      if (Delimiter == null)
+        builder.Append(Text);
+      else
+        builder.Append(string.Format("{0}{1}{2}",
+          Delimiter.Open, Text, Delimiter.Close));
     }
   }
 
@@ -154,7 +162,7 @@ namespace x10.gen.sql.primitives {
   internal static class DataGenLanguageParser {
     private static readonly Delimiter[] DELIMITERS = new Delimiter[] {
       new Delimiter(DelimiterType.DictionaryReplace, '<', '>'),
-      new Delimiter(DelimiterType.CharacterReplace, '*', '*'),
+      new Delimiter(DelimiterType.CharacterReplace, '~', '~'),
     };
 
     internal static Node Parse(string text) {
@@ -172,22 +180,34 @@ namespace x10.gen.sql.primitives {
         if (next == null || next.Value == '|' || next.Value == ')')
           break;
 
-        if (next.Value == '(') {
-          if (!text.Empty) {
-            concat.Children.Add(text);
-            text = new NodeText();
-          }
+        if (next.Value == '(') {    // NodeProbabilities
+          text = RecordTextNode(concat, text);
           concat.Children.Add(ParseProbabilities(tokenizer));
-        } else
-          text.Add(tokenizer.Next());
+        } else {
+          char c = tokenizer.Next();
+          if (text.Delimiter != null && c == text.Delimiter.Close) {
+            text = RecordTextNode(concat, text);
+          } else if (DELIMITERS.Select(x => x.Open).Any(x => x == c)) {
+            text = RecordTextNode(concat, text);
+            text.Delimiter = DELIMITERS.Single(x => x.Open == c);
+          } else
+            text.Add(c);
+        }
       }
 
-      if (!text.Empty) 
-        concat.Children.Add(text);
+      RecordTextNode(concat, text);
 
       concat.Trim();
 
       return concat;
+    }
+
+    private static NodeText RecordTextNode(NodeConcat concat, NodeText text) {
+      if (text.Empty)
+        return text;
+
+      concat.Children.Add(text);
+      return new NodeText();
     }
 
     private static Node ParseProbabilities(Tokenizer tokenizer) {

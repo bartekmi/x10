@@ -50,21 +50,9 @@ namespace x10.gen.sql.primitives {
 
       return null;
     }
-
-    internal static List<WithProbability> ToListWithProbability(Dictionary<string, string> dictionary) {
-      return dictionary.Select(x => new WithProbability() {
-        Probability = ParsePercentage(x.Key),
-        Value = x.Value,
-      }).ToList();
-    }
   }
 
   internal interface IWithProbability {
     double Probability { get; }
-  }
-
-  internal class WithProbability : IWithProbability {
-    public double Probability { get; internal set; }
-    public string Value { get; set; }
   }
 }
