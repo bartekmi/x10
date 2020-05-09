@@ -17,12 +17,6 @@ using System.Text;
 namespace x10.gen.sql.primitives {
   public class DataGenLanguageParserTest {
 
-    private readonly ITestOutputHelper _output;
-
-    public DataGenLanguageParserTest(ITestOutputHelper output) {
-      _output = output;
-    }
-
     [Fact]
     public void ParseText() {
       RunTest("Start text");

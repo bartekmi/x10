@@ -19,7 +19,7 @@ namespace x10.gen.sql {
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MIN = -20.0;
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MAX = +5.0;
 
-    internal static MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr) {
+    internal static MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
       object objMin = x10Attr.FindValue(DataGenLibrary.MIN);
       object objMax = x10Attr.FindValue(DataGenLibrary.MAX);
 
@@ -49,7 +49,7 @@ namespace x10.gen.sql {
         double offsetDays = random.NextDouble() * (max - min) + min;
         value = DateTime.Now.AddDays(offsetDays);
       } else if (x10Attr.DataType == DataTypes.Singleton.String)
-        value = GenerateForString(random, context, x10Attr);
+        value = GenerateForString(random, context, x10Attr, externalRow);
 
       return new MemberAndValue() {
         Member = x10Attr,
@@ -57,7 +57,8 @@ namespace x10.gen.sql {
       };
     }
 
-    private static string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr) {
+    #region Generate For String
+    private static string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
       string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
       string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
       bool capitalize = x10Attr.FindValue<bool>(DataGenLibrary.CAPITALIZE);
@@ -65,7 +66,7 @@ namespace x10.gen.sql {
       string text = null;
 
       if (fromSource != null)
-        text = GenerateFromSource(random, context, fromSource);
+        text = GenerateFromSource(externalRow, fromSource);
       else if (pattern != null)
         text = GenerateFromPattern(random, context, pattern);
 
@@ -75,6 +76,7 @@ namespace x10.gen.sql {
       return text;
     }
 
+    #region Generate From Pattern
     private static string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
       Node node = DataGenLanguageParser.Parse(pattern);
       StringBuilder builder = new StringBuilder();
@@ -142,10 +144,28 @@ namespace x10.gen.sql {
         builder.Append(txC);
       }
     }
+    #endregion
 
-    private static string GenerateFromSource(Random random, DataGenerationContext context, string fromSource) {
-      Dictionary<string, string> rules = GenSqlUtils.ToDictionary(fromSource);
-      return null;
+    #region Generate From Source
+    private static string GenerateFromSource(DataFileRow externalRow, string rulesAsString) {
+      if (externalRow == null)
+        return null;
+
+      Dictionary<string, string> rules = GenSqlUtils.ToDictionary(rulesAsString);
+      if (rules == null)
+        throw new Exception("Invalid from_source format: " + rulesAsString);
+
+
+      string alias = externalRow.Owner.Alias;
+      if (!rules.TryGetValue(alias, out string field))
+        throw new Exception(string.Format("Alias '{0}' not found in from_source rules: {1}.", alias, rulesAsString));
+
+      if (NameUtils.IsQuoted(field))
+        return NameUtils.StripQuotes(field);
+
+      return externalRow.GetValue(field);
     }
+    #endregion
+    #endregion
   }
 }

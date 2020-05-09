@@ -16,14 +16,6 @@ using x10.model.definition;
 namespace x10.gen.sql.primitives {
   public class ExternalDataFileTest {
 
-    private readonly ITestOutputHelper _output;
-    private readonly MessageBucket _messages;
-
-    public ExternalDataFileTest(ITestOutputHelper output) {
-      _output = output;
-      _messages = new MessageBucket();
-    }
-
     private const string FILE_DIR = @"../../../../data";
 
     [Fact]

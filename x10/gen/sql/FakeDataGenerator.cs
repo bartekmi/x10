@@ -179,9 +179,12 @@ namespace x10.gen.sql {
         linkToParent = parentTypeAssociations.Single();
       }
 
+      DataGenerationContext context = _entityInfo[entity].Context;
+      DataFileRow externalRow = context.GetRandomExternalFileRow();
+
       foreach (Member member in entity.Members)
         if (member is X10Attribute x10Attr)
-          row.Values.Add(AtomicDataGenerator.Generate(_random, _entityInfo[entity].Context, x10Attr));
+          row.Values.Add(AtomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
         else if (member is Association association)
           if (association == linkToParent)
             row.Values.Add(new MemberAndValue() {

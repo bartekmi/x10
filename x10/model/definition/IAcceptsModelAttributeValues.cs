@@ -22,7 +22,7 @@ namespace x10.model.definition {
 
     public static bool FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName, out T objValue) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
-      objValue = default(T);
+      objValue = default;
       if (value == null) 
         return false;
       
@@ -32,7 +32,7 @@ namespace x10.model.definition {
 
     public static T FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
-      return value == null ? default(T) : (T)value?.Value;
+      return value == null ? default : (T)value?.Value;
     }
 
     public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {

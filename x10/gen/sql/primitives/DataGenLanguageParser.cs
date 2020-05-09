@@ -56,11 +56,18 @@ namespace x10.gen.sql.primitives {
     internal abstract void Print(StringBuilder builder);
     public double Probability { get; internal set; }
     internal List<Node> Children = new List<Node>();
+
+    // Derived
+    internal string OnlyChildText {
+      get {
+        return Children.OfType<NodeText>().Single().Text;
+      }
+    }
   }
 
   class NodeText : Node {
     internal Delimiter Delimiter;
-    private StringBuilder _builder = new StringBuilder();
+    private readonly StringBuilder _builder = new StringBuilder();
 
     // Derived
     private string _trimmedText;
@@ -122,7 +129,7 @@ namespace x10.gen.sql.primitives {
   #region Tokenizer
   internal class Tokenizer {
     private int _index = 0;
-    private string _text;
+    private readonly string _text;
 
     // Derived
     internal bool HasMore { get { return _index < _text.Length; } }
@@ -165,12 +172,12 @@ namespace x10.gen.sql.primitives {
       new Delimiter(DelimiterType.CharacterReplace, '~', '~'),
     };
 
-    internal static Node Parse(string text) {
+    internal static NodeConcat Parse(string text) {
       Tokenizer tokenizer = new Tokenizer(text);
       return Parse(tokenizer);
     }
 
-    private static Node Parse(Tokenizer tokenizer) {
+    private static NodeConcat Parse(Tokenizer tokenizer) {
       NodeConcat concat = new NodeConcat();
 
       NodeText text = new NodeText(); // Current running text accumulator

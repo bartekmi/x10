@@ -58,7 +58,7 @@ namespace x10.utils {
       return text;
     }
 
-    internal static string Capitalize(string text) {
+    public static string Capitalize(string text) {
       bool capitalize = true;
       StringBuilder builder = new StringBuilder();
 
@@ -72,6 +72,16 @@ namespace x10.utils {
       }
 
       return builder.ToString();
+    }
+
+    public static bool IsQuoted(string text) {
+      text = text.Trim();
+      return text.StartsWith("'") && text.EndsWith("'");
+    }
+
+    public static string StripQuotes(string quotedText) {
+      quotedText = quotedText.Trim();
+      return quotedText.Trim('\'').Trim('"');
     }
   }
 }

@@ -62,20 +62,56 @@ attributes:
     dataType: String
     datagen_pattern: (50% = <adjective> <noun> | 50% = <noun>)
     datagen_capitalize: true
+
+  - name: city
+    dataType: String
+    datagen_from_source: (us => city | cn => city)
 ";
 
+      string expected = "TODO";
+
+      RunTest(yaml, expected);
+    }
+
+    [Fact]
+    public void GenerateFromExternalFiles() {
+      string yaml = @"
+name: Entity
+datagen_quantity: 10
+datagen_sources: (25% = us_cities.csv AS us | 75% = cn_cities.csv AS cn)
+
+attributes:
+  - name: city
+    dataType: String
+    datagen_from_source: (us => city | cn => city)
+
+  - name: stateOrProvince
+    dataType: String
+    datagen_from_source: (us => state_id | cn => admin)
+
+  - name: contryCode
+    dataType: String
+    datagen_from_source: (us => 'US' | cn => 'CN')
+";
+
+      string expected = "TODO";
+
+      RunTest(yaml, expected);
+    }
+
+    private void RunTest(string yaml, string expected) {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yaml);
 
+      TestUtils.DumpMessages(_messages, _output);
       Assert.False(_messages.HasErrors);
 
-      TestUtils.DumpMessages(_messages, _output);
       _output.WriteLine("");
 
       string sql = FakeDataGenerator.GenerateIntoString(entities, new Random(0));
       _output.WriteLine(sql);
 
-      Assert.Equal(@"TODO", sql);
+      Assert.Equal(expected, sql);
     }
   }
 }
