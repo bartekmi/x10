@@ -16,7 +16,7 @@ namespace x10.compiler {
     private readonly AllEnums _allEnums;
 
     public EntityCompilerPass2(
-      MessageBucket messages, 
+      MessageBucket messages,
       AllEntities allEntities,
       AllEnums allEnums) {
 
@@ -39,7 +39,6 @@ namespace x10.compiler {
         Messages,
         "The Enum name '{0}' is not unique.");
 
-
       // If any of the ModelAttributeValue's - either for the entity, or
       // for any members - have a Pass-2 action, invoke it.
       // Examples of Pass-2 actions are hydrating 'InheritsFrom' and 'ReferencedEntity'
@@ -49,10 +48,22 @@ namespace x10.compiler {
 
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues) {
-            if ((value.Definition as ModelAttributeDefinitionAtomic)?.DataTypeMustBeSameAsAttribute == true) 
+            if ((value.Definition as ModelAttributeDefinitionAtomic)?.DataTypeMustBeSameAsAttribute == true)
               ConvertValueToDataTypeOfAttribute(member as X10Attribute, value);
             value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, member, value);
           }
+      }
+
+      // Verify Uniqueness of all member names within inheritance hierarchies
+      // We can't put this in Pass 2 action of attribute definition
+      // because we can't guarantee that the entire inheritance tree has been "hydrated"
+      // when Pass 2 above is running
+      // However, inheritance hierarchy is full done at this point.
+      foreach (Entity entity in _allEntities.All) {
+        UniquenessChecker.Check("name",
+          entity.Members,
+          Messages,
+          "The name '{0}' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).");
       }
     }
 

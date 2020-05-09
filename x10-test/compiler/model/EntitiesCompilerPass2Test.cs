@@ -141,6 +141,38 @@ enums:
       RunTest("The Enum name 'Duplicate' is not unique.", 4, 11);
     }
 
+    [Fact]
+    public void DuplicateMemberNameInDerived() {
+      Entity child = CompilePass1(@"
+name: Child
+inheritsFrom: Parent
+attributes:
+  - name: myAttr
+    dataType: String
+");
+      Entity parent = CompilePass1(@"
+name: Parent
+associations:
+  - name: myAttr
+    dataType: Parent
+");
+      RunTest("The name 'myAttr' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).", 4, 11, child, parent);
+    }
+
+    [Fact]
+      public void DuplicateMemberNameInSameClass() {
+        Entity entity = CompilePass1(@"
+name: Child
+attributes:
+  - name: myAttr
+    dataType: String
+  - name: myAttr
+    dataType: String
+");
+
+        RunTest("The name 'myAttr' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).", 4, 11, entity);
+    }
+
     #region Utilities
 
     private Entity CompilePass1(string yaml) {

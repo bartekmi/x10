@@ -69,12 +69,6 @@ namespace x10.compiler {
         foreach (TreeNode enumRootNode in enums.Children)
           _enumsCompiler.CompileEnum(enumRootNode);
 
-      // Check uniqueness of members
-      UniquenessChecker.Check("name",
-        entity.Members,
-        _messages,
-        "The name '{0}' is not unique among all the attributes and association of this Entity.");
-
       return entity;
     }
   }
