@@ -5,6 +5,7 @@ using System.Text;
 using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.utils;
 
 namespace x10.gen.sql {
   internal static class AtomicDataGenerator {
@@ -18,7 +19,7 @@ namespace x10.gen.sql {
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MIN = -20.0;
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MAX = +5.0;
 
-    internal static MemberAndValue Generate(Random random, DataGenerationContext context,  X10Attribute x10Attr) {
+    internal static MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr) {
       object objMin = x10Attr.FindValue(DataGenLibrary.MIN);
       object objMax = x10Attr.FindValue(DataGenLibrary.MAX);
 
@@ -47,20 +48,31 @@ namespace x10.gen.sql {
 
         double offsetDays = random.NextDouble() * (max - min) + min;
         value = DateTime.Now.AddDays(offsetDays);
-      } else if (x10Attr.DataType == DataTypes.Singleton.String) {
-        string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
-        string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
-
-        if (fromSource != null)
-          value = GenerateFromSource(random, context, fromSource);
-        else if (pattern != null)
-          value = GenerateFromPattern(random, context, pattern);
-      }
+      } else if (x10Attr.DataType == DataTypes.Singleton.String)
+        value = GenerateForString(random, context, x10Attr);
 
       return new MemberAndValue() {
         Member = x10Attr,
         Value = value,
       };
+    }
+
+    private static string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr) {
+      string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
+      string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
+      bool capitalize = x10Attr.FindValue<bool>(DataGenLibrary.CAPITALIZE);
+
+      string text = null;
+
+      if (fromSource != null)
+        text = GenerateFromSource(random, context, fromSource);
+      else if (pattern != null)
+        text = GenerateFromPattern(random, context, pattern);
+
+      if (capitalize)
+        text = NameUtils.Capitalize(text);
+
+      return text;
     }
 
     private static string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
@@ -131,7 +143,7 @@ namespace x10.gen.sql {
       }
     }
 
-    private static object GenerateFromSource(Random random, DataGenerationContext context, string fromSource) {
+    private static string GenerateFromSource(Random random, DataGenerationContext context, string fromSource) {
       Dictionary<string, string> rules = GenSqlUtils.ToDictionary(fromSource);
       return null;
     }

@@ -24,6 +24,7 @@ namespace x10.gen.sql {
     internal const string MAX = "datagen_max";
     internal const string RANDOM_TEXT = "datagen_random_text";
     internal const string NO_SQL_SCHEMA = "datagen_no_sql_schema";
+    internal const string CAPITALIZE = "datagen_capitalize";
 
     private static readonly DataType RANGE_DATA_TYPE = new DataType() {
       Name = "SqlRange",
@@ -91,10 +92,16 @@ namespace x10.gen.sql {
         DataTypeMustBeSameAsAttribute = true,
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "datagen_random_text",
+        Name = RANDOM_TEXT,
         Description = @"Generate random text based on the pattern: 'X to Y words' - e.g. '5 to 30 words'",
         AppliesTo = AppliesTo.Attribute,
-        DataTypeMustBeSameAsAttribute = true,
+        DataType = DataTypes.Singleton.String,
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = CAPITALIZE,
+        Description = @"If true, each word in any generated text will be capitalized",
+        AppliesTo = AppliesTo.Attribute,
+        DataType = DataTypes.Singleton.Boolean,
       },
 
       // Association Level

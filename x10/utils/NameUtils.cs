@@ -57,5 +57,21 @@ namespace x10.utils {
 
       return text;
     }
+
+    internal static string Capitalize(string text) {
+      bool capitalize = true;
+      StringBuilder builder = new StringBuilder();
+
+      foreach (char c in text) {
+        builder.Append(capitalize ? char.ToUpper(c) : c);
+
+        if (char.IsWhiteSpace(c))
+          capitalize = true;
+        else
+          capitalize = false;
+      }
+
+      return builder.ToString();
+    }
   }
 }

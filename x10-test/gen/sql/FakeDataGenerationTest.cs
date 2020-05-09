@@ -61,6 +61,7 @@ attributes:
   - name: percentagePattern
     dataType: String
     datagen_pattern: (50% = <adjective> <noun> | 50% = <noun>)
+    datagen_capitalize: true
 ";
 
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
