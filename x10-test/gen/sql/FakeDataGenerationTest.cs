@@ -62,13 +62,21 @@ attributes:
     dataType: String
     datagen_pattern: (50% = <adjective> <noun> | 50% = <noun>)
     datagen_capitalize: true
-
-  - name: city
-    dataType: String
-    datagen_from_source: (us => city | cn => city)
 ";
 
-      string expected = "TODO";
+      string expected =
+@"INSERT INTO entity (id, integer, float, char_replacement, percentage_pattern) VALUES
+(1, 8, 10.576802268939467, 'ZZ.52.OXL', 'Division'),
+(2, 7, 10.563265907281668, 'ZZ.49.AWZ', 'Equity'),
+(3, 8, 10.599190217535565, 'ZZ.06.NYR', 'Bid'),
+(4, 7, 10.52971718657283, 'ZZ.96.TAJ', 'Well-informed Leather'),
+(5, 7, 10.527345148347013, 'ZZ.97.ILD', 'Ill-informed Rain'),
+(6, 7, 10.519491343674945, 'ZZ.88.TWR', 'Crash'),
+(7, 8, 10.508657988351144, 'ZZ.81.QVF', 'Joey'),
+(8, 8, 10.580946258027547, 'ZZ.17.SDX', 'Large Manufacturing'),
+(9, 8, 10.546839774142411, 'ZZ.88.UTY', 'Measly Pint'),
+(10, 7, 10.582061007331154, 'ZZ.21.BQS', 'Trend');
+";
 
       RunTest(yaml, expected);
     }
@@ -94,7 +102,19 @@ attributes:
     datagen_from_source: (us => 'US' | cn => 'CN')
 ";
 
-      string expected = "TODO";
+      string expected =
+@"INSERT INTO entity (id, city, state_or_province, contry_code) VALUES
+(1, 'Tongchuan', 'Sichuan', 'CN'),
+(2, 'Liangshi', 'Hunan', 'CN'),
+(3, 'Henderson', 'IL', 'US'),
+(4, 'Shangdu', 'Inner Mongolia', 'CN'),
+(5, 'Hengzhou', 'Guangxi', 'CN'),
+(6, 'Shishan', 'Jiangsu', 'CN'),
+(7, 'Qiaoshang', 'Yunnan', 'CN'),
+(8, 'Xinyang', 'Henan', 'CN'),
+(9, 'Piqan', 'Xinjiang', 'CN'),
+(10, 'Jijiang', 'Chongqing', 'CN');
+";
 
       RunTest(yaml, expected);
     }
