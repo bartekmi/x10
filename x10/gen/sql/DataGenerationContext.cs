@@ -6,23 +6,25 @@ using System.Text;
 
 using x10.gen.sql.primitives;
 using x10.model.definition;
+using x10.parsing;
 
 namespace x10.gen.sql {
   internal class DataGenerationContext {
     internal List<ExternalDataFile> ExternalDataFiles = new List<ExternalDataFile>();
+    private readonly DataGenLanguageParser _parser;
     private Random _random;
     private readonly StaticDictionaries _staticDictionaries = new StaticDictionaries();
 
     internal const string DATA_FILES_ROOT = @"C:\x10\x10\data";  // TODO: Move to config
 
-    internal static DataGenerationContext CreateContext(Random random, Entity entity) {
+    internal static DataGenerationContext CreateContext(DataGenLanguageParser parser, Random random, Entity entity) {
       DataGenerationContext context = new DataGenerationContext() {
         _random = random,
       };
 
       string sources = entity.FindValue<string>(DataGenLibrary.SOURCES);
       if (sources != null) {
-        NodeProbabilities sourcesNode = DataGenLanguageParser.Parse(sources)
+        NodeProbabilities sourcesNode = parser.Parse(sources)
           .Children.OfType<NodeProbabilities>().SingleOrDefault();
         if (sourcesNode == null)
           throw new Exception(string.Format("Could not parse 'Probabilities Node' from '{0}'", sources));

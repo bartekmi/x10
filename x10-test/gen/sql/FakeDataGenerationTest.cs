@@ -34,7 +34,8 @@ namespace x10.gen.sql {
 
       Assert.False(_messages.HasErrors);
 
-      FakeDataGenerator.Generate(entities, new Random(0), OUTPUT_FILE);
+      FakeDataGenerator.Generate(_messages, entities, new Random(0), OUTPUT_FILE);
+      TestUtils.DumpMessages(_messages, _output);
     }
 
     [Fact]
@@ -128,7 +129,7 @@ attributes:
 
       _output.WriteLine("");
 
-      string sql = FakeDataGenerator.GenerateIntoString(entities, new Random(0));
+      string sql = FakeDataGenerator.GenerateIntoString(_messages, entities, new Random(0));
       _output.WriteLine(sql);
 
       Assert.Equal(expected, sql);

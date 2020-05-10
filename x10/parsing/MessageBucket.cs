@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace x10.parsing {
   public class MessageBucket {
-    public List<CompileMessage> Messages { get; private set; }
+    public HashSet<CompileMessage> Messages { get; private set; }
 
     // Derived
     public bool HasErrors { get { return Messages.Any(x => x.Severity == CompileMessageSeverity.Error); } }
@@ -11,7 +11,7 @@ namespace x10.parsing {
     public int Count { get { return Messages.Count; } }
 
     public MessageBucket() {
-      Messages = new List<CompileMessage>();
+      Messages = new HashSet<CompileMessage>();
     }
 
     public IEnumerable<CompileMessage> FilteredMessages(CompileMessageSeverity? severities) {

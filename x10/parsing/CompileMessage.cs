@@ -13,5 +13,14 @@ namespace x10.parsing {
     public override string ToString() {
       return string.Format("{0}:{1}:{2} - {3}: {4}", ParseElement?.FileInfo?.FilePath, ParseElement?.Start?.LineNumber, ParseElement?.Start?.CharacterPosition, Severity, Message);
     }
+
+    public override int GetHashCode() {
+      return ToString().GetHashCode();
+    }
+
+    public override bool Equals(object obj) {
+      return ToString() == obj.ToString();
+    }
+
   }
 }

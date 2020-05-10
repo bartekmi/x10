@@ -5,10 +5,11 @@ using System.Text;
 using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.parsing;
 using x10.utils;
 
 namespace x10.gen.sql {
-  internal static class AtomicDataGenerator {
+  internal class AtomicDataGenerator {
     private const int DEFAULT_INT_MIN = 1;
     private const int DEFAULT_INT_MAX = 10;
     private const double DEFAULT_FLOAT_MIN = 1.0;
@@ -19,7 +20,15 @@ namespace x10.gen.sql {
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MIN = -20.0;
     private const double DEFAULT_TIMESTAMP_OFFSET_DAYS_MAX = +5.0;
 
-    internal static MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
+    private readonly MessageBucket _messages;
+    private readonly DataGenLanguageParser _parser;
+
+    internal AtomicDataGenerator(MessageBucket messages) {
+      _messages = messages;
+      _parser = new DataGenLanguageParser(messages);
+    }
+
+    internal MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
       object objMin = x10Attr.FindValue(DataGenLibrary.MIN);
       object objMax = x10Attr.FindValue(DataGenLibrary.MAX);
 
@@ -58,7 +67,7 @@ namespace x10.gen.sql {
     }
 
     #region Generate For String
-    private static string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
+    private string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
       string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
       string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
       bool capitalize = x10Attr.FindValue<bool>(DataGenLibrary.CAPITALIZE);
@@ -77,8 +86,8 @@ namespace x10.gen.sql {
     }
 
     #region Generate From Pattern
-    private static string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
-      Node node = DataGenLanguageParser.Parse(pattern);
+    private string GenerateFromPattern(Random random, DataGenerationContext context, string pattern) {
+      Node node = _parser.Parse(pattern);
       StringBuilder builder = new StringBuilder();
 
       GenerateForNode(random, context, builder, node);
@@ -86,7 +95,7 @@ namespace x10.gen.sql {
       return builder.ToString();
     }
 
-    private static void GenerateForNode(Random random, DataGenerationContext context, StringBuilder builder, Node node) {
+    private void GenerateForNode(Random random, DataGenerationContext context, StringBuilder builder, Node node) {
       if (node is NodeConcat nodeConcat) {
         GenerateForNodeConcat(random, context, builder, nodeConcat);
       } else if (node is NodeText nodeText) {
@@ -97,12 +106,12 @@ namespace x10.gen.sql {
         throw new Exception("Unexpected node type: " + node.GetType().Name);
     }
 
-    private static void GenerateForNodeConcat(Random random, DataGenerationContext context, StringBuilder builder, NodeConcat nodeConcat) {
+    private void GenerateForNodeConcat(Random random, DataGenerationContext context, StringBuilder builder, NodeConcat nodeConcat) {
       foreach (Node child in nodeConcat.Children)
         GenerateForNode(random, context, builder, child);
     }
 
-    private static void GenerateForNodeText(Random random, DataGenerationContext context, StringBuilder builder, NodeText nodeText) {
+    private void GenerateForNodeText(Random random, DataGenerationContext context, StringBuilder builder, NodeText nodeText) {
       if (nodeText.Delimiter == null)
         builder.Append(nodeText.Text);
       else {
@@ -118,17 +127,17 @@ namespace x10.gen.sql {
       }
     }
 
-    private static void GenerateForNodeProbabilities(Random random, DataGenerationContext context, StringBuilder builder, NodeProbabilities nodeProbabilities) {
+    private void GenerateForNodeProbabilities(Random random, DataGenerationContext context, StringBuilder builder, NodeProbabilities nodeProbabilities) {
       Node selectedNode = GenSqlUtils.GetRandom(random, nodeProbabilities.Children);
       GenerateForNode(random, context, builder, selectedNode);
     }
 
-    private static void GenerateDictionaryReplace(DataGenerationContext context, StringBuilder builder, string dictionaryName) {
+    private void GenerateDictionaryReplace(DataGenerationContext context, StringBuilder builder, string dictionaryName) {
       string value = context.GetRandomDictionaryEntry(dictionaryName.Trim());
       builder.Append(value);
     }
 
-    private static void GenerateCharacterReplace(Random random, StringBuilder builder, string pattern) {
+    private void GenerateCharacterReplace(Random random, StringBuilder builder, string pattern) {
       foreach (char c in pattern) {
         char txC = c;
 
@@ -147,7 +156,7 @@ namespace x10.gen.sql {
     #endregion
 
     #region Generate From Source
-    private static string GenerateFromSource(DataFileRow externalRow, string rulesAsString) {
+    private string GenerateFromSource(DataFileRow externalRow, string rulesAsString) {
       if (externalRow == null)
         return null;
 

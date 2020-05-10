@@ -9,10 +9,12 @@ using x10.model.definition;
 using x10.model.metadata;
 using x10.utils;
 using x10.ui.composition;
+using x10.parsing;
 
 namespace x10.gen.sql {
   public class FakeDataGenerator {
 
+    #region Helper Clases
     private class Row {
       internal int Id;
       internal Entity Entity;
@@ -34,32 +36,52 @@ namespace x10.gen.sql {
         return random.Next(1, NextId);
       }
     }
+    #endregion
 
     private static readonly SqlRange DEFAULT_ASSOCIATION_RANGE = SqlRange.Parse("0..3");
 
+    private readonly MessageBucket _messages;
     private readonly Random _random;
     private readonly Dictionary<Entity, EntityInfo> _entityInfo;
     private readonly HashSet<Entity> _unprocessedRootEntities;
+    private readonly AtomicDataGenerator _atomicDataGenerator;
+    private readonly DataGenLanguageParser _parser;
+
     private int _tableOrderIndex;
 
-    public static void Generate(IEnumerable<Entity> entities, Random random, string filename) {
+    public static void Generate(MessageBucket messages, IEnumerable<Entity> entities, Random random, string filename) {
       using (TextWriter writer = new StreamWriter(filename))
-        GeneratePrivate(entities, random, writer);
+        GeneratePrivate(messages, entities, random, writer);
     }
 
-    public static string GenerateIntoString(IEnumerable<Entity> entities, Random random) {
+    public static string GenerateIntoString(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
       using (TextWriter writer = new StringWriter()) {
-        GeneratePrivate(entities, random, writer);
+        GeneratePrivate(messages, entities, random, writer);
         return writer.ToString();
       }
     }
 
-    public static void GeneratePrivate(IEnumerable<Entity> entities, Random random, TextWriter writer) {
+    public static void GeneratePrivate(MessageBucket messages, IEnumerable<Entity> entities, Random random, TextWriter writer) {
       IEnumerable<Entity> relevantEntities = entities.Where(x => !SqlSchemaGenerator.Ignore(x));
-      FakeDataGenerator generator = new FakeDataGenerator(relevantEntities, random);
+      FakeDataGenerator generator = new FakeDataGenerator(messages, relevantEntities, random);
       generator.Generate();
 
       DumpData(generator._entityInfo, writer);
+    }
+
+    private FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
+      _messages = messages;
+      _random = random;
+      _atomicDataGenerator = new AtomicDataGenerator(messages);
+      _parser = new DataGenLanguageParser(messages);
+
+      IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
+      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
+
+      _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
+        Context = DataGenerationContext.CreateContext(_parser, _random, x),
+        Entity = x,
+      });
     }
 
     #region Write to File
@@ -122,16 +144,6 @@ namespace x10.gen.sql {
     #endregion
 
     #region Data Creation
-    private FakeDataGenerator(IEnumerable<Entity> entities, Random random) {
-      IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
-      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
-      _random = random;
-
-      _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
-        Context = DataGenerationContext.CreateContext(_random, x),
-        Entity = x,
-      });
-    }
 
     private void Generate() {
       while (_unprocessedRootEntities.Count > 0) {          // Until no more root-level entities
@@ -184,7 +196,7 @@ namespace x10.gen.sql {
 
       foreach (Member member in entity.Members)
         if (member is X10Attribute x10Attr)
-          row.Values.Add(AtomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
+          row.Values.Add(_atomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
         else if (member is Association association)
           if (association == linkToParent)
             row.Values.Add(new MemberAndValue() {

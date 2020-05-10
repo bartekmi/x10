@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using x10.parsing;
 using YamlDotNet.Core.Tokens;
 
 namespace x10.gen.sql.primitives {
@@ -166,18 +167,24 @@ namespace x10.gen.sql.primitives {
   #endregion
 
   #region Parser
-  internal static class DataGenLanguageParser {
+  internal class DataGenLanguageParser {
     private static readonly Delimiter[] DELIMITERS = new Delimiter[] {
       new Delimiter(DelimiterType.DictionaryReplace, '<', '>'),
       new Delimiter(DelimiterType.CharacterReplace, '~', '~'),
     };
 
-    internal static NodeConcat Parse(string text) {
+    private readonly MessageBucket _messages;
+
+    internal DataGenLanguageParser(MessageBucket messages) {
+      _messages = messages;
+    }
+
+    internal NodeConcat Parse(string text) {
       Tokenizer tokenizer = new Tokenizer(text);
       return Parse(tokenizer);
     }
 
-    private static NodeConcat Parse(Tokenizer tokenizer) {
+    private NodeConcat Parse(Tokenizer tokenizer) {
       NodeConcat concat = new NodeConcat();
 
       NodeText text = new NodeText(); // Current running text accumulator
@@ -209,7 +216,7 @@ namespace x10.gen.sql.primitives {
       return concat;
     }
 
-    private static NodeText RecordTextNode(NodeConcat concat, NodeText text) {
+    private NodeText RecordTextNode(NodeConcat concat, NodeText text) {
       if (text.Empty)
         return text;
 
@@ -217,7 +224,7 @@ namespace x10.gen.sql.primitives {
       return new NodeText();
     }
 
-    private static Node ParseProbabilities(Tokenizer tokenizer) {
+    private Node ParseProbabilities(Tokenizer tokenizer) {
       NodeProbabilities probabilities = new NodeProbabilities();
       tokenizer.Expect('(');
 
@@ -239,7 +246,7 @@ namespace x10.gen.sql.primitives {
       return probabilities;
     }
 
-    private static double ParseProbability(Tokenizer tokenizer) {
+    private double ParseProbability(Tokenizer tokenizer) {
       int percentage = ParseInt(tokenizer);
       if (percentage < 0 || percentage > 100)
         throw new Exception("Percentage must be between 0 and 100");
@@ -247,7 +254,7 @@ namespace x10.gen.sql.primitives {
       return percentage / 100.0;
     }
 
-    private static int ParseInt(Tokenizer tokenizer) {
+    private int ParseInt(Tokenizer tokenizer) {
       tokenizer.EatWhitespace();
       int result = 0;
       bool encounteredDigit = false;

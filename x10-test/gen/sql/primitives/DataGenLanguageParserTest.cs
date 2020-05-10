@@ -48,10 +48,13 @@ namespace x10.gen.sql.primitives {
     }
 
     private void RunTest(string input, string output = null) {
-      Node node = DataGenLanguageParser.Parse(input);
+      MessageBucket messages = new MessageBucket();
+      DataGenLanguageParser parser = new DataGenLanguageParser(messages);
+      Node node = parser.Parse(input);
       StringBuilder builder = new StringBuilder();
       node.Print(builder);
 
+      Assert.Empty(messages.Messages);
       Assert.Equal(output ?? input, builder.ToString());
     }
   }
