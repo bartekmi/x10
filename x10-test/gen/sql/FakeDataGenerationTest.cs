@@ -35,7 +35,9 @@ namespace x10.gen.sql {
       Assert.False(_messages.HasErrors);
 
       FakeDataGenerator.Generate(_messages, entities, new Random(0), OUTPUT_FILE);
-      TestUtils.DumpMessages(_messages, _output);
+      TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
+
+      Assert.False(_messages.HasErrors);
     }
 
     [Fact]
@@ -120,6 +122,23 @@ attributes:
       RunTest(yaml, expected);
     }
 
+
+    [Fact]
+    public void ErrorInvalidSources() {
+      string yaml = @"
+name: Entity
+datagen_quantity: 10
+datagen_sources: (25% = us_cities.csv AS us | 10% = blurg)
+
+attributes:
+  - name: city
+    dataType: String
+    datagen_from_source: (us => city | cn => city)
+";
+
+      RunTestExpectingError(yaml, "Expected format: 'file.csv AS alias', but got 'blurg'");
+    }
+
     private void RunTest(string yaml, string expected) {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yaml);
@@ -133,6 +152,20 @@ attributes:
       _output.WriteLine(sql);
 
       Assert.Equal(expected, sql);
+    }
+
+    private void RunTestExpectingError(string yaml, string expectedErrorMessage) {
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      List<Entity> entities = compiler.CompileFromYamlStrings(yaml);
+
+      TestUtils.DumpMessages(_messages, _output);
+      Assert.False(_messages.HasErrors);
+
+      FakeDataGenerator.GenerateIntoString(_messages, entities, new Random(0));
+      TestUtils.DumpMessages(_messages, _output);
+
+      CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
+      Assert.NotNull(message);
     }
   }
 }

@@ -17,33 +17,37 @@ namespace x10.gen.sql {
 
     internal const string DATA_FILES_ROOT = @"C:\x10\x10\data";  // TODO: Move to config
 
-    internal static DataGenerationContext CreateContext(DataGenLanguageParser parser, Random random, Entity entity) {
+    internal static DataGenerationContext CreateContext(MessageBucket messages, DataGenLanguageParser parser, Random random, Entity entity) {
       DataGenerationContext context = new DataGenerationContext() {
         _random = random,
       };
 
-      string sources = entity.FindValue<string>(DataGenLibrary.SOURCES);
+      ModelAttributeValue sourcesValue = entity.FindAttribute(DataGenLibrary.SOURCES);
+      string sources = sourcesValue?.Value as string;
+
       if (sources != null) {
-        NodeProbabilities sourcesNode = parser.Parse(sources)
-          .Children.OfType<NodeProbabilities>().SingleOrDefault();
-        if (sourcesNode == null)
-          throw new Exception(string.Format("Could not parse 'Probabilities Node' from '{0}'", sources));
+        try {
+          NodeProbabilities sourcesNode = parser.Parse(sources)
+            .Children.OfType<NodeProbabilities>().SingleOrDefault();
 
-        foreach (Node source in sourcesNode.Children) {
-          string[] fileAndAlias = source.OnlyChildText.Split("AS");
-          if (fileAndAlias.Length != 2)
-            throw new Exception("Expected format: 'file.csv AS alias': " + source.OnlyChildText);
+          foreach (Node source in sourcesNode.Children) {
+            string[] fileAndAlias = source.OnlyChildText.Split("AS");
+            if (fileAndAlias.Length != 2)
+              throw new Exception(string.Format("Expected format: 'file.csv AS alias', but got '{0}'", source.OnlyChildText));
 
-          string path = fileAndAlias[0].Trim();
-          string alias = fileAndAlias[1].Trim();
+            string path = fileAndAlias[0].Trim();
+            string alias = fileAndAlias[1].Trim();
 
-          ExternalDataFile dataFile = new ExternalDataFile() {
-            Path = path,
-            Probability = source.Probability,
-            Alias = alias,
-          };
-          dataFile.Parse(DATA_FILES_ROOT);
-          context.ExternalDataFiles.Add(dataFile);
+            ExternalDataFile dataFile = new ExternalDataFile() {
+              Path = path,
+              Probability = source.Probability,
+              Alias = alias,
+            };
+            dataFile.Parse(DATA_FILES_ROOT);
+            context.ExternalDataFiles.Add(dataFile);
+          }
+        } catch (Exception e) {
+          messages.AddError(sourcesValue.TreeElement, e.Message);
         }
       }
 

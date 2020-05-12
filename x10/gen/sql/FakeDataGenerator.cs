@@ -38,6 +38,7 @@ namespace x10.gen.sql {
     }
     #endregion
 
+    #region Private Variables, Top Level, Constructor
     private static readonly SqlRange DEFAULT_ASSOCIATION_RANGE = SqlRange.Parse("0..3");
 
     private readonly MessageBucket _messages;
@@ -79,10 +80,11 @@ namespace x10.gen.sql {
       _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
 
       _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
-        Context = DataGenerationContext.CreateContext(_parser, _random, x),
+        Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x),
         Entity = x,
       });
     }
+    #endregion
 
     #region Write to File
 

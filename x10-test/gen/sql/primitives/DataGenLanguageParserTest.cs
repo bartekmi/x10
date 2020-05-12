@@ -38,6 +38,12 @@ namespace x10.gen.sql.primitives {
     }
 
     [Fact]
+    public void ParseProbabilitiesWithDefaults() {
+      RunTest("( 20% = A | B | C )",
+        "( 20% = A | 40% = B | 40% = C )");
+    }
+
+    [Fact]
     public void ParseConcat() {
       RunTest("Start ( 10% = Hello | 90% = World ) Finish");
     }

@@ -29,6 +29,21 @@ namespace x10.gen.sql {
     }
 
     internal MemberAndValue Generate(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
+      object value = null;
+
+      try {
+        value = GenerateWithException(random, context, x10Attr, externalRow);
+      } catch (Exception e) {
+        _messages.AddError(x10Attr.TreeElement, e.Message);
+      }
+
+      return new MemberAndValue() {
+        Member = x10Attr,
+        Value = value,
+      };
+    }
+
+    internal object GenerateWithException(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
       object objMin = x10Attr.FindValue(DataGenLibrary.MIN);
       object objMax = x10Attr.FindValue(DataGenLibrary.MAX);
 
@@ -60,24 +75,30 @@ namespace x10.gen.sql {
       } else if (x10Attr.DataType == DataTypes.Singleton.String)
         value = GenerateForString(random, context, x10Attr, externalRow);
 
-      return new MemberAndValue() {
-        Member = x10Attr,
-        Value = value,
-      };
+      return value;
     }
 
     #region Generate For String
     private string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
-      string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE);
-      string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN);
+
+      string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE, out ModelAttributeValue fromSourceValue);
+      string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN, out ModelAttributeValue patternValue);
       bool capitalize = x10Attr.FindValue<bool>(DataGenLibrary.CAPITALIZE);
 
       string text = null;
 
       if (fromSource != null)
-        text = GenerateFromSource(externalRow, fromSource);
+        try {
+          text = GenerateFromSource(externalRow, fromSource);
+        } catch (Exception e) {
+          _messages.AddError(fromSourceValue.TreeElement, e.Message);
+        }
       else if (pattern != null)
-        text = GenerateFromPattern(random, context, pattern);
+        try {
+          text = GenerateFromPattern(random, context, pattern);
+        } catch (Exception e) {
+          _messages.AddError(patternValue.TreeElement, e.Message);
+        }
 
       if (capitalize)
         text = NameUtils.Capitalize(text);

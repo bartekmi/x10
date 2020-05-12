@@ -30,9 +30,13 @@ namespace x10.model.definition {
       return value != null;
     }
 
+    public static T FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName, out ModelAttributeValue attrValue) {
+      attrValue = FindAttribute(source, attributeName);
+      return attrValue == null ? default : (T)attrValue?.Value;
+    }
+
     public static T FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName) {
-      ModelAttributeValue value = FindAttribute(source, attributeName);
-      return value == null ? default : (T)value?.Value;
+      return FindValue<T>(source, attributeName, out ModelAttributeValue _);
     }
 
     public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {

@@ -163,6 +163,17 @@ namespace x10.gen.sql.primitives {
       while (Peek() == ' ' || Peek() == '\t')
         Next();
     }
+
+    #region Mark
+    private int _mark;
+    internal void SetMark() {
+      _mark = _index;
+    }
+
+    internal void ResetToMark() {
+      _index = _mark;
+    }
+    #endregion
   }
   #endregion
 
@@ -229,11 +240,15 @@ namespace x10.gen.sql.primitives {
       tokenizer.Expect('(');
 
       while (true) {
-        double probability = ParseProbability(tokenizer);
-        tokenizer.Expect('=');
+        tokenizer.SetMark();
+        double? probability = MaybeParseProbability(tokenizer);
+        if (probability == null)
+          tokenizer.ResetToMark();
+        else
+          tokenizer.Expect('=');
 
         Node child = Parse(tokenizer);
-        child.Probability = probability;
+        child.Probability = probability ?? Double.MinValue;
         probabilities.Children.Add(child);
 
         char terminator = tokenizer.Next();
@@ -243,15 +258,36 @@ namespace x10.gen.sql.primitives {
           throw new Exception("Unexpected terminator " + terminator);
       }
 
+      // Any left over probability not allocated gets distributed to children
+      // which did not specify a probability
+      double totalAllocatedProbability = probabilities.Children
+        .Select(x => x.Probability).Where(x => x != Double.MinValue).Sum();
+      int noProbabilityChildCount = probabilities.Children
+        .Select(x => x.Probability).Where(x => x == Double.MinValue).Count();
+
+      foreach (Node child in probabilities.Children.Where(x => x.Probability == Double.MinValue))
+        child.Probability = (1.0 - totalAllocatedProbability) / noProbabilityChildCount;
+
       return probabilities;
     }
 
-    private double ParseProbability(Tokenizer tokenizer) {
-      int percentage = ParseInt(tokenizer);
+    private double? MaybeParseProbability(Tokenizer tokenizer) {
+      int? percentage = MaybeParseInt(tokenizer);
+      if (percentage == null)
+        return null;
+
       if (percentage < 0 || percentage > 100)
         throw new Exception("Percentage must be between 0 and 100");
       tokenizer.Expect('%');
       return percentage / 100.0;
+    }
+
+    private int? MaybeParseInt(Tokenizer tokenizer) {
+      try {
+        return ParseInt(tokenizer);
+      } catch {
+        return null;
+      }
     }
 
     private int ParseInt(Tokenizer tokenizer) {
