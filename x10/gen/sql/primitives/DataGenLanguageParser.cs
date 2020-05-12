@@ -283,14 +283,6 @@ namespace x10.gen.sql.primitives {
     }
 
     private int? MaybeParseInt(Tokenizer tokenizer) {
-      try {
-        return ParseInt(tokenizer);
-      } catch {
-        return null;
-      }
-    }
-
-    private int ParseInt(Tokenizer tokenizer) {
       tokenizer.EatWhitespace();
       int result = 0;
       bool encounteredDigit = false;
@@ -307,7 +299,7 @@ namespace x10.gen.sql.primitives {
       } while (true);
 
       if (!encounteredDigit)
-        throw new Exception("Could not parse integer");
+        return null;
 
       return result;
     }

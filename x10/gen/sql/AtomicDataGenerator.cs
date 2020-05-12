@@ -150,6 +150,8 @@ namespace x10.gen.sql {
 
     private void GenerateForNodeProbabilities(Random random, DataGenerationContext context, StringBuilder builder, NodeProbabilities nodeProbabilities) {
       Node selectedNode = GenSqlUtils.GetRandom(random, nodeProbabilities.Children);
+      if (selectedNode == null)
+        return;
       GenerateForNode(random, context, builder, selectedNode);
     }
 

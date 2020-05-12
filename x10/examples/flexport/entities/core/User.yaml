@@ -6,11 +6,11 @@ attributes:
   - name: firstName
     dataType: String
     mandatory: true
-    datagen_pattern: <firstName> 
+    datagen_pattern: <first_name> 
   - name: lastName
     dataType: String
     mandatory: true
-    datagen_pattern: <lastName> 
+    datagen_pattern: <last_name> 
 
   - name: lastAccountActivity
     dataType: Timestamp
