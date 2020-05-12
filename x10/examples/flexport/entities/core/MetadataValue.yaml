@@ -5,7 +5,7 @@ attributes:
   - name: value
     dataType: String
     mandatory: true
-    datagen_pattern: (DDDDD | LLDDD | LLDDDLD)
+    datagen_pattern: (~DDDDD~ | ~LLDDD~ | ~LLDDDLD~)
 
 associations:
   - name: metadataTag

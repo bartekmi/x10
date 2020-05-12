@@ -34,7 +34,8 @@ namespace x10.gen.sql {
 
       Assert.False(_messages.HasErrors);
 
-      FakeDataGenerator.Generate(_messages, entities, new Random(0), OUTPUT_FILE);
+      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
+      generator.Generate(OUTPUT_FILE);
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
 
       Assert.False(_messages.HasErrors);
@@ -79,9 +80,68 @@ attributes:
 (8, 8, 10.580946258027547, 'ZZ.17.SDX', 'Large Manufacturing'),
 (9, 8, 10.546839774142411, 'ZZ.88.UTY', 'Measly Pint'),
 (10, 7, 10.582061007331154, 'ZZ.21.BQS', 'Trend');
+
 ";
 
-      RunTest(yaml, expected);
+      RunTest(expected, yaml);
+    }
+
+    [Fact]
+    public void GenerateMultipleEntityData() {
+      string independent = @"
+name: Independent
+datagen_quantity: 3
+
+attributes:
+  - name: name
+    dataType: String
+    datagen_pattern: <first_name>
+";
+
+      string parent = @"
+name: Parent
+datagen_quantity: 1
+
+attributes:
+  - name: noun
+    dataType: String
+    datagen_pattern: <noun>
+
+associations:
+  - name: independent
+    dataType: Independent
+  - name: singleChild
+    dataType: SingleChild
+    owns: True
+  - name: multipleChildren
+    dataType: MultipleChild
+    owns: True
+    many: True
+";
+
+      string singleChild = @"
+name: SingleChild
+
+attributes:
+  - name: name
+    dataType: String
+    datagen_pattern: Single Child ~DDD~
+";
+
+      string multipleChild = @"
+name: MultipleChild
+
+attributes:
+  - name: name
+    dataType: String
+    datagen_pattern: Multiple Child ~DDD~
+";
+
+      string expected =
+@"
+";
+
+      RunTest(expected, independent, parent, singleChild, multipleChild);
     }
 
     [Fact]
@@ -117,9 +177,10 @@ attributes:
 (8, 'Xinyang', 'Henan', 'CN'),
 (9, 'Piqan', 'Xinjiang', 'CN'),
 (10, 'Jijiang', 'Chongqing', 'CN');
+
 ";
 
-      RunTest(yaml, expected);
+      RunTest(expected, yaml);
     }
 
 
@@ -139,17 +200,16 @@ attributes:
       RunTestExpectingError(yaml, "Expected format: 'file.csv AS alias', but got 'blurg'");
     }
 
-    private void RunTest(string yaml, string expected) {
+    private void RunTest(string expected, params string[] yamls) {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
-      List<Entity> entities = compiler.CompileFromYamlStrings(yaml);
+      List<Entity> entities = compiler.CompileFromYamlStrings(yamls);
+
+      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
+      string sql = generator.GenerateIntoString();
+      _output.WriteLine(sql);
 
       TestUtils.DumpMessages(_messages, _output);
-      Assert.False(_messages.HasErrors);
-
       _output.WriteLine("");
-
-      string sql = FakeDataGenerator.GenerateIntoString(_messages, entities, new Random(0));
-      _output.WriteLine(sql);
 
       Assert.Equal(expected, sql);
     }
@@ -161,7 +221,8 @@ attributes:
       TestUtils.DumpMessages(_messages, _output);
       Assert.False(_messages.HasErrors);
 
-      FakeDataGenerator.GenerateIntoString(_messages, entities, new Random(0));
+      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
+      generator.GenerateIntoString();
       TestUtils.DumpMessages(_messages, _output);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);

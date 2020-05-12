@@ -13,22 +13,10 @@ namespace x10.gen.sql {
   public static class SqlSchemaGenerator {
 
     #region Top Level
-    private enum ColumnType {
-      Attribute,
-      ForwardAssociation,
-      ReverseAssociation,
-    }
-
-    public static bool Ignore(Entity entity) {
-      return entity.FindBoolean(DataGenLibrary.NO_SQL_SCHEMA, false) ||
-        entity.IsAbstract ||
-        entity.Name == ModelValidationUtils.CONTEXT_ENTITY_NAME;
-    }
-
     public static void Generate(IEnumerable<Entity> entities, string filename) {
-      entities = entities.Where(x => !Ignore(x));
 
-      ReverseAssociationCalculator reverse = new ReverseAssociationCalculator(entities);
+      DeclaredColumnsCalculator reverse = new DeclaredColumnsCalculator(entities);
+      entities = reverse.GetRealEntities();
 
       using (TextWriter writer = new StreamWriter(filename)) {
         // Generate Tables
@@ -41,7 +29,7 @@ namespace x10.gen.sql {
         writer.WriteLine();
         writer.WriteLine();
         writer.WriteLine("------------------------ Foreign Key Constraints ------------------------------");
-        foreach (Entity entity in entities) 
+        foreach (Entity entity in entities)
           GenerateFkConstraints(writer, entity, reverse);
       }
     }
@@ -54,46 +42,35 @@ namespace x10.gen.sql {
     //   user_id serial PRIMARY KEY,
     //   username VARCHAR UNIQUE NOT NULL,
     // );
-    private static void GenerateTable(TextWriter writer, Entity entity, ReverseAssociationCalculator reverseAssociations) {
+    private static void GenerateTable(TextWriter writer, Entity entity, DeclaredColumnsCalculator reverseAssociations) {
 
       writer.WriteLine("CREATE TABLE \"{0}\" (", GetTableName(entity));
       writer.WriteLine("  id serial PRIMARY KEY,");
 
-      IEnumerable<ReverseOwner> reverses = reverseAssociations.Get(entity);
-
-      IEnumerable<object> members = entity.RegularAttributes.Cast<object>()
-        .Concat(entity.Associations.Where(x => !x.IsMany))
-        .Concat(reverses);
-
+      IEnumerable<MemberAndOwner> declaredColumns = reverseAssociations.GetDeclaredColumns(entity);
 
       ColumnType? previousType = null;
 
-      foreach (object member in members) {
-        ColumnType type;
-        if (member is X10Attribute attribute) {
-          type = ColumnType.Attribute;
-          WriteSeparator(writer, previousType, type);
-          WriteAttribute(writer, attribute);
-        } else if (member is Association association) {
-          if (IsDefinedInBothDirections(reverses, association)) {
-            // If association is defined from both ends, this would otherwise cause multiple columns
-            // to be generated. We give preference to the one created in the reverse direction (thus skipping generation here)
-            // because the reverse one will ensure a 'not null' clause.
-            continue;
-          } else {
-            type = ColumnType.ForwardAssociation;
-            WriteSeparator(writer, previousType, type);
-            WriteForwardAssociation(writer, association);
-          }
-        } else if (member is ReverseOwner reverse) {
-          type = ColumnType.ReverseAssociation;
-          WriteSeparator(writer, previousType, type);
-          WriteReverseAssociation(writer, reverse);
-        } else
-          throw new Exception("Unexpected member type: " + member.GetType().Name);
+      foreach (MemberAndOwner member in declaredColumns) {
+        ColumnType type = member.Type;
+        WriteSeparator(writer, previousType, type);
+
+        switch (type) {
+          case ColumnType.Attribute:
+            WriteAttribute(writer, member.Attribute);
+            break;
+          case ColumnType.ForwardAssociation:
+            WriteForwardAssociation(writer, member.Association);
+            break;
+          case ColumnType.ReverseAssociation:
+            WriteReverseAssociation(writer, member);
+            break;
+          default:
+            throw new Exception("Unexpected member type: " + type);
+        }
 
         // Write (or don't write) comma
-        if (member != members.Last())
+        if (member != declaredColumns.Last())
           writer.Write(',');
         writer.WriteLine();
 
@@ -123,7 +100,7 @@ namespace x10.gen.sql {
         association.IsMandatory ? " NOT " : " ");
     }
 
-    private static void WriteReverseAssociation(TextWriter writer, ReverseOwner reverse) {
+    private static void WriteReverseAssociation(TextWriter writer, MemberAndOwner reverse) {
       writer.Write("  {0}_id INTEGER NOT NULL",
         GetTableName(reverse.ActualOwner));
     }
@@ -148,29 +125,24 @@ namespace x10.gen.sql {
 
     // ALTER TABLE child_table
     // ADD CONSTRAINT constraint_name FOREIGN KEY(c1) REFERENCES parent_table(p1);
-    private static void GenerateFkConstraints(TextWriter writer, Entity entity, ReverseAssociationCalculator reverseAssociations) {
-      IEnumerable<Association> associations = entity.Associations.Where(x => !x.IsMany);
-      IEnumerable<Association> manyAssociations = entity.Associations.Where(x => x.IsMany);
-      IEnumerable<ReverseOwner> reverses = reverseAssociations.Get(entity);
+    private static void GenerateFkConstraints(TextWriter writer, Entity entity, DeclaredColumnsCalculator columnCalculator) {
+      IEnumerable<Association> forwardAssociations = columnCalculator.GetForwardAssociations(entity);
+      IEnumerable<Association> reverseAssociations = columnCalculator.GetReverseAssociations(entity)
+        .Select(x => x.Association);
 
-      if (associations.Count() == 0 && manyAssociations.Count() == 0)
+      if (forwardAssociations.Count() == 0 && reverseAssociations.Count() == 0)
         return;
 
       writer.WriteLine("-- Related to Table " + entity.Name);
 
-      foreach (Association association in associations) {
-        if (IsDefinedInBothDirections(reverses, association)) {
-          // Similar reasoning as the same condition in table generation - we need this to prevent generating
-          // duplicate constraints for the same association
-        } else {
-          writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{2}\"(id);",
-          GetTableName(entity),
-          GetDbColumnName(association),
-          GetTableName(association.ReferencedEntity)));
-        }
+      foreach (Association association in forwardAssociations) {
+        writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{2}\"(id);",
+        GetTableName(entity),
+        GetDbColumnName(association),
+        GetTableName(association.ReferencedEntity)));
       }
 
-      foreach (Association association in manyAssociations)
+      foreach (Association association in reverseAssociations)
         writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{1}\"(id);",
           GetTableName(association.ReferencedEntity),
           GetTableName(entity)));
@@ -188,10 +160,6 @@ namespace x10.gen.sql {
 
     internal static string GetTableName(Entity entity) {
       return NameUtils.CamelCaseToSnakeCase(entity.Name);
-    }
-
-    private static bool IsDefinedInBothDirections(IEnumerable<ReverseOwner> reverses, Association association) {
-      return reverses.Any(x => x.ActualOwner == association.ReferencedEntity);
     }
     #endregion
   }

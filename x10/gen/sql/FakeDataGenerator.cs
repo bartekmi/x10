@@ -14,6 +14,8 @@ using x10.parsing;
 namespace x10.gen.sql {
   public class FakeDataGenerator {
 
+    private static readonly int? TEST_REDUCED_NUMBER_OF_ROWS = null;
+
     #region Helper Clases
     private class Row {
       internal int Id;
@@ -47,34 +49,18 @@ namespace x10.gen.sql {
     private readonly HashSet<Entity> _unprocessedRootEntities;
     private readonly AtomicDataGenerator _atomicDataGenerator;
     private readonly DataGenLanguageParser _parser;
+    private readonly DeclaredColumnsCalculator _declaredColumnCalculator;
 
     private int _tableOrderIndex;
 
-    public static void Generate(MessageBucket messages, IEnumerable<Entity> entities, Random random, string filename) {
-      using (TextWriter writer = new StreamWriter(filename))
-        GeneratePrivate(messages, entities, random, writer);
-    }
-
-    public static string GenerateIntoString(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
-      using (TextWriter writer = new StringWriter()) {
-        GeneratePrivate(messages, entities, random, writer);
-        return writer.ToString();
-      }
-    }
-
-    public static void GeneratePrivate(MessageBucket messages, IEnumerable<Entity> entities, Random random, TextWriter writer) {
-      IEnumerable<Entity> relevantEntities = entities.Where(x => !SqlSchemaGenerator.Ignore(x));
-      FakeDataGenerator generator = new FakeDataGenerator(messages, relevantEntities, random);
-      generator.Generate();
-
-      DumpData(generator._entityInfo, writer);
-    }
-
-    private FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
+    public FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
       _messages = messages;
       _random = random;
       _atomicDataGenerator = new AtomicDataGenerator(messages);
       _parser = new DataGenLanguageParser(messages);
+      _declaredColumnCalculator = new DeclaredColumnsCalculator(entities);
+
+      entities = _declaredColumnCalculator.GetRealEntities();
 
       IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
       _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
@@ -83,6 +69,23 @@ namespace x10.gen.sql {
         Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x),
         Entity = x,
       });
+    }
+
+    public void Generate(string filename) {
+      using (TextWriter writer = new StreamWriter(filename))
+        GeneratePrivate(writer);
+    }
+
+    public string GenerateIntoString() {
+      using (TextWriter writer = new StringWriter()) {
+        GeneratePrivate(writer);
+        return writer.ToString();
+      }
+    }
+
+    public void GeneratePrivate(TextWriter writer) {
+      Generate();
+      DumpData(writer);
     }
     #endregion
 
@@ -94,15 +97,16 @@ namespace x10.gen.sql {
     // (1, val1, val2, ...),
     // ...
     // (N, val1, val2, ...);
-    private static void DumpData(Dictionary<Entity, EntityInfo> entityInfos, TextWriter writer) {
-      IEnumerable<EntityInfo> infos = entityInfos.Values
+    private void DumpData(TextWriter writer) {
+      IEnumerable<EntityInfo> infos = _entityInfo.Values
         .Where(x => x.Rows.Count > 0)
         .OrderBy(x => x.OrderIndex);
 
       foreach (EntityInfo entityInfo in infos) {
         // Write the INSERT statement
         Entity entity = entityInfo.Entity;
-        IEnumerable<string> dbColumnNames = entity.Members.Select(x => SqlSchemaGenerator.GetDbColumnName(x));
+        IEnumerable<string> dbColumnNames = _declaredColumnCalculator.GetDeclaredColumns(entity)
+          .Select(x => SqlSchemaGenerator.GetDbColumnName(x.Member));
 
         writer.WriteLine("INSERT INTO {0} (id, {1}) VALUES",
           SqlSchemaGenerator.GetTableName(entity),
@@ -116,6 +120,8 @@ namespace x10.gen.sql {
             string.Join(", ", row.Values.Select(x => ToSql(x))),
             row == entityInfo.Rows.Last() ? ";" : ",");
         }
+
+        writer.WriteLine();
       }
     }
 
@@ -196,21 +202,22 @@ namespace x10.gen.sql {
       DataGenerationContext context = _entityInfo[entity].Context;
       DataFileRow externalRow = context.GetRandomExternalFileRow();
 
-      foreach (Member member in entity.Members)
+      foreach (Member member in _declaredColumnCalculator.GetDeclaredColumns(entity).Select(x => x.Member))
         if (member is X10Attribute x10Attr)
           row.Values.Add(_atomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
-        else if (member is Association association)
+        else if (member is Association association) {
           if (association == linkToParent)
             row.Values.Add(new MemberAndValue() {
               Member = association,
               Value = parent.Id,
             });
-          else {
-            // Must be a derived attribute... Ignore
-          }
+          else
+            row.Values.Add(CreateAssociationValue(association));
+        } else {
+          // Must be a derived attribute... Ignore
+        }
       return row;
     }
-
 
     private MemberAndValue CreateAssociationValue(Association association) {
       return new MemberAndValue() {
@@ -243,7 +250,7 @@ namespace x10.gen.sql {
     private int GetCount(Entity entity) {
       if (!entity.FindValue<int>("datagen_quantity", out int quantity))
         return 0;
-      return quantity;
+      return TEST_REDUCED_NUMBER_OF_ROWS ?? quantity;
     }
 
     private IEnumerable<Entity> GetImmediateDependencies(Entity entity) {
