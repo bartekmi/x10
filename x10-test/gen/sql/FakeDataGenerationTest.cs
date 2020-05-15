@@ -117,6 +117,7 @@ associations:
     dataType: MultipleChild
     owns: True
     many: True
+    datagen_quantity: 3
 ";
 
       string singleChild = @"

@@ -182,7 +182,7 @@ namespace x10.gen.sql {
       foreach (Association association in entity.Associations.Where(x => x.Owns)) {
         int count = GetCount(association);
         for (int ii = 0; ii < count; ii++)
-          GenerateRow(association.ReferencedEntity, parent);
+          GenerateRow(association.ReferencedEntity, row);
       }
     }
 
@@ -191,18 +191,22 @@ namespace x10.gen.sql {
 
       Association linkToParent = null;
       if (parent != null) {
-        IEnumerable<Association> parentTypeAssociations
-          = entity.Associations.Where(x => x.ReferencedEntity == parent.Entity);
-        if (parentTypeAssociations.Count() != 1)
+        IEnumerable<MemberAndOwner> reverses = _declaredColumnCalculator.GetReverseAssociations(entity);
+        IEnumerable<Association> parentAssociations = reverses
+          .Select(x => x.Association)
+          .Where(x => x.ReferencedEntity == entity);
+
+        if (parentAssociations.Count() != 1)
           throw new Exception(string.Format("Entity {0} referenced by Entity {1} must have exactly one association of that type, but has {2}",
-            entity.Name, parent.Entity.Name, parentTypeAssociations.Count()));
-        linkToParent = parentTypeAssociations.Single();
+            entity.Name, parent.Entity.Name, parentAssociations.Count()));
+        linkToParent = parentAssociations.Single();
       }
 
       DataGenerationContext context = _entityInfo[entity].Context;
       DataFileRow externalRow = context.GetRandomExternalFileRow();
+      IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
-      foreach (Member member in _declaredColumnCalculator.GetDeclaredColumns(entity).Select(x => x.Member))
+      foreach (Member member in allColumns.Select(x => x.Member))
         if (member is X10Attribute x10Attr)
           row.Values.Add(_atomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
         else if (member is Association association) {
@@ -241,14 +245,14 @@ namespace x10.gen.sql {
 
     private int GetCount(Association association) {
       if (association.IsMany) {
-        SqlRange range = association.FindValue<SqlRange>("datagen_quantity") ?? DEFAULT_ASSOCIATION_RANGE;
+        SqlRange range = association.FindValue<SqlRange>(DataGenLibrary.QUANTITY) ?? DEFAULT_ASSOCIATION_RANGE;
         return range.GetRandom(_random);
       } else
         return 1;   // TODO: Consider probability if not mandatory
     }
 
     private int GetCount(Entity entity) {
-      if (!entity.FindValue<int>("datagen_quantity", out int quantity))
+      if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity))
         return 0;
       return TEST_REDUCED_NUMBER_OF_ROWS ?? quantity;
     }
