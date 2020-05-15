@@ -166,8 +166,12 @@ namespace x10.gen.sql {
         if (_unprocessedRootEntities.Contains(dependency))
           GenerateForEntity(dependency);
 
+      // Ensure correct dependency order when printing
+      _entityInfo[entity].OrderIndex = _tableOrderIndex++;    
+      foreach (Association association in entity.Associations.Where(x => x.Owns))
+        _entityInfo[association.ReferencedEntity].OrderIndex = _tableOrderIndex++;   
+
       // Generate all rows
-      _entityInfo[entity].OrderIndex = _tableOrderIndex++;    // Ensures correct dependency order when printing
       int count = GetCount(entity);
       for (int ii = 0; ii < count; ii++)
         GenerateRow(entity, null);

@@ -139,7 +139,22 @@ attributes:
 ";
 
       string expected =
-@"
+@"INSERT INTO independent (id, name) VALUES
+(1, 'Liane'),
+(2, 'Altha'),
+(3, 'Delilah');
+
+INSERT INTO parent (id, noun, independent) VALUES
+(1, 'hunter', 3);
+
+INSERT INTO single_child (id, name, parent_id) VALUES
+(1, 'Single Child 246', 1);
+
+INSERT INTO multiple_child (id, name, parent_id) VALUES
+(1, 'Multiple Child 089', 1),
+(2, 'Multiple Child 388', 1),
+(3, 'Multiple Child 065', 1);
+
 ";
 
       RunTest(expected, independent, parent, singleChild, multipleChild);
