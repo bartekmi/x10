@@ -67,10 +67,10 @@ namespace x10.gen.sql {
 
         switch (type) {
           case ColumnType.Attribute:
-            WriteAttribute(writer, member.Attribute);
+            WriteAttribute(writer, member);
             break;
           case ColumnType.ForwardAssociation:
-            WriteForwardAssociation(writer, member.Association);
+            WriteForwardAssociation(writer, member);
             break;
           case ColumnType.ReverseAssociation:
             WriteReverseAssociation(writer, member);
@@ -97,22 +97,24 @@ namespace x10.gen.sql {
     }
 
 
-    private static void WriteAttribute(TextWriter writer, X10Attribute attribute) {
+    private static void WriteAttribute(TextWriter writer, MemberAndOwner memberAndOwner) {
+      X10Attribute attribute = memberAndOwner.Attribute;
+
       writer.Write("  {0} {1}{2}NULL",
-        GetDbColumnName(attribute),
+        GetDbColumnName(memberAndOwner),
         GetType(attribute.DataType),
         attribute.IsMandatory ? " NOT " : " ");
     }
 
-    private static void WriteForwardAssociation(TextWriter writer, Association association) {
-      writer.Write("  {0}_id INTEGER{1}NULL",
-        GetDbColumnName(association),
-        association.IsMandatory ? " NOT " : " ");
+    private static void WriteForwardAssociation(TextWriter writer, MemberAndOwner forward) {
+      writer.Write("  {0} INTEGER{1}NULL",
+        GetDbColumnName(forward),
+        forward.Association.IsMandatory ? " NOT " : " ");
     }
 
     private static void WriteReverseAssociation(TextWriter writer, MemberAndOwner reverse) {
-      writer.Write("  {0}_id INTEGER NOT NULL",
-        GetTableName(reverse.ActualOwner));
+      writer.Write("  {0} INTEGER NOT NULL",
+        GetDbColumnName(reverse));
     }
 
     // https://www.postgresql.org/docs/9.5/datatype.html
@@ -136,26 +138,26 @@ namespace x10.gen.sql {
     // ALTER TABLE child_table
     // ADD CONSTRAINT constraint_name FOREIGN KEY(c1) REFERENCES parent_table(p1);
     private static void GenerateFkConstraints(TextWriter writer, Entity entity, DeclaredColumnsCalculator columnCalculator) {
-      IEnumerable<Association> forwardAssociations = columnCalculator.GetForwardAssociations(entity);
-      IEnumerable<Association> reverseAssociations = columnCalculator.GetReverseAssociations(entity)
-        .Select(x => x.Association);
+      IEnumerable<MemberAndOwner> forwardAssociations = columnCalculator.GetForwardAssociations(entity);
+      IEnumerable<MemberAndOwner> reverseAssociations = columnCalculator.GetReverseAssociations(entity);
 
       if (forwardAssociations.Count() == 0 && reverseAssociations.Count() == 0)
         return;
 
       writer.WriteLine("-- Related to Table " + entity.Name);
 
-      foreach (Association association in forwardAssociations) {
-        writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{2}\"(id);",
+      foreach (MemberAndOwner association in forwardAssociations) {
+        writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}) REFERENCES \"{2}\"(id);",
         GetTableName(entity),
         GetDbColumnName(association),
-        GetTableName(association.ReferencedEntity)));
+        GetTableName(association.Association.ReferencedEntity)));
       }
 
-      foreach (Association association in reverseAssociations)
-        writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{1}\"(id);",
+      foreach (MemberAndOwner association in reverseAssociations)
+        writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}) REFERENCES \"{2}\"(id);",
           GetTableName(entity),
-          GetTableName(association.Owner)));
+          GetDbColumnName(association),
+          GetTableName(association.Association.Owner)));
 
       writer.WriteLine();
     }
@@ -164,8 +166,16 @@ namespace x10.gen.sql {
     #region Utilities
 
 
-    internal static string GetDbColumnName(Member member) {
-      return NameUtils.CamelCaseToSnakeCase(member.Name);
+    internal static string GetDbColumnName(MemberAndOwner memberAndOwner) {
+      switch (memberAndOwner.Type) {
+        case ColumnType.Attribute:
+        case ColumnType.ForwardAssociation:
+          return NameUtils.CamelCaseToSnakeCase(memberAndOwner.Member.Name);
+        case ColumnType.ReverseAssociation:
+          return GetTableName(memberAndOwner.ActualOwner) + "_id";
+        default:
+          throw new Exception("Unexpected type: " + memberAndOwner.Type);
+      }
     }
 
     internal static string GetTableName(Entity entity) {

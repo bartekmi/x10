@@ -35,14 +35,15 @@ namespace x10.gen.sql {
     }
 
     internal IEnumerable<MemberAndOwner> GetDeclaredColumns(Entity entity) {
-      return entity.Attributes.Select(x => new MemberAndOwner(ColumnType.Attribute, x))  // All attributes
-        .Concat(GetForwardAssociations(entity)
-          .Select(x => new MemberAndOwner(ColumnType.ForwardAssociation, x, entity)))             // Forward assoc's
-        .Concat(GetReverseAssociations(entity));                  // Reverse assoc's
+      return entity.Attributes.Select(x => new MemberAndOwner(ColumnType.Attribute, x))   // All attributes
+        .Concat(GetForwardAssociations(entity))                                           // Forward assoc's
+        .Concat(GetReverseAssociations(entity));                                          // Reverse assoc's
     }
 
-    internal IEnumerable<Association> GetForwardAssociations(Entity entity) {
-      return entity.Associations.Where(x => !IsReverse(x) && !HasCorrespondingReverseAssociation(x));
+    internal IEnumerable<MemberAndOwner> GetForwardAssociations(Entity entity) {
+      return entity.Associations
+        .Where(x => !IsReverse(x) && !HasCorrespondingReverseAssociation(x))
+        .Select(x => new MemberAndOwner(ColumnType.ForwardAssociation, x, entity));
     }
 
     internal List<MemberAndOwner> GetReverseAssociations(Entity entity) {

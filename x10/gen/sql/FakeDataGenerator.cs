@@ -106,7 +106,7 @@ namespace x10.gen.sql {
         // Write the INSERT statement
         Entity entity = entityInfo.Entity;
         IEnumerable<string> dbColumnNames = _declaredColumnCalculator.GetDeclaredColumns(entity)
-          .Select(x => SqlSchemaGenerator.GetDbColumnName(x.Member));
+          .Select(x => SqlSchemaGenerator.GetDbColumnName(x));
 
         writer.WriteLine("INSERT INTO {0} (id, {1}) VALUES",
           SqlSchemaGenerator.GetTableName(entity),
