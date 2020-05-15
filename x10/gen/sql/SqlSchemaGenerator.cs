@@ -14,24 +14,34 @@ namespace x10.gen.sql {
 
     #region Top Level
     public static void Generate(IEnumerable<Entity> entities, string filename) {
+      using (TextWriter writer = new StreamWriter(filename))
+        Generate(entities, writer);
+    }
+
+    public static string GenerateIntoString(IEnumerable<Entity> entities) {
+      using (TextWriter writer = new StringWriter()) {
+        Generate(entities, writer);
+        return writer.ToString();
+      }
+    }
+
+    public static void Generate(IEnumerable<Entity> entities, TextWriter writer) {
 
       DeclaredColumnsCalculator reverse = new DeclaredColumnsCalculator(entities);
       entities = reverse.GetRealEntities();
 
-      using (TextWriter writer = new StreamWriter(filename)) {
-        // Generate Tables
-        writer.WriteLine("------------------------ Tables ------------------------------");
-        foreach (Entity entity in entities)
-          GenerateTable(writer, entity, reverse);
+      // Generate Tables
+      writer.WriteLine("------------------------ Tables ------------------------------");
+      foreach (Entity entity in entities)
+        GenerateTable(writer, entity, reverse);
 
-        // Generate FK Constraints - thought the original idea was to do this at same time as column creation,
-        // this becomes impossible if there are circular dependencies among the tables.
-        writer.WriteLine();
-        writer.WriteLine();
-        writer.WriteLine("------------------------ Foreign Key Constraints ------------------------------");
-        foreach (Entity entity in entities)
-          GenerateFkConstraints(writer, entity, reverse);
-      }
+      // Generate FK Constraints - thought the original idea was to do this at same time as column creation,
+      // this becomes impossible if there are circular dependencies among the tables.
+      writer.WriteLine();
+      writer.WriteLine();
+      writer.WriteLine("------------------------ Foreign Key Constraints ------------------------------");
+      foreach (Entity entity in entities)
+        GenerateFkConstraints(writer, entity, reverse);
     }
     #endregion
 
@@ -70,7 +80,7 @@ namespace x10.gen.sql {
         }
 
         // Write (or don't write) comma
-        if (member != declaredColumns.Last())
+        if (member.Member != declaredColumns.Last().Member)
           writer.Write(',');
         writer.WriteLine();
 
@@ -144,8 +154,8 @@ namespace x10.gen.sql {
 
       foreach (Association association in reverseAssociations)
         writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}_id) REFERENCES \"{1}\"(id);",
-          GetTableName(association.ReferencedEntity),
-          GetTableName(entity)));
+          GetTableName(entity),
+          GetTableName(association.Owner)));
 
       writer.WriteLine();
     }
