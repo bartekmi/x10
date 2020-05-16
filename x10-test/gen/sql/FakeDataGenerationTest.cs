@@ -296,6 +296,40 @@ INSERT INTO ""table_b"" (""id"", ""c_id"", ""table_a_id"") VALUES
       RunTest(expected, a, b, c);
     }
 
+
+    // A -owns-> B -dpends_on-> C
+    [Fact]
+    public void GenerateWithInheritance() {
+      string animal = @"
+name: Animal
+datagen_quantity: 1
+attributes:
+  - name: numberOfLegs
+    dataType: Integer
+";
+
+      string dog = @"
+name: Dog
+datagen_quantity: 1
+inheritsFrom: Animal
+attributes:
+  - name: barkVolumeInDb
+    dataType: Float
+";
+
+      string expected =
+@"INSERT INTO ""dog"" (""id"", ""number_of_legs"", ""bark_volume_in_db"") VALUES
+(1, 6, 2.8542983861892943);
+
+INSERT INTO ""animal"" (""id"", ""number_of_legs"") VALUES
+(1, 9);
+
+";
+
+      RunTest(expected, animal, dog);
+    }
+
+    #region Errors
     [Fact]
     public void ErrorInvalidSources() {
       string yaml = @"
@@ -311,6 +345,7 @@ attributes:
 
       RunTestExpectingError(yaml, "Expected format: 'file.csv AS alias', but got 'blurg'");
     }
+    #endregion
 
     private void RunTest(string expected, params string[] yamls) {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
