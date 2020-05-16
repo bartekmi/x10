@@ -280,7 +280,14 @@ attributes:
 ";
 
       string expected =
-@"TODO
+@"INSERT INTO table_a (id, column) VALUES
+(1, 9);
+
+INSERT INTO table_c (id, column) VALUES
+(1, 3);
+
+INSERT INTO table_b (id, c, table_a_id) VALUES
+(1, 1, 1);
 
 ";
 

@@ -30,12 +30,11 @@ namespace x10.gen.sql {
       internal List<Row> Rows = new List<Row>();
       internal DataGenerationContext Context;
       internal Entity Entity;
-      internal int OrderIndex;
+      internal int? OrderIndex;
 
-      internal int RandomExistingId(Random random, Association association) {
+      internal int? RandomExistingId(Random random, Association association) {
         if (Rows.Count == 0)
-          throw new Exception(string.Format("No rows to choose from for entity {0} referenced from Association {1}.{2}.",
-            Entity.Name, association.Owner.Name, association.Name));
+          return null;
         return random.Next(1, NextId);
       }
     }
@@ -162,16 +161,6 @@ namespace x10.gen.sql {
     }
 
     private void GenerateForEntity(Entity entity) {
-      // Ensure all dependencies are present
-      foreach (Entity dependency in GetImmediateDependencies(entity))
-        if (_unprocessedRootEntities.Contains(dependency))
-          GenerateForEntity(dependency);
-
-      // Ensure correct dependency order when printing
-      _entityInfo[entity].OrderIndex = _tableOrderIndex++;
-      foreach (Association association in entity.Associations.Where(x => x.Owns))
-        _entityInfo[association.ReferencedEntity].OrderIndex = _tableOrderIndex++;
-
       // Generate all rows
       int count = GetCount(entity);
       for (int ii = 0; ii < count; ii++)
@@ -215,7 +204,7 @@ namespace x10.gen.sql {
             row.Values.Add(_atomicDataGenerator.Generate(_random, context, member.Attribute, externalRow));
             break;
           case ColumnType.ForwardAssociation:
-            row.Values.Add(CreateAssociationValue(member.Association));
+            row.Values.Add(CreateForwardAssociationValue(member.Association));
             break;
           case ColumnType.ReverseAssociation:
               row.Values.Add(new MemberAndValue() {
@@ -226,18 +215,39 @@ namespace x10.gen.sql {
           default:
             throw new Exception("Unexpected member and associatoin type: " + member.Type);
         }
+
+      SetEntityOrderIfFirstTime(entity);
       return row;
     }
 
-    private MemberAndValue CreateAssociationValue(Association association) {
+    private MemberAndValue CreateForwardAssociationValue(Association association) {
+      Entity entity = association.ReferencedEntity;
+      if (!OrderHasBeenSet(entity)) {
+        if (entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity) && quantity > 0) 
+          GenerateForEntity(entity);
+        else {
+          if (association.IsMandatory)
+            throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify {2} for data generation",
+              association, entity.Name, DataGenLibrary.UNIQUE));
+        }
+      }
       return new MemberAndValue() {
         Member = association,
-        Value = _entityInfo[association.ReferencedEntity].RandomExistingId(_random, association),
+        Value = _entityInfo[entity].RandomExistingId(_random, association),
       };
     }
     #endregion
 
     #region Utilities
+
+    private bool OrderHasBeenSet(Entity entity) {
+      return _entityInfo[entity].OrderIndex != null;
+    }
+
+    private void SetEntityOrderIfFirstTime(Entity entity) {
+      if (!OrderHasBeenSet(entity))
+        _entityInfo[entity].OrderIndex = _tableOrderIndex++;
+    }
 
     private Row CreateAndStoreRow(Entity entity) {
       EntityInfo info = _entityInfo[entity];
@@ -261,17 +271,6 @@ namespace x10.gen.sql {
       if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity))
         return 0;
       return TEST_REDUCED_NUMBER_OF_ROWS ?? quantity;
-    }
-
-    private IEnumerable<Entity> GetImmediateDependencies(Entity entity) {
-      IEnumerable<Entity> dependencies = entity.Associations
-        .Where(x => !x.Owns)
-        .Select(x => x.ReferencedEntity)
-        .Distinct();
-
-      string depsList = string.Join(", ", dependencies.Select(x => x.Name));
-      Console.WriteLine("Deps for {0}: {1}", entity.Name, depsList);
-      return dependencies;
     }
     #endregion
   }

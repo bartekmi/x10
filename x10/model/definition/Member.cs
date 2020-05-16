@@ -11,5 +11,9 @@ namespace x10.model.definition {
     public Entity Owner { get; internal set; }
     public string UiName { get; internal set; }
     public ClassDef Ui { get; internal set; }
+
+    public override string ToString() {
+      return string.Format("{0}.{1}", Owner.Name, Name);
+    }
   }
 }
