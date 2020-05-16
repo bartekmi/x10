@@ -8,6 +8,9 @@ namespace x10.gen.sql.primitives {
     internal int From;
     internal int To;
 
+    // Derived
+    internal bool IsZero { get { return From == 0 && To == 0; } }
+
     internal int GetRandom(Random random) {
       return random.Next(From, To + 1);
     }

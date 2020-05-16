@@ -18,10 +18,30 @@ enums:
 associations:
 # TODO: We need a mechanism where we can have a pointer from PARENT to CHILD,
 # in this case, selecting from among child entities
+# TODO: Need a concept of a derived association, and more powerful
+# data generation, perhaps using code.
   - name: currentLocation
     dataType: ShipmentLocation
     owns: true
     datagen_quantity: 0
+  - name: origin
+    dataType: ShipmentLocation
+    ui: AssociationEditor
+    owns: true
+    datagen_quantity: 0
+  - name: finalDestination
+    dataType: ShipmentLocation
+    ui: AssociationEditor
+    owns: true
+    datagen_quantity: 0
+
+  - name: shipmentLocations
+    dataType: ShipmentLocation
+    many: true
+    owns: true
+    datagen_quantity: 2..4
+
+
   - name: bookmarks
     dataType: Bookmark
     many: true

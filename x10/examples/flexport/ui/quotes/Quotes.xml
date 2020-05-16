@@ -32,8 +32,8 @@
 
         <transportationMode/>
         <cargoReadyDate/>
-        <origin/>
-        <finalDestination/>
+        <originLocation/>
+        <destinationLocation/>
 
         <TableColumn>
           <VerticalStackPanel>

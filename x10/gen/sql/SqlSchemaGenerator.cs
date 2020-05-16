@@ -57,7 +57,7 @@ namespace x10.gen.sql {
       writer.WriteLine("CREATE TABLE \"{0}\" (", GetTableName(entity));
       writer.WriteLine("  id serial PRIMARY KEY,");
 
-      IEnumerable<MemberAndOwner> declaredColumns = reverseAssociations.GetDeclaredColumns(entity);
+      List<MemberAndOwner> declaredColumns = reverseAssociations.GetDeclaredColumns(entity).ToList();
 
       ColumnType? previousType = null;
 
@@ -80,7 +80,7 @@ namespace x10.gen.sql {
         }
 
         // Write (or don't write) comma
-        if (member.Member != declaredColumns.Last().Member)
+        if (member != declaredColumns.Last())
           writer.Write(',');
         writer.WriteLine();
 
@@ -157,14 +157,13 @@ namespace x10.gen.sql {
         writer.WriteLine(string.Format("ALTER TABLE \"{0}\" ADD CONSTRAINT {0}_{1}_fkey FOREIGN KEY({1}) REFERENCES \"{2}\"(id);",
           GetTableName(entity),
           GetDbColumnName(association),
-          GetTableName(association.Association.Owner)));
+          GetTableName(association.ActualOwner)));
 
       writer.WriteLine();
     }
     #endregion
 
     #region Utilities
-
 
     internal static string GetDbColumnName(MemberAndOwner memberAndOwner) {
       string memberName = memberAndOwner.Member.Name;

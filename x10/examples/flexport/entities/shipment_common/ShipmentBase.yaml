@@ -51,16 +51,3 @@ associations:
     many: true
     owns: true
 
-# TODO: Need a concept of a derived association, and more powerful
-# data generation, perhaps using code.
-  - name: origin
-    dataType: ShipmentLocation
-    ui: AssociationEditor
-    owns: true
-    datagen_quantity: 0
-  - name: finalDestination
-    dataType: ShipmentLocation
-    ui: AssociationEditor
-    owns: true
-    datagen_quantity: 0
-

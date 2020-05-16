@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using x10.gen.sql.primitives;
 using x10.model;
 using x10.model.definition;
 
@@ -16,7 +16,7 @@ namespace x10.gen.sql {
       List<MemberAndOwner> reverseOwners = new List<MemberAndOwner>();
 
       foreach (Entity entity in _realEntities)
-        foreach (Association association in entity.Associations.Where(x => IsReverse(x)))
+        foreach (Association association in entity.Associations.Where(x => IsReverse(x) && !IgnoreColumn(x)))
           reverseOwners.Add(new MemberAndOwner(ColumnType.ReverseAssociation, association, entity));
 
       _reverseAssociations = reverseOwners
@@ -42,7 +42,7 @@ namespace x10.gen.sql {
 
     internal IEnumerable<MemberAndOwner> GetForwardAssociations(Entity entity) {
       return entity.Associations
-        .Where(x => !IsReverse(x) && !HasCorrespondingReverseAssociation(x))
+        .Where(x => !IsReverse(x) && !HasCorrespondingReverseAssociation(x) && !IgnoreColumn(x))
         .Select(x => new MemberAndOwner(ColumnType.ForwardAssociation, x, entity));
     }
 
@@ -60,6 +60,12 @@ namespace x10.gen.sql {
     // associations point from child to parent.
     internal static bool IsReverse(Association association) {
       return association.Owns;
+    }
+
+    // TODO: This is a bit of a hack until we introduce derived associations
+    // Put here for the sake of the various ShipmentLocation associations from Shipment
+    internal static bool IgnoreColumn(Association association) {
+      return association.FindValue<SqlRange>(DataGenLibrary.QUANTITY, out SqlRange quantity) && quantity.IsZero;
     }
 
     #region Duplicate Column Definitions

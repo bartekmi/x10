@@ -22,3 +22,31 @@ associations:
   - name: submittedBy
     dataType: User
     ui: AssociationEditor
+
+    # Origin Location / Port
+  - name: originLocation
+    dataType: Location
+    mandatory: true
+    ui: AssociationEditor
+
+  - name: originPort
+    dataType: Port
+    ui: AssociationEditor
+    validations:
+      - message: Origin Port must be provided when 'Wants Origin Service' is false
+        trigger: !wantsOriginService
+
+    # Destination Location / Port
+  - name: destinationPort
+    dataType: Port
+    ui: AssociationEditor
+    validations:
+      - message: Destination Port must be provided when 'Wants Destination Service' is false
+        trigger: !wantsDestinationService
+
+  - name: destinationLocation
+    dataType: Location
+    ui: AssociationEditor
+    validations:
+      - message: Destination Location must be provided when 'Wants Destination Service' is true
+        trigger: wantsDestinationService
