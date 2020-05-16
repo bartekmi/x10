@@ -71,7 +71,7 @@ attributes:
 ";
 
       string expected =
-@"INSERT INTO entity (id, integer, float, char_replacement, percentage_pattern) VALUES
+@"INSERT INTO ""entity"" (""id"", ""integer"", ""float"", ""char_replacement"", ""percentage_pattern"") VALUES
 (1, 8, 10.576802268939467, 'ZZ.52.OXL', 'Division'),
 (2, 7, 10.563265907281668, 'ZZ.49.AWZ', 'Equity'),
 (3, 8, 10.599190217535565, 'ZZ.06.NYR', 'Bid'),
@@ -141,18 +141,18 @@ attributes:
 ";
 
       string expected =
-@"INSERT INTO independent (id, name) VALUES
+@"INSERT INTO ""independent"" (""id"", ""name"") VALUES
 (1, 'Liane'),
 (2, 'Altha'),
 (3, 'Delilah');
 
-INSERT INTO parent (id, noun, independent) VALUES
+INSERT INTO ""parent"" (""id"", ""noun"", ""independent_id"") VALUES
 (1, 'hunter', 3);
 
-INSERT INTO single_child (id, name, parent_id) VALUES
+INSERT INTO ""single_child"" (""id"", ""name"", ""parent_id"") VALUES
 (1, 'Single Child 246', 1);
 
-INSERT INTO multiple_child (id, name, parent_id) VALUES
+INSERT INTO ""multiple_child"" (""id"", ""name"", ""parent_id"") VALUES
 (1, 'Multiple Child 089', 1),
 (2, 'Multiple Child 388', 1),
 (3, 'Multiple Child 065', 1);
@@ -196,13 +196,13 @@ name: Child
 
 
       string expected =
-@"INSERT INTO independent1 (id, column) VALUES
+@"INSERT INTO ""independent1"" (""id"", ""column"") VALUES
 (1, 9);
 
-INSERT INTO independent2 (id, column) VALUES
+INSERT INTO ""independent2"" (""id"", ""column"") VALUES
 (1, 3);
 
-INSERT INTO child (id, independent1_id, independent2_id) VALUES
+INSERT INTO ""child"" (""id"", ""independent1_id"", ""independent2_id"") VALUES
 (1, 1, NULL),
 (2, NULL, 1);
 
@@ -233,7 +233,7 @@ attributes:
 ";
 
       string expected =
-@"INSERT INTO entity (id, city, state_or_province, contry_code) VALUES
+@"INSERT INTO ""entity"" (""id"", ""city"", ""state_or_province"", ""contry_code"") VALUES
 (1, 'Tongchuan', 'Sichuan', 'CN'),
 (2, 'Liangshi', 'Hunan', 'CN'),
 (3, 'Henderson', 'IL', 'US'),
@@ -282,13 +282,13 @@ attributes:
 ";
 
       string expected =
-@"INSERT INTO table_a (id, column) VALUES
+@"INSERT INTO ""table_a"" (""id"", ""column"") VALUES
 (1, 9);
 
-INSERT INTO table_c (id, column) VALUES
+INSERT INTO ""table_c"" (""id"", ""column"") VALUES
 (1, 3);
 
-INSERT INTO table_b (id, c, table_a_id) VALUES
+INSERT INTO ""table_b"" (""id"", ""c_id"", ""table_a_id"") VALUES
 (1, 1, 1);
 
 ";

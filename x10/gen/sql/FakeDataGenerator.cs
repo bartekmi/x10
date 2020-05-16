@@ -108,9 +108,9 @@ namespace x10.gen.sql {
         IEnumerable<string> dbColumnNames = _declaredColumnCalculator.GetDeclaredColumns(entity)
           .Select(x => SqlSchemaGenerator.GetDbColumnName(x));
 
-        writer.WriteLine("INSERT INTO {0} (id, {1}) VALUES",
+        writer.WriteLine("INSERT INTO \"{0}\" (\"id\", {1}) VALUES",
           SqlSchemaGenerator.GetTableName(entity),
-          string.Join(", ", dbColumnNames)
+          string.Join(", ", dbColumnNames.Select(x => string.Format("\"{0}\"", x)))
         );
 
         // Write the data
@@ -145,7 +145,7 @@ namespace x10.gen.sql {
       }
 
       if (quote)
-        return string.Format("'{0}'", value);
+        return string.Format("'{0}'", value.ToString().Replace("'", "''"));
       else
         return value.ToString();
     }

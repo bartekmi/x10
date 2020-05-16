@@ -18,9 +18,10 @@ enums:
 associations:
 # TODO: We need a mechanism where we can have a pointer from PARENT to CHILD,
 # in this case, selecting from among child entities
-#  - name: currentLocation
-#    dataType: ShipmentLocation
-#    owns: true
+  - name: currentLocation
+    dataType: ShipmentLocation
+    owns: true
+    datagen_quantity: 0
   - name: bookmarks
     dataType: Bookmark
     many: true

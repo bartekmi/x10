@@ -167,10 +167,13 @@ namespace x10.gen.sql {
 
 
     internal static string GetDbColumnName(MemberAndOwner memberAndOwner) {
+      string memberName = memberAndOwner.Member.Name;
+
       switch (memberAndOwner.Type) {
         case ColumnType.Attribute:
+          return NameUtils.CamelCaseToSnakeCase(memberName);
         case ColumnType.ForwardAssociation:
-          return NameUtils.CamelCaseToSnakeCase(memberAndOwner.Member.Name);
+          return NameUtils.CamelCaseToSnakeCase(memberName) + "_id";
         case ColumnType.ReverseAssociation:
           return GetTableName(memberAndOwner.ActualOwner) + "_id";
         default:

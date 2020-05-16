@@ -18,8 +18,8 @@ attributes:
     dataType: String
     datagen_from_source: (us => state_id | cn => admin)
 
-  - name: contryCode
-    dataType: CountryCode
+  - name: countryCode
+    dataType: String
     mandatory: true
     datagen_from_source: (us => 'US' | cn => 'CN')
 

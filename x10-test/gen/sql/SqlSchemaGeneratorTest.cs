@@ -119,7 +119,7 @@ CREATE TABLE ""child"" (
 
 ------------------------ Foreign Key Constraints ------------------------------
 -- Related to Table Child
-ALTER TABLE ""child"" ADD CONSTRAINT child_parent_fkey FOREIGN KEY(parent_id) REFERENCES ""parent""(id);
+ALTER TABLE ""child"" ADD CONSTRAINT child_parent_id_fkey FOREIGN KEY(parent_id) REFERENCES ""parent""(id);
 
 ", yaml1, yaml2);
     }
@@ -158,7 +158,7 @@ CREATE TABLE ""other"" (
 
 ------------------------ Foreign Key Constraints ------------------------------
 -- Related to Table Entity
-ALTER TABLE ""entity"" ADD CONSTRAINT entity_other_fkey FOREIGN KEY(other_id) REFERENCES ""other""(id);
+ALTER TABLE ""entity"" ADD CONSTRAINT entity_other_id_fkey FOREIGN KEY(other_id) REFERENCES ""other""(id);
 
 ", yaml1, yaml2);
     }
@@ -203,7 +203,7 @@ CREATE TABLE ""other"" (
 
 ------------------------ Foreign Key Constraints ------------------------------
 -- Related to Table Other
-ALTER TABLE ""other"" ADD CONSTRAINT other_entity_fkey FOREIGN KEY(entity_id) REFERENCES ""entity""(id);
+ALTER TABLE ""other"" ADD CONSTRAINT other_entity_id_fkey FOREIGN KEY(entity_id) REFERENCES ""entity""(id);
 
 ", yaml1, yaml2);
     }
