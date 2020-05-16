@@ -32,9 +32,10 @@ namespace x10.gen.sql {
       internal Entity Entity;
       internal int OrderIndex;
 
-      internal int RandomExistingId(Random random) {
+      internal int RandomExistingId(Random random, Association association) {
         if (Rows.Count == 0)
-          throw new Exception("No rows to choose from");
+          throw new Exception(string.Format("No rows to choose from for entity {0} referenced from Association {1}.{2}.",
+            Entity.Name, association.Owner.Name, association.Name));
         return random.Next(1, NextId);
       }
     }
@@ -167,9 +168,9 @@ namespace x10.gen.sql {
           GenerateForEntity(dependency);
 
       // Ensure correct dependency order when printing
-      _entityInfo[entity].OrderIndex = _tableOrderIndex++;    
+      _entityInfo[entity].OrderIndex = _tableOrderIndex++;
       foreach (Association association in entity.Associations.Where(x => x.Owns))
-        _entityInfo[association.ReferencedEntity].OrderIndex = _tableOrderIndex++;   
+        _entityInfo[association.ReferencedEntity].OrderIndex = _tableOrderIndex++;
 
       // Generate all rows
       int count = GetCount(entity);
@@ -193,12 +194,10 @@ namespace x10.gen.sql {
     private Row GenerateSingleRow(Entity entity, Row parent) {
       Row row = CreateAndStoreRow(entity);
 
-      Association linkToParent = null;
+      MemberAndOwner linkToParent = null;
       if (parent != null) {
         IEnumerable<MemberAndOwner> reverses = _declaredColumnCalculator.GetReverseAssociations(entity);
-        IEnumerable<Association> parentAssociations = reverses
-          .Select(x => x.Association)
-          .Where(x => x.ReferencedEntity == entity);
+        IEnumerable<MemberAndOwner> parentAssociations = reverses.Where(x => x.ActualOwner == parent.Entity);
 
         if (parentAssociations.Count() != 1)
           throw new Exception(string.Format("Entity {0} referenced by Entity {1} must have exactly one association of that type, but has {2}",
@@ -210,19 +209,22 @@ namespace x10.gen.sql {
       DataFileRow externalRow = context.GetRandomExternalFileRow();
       IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
-      foreach (Member member in allColumns.Select(x => x.Member))
-        if (member is X10Attribute x10Attr)
-          row.Values.Add(_atomicDataGenerator.Generate(_random, context, x10Attr, externalRow));
-        else if (member is Association association) {
-          if (association == linkToParent)
-            row.Values.Add(new MemberAndValue() {
-              Member = association,
-              Value = parent.Id,
-            });
-          else
-            row.Values.Add(CreateAssociationValue(association));
-        } else {
-          // Must be a derived attribute... Ignore
+      foreach (MemberAndOwner member in allColumns)
+        switch (member.Type) {
+          case ColumnType.Attribute:
+            row.Values.Add(_atomicDataGenerator.Generate(_random, context, member.Attribute, externalRow));
+            break;
+          case ColumnType.ForwardAssociation:
+            row.Values.Add(CreateAssociationValue(member.Association));
+            break;
+          case ColumnType.ReverseAssociation:
+              row.Values.Add(new MemberAndValue() {
+                Member = member.Association,
+                Value = member == linkToParent ? parent.Id : (int?)null,
+              });
+            break;
+          default:
+            throw new Exception("Unexpected member and associatoin type: " + member.Type);
         }
       return row;
     }
@@ -230,7 +232,7 @@ namespace x10.gen.sql {
     private MemberAndValue CreateAssociationValue(Association association) {
       return new MemberAndValue() {
         Member = association,
-        Value = _entityInfo[association.ReferencedEntity].RandomExistingId(_random),
+        Value = _entityInfo[association.ReferencedEntity].RandomExistingId(_random, association),
       };
     }
     #endregion

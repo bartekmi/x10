@@ -160,6 +160,55 @@ INSERT INTO multiple_child (id, name, parent_id) VALUES
       RunTest(expected, independent, parent, singleChild, multipleChild);
     }
 
+    // Reminiscent of Rails polymorphic associations where a child entity may be "owned"
+    // by multiple object types
+    [Fact]
+    public void GeneratePolymorphic() {
+      string independent1 = @"
+name: Independent1
+datagen_quantity: 1
+attributes:
+  - name: column
+    dataType: Integer
+associations:
+  - name: child
+    dataType: Child
+    owns: True
+";
+
+      string independent2 = @"
+name: Independent2
+datagen_quantity: 1
+attributes:
+  - name: column
+    dataType: Integer
+associations:
+  - name: child
+    dataType: Child
+    owns: True
+";
+
+      string child = @"
+name: Child
+";
+
+
+      string expected =
+@"INSERT INTO independent1 (id, column) VALUES
+(1, 9);
+
+INSERT INTO independent2 (id, column) VALUES
+(1, 3);
+
+INSERT INTO child (id, independent1_id, independent2_id) VALUES
+(1, 1, NULL),
+(2, NULL, 1);
+
+";
+
+      RunTest(expected, independent1, independent2, child);
+    }
+
     [Fact]
     public void GenerateFromExternalFiles() {
       string yaml = @"
@@ -199,6 +248,44 @@ attributes:
       RunTest(expected, yaml);
     }
 
+    // A -owns-> B -dpends_on-> C
+    [Fact]
+    public void GenerateWithIndirectDependency() {
+      string a = @"
+name: tableA
+datagen_quantity: 1
+attributes:
+  - name: column
+    dataType: Integer
+associations:
+  - name: b
+    dataType: tableB
+    owns: True
+";
+
+      string b = @"
+name: tableB
+associations:
+  - name: c
+    dataType: tableC
+";
+
+
+      string c = @"
+name: tableC
+datagen_quantity: 1
+attributes:
+  - name: column
+    dataType: Integer
+";
+
+      string expected =
+@"TODO
+
+";
+
+      RunTest(expected, a, b, c);
+    }
 
     [Fact]
     public void ErrorInvalidSources() {

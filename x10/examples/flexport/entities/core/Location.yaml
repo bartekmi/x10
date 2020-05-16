@@ -9,10 +9,6 @@ attributes:
   - name: name
     dataType: String
 
-  - name: type
-    dataType: LocationType
-    datagen_pattern: (5% = port | 5% = airport | 5% = factory)
-
   - name: city
     dataType: String
     mandatory: true

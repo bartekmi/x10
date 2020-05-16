@@ -12,16 +12,16 @@ namespace x10.gen.sql {
     private IEnumerable<Entity> _realEntities;
 
     internal DeclaredColumnsCalculator(IEnumerable<Entity> entities) {
+      _realEntities = entities.Where(x => !Ignore(x));
       List<MemberAndOwner> reverseOwners = new List<MemberAndOwner>();
-      foreach (Entity entity in entities)
+
+      foreach (Entity entity in _realEntities)
         foreach (Association association in entity.Associations.Where(x => IsReverse(x)))
           reverseOwners.Add(new MemberAndOwner(ColumnType.ReverseAssociation, association, entity));
 
       _reverseAssociations = reverseOwners
         .GroupBy(ro => ro.Association.ReferencedEntity)
         .ToDictionary(grp => grp.Key, grp => grp.ToList());
-
-      _realEntities = entities.Where(x => !Ignore(x));
     }
 
     internal IEnumerable<Entity> GetRealEntities() {
@@ -104,6 +104,10 @@ namespace x10.gen.sql {
       Type = type;
       Member = member;
       ActualOwner = owner ?? member.Owner;
+    }
+
+    public override string ToString() {
+      return string.Format("{0}: {1} - {2}", Type, ActualOwner.Name, Member);
     }
   }
   #endregion

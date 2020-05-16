@@ -1,4 +1,5 @@
 name: Port
 inheritsFrom: Location
 description: A physical location which is either a Sea-Port or an Airport
+datagen_quantity: 100
 

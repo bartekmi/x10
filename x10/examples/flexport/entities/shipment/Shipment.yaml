@@ -16,8 +16,13 @@ enums:
     values: awaitingArrivalAtDeparturePort
 
 associations:
-  - name: currentLocation
-    dataType: ShipmentLocation
+# TODO: We need a mechanism where we can have a pointer from PARENT to CHILD,
+# in this case, selecting from among child entities
+#  - name: currentLocation
+#    dataType: ShipmentLocation
+#    owns: true
   - name: bookmarks
     dataType: Bookmark
     many: true
+    owns: true
+    datagen_quantity: 0..1

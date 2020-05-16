@@ -32,12 +32,7 @@ associations:
     dataType: Company
   - name: cargo
     dataType: Cargo
-  - name: origin
-    dataType: ShipmentLocation
-    ui: AssociationEditor
-  - name: finalDestination
-    dataType: ShipmentLocation
-    ui: AssociationEditor
+    owns: true
   - name: supplier
     dataType: Company
     ui: AssociationEditor
@@ -45,11 +40,30 @@ associations:
   - name: users
     dataType: ShipmentUser
     many: true
+    owns: true
   - name: metadata
     dataType: MetadataValue
     many: true
+    owns: true
     ui: Metadata
   - name: tasks
     dataType: Task
     many: true
+    owns: true
+  - name: origin
+    dataType: ShipmentLocation
+    many: true
+    owns: true
+    datagen_quantity: 2..4
+
+# TODO: Need a concept of a derived association, and more powerful
+# data generation, perhaps using code.
+#  - name: origin
+#    dataType: ShipmentLocation
+#    ui: AssociationEditor
+#    owns: true
+#  - name: finalDestination
+#    dataType: ShipmentLocation
+#    ui: AssociationEditor
+#    owns: true
 
