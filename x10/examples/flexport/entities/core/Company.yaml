@@ -18,5 +18,9 @@ associations:
   - name: location
     mandatory: true
     dataType: Location
+  - name: metadataTags
+    dataType: MetadataTag
+    owns: true
+    datagen_quantity: 0..4
 
 

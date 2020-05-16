@@ -32,13 +32,15 @@ namespace x10.gen.sql {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
 
-      Assert.False(_messages.HasErrors);
-
-      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
-      generator.Generate(OUTPUT_FILE);
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
-
       Assert.False(_messages.HasErrors);
+
+      MessageBucket genMessages = new MessageBucket();
+      FakeDataGenerator generator = new FakeDataGenerator(genMessages, entities, new Random(0));
+      generator.Generate(OUTPUT_FILE);
+      TestUtils.DumpMessages(genMessages, _output, CompileMessageSeverity.Error);
+
+      Assert.False(genMessages.HasErrors);
     }
 
     [Fact]

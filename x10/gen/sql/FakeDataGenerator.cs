@@ -227,8 +227,8 @@ namespace x10.gen.sql {
           GenerateForEntity(entity);
         else {
           if (association.IsMandatory)
-            throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify {2} for data generation",
-              association, entity.Name, DataGenLibrary.UNIQUE));
+            throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
+              association, entity.Name, DataGenLibrary.QUANTITY));
         }
       }
       return new MemberAndValue() {
