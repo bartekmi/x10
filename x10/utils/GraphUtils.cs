@@ -17,11 +17,15 @@ namespace x10.utils {
   public static class GraphUtils {
     // Nodes are derived from the edges, so orphaned nodes will not be included
     public static List<T> SortDirectAcyclicGraph<T>(IEnumerable<Edge<T>> edges) {
-      Dictionary<T, int> _incomingNodesCount = edges
-        .GroupBy(x => x.To)
-        .ToDictionary(x => x.Key, x => x.Count());
+      return SortDirectAcyclicGraph<T>(new T[0], edges);
+    }
 
-      foreach (T from in edges.Select(x => x.From))
+    public static List<T> SortDirectAcyclicGraph<T>(IEnumerable<T> nodes, IEnumerable<Edge<T>> edges) {
+      Dictionary<T, int> _incomingNodesCount = edges
+      .GroupBy(x => x.To)
+      .ToDictionary(x => x.Key, x => x.Count());
+
+      foreach (T from in edges.Select(x => x.From).Concat(nodes))
         if (!_incomingNodesCount.ContainsKey(from))
           _incomingNodesCount[from] = 0;
 

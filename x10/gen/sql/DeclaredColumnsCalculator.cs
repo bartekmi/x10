@@ -11,6 +11,23 @@ namespace x10.gen.sql {
     private Dictionary<Entity, List<MemberAndOwner>> _reverseAssociations;
     private IEnumerable<Entity> _realEntities;
 
+    // Derived
+    internal IEnumerable<MemberAndOwner> AllForward {
+      get {
+        return GetRealEntities().SelectMany(x => GetForwardAssociations(x));
+      }
+    }
+    internal IEnumerable<MemberAndOwner> AllReverse {
+      get {
+        return GetRealEntities().SelectMany(x => GetReverseAssociations(x));
+      }
+    }
+    internal IEnumerable<MemberAndOwner> AllAssociations {
+      get {
+        return AllForward.Concat(AllReverse);
+      }
+    }
+
     internal DeclaredColumnsCalculator(IEnumerable<Entity> entities) {
       _realEntities = entities.Where(x => !Ignore(x));
       List<MemberAndOwner> reverseOwners = new List<MemberAndOwner>();

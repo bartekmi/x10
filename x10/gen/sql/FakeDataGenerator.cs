@@ -30,7 +30,6 @@ namespace x10.gen.sql {
       internal List<Row> Rows = new List<Row>();
       internal DataGenerationContext Context;
       internal Entity Entity;
-      internal int? OrderIndex;
 
       internal int? RandomExistingId(Random random, Association association) {
         if (Rows.Count == 0)
@@ -50,6 +49,7 @@ namespace x10.gen.sql {
     private readonly AtomicDataGenerator _atomicDataGenerator;
     private readonly DataGenLanguageParser _parser;
     private readonly DeclaredColumnsCalculator _declaredColumnCalculator;
+    private readonly List<Entity> _sortedEntities;
 
     private int _tableOrderIndex;
 
@@ -69,6 +69,18 @@ namespace x10.gen.sql {
         Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x),
         Entity = x,
       });
+
+      _sortedEntities = GetSortedEntities(entities);  // Will blow up if circular ref's found
+    }
+
+    private List<Entity> GetSortedEntities(IEnumerable<Entity> realEntities) {
+      IEnumerable<Edge<Entity>> edges =
+        _declaredColumnCalculator.AllForward.Select(x => new Edge<Entity>(x.ActualOwner, x.Association.ReferencedEntity))
+        .Concat(_declaredColumnCalculator.AllReverse.Select(x => new Edge<Entity>(x.Association.ReferencedEntity, x.ActualOwner)));
+
+      List<Entity> sorted = GraphUtils.SortDirectAcyclicGraph(realEntities, edges);
+      sorted.Reverse();   // Reverse so as to generate starting from no FK dependencies
+      return sorted;
     }
 
     public void Generate(string filename) {
@@ -98,9 +110,9 @@ namespace x10.gen.sql {
     // ...
     // (N, val1, val2, ...);
     private void DumpData(TextWriter writer) {
-      IEnumerable<EntityInfo> infos = _entityInfo.Values
-        .Where(x => x.Rows.Count > 0)
-        .OrderBy(x => x.OrderIndex);
+      IEnumerable<EntityInfo> infos = _sortedEntities
+        .Select(x => _entityInfo[x])
+        .Where(x => x.Rows.Count > 0);
 
       foreach (EntityInfo entityInfo in infos) {
         // Write the INSERT statement
@@ -161,12 +173,14 @@ namespace x10.gen.sql {
     }
 
     private void GenerateForEntity(Entity entity) {
+      if (!_unprocessedRootEntities.Contains(entity))
+        return;
+      _unprocessedRootEntities.Remove(entity);  // Done with this one!
+
       // Generate all rows
       int count = GetCount(entity);
       for (int ii = 0; ii < count; ii++)
         GenerateRow(entity, null);
-
-      _unprocessedRootEntities.Remove(entity);  // Done with this one!
     }
 
     private void GenerateRow(Entity entity, Row parent) {
@@ -216,38 +230,26 @@ namespace x10.gen.sql {
             throw new Exception("Unexpected member and associatoin type: " + member.Type);
         }
 
-      SetEntityOrderIfFirstTime(entity);
       return row;
     }
 
     private MemberAndValue CreateForwardAssociationValue(Association association) {
       Entity entity = association.ReferencedEntity;
-      if (!OrderHasBeenSet(entity)) {
-        if (entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity) && quantity > 0) 
-          GenerateForEntity(entity);
-        else {
-          if (association.IsMandatory)
-            throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
-              association, entity.Name, DataGenLibrary.QUANTITY));
-        }
-      }
+      GenerateForEntity(entity);
+
+      object value = _entityInfo[entity].RandomExistingId(_random, association);
+      if (association.IsMandatory && value == null)
+        throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
+          association, entity.Name, DataGenLibrary.QUANTITY));
+
       return new MemberAndValue() {
         Member = association,
-        Value = _entityInfo[entity].RandomExistingId(_random, association),
+        Value = value,
       };
     }
     #endregion
 
     #region Utilities
-
-    private bool OrderHasBeenSet(Entity entity) {
-      return _entityInfo[entity].OrderIndex != null;
-    }
-
-    private void SetEntityOrderIfFirstTime(Entity entity) {
-      if (!OrderHasBeenSet(entity))
-        _entityInfo[entity].OrderIndex = _tableOrderIndex++;
-    }
 
     private Row CreateAndStoreRow(Entity entity) {
       EntityInfo info = _entityInfo[entity];

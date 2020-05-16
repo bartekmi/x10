@@ -149,13 +149,13 @@ attributes:
 INSERT INTO ""parent"" (""id"", ""noun"", ""independent_id"") VALUES
 (1, 'hunter', 3);
 
-INSERT INTO ""single_child"" (""id"", ""name"", ""parent_id"") VALUES
-(1, 'Single Child 246', 1);
-
 INSERT INTO ""multiple_child"" (""id"", ""name"", ""parent_id"") VALUES
 (1, 'Multiple Child 089', 1),
 (2, 'Multiple Child 388', 1),
 (3, 'Multiple Child 065', 1);
+
+INSERT INTO ""single_child"" (""id"", ""name"", ""parent_id"") VALUES
+(1, 'Single Child 246', 1);
 
 ";
 
@@ -196,11 +196,11 @@ name: Child
 
 
       string expected =
-@"INSERT INTO ""independent1"" (""id"", ""column"") VALUES
-(1, 9);
-
-INSERT INTO ""independent2"" (""id"", ""column"") VALUES
+@"INSERT INTO ""independent2"" (""id"", ""column"") VALUES
 (1, 3);
+
+INSERT INTO ""independent1"" (""id"", ""column"") VALUES
+(1, 9);
 
 INSERT INTO ""child"" (""id"", ""independent1_id"", ""independent2_id"") VALUES
 (1, 1, NULL),
