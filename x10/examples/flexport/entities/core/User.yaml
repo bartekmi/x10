@@ -1,6 +1,6 @@
 name: User
 description: A user of the system
-datagen_quantity: 3000
+datagen_quantity: 30
 
 attributes:
   - name: firstName

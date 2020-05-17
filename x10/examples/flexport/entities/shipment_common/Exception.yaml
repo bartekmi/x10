@@ -5,6 +5,7 @@ attributes:
   - name: headline
     dataType: String
     mandatory: true
+    datagen_pattern: (Cargo Ready Date Missed | Weather Delay | Container Rolled)
 
   - name: timestamp
     dataType: Timestamp

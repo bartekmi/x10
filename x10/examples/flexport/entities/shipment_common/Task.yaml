@@ -5,6 +5,7 @@ attributes:
   - name: headline
     dataType: String
     mandatory: true
+    datagen_pattern: (Upload House Bill of Lading | Reschedule Origin Trucking | Follow up Credit Hold)
 
   - name: createdAt
     dataType: Timestamp

@@ -6,6 +6,7 @@ attributes:
   - name: name
     dataType: String
     mandatory: true
+    datagen_pattern: Shipment ~LLL.DDDDDDDD~
 
   - name: transportationMode
     dataType: TransportationMode

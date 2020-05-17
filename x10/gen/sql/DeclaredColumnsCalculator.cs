@@ -85,20 +85,10 @@ namespace x10.gen.sql {
       return association.FindValue<SqlRange>(DataGenLibrary.QUANTITY, out SqlRange quantity) && quantity.IsZero;
     }
 
-    #region Duplicate Column Definitions
-    //          if (IsDefinedInBothDirections(reverses, association)) {
-    //        // If association is defined from both ends, this would otherwise cause multiple columns
-    //        // to be generated. We give preference to the one created in the reverse direction (thus skipping generation here)
-    //        // because the reverse one will ensure a 'not null' clause.
-    //        continue;
-    //      } else {
-
     private bool HasCorrespondingReverseAssociation(Association association) {
       List<MemberAndOwner> reverseAssociations = GetReverseAssociations(association.Owner);
       return reverseAssociations.Any(x => x.ActualOwner == association.ReferencedEntity);
     }
-
-    #endregion
   }
 
   #region Helper Classes

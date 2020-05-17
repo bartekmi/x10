@@ -1,6 +1,6 @@
 name: Company
 description: A legal entity such as a corportation that typically buys or sells stuff
-datagen_quantity: 1000
+datagen_quantity: 10
 
 attributes:
   - name: legalName

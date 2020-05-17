@@ -1,6 +1,6 @@
 name: Booking
 description: A pre-<Shipment>. An intention to ship goods containing most of the information necessary to eventually generate a <Shipment>
-datagen_quantity: 4000
+datagen_quantity: 40
 
 attributes:
   - name: name

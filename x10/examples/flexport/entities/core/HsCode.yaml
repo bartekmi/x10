@@ -2,7 +2,7 @@ name: HsCode
 description: >
   A physical goods classification for the purpose of paying tarriffs
   in import/export
-datagen_quantity: 1000
+datagen_quantity: 10
 
 attributes:
   - name: hsCode

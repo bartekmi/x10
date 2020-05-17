@@ -52,12 +52,12 @@ namespace x10.gen.sql {
     //   user_id serial PRIMARY KEY,
     //   username VARCHAR UNIQUE NOT NULL,
     // );
-    private static void GenerateTable(TextWriter writer, Entity entity, DeclaredColumnsCalculator reverseAssociations) {
+    private static void GenerateTable(TextWriter writer, Entity entity, DeclaredColumnsCalculator columnCalculator) {
 
       writer.WriteLine("CREATE TABLE \"{0}\" (", GetTableName(entity));
       writer.WriteLine("  id serial PRIMARY KEY,");
 
-      List<MemberAndOwner> declaredColumns = reverseAssociations.GetDeclaredColumns(entity).ToList();
+      List<MemberAndOwner> declaredColumns = columnCalculator.GetDeclaredColumns(entity).ToList();
 
       ColumnType? previousType = null;
 
@@ -73,7 +73,8 @@ namespace x10.gen.sql {
             WriteForwardAssociation(writer, member);
             break;
           case ColumnType.ReverseAssociation:
-            WriteReverseAssociation(writer, member);
+            bool hasMultipleReverseAssociations = columnCalculator.GetReverseAssociations(entity).Count() > 1;
+            WriteReverseAssociation(writer, member, hasMultipleReverseAssociations);
             break;
           default:
             throw new Exception("Unexpected member type: " + type);
@@ -112,9 +113,10 @@ namespace x10.gen.sql {
         forward.Association.IsMandatory ? " NOT " : " ");
     }
 
-    private static void WriteReverseAssociation(TextWriter writer, MemberAndOwner reverse) {
-      writer.Write("  {0} INTEGER NOT NULL",
-        GetDbColumnName(reverse));
+    private static void WriteReverseAssociation(TextWriter writer, MemberAndOwner reverse, bool hasMultipleReverseAssociations) {
+      writer.Write("  {0} INTEGER{1}NULL",
+        GetDbColumnName(reverse),
+        hasMultipleReverseAssociations ? " " : " NOT ");
     }
 
     // https://www.postgresql.org/docs/9.5/datatype.html
