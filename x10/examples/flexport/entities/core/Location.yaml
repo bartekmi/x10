@@ -3,7 +3,7 @@ description: A physical location
 # Not sure yet if this is useful
 # defaultStringRepresentation: name
 datagen_quantity: 2000
-datagen_sources: (25% = us_cities.csv AS us | 75% = cn_cities.csv AS cn)
+datagen_sources: (25% => us_cities.csv AS us | 75% => cn_cities.csv AS cn)
 
 attributes:
   - name: name

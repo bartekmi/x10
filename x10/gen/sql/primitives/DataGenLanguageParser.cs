@@ -8,7 +8,7 @@ using YamlDotNet.Core.Tokens;
 
 namespace x10.gen.sql.primitives {
   // Parses strings like:
-  // Some text ( 50% = <adjective> | 50% = <noun> *LLDD.DD* (80% = Hello | 20% = World)) more text
+  // Some text ( 50% => <adjective> | 50% => <noun> *LLDD.DD* (80% => Hello | 20% => World)) more text
 
   // (The intention is to generate data like...)
   // Some text red more text
@@ -117,7 +117,7 @@ namespace x10.gen.sql.primitives {
       builder.Append("( ");
       foreach (Node child in Children) {
         builder.Append(child.Probability * 100);
-        builder.Append("% = ");
+        builder.Append("% => ");
         child.Print(builder);
         if (child != Children.Last())
           builder.Append(" | ");
@@ -244,8 +244,10 @@ namespace x10.gen.sql.primitives {
         double? probability = MaybeParseProbability(tokenizer);
         if (probability == null)
           tokenizer.ResetToMark();
-        else
+        else {
           tokenizer.Expect('=');
+          tokenizer.Expect('>');
+        }
 
         Node child = Parse(tokenizer);
         child.Probability = probability ?? Double.MinValue;

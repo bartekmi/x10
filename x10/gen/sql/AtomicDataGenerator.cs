@@ -58,6 +58,8 @@ namespace x10.gen.sql {
         double max = objMax is double _max ? _max : DEFAULT_FLOAT_MAX;
 
         value = random.NextDouble() * (max - min) + min;
+      } else if (x10Attr.DataType == DataTypes.Singleton.Boolean) {
+        value = random.Next(2) == 0;
       } else if (x10Attr.DataType == DataTypes.Singleton.Date) {
         // For date, min/max is offset from today's date
         int min = objMin is int _min ? _min : DEFAULT_DATE_OFFSET_DAYS_MIN;
@@ -76,7 +78,7 @@ namespace x10.gen.sql {
         value = GenerateForString(random, context, x10Attr, externalRow);
       else if (x10Attr.DataType is DataTypeEnum dataTypeEnum) {
         value = GenerateForString(random, context, x10Attr, externalRow);
-        if (value == null) {
+        if (string.IsNullOrEmpty(value?.ToString())) {
           if (x10Attr.IsMandatory) {
             int index = random.Next(dataTypeEnum.EnumValues.Count);
             value = dataTypeEnum.EnumValues[index].Value;

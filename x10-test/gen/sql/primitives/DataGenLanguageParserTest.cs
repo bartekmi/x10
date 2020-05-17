@@ -34,23 +34,23 @@ namespace x10.gen.sql.primitives {
 
     [Fact]
     public void ParseProbabilities() {
-      RunTest("( 10% = Hello | 90% = World )");
+      RunTest("( 10% => Hello | 90% => World )");
     }
 
     [Fact]
     public void ParseProbabilitiesWithDefaults() {
-      RunTest("( 20% = A | B | C )",
-        "( 20% = A | 40% = B | 40% = C )");
+      RunTest("( 20% => A | B | C )",
+        "( 20% => A | 40% => B | 40% => C )");
     }
 
     [Fact]
     public void ParseConcat() {
-      RunTest("Start ( 10% = Hello | 90% = World ) Finish");
+      RunTest("Start ( 10% => Hello | 90% => World ) Finish");
     }
 
     [Fact]
     public void ParseConcatAndRecursiveProbabilities() {
-      RunTest("Start text ( 50% = First | 50% = Second ( 80% = Hello | 20% = World ) ) End Text");
+      RunTest("Start text ( 50% => First | 50% => Second ( 80% => Hello | 20% => World ) ) End Text");
     }
 
     private void RunTest(string input, string output = null) {

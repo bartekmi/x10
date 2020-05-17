@@ -66,7 +66,7 @@ attributes:
 
   - name: percentagePattern
     dataType: String
-    datagen_pattern: (50% = <adjective> <noun> | 50% = <noun>)
+    datagen_pattern: (50% => <adjective> <noun> | 50% => <noun>)
     datagen_capitalize: true
 ";
 
@@ -216,7 +216,7 @@ INSERT INTO ""child"" (""id"", ""independent1_id"", ""independent2_id"") VALUES
       string yaml = @"
 name: Entity
 datagen_quantity: 10
-datagen_sources: (25% = us_cities.csv AS us | 75% = cn_cities.csv AS cn)
+datagen_sources: (25% => us_cities.csv AS us | 75% => cn_cities.csv AS cn)
 
 attributes:
   - name: city
@@ -359,7 +359,7 @@ enums:
       string yaml = @"
 name: Entity
 datagen_quantity: 10
-datagen_sources: (25% = us_cities.csv AS us | 10% = blurg)
+datagen_sources: (25% => us_cities.csv AS us | 10% => blurg)
 
 attributes:
   - name: city
