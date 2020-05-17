@@ -1,4 +1,4 @@
-<Dashboard>
+<Dashboard url="/dashboard">
   <VerticalStackPanel>
     <!-- Dashboard Header Row -->
     <RepellingRow>

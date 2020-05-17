@@ -33,7 +33,7 @@
 
           <!-- Shipment Status/Exception type -->
           <Row>
-            <Icon icon="square-with-bubble"/>
+            <Icon icon="=shipment.transportationMode"/>
             <shipment.status/>
             <Bullet/>
             <type/>
