@@ -50,6 +50,7 @@ namespace x10.gen.sql {
         Description = @"External source(s) for data. E.g. use: '25% => us_cities.csv AS us; 75% => cn_cities.csv as cn'",
         AppliesTo = AppliesTo.Entity,
         DataType = DataTypes.Singleton.String,
+        SearchInheritanceTree = true,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = NO_SQL_SCHEMA,

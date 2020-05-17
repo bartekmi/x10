@@ -23,9 +23,9 @@ namespace x10.model.definition {
     public static bool FindValue<T>(this IAcceptsModelAttributeValues source, string attributeName, out T objValue) {
       ModelAttributeValue value = FindAttribute(source, attributeName);
       objValue = default;
-      if (value == null) 
+      if (value == null)
         return false;
-      
+
       objValue = (T)(value.Value);
       return value != null;
     }
@@ -40,8 +40,28 @@ namespace x10.model.definition {
     }
 
     public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {
-      return source.AttributeValues
-        .FirstOrDefault(x => x.Definition.Name == attributeName);
+      ModelAttributeValue value = FindAttributeNoInheritance(source, attributeName);
+
+      // For some attributes, search the inheritance chain
+      if (value == null && source is Entity entity) {
+        while (entity.InheritsFrom != null) {
+          entity = entity.InheritsFrom;
+          value = FindAttributeNoInheritance(source, attributeName);
+
+          if (value != null) {
+            if (value.Definition.SearchInheritanceTree)
+              return value;
+            else
+              return null;
+          }
+        }
+      }
+
+      return value;
+    }
+
+    private static ModelAttributeValue FindAttributeNoInheritance(IAcceptsModelAttributeValues source, string attributeName) {
+      return source.AttributeValues.FirstOrDefault(x => x.Definition.Name == attributeName);
     }
 
     public static bool FindBoolean(this IAcceptsModelAttributeValues source, string attrName, bool defaultIfNotFound) {

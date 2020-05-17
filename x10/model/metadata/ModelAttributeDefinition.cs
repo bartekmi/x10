@@ -36,6 +36,11 @@ namespace x10.model.metadata {
     public object DefaultIfMissing { get; set; }
     public string MessageIfMissing { get; set; }
     public string Setter { get; set; }
+    
+    // If true, when accessing attribute on an Entity, search the entire inheritance
+    // tree, starting with the initial object, then going up the parent chain
+    public bool SearchInheritanceTree { get; set; }
+
     public Action<MessageBucket, AllEntities, AllEnums, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
 
     public bool AppliesToType(AppliesTo type) {
