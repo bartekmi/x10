@@ -7,6 +7,7 @@ attributes:
     dataType: String
     mandatory: true
     placeholderText: Description of shipment
+    datagen_pattern: Booking ~LLL.DDDDDDDD~
 
   - name: status
     dataType: BookingStatus

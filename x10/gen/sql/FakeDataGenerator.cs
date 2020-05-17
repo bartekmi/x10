@@ -51,8 +51,6 @@ namespace x10.gen.sql {
     private readonly DeclaredColumnsCalculator _declaredColumnCalculator;
     private readonly List<Entity> _sortedEntities;
 
-    private int _tableOrderIndex;
-
     public FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
       _messages = messages;
       _random = random;

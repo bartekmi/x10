@@ -25,6 +25,14 @@ namespace x10.model.libraries {
       return library;
     }
 
+    internal const string LABEL = "label";
+    internal const string TOOL_TIP = "toolTip";
+    internal const string APPLICABLE_WHEN = "applicableWhen";
+    internal const string DEFAULT_STRING_REPRESENTATION = "defaultStringRepresentation";
+    internal const string PLACEHOLDER_TEXT = "placeholderText";
+    internal const string DEFAULT = "default";
+
+
     private static List<ModelAttributeDefinition> _attributes = new List<ModelAttributeDefinition>() {
       //============================================================================
       // Misc
@@ -38,7 +46,7 @@ namespace x10.model.libraries {
         Setter = "Description",
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "label",
+        Name = LABEL,
         Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
@@ -55,13 +63,13 @@ namespace x10.model.libraries {
         }
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "toolTip",
+        Name = TOOL_TIP,
         Description = "The default UI Tool Tipe for this type of item",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "applicableWhen",
+        Name = APPLICABLE_WHEN,
         Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
         AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
@@ -73,6 +81,7 @@ namespace x10.model.libraries {
         ParseFunction = (messages, treeElement) => {
           return null;
         },
+        Setter = "Validations",
       },
 
       //============================================================================
@@ -113,7 +122,7 @@ namespace x10.model.libraries {
         },
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "defaultStringRepresentation",
+        Name = DEFAULT_STRING_REPRESENTATION,
         Description = @"A formula expressed in terms of the members of this Entity to show 
 a default string representation of instances. Can recursively use associations if desired.
 Typical use would be if entities are going to be represented on a drop-down.",
@@ -177,7 +186,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       //============================================================================
       // Members
       new ModelAttributeDefinitionAtomic() {
-        Name = "placeholderText",
+        Name = PLACEHOLDER_TEXT,
         Description = "Placeholder text for UI components (e.g. the text that go into TextBoxe's before the user enters anything)",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DataType = DataTypes.Singleton.String,
@@ -265,15 +274,14 @@ Typical use would be if entities are going to be represented on a drop-down.",
         }
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "default",
+        Name = DEFAULT,
         Description = "Default value for any attributes of this type. This is significant when the user creates new entities of this type",
         AppliesTo = AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string defaultValue = scalarNode.Value.ToString();
           DataTypeEnum theEnum = (DataTypeEnum)modelComponent;
-          if (theEnum.EnumValues != null &&
-              !theEnum.EnumValues.Any(x => x.Value.ToString() == defaultValue))
+          if (theEnum.EnumValues != null && !theEnum.HasEnumValue(defaultValue))
             messages.AddError(scalarNode,
               string.Format("The default value '{0}' is not one of the available enum values", defaultValue));
         }

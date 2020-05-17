@@ -74,6 +74,19 @@ namespace x10.gen.sql {
         value = DateTime.Now.AddDays(offsetDays);
       } else if (x10Attr.DataType == DataTypes.Singleton.String)
         value = GenerateForString(random, context, x10Attr, externalRow);
+      else if (x10Attr.DataType is DataTypeEnum dataTypeEnum) {
+        value = GenerateForString(random, context, x10Attr, externalRow);
+        if (value == null) {
+          if (x10Attr.IsMandatory) {
+            int index = random.Next(dataTypeEnum.EnumValues.Count);
+            value = dataTypeEnum.EnumValues[index].Value;
+          }
+        } else
+          if (!dataTypeEnum.HasEnumValue(value))
+          _messages.AddError(x10Attr.TreeElement, "Invalide Enum value '{0}' generated for Enum '{1}'",
+            value, dataTypeEnum.Name);
+      } else
+        _messages.AddError(x10Attr.TreeElement, "Unknown data type: " + x10Attr.DataType.Name);
 
       return value;
     }

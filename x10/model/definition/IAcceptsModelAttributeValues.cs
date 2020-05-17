@@ -46,7 +46,7 @@ namespace x10.model.definition {
       if (value == null && source is Entity entity) {
         while (entity.InheritsFrom != null) {
           entity = entity.InheritsFrom;
-          value = FindAttributeNoInheritance(source, attributeName);
+          value = FindAttributeNoInheritance(entity, attributeName);
 
           if (value != null) {
             if (value.Definition.SearchInheritanceTree)

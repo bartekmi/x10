@@ -11,7 +11,6 @@ using x10.parsing;
 namespace x10.gen.sql {
   internal class DataGenerationContext {
     internal List<ExternalDataFile> ExternalDataFiles = new List<ExternalDataFile>();
-    private readonly DataGenLanguageParser _parser;
     private Random _random;
     private readonly StaticDictionaries _staticDictionaries = new StaticDictionaries();
 

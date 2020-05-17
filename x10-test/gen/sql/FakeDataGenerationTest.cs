@@ -296,7 +296,6 @@ INSERT INTO ""table_b"" (""id"", ""c_id"", ""table_a_id"") VALUES
       RunTest(expected, a, b, c);
     }
 
-
     // A -owns-> B -dpends_on-> C
     [Fact]
     public void GenerateWithInheritance() {
@@ -327,6 +326,31 @@ INSERT INTO ""animal"" (""id"", ""number_of_legs"") VALUES
 ";
 
       RunTest(expected, animal, dog);
+    }
+
+    [Fact]
+    public void GenerateEnum() {
+      string entity = @"
+name: Entity
+datagen_quantity: 3
+attributes:
+  - name: myEnum
+    dataType: MyEnum
+    mandatory: true
+enums:
+  - name: MyEnum
+    values: one, two, three
+";
+
+      string expected =
+@"INSERT INTO ""entity"" (""id"", ""my_enum"") VALUES
+(1, 'three'),
+(2, 'two'),
+(3, 'two');
+
+";
+
+      RunTest(expected, entity);
     }
 
     #region Errors
