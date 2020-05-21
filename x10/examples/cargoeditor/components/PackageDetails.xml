@@ -1,7 +1,7 @@
 <PackageDetails model="[ShippingUnit]" team="bookings">
   <List addItemLabel="Add another package">
     <!-- <PackageDetailsItem/> -->
-    <Column>
+    <VerticalStackPanel>
       <Row>
         <name/>
         <unitType/>
@@ -18,6 +18,6 @@
         <volumeCubicM/>
         <weightKg/>
       </Row>
-    </Column>
+    </VerticalStackPanel>
   </List>
 </PackageDetails>

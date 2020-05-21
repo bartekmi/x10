@@ -20,6 +20,41 @@ namespace wpf_sample {
   public partial class MainWindow : Window {
     public MainWindow() {
       InitializeComponent();
+
+      uxControlSelector.ItemsSource = Components()
+        .Select(x => new ControlTypeWrapper(x))
+        .OrderBy(x => x.ToString());
+
+      uxControlSelector.SelectionChanged += UxControlSelector_SelectionChanged;
+    }
+
+    private void UxControlSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+      ControlTypeWrapper wrapper = (ControlTypeWrapper)uxControlSelector.SelectedItem;
+      uxContent.Children.Clear();
+      uxContent.Children.Add(wrapper.CreateUserControl());
+    }
+
+    private static List<Type> Components() {
+      return new List<Type>() {
+        typeof(BookingForm),
+        typeof(Bookings),
+      };
+    }
+
+    class ControlTypeWrapper {
+      private Type _type;
+
+      internal ControlTypeWrapper(Type type) {
+        _type = type;
+      }
+
+      internal UserControl CreateUserControl() {
+        return (UserControl)Activator.CreateInstance(_type);
+      }
+
+      public override string ToString() {
+        return _type.Name;
+      }
     }
   }
 }

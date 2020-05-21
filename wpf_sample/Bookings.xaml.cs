@@ -13,10 +13,10 @@ using System.Windows.Shapes;
 
 namespace wpf_sample {
   /// <summary>
-  /// Interaction logic for UserControl1.xaml
+  /// Interaction logic for Bookings.xaml
   /// </summary>
-  public partial class UserControl1 : UserControl {
-    public UserControl1() {
+  public partial class Bookings : UserControl {
+    public Bookings() {
       InitializeComponent();
     }
   }

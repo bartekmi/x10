@@ -6,7 +6,16 @@
         xmlns:local="clr-namespace:wpf_sample"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
 
+    <Grid Background="LightGray">
+      <ComboBox Name="uxControlSelector" Padding="5"/>
     </Grid>
+    <Grid Grid.Row="1" Name="uxContent"/>
+
+  </Grid>
 </Window>

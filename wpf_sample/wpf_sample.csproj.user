@@ -7,15 +7,33 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="PackageDetails.xaml.cs">
+    <Compile Update="BookingForm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Bookings.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="lib\EditElementWrapper.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="lib\FormSection.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Bookings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="lib\EditElementWrapper.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="lib\FormSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PackageDetails.xaml">
+    <Page Update="BookingForm.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
