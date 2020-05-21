@@ -1,5 +1,5 @@
 <PackageDetails model="[ShippingUnit]" team="bookings">
-  <MultiStacker addItemLabel="Add another package">
+  <List addItemLabel="Add another package">
     <!-- <PackageDetailsItem/> -->
     <Column>
       <Row>
@@ -19,5 +19,5 @@
         <weightKg/>
       </Row>
     </Column>
-  </MultiStacker>
+  </List>
 </PackageDetails>
