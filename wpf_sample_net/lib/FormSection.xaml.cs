@@ -44,7 +44,7 @@ namespace wpf_sample.lib {
     public FormSection() {
       InitializeComponent();
       Children = PART_Host.Children;
-      Label = PART_Header.Text;
+      //Label = PART_Header.Text;
       //PART_Header.Text = Label;
     }
   }

@@ -11,12 +11,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_sample {
+namespace wpf_sample.ui.bookings {
   /// <summary>
-  /// Interaction logic for Bookings.xaml
+  /// Interaction logic for UserControl1.xaml
   /// </summary>
-  public partial class Bookings : UserControl {
-    public Bookings() {
+  public partial class BookingForm : UserControl {
+    public BookingForm() {
       InitializeComponent();
     }
   }

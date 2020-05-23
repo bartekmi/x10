@@ -6,12 +6,15 @@
              xmlns:local="clr-namespace:wpf_sample.lib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-  <StackPanel>
+  <StackPanel Margin="5">
     <StackPanel Orientation="Horizontal">
-      <TextBlock Name="uxLabel"/>
-      <TextBlock Text="(?)"/>
+      <TextBlock Name="PART_Label" Style="{StaticResource Label}"/>
+      <TextBlock Name="PART_MandatoryIndicator">
+        <Run Typography.Variants="Superscript">*</Run>
+      </TextBlock>
+      <TextBlock Name="PART_ToolTip" Text="(?)" Padding="10,0,0,0"/>
     </StackPanel>
-    <ContentPresenter Name="uxContent"/>
+    <StackPanel Name="PART_Host"/>
     <TextBlock Name="uxErrorMessage" Foreground="Red"/>
   </StackPanel>
 </UserControl>
