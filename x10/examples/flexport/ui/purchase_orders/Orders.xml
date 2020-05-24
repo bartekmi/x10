@@ -17,7 +17,7 @@
             </Button>
             <Button label="Download CSV">
               <Button.Action>
-                <BackEndAction dialogTitle="Purchase Orders Download"
+                <ActionWithDialog dialogTitle="Purchase Orders Download"
                                dialogText="We'll send you an email with your purchase orders shortly."
                                backEndTarget="emailPurchaseOrdes"/>
               </Button.Action>

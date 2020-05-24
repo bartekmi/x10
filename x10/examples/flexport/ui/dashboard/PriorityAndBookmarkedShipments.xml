@@ -19,7 +19,7 @@
                     <transportationMode.icon/>
                     <VerticalStackPanel>
                         <Row>
-                            <flexId weight="bold"/>
+                            <flexId Text.weight="bold"/>
                             <Bullet/>
                             <name/>
                         </Row>

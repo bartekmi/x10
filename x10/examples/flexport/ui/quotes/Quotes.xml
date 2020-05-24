@@ -24,7 +24,7 @@
       <Table.Columns>
         <TableColumn label="Name">
           <VerticalStackPanel>
-            <flexId weight="bold"/>
+            <flexId Text.weight="bold"/>
             <name/>
             <metadata/>
           </VerticalStackPanel>

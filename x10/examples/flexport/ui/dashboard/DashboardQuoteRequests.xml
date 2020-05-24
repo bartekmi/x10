@@ -19,7 +19,7 @@
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
             <Row>
-              <flexId weight="bold"/>
+              <flexId Text.weight="bold"/>
               <Bullet/>
               <name/>
             </Row>
@@ -35,7 +35,7 @@
             </Row>
             <Row>
               <Text text="CRD"/>
-              <cargoReadyDate weight="bold"/>
+              <cargoReadyDate Text.weight="bold"/>
             </Row>
           </RepellingRow>
         </VerticalStackPanel>

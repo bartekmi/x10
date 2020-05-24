@@ -46,7 +46,7 @@
         <lib:CardSelector Selected="{Binding Model.TransportationMode}"
                           ItemsSourceEnum="TransportationMode"/>
       </lib:EditElementWrapper>
-      <lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
+      <!--<lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
                               Visibility="{Binding IsLclVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
         <local:IsLcl/>
       </lib:EditElementWrapper>
@@ -55,7 +55,7 @@
         <local:IsLtl/>
       </lib:EditElementWrapper>
       <local:ContainerTypesEditor Visibility="{Binding ContainerTypesEditorVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-      <local:IncotermsSelector Incoterms="{Binding Model.Incoters}"/>
+      <local:IncotermsSelector Incoterms="{Binding Model.Incoters}"/>-->
     </lib:FormSection>
 
   </StackPanel>

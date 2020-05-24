@@ -8,7 +8,12 @@
       <Table.Header>
         <RepellingRow>
           <Row>
-            <Button label="=`Archive ${selected.count}` tasks" visible="=selected.count > 0" action="archiveSelectedTasks(selected)"/>
+            <Button label="=`Archive ${selected.count}` tasks" visible="=selected.count > 0">
+              <Button.Action>
+                <Action backEndTarget="archiveSelectedTasks(selected)"/>
+              </Button.Action>
+            </Button>
+
             <FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
             <FilterMultiSelect label="Types" choices="=enumValues(TaskType)"/>
             <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>
@@ -23,12 +28,12 @@
 
         <TableColumn label="Reference">
           <VerticalStackPanel>
-            <shipment.flexId weight="bold"/>
+            <shipment.flexId Text.weight="bold"/>
             <shipment.name/>
           </VerticalStackPanel>
         </TableColumn>
 
-        <headline weight="bold"/>
+        <headline Text.weight="bold"/>
         <shipment.transportationMode/>
         <shipment.supplier/>
         <shipment.finalDestination/>

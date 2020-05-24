@@ -25,13 +25,13 @@
         <cargoReadyDate/>
         <TableColumn path="shipper">
           <VerticalStackPanel>
-            <legalName weight="bold"/>
+            <legalName Text.weight="bold"/>
             <cityAndState/>
           </VerticalStackPanel>
         </TableColumn>
         <TableColumn path="consignee">
           <VerticalStackPanel>
-            <legalName weight="bold"/>
+            <legalName Text.weight="bold"/>
             <cityAndState/>
           </VerticalStackPanel>
         </TableColumn>

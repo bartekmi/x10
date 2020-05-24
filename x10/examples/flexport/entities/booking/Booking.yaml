@@ -45,14 +45,14 @@ attributes:
     mandatory: true
     default: false
     label: Shipment Type
-    ui: IsLclEditor
+    ui: BooleanViaButtons
 
   - name: isLtl
     dataType: Boolean
     mandatory: true
     default: false
     label: Shipment Type
-    ui: IsLtlEditor
+    ui: BooleanViaButtons
 
   - name: incoterms
     dataType: Incoterms

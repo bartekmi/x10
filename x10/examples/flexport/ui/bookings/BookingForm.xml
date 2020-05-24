@@ -26,7 +26,7 @@
       </FormSection>
 
       <FormSection label="Transportation">
-        <transportationMode ui="CardSelector"/>
+        <transportationMode/>
         <isLcl visible="=transportationMode == 'ocean'"/>
         <isLtl visible="=transportationMode == 'truck'"/>
         <ContainerTypesEditor visible="=transportationMode == 'ocean'"/>
@@ -56,8 +56,8 @@
         <List addItemLabel="Add row" path="bookingHsCodes">
           <Grid>
             <Grid.Columns>
-              <GridColumn fraction="1"/>
-              <GridColumn width="100"/>
+              <GridColumn widthFraction="1"/>
+              <GridColumn widthPixels="100"/>
             </Grid.Columns>
             <!-- If rows not specified, assume all "auto" rows -->
 
@@ -95,15 +95,24 @@
         <Row>
           <LinkButton label="Delete draft">
             <LinkButton.Action>
-              <BackEndAction dialogTitle="Cancel Booking?" dialogText="Are you sure you want to cancel this Booking?"
+              <ActionWithDialog dialogTitle="Cancel Booking?" dialogText="Are you sure you want to cancel this Booking?"
                              danger="True"
                              backEndTarget="/bookings/${id}/delete" successUrl="/bookings"/>
             </LinkButton.Action>
           </LinkButton> 
           
           <!-- validate is a perfect opportunity for an "Attached property", the owner being "Form> -->
-          <FormButton label="Save draft" validate="false" action="/bookings/save_draft" url="/bookings"/>
-          <FormButton label="Review booking" validate="true" action="/bookings/save_draft" url="/bookings/${id}/review"/>
+          <FormButton label="Save draft" validate="false">
+            <FormButton.Action>
+              <Action backEndTarget="/bookings/save_draft" successUrl="/bookings"/>
+            </FormButton.Action>
+          </FormButton>
+          
+          <FormButton label="Review booking" validate="true">
+            <FormButton.Action>
+              <Action backEndTarget="/bookings/save_draft" successUrl="/bookings/${id}/review"/>
+            </FormButton.Action>
+          </FormButton>
         </Row>
       </RepellingRow>
     </VerticalStackPanel>

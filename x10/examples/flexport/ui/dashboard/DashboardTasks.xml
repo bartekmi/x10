@@ -17,7 +17,7 @@
                 <Icon icon="=type"/>
                 <VerticalStackPanel>
                     <Row>
-                        <shipment.flexId weight="bold"/>
+                        <shipment.flexId Text.weight="bold"/>
                         <Bullet/>
                         <shipment.name/>
                     </Row>
@@ -32,7 +32,7 @@
                             <dueDateHuman/>
                         </Row>
                         <Row>
-                            Due <dueDate weight="bold"/>
+                            Due <dueDate Text.weight="bold"/>
                         </Row>
                     </RepellingRow>
                 </VerticalStackPanel>

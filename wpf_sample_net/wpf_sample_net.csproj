@@ -63,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="lib\CardSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="lib\Label.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +101,7 @@
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
     <Compile Include="lib\EntitySelector.xaml.cs" />
+    <Compile Include="lib\CardSelector.xaml.cs" />
     <Compile Include="lib\Label.xaml.cs" />
     <Compile Include="ui\bookings\BookingForm.xaml.cs" />
     <Compile Include="ui\bookings\BookingFormVM.custom.cs" />
