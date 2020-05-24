@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="wpf_sample.lib.EditElementWrapper"
+﻿<UserControl x:Class="wpf_sample.lib.EntitySelector"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,12 +6,9 @@
              xmlns:local="clr-namespace:wpf_sample.lib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             x:Name="uxRoot">
-  <StackPanel Margin="0, 5">
-    <local:Label Text="{Binding Label, ElementName=uxRoot}"
-                 IsMandatory="{Binding IsMandatory, ElementName=uxRoot}"
-                 MyToolTip="{Binding MyToolTip, ElementName=uxRoot}"/>
-    <StackPanel Name="PART_Host"/>
-    <TextBlock Name="uxErrorMessage" Foreground="Red"/>
+             x:Name="uxRoot"
+             >
+  <StackPanel>
+    <TextBlock Text="{Binding Entity, ElementName=uxRoot}"/>
   </StackPanel>
 </UserControl>

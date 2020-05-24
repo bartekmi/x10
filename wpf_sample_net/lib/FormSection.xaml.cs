@@ -13,9 +13,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace wpf_sample.lib {
-  /// <summary>
-  /// A sub-section of a data entry form
-  /// </summary>
   [ContentProperty(nameof(Children))]
   public partial class FormSection : UserControl {
     public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
@@ -23,6 +20,10 @@ namespace wpf_sample.lib {
         typeof(UIElementCollection),
         typeof(FormSection),
         new PropertyMetadata());
+    public UIElementCollection Children {
+      get { return (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty); }
+      private set { SetValue(ChildrenProperty, value); }
+    }
 
     public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
         nameof(Label),
@@ -31,11 +32,6 @@ namespace wpf_sample.lib {
         new FrameworkPropertyMetadata() {
           PropertyChangedCallback = new PropertyChangedCallback((s, e) => ((FormSection)s).PART_Header.Text = (string)e.NewValue),
         });
-
-    public UIElementCollection Children {
-      get { return (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty); }
-      private set { SetValue(ChildrenProperty, value); }
-    }
     public string Label {
       get { return (string)GetValue(LabelProperty); }
       set { SetValue(LabelProperty, value); }
@@ -44,8 +40,6 @@ namespace wpf_sample.lib {
     public FormSection() {
       InitializeComponent();
       Children = PART_Host.Children;
-      //Label = PART_Header.Text;
-      //PART_Header.Text = Label;
     }
   }
 }

@@ -13,9 +13,19 @@
     </Grid.RowDefinitions>
 
     <Grid Background="LightGray">
-      <ComboBox Name="uxControlSelector" Padding="5"/>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox Name="uxControlSelector" Padding="5"/>
+        <Button Grid.Column="1" Content="Print Model" Click="PrintModel" Margin="10,0,0,0" FontWeight="Bold" Padding="10,0"
+                IsEnabled="{Binding SelectedItem, ElementName=uxControlSelector, Converter={StaticResource NullToBooleanConverter}}"/>
+      </Grid>
     </Grid>
-    <Grid Grid.Row="1" Name="uxContent"/>
+    <ScrollViewer Grid.Row="1">
+      <Grid Name="uxContent" Margin="10"/>
+    </ScrollViewer>
 
   </Grid>
 </Window>

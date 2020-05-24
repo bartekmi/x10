@@ -4,21 +4,36 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+using wpf_sample.entities;
 using wpf_sample.ui.bookings;
 
+using wpf_sample.entities.booking;
+using Newtonsoft.Json;
+using wpf_sample.lib;
+
 namespace wpf_sample {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
   public partial class MainWindow : Window {
     public MainWindow() {
       InitializeComponent();
+      InitializeContext();
 
       uxControlSelector.ItemsSource = Components()
         .Select(x => new ControlTypeWrapper(x))
         .OrderBy(x => x.ToString());
 
       uxControlSelector.SelectionChanged += UxControlSelector_SelectionChanged;
+    }
+
+    private void InitializeContext() {
+      __Context__.Singleton = new __Context__() {
+        User = new User() {
+          FirstName = "Bartek",
+          LastName = "Muszynski",
+          Company = new Company() {
+            LegalName = "Bartek Musz, Inc."
+          }
+        }
+      };
     }
 
     private void UxControlSelector_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -35,7 +50,7 @@ namespace wpf_sample {
     }
 
     class ControlTypeWrapper {
-      private Type _type;
+      private readonly Type _type;
 
       internal ControlTypeWrapper(Type type) {
         _type = type;
@@ -48,6 +63,13 @@ namespace wpf_sample {
       public override string ToString() {
         return _type.Name;
       }
+    }
+
+    private void PrintModel(object sender, RoutedEventArgs e) {
+      FrameworkElement element = (FrameworkElement)uxContent.Children[0];
+      EntityBase entity = ((ViewModelBase)element.DataContext).ModelUntyped;
+      string json = JsonConvert.SerializeObject(entity, Formatting.Indented);
+      Console.WriteLine(json);
     }
   }
 }

@@ -12,14 +12,28 @@ namespace wpf_sample.entities.booking {
     public string FirstName {
       get { return _firstName; }
       set {
-        if (value != _firstName) {
-          _firstName = value;
-          RaisePropertyChanged(nameof(FirstName));
-        }
+        _firstName = value;
+        RaisePropertyChanged(nameof(FirstName));
+      }
+    }
+
+    private string _lastName;
+    [Column("last_name")]
+    public string LastName {
+      get { return _lastName; }
+      set {
+        _lastName = value;
+        RaisePropertyChanged(nameof(LastName));
       }
     }
 
     // Associations
     public virtual Company Company { get; set; }
+
+
+    public override string ToString() {
+      return string.Format("{0} {1}", FirstName, LastName);
+    }
+
   }
 }

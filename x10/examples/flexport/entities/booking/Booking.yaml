@@ -7,6 +7,7 @@ attributes:
     dataType: String
     mandatory: true
     placeholderText: Description of shipment
+    toolTip: A meaningful and easily identifiable name for this shipment
     datagen_pattern: Booking ~LLL.DDDDDDDD~
 
   - name: status
@@ -145,10 +146,12 @@ associations:
     owns: true
     datagen_quantity: 1
 
+    # Shipper / Consigne
   - name: shipper
     dataType: Company
     mandatory: true
     ui: AssociationEditor
+
   - name: consignee
     dataType: Company
     mandatory: true

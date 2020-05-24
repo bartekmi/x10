@@ -9,17 +9,35 @@
              d:DesignHeight="450" d:DesignWidth="800">
   <!-- TODO - The Form Component should be something along the lines of
   https://stackoverflow.com/questions/9094486/adding-children-to-usercontrol-->
+
   <StackPanel>
     <TextBlock Style="{StaticResource Heading1}" Text="Create Booking"/>
     <Separator />
 
     <lib:EditElementWrapper Label="Shipment Name" IsMandatory="True" MyToolTip="A meaningful and easily identifiable name for this shipment">
-      <!--<TextBox Text="{Binding Model.Name}"/>-->
-      <TextBox Text="TODO"/>
+      <TextBox Text="{Binding Model.Name}"/>
     </lib:EditElementWrapper>
 
     <lib:FormSection Label="Involved Parties">
-      <TextBlock Text="Hello World"/>
+      <lib:Label Text="What is your role in this trade?" IsMandatory="True"/>
+      <StackPanel Orientation="Horizontal">
+        <ToggleButton Content="Shipper" IsChecked="{Binding Model.IsShipperBooking, Mode=OneWay}" 
+                      Checked="SelectShipperBooking" Style="{StaticResource ToggleButton}"/>
+        <ToggleButton Content="Consignee" IsChecked="{Binding Model.IsConsigneeBooking, Mode=OneWay}" 
+                      Checked="SelectConsigneeBooking" Style="{StaticResource ToggleButton}"/>
+      </StackPanel>
+      <lib:EditElementWrapper Label="Shipper" IsMandatory="True">
+        <lib:EntitySelector Entity="{Binding Model.ShipperBindable}"/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Consignee" IsMandatory="True">
+        <lib:EntitySelector Entity="{Binding Model.ConsigneeBindable}"/>
+      </lib:EditElementWrapper>
+      <CheckBox Content="Notify party is same as consignee" IsChecked="{Binding NotifyPartySameAsConsignee}"/>
+      <lib:EditElementWrapper Label="Notify Party" MyToolTip="The company entity which should be notified of the arrival of the cargo"
+                               Visibility="{Binding NotifyPartySameAsConsignee, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <TextBox Text="{Binding Model.NotifyParty}"/>
+      </lib:EditElementWrapper>
+     
     </lib:FormSection>
   </StackPanel>
 </UserControl>

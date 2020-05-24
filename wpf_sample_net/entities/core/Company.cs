@@ -16,5 +16,9 @@ namespace wpf_sample.entities.booking {
         }
       }
     }
+
+    public override string ToString() {
+      return LegalName;
+    }
   }
 }
