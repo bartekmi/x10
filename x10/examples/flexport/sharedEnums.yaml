@@ -3,10 +3,10 @@
   label: Freight Method
   ui: EnumCardSelector
   values: 
-    - value: air
-      icon: airplane
     - value: ocean
       icon: boat
+    - value: air
+      icon: airplane
     - value: truck
       icon: truck
   default: ocean

@@ -91,6 +91,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="lib\attributes\LabelAttribute.cs" />
+    <Compile Include="lib\attributes\IconAttribute.cs" />
     <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />

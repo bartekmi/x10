@@ -37,7 +37,26 @@
                                Visibility="{Binding NotifyPartySameAsConsignee, Converter={StaticResource BooleanToVisibilityConverter}}">
         <TextBox Text="{Binding Model.NotifyParty}"/>
       </lib:EditElementWrapper>
-     
+
     </lib:FormSection>
+
+    <!-- Transportation -->
+    <lib:FormSection Label="Transportation">
+      <lib:EditElementWrapper Label="Transportation Mode" IsMandatory="True">
+        <lib:CardSelector Selected="{Binding Model.TransportationMode}"
+                          ItemsSourceEnum="TransportationMode"/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
+                              Visibility="{Binding IsLclVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <local:IsLcl/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
+                              Visibility="{Binding IsLtlVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <local:IsLtl/>
+      </lib:EditElementWrapper>
+      <local:ContainerTypesEditor Visibility="{Binding ContainerTypesEditorVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+      <local:IncotermsSelector Incoterms="{Binding Model.Incoters}"/>
+    </lib:FormSection>
+
   </StackPanel>
 </UserControl>
