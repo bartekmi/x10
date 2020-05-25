@@ -15,6 +15,9 @@ namespace wpf_sample.lib {
         new FrameworkPropertyMetadata() {
           BindsTwoWayByDefault = true,
           DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+          PropertyChangedCallback = new PropertyChangedCallback((o, ea) => {
+            ((CardSelector)o).SelectCard();
+          }),
         }
       );
     public object Selected {
@@ -31,30 +34,34 @@ namespace wpf_sample.lib {
             Type enumType = Type.GetType(ea.NewValue.ToString());
             if (enumType == null || !enumType.IsEnum)
               throw new Exception(string.Format("Type '{0}' either does not exist or is not an enum", ea.NewValue));
-            ((CardSelector)o).CreateCards(enumType.GetEnumValues().Cast<object>().Select(x => new CardInfo(x)));
+            ((CardSelector)o).SetCardInfos(enumType.GetEnumValues().Cast<object>().Select(x => new CardInfo(x)));
           })
-        ) 
+        )
       );
     public string ItemsSourceEnum {
       get { return (string)GetValue(ItemsSourceEnumProperty); }
       set { SetValue(ItemsSourceEnumProperty, value); }
     }
 
-    private void CreateCards(IEnumerable<CardInfo> cardInfos) {
-      uxRoot.Children.Clear();
-      foreach (CardInfo cardInfo in cardInfos) {
-        uxRoot.Children.Add(new Card(cardInfo, () => SelectCard(cardInfo.Value)));
-      }
+    IEnumerable<CardInfo> _cardInfos;
+    internal void SetCardInfos(IEnumerable<CardInfo> cardInfos) {
+      _cardInfos = cardInfos;
     }
 
-    private void SelectCard(object value) {
+    private void SelectCard() {
       foreach (Card card in uxRoot.Children)
-        card.IsSelected = card.Value.Equals(value);
-      Selected = value;
+        card.IsSelected = card.Value.Equals(Selected);
     }
 
     public CardSelector() {
       InitializeComponent();
+
+      Loaded += (s, e) => {
+        uxRoot.Children.Clear();
+        foreach (CardInfo cardInfo in _cardInfos)
+          uxRoot.Children.Add(new Card(cardInfo, () => Selected = cardInfo.Value));
+        SelectCard();
+      };
     }
   }
 
@@ -62,6 +69,8 @@ namespace wpf_sample.lib {
     internal string Label;
     internal object Value;
     internal string IconName; // TODO
+
+    internal CardInfo() { }
 
     internal CardInfo(object enumValue) {
       Value = enumValue;

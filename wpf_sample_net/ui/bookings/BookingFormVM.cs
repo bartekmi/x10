@@ -22,6 +22,18 @@ namespace wpf_sample.ui.bookings {
       }
     }
 
+    public bool IsLclVisibility {
+      get { return Model.TransportationMode == TransportationMode.Ocean; }
+    }
+    public bool IsLtlVisibility {
+      get { return Model.TransportationMode == TransportationMode.Truck; }
+    }
+
+    public override void FireCustomPropertyNotification() {
+      RaisePropertyChanged(nameof(IsLclVisibility));
+      RaisePropertyChanged(nameof(IsLtlVisibility));
+    }
+
     public IEnumerable<Company> ShipperCompanies {
       get { return AppStatics.Singleton.DataSource.Companies; }
     }

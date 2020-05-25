@@ -39,6 +39,26 @@ namespace wpf_sample.entities.booking {
       }
     }
 
+    private bool _isLcl;
+    [Column("is_lcl")]
+    public bool IsLcl {
+      get { return _isLcl; }
+      set {
+        _isLcl = value;
+        RaisePropertyChanged(nameof(IsLcl));
+      }
+    }
+
+    private bool _isLtl;
+    [Column("is_ltl")]
+    public bool IsLtl {
+      get { return _isLtl; }
+      set {
+        _isLtl = value;
+        RaisePropertyChanged(nameof(IsLtl));
+      }
+    }
+
     // Derived Attributes
     public bool IsShipperBooking {
       get {

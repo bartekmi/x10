@@ -59,6 +59,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="lib\card_selector\BooleanViaButtons.xaml.cs">
+      <DependentUpon>BooleanViaButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\bookings\Bookings.xaml.cs">
+      <DependentUpon>Bookings.xaml</DependentUpon>
+    </Compile>
+    <Page Include="lib\card_selector\BooleanViaButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="lib\card_selector\Card.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,25 +117,40 @@
     <Compile Include="lib\card_selector\Card.xaml.cs">
       <DependentUpon>Card.xaml</DependentUpon>
     </Compile>
+    <Compile Include="lib\card_selector\CardSelector.xaml.cs">
+      <DependentUpon>CardSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
-    <Compile Include="lib\EntitySelector.xaml.cs" />
-    <Compile Include="lib\card_selector\CardSelector.xaml.cs" />
-    <Compile Include="lib\Label.xaml.cs" />
+    <Compile Include="lib\EditElementWrapper.xaml.cs">
+      <DependentUpon>EditElementWrapper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\EntitySelector.xaml.cs">
+      <DependentUpon>EntitySelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\FormSection.xaml.cs">
+      <DependentUpon>FormSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\Label.xaml.cs">
+      <DependentUpon>Label.xaml</DependentUpon>
+    </Compile>
     <Compile Include="lib\utils\NameUtils.cs" />
-    <Compile Include="ui\bookings\BookingForm.xaml.cs" />
-    <Compile Include="ui\bookings\BookingFormVM.custom.cs" />
-    <Compile Include="ui\bookings\BookingFormVM.cs" />
-    <Compile Include="ui\bookings\Bookings.xaml.cs" />
+    <Compile Include="ui\bookings\BookingForm.xaml.cs">
+      <DependentUpon>BookingForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\bookings\BookingFormVM.cs">
+      <DependentUpon>BookingForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\bookings\BookingFormVM.custom.cs">
+      <DependentUpon>BookingForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="entities\booking\Booking.cs" />
     <Compile Include="entities\core\Company.cs" />
     <Compile Include="entities\core\User.cs" />
     <Compile Include="entities\SharedEnums.cs" />
     <Compile Include="entities\__Context__.cs" />
-    <Compile Include="lib\EditElementWrapper.xaml.cs" />
     <Compile Include="lib\EntityBase.cs" />
-    <Compile Include="lib\FormSection.xaml.cs" />
     <Compile Include="lib\NotificationObject.cs" />
     <Compile Include="lib\ViewModelBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
