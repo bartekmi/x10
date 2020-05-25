@@ -42,12 +42,12 @@ namespace wpf_sample.entities.booking {
     // Derived Attributes
     public bool IsShipperBooking {
       get {
-        return Shipper?.Id == __Context__.Singleton.User.Company.Id;
+        return Shipper?.Id == AppStatics.Singleton.Context.User.Company.Id;
       }
     }
     public bool IsConsigneeBooking {
       get {
-        return Consignee?.Id == __Context__.Singleton.User.Company.Id;
+        return Consignee?.Id == AppStatics.Singleton.Context.User.Company.Id;
       }
     }
 

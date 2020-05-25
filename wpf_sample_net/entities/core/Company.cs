@@ -17,6 +17,18 @@ namespace wpf_sample.entities.booking {
       }
     }
 
+    private string _address;
+    [Column("address")]
+    public string Address {
+      get { return _address; }
+      set {
+        if (value != _address) {
+          _address = value;
+          RaisePropertyChanged(nameof(Address));
+        }
+      }
+    }
+
     public override string ToString() {
       return LegalName;
     }

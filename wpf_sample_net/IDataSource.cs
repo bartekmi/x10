@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using wpf_sample.entities.booking;
 
-namespace wpf_sample.entities {
-  public class __Context__ {
-    public User User { get; set; }
+namespace wpf_sample {
+  public interface IDataSource {
+    IEnumerable<Company> Companies { get; }
   }
 }

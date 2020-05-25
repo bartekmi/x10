@@ -99,6 +99,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppStatics.cs" />
+    <Compile Include="DataSourceInMemory.cs" />
+    <Compile Include="IDataSource.cs" />
     <Compile Include="lib\attributes\LabelAttribute.cs" />
     <Compile Include="lib\attributes\IconAttribute.cs" />
     <Compile Include="lib\card_selector\Card.xaml.cs">

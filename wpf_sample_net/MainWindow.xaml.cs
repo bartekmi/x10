@@ -25,13 +25,11 @@ namespace wpf_sample {
     }
 
     private void InitializeContext() {
-      __Context__.Singleton = new __Context__() {
+      AppStatics.Singleton.Context = new __Context__() {
         User = new User() {
           FirstName = "Bartek",
           LastName = "Muszynski",
-          Company = new Company() {
-            LegalName = "Bartek Musz, Inc."
-          }
+          Company = AppStatics.Singleton.DataSource.Companies.First(),
         }
       };
     }

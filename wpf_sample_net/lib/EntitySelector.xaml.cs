@@ -18,11 +18,25 @@ namespace wpf_sample.lib {
     public static readonly DependencyProperty EntityProperty = DependencyProperty.Register(
       nameof(Entity),
       typeof(EntityBase),
-      typeof(EntitySelector)
+      typeof(EntitySelector),
+      new FrameworkPropertyMetadata() {
+        BindsTwoWayByDefault = true,
+        DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+      }
     );
     public EntityBase Entity {
       get { return (EntityBase)GetValue(EntityProperty); }
       set { SetValue(EntityProperty, value); }
+    }
+
+    public static readonly DependencyProperty EntitiesSourceProperty = DependencyProperty.Register(
+      nameof(EntitiesSource),
+      typeof(IEnumerable<EntityBase>),
+      typeof(EntitySelector)
+    );
+    public IEnumerable<EntityBase> EntitiesSource {
+      get { return (IEnumerable<EntityBase>)GetValue(EntitiesSourceProperty); }
+      set { SetValue(EntitiesSourceProperty, value); }
     }
 
     public EntitySelector() {

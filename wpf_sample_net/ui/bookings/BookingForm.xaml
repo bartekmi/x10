@@ -27,10 +27,10 @@
                       Checked="SelectConsigneeBooking" Style="{StaticResource ToggleButton}"/>
       </StackPanel>
       <lib:EditElementWrapper Label="Shipper" IsMandatory="True">
-        <lib:EntitySelector Entity="{Binding Model.ShipperBindable}"/>
+        <lib:EntitySelector Entity="{Binding Model.ShipperBindable}" EntitiesSource="{Binding ShipperCompanies}"/>
       </lib:EditElementWrapper>
       <lib:EditElementWrapper Label="Consignee" IsMandatory="True">
-        <lib:EntitySelector Entity="{Binding Model.ConsigneeBindable}"/>
+        <lib:EntitySelector Entity="{Binding Model.ConsigneeBindable}" EntitiesSource="{Binding ConsigneeCompanies}"/>
       </lib:EditElementWrapper>
       <CheckBox Content="Notify party is same as consignee" IsChecked="{Binding NotifyPartySameAsConsignee}"/>
       <lib:EditElementWrapper Label="Notify Party" MyToolTip="The company entity which should be notified of the arrival of the cargo"

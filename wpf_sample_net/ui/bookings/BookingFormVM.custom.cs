@@ -10,14 +10,14 @@ using wpf_sample.lib;
 namespace wpf_sample.ui.bookings {
   public partial class BookingFormVM : ViewModelBase<Booking> {
     internal void SelectConsigneeBooking() {
-      Company myCompany = __Context__.Singleton.User.Company;
+      Company myCompany = AppStatics.Singleton.Context.User.Company;
       if (myCompany.Id == Model.Consignee?.Id)
         return;
       SwitchShipperAndConsignee();
     }
 
     internal void SelectShipperBooking() {
-      Company myCompany = __Context__.Singleton.User.Company;
+      Company myCompany = AppStatics.Singleton.Context.User.Company;
       if (myCompany.Id == Model.Shipper?.Id)
         return;
       SwitchShipperAndConsignee();
