@@ -19,9 +19,9 @@ namespace wpf_sample.entities.booking {
       }
     }
 
-    private TransportationMode _transportationMode;
+    private TransportationMode? _transportationMode;
     [Column("transportation_mode")]
-    public TransportationMode TransportationMode {
+    public TransportationMode? TransportationMode {
       get { return _transportationMode; }
       set {
         _transportationMode = value;

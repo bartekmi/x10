@@ -59,11 +59,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="lib\card_selector\Card.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="lib\EntitySelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="lib\CardSelector.xaml">
+    <Page Include="lib\card_selector\CardSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -97,12 +101,16 @@
     </Compile>
     <Compile Include="lib\attributes\LabelAttribute.cs" />
     <Compile Include="lib\attributes\IconAttribute.cs" />
+    <Compile Include="lib\card_selector\Card.xaml.cs">
+      <DependentUpon>Card.xaml</DependentUpon>
+    </Compile>
     <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
     <Compile Include="lib\EntitySelector.xaml.cs" />
-    <Compile Include="lib\CardSelector.xaml.cs" />
+    <Compile Include="lib\card_selector\CardSelector.xaml.cs" />
     <Compile Include="lib\Label.xaml.cs" />
+    <Compile Include="lib\utils\NameUtils.cs" />
     <Compile Include="ui\bookings\BookingForm.xaml.cs" />
     <Compile Include="ui\bookings\BookingFormVM.custom.cs" />
     <Compile Include="ui\bookings\BookingFormVM.cs" />
