@@ -65,5 +65,22 @@
       <local:IncotermsSelector Incoterms="{Binding Model.Incoters}"/>-->
     </lib:FormSection>
 
+    <lib:FormSection Label="Origin">
+      <lib:EditElementWrapper Label="I want Flexport to handle transportation from the origin location to the port." >
+        <CheckBox IsChecked="{Binding Model.WantsOriginService}"/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Origin Location" IsMandatory="True">
+        <lib:EntitySelector Entity="{Binding Model.OriginLocationBindable}" EntitiesSource="{Binding OriginLocations}"/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Origin Port" 
+                              Visibility="{Binding OriginPortVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <lib:EntitySelector Entity="{Binding Model.OriginPortBindable}" EntitiesSource="{Binding OriginPorts}"/>
+      </lib:EditElementWrapper>
+      <lib:EditElementWrapper Label="Cargo Ready Date">
+        <DatePicker SelectedDate="{Binding Model.CargoReadyDate, Mode=TwoWay}"/>
+      </lib:EditElementWrapper>
+
+    </lib:FormSection>
+
   </StackPanel>
 </UserControl>

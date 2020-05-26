@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Remoting.Contexts;
+
 using wpf_sample.lib;
 
 namespace wpf_sample.entities.booking {
@@ -59,6 +61,36 @@ namespace wpf_sample.entities.booking {
       }
     }
 
+    private bool _wantsOriginService;
+    [Column("is_ltl")]
+    public bool WantsOriginService {
+      get { return _wantsOriginService; }
+      set {
+        _wantsOriginService = value;
+        RaisePropertyChanged(nameof(WantsOriginService));
+      }
+    }
+
+    private bool _wantsDestinationService;
+    [Column("is_ltl")]
+    public bool WantsDestinationService {
+      get { return _wantsDestinationService; }
+      set {
+        _wantsDestinationService = value;
+        RaisePropertyChanged(nameof(WantsDestinationService));
+      }
+    }
+
+    private DateTime? _cargoReadyDate;
+    [Column("cargo_ready_date")]
+    public DateTime? CargoReadyDate {
+      get { return _cargoReadyDate; }
+      set {
+        _cargoReadyDate = value;
+        RaisePropertyChanged(nameof(CargoReadyDate));
+      }
+    }
+
     // Derived Attributes
     public bool IsShipperBooking {
       get {
@@ -91,6 +123,26 @@ namespace wpf_sample.entities.booking {
         Consignee = value;
         RaisePropertyChanged(nameof(ConsigneeBindable));
         RaisePropertyChanged(nameof(IsConsigneeBooking));
+      }
+    }
+
+    public virtual Location OriginLocation { get; set; }
+    [NotMapped]
+    public Location OriginLocationBindable {
+      get { return OriginLocation; }
+      set {
+        OriginLocation = value;
+        RaisePropertyChanged(nameof(OriginLocationBindable));
+      }
+    }
+
+    public virtual Port OriginPort { get; set; }
+    [NotMapped]
+    public Port OriginPortBindable {
+      get { return OriginPort; }
+      set {
+        OriginPort = value;
+        RaisePropertyChanged(nameof(OriginPortBindable));
       }
     }
 

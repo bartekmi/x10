@@ -28,10 +28,14 @@ namespace wpf_sample.ui.bookings {
     public bool IsLtlVisibility {
       get { return Model.TransportationMode == TransportationMode.Truck; }
     }
+    public bool OriginPortVisibility {
+      get { return Model.TransportationMode != TransportationMode.Truck; }
+    }
 
     public override void FireCustomPropertyNotification() {
       RaisePropertyChanged(nameof(IsLclVisibility));
       RaisePropertyChanged(nameof(IsLtlVisibility));
+      RaisePropertyChanged(nameof(OriginPortVisibility));
     }
 
     public IEnumerable<Company> ShipperCompanies {
@@ -39,6 +43,12 @@ namespace wpf_sample.ui.bookings {
     }
     public IEnumerable<Company> ConsigneeCompanies {
       get { return AppStatics.Singleton.DataSource.Companies; }
+    }
+    public IEnumerable<Location> OriginLocations {
+      get { return AppStatics.Singleton.DataSource.Locations; }
+    }
+    public IEnumerable<Port> OriginPorts {
+      get { return AppStatics.Singleton.DataSource.Ports; }
     }
 
     public BookingFormVM() {

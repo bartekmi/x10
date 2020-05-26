@@ -59,6 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="entities\core\Port.cs" />
+    <Compile Include="entities\core\Location.cs" />
     <Compile Include="lib\card_selector\BooleanViaButtons.xaml.cs">
       <DependentUpon>BooleanViaButtons.xaml</DependentUpon>
     </Compile>
