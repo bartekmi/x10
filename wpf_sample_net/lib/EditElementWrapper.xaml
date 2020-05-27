@@ -11,7 +11,9 @@
     <local:Label Text="{Binding Label, ElementName=uxRoot}"
                  IsMandatory="{Binding IsMandatory, ElementName=uxRoot}"
                  MyToolTip="{Binding MyToolTip, ElementName=uxRoot}"/>
-    <StackPanel Name="PART_Host"/>
-    <TextBlock Name="uxErrorMessage" Foreground="Red"/>
+    <Border Name="uxBorder" BorderThickness="1">
+      <StackPanel Name="PART_Host"/>
+    </Border>
+    <TextBlock Name="uxErrorMessage" Foreground="Red" Visibility="Collapsed"/>
   </StackPanel>
 </UserControl>

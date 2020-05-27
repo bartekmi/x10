@@ -91,6 +91,16 @@ namespace wpf_sample.entities.booking {
       }
     }
 
+    private DateTime? _targetDeliveryDate;
+    [Column("cargo_ready_date")]
+    public DateTime? TargetDeliveryDate {
+      get { return _targetDeliveryDate; }
+      set {
+        _targetDeliveryDate = value;
+        RaisePropertyChanged(nameof(TargetDeliveryDate));
+      }
+    }
+
     // Derived Attributes
     public bool IsShipperBooking {
       get {

@@ -64,6 +64,14 @@
     <Compile Include="lib\card_selector\BooleanViaButtons.xaml.cs">
       <DependentUpon>BooleanViaButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="lib\form\Form.xaml.cs">
+      <DependentUpon>Form.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\form\FormError.cs" />
+    <Compile Include="lib\form\FormErrorDisplay.xaml.cs">
+      <DependentUpon>FormErrorDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\utils\WpfUtils.cs" />
     <Compile Include="ui\bookings\Bookings.xaml.cs">
       <DependentUpon>Bookings.xaml</DependentUpon>
     </Compile>
@@ -83,6 +91,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="lib\form\Form.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="lib\form\FormErrorDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="lib\Label.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,7 +115,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="lib\FormSection.xaml">
+    <Page Include="lib\form\FormSection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -131,7 +147,7 @@
     <Compile Include="lib\EntitySelector.xaml.cs">
       <DependentUpon>EntitySelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="lib\FormSection.xaml.cs">
+    <Compile Include="lib\form\FormSection.xaml.cs">
       <DependentUpon>FormSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="lib\Label.xaml.cs">

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using wpf_sample.entities;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using wpf_sample.entities.booking;
 using wpf_sample.lib;
 
@@ -22,6 +17,7 @@ namespace wpf_sample.ui.bookings {
       }
     }
 
+    // Conditions from YAML
     public bool IsLclVisibility {
       get { return Model.TransportationMode == TransportationMode.Ocean; }
     }
@@ -38,6 +34,20 @@ namespace wpf_sample.ui.bookings {
       RaisePropertyChanged(nameof(OriginPortVisibility));
     }
 
+    // Validations
+    public override FormErrors CalculateErrors() {
+      FormErrors errors = new FormErrors();
+
+      if (Model.TargetDeliveryDate < Model.CargoReadyDate)
+        errors.Add("Target Delivery Date can't be before Cargo Ready Date", 
+          nameof(Model.CargoReadyDate), nameof(Model.TargetDeliveryDate));
+      if (!Model.WantsOriginService && Model.OriginPort == null)
+        errors.Add("Origin Port must be provided when 'Wants Origin Service' is false", nameof(Model.OriginPort));
+
+      return errors;
+    }
+
+    // TODO - does this need to be moved to hand-coded custom file?
     public IEnumerable<Company> ShipperCompanies {
       get { return AppStatics.Singleton.DataSource.Companies; }
     }
@@ -51,7 +61,7 @@ namespace wpf_sample.ui.bookings {
       get { return AppStatics.Singleton.DataSource.Ports; }
     }
 
-    public BookingFormVM() {
+    public BookingFormVM(UserControl userControl) : base(userControl) {
       Model = new Booking() {
         Shipper = AppStatics.Singleton.Context.User.Company,
       };

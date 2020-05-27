@@ -148,7 +148,7 @@ associations:
     ui: AssociationEditor
     validations:
       - message: Origin Port must be provided when 'Wants Origin Service' is false
-        trigger: !wantsOriginService
+        trigger: !wantsOriginService && originPort == null
 
     # Destination Location / Port
   - name: destinationPort
@@ -156,14 +156,14 @@ associations:
     ui: AssociationEditor
     validations:
       - message: Destination Port must be provided when 'Wants Destination Service' is false
-        trigger: !wantsDestinationService
+        trigger: !wantsDestinationService && destinationPort == null
 
   - name: destinationLocation
     dataType: Location
     ui: AssociationEditor
     validations:
       - message: Destination Location must be provided when 'Wants Destination Service' is true
-        trigger: wantsDestinationService
+        trigger: wantsDestinationService && destinationLocation == null
 
 
   - name: cargo

@@ -101,7 +101,7 @@
             </LinkButton.Action>
           </LinkButton> 
           
-          <!-- validate is a perfect opportunity for an "Attached property", the owner being "Form> -->
+          <!-- validate is a perfect opportunity for an "Attached property", the owner being "Form"> -->
           <FormButton label="Save draft" validate="false">
             <FormButton.Action>
               <Action backEndTarget="/bookings/save_draft" successUrl="/bookings"/>

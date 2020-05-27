@@ -1,6 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace wpf_sample.lib {
   [ContentProperty(nameof(Children))]
@@ -30,6 +34,7 @@ namespace wpf_sample.lib {
         typeof(bool),
         typeof(EditElementWrapper)
       );
+
     public bool IsMandatory {
       get { return (bool)GetValue(IsMandatoryProperty); }
       set { SetValue(IsMandatoryProperty, value); }
@@ -45,9 +50,32 @@ namespace wpf_sample.lib {
       set { SetValue(MyToolTipProperty, value); }
     }
 
+    public static readonly DependencyProperty EditorForProperty = DependencyProperty.Register(
+        nameof(EditorFor),
+        typeof(string),
+        typeof(EditElementWrapper)
+      );
+    public string EditorFor {
+      get { return (string)GetValue(EditorForProperty); }
+      set { SetValue(EditorForProperty, value); }
+    }
+
     public EditElementWrapper() {
       InitializeComponent();
       Children = PART_Host.Children;
+      Loaded += (s, e) => Form.RegisterEditWrapper(this);
     }
+
+    internal void DisplayErrors(IEnumerable<FormError> errorsForField) {
+      if (errorsForField.Count() == 0) {
+        uxErrorMessage.Visibility = Visibility.Collapsed;
+        uxBorder.BorderBrush = null;
+      } else {
+        uxErrorMessage.Visibility = Visibility.Visible;
+        uxErrorMessage.Text = string.Join("\r\n", errorsForField.Select(x => x.Message));
+        uxBorder.BorderBrush = Brushes.Red;
+      }
+    }
+
   }
 }

@@ -8,7 +8,7 @@ namespace wpf_sample.ui.bookings {
 
     public BookingForm() {
       InitializeComponent();
-      DataContext = new BookingFormVM();
+      DataContext = new BookingFormVM(this);
     }
 
     private void SelectConsigneeBooking(object sender, RoutedEventArgs e) {
