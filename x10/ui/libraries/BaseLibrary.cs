@@ -193,7 +193,7 @@ namespace x10.ui.libraries {
       },
       new ClassDefNative() {
         Name = "BooleanViaButtons",
-        Description = "",
+        Description = "Editor for A Boolean value using two labelled buttons.",
         InheritsFromName = "EditBase",
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
