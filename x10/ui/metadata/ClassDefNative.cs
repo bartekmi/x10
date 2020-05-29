@@ -25,6 +25,7 @@ namespace x10.ui.metadata {
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "visible",
+              Description = "Is the object visible on the UI?",
               DataType = DataTypes.Singleton.Boolean,
               DefaultValue = false,
             },
