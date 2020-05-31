@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using x10.utils;
 using x10.parsing;
 
 namespace x10.model.definition {
@@ -7,6 +9,11 @@ namespace x10.model.definition {
     public string Name { get; set; }
     public string Description { get; set; }
     public List<Validation> Validations { get; set; }
+
+    // Derived
+    public string NameLowerCased {
+      get { return NameUtils.UncapitalizeFirstLetter(Name); }
+    }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }

@@ -34,8 +34,39 @@ namespace x10.gen {
         Generate(classDef);
     }
 
-    protected TextWriter CreateTextWriter(IParseElement element, string extension) {
-      return new StreamWriter(@"C:\TEMP\Booking" + extension);
+    #region Write Helpers
+    private TextWriter _writer;
+
+    protected void Begin(IParseElement element, string extension) {
+      // TODO
+      Begin(@"C:\TEMP\Booking" + extension);
     }
+
+    protected void Begin(string filename) {
+      if (_writer != null)
+        throw new Exception("Someone before me did not End() after Being()");
+      _writer = new StreamWriter(filename);
+    }
+
+    protected void End() {
+      _writer.Dispose();
+      _writer = null;
+    }
+
+    protected void WriteLine(int level, string text, params object[] args) {
+      if (_writer == null)
+        throw new Exception("Your forgot to Begin()");
+      _writer.Write(Spacer(level));
+      _writer.WriteLine(text, args);
+    }
+
+    protected void WriteLine() {
+      _writer.WriteLine();
+    }
+
+    private string Spacer(int level) {
+      return new string(' ', level * 2);
+    }
+    #endregion
   }
 }

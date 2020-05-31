@@ -74,6 +74,14 @@ namespace x10.utils {
       return builder.ToString();
     }
 
+    internal static string UncapitalizeFirstLetter(string text) {
+      if (string.IsNullOrWhiteSpace(text))
+        return text;
+
+
+      return char.ToLower(text[0]) + text.Substring(1);
+    }
+
     public static bool IsQuoted(string text) {
       text = text.Trim();
       return text.StartsWith("'") && text.EndsWith("'");

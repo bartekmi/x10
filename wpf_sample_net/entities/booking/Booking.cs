@@ -12,10 +12,8 @@ namespace wpf_sample.entities.booking {
     public string Name {
       get { return _name; }
       set {
-        if (value != _name) {
-          _name = value;
-          RaisePropertyChanged(nameof(Name));
-        }
+        _name = value;
+        RaisePropertyChanged(nameof(Name));
       }
     }
 
