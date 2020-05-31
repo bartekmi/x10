@@ -4,19 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{92AF9ED2-C212-4351-8D82-E3232B805A4A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>wpf_sample</RootNamespace>
-    <AssemblyName>wpf_sample_net</AssemblyName>
+    <ProjectGuid>{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>wpf_lib</RootNamespace>
+    <AssemblyName>wpf_lib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -55,54 +52,48 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="entities\core\Port.cs" />
-    <Compile Include="entities\core\Location.cs" />
-    <Compile Include="ui\bookings\Bookings.xaml.cs">
-      <DependentUpon>Bookings.xaml</DependentUpon>
+    <Compile Include="lib\attributes\IconAttribute.cs" />
+    <Compile Include="lib\attributes\LabelAttribute.cs" />
+    <Compile Include="lib\card_selector\BooleanViaButtons.xaml.cs">
+      <DependentUpon>BooleanViaButtons.xaml</DependentUpon>
     </Compile>
-    <Page Include="ui\bookings\BookingForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ui\bookings\Bookings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="lib\card_selector\Card.xaml.cs">
+      <DependentUpon>Card.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppStatics.cs" />
-    <Compile Include="DataSourceInMemory.cs" />
-    <Compile Include="IDataSource.cs" />
-    <Compile Include="ui\bookings\BookingForm.xaml.cs">
-      <DependentUpon>BookingForm.xaml</DependentUpon>
+    <Compile Include="lib\card_selector\CardSelector.xaml.cs">
+      <DependentUpon>CardSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ui\bookings\BookingFormVM.cs">
-      <DependentUpon>BookingForm.xaml</DependentUpon>
+    <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="lib\converter\NullToBooleanConverter.cs" />
+    <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
+    <Compile Include="lib\EditElementWrapper.xaml.cs">
+      <DependentUpon>EditElementWrapper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ui\bookings\BookingFormVM.custom.cs">
-      <DependentUpon>BookingForm.xaml</DependentUpon>
+    <Compile Include="lib\EntityBase.cs" />
+    <Compile Include="lib\EntitySelector.xaml.cs">
+      <DependentUpon>EntitySelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="entities\booking\Booking.cs" />
-    <Compile Include="entities\core\Company.cs" />
-    <Compile Include="entities\core\User.cs" />
-    <Compile Include="entities\SharedEnums.cs" />
-    <Compile Include="entities\__Context__.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="lib\form\Form.xaml.cs">
+      <DependentUpon>Form.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="lib\form\FormError.cs" />
+    <Compile Include="lib\form\FormErrorDisplay.xaml.cs">
+      <DependentUpon>FormErrorDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\form\FormSection.xaml.cs">
+      <DependentUpon>FormSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\Label.xaml.cs">
+      <DependentUpon>Label.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\NotificationObject.cs" />
+    <Compile Include="lib\utils\NameUtils.cs" />
+    <Compile Include="lib\utils\WpfUtils.cs" />
+    <Compile Include="lib\ViewModelBase.cs" />
+    <Compile Include="WpfLibConfig.cs" />
+    <Compile Include="WpfStoryBook.xaml.cs">
+      <DependentUpon>WpfStoryBook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -127,13 +118,46 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\wpf_lib\wpf_lib.csproj">
-      <Project>{4340a4c4-0cdf-482f-908a-f3e4e5f5d3d0}</Project>
-      <Name>wpf_lib</Name>
-    </ProjectReference>
+    <Page Include="lib\card_selector\BooleanViaButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\card_selector\Card.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\card_selector\CardSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\EditElementWrapper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\EntitySelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\form\Form.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\form\FormErrorDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\form\FormSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfStoryBook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

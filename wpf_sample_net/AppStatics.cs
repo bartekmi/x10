@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wpf_lib;
 using wpf_sample.entities;
 
 namespace wpf_sample {
@@ -22,6 +23,7 @@ namespace wpf_sample {
 
     private AppStatics() {
       DataSource = new DataSourceInMemory();
+      WpfLibConfig.AssemblyForFindingTypes = "wpf_sample_net";
     }
   }
 }

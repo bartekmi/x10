@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using wpf_lib;
 using wpf_sample.lib.utils;
 
 namespace wpf_sample.lib {
@@ -31,7 +32,7 @@ namespace wpf_sample.lib {
         typeof(CardSelector),
         new FrameworkPropertyMetadata(
           new PropertyChangedCallback((o, ea) => {
-            Type enumType = Type.GetType(ea.NewValue.ToString());
+            Type enumType = WpfLibConfig.GetType(ea.NewValue.ToString());
             if (enumType == null || !enumType.IsEnum)
               throw new Exception(string.Format("Type '{0}' either does not exist or is not an enum", ea.NewValue));
             ((CardSelector)o).SetCardInfos(enumType.GetEnumValues().Cast<object>().Select(x => new CardInfo(x)));

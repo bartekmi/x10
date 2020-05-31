@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "x10-test", "x10-test\x10-te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_sample_net", "wpf_sample_net\wpf_sample_net.csproj", "{92AF9ED2-C212-4351-8D82-E3232B805A4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_lib", "wpf_lib\wpf_lib.csproj", "{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{92AF9ED2-C212-4351-8D82-E3232B805A4A}.Release|x64.Build.0 = Release|Any CPU
 		{92AF9ED2-C212-4351-8D82-E3232B805A4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{92AF9ED2-C212-4351-8D82-E3232B805A4A}.Release|x86.Build.0 = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|x64.Build.0 = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Debug|x86.Build.0 = Debug|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|x64.Build.0 = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|x86.ActiveCfg = Release|Any CPU
+		{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
