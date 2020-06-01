@@ -35,7 +35,17 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void CompileEverything() {
+    public void CompileEverythingTest() {
+      string rootDir = "../../../../x10/examples/flexport";
+      CompileEverything(_output, _messages, rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
+
+      int errorCount = _messages.FilteredMessages(CompileMessageSeverity.Error).Count();
+      Assert.Equal(0, errorCount);
+    }
+
+    internal static void CompileEverything(ITestOutputHelper output, MessageBucket messages, string rootDir,
+      out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions) {
+
       IEnumerable<UiLibrary> libraries = new UiLibrary[] {
         BaseLibrary.Singleton(),
         IconLibrary.Singleton(),
@@ -43,19 +53,15 @@ namespace x10.compiler {
       };
 
       foreach (UiLibrary library in libraries)
-        if (library.HydrateAndValidate(_messages)) {
-          TestUtils.DumpMessages(_messages, _output);
-          Assert.Empty(_messages.Messages);
+        if (library.HydrateAndValidate(messages)) {
+          TestUtils.DumpMessages(messages, output);
+          Assert.Empty(messages.Messages);
         }
 
-      string rootDir = "../../../../x10/examples/flexport";
-      TopLevelCompiler compiler = new TopLevelCompiler(_messages, libraries);
-      compiler.Compile(rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
+      TopLevelCompiler compiler = new TopLevelCompiler(messages, libraries);
+      compiler.Compile(rootDir, out allEntities, out allEnums, out allUiDefinitions);
 
-      TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
-
-      int errorCount = _messages.FilteredMessages(CompileMessageSeverity.Error).Count();
-      Assert.Equal(0, errorCount);
+      TestUtils.DumpMessages(messages, output, CompileMessageSeverity.Error);
     }
   }
 }

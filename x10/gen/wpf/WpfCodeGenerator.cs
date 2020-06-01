@@ -27,19 +27,15 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateXamlFile(ClassDefX10 classDef) {
-      throw new NotImplementedException();
     }
 
     private void GenerateXamlCsFile(ClassDefX10 classDef) {
-      throw new NotImplementedException();
     }
 
     private void GenerateViewModelFile(ClassDefX10 classDef) {
-      throw new NotImplementedException();
     }
 
     private void GenerateViewModelCustomFile(ClassDefX10 classDef) {
-      throw new NotImplementedException();
     }
     #endregion
 
@@ -50,7 +46,7 @@ namespace x10.gen.wpf {
       WriteLine(0, "using System;");
       WriteLine();
       WriteLine(0, "namespace {0} {", GetNamespace(entity.TreeElement));
-      WriteLine(1, "public class {1} : EntityBase {");
+      WriteLine(1, "public class {0} : EntityBase {", entity.Name);
 
       GenerateRegularAttributes(entity.RegularAttributes);
       GenerateDerivedAttributes(entity.DerivedAttributes);

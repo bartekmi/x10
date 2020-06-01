@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using x10.compiler;
 using x10.model;
@@ -49,6 +50,9 @@ namespace x10.gen {
     protected void Begin(string filename) {
       if (_writer != null)
         throw new Exception("Someone before me did not End() after Being()");
+      string dir = Path.GetDirectoryName(filename);
+      if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
       _writer = new StreamWriter(filename);
     }
 
@@ -60,6 +64,11 @@ namespace x10.gen {
     protected void WriteLine(int level, string text, params object[] args) {
       if (_writer == null)
         throw new Exception("Your forgot to Begin()");
+
+      text = " " + text + " ";
+      text = text.Replace("{ ", "{{ ").Replace(" }", " }}");
+      text.Trim();
+
       _writer.Write(Spacer(level));
       _writer.WriteLine(text, args);
     }

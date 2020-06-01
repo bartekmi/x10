@@ -1,5 +1,6 @@
 */obj/*
 */bin/*
+*/__generated__/*
 x10/.DS_Store
 .vs
 packages/*

@@ -28,7 +28,9 @@ namespace x10.compiler {
         return null;
       }
 
-      Entity entity = new Entity();
+      Entity entity = new Entity() {
+        TreeElement = rootNode
+      };
 
       // Read top-level (entity) attributes
       _attrReader.ReadAttributes(rootNode, AppliesTo.Entity, entity, "attributes", "associations", "enums", "derivedAttributes");
