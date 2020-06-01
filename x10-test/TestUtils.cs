@@ -13,6 +13,7 @@ using x10.model;
 using x10.compiler;
 using x10.ui.composition;
 using x10.ui.metadata;
+using FileInfo = x10.parsing.FileInfo;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
@@ -29,12 +30,12 @@ namespace x10 {
     #region Model Compilation
     public static Entity EntityCompilePass1(MessageBucket _messages, AllEnums _allEnums, string yaml, string fileName = null) {
       // Parse
-      ParserYaml parser = new ParserYaml(_messages);
+      ParserYaml parser = new ParserYaml(_messages, null);
       TreeNode rootNode = parser.ParseFromString(yaml);
       if (rootNode == null)
-        throw new Exception("Unalbe to parse yaml from: " + yaml);
+        throw new Exception("Unable to parse yaml from: " + yaml);
 
-      rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
+      rootNode.SetFileInfo(ExtractFileInfo(rootNode, fileName));
 
       // Pass 1
       AttributeReader attrReader = new AttributeReader(_messages);
@@ -45,15 +46,19 @@ namespace x10 {
       return entity;
     }
 
-    private static string ExtractFileName(TreeNode rootNode, string overrideFileName) {
-      if (overrideFileName != null)
-        return overrideFileName;
+    public static FileInfo ExtractFileInfo(TreeNode rootNode, string overrideFileName) {
+      string filename;
 
-      string entityName = (rootNode as TreeHash)?.FindValue("name")?.ToString();
-      if (entityName == null)
-        return "Tmp.yaml";
+      if (overrideFileName == null) {
+        string entityName = (rootNode as TreeHash)?.FindValue("name")?.ToString();
+        if (entityName != null)
+          filename = entityName + ".yaml";
+        else
+          filename = "Tmp.yaml";
+      } else
+        filename = overrideFileName;
 
-      return entityName + ".yaml";
+      return FileInfo.FromFilename(filename);
     }
 
 
@@ -80,26 +85,29 @@ namespace x10 {
       string fileName = null
       ) {
 
-      ParserXml parser = new ParserXml(messages);
+      ParserXml parser = new ParserXml(messages, null);
 
-      XmlElement rootNode = parser.ParseFromString(xml, fileName);
+      XmlElement rootNode = parser.ParseFromString(xml);
 
       if (rootNode == null) {
-        TestUtils.DumpMessages(messages, output);
+        DumpMessages(messages, output);
         Assert.NotNull(rootNode);
       }
 
-      rootNode.SetFileInfo(ExtractFileName(rootNode, fileName));
+      rootNode.SetFileInfo(ExtractFileInfo(rootNode, fileName));
 
       ClassDefX10 definition = compiler.CompileUiDefinition(rootNode);
       return definition;
     }
 
-    private static string ExtractFileName(XmlElement rootNode, string overrideFileName) {
-      if (overrideFileName != null)
-        return overrideFileName;
+    private static FileInfo ExtractFileInfo(XmlElement rootNode, string overrideFileName) {
+      string filename;
+      if (overrideFileName == null)
+        filename = rootNode.Name + ".xml";
+      else
+        filename = overrideFileName;
 
-      return rootNode.Name + ".xml";
+      return FileInfo.FromFilename(filename);
     }
 
     public static void UiCompilePass2(MessageBucket messages,

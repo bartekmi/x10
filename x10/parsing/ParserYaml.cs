@@ -11,13 +11,12 @@ using x10.utils;
 namespace x10.parsing {
   public class ParserYaml : Parser {
 
-    public ParserYaml(MessageBucket messages) : base(messages) {
+    public ParserYaml(MessageBucket messages, string rootDir) : base(messages, rootDir) {
       // Do nothing
     }
 
     public TreeNode ParseFromString(string yaml) {
-      using (TextReader reader = new StringReader(yaml))
-        return ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
+      return ParseFromStrings(yaml).Single();
     }
 
     public IEnumerable<TreeNode> ParseFromStrings(params string[] yamls) {
@@ -28,22 +27,27 @@ namespace x10.parsing {
           TreeNode node = ParsePrivate(() => YamlUtils.ReadYamlFromString(yaml), null);
           if (node == null)
             throw new Exception("Could not parse YAML: " + yaml);
-          node.SetFileInfo("Entity.yaml");
+          string entityName = (node as TreeHash)?.FindValue("name")?.ToString();
+          node.SetFileInfo(FileInfo.FromFilename(entityName == null ? "Tmp.yaml" : entityName + ".yaml"));
           parsed.Add(node);
         }
 
       return parsed;
     }
 
-    public override IParseElement Parse(string path) {
-      return ParsePrivate(() => YamlUtils.ReadYaml(path), path);
+    public IParseElement Parse(string filePath) {
+      return Parse(FileInfo.FromFilename(filePath));
     }
 
-    private TreeNode ParsePrivate(Func<YamlDocument> yamlReaderFunc, string path) {
+    public override IParseElement Parse(FileInfo fileInfo) {
+      return ParsePrivate(() => YamlUtils.ReadYaml(fileInfo.FilePath), fileInfo);
+    }
+
+    private TreeNode ParsePrivate(Func<YamlDocument> yamlReaderFunc, FileInfo fileInfo) {
       try {
         YamlDocument document = yamlReaderFunc();
         if (document == null) {
-          AddInfo("No YAML document read - empty file?", new TreeFileError(path));
+          AddInfo("No YAML document read - empty file?", new TreeFileError(fileInfo));
           return null;
         }
 
@@ -51,7 +55,7 @@ namespace x10.parsing {
         return treeRoot;
       } catch (YamlException e) {
         AddError("Can't parse YAML file. Error: " + ExceptionUtils.GetMessageRecursively(e),
-          new TreeFileError(path) {
+          new TreeFileError(fileInfo) {
             Start = ToMark(e.Start),
             End = ToMark(e.End),
           });

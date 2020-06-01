@@ -9,7 +9,7 @@ namespace x10.parsing {
 
     [Fact]
     public void ParseValid() {
-      Parser parser  =new ParserYaml(_messages);
+      ParserYaml parser = new ParserYaml(_messages, null);
       TreeNode file = (TreeNode)parser.Parse("../../../parsing/data/Person.yaml");
 
       Assert.True(_messages.IsEmpty);
@@ -51,7 +51,7 @@ namespace x10.parsing {
 
     [Fact]
     public void ParseInvalid() {
-      Parser parser = new ParserYaml(_messages);
+      ParserYaml parser = new ParserYaml(_messages, null);
       TreeNode file = (TreeNode)parser.Parse("../../../parsing/data/Broken.yaml");
 
       Assert.Null(file);

@@ -13,13 +13,14 @@ namespace x10.parsing {
 
     public ParserXmlTest(ITestOutputHelper output) {
       _output = output;
-      _parser = new ParserXml(_messages);
+      _parser = new ParserXml(_messages, null);
     }
 
     [Fact]
     public void ParseValid() {
       XmlElement root = (XmlElement)_parser.Parse("../../../parsing/data/Good.xml");
 
+      TestUtils.DumpMessages(_messages, _output);
       Assert.True(_messages.IsEmpty);
 
       // Level 1

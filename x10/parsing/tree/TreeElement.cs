@@ -20,8 +20,8 @@ namespace x10.parsing {
       End = source.End;
     }
 
-    public void SetFileInfo(string path) {
-      _fileInfo = new FileInfo(path);
+    public void SetFileInfo(FileInfo fileInfo) {
+      _fileInfo = fileInfo;
     }
   }
 }

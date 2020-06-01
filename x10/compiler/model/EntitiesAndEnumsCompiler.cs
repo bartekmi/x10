@@ -21,15 +21,15 @@ namespace x10.compiler {
 
     public List<Entity> CompileFromYamlStrings(params string[] yamls) {
       // Recursively parse entire directory
-      ParserYaml parser = new ParserYaml(_messages);
+      ParserYaml parser = new ParserYaml(_messages, null);
       IEnumerable<TreeNode> rootNodes = parser.ParseFromStrings(yamls);
       return CompilePrivate(rootNodes);
     }
 
     public List<Entity> Compile(string dirPath) {
       // Recursively parse entire directory
-      Parser parser = new ParserYaml(_messages);
-      List<TreeNode> rootNodes = parser.RecursivelyParseDirectory(dirPath).Cast<TreeNode>().ToList();
+      Parser parser = new ParserYaml(_messages, dirPath);
+      List<TreeNode> rootNodes = parser.RecursivelyParseDirectory().Cast<TreeNode>().ToList();
       return CompilePrivate(rootNodes);
     }
 

@@ -27,8 +27,8 @@ namespace x10.compiler {
       allEntities = new AllEntities(_messages, entities);
 
       // Parse Xml Files
-      ParserXml parser = new ParserXml(_messages);
-      IEnumerable<XmlElement> rootXmlElements = parser.RecursivelyParseDirectory(rootDir)
+      ParserXml parser = new ParserXml(_messages, rootDir);
+      IEnumerable<XmlElement> rootXmlElements = parser.RecursivelyParseDirectory()
         .Cast<XmlElement>();
 
       // UI Compile - Pass 1

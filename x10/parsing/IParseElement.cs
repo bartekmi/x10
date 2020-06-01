@@ -7,6 +7,6 @@ namespace x10.parsing {
     FileInfo FileInfo { get;  }
     PositionMark Start { get; }
     PositionMark End { get; }
-    void SetFileInfo(string path);
+    void SetFileInfo(FileInfo fileInfo);
   }
 }

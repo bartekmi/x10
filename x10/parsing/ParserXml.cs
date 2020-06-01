@@ -12,33 +12,37 @@ namespace x10.parsing {
     // that goes in the <> brackets: <MyElement>
     public const string ELEMENT_NAME = "Name";
 
-    public ParserXml(MessageBucket messages) : base(messages) {
+    public ParserXml(MessageBucket messages, string rootDir) : base(messages, rootDir) {
       // Do nothing
     }
 
-    public XmlElement ParseFromString(string xml, string fakeFileName = "FromString.xml") {
+    public XmlElement ParseFromString(string xml) {
       using (TextReader reader = new StringReader(xml)) {
         
         XmlElement rootElement = ParsePrivate(reader, null);
         if (rootElement != null)
-          rootElement.SetFileInfo(fakeFileName);
+          rootElement.SetFileInfo(FileInfo.FromFilename(rootElement.Name + ".xml"));
 
         return rootElement;
       }
     }
 
-    public override IParseElement Parse(string path) {
-      using (StreamReader reader = new StreamReader(path))
-        return ParsePrivate(reader, path);
+    public IParseElement Parse(string filePath) {
+      return Parse(FileInfo.FromFilename(filePath));
     }
 
-    private XmlElement ParsePrivate(TextReader reader, string path) {
+    public override IParseElement Parse(FileInfo fileInfo) {
+      using (StreamReader reader = new StreamReader(fileInfo.FilePath))
+        return ParsePrivate(reader, fileInfo);
+    }
+
+    private XmlElement ParsePrivate(TextReader reader, FileInfo fileInfo) {
       try {
         using (XmlTextReader xmlReader = new XmlTextReader(reader))
           return ParsePrivateThrowsException(xmlReader);
       } catch (XmlException e) {
         AddError("Can't parse XML file. Error: " + ExceptionUtils.GetMessageRecursively(e),
-          new TreeFileError(path) {
+          new TreeFileError(fileInfo) {
             Start = new PositionMark() {
               LineNumber = e.LineNumber,
               CharacterPosition = e.LinePosition,

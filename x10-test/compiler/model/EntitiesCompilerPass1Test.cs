@@ -36,6 +36,19 @@ namespace x10.compiler {
     }
 
     [Fact]
+    public void EntityNameDoesNotMatchFilename() {
+      ParserYaml parser = new ParserYaml(_messages, "../../../compiler/model/data");
+      List<IParseElement> parsed = parser.RecursivelyParseDirectory();
+      TreeNode badFilenameRoot = (TreeNode)parsed.Single(x => x.FileInfo.FileName == "BadFileName.yaml");
+
+      Entity entity = _compiler.CompileEntity(badFilenameRoot);
+      TestUtils.DumpMessages(_messages, _output);
+      Assert.NotNull(entity);
+
+      VerifyErrorMessage("The name of the entity 'Tmp' must match the name of the file: BadFileName", 1, 7);
+    }
+
+    [Fact]
     public void CompileWithSetterAndNonSetter() {
       ModelAttributeDefinitions.All.Add(new ModelAttributeDefinitionAtomic() {
         Name = "customField",
@@ -125,15 +138,6 @@ name: tmp
 description: Description...
 ",
         "Invalid Entity name: 'tmp'. Must be upper-cased CamelCase: e.g. 'User', 'PurchaseOrder'. Numbers are also allowed.", 2, 7);
-    }
-
-    [Fact]
-    public void EntityNameDoesNotMatchFilename() {
-      RunTest(@"
-name: Blurg
-description: Description...
-",
-        "The name of the entity 'Blurg' must match the name of the file: Tmp", 2, 7);
     }
 
     [Fact]
@@ -238,11 +242,8 @@ description: Description 2
     }
 
     private Entity RunTest(string yaml) {
-      const string TMP_YAML_FILE = "Tmp.yaml";
-      File.WriteAllText(TMP_YAML_FILE, yaml);
-      ParserYaml parser = new ParserYaml(_messages);
-      TreeNode rootNode = (TreeNode)parser.Parse(TMP_YAML_FILE);
-      rootNode.SetFileInfo(TMP_YAML_FILE);
+      ParserYaml parser = new ParserYaml(_messages, null);
+      TreeNode rootNode = parser.ParseFromString(yaml);
       Assert.NotNull(rootNode);
 
       Entity entity = _compiler.CompileEntity(rootNode);
@@ -253,7 +254,10 @@ description: Description 2
 
     private void RunTest(string yaml, string expectedErrorMessage, int expectedLine, int expectedChar) {
       RunTest(yaml);
+      VerifyErrorMessage(expectedErrorMessage, expectedLine, expectedChar);
+    }
 
+    private void VerifyErrorMessage(string expectedErrorMessage, int expectedLine, int expectedChar) {
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);
       Assert.NotNull(message);
 

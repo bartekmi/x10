@@ -4,38 +4,45 @@ using System.IO;
 
 namespace x10.parsing {
   public abstract class Parser {
-    public abstract IParseElement Parse(string filePath);
+    public abstract IParseElement Parse(FileInfo file);
     public abstract string GetFileExtensionWithDot();
 
     private readonly MessageBucket _messages;
+    private readonly string _rootDir;
 
-    protected Parser(MessageBucket messages) {
+    protected Parser(MessageBucket messages, string rootDir) {
       _messages = messages;
+      _rootDir = rootDir;
     }
 
-    public List<IParseElement> RecursivelyParseDirectory(string directoryPath) {
+    public List<IParseElement> RecursivelyParseDirectory() {
       List<IParseElement> parsed = new List<IParseElement>();
 
-      RecursivelyParseDirectory(parsed, directoryPath);
+      RecursivelyParseDirectory(parsed, new FileInfo(_rootDir, new string[0], null));
 
       return parsed;
     }
 
-    private void RecursivelyParseDirectory(List<IParseElement> parsed, string dirPath) {
+    private void RecursivelyParseDirectory(List<IParseElement> parsed, FileInfo dirInfo) {
+      string dirPath = dirInfo.FilePath;
+
       foreach (string path in Directory.EnumerateFiles(dirPath)) {
         if (!path.EndsWith(GetFileExtensionWithDot()))
           continue;
 
-        IParseElement root = Parse(path);
+        FileInfo pathInfo = dirInfo.CreateFileFileInfo(Path.GetFileName(path));
+        IParseElement root = Parse(pathInfo);
         if (root == null)
           continue;
 
-        root.SetFileInfo(path);
+        root.SetFileInfo(pathInfo);
         parsed.Add(root);
       }
 
-      foreach (string childDirPath in Directory.EnumerateDirectories(dirPath))
-        RecursivelyParseDirectory(parsed, childDirPath);
+      foreach (string childDirPath in Directory.EnumerateDirectories(dirPath)) {
+        FileInfo childDirInfo = dirInfo.CreateDirFileInfo(Path.GetFileName(childDirPath));
+        RecursivelyParseDirectory(parsed, childDirInfo);
+      }
     }
 
     protected void AddError(string message, IParseElement treeElement) {

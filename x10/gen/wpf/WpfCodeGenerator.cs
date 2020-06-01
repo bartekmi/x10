@@ -138,7 +138,7 @@ namespace x10.gen.wpf {
 
     #region Utilities
     private string GetNamespace(IParseElement element) {
-      return string.Join('.', element.FileInfo.RelativePathComponents);
+      return string.Join('.', element.FileInfo.RelativeDirComponents);
     }
     #endregion
   }

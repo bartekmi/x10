@@ -68,7 +68,7 @@ values:
     #region Utilities
 
     private void RunTest(string yaml) {
-      ParserYaml parser = new ParserYaml(_messages);
+      ParserYaml parser = new ParserYaml(_messages, null);
       TreeNode rootNode = parser.ParseFromString(yaml);
       Assert.NotNull(rootNode);
 
