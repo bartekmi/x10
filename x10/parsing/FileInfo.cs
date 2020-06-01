@@ -9,12 +9,17 @@ namespace x10.parsing {
     public string[] RelativeDirComponents;
     public string FileName { get; private set; }
 
-    public string FilePath {
+    public string RelativePath {
       get {
-        IEnumerable<string> components = new string[] { RootPath }
-          .Concat(RelativeDirComponents)
+        IEnumerable<string> components = RelativeDirComponents
           .Concat(FileName == null ? new string[0] : new string[] { FileName });
         return Path.Combine(components.ToArray());
+      }
+    }
+
+    public string FilePath {
+      get {
+        return Path.Combine(RootPath, RelativePath);
       }
     }
 

@@ -38,8 +38,12 @@ namespace x10.gen {
     private TextWriter _writer;
 
     protected void Begin(IParseElement element, string extension) {
-      // TODO
-      Begin(@"C:\TEMP\Booking" + extension);
+      string relativePath = element.FileInfo.RelativePath;
+      string relativeDir = Path.GetDirectoryName(relativePath);
+      string filenameNoExt = Path.GetFileNameWithoutExtension(relativePath);
+
+      string absolutePath = Path.Combine(RootGenerateDir, relativeDir, filenameNoExt + extension);
+      Begin(absolutePath);
     }
 
     protected void Begin(string filename) {
