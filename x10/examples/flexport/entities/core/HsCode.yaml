@@ -5,7 +5,7 @@ description: >
 datagen_quantity: 10
 
 attributes:
-  - name: hsCode
+  - name: code
     dataType: String
     datagen_pattern: DD.DD.DD.DD
     datagen_unique: true

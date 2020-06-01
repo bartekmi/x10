@@ -86,8 +86,7 @@
     <Compile Include="__generated__\entities\shipment\ShipmentSubscription.cs" />
     <Compile Include="__generated__\entities\shipment\ShipmentUser.cs" />
     <Compile Include="__generated__\entities\shipment_common\Cargo.cs" />
-    <Compile Include="__generated__\entities\shipment_common\Exception.cs" />
-    <Compile Include="__generated__\entities\shipment_common\ShipmentBase.cs" />
+    <Compile Include="__generated__\entities\shipment_common\ShipmentException.cs" />
     <Compile Include="__generated__\entities\shipment_common\Task.cs" />
     <Compile Include="__generated__\entities\__Context__.cs" />
     <Compile Include="__generated__\SharedEnums.cs" />

@@ -24,7 +24,8 @@ attributes:
 derivedAttributes:
   - name: flexId
     dataType: String
-    formula: 'Flex-#{id}'
+    formula: >
+      "Flex-" + Id
 
 associations:
   - name: shipper

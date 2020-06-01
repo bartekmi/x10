@@ -1,4 +1,4 @@
-<DashboardExceptions model="Exception" many="true">
+<DashboardExceptions model="ShipmentException" many="true">
   <VerticalStackPanel>
     <!-- Header: Label, count, 'see all' -->
     <RepellingRow>

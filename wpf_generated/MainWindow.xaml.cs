@@ -4,9 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-using Newtonsoft.Json;
-using wpf_sample.lib;
-
 namespace wpf_generated {
   public partial class MainWindow : Window {
     public MainWindow() {

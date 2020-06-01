@@ -1,4 +1,4 @@
-name: Exception
+name: ShipmentException
 description: A notification that something out-of-the-ordinary (usually bad) has happened to a Shipment
 
 attributes:

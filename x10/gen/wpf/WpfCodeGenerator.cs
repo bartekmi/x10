@@ -206,6 +206,9 @@ namespace x10.gen.wpf {
     public override void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums) {
       Begin(fileInfo, ".cs");
 
+      WriteLine(0, "using wpf_lib.lib.attributes;");
+      WriteLine();
+
       foreach (DataTypeEnum anEnum in enums)
         GenerateEnum(0, anEnum);
 

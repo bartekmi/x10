@@ -31,7 +31,7 @@ namespace x10.gen {
     }
 
     public void Generate() {
-      foreach (Entity entity in AllEntities.All)
+      foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
         Generate(entity);
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All)

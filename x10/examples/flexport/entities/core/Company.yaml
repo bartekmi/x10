@@ -9,11 +9,6 @@ attributes:
     datagen_pattern: <adjective> <noun> ('Corp.' | 'Company' | 'Ltd.' | '')
     datagen_unique: true
 
-derivedAttributes:
-  - name: cityAndState
-    dataType: String
-    formula: =interpolate(${city}, ${state})
-
 associations:
   - name: location
     mandatory: true

@@ -26,13 +26,13 @@
         <TableColumn path="shipper">
           <VerticalStackPanel>
             <legalName Text.weight="bold"/>
-            <cityAndState/>
+            <location.cityAndState/>
           </VerticalStackPanel>
         </TableColumn>
         <TableColumn path="consignee">
           <VerticalStackPanel>
             <legalName Text.weight="bold"/>
-            <cityAndState/>
+            <location.cityAndState/>
           </VerticalStackPanel>
         </TableColumn>
         <weightKg/>

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using wpf_lib;
+
 using wpf_generated.data;
+using wpf_generated.entities;
 
 namespace wpf_generated {
   public class AppStatics {
