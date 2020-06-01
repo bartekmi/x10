@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpf_sample.lib.utils {
+namespace wpf_lib.lib.utils {
   public static class NameUtils {
     public static string SnakeCaseToCamelCase(string snake_case) {
       StringBuilder builder = new StringBuilder();

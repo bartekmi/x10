@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using wpf_sample.lib;
+using wpf_lib.lib;
+using wpf_sample.entities.core;
 
 namespace wpf_sample.entities.booking {
   public class Booking : EntityBase {

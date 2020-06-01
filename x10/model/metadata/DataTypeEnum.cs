@@ -17,6 +17,7 @@ namespace x10.model.metadata {
     public List<ModelAttributeValue> AttributeValues { get; private set; }
     public TreeElement TreeElement { get; set; }
     public string UiName { get; set; }
+    public bool IsDefinedInEnumsFile { get; set; }
 
     public DataTypeEnum() {
       EnumValues = new List<EnumValue>();

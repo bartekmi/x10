@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace wpf_sample.lib.converter {
+namespace wpf_lib.lib.converter {
 
   // Converts Boolean value to Visibility
   // By default: true => Visible, false => Collapsed

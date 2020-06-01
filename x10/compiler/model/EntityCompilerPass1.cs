@@ -72,7 +72,7 @@ namespace x10.compiler {
       TreeSequence enums = TreeUtils.GetOptional<TreeSequence>(rootNode, "enums", _messages);
       if (enums != null)
         foreach (TreeNode enumRootNode in enums.Children)
-          _enumsCompiler.CompileEnum(enumRootNode);
+          _enumsCompiler.CompileEnum(enumRootNode, false);
 
       return entity;
     }

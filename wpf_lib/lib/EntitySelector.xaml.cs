@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class EntitySelector : UserControl {
 
     public static readonly DependencyProperty EntityProperty = DependencyProperty.Register(

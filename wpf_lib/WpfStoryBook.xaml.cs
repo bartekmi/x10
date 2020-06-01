@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using Newtonsoft.Json;
-using wpf_sample.lib;
+using wpf_lib.lib;
 
 namespace wpf_lib {
   public partial class WpfStoryBook : UserControl {

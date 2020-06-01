@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public class FormError {
     public string Message { get; private set; }
     public List<string> Fields { get; private set; }  // Some errors might affect multiple fields

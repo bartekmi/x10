@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using wpf_lib.lib;
+
 using wpf_sample.entities.booking;
+using wpf_sample.entities.core;
 
 namespace wpf_sample {
   public class DataSourceInMemory : IDataSource {

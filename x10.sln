@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_lib", "wpf_lib\wpf_lib.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_generated", "wpf_generated\wpf_generated.csproj", "{7FC3C268-A6CB-4C82-8D2A-7C67ADE8E61A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "top", "top", "{729FD1E4-959E-46CC-AA03-9565BE8AC67E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

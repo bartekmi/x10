@@ -72,7 +72,7 @@ values:
       TreeNode rootNode = parser.ParseFromString(yaml);
       Assert.NotNull(rootNode);
 
-      _compiler.CompileEnum(rootNode);
+      _compiler.CompileEnum(rootNode, false);
       TestUtils.DumpMessages(_messages, _output);
     }
 

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public abstract class ViewModelBase : NotificationObject {
     internal EntityBase ModelUntyped { get; set; }
   }

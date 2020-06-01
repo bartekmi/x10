@@ -58,6 +58,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="__generated__\entities\booking\Booking.cs" />
+    <Compile Include="__generated__\entities\booking\BookingHsCode.cs" />
+    <Compile Include="__generated__\entities\core\Bookmark.cs" />
+    <Compile Include="__generated__\entities\core\Carrier.cs" />
+    <Compile Include="__generated__\entities\core\Company.cs" />
+    <Compile Include="__generated__\entities\core\Document.cs" />
+    <Compile Include="__generated__\entities\core\HsCode.cs" />
+    <Compile Include="__generated__\entities\core\Location.cs" />
+    <Compile Include="__generated__\entities\core\MetadataTag.cs" />
+    <Compile Include="__generated__\entities\core\MetadataValue.cs" />
+    <Compile Include="__generated__\entities\core\Port.cs" />
+    <Compile Include="__generated__\entities\core\User.cs" />
+    <Compile Include="__generated__\entities\dashboard\BookingsWithCount.cs" />
+    <Compile Include="__generated__\entities\dashboard\ExceptionsWithCount.cs" />
+    <Compile Include="__generated__\entities\dashboard\QuoteRequestsWithCount.cs" />
+    <Compile Include="__generated__\entities\dashboard\ShipmentsWithCount.cs" />
+    <Compile Include="__generated__\entities\dashboard\TasksWithCount.cs" />
+    <Compile Include="__generated__\entities\purchase_orders\Product.cs" />
+    <Compile Include="__generated__\entities\purchase_orders\ProductHsCode.cs" />
+    <Compile Include="__generated__\entities\purchase_orders\PurchaseOrder.cs" />
+    <Compile Include="__generated__\entities\purchase_orders\PurchaseOrderItem.cs" />
+    <Compile Include="__generated__\entities\quote\Quote.cs" />
+    <Compile Include="__generated__\entities\quote\QuoteRequest.cs" />
+    <Compile Include="__generated__\entities\shipment\Shipment.cs" />
+    <Compile Include="__generated__\entities\shipment\ShipmentLocation.cs" />
+    <Compile Include="__generated__\entities\shipment\ShipmentSubscription.cs" />
+    <Compile Include="__generated__\entities\shipment\ShipmentUser.cs" />
+    <Compile Include="__generated__\entities\shipment_common\Cargo.cs" />
+    <Compile Include="__generated__\entities\shipment_common\Exception.cs" />
+    <Compile Include="__generated__\entities\shipment_common\ShipmentBase.cs" />
+    <Compile Include="__generated__\entities\shipment_common\Task.cs" />
+    <Compile Include="__generated__\entities\__Context__.cs" />
+    <Compile Include="__generated__\SharedEnums.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,5 +139,6 @@
       <Name>wpf_lib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

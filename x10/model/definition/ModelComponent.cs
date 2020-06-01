@@ -14,6 +14,9 @@ namespace x10.model.definition {
     public string NameLowerCased {
       get { return NameUtils.UncapitalizeFirstLetter(Name); }
     }
+    public string NameUpperCased {
+      get { return NameUtils.CapitalizeFirstLetter(Name); }
+    }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }

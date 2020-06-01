@@ -26,15 +26,18 @@ namespace x10.compiler {
       }
 
       foreach (TreeNode enumRootNode in rootNode.Children)
-        CompileEnum(enumRootNode);
+        CompileEnum(enumRootNode, true);
     }
 
-    internal void CompileEnum(TreeNode enumRootNode) {
+    internal void CompileEnum(TreeNode enumRootNode, bool isDefinedInEnumsFile) {
       TreeHash enumHash = AttributeReader.EnsureObjectWithAttributresIsHash(enumRootNode, _messages);
       if (enumHash == null)
         return;
 
-      DataTypeEnum theEnum = new DataTypeEnum();
+      DataTypeEnum theEnum = new DataTypeEnum() {
+        TreeElement = enumRootNode,
+        IsDefinedInEnumsFile = isDefinedInEnumsFile,
+      };
 
       // Extract the enum values
       TreeNode enumValues = TreeUtils.GetMandatoryAttribute(enumHash, "values", _messages);

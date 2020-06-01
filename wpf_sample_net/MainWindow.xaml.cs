@@ -7,9 +7,7 @@ using System.Windows.Controls;
 using wpf_sample.entities;
 using wpf_sample.ui.bookings;
 
-using wpf_sample.entities.booking;
-using Newtonsoft.Json;
-using wpf_sample.lib;
+using wpf_sample.entities.core;
 
 namespace wpf_sample {
   public partial class MainWindow : Window {

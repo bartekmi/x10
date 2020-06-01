@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace wpf_sample.lib.converter {
+namespace wpf_lib.lib.converter {
   // By default null => false. Use Converter Parameter 'reverse' to reverse logic.
   public class NullToBooleanConverter : IValueConverter {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

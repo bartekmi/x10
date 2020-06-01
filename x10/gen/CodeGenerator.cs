@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using FileInfo = x10.parsing.FileInfo;
 using x10.compiler;
 using x10.model;
 using x10.model.definition;
-using x10.parsing;
+using x10.model.metadata;
 using x10.ui.composition;
+using x10.utils;
 
 namespace x10.gen {
   public abstract class CodeGenerator {
 
     public abstract void Generate(ClassDefX10 classDef);
     public abstract void Generate(Entity entity);
+    public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
 
     protected String RootGenerateDir;
     protected AllEntities AllEntities;
@@ -33,27 +36,39 @@ namespace x10.gen {
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All)
         Generate(classDef);
+
+      GenerateEnumFiles();
     }
+
+    private void GenerateEnumFiles() {
+      var enumFileGroups = AllEnums.All.Where(x => x.IsDefinedInEnumsFile)
+        .GroupBy(x => x.TreeElement.FileInfo);
+
+      foreach (var enumFileGroup in enumFileGroups)
+        GenerateEnumFile(enumFileGroup.Key, enumFileGroup);
+    }
+
 
     #region Write Helpers
     private TextWriter _writer;
 
-    protected void Begin(IParseElement element, string extension) {
-      string relativePath = element.FileInfo.RelativePath;
+    protected void Begin(FileInfo fileInfo, string extension) {
+      string relativePath = fileInfo.RelativePath;
       string relativeDir = Path.GetDirectoryName(relativePath);
       string filenameNoExt = Path.GetFileNameWithoutExtension(relativePath);
+      filenameNoExt = NameUtils.CapitalizeFirstLetter(filenameNoExt);
 
       string absolutePath = Path.Combine(RootGenerateDir, relativeDir, filenameNoExt + extension);
       Begin(absolutePath);
     }
 
-    protected void Begin(string filename) {
+    protected void Begin(string absolutePath) {
       if (_writer != null)
         throw new Exception("Someone before me did not End() after Being()");
-      string dir = Path.GetDirectoryName(filename);
+      string dir = Path.GetDirectoryName(absolutePath);
       if (!Directory.Exists(dir))
         Directory.CreateDirectory(dir);
-      _writer = new StreamWriter(filename);
+      _writer = new StreamWriter(absolutePath);
     }
 
     protected void End() {
@@ -67,7 +82,7 @@ namespace x10.gen {
 
       text = " " + text + " ";
       text = text.Replace("{ ", "{{ ").Replace(" }", " }}");
-      text.Trim();
+      text = text.Trim();
 
       _writer.Write(Spacer(level));
       _writer.WriteLine(text, args);

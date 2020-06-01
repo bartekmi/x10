@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   [ContentProperty(nameof(Children))]
   public partial class FormSection : UserControl {
     public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(

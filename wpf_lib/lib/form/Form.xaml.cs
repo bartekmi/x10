@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using wpf_sample.lib.utils;
+using wpf_lib.lib.utils;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class Form : UserControl {
 
     private List<FormErrorDisplay> _errorDisplays = new List<FormErrorDisplay>();

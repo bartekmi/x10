@@ -19,7 +19,7 @@ namespace wpf_generated {
     }
 
     public IDataSource DataSource { get; private set; }
-    // public __Context__ Context { get; set; }
+    public __Context__ Context { get; set; }
 
 
     private AppStatics() {

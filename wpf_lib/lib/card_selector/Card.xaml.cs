@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class Card : UserControl {
 
     public string Label { get; private set; }

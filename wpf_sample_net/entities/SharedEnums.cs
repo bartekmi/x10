@@ -1,4 +1,4 @@
-﻿using wpf_sample.lib.attributes;
+﻿using wpf_lib.lib.attributes;
 
 public enum TransportationMode {
   [Icon("boat")]

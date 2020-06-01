@@ -6,7 +6,7 @@ using System;
 namespace x10.parsing {
   public class FileInfo {
     public string RootPath { get; private set; }
-    public string[] RelativeDirComponents;
+    public string[] RelativeDirComponents { get; private set; }
     public string FileName { get; private set; }
 
     public string RelativePath {
@@ -49,5 +49,21 @@ namespace x10.parsing {
         new string[0],
         Path.GetFileName(filePath));
     }
+
+    #region Overrides
+    public override string ToString() {
+      return FilePath;
+    }
+
+    public override bool Equals(object obj) {
+      if (obj is FileInfo other)
+        return other.FilePath == FilePath;
+      return false;
+    }
+
+    public override int GetHashCode() {
+      return FilePath.GetHashCode();
+    }
+    #endregion
   }
 }

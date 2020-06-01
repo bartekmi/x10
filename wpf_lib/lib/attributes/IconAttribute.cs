@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpf_sample.lib.attributes {
+namespace wpf_lib.lib.attributes {
   public class IconAttribute : Attribute {
     private string _icon;
     public IconAttribute(string icon) {

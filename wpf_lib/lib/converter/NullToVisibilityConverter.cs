@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace wpf_sample.lib.converter {
+namespace wpf_lib.lib.converter {
   public class NullToVisibilityConverter : IValueConverter {
     public object Convert(object value, Type targetType, object parameterObj, CultureInfo culture) {
       return BooleanToVisibilityConverter.ConvertToVisibility(value != null, parameterObj);

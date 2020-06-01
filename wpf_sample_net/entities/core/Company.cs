@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using wpf_sample.lib;
+using wpf_lib.lib;
 
-namespace wpf_sample.entities.booking {
+namespace wpf_sample.entities.core {
   public class Company : EntityBase {
     private string _legalName;
     [Column("legal_name")]

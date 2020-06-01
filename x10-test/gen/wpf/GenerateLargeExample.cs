@@ -24,7 +24,7 @@ namespace x10.gen.wpf {
       LargeDemoTest.CompileEverything(_output, _messages, sourceDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
 
       string targetDir = "../../../../wpf_generated/__generated__";
-      WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, allEntities, allEnums, allUiDefinitions);
+      WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, "wpf_generated", allEntities, allEnums, allUiDefinitions);
       generator.Generate();
     }
   }

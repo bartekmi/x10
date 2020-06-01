@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using wpf_sample.entities.booking;
+using wpf_sample.entities.core;
 
 namespace wpf_sample {
   public interface IDataSource {

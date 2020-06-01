@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Remoting.Contexts;
-using wpf_sample.lib;
 
-namespace wpf_sample.entities.booking {
+using wpf_lib.lib;
+
+namespace wpf_sample.entities.core {
   public class Location : EntityBase {
 
     // Regular Attributes

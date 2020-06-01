@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public abstract class EntityBase : NotificationObject {
 
     private int _id;

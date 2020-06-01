@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class Label : UserControl {
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
         nameof(Text),

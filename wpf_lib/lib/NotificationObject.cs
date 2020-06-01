@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public abstract class NotificationObject : INotifyPropertyChanged {
     public event PropertyChangedEventHandler PropertyChanged;
 

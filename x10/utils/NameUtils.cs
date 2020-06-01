@@ -74,11 +74,15 @@ namespace x10.utils {
       return builder.ToString();
     }
 
+    internal static string CapitalizeFirstLetter(string text) {
+      if (string.IsNullOrWhiteSpace(text))
+        return text;
+      return char.ToUpper(text[0]) + text.Substring(1);
+    }
+
     internal static string UncapitalizeFirstLetter(string text) {
       if (string.IsNullOrWhiteSpace(text))
         return text;
-
-
       return char.ToLower(text[0]) + text.Substring(1);
     }
 

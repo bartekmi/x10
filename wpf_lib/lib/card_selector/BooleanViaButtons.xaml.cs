@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class BooleanViaButtons : UserControl {
     public static readonly DependencyProperty SelectedProperty = DependencyProperty.Register(
         nameof(Selected),

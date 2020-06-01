@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using wpf_lib;
-using wpf_sample.lib.utils;
+using wpf_lib.lib.utils;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   public partial class CardSelector : UserControl {
     public static readonly DependencyProperty SelectedProperty = DependencyProperty.Register(
         nameof(Selected),

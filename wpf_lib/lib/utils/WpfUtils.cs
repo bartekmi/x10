@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace wpf_sample.lib.utils {
+namespace wpf_lib.lib.utils {
   public static class WpfUtils {
     public static T FindVisualChild<T>(FrameworkElement root, string name = null) where T : FrameworkElement {
       DependencyObject result = FindVisualChild(typeof(T), root, name);

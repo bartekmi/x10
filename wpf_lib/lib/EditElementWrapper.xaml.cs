@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace wpf_sample.lib {
+namespace wpf_lib.lib {
   [ContentProperty(nameof(Children))]
   public partial class EditElementWrapper : UserControl {
     public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(

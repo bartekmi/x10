@@ -109,15 +109,15 @@ attributes:
 derivedAttributes:
   - name: isShipperBooking
     dataType: Boolean
-    formula: =shipper == $user.company
+    formula: =shipper == __Context__.currentUser.company
 
   - name: isConsigneeBooking
     dataType: Boolean
-    formula: =consignee == $user.company
+    formula: =consignee == __Context__.currentUser.company
 
   - name: requiresChineseProductDescription
     dataType: Boolean
-    formula: =isShipperBooking && company.countryCode == 'CN'
+    formula: =isShipperBooking && shipper.location.countryCode == 'CN'
 
 associations:
   - name: shipment
