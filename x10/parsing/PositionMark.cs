@@ -11,5 +11,13 @@ namespace x10.parsing {
     public override string ToString() {
       return string.Format("(Line = {0}, Char = {1}, Index = {2})", LineNumber, CharacterPosition, Index);
     }
+
+    internal PositionMark AdvanceBy(int numberOfCharacters) {
+      return new PositionMark() {
+        LineNumber = LineNumber,
+        CharacterPosition = CharacterPosition + numberOfCharacters,
+        Index = Index + numberOfCharacters,
+      };
+    }
   }
 }
