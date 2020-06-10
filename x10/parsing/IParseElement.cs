@@ -4,34 +4,17 @@ using System.Text;
 
 namespace x10.parsing {
   public interface IParseElement {
-    FileInfo FileInfo { get;  }
-    PositionMark Start { get; }
-    PositionMark End { get; }
+    FileInfo FileInfo { get; }
+    PositionMark Start { get; set; }
+    PositionMark End { get; set; }
     void SetFileInfo(FileInfo fileInfo);
   }
 
-  public class BasicParseElement : IParseElement {
-
-    public FileInfo FileInfo { get; set;  }
-    public PositionMark Start { get; set;  }
-    public PositionMark End { get; set;  }
-
-    public void SetFileInfo(FileInfo fileInfo) {
-      FileInfo = fileInfo;
-    }
-
-    public BasicParseElement() {
-      // Do nothing
-    }
-
-    public BasicParseElement(IParseElement element) {
-      FileInfo = element.FileInfo;
-      Start = element.Start;
-    }
-
-    internal void SetPositionRelativeToStart(int start, int end) {
-      Start = Start.AdvanceBy(start);
-      End = Start.AdvanceBy(end);
+  public static class IParseElementExtensions {
+    public static void SetRelativeTo(this IParseElement target, IParseElement relativeTo, int startOffset, int endOffset) {
+      target.SetFileInfo(relativeTo.FileInfo);
+      target.Start = relativeTo.Start.AdvanceBy(startOffset);
+      target.End = relativeTo.Start.AdvanceBy(endOffset);
     }
   }
 }
