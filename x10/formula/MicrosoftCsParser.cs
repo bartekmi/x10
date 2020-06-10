@@ -53,7 +53,9 @@ namespace x10.formula {
         foreach (ArgumentSyntax arg in invoke.ArgumentList.Arguments)
           ((ExpInvocation)x10Expression).Arguments.Add(ConvertToExpBase(element, arg.Expression));
       } else {
-        x10Expression = new ExpUnknown();
+        x10Expression = new ExpUnknown() {
+          DiagnosticMessage = "Unexpected Node Type: " + expression.GetType().Name,
+        };
       }
 
       SetFilePosition(element, x10Expression, expression.GetLocation().SourceSpan);

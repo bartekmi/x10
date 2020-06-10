@@ -7,15 +7,14 @@ using x10.parsing;
 
 namespace x10.formula {
   public static class FormulaParser {
-    public static ExpBase Parse(MessageBucket errors, IParseElement element, string formula, Entity contextEntity) {
+
+    public const string CONTEXT_NAME = "__Context__";
+
+    public static ExpBase Parse(MessageBucket errors, IParseElement element, string formula, Entity context, ExpDataType rootType) {
       ExpBase expression = MicrosoftCsParser.Parse(errors, element, formula);
-      ProcessDataErrors(errors, expression, contextEntity);
+      expression.DetermineType(errors, context, rootType);
 
       return expression;
-    }
-
-    private static void ProcessDataErrors(MessageBucket errors, ExpBase expression, Entity contextEntity) {
-      // TODO
     }
   }
 }

@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 using x10.parsing;
 using x10.formula;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using x10.model.definition;
 
 namespace x10.utils {
   public class FormulaParserTest {
@@ -31,7 +32,7 @@ namespace x10.utils {
     private void TestExpectedSuccess(string formula) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
-      ExpBase expression = FormulaParser.Parse(errors, element, formula, null);
+      ExpBase expression = FormulaParser.Parse(errors, element, formula, new Entity(), null);
 
       Assert.Equal(0, errors.Count);
       Assert.False(expression is ExpUnknown);
@@ -47,7 +48,7 @@ namespace x10.utils {
         },
       };
 
-      FormulaParser.Parse(errors, element, formula, null);
+      FormulaParser.Parse(errors, element, formula, new Entity(), null);
       Assert.Equal(1, errors.Count);
 
       CompileMessage message = errors.Messages.Single();
