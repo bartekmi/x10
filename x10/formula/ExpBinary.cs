@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using x10.model.definition;
@@ -14,20 +15,19 @@ namespace x10.formula {
       ExpDataType leftType = Left.DetermineType(errors, context, rootType);
       ExpDataType rightType = Right.DetermineType(errors, context, rootType);
 
+      if (leftType.IsError || rightType.IsError)
+        return ExpDataType.ERROR;
+
       switch (Token) {
         case "-":
         case "/":
         case "*":
-          if (!leftType.IsNumeric || !rightType.IsNumeric) {
-            errors.AddError(this, "Both sides of operator '{0}' must be numeric (Integer or Float)", Token);
-            return ExpDataType.ERROR;
-          }
+          if (!leftType.IsNumeric || !rightType.IsNumeric)
+            return MismatchTypeError(errors, leftType, rightType);
           return ResultOfNumericOperation(leftType, rightType);
         case "%":
-          if (!leftType.IsInteger || !rightType.IsInteger) {
-            errors.AddError(this, "Both sides of operator '%' must be of type Integer", Token);
-            return ExpDataType.ERROR;
-          }
+          if (!leftType.IsInteger || !rightType.IsInteger)
+            return MismatchTypeError(errors, leftType, rightType);
           return ExpDataType.Integer;
         case "+":
           if (leftType.IsNumeric && rightType.IsNumeric)
@@ -36,14 +36,11 @@ namespace x10.formula {
           if (leftType.IsString || rightType.IsString)
             return ExpDataType.String;
 
-          errors.AddError(this, "Eith both sides of operator '+' must be numeric (Integer or Float), or one side must be of type String");
-          return ExpDataType.ERROR;
+          return MismatchTypeError(errors, leftType, rightType);
         case "&&":
         case "||":
-          if (!leftType.IsBoolean || !rightType.IsBoolean) {
-            errors.AddError(this, "Both sides of '{0}' must be Boolean (True/False)", Token);
-            return ExpDataType.ERROR;
-          }
+          if (!leftType.IsBoolean || !rightType.IsBoolean)
+            return MismatchTypeError(errors, leftType, rightType);
           return ExpDataType.Boolean;
         case ">":
         case "<":
@@ -53,21 +50,47 @@ namespace x10.formula {
               leftType.IsComparable && rightType.IsComparable &&
               leftType.DataType == rightType.DataType)
             return ExpDataType.Boolean;
-
-          errors.AddError(this, "Cannot compare {0} and {1}", leftType, rightType);
-          return ExpDataType.ERROR;
+          return MismatchTypeError(errors, leftType, rightType);
         case "==":
         case "!=":
           if (leftType.IsNumeric && rightType.IsNumeric ||
               leftType.Equals(rightType) ||
               leftType.IsError || rightType.IsError)
             return ExpDataType.Boolean;
-
-          errors.AddError(this, "Cannot compare {0} and {1}", leftType, rightType);
-          return ExpDataType.ERROR;
+          return MismatchTypeError(errors, leftType, rightType);
         default:
           errors.AddError(this, "Unexpected token: " + Token);
           return ExpDataType.ERROR;
+      }
+    }
+
+    private ExpDataType MismatchTypeError(MessageBucket errors, ExpDataType left, ExpDataType right) {
+      string message = string.Format("Cannot {0} {1} and {2}",
+        TokenToOperationName(), left, right);
+
+      errors.AddError(this, message);
+
+      return ExpDataType.ERROR;
+    }
+
+    private string TokenToOperationName() {
+      switch (Token) {
+        case "-": return "subtract";
+        case "*": return "multiply";
+        case "/": return "divide";
+        case "%": return "take remainder of";
+        case "+": return "add";
+        case "&&": return "logical-and";
+        case "||": return "logical-or";
+        case ">":
+        case ">=":
+        case "<":
+        case "<=":
+          return "compare";
+        case "==": return "test equality of";
+        case "!=": return "test inequality of";
+        default:
+          throw new Exception("Unexpected binary operation token: " + Token);
       }
     }
 

@@ -12,7 +12,8 @@ namespace x10.formula {
 
     public static ExpBase Parse(MessageBucket errors, IParseElement element, string formula, Entity context, ExpDataType rootType) {
       ExpBase expression = MicrosoftCsParser.Parse(errors, element, formula);
-      expression.DetermineType(errors, context, rootType);
+      ExpDataType dataType = expression.DetermineType(errors, context, rootType);
+      expression.DataType = dataType;
 
       return expression;
     }

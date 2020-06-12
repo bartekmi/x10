@@ -21,6 +21,7 @@ namespace x10.formula {
 
     private static ExpBase ConvertToExpBase(IParseElement element, ExpressionSyntax expression) {
       ExpBase x10Expression;
+      TextSpan? span = null;
 
       if (expression is BinaryExpressionSyntax binary) {
         x10Expression = new ExpBinary() {
@@ -28,6 +29,7 @@ namespace x10.formula {
           Left = ConvertToExpBase(element, binary.Left),
           Right = ConvertToExpBase(element, binary.Right),
         };
+        span = binary.OperatorToken.Span;
       } else if (expression is LiteralExpressionSyntax literal) {
         x10Expression = new ExpLiteral() {
           Value = literal.Token.Value,
@@ -45,6 +47,7 @@ namespace x10.formula {
           Expression = ConvertToExpBase(element, member.Expression),
           MemberName = member.Name.ToString(),
         };
+        span = member.OperatorToken.Span;
       } else if (expression is InvocationExpressionSyntax invoke) {
         x10Expression = new ExpInvocation() {
           FunctionName = ((IdentifierNameSyntax)invoke.Expression).ToString(),
@@ -58,7 +61,7 @@ namespace x10.formula {
         };
       }
 
-      SetFilePosition(element, x10Expression, expression.GetLocation().SourceSpan);
+      SetFilePosition(element, x10Expression, span ?? expression.GetLocation().SourceSpan);
 
       return x10Expression;
     }

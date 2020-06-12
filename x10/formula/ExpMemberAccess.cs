@@ -27,7 +27,7 @@ namespace x10.formula {
       Entity entity = type.Entity;
       Member member = entity.FindMemberByName(memberName);
       if (member == null) {
-        errors.AddError(expression, "Entity '{0}' does not contain an Attribute or Associatoin '{1}'", entity.Name, memberName);
+        errors.AddError(expression, "Entity '{0}' does not contain an Attribute or Association '{1}'", entity.Name, memberName);
         return ExpDataType.ERROR;
       }
 

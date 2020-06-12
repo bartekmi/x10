@@ -225,7 +225,7 @@ namespace x10.gen.sql {
               });
             break;
           default:
-            throw new Exception("Unexpected member and associatoin type: " + member.Type);
+            throw new Exception("Unexpected member and association type: " + member.Type);
         }
 
       return row;
