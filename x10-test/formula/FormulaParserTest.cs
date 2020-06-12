@@ -86,6 +86,12 @@ attributes:
       TestExpectedError("a == myBoolean", "Cannot test equality of Integer and Boolean", 2, 4);
     }
 
+    [Fact]
+    public void MissingAttribute() {
+      TestExpectedError("a - missing", "Entity 'Entity' does not contain an Attribute or Association 'missing'", 4, 11);
+      TestExpectedError("a - nested.missing", "Entity 'Nested' does not contain an Attribute or Association 'missing'", 11, 18);
+    }
+
     private void TestExpectedSuccess(string formula, DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };

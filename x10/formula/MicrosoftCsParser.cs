@@ -47,7 +47,7 @@ namespace x10.formula {
           Expression = ConvertToExpBase(element, member.Expression),
           MemberName = member.Name.ToString(),
         };
-        span = member.OperatorToken.Span;
+        span = member.Name.Identifier.Span;
       } else if (expression is InvocationExpressionSyntax invoke) {
         x10Expression = new ExpInvocation() {
           FunctionName = ((IdentifierNameSyntax)invoke.Expression).ToString(),
