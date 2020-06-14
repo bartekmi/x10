@@ -62,6 +62,17 @@ namespace x10.formula {
               leftType.IsError || rightType.IsError)
             return ExpDataType.Boolean;
           return MismatchTypeError(leftType, rightType);
+        case "??":
+          if (leftType.IsError || rightType.IsError)
+            return ExpDataType.ERROR;
+          if (leftType.Equals(rightType))
+            return leftType;
+
+          string message = string.Format("Both sides of ?? operator must be the same, but left is {0} and right is {1}",
+            leftType, rightType);
+          Parser.Errors.AddError(this, message);
+
+          return ExpDataType.ERROR;
         default:
           Parser.Errors.AddError(this, "Unexpected token: " + Token);
           return ExpDataType.ERROR;

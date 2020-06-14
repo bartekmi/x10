@@ -21,11 +21,14 @@ attributes:
     dataType: Date
     mandatory: true
 
-derivedAttributes:
   - name: flexId
     dataType: String
-    formula: >
-      ="Flex-" + Id
+    readOnly: true
+# This used to be a derived attribute. Note required use of '>'
+# Switched to actual attribute due to ambiguity over what assumptions should be made
+# regarding possible GraphQL connection fields (id, dbid, none?) 
+#    formula: >
+#      ="Flex-" + id
 
 associations:
   - name: shipper
