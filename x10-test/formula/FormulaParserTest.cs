@@ -11,7 +11,7 @@ using x10.model.definition;
 using x10.model;
 using x10.model.metadata;
 
-namespace x10.utils {
+namespace x10.formula {
   public class FormulaParserTest {
 
     private readonly ITestOutputHelper _output;
@@ -43,9 +43,14 @@ attributes:
     dataType: Boolean
   - name: myString
     dataType: String
+  - name: myEnumValue
+    dataType: MyEnum
 associations:
   - name: nested
     dataType: Nested
+enums:
+  - name: MyEnum
+    values: one, two, three
 ";
       string nestedYaml = @"
 name: Nested
@@ -72,8 +77,18 @@ attributes:
     }
 
     [Fact]
+    public void ParseEnum() {
+      TestExpectedSuccess("myEnumValue == MyEnum.three", DataTypes.Singleton.Boolean);     // String-add
+    }
+
+    [Fact]
     public void ParseWithSyntaxErrors() {
       TestExpectedError("a + b)", "Unexpected token ')'", 0, 5);
+    }
+
+    [Fact]
+    public void UnknownEnumValue() {
+      TestExpectedError("myEnumValue == MyEnum.none", "Enum 'MyEnum' does not have value 'none'", 22, 26);
     }
 
     [Fact]
@@ -95,7 +110,7 @@ attributes:
     private void TestExpectedSuccess(string formula, DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
-      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]));
+      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums);
       ExpBase expression = parser.Parse(element, formula, new ExpDataType(_entity));
       TestUtils.DumpMessages(errors, _output);
 
@@ -114,7 +129,7 @@ attributes:
         },
       };
 
-      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]));
+      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums);
       parser.Parse(element, formula, new ExpDataType(_entity));
       TestUtils.DumpMessages(errors, _output);
       Assert.Equal(1, errors.Count);

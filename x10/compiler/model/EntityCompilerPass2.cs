@@ -94,7 +94,7 @@ namespace x10.compiler {
 
 
     private void VerifyAllFormulas() {
-      FormulaParser parser = new FormulaParser(Messages, _allEntities);
+      FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums);
 
       foreach (Entity entity in _allEntities.All) {
         ExpDataType dataType = new ExpDataType(entity);

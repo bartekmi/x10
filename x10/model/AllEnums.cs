@@ -30,6 +30,19 @@ namespace x10.model {
       get { return _enumsByName.Values.SelectMany(x => x);  } 
     }
 
+    internal DataTypeEnum FindEnumErrorIfMultiple(string typeName, IParseElement parseElement) {
+      if (!_enumsByName.TryGetValue(typeName, out List<DataTypeEnum> enums)) 
+        return null;
+
+      if (enums.Count > 1) {
+        _messages.AddError(parseElement,
+          string.Format("Multiple Enums with the name '{0}' exist", typeName));
+        return null;
+      }
+
+      return enums.Single();
+    }
+
     public DataType FindDataTypeByNameWithError(string typeName, IParseElement parseElement) {
 
       DataType builtInDataType = DataTypes.Singleton.Find(typeName);
@@ -37,19 +50,19 @@ namespace x10.model {
         return builtInDataType;
 
       // Check if enum exists
-      if (!_enumsByName.TryGetValue(typeName, out List<DataTypeEnum> entities)) {
+      if (!_enumsByName.TryGetValue(typeName, out List<DataTypeEnum> enums)) {
         _messages.AddError(parseElement,
           string.Format("Neither Enum nor a built-in data tyes '{0}' is defined", typeName));
         return null;
       }
 
-      if (entities.Count > 1) {
+      if (enums.Count > 1) {
         _messages.AddError(parseElement,
           string.Format("Multiple Enums with the name '{0}' exist", typeName));
         return null;
       }
 
-      return entities.Single();
+      return enums.Single();
     }
   }
 }

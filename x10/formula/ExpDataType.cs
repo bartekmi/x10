@@ -8,10 +8,12 @@ namespace x10.formula {
   public class ExpDataType {
     public DataType DataType { get; set; }
     public Entity Entity { get; set; }
+    public DataTypeEnum EnumName { get; set; }  // Used for enum name (left side of EnumNam.Value)
 
     // Derived
     public bool IsEntity { get { return Entity != null; } }
     public bool IsPrimitive { get { return DataType != null; } }
+    public bool IsEnumName { get { return EnumName != null; } }
 
     public bool IsNull { get { return this == NULL; } }
     public bool IsError { get { return this == ERROR; } }
@@ -44,6 +46,14 @@ namespace x10.formula {
       Entity = entity;
     }
 
+    internal static ExpDataType CreateEnumNameTemporaryType(DataTypeEnum enumName) {
+      if (enumName == null)
+        throw new Exception("enumName is null");
+      return new ExpDataType() {
+        EnumName = enumName,
+      };
+    }
+
     internal ExpDataType(Member member) {
       if (member is X10Attribute attr)
         DataType = attr.DataType;
@@ -58,6 +68,8 @@ namespace x10.formula {
         return Entity.Name;
       if (IsPrimitive)
         return DataType.Name;
+      if (IsEnumName)
+        return EnumName.Name;
       if (IsError)
         return "Error";
       if (IsNull)
@@ -72,6 +84,8 @@ namespace x10.formula {
           return Entity == other.Entity;
         if (IsPrimitive && other.IsPrimitive)
           return DataType == other.DataType;
+        if (IsEnumName && other.IsEnumName)
+          return EnumName == other.EnumName;
         if (IsNull && other.IsNull)
           return true;
         if (IsError && other.IsError)
@@ -86,6 +100,8 @@ namespace x10.formula {
         return Entity.GetHashCode();
       if (IsPrimitive)
         return DataType.GetHashCode();
+      if (IsEnumName)
+        return EnumName.GetHashCode();
       if (IsNull || IsError)
         return GetHashCode();
       throw new Exception("Should never be here");

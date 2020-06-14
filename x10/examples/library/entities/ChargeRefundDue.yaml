@@ -13,7 +13,7 @@ attributes:
 
   - name: descriptionString
     dataType: String
-    applicableWhen: descriptionEnum == other
+    applicableWhen: =descriptionEnum == DescriptionEnum.other
 
   - name: timestamp
     dataType: Timestamp

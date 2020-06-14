@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using x10.model.definition;
+using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.formula {
@@ -15,7 +16,17 @@ namespace x10.formula {
 
     public override ExpDataType DetermineType(ExpDataType rootType) {
       ExpDataType expressionDataType = Expression.DetermineType(rootType);
+      if (expressionDataType.IsEnumName)
+        return GetEnumValue(expressionDataType.EnumName);
       return GetMemberAccessDataType(this, Parser.Errors, expressionDataType, MemberName);
+    }
+
+    private ExpDataType GetEnumValue(DataTypeEnum enumType) {
+      if (enumType.HasEnumValue(MemberName))
+        return new ExpDataType(enumType);
+
+      Parser.Errors.AddError(this, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
+      return ExpDataType.ERROR;
     }
 
     internal static ExpDataType GetMemberAccessDataType(ExpBase expression, MessageBucket errors, ExpDataType type, string memberName) {

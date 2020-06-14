@@ -10,12 +10,14 @@ namespace x10.formula {
 
     public const string CONTEXT_NAME = "__Context__";
 
-    internal MessageBucket Errors;
-    internal AllEntities AllEntities;
+    internal readonly MessageBucket Errors;
+    internal readonly AllEntities AllEntities;
+    internal readonly AllEnums AllEnums;
 
-    public FormulaParser(MessageBucket errors, AllEntities allEntities) {
+    public FormulaParser(MessageBucket errors, AllEntities allEntities, AllEnums allEnums) {
       Errors = errors;
       AllEntities = allEntities;
+      AllEnums = allEnums;
     }
 
     public ExpBase Parse(IParseElement element, string formula, ExpDataType rootType) {

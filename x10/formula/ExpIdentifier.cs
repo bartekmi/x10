@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using x10.model.definition;
+using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.formula {
@@ -25,6 +26,10 @@ namespace x10.formula {
         Parser.Errors.AddError(this, "In this context, there is no Entity to access");
         return ExpDataType.ERROR;
       }
+
+      DataTypeEnum enumName = Parser.AllEnums.FindEnumErrorIfMultiple(Name, this);
+      if (enumName != null)
+        return ExpDataType.CreateEnumNameTemporaryType(enumName);
 
       return ExpMemberAccess.GetMemberAccessDataType(this, Parser.Errors, rootType, Name);
     }

@@ -9,7 +9,7 @@ attributes:
 
   - name: dueDate
     dataType: Date
-    applicableWhen: isOpen == normal
+    applicableWhen: =isOpen == IsOpen.normal
     mandatory: true
     validations:
       - message: Due Date must be later than the Check-Out Date. A Due Date is necessary unless it is an open loan.
