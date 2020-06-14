@@ -11,9 +11,13 @@ namespace x10.formula {
     public ExpBase Left { get; set; }
     public ExpBase Right { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
-      ExpDataType leftType = Left.DetermineType(errors, context, rootType);
-      ExpDataType rightType = Right.DetermineType(errors, context, rootType);
+    public ExpBinary(FormulaParser parser) : base(parser) { 
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
+      ExpDataType leftType = Left.DetermineType(rootType);
+      ExpDataType rightType = Right.DetermineType(rootType);
 
       if (leftType.IsError || rightType.IsError)
         return ExpDataType.ERROR;
@@ -23,11 +27,11 @@ namespace x10.formula {
         case "/":
         case "*":
           if (!leftType.IsNumeric || !rightType.IsNumeric)
-            return MismatchTypeError(errors, leftType, rightType);
+            return MismatchTypeError(leftType, rightType);
           return ResultOfNumericOperation(leftType, rightType);
         case "%":
           if (!leftType.IsInteger || !rightType.IsInteger)
-            return MismatchTypeError(errors, leftType, rightType);
+            return MismatchTypeError(leftType, rightType);
           return ExpDataType.Integer;
         case "+":
           if (leftType.IsNumeric && rightType.IsNumeric)
@@ -36,11 +40,11 @@ namespace x10.formula {
           if (leftType.IsString || rightType.IsString)
             return ExpDataType.String;
 
-          return MismatchTypeError(errors, leftType, rightType);
+          return MismatchTypeError(leftType, rightType);
         case "&&":
         case "||":
           if (!leftType.IsBoolean || !rightType.IsBoolean)
-            return MismatchTypeError(errors, leftType, rightType);
+            return MismatchTypeError(leftType, rightType);
           return ExpDataType.Boolean;
         case ">":
         case "<":
@@ -50,25 +54,25 @@ namespace x10.formula {
               leftType.IsComparable && rightType.IsComparable &&
               leftType.DataType == rightType.DataType)
             return ExpDataType.Boolean;
-          return MismatchTypeError(errors, leftType, rightType);
+          return MismatchTypeError(leftType, rightType);
         case "==":
         case "!=":
           if (leftType.IsNumeric && rightType.IsNumeric ||
               leftType.Equals(rightType) ||
               leftType.IsError || rightType.IsError)
             return ExpDataType.Boolean;
-          return MismatchTypeError(errors, leftType, rightType);
+          return MismatchTypeError(leftType, rightType);
         default:
-          errors.AddError(this, "Unexpected token: " + Token);
+          Parser.Errors.AddError(this, "Unexpected token: " + Token);
           return ExpDataType.ERROR;
       }
     }
 
-    private ExpDataType MismatchTypeError(MessageBucket errors, ExpDataType left, ExpDataType right) {
+    private ExpDataType MismatchTypeError(ExpDataType left, ExpDataType right) {
       string message = string.Format("Cannot {0} {1} and {2}",
         TokenToOperationName(), left, right);
 
-      errors.AddError(this, message);
+      Parser.Errors.AddError(this, message);
 
       return ExpDataType.ERROR;
     }

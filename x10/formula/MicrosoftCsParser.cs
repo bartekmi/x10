@@ -9,54 +9,54 @@ using x10.parsing;
 
 namespace x10.formula {
   public static class MicrosoftCsParser {
-    public static ExpBase Parse(MessageBucket errors, IParseElement element, string formula) {
+    public static ExpBase Parse(FormulaParser parser, IParseElement element, string formula) {
       CSharpParseOptions options = CSharpParseOptions.Default;
       ExpressionSyntax expression = SyntaxFactory.ParseExpression(formula, 0, options, true);
 
       foreach (Diagnostic diagnostic in expression.GetDiagnostics())
-        errors.Messages.Add(CreateMessage(element, diagnostic));
+        parser.Errors.Messages.Add(CreateMessage(parser, element, diagnostic));
 
-      return ConvertToExpBase(element, expression);
+      return ConvertToExpBase(parser, element, expression);
     }
 
-    private static ExpBase ConvertToExpBase(IParseElement element, ExpressionSyntax expression) {
+    private static ExpBase ConvertToExpBase(FormulaParser parser, IParseElement element, ExpressionSyntax expression) {
       ExpBase x10Expression;
       TextSpan? span = null;
 
       if (expression is BinaryExpressionSyntax binary) {
-        x10Expression = new ExpBinary() {
+        x10Expression = new ExpBinary(parser) {
           Token = binary.OperatorToken.ToString(),
-          Left = ConvertToExpBase(element, binary.Left),
-          Right = ConvertToExpBase(element, binary.Right),
+          Left = ConvertToExpBase(parser, element, binary.Left),
+          Right = ConvertToExpBase(parser, element, binary.Right),
         };
         span = binary.OperatorToken.Span;
       } else if (expression is LiteralExpressionSyntax literal) {
-        x10Expression = new ExpLiteral() {
+        x10Expression = new ExpLiteral(parser) {
           Value = literal.Token.Value,
         };
       } else if (expression is ParenthesizedExpressionSyntax parenth) {
-        x10Expression = new ExpParenthesized() {
-          Expression = ConvertToExpBase(element, parenth.Expression),
+        x10Expression = new ExpParenthesized(parser) {
+          Expression = ConvertToExpBase(parser, element, parenth.Expression),
         };
       } else if (expression is IdentifierNameSyntax identifier) {
-        x10Expression = new ExpIdentifier() {
+        x10Expression = new ExpIdentifier(parser) {
           Name = identifier.Identifier.ToString(),
         };
       } else if (expression is MemberAccessExpressionSyntax member) {
-        x10Expression = new ExpMemberAccess() {
-          Expression = ConvertToExpBase(element, member.Expression),
+        x10Expression = new ExpMemberAccess(parser) {
+          Expression = ConvertToExpBase(parser, element, member.Expression),
           MemberName = member.Name.ToString(),
         };
         span = member.Name.Identifier.Span;
       } else if (expression is InvocationExpressionSyntax invoke) {
-        x10Expression = new ExpInvocation() {
+        x10Expression = new ExpInvocation(parser) {
           FunctionName = ((IdentifierNameSyntax)invoke.Expression).ToString(),
           Arguments = new List<ExpBase>(),
         };
         foreach (ArgumentSyntax arg in invoke.ArgumentList.Arguments)
-          ((ExpInvocation)x10Expression).Arguments.Add(ConvertToExpBase(element, arg.Expression));
+          ((ExpInvocation)x10Expression).Arguments.Add(ConvertToExpBase(parser, element, arg.Expression));
       } else {
-        x10Expression = new ExpUnknown() {
+        x10Expression = new ExpUnknown(parser) {
           DiagnosticMessage = "Unexpected Node Type: " + expression.GetType().Name,
         };
       }
@@ -70,8 +70,8 @@ namespace x10.formula {
       x10Expression.SetRelativeTo(source, textSpan.Start, textSpan.End);
     }
 
-    private static CompileMessage CreateMessage(IParseElement element, Diagnostic diagnostic) {
-      ExpBase dummyExpression = new ExpUnknown();
+    private static CompileMessage CreateMessage(FormulaParser parser, IParseElement element, Diagnostic diagnostic) {
+      ExpBase dummyExpression = new ExpUnknown(parser);
       SetFilePosition(element, dummyExpression, diagnostic.Location.SourceSpan);
 
       return new CompileMessage() {

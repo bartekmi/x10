@@ -9,16 +9,24 @@ namespace x10.formula {
   public class ExpIdentifier : ExpBase {
     public string Name { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
-      if (Name == FormulaParser.CONTEXT_NAME)
+    public ExpIdentifier(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
+      if (Name == FormulaParser.CONTEXT_NAME) {
+        Entity context = Parser.AllEntities.FindContextEntityWithError(this);
+        if (context == null)
+          return ExpDataType.ERROR;
         return new ExpDataType(context);
+      }
 
       if (rootType == null) {
-        errors.AddError(this, "In this context, there is no Entity to access");
+        Parser.Errors.AddError(this, "In this context, there is no Entity to access");
         return ExpDataType.ERROR;
       }
 
-      return ExpMemberAccess.GetMemberAccessDataType(this, errors, rootType, Name);
+      return ExpMemberAccess.GetMemberAccessDataType(this, Parser.Errors, rootType, Name);
     }
   }
 }

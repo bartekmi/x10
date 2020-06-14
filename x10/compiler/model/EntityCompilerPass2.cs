@@ -7,6 +7,7 @@ using x10.parsing;
 using x10.model.metadata;
 using x10.model.definition;
 using x10.model;
+using x10.formula;
 
 namespace x10.compiler {
   public class EntityCompilerPass2 {
@@ -26,19 +27,28 @@ namespace x10.compiler {
     }
 
     internal void CompileAllEntities() {
+      VerifyUniquenessOfAllEntityNames();
+      VerifyUniquenessOfAllEnumNames();
+      InvokePass2_Actions();
+      VerifyUniquenessOfMemberNamesInInheritance();
+      VerifyAllFormulas();
+    }
 
-      // Verify Uniqueness of all Entity names
+    private void VerifyUniquenessOfAllEntityNames() {
       UniquenessChecker.Check("name",
         _allEntities.All,
         Messages,
         "The Entity name '{0}' is not unique.");
+    }
 
-      // Verify Uniqueness of all Enum names
+    private void VerifyUniquenessOfAllEnumNames() {
       UniquenessChecker.Check("name",
         _allEnums.All,
         Messages,
         "The Enum name '{0}' is not unique.");
+    }
 
+    private void InvokePass2_Actions() {
       // If any of the ModelAttributeValue's - either for the entity, or
       // for any members - have a Pass-2 action, invoke it.
       // Examples of Pass-2 actions are hydrating 'InheritsFrom' and 'ReferencedEntity'
@@ -53,18 +63,6 @@ namespace x10.compiler {
             value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, member, value);
           }
       }
-
-      // Verify Uniqueness of all member names within inheritance hierarchies
-      // We can't put this in Pass 2 action of attribute definition
-      // because we can't guarantee that the entire inheritance tree has been "hydrated"
-      // when Pass 2 above is running
-      // However, inheritance hierarchy is full done at this point.
-      foreach (Entity entity in _allEntities.All) {
-        UniquenessChecker.Check("name",
-          entity.Members,
-          Messages,
-          "The name '{0}' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).");
-      }
     }
 
     private void ConvertValueToDataTypeOfAttribute(X10Attribute attr, ModelAttributeValue value) {
@@ -78,6 +76,40 @@ namespace x10.compiler {
         object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
         value.Value = typedValue;
         AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
+      }
+    }
+
+
+    private void VerifyUniquenessOfMemberNamesInInheritance() {
+      // Verify Uniqueness of all member names within inheritance hierarchies
+      // We can't put this in Pass 2 action of attribute definition
+      // because we can't guarantee that the entire inheritance tree has been "hydrated"
+      // when Pass 2 above is running
+      // However, inheritance hierarchy is full done at this point.
+      foreach (Entity entity in _allEntities.All) {
+        UniquenessChecker.Check("name",
+          entity.Members,
+          Messages,
+          "The name '{0}' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).");
+      }
+    }
+
+
+    private void VerifyAllFormulas() {
+      FormulaParser parser = new FormulaParser(Messages, _allEntities);
+      Entity context = null;// TODO!!! _allEntities.FindContextEntityWithError()
+
+      foreach (Entity entity in _allEntities.All) {
+        ExpDataType dataType = new ExpDataType(entity);
+
+        foreach (ModelAttributeValue value in entity.AttributeValues)
+          if (value.Formula != null)
+            parser.Parse(value.TreeElement, value.Formula, dataType);
+
+        foreach (Member member in entity.LocalMembers)
+          foreach (ModelAttributeValue value in member.AttributeValues)
+            if (value.Formula != null)
+              parser.Parse(value.TreeElement, value.Formula, dataType);
       }
     }
   }

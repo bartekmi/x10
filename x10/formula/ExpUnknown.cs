@@ -8,10 +8,14 @@ namespace x10.formula {
   public class ExpUnknown : ExpBase {
     public string DiagnosticMessage { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
+    public ExpUnknown(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
       // If a message is present, report it
       if (DiagnosticMessage != null)
-        errors.AddError(this, DiagnosticMessage);
+        Parser.Errors.AddError(this, DiagnosticMessage);
       return ExpDataType.ERROR;
     }
   }

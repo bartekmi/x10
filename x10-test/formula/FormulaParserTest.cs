@@ -95,7 +95,8 @@ attributes:
     private void TestExpectedSuccess(string formula, DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
-      ExpBase expression = FormulaParser.Parse(errors, element, formula, new Entity(), new ExpDataType(_entity));
+      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]));
+      ExpBase expression = parser.Parse(element, formula, new ExpDataType(_entity));
       TestUtils.DumpMessages(errors, _output);
 
       Assert.Equal(0, errors.Count);
@@ -113,7 +114,8 @@ attributes:
         },
       };
 
-      FormulaParser.Parse(errors, element, formula, new Entity(), new ExpDataType(_entity));
+      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]));
+      parser.Parse(element, formula, new ExpDataType(_entity));
       TestUtils.DumpMessages(errors, _output);
       Assert.Equal(1, errors.Count);
 

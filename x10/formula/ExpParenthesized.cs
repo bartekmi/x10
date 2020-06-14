@@ -8,8 +8,12 @@ namespace x10.formula {
   public class ExpParenthesized : ExpBase {
     public ExpBase Expression { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
-      return Expression.DetermineType(errors, context, rootType);
+    public ExpParenthesized(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
+      return Expression.DetermineType(rootType);
     }
   }
 }

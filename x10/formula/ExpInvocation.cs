@@ -9,10 +9,14 @@ namespace x10.formula {
     public string FunctionName { get; set; }
     public List<ExpBase> Arguments { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
+    public ExpInvocation(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
       // TODO... Potentially need external source of function signatures
       foreach (ExpBase argumentExpression in Arguments)
-        argumentExpression.DetermineType(errors, context, rootType);
+        argumentExpression.DetermineType(rootType);
 
       return ExpDataType.NULL;
     }

@@ -9,9 +9,13 @@ namespace x10.formula {
     public ExpBase Expression { get; set; }
     public string MemberName { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
-      ExpDataType expressionDataType = Expression.DetermineType(errors, context, rootType);
-      return GetMemberAccessDataType(this, errors, expressionDataType, MemberName);
+    public ExpMemberAccess(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
+      ExpDataType expressionDataType = Expression.DetermineType(rootType);
+      return GetMemberAccessDataType(this, Parser.Errors, expressionDataType, MemberName);
     }
 
     internal static ExpDataType GetMemberAccessDataType(ExpBase expression, MessageBucket errors, ExpDataType type, string memberName) {

@@ -9,7 +9,11 @@ namespace x10.formula {
   public class ExpLiteral : ExpBase {
     public object Value { get; set; }
 
-    public override ExpDataType DetermineType(MessageBucket errors, Entity context, ExpDataType rootType) {
+    public ExpLiteral(FormulaParser parser) : base(parser) {
+      // Do nothing
+    }
+
+    public override ExpDataType DetermineType(ExpDataType rootType) {
       if (Value is string)
         return new ExpDataType(DataTypes.Singleton.String);
       if (Value is int)
@@ -23,7 +27,7 @@ namespace x10.formula {
 
       // TODO: Deal with legitimate null
 
-      errors.AddError(this, "Unexpected Data Type: " + Value.GetType().Name);
+      Parser.Errors.AddError(this, "Unexpected Data Type: " + Value.GetType().Name);
       return ExpDataType.ERROR;
     }
   }
