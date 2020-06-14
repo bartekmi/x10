@@ -20,7 +20,7 @@ attributes:
 derivedAttributes:
   - name: arrivalDate
     dataType: Timestamp
-    formula: actuaArrival ?? estimatedArrival
+    formula: =actualArrival ?? estimatedArrival
 
 associations:
   - name: location

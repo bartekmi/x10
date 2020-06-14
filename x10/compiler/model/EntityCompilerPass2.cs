@@ -70,9 +70,7 @@ namespace x10.compiler {
         return;
 
       string stringValue = value.Value.ToString();
-      if (AttributeReader.IsFormula(stringValue, out string strippedFormula))
-        value.Formula = strippedFormula;
-      else {
+      if (!AttributeReader.IsFormula(stringValue, out string _)) { 
         object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
         value.Value = typedValue;
         AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
@@ -102,13 +100,24 @@ namespace x10.compiler {
         ExpDataType dataType = new ExpDataType(entity);
 
         foreach (ModelAttributeValue value in entity.AttributeValues)
-          if (value.Formula != null)
-            parser.Parse(value.TreeElement, value.Formula, dataType);
+          CheckIfFormulaAndParse(parser, dataType, value);
 
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
-            if (value.Formula != null)
-              parser.Parse(value.TreeElement, value.Formula, dataType);
+            CheckIfFormulaAndParse(parser, dataType, value);
+      }
+    }
+
+    private void CheckIfFormulaAndParse(FormulaParser parser, ExpDataType dataType, ModelAttributeValue value) {
+      if (value.Definition is ModelAttributeDefinitionAtomic atomicDef && value.Value != null) {
+        string stringValue = value.Value.ToString();
+        if (AttributeReader.IsFormula(stringValue, out string strippedFormula)) {
+          value.Formula = strippedFormula;
+          parser.Parse(value.TreeElement, strippedFormula, dataType);
+        } else {
+          if (atomicDef.DataType == DataTypes.Singleton.Formula)
+            Messages.AddError(value.TreeElement, "Attribute '{0}' must be a formula (must start with '=').", atomicDef.Name);
+        }
       }
     }
   }

@@ -22,10 +22,8 @@ attributes:
 derivedAttributes:
   - name: dueDateHuman
     dataType: String
-    formula: =FUTURE
-  - name: completeByHuman
-    dataType: String
-    formula: =FUTURE
+    label: Due Date
+    formula: =ToHuman(dueDate)
 
 enums:
   - name: TaskStatus
