@@ -23,14 +23,14 @@ attributes:
   - name: cargoReadyDate
     dataType: Date
     mandatory: true
-    datagen_min: =$CURRENT_DATE - 100
-    datagen_max: =$CURRENT_DATE + 50
+    datagen_min: 2020-03-15
+    datagen_max: 2020-07-15
 
   - name: targetDeliveryDate
     dataType: Date
     datagen_pattern: (75% => null)
-    datagen_min: =$CURRENT_DATE - 100
-    datagen_max: =$CURRENT_DATE + 50
+    datagen_min: 2020-03-15
+    datagen_max: 2020-07-15
     validations:
       - message: Target Delivery Date can't be before Cargo Ready Date
         trigger: targetDeliveryDate < cargoReadyDate

@@ -119,8 +119,16 @@ namespace x10.compiler {
       }
     }
 
-    internal static bool IsFormula(string valueOrFormula) {
-      return valueOrFormula.Trim().StartsWith("=");
+    internal static bool IsFormula(string valueOrFormula, out string strippedFormula) {
+      string trimmed = valueOrFormula.Trim();
+
+      if (trimmed.StartsWith("=")) {
+        strippedFormula = trimmed.Substring(1);
+        return true;
+      }
+
+      strippedFormula = null;
+      return false;
     }
   }
 }

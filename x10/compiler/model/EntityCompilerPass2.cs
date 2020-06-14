@@ -70,8 +70,8 @@ namespace x10.compiler {
         return;
 
       string stringValue = value.Value.ToString();
-      if (AttributeReader.IsFormula(stringValue))
-        value.Formula = stringValue;
+      if (AttributeReader.IsFormula(stringValue, out string strippedFormula))
+        value.Formula = strippedFormula;
       else {
         object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
         value.Value = typedValue;
@@ -97,7 +97,6 @@ namespace x10.compiler {
 
     private void VerifyAllFormulas() {
       FormulaParser parser = new FormulaParser(Messages, _allEntities);
-      Entity context = null;// TODO!!! _allEntities.FindContextEntityWithError()
 
       foreach (Entity entity in _allEntities.All) {
         ExpDataType dataType = new ExpDataType(entity);
