@@ -12,12 +12,12 @@ using x10.model.definition;
 namespace x10.model.metadata {
   public class DataTypeEnum : DataType, IAcceptsModelAttributeValues {
     public List<EnumValue> EnumValues { get; private set; }
+    public string UiName { get; set; }
+    public bool IsDefinedInEnumsFile { get; set; }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }
     public TreeElement TreeElement { get; set; }
-    public string UiName { get; set; }
-    public bool IsDefinedInEnumsFile { get; set; }
 
     public DataTypeEnum() {
       EnumValues = new List<EnumValue>();

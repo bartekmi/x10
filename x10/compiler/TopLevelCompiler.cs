@@ -19,10 +19,12 @@ namespace x10.compiler {
       _libraries = libraries;
     }
 
-    internal void Compile(string rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions) {
+    internal void Compile(string rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFunctions, out AllUiDefinitions allUiDefinitions) {
       // Parse Entities
       allEnums = new AllEnums(_messages);
-      EntitiesAndEnumsCompiler entityCompiler = new EntitiesAndEnumsCompiler(_messages, allEnums);
+      allFunctions = new AllFunctions(_messages);
+
+      EntitiesAndEnumsCompiler entityCompiler = new EntitiesAndEnumsCompiler(_messages, allEnums, allFunctions);
       List<Entity> entities = entityCompiler.Compile(rootDir);
       allEntities = new AllEntities(_messages, entities);
 

@@ -29,7 +29,7 @@ namespace x10.gen.sql {
       string INPUT_DIR = "../../../../x10/examples/flexport";
       string OUTPUT_FILE = @"C:\TEMP\x10_schema.sql";
 
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
 
       Assert.False(_messages.HasErrors);
@@ -210,7 +210,7 @@ ALTER TABLE ""other"" ADD CONSTRAINT other_entity_id_fkey FOREIGN KEY(entity_id)
 
     #region Utils
     private void RunTest(string expected, params string[] yamls) {
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yamls);
 
       TestUtils.DumpMessages(_messages, _output);

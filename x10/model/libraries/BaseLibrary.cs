@@ -39,7 +39,8 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute |
+          AppliesTo.EnumType | AppliesTo.Function | AppliesTo.FunctionArgument,
         ErrorSeverityIfMissing = CompileMessageSeverity.Warning,
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
         DataType = DataTypes.Singleton.String,
@@ -324,6 +325,58 @@ Typical use would be if entities are going to be represented on a drop-down.",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();
         }
+      },
+
+      //============================================================================
+      // Function & FunctionArgument
+      new ModelAttributeDefinitionAtomic() {
+        Name = "name",
+        Description = "The name of the function. Must be upper-case.",
+        AppliesTo = AppliesTo.Function,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Setter = "Name",
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          string name = scalarNode.Value.ToString();
+          ModelValidationUtils.ValidateFunctionName(name, scalarNode, messages);
+        }
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "returnDataType",
+        Description = "The return type of the Function.",
+        AppliesTo = AppliesTo.Function,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
+          Function func = (Function)modelComponent;
+          string dataTypeName = attributeValue.Value?.ToString();
+          func.ReturnType = allEnums.FindDataTypeByNameWithError(dataTypeName, attributeValue.TreeElement);
+        },
+      },
+
+      new ModelAttributeDefinitionAtomic() {
+        Name = "name",
+        Description = "The name of the function argument. Must be lower-case.",
+        AppliesTo = AppliesTo.FunctionArgument,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Setter = "Name",
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          string name = scalarNode.Value.ToString();
+          ModelValidationUtils.ValidateFunctionArgumentName(name, scalarNode, messages);
+        }
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "dataType",
+        Description = "The data type of the Function Argument.",
+        AppliesTo = AppliesTo.FunctionArgument,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
+          Argument arg = (Argument)modelComponent;
+          string dataTypeName = attributeValue.Value?.ToString();
+          arg.Type = allEnums.FindDataTypeByNameWithError(dataTypeName, attributeValue.TreeElement);
+        },
       },
     };
   }

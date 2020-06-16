@@ -78,6 +78,16 @@ namespace x10.model {
       return Validate(Style.LowerCamelCaseOrAllCaps, enumValue, "Enum value", examples, element, messages);
     }
 
+    public static bool ValidateFunctionName(string functionName, IParseElement element, MessageBucket messages) {
+      string examples = "'ToHumandReadable'";
+      return Validate(Style.UpperCamelCase, functionName, "Function name", examples, element, messages);
+    }
+
+    public static bool ValidateFunctionArgumentName(string argumentName, IParseElement element, MessageBucket messages) {
+      string examples = "'book', 'dateTime'";
+      return Validate(Style.LowerCamelCase, argumentName, "Function Argument name", examples, element, messages);
+    }
+
     private static bool Is(Style style, string text) {
       return Validate(style, text, null, null, null, null);
     }

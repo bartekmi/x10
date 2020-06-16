@@ -21,7 +21,11 @@ namespace x10.gen.wpf {
     [Fact]
     public void Generate() {
       string sourceDir = "../../../../x10/examples/flexport";
-      LargeDemoTest.CompileEverything(_output, _messages, sourceDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
+      LargeDemoTest.CompileEverything(_output, _messages, sourceDir, 
+        out AllEntities allEntities, 
+        out AllEnums allEnums, 
+        out AllFunctions allFuncs,
+        out AllUiDefinitions allUiDefinitions);
 
       string targetDir = "../../../../wpf_generated/__generated__";
       WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, "wpf_generated", allEntities, allEnums, allUiDefinitions);

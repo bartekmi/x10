@@ -29,7 +29,7 @@ namespace x10.gen.sql {
       string INPUT_DIR = "../../../../x10/examples/flexport";
       string OUTPUT_FILE = @"C:\TEMP\x10_flexport_data.sql";
 
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
 
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
@@ -372,7 +372,7 @@ attributes:
     #endregion
 
     private void RunTest(string expected, params string[] yamls) {
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yamls);
 
       FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
@@ -386,7 +386,7 @@ attributes:
     }
 
     private void RunTestExpectingError(string yaml, string expectedErrorMessage) {
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yaml);
 
       TestUtils.DumpMessages(_messages, _output);

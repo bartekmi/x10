@@ -13,10 +13,12 @@ namespace x10.compiler {
 
     private readonly MessageBucket _messages;
     private readonly AllEnums _allEnums;
+    private readonly AllFunctions _allFunctions;
 
-    public EntitiesAndEnumsCompiler(MessageBucket messages, AllEnums allEnums) {
+    public EntitiesAndEnumsCompiler(MessageBucket messages, AllEnums allEnums, AllFunctions allFunctions) {
       _messages = messages;
       _allEnums = allEnums;
+      _allFunctions = allFunctions;
     }
 
     public List<Entity> CompileFromYamlStrings(params string[] yamls) {
@@ -38,17 +40,24 @@ namespace x10.compiler {
       List<Entity> entities = new List<Entity>();
       AttributeReader attrReader = new AttributeReader(_messages);
       EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
+      FunctionsCompiler functions = new FunctionsCompiler(_messages, _allFunctions, attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
         if (IsEnumFile(rootNode.FileInfo.FilePath))
           enums.CompileEnumFile(rootNode);
-        else {
+        else if (IsFunctionFile(rootNode.FileInfo.FilePath)) {
+          // Do nothing
+        } else {
           Entity entity = pass1.CompileEntity(rootNode);
           if (!string.IsNullOrWhiteSpace(entity?.Name))
             entities.Add(entity);
         }
       }
+
+      foreach (TreeNode rootNode in rootNodes) 
+        if (IsFunctionFile(rootNode.FileInfo.FilePath))
+          functions.CompileFunctionsFile(rootNode);
 
       // Pass 2
       AllEntities allEntities = new AllEntities(_messages, entities);
@@ -60,6 +69,10 @@ namespace x10.compiler {
 
     private static bool IsEnumFile(string path) {
       return path.ToLower().EndsWith("enums.yaml");
+    }
+
+    private static bool IsFunctionFile(string path) {
+      return path.ToLower().EndsWith("functions.yaml");
     }
   }
 }

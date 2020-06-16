@@ -95,6 +95,10 @@ namespace x10.model.metadata {
           return typeof(DataTypeEnum);
         case AppliesTo.EnumValue:
           return typeof(EnumValue);
+        case AppliesTo.Function:
+          return typeof(Function);
+        case AppliesTo.FunctionArgument:
+          return typeof(Argument);
         default:
           throw new Exception("Unexpected AppliesTo: " + singleAppliedTo);
       }

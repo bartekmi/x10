@@ -31,7 +31,7 @@ namespace x10.compiler {
     [Fact]
     public void CompileLibraryEntityFiles() {
       string rootDir = "../../../../x10/examples/library";
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       compiler.Compile(rootDir);
 
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);

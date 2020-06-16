@@ -25,7 +25,7 @@ namespace x10.compiler {
     [Fact]
     public void CompileEntityFiles() {
       string rootDir = "../../../../x10/examples/flexport";
-      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages));
+      EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       compiler.Compile(rootDir);
 
       TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
@@ -37,14 +37,14 @@ namespace x10.compiler {
     [Fact]
     public void CompileEverythingTest() {
       string rootDir = "../../../../x10/examples/flexport";
-      CompileEverything(_output, _messages, rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions);
+      CompileEverything(_output, _messages, rootDir, out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFuncs, out AllUiDefinitions allUiDefinitions);
 
       int errorCount = _messages.FilteredMessages(CompileMessageSeverity.Error).Count();
       Assert.Equal(0, errorCount);
     }
 
     internal static void CompileEverything(ITestOutputHelper output, MessageBucket messages, string rootDir,
-      out AllEntities allEntities, out AllEnums allEnums, out AllUiDefinitions allUiDefinitions) {
+      out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFunctions, out AllUiDefinitions allUiDefinitions) {
 
       IEnumerable<UiLibrary> libraries = new UiLibrary[] {
         BaseLibrary.Singleton(),
@@ -59,7 +59,7 @@ namespace x10.compiler {
         }
 
       TopLevelCompiler compiler = new TopLevelCompiler(messages, libraries);
-      compiler.Compile(rootDir, out allEntities, out allEnums, out allUiDefinitions);
+      compiler.Compile(rootDir, out allEntities, out allEnums, out allFunctions, out allUiDefinitions);
 
       TestUtils.DumpMessages(messages, output, CompileMessageSeverity.Error);
     }

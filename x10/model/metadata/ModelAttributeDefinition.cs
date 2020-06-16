@@ -13,6 +13,8 @@ namespace x10.model.metadata {
     DerivedAttribute = 8,
     EnumType = 16,
     EnumValue = 32,
+    Function = 64,
+    FunctionArgument = 128,
   }
 
   internal static class AppliesToHelper {
