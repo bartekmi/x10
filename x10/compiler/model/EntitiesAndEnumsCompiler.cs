@@ -40,7 +40,7 @@ namespace x10.compiler {
       List<Entity> entities = new List<Entity>();
       AttributeReader attrReader = new AttributeReader(_messages);
       EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
-      FunctionsCompiler functions = new FunctionsCompiler(_messages, _allFunctions, attrReader);
+      FunctionsCompiler functions = new FunctionsCompiler(_messages, null, _allEnums, _allFunctions, attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
@@ -55,6 +55,7 @@ namespace x10.compiler {
         }
       }
 
+      // Functions
       foreach (TreeNode rootNode in rootNodes) 
         if (IsFunctionFile(rootNode.FileInfo.FilePath))
           functions.CompileFunctionsFile(rootNode);
