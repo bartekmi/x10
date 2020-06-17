@@ -13,11 +13,13 @@ namespace x10.formula {
     internal readonly MessageBucket Errors;
     internal readonly AllEntities AllEntities;
     internal readonly AllEnums AllEnums;
+    internal readonly AllFunctions AllFunctions;
 
-    public FormulaParser(MessageBucket errors, AllEntities allEntities, AllEnums allEnums) {
+    public FormulaParser(MessageBucket errors, AllEntities allEntities, AllEnums allEnums, AllFunctions allFunctions) {
       Errors = errors;
       AllEntities = allEntities;
       AllEnums = allEnums;
+      AllFunctions = allFunctions;
     }
 
     public ExpBase Parse(IParseElement element, string formula, ExpDataType rootType) {

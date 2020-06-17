@@ -63,7 +63,7 @@ namespace x10.model.metadata {
     }
 
     public override string ToString() {
-      return "DataType: " + Name;
+      return Name;
     }
 
     // Enum-related functions. At some point, we may extract an derived class for this

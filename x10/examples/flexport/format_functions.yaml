@@ -1,0 +1,5 @@
+﻿- name: ToHuman
+  returnDataType: String
+  arguments:
+    - name: time
+      dataType: Timestamp

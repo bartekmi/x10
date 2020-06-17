@@ -34,6 +34,12 @@ namespace x10.compiler {
         CompileFunction(funcRootNode);
     }
 
+    internal void CompileFunctionFromString(string yaml) {
+      ParserYaml parser = new ParserYaml(_messages, null);
+      TreeNode rootNode = parser.ParseFromString(yaml);
+      CompileFunction(rootNode);
+    }
+
     internal void CompileFunction(TreeNode funcRootNode) {
       TreeHash funcHash = AttributeReader.EnsureObjectWithAttributresIsHash(funcRootNode, _messages);
       if (funcHash == null)

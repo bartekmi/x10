@@ -64,8 +64,11 @@ namespace x10.model {
     }
 
     internal Function FindFunctionErrorIfMultiple(string name, IParseElement parseElement) {
-      if (!_functionsByName.TryGetValue(name, out List<Function> functions)) 
+      if (!_functionsByName.TryGetValue(name, out List<Function> functions)) {
+        _messages.AddError(parseElement,
+          string.Format("Function '{0}' is not defined", name));
         return null;
+      }
 
       if (functions.Count > 1) {
         _messages.AddError(parseElement,

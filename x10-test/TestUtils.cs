@@ -62,9 +62,9 @@ namespace x10 {
     }
 
 
-    public static void EntityCompilePass2(MessageBucket _messages, AllEnums _allEnums, params Entity[] entities) {
-      AllEntities allEntities = new AllEntities(_messages, entities);
-      EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums);
+    public static void EntityCompilePass2(MessageBucket messages, AllEnums allEnums, params Entity[] entities) {
+      AllEntities allEntities = new AllEntities(messages, entities);
+      EntityCompilerPass2 pass2 = new EntityCompilerPass2(messages, allEntities, allEnums, null);
       pass2.CompileAllEntities();
     }
 

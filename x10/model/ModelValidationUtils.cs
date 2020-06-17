@@ -16,9 +16,9 @@ namespace x10.model {
       LowerCamelCaseOrAllCaps,
     }
 
-    private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("^[A-Z][a-zA-Z0-9]+$");
-    private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]+$");
-    private readonly static Regex ALL_CAPS = new Regex("^[A-Z0-9_]+$");
+    private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("^[A-Z][a-zA-Z0-9]*$");
+    private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]*$");
+    private readonly static Regex ALL_CAPS = new Regex("^[A-Z][A-Z0-9_]*$");
 
     public static bool ValidateEntityName(string entityName, IParseElement element, MessageBucket messages) {
       if (entityName == CONTEXT_ENTITY_NAME)

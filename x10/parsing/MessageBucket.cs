@@ -7,6 +7,8 @@ namespace x10.parsing {
 
     // Derived
     public bool HasErrors { get { return Messages.Any(x => x.Severity == CompileMessageSeverity.Error); } }
+    public int ErrorCount { get { return Messages.Count(x => x.Severity == CompileMessageSeverity.Error); } }
+    public IEnumerable<CompileMessage> Errors { get { return Messages.Where(x => x.Severity == CompileMessageSeverity.Error); } }
     public bool IsEmpty { get { return Messages.Count == 0; } }
     public int Count { get { return Messages.Count; } }
 

@@ -15,15 +15,18 @@ namespace x10.compiler {
     public MessageBucket Messages { get; private set; }
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
+    private readonly AllFunctions _allFunctions;
 
     public EntityCompilerPass2(
       MessageBucket messages,
       AllEntities allEntities,
-      AllEnums allEnums) {
+      AllEnums allEnums,
+      AllFunctions allFunctions) {
 
       Messages = messages;
       _allEntities = allEntities;
       _allEnums = allEnums;
+      _allFunctions = allFunctions;
     }
 
     internal void CompileAllEntities() {
@@ -94,7 +97,7 @@ namespace x10.compiler {
 
 
     private void VerifyAllFormulas() {
-      FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums);
+      FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums, _allFunctions);
 
       foreach (Entity entity in _allEntities.All) {
         ExpDataType dataType = new ExpDataType(entity);
