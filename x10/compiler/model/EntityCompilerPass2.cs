@@ -34,7 +34,7 @@ namespace x10.compiler {
       VerifyUniquenessOfAllEnumNames();
       InvokePass2_Actions();
       VerifyUniquenessOfMemberNamesInInheritance();
-      VerifyAllFormulas();
+      ParseAllFormulas();
     }
 
     private void VerifyUniquenessOfAllEntityNames() {
@@ -96,7 +96,7 @@ namespace x10.compiler {
     }
 
 
-    private void VerifyAllFormulas() {
+    private void ParseAllFormulas() {
       FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums, _allFunctions);
 
       foreach (Entity entity in _allEntities.All) {
@@ -107,21 +107,23 @@ namespace x10.compiler {
 
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
-            CheckIfFormulaAndParse(parser, dataType, value);
+            value.Expression = CheckIfFormulaAndParse(parser, dataType, value);
       }
     }
 
-    private void CheckIfFormulaAndParse(FormulaParser parser, ExpDataType dataType, ModelAttributeValue value) {
+    private ExpBase CheckIfFormulaAndParse(FormulaParser parser, ExpDataType dataType, ModelAttributeValue value) {
       if (value.Definition is ModelAttributeDefinitionAtomic atomicDef && value.Value != null) {
         string stringValue = value.Value.ToString();
         if (AttributeReader.IsFormula(stringValue, out string strippedFormula)) {
           value.Formula = strippedFormula;
-          parser.Parse(value.TreeElement, strippedFormula, dataType);
+          return parser.Parse(value.TreeElement, strippedFormula, dataType);
         } else {
           if (atomicDef.DataType == DataTypes.Singleton.Formula)
             Messages.AddError(value.TreeElement, "Attribute '{0}' must be a formula (must start with '=').", atomicDef.Name);
         }
       }
+
+      return null;
     }
   }
 }

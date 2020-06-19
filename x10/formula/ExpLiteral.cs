@@ -13,6 +13,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitLiteral(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       if (Value is string)
         return new ExpDataType(DataTypes.Singleton.String);

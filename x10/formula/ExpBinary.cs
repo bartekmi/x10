@@ -15,6 +15,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitBinary(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       ExpDataType leftType = Left.DetermineType(rootType);
       ExpDataType rightType = Right.DetermineType(rootType);

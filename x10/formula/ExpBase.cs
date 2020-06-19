@@ -5,6 +5,7 @@ namespace x10.formula {
 
   public abstract class ExpBase : IParseElement {
     public abstract ExpDataType DetermineType(ExpDataType rootType);
+    public abstract void Accept(IVisitor visitor);
      
     protected FormulaParser Parser { get; private set; }
 

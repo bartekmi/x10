@@ -14,6 +14,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitIdentifier(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       if (Name == FormulaParser.CONTEXT_NAME) {
         Entity context = Parser.AllEntities.FindContextEntityWithError(this);

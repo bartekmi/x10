@@ -31,6 +31,7 @@ namespace x10.model.libraries {
     internal const string DEFAULT_STRING_REPRESENTATION = "defaultStringRepresentation";
     internal const string PLACEHOLDER_TEXT = "placeholderText";
     internal const string DEFAULT = "default";
+    internal const string FORMULA = "formula";
 
 
     private static List<ModelAttributeDefinition> _attributes = new List<ModelAttributeDefinition>() {
@@ -213,12 +214,11 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "DefaultValue",
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "formula",
+        Name = FORMULA,
         Description = "Formula that describes the value of this attribute in terms of other attributes (regular or derived)",
         AppliesTo = AppliesTo.DerivedAttribute,
         DataType = DataTypes.Singleton.Formula,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
-        Setter = "Formula",
       },
 
       //============================================================================

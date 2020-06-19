@@ -14,6 +14,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitInvocation(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       List<ExpDataType> argTypes = new List<ExpDataType>();
       foreach (ExpBase argumentExpression in Arguments)

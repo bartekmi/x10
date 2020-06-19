@@ -1,3 +1,4 @@
+using x10.formula;
 using x10.model.metadata;
 using x10.parsing;
 
@@ -6,6 +7,7 @@ namespace x10.model.definition {
     public ModelAttributeDefinition Definition { get; set; }
     public object Value { get; set; }
     public string Formula { get; set; }
+    public ExpBase Expression { get; set; }
 
     public TreeElement TreeElement { get; set; }
 

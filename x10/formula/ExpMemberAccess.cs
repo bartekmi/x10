@@ -14,6 +14,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitMemberAccess(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       ExpDataType expressionDataType = Expression.DetermineType(rootType);
       if (expressionDataType.IsEnumName)

@@ -12,6 +12,10 @@ namespace x10.formula {
       // Do nothing
     }
 
+    public override void Accept(IVisitor visitor) {
+      visitor.VisitUnknown(this);
+    }
+
     public override ExpDataType DetermineType(ExpDataType rootType) {
       // If a message is present, report it
       if (DiagnosticMessage != null)

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using x10.compiler;
+using x10.formula;
 using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
+using FileInfo = x10.parsing.FileInfo;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -128,10 +131,21 @@ namespace x10.gen.wpf {
 
         WriteLine(2, "public {0} {1} {", dataType, attribute.NameUpperCased);
         WriteLine(3, "get {");
-        WriteLine(4, "return {0};", TransformFormula(attribute.Formula));
+        WriteLine(4, "return {0};", ExpressionToString(attribute.Expression));
         WriteLine(3, "}");
         WriteLine(2, "}");
       }
+    }
+
+    private string ExpressionToString(ExpBase expression) {
+      if (expression == null)
+        return "EXPRESSION MISSING";
+
+      using StringWriter writer = new StringWriter();
+
+      WpfFormulaWriter formulaWriterVisitor = new WpfFormulaWriter(writer);
+      expression.Accept(formulaWriterVisitor);
+      return writer.ToString();
     }
 
     private string TransformFormula(string formula) {
