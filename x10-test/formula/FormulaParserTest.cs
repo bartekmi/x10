@@ -156,6 +156,7 @@ arguments:
     }
 
     private void TestExpectedError(string formula, string expectedError, int startCharPos, int endCharPos) {
+      _errors.Clear();
       IParseElement element = new XmlElement("Dummy") {
         Start = new PositionMark() {
           LineNumber = 10,

@@ -32,9 +32,50 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateXamlFile(ClassDefX10 classDef) {
+      Begin(classDef.XmlElement.FileInfo, ".xaml");
+
+      WriteLine(0,
+@"<UserControl x:Class=""{0}.{1}""
+             xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+             xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
+             xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
+             xmlns:local = ""clr-namespace:wpf_sample""
+             xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
+             mc: Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
+
+      WriteLine(0, "</UserControl>");
+
+      End();
     }
 
     private void GenerateXamlCsFile(ClassDefX10 classDef) {
+      Begin(classDef.XmlElement.FileInfo, ".xaml.cs");
+
+      WriteLine(0, "using System.Windows;");
+      WriteLine(0, "using System.Windows.Controls;");
+      WriteLine();
+
+      WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
+      WriteLine(1, "public partial class {0} : UserControl {", classDef.Name);
+
+      GenerateConstructor(classDef);
+      GenerateMethods(classDef);
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
+    }
+
+    private void GenerateConstructor(ClassDefX10 classDef) {
+      WriteLine(2, "public {0}() {", classDef.Name);
+      WriteLine(3, "InitializeComponent();");
+      WriteLine(3, "DataContext = new {0}VM(this);", classDef.Name);
+      WriteLine(2, "}");
+    }
+
+    private void GenerateMethods(ClassDefX10 classDef) {
     }
 
     private void GenerateViewModelFile(ClassDefX10 classDef) {

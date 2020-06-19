@@ -72,7 +72,7 @@ namespace x10.ui.libraries {
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionComplex() {
             Name = "Content",
-            Description = "Embedded UI components that are 'labelled'",
+            Description = "Embedded UI components that are 'labelled' (i.e. that live within the label)",
             IsPrimary = true,
             ComplexAttributeType = ClassDefNative.Visual,
           },

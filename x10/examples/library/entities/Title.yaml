@@ -48,4 +48,4 @@ enums:
     values: english, greek, hebrew, french, spanish
 
   - name: ReadingLevel
-    values: pre, K, 1, 2, 3, 4
+    values: pre, K, G1, G2, G3, G4
