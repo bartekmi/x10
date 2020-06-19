@@ -51,6 +51,8 @@ namespace x10.gen.wpf {
       WriteLine(0, "using wpf_lib.lib;");
       WriteLine(0, "using wpf_lib.lib.attributes;");
       WriteLine();
+      WriteLine(0, "using {0}.functions;", _defaultNamespace);
+      WriteLine();
 
       GenerateExtraUsings(entity);
 

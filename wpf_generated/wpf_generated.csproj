@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="functions\Functions.cs" />
     <Compile Include="__generated__\entities\booking\Booking.cs" />
     <Compile Include="__generated__\entities\booking\BookingHsCode.cs" />
     <Compile Include="__generated__\entities\core\Bookmark.cs" />
