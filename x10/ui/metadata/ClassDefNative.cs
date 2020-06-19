@@ -29,6 +29,13 @@ namespace x10.ui.metadata {
               DataType = DataTypes.Singleton.Boolean,
               DefaultValue = false,
             },
+          }
+    };
+
+    public static ClassDefNative Editable = new ClassDefNative() {
+      Name = "ClassDefVisual",
+      InheritsFrom = Visual,
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "editable",
               DataType = DataTypes.Singleton.Boolean,

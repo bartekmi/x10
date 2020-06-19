@@ -94,7 +94,7 @@ namespace x10.ui.libraries {
           },
         }
       },
-    #endregion
+      #endregion
 
       #region  Atomic Text Display Components
       new ClassDefNative() {
@@ -131,7 +131,7 @@ namespace x10.ui.libraries {
       new ClassDefNative() {
         Name = "EditBase",
         Description = "Base class for all Edit components",
-        InheritsFrom = ClassDefNative.Visual,
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {

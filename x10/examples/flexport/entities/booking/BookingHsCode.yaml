@@ -5,6 +5,7 @@ attributes:
   - name: description
     dataType: String
     placeholderText: English description of product
+    toolTip: Please enter a short and precise description of this product
 
   - name: descriptionInLocalLanguage
     dataType: String

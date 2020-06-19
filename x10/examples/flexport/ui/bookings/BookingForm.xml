@@ -13,7 +13,7 @@
       </FormSection>
 
       <FormSection label="Involved Parties">
-        <Label text="What is your role in this trade?" mandatory="true">
+        <Label text="What is your role in this trade?" mandatoryIndicator="mandatory">
           <Row>
             <SelectableButton label="Shipper" selected="=isShipperBooking" onSelect="selectShipperBooking"/>
             <SelectableButton label="Consignee" selected="=isConsigneeBooking" onSelect="selectConsigneeBooking"/>
@@ -62,11 +62,11 @@
             <!-- If rows not specified, assume all "auto" rows -->
 
             <!-- FUTURE: Is there a way to do this in a type-checed way? -->
-            <Label Grid.row="0" Grid.column="0" mandatory="true"
+            <Label Grid.row="0" Grid.column="0" mandatoryIndicator="mandatory"
               text="`Description of the goods ${requiresChineseProductDescription ? '(English and Chinese)' ? null}`"
               toolTip="Please enter a short and precise description of this product"
 						/>
-            <Label Grid.row="0" Grid.column="1" mandatory="true"
+            <Label Grid.row="0" Grid.column="1" mandatoryIndicator="mandatory"
               text="6 digit HS Code"
               toolTip="6 digit HS Code is required for carrier booking as commodity identifier"/>
 
