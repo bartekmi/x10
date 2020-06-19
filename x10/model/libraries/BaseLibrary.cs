@@ -189,6 +189,12 @@ Typical use would be if entities are going to be represented on a drop-down.",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DataType = DataTypes.Singleton.String,
       },
+      new ModelAttributeDefinitionAtomic() {
+        Name = DEFAULT,
+        Description = "Default value for the attribute or association. This is significant when the user creates new entities of this type.",
+        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        DataTypeMustBeSameAsAttribute = true,
+      },
 
       //============================================================================
       // Attributes (Regular and Derived)
@@ -205,13 +211,6 @@ Typical use would be if entities are going to be represented on a drop-down.",
           X10Attribute attr = (X10Attribute)modelComponent;
           attr.DataType = allEnums.FindDataTypeByNameWithError(attr.DataTypeName, attributeValue.TreeElement);
         },
-      },
-      new ModelAttributeDefinitionAtomic() {
-        Name = "default",
-        Description = "Default value for the attribute. This is significant when the user creates new entities of this type",
-        AppliesTo = AppliesTo.Attribute,
-        DataTypeMustBeSameAsAttribute = true,
-        Setter = "DefaultValue",
       },
       new ModelAttributeDefinitionAtomic() {
         Name = FORMULA,

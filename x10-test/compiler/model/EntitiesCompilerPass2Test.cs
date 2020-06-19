@@ -21,9 +21,9 @@ namespace x10.compiler {
     public EntitiesCompilerPass2Test(ITestOutputHelper output) {
       _output = output;
       _allEnums = new AllEnums(_messages);
-  }
+    }
 
-  [Fact]
+    [Fact]
     public void RehydrateAssociation() {
       Entity apartment = CompilePass1(@"name: Apartment");
       Entity building = CompilePass1(@"
@@ -56,6 +56,35 @@ attributes:
     default: 7
 ",
         "Error parsing attribute 'default': could not parse a(n) Boolean from '7'. Examples of valid data of this type: True, False.", 6, 14);
+    }
+
+    // Have to figure out exactly how I will do this.
+    // This will need to be checked in Pass2 formula post-procesing
+    [Fact(Skip = "TODO")]
+    public void WrongDefaultEntityType() {
+      Entity user = CompilePass1(@"
+name: User
+");
+
+      Entity context = CompilePass1(@"
+name: __Context__
+associations:
+  - name: currentUser
+    dataType: User
+");
+
+      Entity entity = CompilePass1(@"
+name: Entity
+associations:
+  - name: user
+    dataType: User
+    default: =__Context__.currentUser
+");
+      RunTest("TODO", 4, 11, user, context, entity);
+    }
+
+    [Fact(Skip = "TODO")]
+    public void FormulaReturnsWrongType() {
     }
 
     [Fact]
@@ -160,8 +189,8 @@ associations:
     }
 
     [Fact]
-      public void DuplicateMemberNameInSameClass() {
-        Entity entity = CompilePass1(@"
+    public void DuplicateMemberNameInSameClass() {
+      Entity entity = CompilePass1(@"
 name: Child
 attributes:
   - name: myAttr
@@ -170,7 +199,7 @@ attributes:
     dataType: String
 ");
 
-        RunTest("The name 'myAttr' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).", 4, 11, entity);
+      RunTest("The name 'myAttr' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).", 4, 11, entity);
     }
 
     #region Utilities

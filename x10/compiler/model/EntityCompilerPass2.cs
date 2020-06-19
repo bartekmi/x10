@@ -56,11 +56,11 @@ namespace x10.compiler {
       // for any members - have a Pass-2 action, invoke it.
       // Examples of Pass-2 actions are hydrating 'InheritsFrom' and 'ReferencedEntity'
       foreach (Entity entity in _allEntities.All) {
-        foreach (ModelAttributeValue value in entity.AttributeValues)
+        foreach (ModelAttributeValue value in entity.AttributeValues.OrderBy(x => x))
           value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, entity, value);
 
         foreach (Member member in entity.LocalMembers)
-          foreach (ModelAttributeValue value in member.AttributeValues) {
+          foreach (ModelAttributeValue value in member.AttributeValues.OrderBy(x => x)) {
             if ((value.Definition as ModelAttributeDefinitionAtomic)?.DataTypeMustBeSameAsAttribute == true)
               ConvertValueToDataTypeOfAttribute(member as X10Attribute, value);
             value.Definition.Pass2Action?.Invoke(Messages, _allEntities, _allEnums, member, value);

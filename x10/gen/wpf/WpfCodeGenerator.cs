@@ -27,8 +27,12 @@ namespace x10.gen.wpf {
     public override void Generate(ClassDefX10 classDef) {
       GenerateXamlFile(classDef);
       GenerateXamlCsFile(classDef);
-      GenerateViewModelFile(classDef);
-      GenerateViewModelCustomFile(classDef);
+
+      // Some trivial components might not have a data model - perhaps just text, etc
+      if (classDef.ComponentDataModel != null) {
+        GenerateViewModelFile(classDef);
+        GenerateViewModelCustomFile(classDef);
+      }
     }
 
     private void GenerateXamlFile(ClassDefX10 classDef) {
@@ -40,9 +44,9 @@ namespace x10.gen.wpf {
              xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
              xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
              xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
-             xmlns:local = ""clr-namespace:wpf_sample""
+             xmlns:local = ""{0}""
              xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
-             mc: Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
+             mc:Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
 
       WriteLine(0, "</UserControl>");
 
@@ -79,6 +83,33 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateViewModelFile(ClassDefX10 classDef) {
+      Begin(classDef.XmlElement.FileInfo, "VM.cs");
+
+      WriteLine(0, "using System.Collections.Generic;");
+      WriteLine(0, "using System.Windows.Controls;");
+      WriteLine();
+      WriteLine(0, "using wpf_lib.lib;");   // TODO: Eventually, this should be dynamic
+
+      WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
+      WriteLine(1, "public partial class {0}VM : ViewModelBase<{1}> {", classDef.Name, classDef.ComponentDataModel.Name);
+
+      GenerateState(classDef);
+      GenerateExpression(classDef);
+      GenerateValidations(classDef);
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
+    }
+
+    private void GenerateState(ClassDefX10 classDef) {
+    }
+
+    private void GenerateExpression(ClassDefX10 classDef) {
+    }
+
+    private void GenerateValidations(ClassDefX10 classDef) {
     }
 
     private void GenerateViewModelCustomFile(ClassDefX10 classDef) {

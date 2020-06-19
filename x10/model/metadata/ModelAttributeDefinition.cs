@@ -3,6 +3,7 @@ using System.Reflection;
 
 using x10.parsing;
 using x10.model.definition;
+using System.Diagnostics.CodeAnalysis;
 
 namespace x10.model.metadata {
 
@@ -30,7 +31,7 @@ namespace x10.model.metadata {
     }
   }
 
-  public abstract class ModelAttributeDefinition {
+  public abstract class ModelAttributeDefinition : IComparable<ModelAttributeDefinition> {
     public string Name { get; set; }
     public string Description { get; set; }
     public AppliesTo AppliesTo { get; set; }
@@ -38,6 +39,7 @@ namespace x10.model.metadata {
     public object DefaultIfMissing { get; set; }
     public string MessageIfMissing { get; set; }
     public string Setter { get; set; }
+    public int AttributeProcessingOrder { get; set; }
     
     // If true, when accessing attribute on an Entity, search the entire inheritance
     // tree, starting with the initial object, then going up the parent chain
@@ -47,6 +49,10 @@ namespace x10.model.metadata {
 
     public bool AppliesToType(AppliesTo type) {
       return (AppliesTo & type) > 0;
+    }
+
+    public int CompareTo(ModelAttributeDefinition other) {
+      return AttributeProcessingOrder.CompareTo(other.AttributeProcessingOrder);
     }
 
     public PropertyInfo GetPropertyInfo(Type type) {
