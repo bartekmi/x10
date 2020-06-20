@@ -60,7 +60,7 @@ attributes:
 
     // Have to figure out exactly how I will do this.
     // This will need to be checked in Pass2 formula post-procesing
-    [Fact(Skip = "TODO")]
+    [Fact]
     public void WrongDefaultEntityType() {
       Entity user = CompilePass1(@"
 name: User
@@ -78,13 +78,40 @@ name: Entity
 associations:
   - name: user
     dataType: User
-    default: =__Context__.currentUser
+    default: =__Context__
 ");
-      RunTest("TODO", 4, 11, user, context, entity);
+      RunTest("Expected expression to return User, but it returns __Context__", 6, 14, user, context, entity);
     }
 
-    [Fact(Skip = "TODO")]
-    public void FormulaReturnsWrongType() {
+    [Fact]
+    public void FormulaReturnsWrongType_MustBeSame() {
+      RunTest(@"
+name: Tmp
+attributes:
+  - name: myBool1
+    dataType: Boolean
+  - name: myBool2
+    dataType: Boolean
+derivedAttributes:
+  - name: myDerived
+    dataType: Integer
+    formula: =myBool1 || myBool2
+",
+        "Expected expression to return Integer, but it returns Boolean", 11, 14);
+    }
+
+    [Fact]
+    public void FormulaReturnsWrongType_ExpectedType() {
+      RunTest(@"
+name: Tmp
+attributes:
+  - name: myString
+    dataType: String
+  - name: myBool
+    dataType: Boolean
+    readOnly: =myString
+",
+        "Expected expression to return Boolean, but it returns String", 8, 15);
     }
 
     [Fact]

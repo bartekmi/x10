@@ -40,6 +40,7 @@ namespace x10.model.metadata {
     public string MessageIfMissing { get; set; }
     public string Setter { get; set; }
     public int AttributeProcessingOrder { get; set; }
+    public bool MustBeFormula { get; set; }
     
     // If true, when accessing attribute on an Entity, search the entire inheritance
     // tree, starting with the initial object, then going up the parent chain

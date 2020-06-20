@@ -52,7 +52,8 @@ namespace x10.compiler {
         return;
       }
 
-      object typedValue;
+      object typedValue = null;
+      string formula = null;
 
       if (attrDef is ModelAttributeDefinitionAtomic attrDefAtomic) {
         // Ensure that the value of the attribute is a scalar (not a list, etc)
@@ -63,31 +64,37 @@ namespace x10.compiler {
           return;
         }
 
-        // Attempt to parse the string attribute value according to its data type
         string value = scalarNode.Value.ToString();
-        if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
-          typedValue = value;
-        else {
-          DataType dataType = attrDefAtomic.DataType;
-          typedValue = dataType.Parse(value, _messages, scalarNode, attrDef.Name);
-          if (typedValue == null)
-            return;
-        }
+        if (IsFormula(value, out string strippedFormula))
+          formula = strippedFormula;
+        else { 
+          if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
+            typedValue = value;
+          else {
+            // Attempt to parse the string attribute value according to its data type
+            DataType dataType = attrDefAtomic.DataType;
+            typedValue = dataType.Parse(value, _messages, scalarNode, attrDef.Name);
+            if (typedValue == null)
+              return;
+          }
 
-        // Do validation, if requried
-        attrDefAtomic.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
+          // Do validation, if requried
+          attrDefAtomic.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
+        }
       } else if (attrDef is ModelAttributeDefinitionComplex attrDefComplex) {
         typedValue = attrDefComplex.ParseFunction.Invoke(_messages, attrNode);
       } else
         throw new Exception("Unexpected type: " + attrDef.GetType().Name);
 
       // If a setter has been provided, use it; 
-      SetValueViaSetter(attrDef, modelComponent, typedValue);
+      if (typedValue != null)
+        SetValueViaSetter(attrDef, modelComponent, typedValue);
 
       // A ModelAttributeValue is always stored, even if a setter exists. For one thing,
-      // this is the only way we can track where the attribute came from in the code.
+      // this is the only way we can track where the attribute came from in the YAML.
       modelComponent.AttributeValues.Add(new ModelAttributeValue(attrNode) {
         Value = typedValue,
+        Formula = formula,
         Definition = attrDef,
       });
     }
@@ -119,7 +126,7 @@ namespace x10.compiler {
       }
     }
 
-    internal static bool IsFormula(string valueOrFormula, out string strippedFormula) {
+    private static bool IsFormula(string valueOrFormula, out string strippedFormula) {
       string trimmed = valueOrFormula.Trim();
 
       if (trimmed.StartsWith("=")) {

@@ -69,15 +69,13 @@ namespace x10.compiler {
     }
 
     private void ConvertValueToDataTypeOfAttribute(X10Attribute attr, ModelAttributeValue value) {
-      if (attr?.DataType == null)
+      if (attr?.DataType == null || value.Value == null)
         return;
 
       string stringValue = value.Value.ToString();
-      if (!AttributeReader.IsFormula(stringValue, out string _)) { 
-        object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
-        value.Value = typedValue;
-        AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
-      }
+      object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
+      value.Value = typedValue;
+      AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
     }
 
 
@@ -103,27 +101,42 @@ namespace x10.compiler {
         ExpDataType dataType = new ExpDataType(entity);
 
         foreach (ModelAttributeValue value in entity.AttributeValues)
-          CheckIfFormulaAndParse(parser, dataType, value);
+          CheckIfFormulaAndParse(parser, null, dataType, value);
 
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
-            value.Expression = CheckIfFormulaAndParse(parser, dataType, value);
+            CheckIfFormulaAndParse(parser, member, dataType, value);
       }
     }
 
-    private ExpBase CheckIfFormulaAndParse(FormulaParser parser, ExpDataType dataType, ModelAttributeValue value) {
-      if (value.Definition is ModelAttributeDefinitionAtomic atomicDef && value.Value != null) {
-        string stringValue = value.Value.ToString();
-        if (AttributeReader.IsFormula(stringValue, out string strippedFormula)) {
-          value.Formula = strippedFormula;
-          return parser.Parse(value.TreeElement, strippedFormula, dataType);
+    private void CheckIfFormulaAndParse(FormulaParser parser, Member member, ExpDataType modelDataType, ModelAttributeValue value) {
+      if (value.Definition is ModelAttributeDefinitionAtomic atomicDef) {
+        if (value.Formula != null) {
+          value.Expression = parser.Parse(value.TreeElement, value.Formula, modelDataType);
+          ValidateReturnedDataType(member, atomicDef, value);
         } else {
-          if (atomicDef.DataType == DataTypes.Singleton.Formula)
+          if (atomicDef.MustBeFormula)
             Messages.AddError(value.TreeElement, "Attribute '{0}' must be a formula (must start with '=').", atomicDef.Name);
         }
       }
+    }
 
-      return null;
+    private void ValidateReturnedDataType(Member member, ModelAttributeDefinitionAtomic atomicDef, ModelAttributeValue value) {
+      ExpDataType returnedDataType = value.Expression.DataType;
+      if (returnedDataType.IsError)
+        return;
+
+      ExpDataType expectedReturnType = atomicDef.DataTypeMustBeSameAsAttribute ?
+        member.GetExpressionDataType() :
+        new ExpDataType(atomicDef.DataType);
+
+      // Since anything can be converted to String, don't worry about type checking
+      if (expectedReturnType.IsString)
+        return;
+
+      if (!returnedDataType.Equals(expectedReturnType))
+        Messages.AddError(value.TreeElement, "Expected expression to return {0}, but it returns {1}",
+          expectedReturnType, returnedDataType);
     }
   }
 }

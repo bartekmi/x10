@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using x10.formula;
 
 namespace x10.model.definition {
   public class Association : Member {
@@ -10,5 +11,9 @@ namespace x10.model.definition {
 
     // Rehydrated
     public Entity ReferencedEntity { get; set; }
+
+    public override ExpDataType GetExpressionDataType() {
+      return new ExpDataType(ReferencedEntity);
+    }
   }
 }

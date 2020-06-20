@@ -74,7 +74,8 @@ namespace x10.model.libraries {
         Name = APPLICABLE_WHEN,
         Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
         AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
-        DataType = DataTypes.Singleton.Formula,
+        DataType = DataTypes.Singleton.Boolean,
+        MustBeFormula = true,
       },
       new ModelAttributeDefinitionComplex() {
         Name = "validations",
@@ -129,7 +130,8 @@ namespace x10.model.libraries {
 a default string representation of instances. Can recursively use associations if desired.
 Typical use would be if entities are going to be represented on a drop-down.",
         AppliesTo = AppliesTo.Entity,
-        DataType = DataTypes.Singleton.Formula,
+        DataType = DataTypes.Singleton.String,
+        MustBeFormula = true,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = "abstract",
@@ -216,7 +218,8 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Name = FORMULA,
         Description = "Formula that describes the value of this attribute in terms of other attributes (regular or derived)",
         AppliesTo = AppliesTo.DerivedAttribute,
-        DataType = DataTypes.Singleton.Formula,
+        DataTypeMustBeSameAsAttribute = true,
+        MustBeFormula = true,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
       },
 

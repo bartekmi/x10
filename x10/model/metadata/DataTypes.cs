@@ -22,7 +22,6 @@ namespace x10.model.metadata {
     public readonly DataType Boolean;
     public readonly DataType Date;
     public readonly DataType Timestamp;
-    public readonly DataType Formula;
 
     public readonly List<DataType> All;
 
@@ -70,12 +69,6 @@ namespace x10.model.metadata {
           ParseFunction = (s) => new ParseResult(Double.Parse(s)),
           Examples = "12.30, -208.12, 0",
         },
-        new DataType() {
-          Name = "Formula",
-          Description = "A formula (a.k.a. 'Expression'). Must start with '='.",
-          ParseFunction = (s) => new ParseResult(s),
-          Examples = "=FirstName + \" \" + LastName, __Context__.User",
-        },
       };
 
 
@@ -87,7 +80,6 @@ namespace x10.model.metadata {
       Money = Find("Money");
       String = Find("String");
       Timestamp = Find("Timestamp");
-      Formula = Find("Formula");
     }
 
     public DataType Find(string dataTypeName) {
