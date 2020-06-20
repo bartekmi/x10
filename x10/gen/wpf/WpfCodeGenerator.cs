@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
+using FileInfo = x10.parsing.FileInfo;
 using x10.compiler;
 using x10.formula;
 using x10.model;
@@ -12,8 +12,6 @@ using x10.model.libraries;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
-using x10.utils;
-using FileInfo = x10.parsing.FileInfo;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -84,19 +82,31 @@ namespace x10.gen.wpf {
     private void GenerateMethods(ClassDefX10 classDef) {
     }
 
+    #region View Model File
     private void GenerateViewModelFile(ClassDefX10 classDef) {
+      Entity dataModel = classDef.ComponentDataModel;
+
       Begin(classDef.XmlElement.FileInfo, "VM.cs");
 
       WriteLine(0, "using System.Collections.Generic;");
       WriteLine(0, "using System.Windows.Controls;");
       WriteLine();
       WriteLine(0, "using wpf_lib.lib;");   // TODO: Eventually, this should be dynamic
+      WriteLine();
+      WriteLine(0, "using {0};", GetNamespace(dataModel.TreeElement));  
+      WriteLine();
 
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
-      WriteLine(1, "public partial class {0}VM : ViewModelBase<{1}> {", classDef.Name, classDef.ComponentDataModel.Name);
+      WriteLine(1, "public partial class {0}VM : ViewModelBase<{1}> {", classDef.Name, dataModel.Name);
 
       GenerateState(classDef);
-      GenerateExpression(classDef);
+      GenerateExpressions(classDef);
+
+      // Constructor
+      WriteLine(2, "public {0}VM(UserControl userControl) : base(userControl) {", classDef.Name);
+      WriteLine(3, "Model = {0}.Create();", dataModel.Name);
+      WriteLine(2, "}");
+
       GenerateValidations(classDef);
 
       WriteLine(1, "}");
@@ -108,11 +118,12 @@ namespace x10.gen.wpf {
     private void GenerateState(ClassDefX10 classDef) {
     }
 
-    private void GenerateExpression(ClassDefX10 classDef) {
+    private void GenerateExpressions(ClassDefX10 classDef) {
     }
 
     private void GenerateValidations(ClassDefX10 classDef) {
     }
+    #endregion
 
     private void GenerateViewModelCustomFile(ClassDefX10 classDef) {
     }
