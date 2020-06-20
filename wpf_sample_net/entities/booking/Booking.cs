@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Dynamic;
 using wpf_lib.lib;
 using wpf_sample.entities.core;
 
@@ -155,6 +155,13 @@ namespace wpf_sample.entities.booking {
 
     public override string ToString() {
       return Name;
+    }
+
+    public static Booking Create() {
+      return new Booking() {
+        Shipper = AppStatics.Singleton.Context.User.Company,
+        WantsOriginService = true,
+      };
     }
   }
 }

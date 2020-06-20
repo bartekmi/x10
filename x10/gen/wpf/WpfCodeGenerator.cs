@@ -8,9 +8,11 @@ using x10.compiler;
 using x10.formula;
 using x10.model;
 using x10.model.definition;
+using x10.model.libraries;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
+using x10.utils;
 using FileInfo = x10.parsing.FileInfo;
 
 namespace x10.gen.wpf {
@@ -140,6 +142,8 @@ namespace x10.gen.wpf {
       GenerateRegularAttributes(entity.RegularAttributes);
       GenerateDerivedAttributes(entity.DerivedAttributes);
       GenerateAssociations(entity.Associations);
+      GenerateToString(entity);
+      GenerateCreateFunction(entity);
 
       WriteLine(1, "}");
       WriteLine(0, "}");
@@ -208,45 +212,6 @@ namespace x10.gen.wpf {
         WriteLine(2, "}");
       }
     }
-
-    private string ExpressionToString(ExpBase expression) {
-      if (expression == null)
-        return "EXPRESSION MISSING";
-
-      using StringWriter writer = new StringWriter();
-
-      WpfFormulaWriter formulaWriterVisitor = new WpfFormulaWriter(writer);
-      expression.Accept(formulaWriterVisitor);
-      return writer.ToString();
-    }
-
-    private string TransformFormula(string formula) {
-      formula = formula.Trim();
-      if (formula.StartsWith("="))
-        formula = formula.Substring(1);
-
-      // Transofrmations:
-      // 1. Capitalize all names
-      // 2. Replace '__Context__' with 'AppStatics.Singleton.Context' 
-      // 3. Replace single quotes with double
-
-      bool previousWasNameChar = false;
-      StringBuilder builder = new StringBuilder();
-      foreach (char c in formula) {
-        bool isNameChar = char.IsLetterOrDigit(c) || c == '_';
-        if (isNameChar && !previousWasNameChar)
-          builder.Append(char.ToUpper(c));
-        else
-          builder.Append(c);
-        previousWasNameChar = isNameChar;
-      }
-
-      formula = builder.ToString();
-      formula = formula.Replace("__Context__", "AppStatics.Singleton.Context");
-      formula = formula.Replace("'", "\"");
-
-      return formula;
-    }
     #endregion
 
     #region Associations
@@ -275,18 +240,37 @@ namespace x10.gen.wpf {
     }
     #endregion
 
-    private string GetDataType(DataType dataType) {
-      if (dataType == DataTypes.Singleton.Boolean) return "bool";
-      if (dataType == DataTypes.Singleton.Date) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Float) return "double";
-      if (dataType == DataTypes.Singleton.Integer) return "int";
-      if (dataType == DataTypes.Singleton.String) return "string";
-      if (dataType == DataTypes.Singleton.Timestamp) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Money) return "double";
-      if (dataType is DataTypeEnum) return dataType.Name;
+    #region Create Default Entity
+    private void GenerateCreateFunction(Entity entity) {
+      WriteLine();
+      WriteLine(2, "public static {0} Create() {", entity.Name);
+      WriteLine(3, "return new {0} {", entity.Name);
 
-      throw new Exception("Unknown data type: " + dataType.Name);
+      foreach (Member member in entity.Members) {
+        ModelAttributeValue value = member.FindAttribute(BaseLibrary.DEFAULT);
+        if (value != null) {
+          WriteLine(4, "{0} = {1},", member.NameUpperCased, AttributeValueToString(value));
+        }
+      }
+
+      WriteLine(3, "};");
+      WriteLine(2, "}");
     }
+    #endregion
+
+    #region Create ToString()
+    private void GenerateToString(Entity entity) {
+      ModelAttributeValue value = entity.FindAttribute(BaseLibrary.DEFAULT_STRING_REPRESENTATION);
+      if (value == null)
+        return;
+
+      WriteLine();
+      WriteLine(2, "public override string ToString() {");
+      WriteLine(3, "return {0};", AttributeValueToString(value));
+      WriteLine(2, "}");
+    }
+    #endregion
+
     #endregion
 
     #region Enums
@@ -324,6 +308,39 @@ namespace x10.gen.wpf {
       string theNamespace = string.Join('.', element.FileInfo.RelativeDirComponents);
       theNamespace = _defaultNamespace + "." + theNamespace;
       return theNamespace;
+    }
+
+    private string AttributeValueToString(ModelAttributeValue value) {
+      if (value.Value != null)
+        return WpfGenUtils.TypedLiteralToString(value.Value);
+      else if (value.Formula != null)
+        return ExpressionToString(value.Expression);
+      else
+        return "BLANK VALUE";
+    }
+
+    private string ExpressionToString(ExpBase expression) {
+      if (expression == null)
+        return "EXPRESSION MISSING";
+
+      using StringWriter writer = new StringWriter();
+
+      WpfFormulaWriter formulaWriterVisitor = new WpfFormulaWriter(writer);
+      expression.Accept(formulaWriterVisitor);
+      return writer.ToString();
+    }
+
+    private string GetDataType(DataType dataType) {
+      if (dataType == DataTypes.Singleton.Boolean) return "bool";
+      if (dataType == DataTypes.Singleton.Date) return "DateTime?";
+      if (dataType == DataTypes.Singleton.Float) return "double";
+      if (dataType == DataTypes.Singleton.Integer) return "int";
+      if (dataType == DataTypes.Singleton.String) return "string";
+      if (dataType == DataTypes.Singleton.Timestamp) return "DateTime?";
+      if (dataType == DataTypes.Singleton.Money) return "double";
+      if (dataType is DataTypeEnum) return dataType.Name;
+
+      throw new Exception("Unknown data type: " + dataType.Name);
     }
     #endregion
   }

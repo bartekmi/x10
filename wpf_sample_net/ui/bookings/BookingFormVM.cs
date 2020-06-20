@@ -65,9 +65,7 @@ namespace wpf_sample.ui.bookings {
     }
 
     public BookingFormVM(UserControl userControl) : base(userControl) {
-      Model = new Booking() {
-        Shipper = AppStatics.Singleton.Context.User.Company,
-      };
+      Model = Booking.Create();
     }
   }
 }

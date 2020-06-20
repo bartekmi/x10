@@ -44,10 +44,7 @@ namespace x10.gen.wpf {
     }
 
     public void VisitLiteral(ExpLiteral exp) {
-      if (exp.Value is String)
-        _writer.Write("\"{0}\"", exp.Value);
-      else
-        _writer.Write(exp.Value);
+      _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
