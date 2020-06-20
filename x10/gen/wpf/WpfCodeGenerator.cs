@@ -323,7 +323,7 @@ namespace x10.gen.wpf {
 
     private string AttributeValueToString(ModelAttributeValue value) {
       if (value.Value != null)
-        return WpfGenUtils.TypedLiteralToString(value.Value);
+        return WpfGenUtils.TypedLiteralToString(value.Value, value.EnumType);
       else if (value.Formula != null)
         return ExpressionToString(value.Expression);
       else

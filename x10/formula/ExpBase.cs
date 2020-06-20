@@ -4,14 +4,10 @@ using x10.parsing;
 namespace x10.formula {
 
   public abstract class ExpBase : IParseElement {
-    public abstract ExpDataType DetermineType(ExpDataType rootType);
+    public abstract ExpDataType DetermineTypeRaw(ExpDataType rootType);
     public abstract void Accept(IVisitor visitor);
      
     protected FormulaParser Parser { get; private set; }
-
-    // Corruently, this is only set for the top level.
-    // Verify likely, at some point we'll need this to be set on 
-    // all expressions
     public ExpDataType DataType { get; internal set; }
 
     // IParseElement
@@ -24,6 +20,11 @@ namespace x10.formula {
 
     protected ExpBase(FormulaParser parser) {
       Parser = parser;
+    }
+
+    internal ExpDataType DetermineType(ExpDataType rootType) {
+      DataType = DetermineTypeRaw(rootType);
+      return DataType;
     }
   }
 }

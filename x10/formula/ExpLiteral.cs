@@ -25,7 +25,7 @@ namespace x10.formula {
       visitor.VisitLiteral(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       if (Value is string)
         return new ExpDataType(DataTypes.Singleton.String);
       if (Value is int)
@@ -37,7 +37,7 @@ namespace x10.formula {
       if (Value is int)
         return new ExpDataType(DataTypes.Singleton.Integer);
 
-      // TODO: Deal with legitimate null
+      // TODO: Deal with legitimate null???
 
       Parser.Errors.AddError(this, "Unexpected Data Type: " + Value.GetType().Name);
       return ExpDataType.ERROR;

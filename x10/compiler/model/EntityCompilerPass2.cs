@@ -75,6 +75,7 @@ namespace x10.compiler {
       string stringValue = value.Value.ToString();
       object typedValue = attr.DataType.Parse(stringValue, Messages, value.TreeElement, value.Definition.Name);
       value.Value = typedValue;
+      value.ActualDataType = attr.DataType;
       AttributeReader.SetValueViaSetter(value.Definition, attr, typedValue);
     }
 

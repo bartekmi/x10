@@ -19,7 +19,7 @@ namespace x10.formula {
       visitor.VisitInvocation(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       List<ExpDataType> argTypes = new List<ExpDataType>();
       foreach (ExpBase argumentExpression in Arguments)
         argTypes.Add(argumentExpression.DetermineType(rootType));

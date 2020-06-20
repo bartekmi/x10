@@ -11,7 +11,20 @@ namespace x10.model.definition {
     public string Formula { get; set; }
     public ExpBase Expression { get; set; }
 
+    // For some cases, notably when the Definition is of "same type as attribute" - indicate the ACTUAL data type here
+    public DataType ActualDataType { get; set; }
+
     public TreeElement TreeElement { get; set; }
+
+    // Derived
+    public bool IsEnumValue { get { return EnumType is DataTypeEnum; } }
+    public DataTypeEnum EnumType { 
+      get {
+        if (ActualDataType != null)
+          return ActualDataType as DataTypeEnum;
+        return Definition is ModelAttributeDefinitionAtomic atomic ? atomic.DataType as DataTypeEnum : null; 
+      } 
+    }
 
     public ModelAttributeValue(TreeElement treeElement) {
       TreeElement = treeElement;
@@ -22,7 +35,7 @@ namespace x10.model.definition {
     }
 
     public override string ToString() {
-      return string.Format("Attribute Value: {0}", Value);
+      return string.Format("{0}: {1}", Definition.Name, Value);
     }
 
   }

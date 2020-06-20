@@ -18,7 +18,7 @@ namespace x10.formula {
       visitor.VisitIdentifier(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       if (Name == FormulaParser.CONTEXT_NAME) {
         Entity context = Parser.AllEntities.FindContextEntityWithError(this);
         if (context == null)

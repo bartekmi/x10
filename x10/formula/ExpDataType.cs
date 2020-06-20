@@ -26,7 +26,7 @@ namespace x10.formula {
     public bool IsBoolean { get { return DataType == DataTypes.Singleton.Boolean; } }
     public bool IsComparable { get { return IsPrimitive && !IsBoolean; } } // Can participate in >, <, >=, <= comparisons
 
-    public DataTypeEnum DataTypeAsEnum { get { return (DataTypeEnum)DataType; } }
+    public DataTypeEnum DataTypeAsEnum { get { return DataType as DataTypeEnum; } }
 
     public static ExpDataType NULL = new ExpDataType();
     public static ExpDataType ERROR = new ExpDataType();

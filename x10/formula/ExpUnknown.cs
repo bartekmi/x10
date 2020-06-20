@@ -16,7 +16,7 @@ namespace x10.formula {
       visitor.VisitUnknown(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       // If a message is present, report it
       if (DiagnosticMessage != null)
         Parser.Errors.AddError(this, DiagnosticMessage);

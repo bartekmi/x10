@@ -19,7 +19,7 @@ namespace x10.formula {
       visitor.VisitBinary(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       ExpDataType leftType = Left.DetermineType(rootType);
       ExpDataType rightType = Right.DetermineType(rootType);
 

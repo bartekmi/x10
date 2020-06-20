@@ -18,7 +18,7 @@ namespace x10.formula {
       visitor.VisitMemberAccess(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       ExpDataType expressionDataType = Expression.DetermineType(rootType);
       if (expressionDataType.IsEnumName)
         return GetEnumValue(expressionDataType.EnumName);

@@ -16,7 +16,7 @@ namespace x10.formula {
       visitor.VisitParenthesized(this);
     }
 
-    public override ExpDataType DetermineType(ExpDataType rootType) {
+    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       return Expression.DetermineType(rootType);
     }
   }

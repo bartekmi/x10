@@ -25,7 +25,6 @@ namespace x10.formula {
     public ExpBase Parse(IParseElement element, string formula, ExpDataType rootType) {
       ExpBase expression = MicrosoftCsParser.Parse(this, element, formula);
       ExpDataType dataType = expression.DetermineType(rootType);
-      expression.DataType = dataType;
 
       return expression;
     }

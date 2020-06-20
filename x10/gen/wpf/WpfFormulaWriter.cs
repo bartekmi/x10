@@ -44,7 +44,7 @@ namespace x10.gen.wpf {
     }
 
     public void VisitLiteral(ExpLiteral exp) {
-      _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value));
+      _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
