@@ -68,7 +68,7 @@ attributes:
     }
 
     private void InitializeFunctions() {
-      string functionYaml = @"
+      string myFuncYaml = @"
 name: MyFunc
 description: Take a string and an int
 returnDataType: String
@@ -78,9 +78,20 @@ arguments:
   - name: anInt
     dataType: Integer
 ";
+      string funcWithEnumYaml = @"
+name: FuncWithEnum
+description: Take a string and an enum
+returnDataType: Integer
+arguments:
+  - name: aString
+    dataType: String
+  - name: anEnum
+    dataType: MyEnum
+";
       FunctionsCompiler funcCompiler = new FunctionsCompiler(_errors, _allEntities, _enums, _functions, new AttributeReader(_errors));
-      funcCompiler.CompileFunctionFromString(functionYaml);
-      Assert.Single(_functions.All);
+      funcCompiler.CompileFunctionFromString(myFuncYaml);
+      funcCompiler.CompileFunctionFromString(funcWithEnumYaml);
+      Assert.Equal(2, _functions.All.Count());
     }
 
     [Fact]
@@ -97,10 +108,37 @@ arguments:
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
     }
 
+    #region Enumerated Types
     [Fact]
     public void ParseEnum() {
-      TestExpectedSuccess("myEnumValue == MyEnum.three", DataTypes.Singleton.Boolean);     // String-add
+      TestExpectedSuccess("myEnumValue == MyEnum.three", DataTypes.Singleton.Boolean);    
     }
+
+    [Fact]
+    public void UpgradeEnumInCompareOnRight() {
+      TestExpectedSuccess("myEnumValue == \"three\"", DataTypes.Singleton.Boolean);
+    }
+
+    [Fact]
+    public void UpgradeEnumInCompareOnLeft() {
+      TestExpectedSuccess("\"three\" == myEnumValue", DataTypes.Singleton.Boolean);
+    }
+
+    [Fact]
+    public void UpgradeEnumInFunctionArg() {
+      TestExpectedSuccess("1 + FuncWithEnum(\"blah\", \"three\")", DataTypes.Singleton.Integer);
+    }
+
+    [Fact]
+    public void AttemptEnumUpgradeWrongType() {
+      TestExpectedError("myEnumValue == 1", "Attempted to upgrade '1' to Enumerated Type MyEnum. Expected a String, but got data type 'Int32' instead.", 15, 16);
+    }
+
+    [Fact]
+    public void AttemptEnumUpgradeWrongValue() {
+      TestExpectedError("myEnumValue == bogus", "Entity 'Entity' does not contain an Attribute or Association 'bogus'", 15, 20);
+    }
+    #endregion
 
     [Fact]
     public void ParseWithSyntaxErrors() {

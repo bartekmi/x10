@@ -65,6 +65,19 @@ namespace x10.formula {
               leftType.Equals(rightType) ||
               leftType.IsError || rightType.IsError)
             return ExpDataType.Boolean;
+
+          // Upgrade right side to enum if possible
+          if (leftType.IsEnum && Right is ExpLiteral rightLiteral) {
+            rightLiteral.UpgradeToEnum(leftType.DataTypeAsEnum);
+            return ExpDataType.Boolean;
+          }
+
+          // Upgrade left side to enum if possible
+          if (rightType.IsEnum && Left is ExpLiteral leftLiteral) {
+            leftLiteral.UpgradeToEnum(rightType.DataTypeAsEnum);
+            return ExpDataType.Boolean;
+          }
+
           return MismatchTypeError(leftType, rightType);
         case "??":
           if (leftType.IsError || rightType.IsError)

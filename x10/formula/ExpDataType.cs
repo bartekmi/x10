@@ -13,6 +13,7 @@ namespace x10.formula {
     // Derived
     public bool IsEntity { get { return Entity != null; } }
     public bool IsPrimitive { get { return DataType != null; } }
+    public bool IsEnum { get { return DataType is DataTypeEnum; } }
     public bool IsEnumName { get { return EnumName != null; } }
 
     public bool IsNull { get { return this == NULL; } }
@@ -24,6 +25,8 @@ namespace x10.formula {
     public bool IsString { get { return DataType == DataTypes.Singleton.String; } }
     public bool IsBoolean { get { return DataType == DataTypes.Singleton.Boolean; } }
     public bool IsComparable { get { return IsPrimitive && !IsBoolean; } } // Can participate in >, <, >=, <= comparisons
+
+    public DataTypeEnum DataTypeAsEnum { get { return (DataTypeEnum)DataType; } }
 
     public static ExpDataType NULL = new ExpDataType();
     public static ExpDataType ERROR = new ExpDataType();

@@ -19,13 +19,16 @@ namespace x10.model.metadata {
     public List<ModelAttributeValue> AttributeValues { get; private set; }
     public TreeElement TreeElement { get; set; }
 
+    // Dervied
+    public string AvailableValuesAsString { get { return string.Join(", ", EnumValues); } }
+
     public DataTypeEnum() {
       EnumValues = new List<EnumValue>();
       AttributeValues = new List<ModelAttributeValue>();
       ParseFunction = (text) => ParseEnum(text);
     }
 
-    public DataTypeEnum(IEnumerable<object> enumValues) :this() {
+    public DataTypeEnum(IEnumerable<object> enumValues) : this() {
       EnumValueValues = enumValues;
     }
 
@@ -53,6 +56,12 @@ namespace x10.model.metadata {
 
     public bool HasEnumValue(object value) {
       return EnumValues.Any(x => x.Value.Equals(value));
+    }
+
+    public EnumValue FindEnumValue(object value) {
+      // Using first instead of single to avoid exceptions
+      // Enum compilation will catch duplicates
+      return EnumValues.FirstOrDefault(x => x.Value.Equals(value));
     }
 
     public override string ToString() {

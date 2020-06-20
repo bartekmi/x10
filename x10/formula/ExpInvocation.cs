@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using x10.model;
 using x10.model.definition;
+using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.formula {
@@ -33,7 +34,15 @@ namespace x10.formula {
           ExpDataType actualType = argTypes[ii];
           ExpBase expression = Arguments[ii];
 
-          if (actualType != ExpDataType.ERROR && !actualType.Equals(new ExpDataType(expectedArg.Type)))
+          if (actualType == ExpDataType.ERROR)
+            continue;
+
+          if (expectedArg.Type is DataTypeEnum enumType && expression is ExpLiteral literal) {
+            literal.UpgradeToEnum(enumType);
+            continue;
+          }
+
+          if (!actualType.Equals(new ExpDataType(expectedArg.Type)))
             Parser.Errors.AddError(expression, "For argument at position {0}, function '{1}' expects data type {2}, but was given {3}",
               ii + 1, FunctionName, expectedArg.Type, actualType);
         }
