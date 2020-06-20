@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using x10.ui.metadata;
 
 namespace x10.ui.platform {
   public class PlatformClassDef {
@@ -29,6 +30,9 @@ namespace x10.ui.platform {
     public PlatformAttributeDataBind DataBindAttribute {
       get { return PlatformAttributes.OfType<PlatformAttributeDataBind>().SingleOrDefault(); }
     }
+
+    // Hydrated
+    public ClassDef LogicalClassDef { get; internal set; }
 
     public PlatformClassDef() {
       PlatformAttributes = new List<PlatformAttribute>();

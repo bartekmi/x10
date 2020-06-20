@@ -12,6 +12,9 @@ namespace x10.ui.platform {
     private readonly UiLibrary LogicalLibrary;
     private readonly Dictionary<string, PlatformClassDef> _definitionsByLogicalName;
 
+    // Derived
+    public IEnumerable<PlatformClassDef> All { get { return _definitionsByLogicalName.Values; } }
+
     public PlatformLibrary(UiLibrary logicalLibrary, IEnumerable<PlatformClassDef> definitions) {
       LogicalLibrary = logicalLibrary;
       _definitionsByLogicalName = definitions.ToDictionary(x => x.LogicalName);
