@@ -10,6 +10,10 @@ using x10.model.definition;
 using x10.ui.metadata;
 
 namespace x10.ui.composition {
+  // Where as a ClassDef defines (typically) a UI component in terms
+  // of its name and attributes - and hence is analogous to a C# class
+  // - Instance is an "instantiation" of that component - with specific
+  // values for all the attributes (expressed as UiAttributeValue's)
   public abstract class Instance : IAcceptsUiAttributeValues {
 
     public abstract string GetElementName();

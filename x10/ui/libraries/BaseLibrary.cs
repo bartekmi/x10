@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+
 using x10.model.definition;
 using x10.model.metadata;
-using x10.ui.composition;
 using x10.ui.metadata;
 
 namespace x10.ui.libraries {

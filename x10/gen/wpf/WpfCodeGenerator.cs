@@ -12,6 +12,9 @@ using x10.model.libraries;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
+using x10.ui.metadata;
+using static x10.ui.metadata.ClassDefNative;
+using x10.utils;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -35,6 +38,7 @@ namespace x10.gen.wpf {
       }
     }
 
+    #region XAML File
     private void GenerateXamlFile(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".xaml");
 
@@ -52,7 +56,9 @@ namespace x10.gen.wpf {
 
       End();
     }
+    #endregion
 
+    #region XML cs File
     private void GenerateXamlCsFile(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".xaml.cs");
 
@@ -81,6 +87,7 @@ namespace x10.gen.wpf {
 
     private void GenerateMethods(ClassDefX10 classDef) {
     }
+    #endregion
 
     #region View Model File
     private void GenerateViewModelFile(ClassDefX10 classDef) {
@@ -116,6 +123,17 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateState(ClassDefX10 classDef) {
+      UiAttributeValueComplex states = classDef.FindAttributeValue(ClassDefNative.STATE) as UiAttributeValueComplex;
+      if (states == null)
+        return;
+
+      WriteLine();
+      WriteLine(2, "// State");
+
+      foreach (Instance instance in states.Instances) {
+        StateClass state = StateClass.FromInstance(AllEnums, instance);
+        GenerateProperty(state.DataType, state.Variable);
+      }
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {
@@ -191,20 +209,8 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(2, "// Regular Attributes");
 
-      foreach (X10RegularAttribute attribute in attributes) {
-        string dataType = GetDataType(attribute.DataType);
-        string varName = "_" + attribute.NameLowerCased;
-        string propName = attribute.NameUpperCased;
-
-        WriteLine(2, "private {0} {1};", dataType, varName);
-        WriteLine(2, "public {0} {1} {", dataType, propName);
-        WriteLine(3, "get { return {0}; }", varName);
-        WriteLine(3, "set {");
-        WriteLine(4, "{0} = value;", varName);
-        WriteLine(4, "RaisePropertyChanged(nameof({0}));", propName);
-        WriteLine(3, "}");
-        WriteLine(2, "}");
-      }
+      foreach (X10RegularAttribute attribute in attributes) 
+        GenerateProperty(attribute.DataType, attribute.Name);
     }
     #endregion
 
@@ -277,7 +283,7 @@ namespace x10.gen.wpf {
 
       WriteLine();
       WriteLine(2, "public override string ToString() {");
-      WriteLine(3, "return {0};", AttributeValueToString(value));
+      WriteLine(3, "return {0}?.ToString();", AttributeValueToString(value));
       WriteLine(2, "}");
     }
     #endregion
@@ -353,6 +359,22 @@ namespace x10.gen.wpf {
 
       throw new Exception("Unknown data type: " + dataType.Name);
     }
+
+    private void GenerateProperty(DataType type, string name) {
+      string dataType = GetDataType(type);
+      string varName = "_" + NameUtils.UncapitalizeFirstLetter(name);
+      string propName = NameUtils.Capitalize(name);
+
+      WriteLine(2, "private {0} {1};", dataType, varName);
+      WriteLine(2, "public {0} {1} {", dataType, propName);
+      WriteLine(3, "get { return {0}; }", varName);
+      WriteLine(3, "set {");
+      WriteLine(4, "{0} = value;", varName);
+      WriteLine(4, "RaisePropertyChanged(nameof({0}));", propName);
+      WriteLine(3, "}");
+      WriteLine(2, "}");
+    }
+
     #endregion
   }
 }

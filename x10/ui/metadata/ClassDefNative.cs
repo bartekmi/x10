@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-
+using x10.model;
 using x10.model.metadata;
+using x10.ui.composition;
 
 namespace x10.ui.metadata {
   public class ClassDefNative : ClassDef {
@@ -77,18 +77,37 @@ namespace x10.ui.metadata {
             new UiAttributeDefinitionAtomic() {
               Name = "default",
               DataType = DataTypes.Singleton.String,
-              DefaultValue = true,
             },
           }
     };
 
+    // The fact that I have to create this class is lame!
+    // -- extra code + nasty departure from the DRY principle.
+    // Ideally, we should have a way to reflect a C# class definition and directly generate the
+    // corresponding ClassDefNative definition as above
+    public class StateClass {
+      public string Variable { get; set; }
+      public DataType DataType { get; set; }
+      public string Default { get; set; } // This is iffy - could by any type or formula - just like on the model side
+
+      public static StateClass FromInstance(AllEnums allEnums, Instance instance) {
+        string dataType = instance.FindValue<string>("dataType");
+        return new StateClass() {
+          Variable = instance.FindValue<string>("variable"),
+          DataType = allEnums.FindDataTypeByName(dataType),
+          Default = instance.FindValue<string>("default"),
+        };
+      }
+    }
+
+    public const string STATE = "state";
     public static ClassDefNative UiClassDefClassDef = new ClassDefNative() {
       Name = "UiClassDef",
       Description = "This 'meta' class definition actually specifies what attributes are allowed on a UI Class Def",
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
-              Name = "state",
+              Name = STATE,
               ComplexAttributeType = State,
               IsMany = true,
             },

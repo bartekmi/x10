@@ -7,6 +7,7 @@ using x10.parsing;
 using x10.ui.metadata;
 
 namespace x10.ui.composition {
+  // TODO: Explain this!
   public class InstanceClassDefUse : Instance {
     public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement, UiAttributeValue owner) : base(xmlElement, owner) {
       RenderAs = classDef;

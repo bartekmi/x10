@@ -25,7 +25,7 @@ namespace x10.ui.metadata {
     // Normally, this is only used for attributes defined in 'UiAttributeDefinitions"
     public UiAppliesTo? AppliesTo { get; set; }
 
-    // Optional default value for the attribute.Must match Data Type
+    // Optional default value for the attribute. Must match Data Type.
     public object DefaultValue { get; set; }
 
     // A UI Definition can have (at most) one "Primary" attribute - this is the attribute
@@ -41,10 +41,6 @@ namespace x10.ui.metadata {
     // For atomic attribute values, the Value property will store an array
     public bool IsMany { get; set; }
 
-    // if true, this property should be treated as part of the state 
-    // of the component for the purpose of code-generation.
-    public bool IsState { get; set; }
-
     // Optional name of setter method if the attribute can be stored in code
     public string Setter { get; set; }
 
@@ -56,7 +52,6 @@ namespace x10.ui.metadata {
       IsPrimary = false;
       IsMandatory = false;
       IsMany = false;
-      IsState = false;
     }
 
     public UiAttributeValue CreateValueAndAddToOwner(IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
