@@ -33,8 +33,19 @@ namespace x10.gen.wpf {
       };
 
       string targetDir = "../../../../wpf_generated/__generated__";
-      WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, "wpf_generated", allEntities, allEnums, allUiDefinitions, libraries);
+      WpfCodeGenerator generator = new WpfCodeGenerator(
+        _messages,
+        targetDir, 
+        "wpf_generated", 
+        allEntities, 
+        allEnums, 
+        allUiDefinitions, 
+        libraries);
+
+      _messages.Clear();
       generator.Generate();
+
+      TestUtils.DumpMessages(_messages, _output);
     }
   }
 }

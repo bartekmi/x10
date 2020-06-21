@@ -37,5 +37,9 @@ namespace x10.ui.platform {
     public PlatformClassDef() {
       PlatformAttributes = new List<PlatformAttribute>();
     }
+
+    internal PlatformAttributeDynamic FindDyamicAttribute(string logicalAttrName) {
+      return DynamicPlatformAttributes.FirstOrDefault(x => x.LogicalName == logicalAttrName);
+    }
   }
 }

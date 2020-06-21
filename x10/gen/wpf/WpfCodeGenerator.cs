@@ -23,13 +23,14 @@ namespace x10.gen.wpf {
     private readonly string _defaultNamespace;
 
     public WpfCodeGenerator(
+      MessageBucket messages,
       string rootGenerateDir,
       string defaultNamespace,
       AllEntities allEntities,
       AllEnums allEnums,
       AllUiDefinitions allUiDefinitions,
       IEnumerable<PlatformLibrary> platformLibraries
-      ) : base(rootGenerateDir, allEntities, allEnums, allUiDefinitions, platformLibraries) {
+      ) : base(messages, rootGenerateDir, allEntities, allEnums, allUiDefinitions, platformLibraries) {
       _defaultNamespace = defaultNamespace;
     }
 
@@ -67,7 +68,76 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateXamlRecursively(int level, Instance instance) {
-      throw new NotImplementedException();
+      if (instance == null)
+        return;
+
+      PlatformClassDef platClassDef = FindPlatformClassDef(instance.ClassDef.Name);
+      if (platClassDef == null) {
+        Messages.AddError(instance.XmlElement, "No platform-specific Class Definition for Logical Class {0}",
+          instance.ClassDef.Name);
+        return;
+      }
+
+      WriteLine(level, "<{0}", platClassDef.PlatformName);
+      if (platClassDef.StyleInfo != null)
+        WriteLine(level + 1, "Style=\"{ StaticResource {0} }\"", platClassDef.StyleInfo);
+
+      foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
+        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.Value);
+
+      UiAttributeValue primaryValue = instance.PrimaryValue;
+      PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
+      bool dataBindAlreadyRendered = false;
+
+      foreach (UiAttributeValue attrValue in instance.AttributeValues) {
+        string attrName = attrValue.Definition.Name;
+
+        if (attrValue == primaryValue || attrValue.Definition.Name == ParserXml.ELEMENT_NAME) 
+          continue;
+
+        PlatformAttributeDynamic dynamicAttr = platClassDef.FindDyamicAttribute(attrName);
+        if (dynamicAttr == dataBind)
+          dataBindAlreadyRendered = true;
+
+        // Write the attribute
+        if (attrValue is UiAttributeValueAtomic atomicValue) {
+          string value;
+          if (atomicValue.Value != null) {
+            if (dynamicAttr != null && dynamicAttr.TranslationFunc != null)
+              value = dynamicAttr.TranslationFunc(atomicValue.Value)?.ToString();
+            else
+              value = atomicValue.Value.ToString();
+          } else if (atomicValue.Formula != null)
+            value = atomicValue.Formula; // TODO
+          else
+            continue;
+
+          string name = dynamicAttr == null ? NameUtils.Capitalize(attrName) : dynamicAttr.PlatformName;
+          WriteLine(level + 1, "{0}=\"{1}\"", name, value);
+        } else
+          // Currently, there are not Complex attributes
+          throw new NotImplementedException();
+      }
+
+      if (dataBind != null && !dataBindAlreadyRendered)
+        WriteLine(level + 1, "{0}=\"{ Binding Model.{1} }\"", dataBind.PlatformName, instance.ModelMember.NameUpperCased);
+
+      // Close the XAML element
+      if (primaryValue == null)
+        WriteLine(level, "/>");
+      else {
+        WriteLine(level, ">");
+        WriteChildren(level + 1, primaryValue);
+        WriteLine(level, "<{0}/>", platClassDef.PlatformName);
+      }
+    }
+
+    private void WriteChildren(int level, UiAttributeValue attrValue) {
+      if (attrValue is UiAttributeValueComplex complexAttr) {
+        foreach (Instance childInstance in complexAttr.Instances)
+          GenerateXamlRecursively(level, childInstance);
+      } else
+        throw new NotImplementedException();
     }
     #endregion
 

@@ -110,10 +110,22 @@ namespace x10.gen.wpf {
       },
       new PlatformClassDef() {
         LogicalName = "TextArea",
-        PlatformName = "TextArea",
+        PlatformName = "TextBox",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "TextWrapping",
+            Value = "Wrap",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "AcceptsReturn",
+            Value = "True",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "MinLines",
+            Value = "3",
           },
         },
       },
@@ -267,7 +279,7 @@ namespace x10.gen.wpf {
           },
           new PlatformAttributeDynamic() {
             LogicalName = "onSelect",
-            PlatformName = "OnChecked",
+            PlatformName = "Checked",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "onDeselect",

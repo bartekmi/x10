@@ -11,6 +11,7 @@ using x10.model.metadata;
 using x10.ui.composition;
 using x10.utils;
 using x10.ui.platform;
+using x10.parsing;
 
 namespace x10.gen {
   public abstract class CodeGenerator {
@@ -19,15 +20,17 @@ namespace x10.gen {
     public abstract void Generate(Entity entity);
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
 
-    protected String RootGenerateDir;
+    protected string RootGenerateDir;
     protected AllEntities AllEntities;
     protected AllEnums AllEnums;
     protected AllUiDefinitions AllUiDefinitions;
+    protected MessageBucket Messages;
 
     private readonly IEnumerable<PlatformLibrary> _platformLibraries;
 
-    protected CodeGenerator(string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions, 
+    protected CodeGenerator(MessageBucket messages, string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions, 
       IEnumerable<PlatformLibrary> platformLibraries) {
+      Messages = messages;
       RootGenerateDir = rootGenerateDir;
       AllEntities = allEntities;
       AllEnums = allEnums;
