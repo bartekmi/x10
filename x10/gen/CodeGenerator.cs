@@ -10,6 +10,7 @@ using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
 using x10.utils;
+using x10.ui.platform;
 
 namespace x10.gen {
   public abstract class CodeGenerator {
@@ -23,11 +24,15 @@ namespace x10.gen {
     protected AllEnums AllEnums;
     protected AllUiDefinitions AllUiDefinitions;
 
-    protected CodeGenerator(string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions) {
+    private readonly IEnumerable<PlatformLibrary> _platformLibraries;
+
+    protected CodeGenerator(string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions, 
+      IEnumerable<PlatformLibrary> platformLibraries) {
       RootGenerateDir = rootGenerateDir;
       AllEntities = allEntities;
       AllEnums = allEnums;
       AllUiDefinitions = allUiDefinitions;
+      _platformLibraries = platformLibraries;
     }
 
     public void Generate() {
@@ -46,6 +51,12 @@ namespace x10.gen {
 
       foreach (var enumFileGroup in enumFileGroups)
         GenerateEnumFile(enumFileGroup.Key, enumFileGroup);
+    }
+
+    protected PlatformClassDef FindPlatformClassDef(string logicalName) {
+      return _platformLibraries
+        .Select(x => x.FindComponentByLogicalName(logicalName))
+        .FirstOrDefault(x => x != null);
     }
 
 

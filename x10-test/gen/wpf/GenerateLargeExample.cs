@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 using x10.parsing;
 using x10.compiler;
 using x10.model;
+using x10.ui.platform;
 
 namespace x10.gen.wpf {
   public class GenerateLargeExample {
@@ -27,8 +28,12 @@ namespace x10.gen.wpf {
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
+      PlatformLibrary[] libraries = new PlatformLibrary[] {
+        WpfBaseLibrary.Singleton(),
+      };
+
       string targetDir = "../../../../wpf_generated/__generated__";
-      WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, "wpf_generated", allEntities, allEnums, allUiDefinitions);
+      WpfCodeGenerator generator = new WpfCodeGenerator(targetDir, "wpf_generated", allEntities, allEnums, allUiDefinitions, libraries);
       generator.Generate();
     }
   }

@@ -15,14 +15,21 @@ using x10.ui.composition;
 using x10.ui.metadata;
 using static x10.ui.metadata.ClassDefNative;
 using x10.utils;
+using x10.ui.platform;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
 
     private readonly string _defaultNamespace;
 
-    public WpfCodeGenerator(string rootGenerateDir, string defaultNamespace, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions)
-      : base(rootGenerateDir, allEntities, allEnums, allUiDefinitions) {
+    public WpfCodeGenerator(
+      string rootGenerateDir,
+      string defaultNamespace,
+      AllEntities allEntities,
+      AllEnums allEnums,
+      AllUiDefinitions allUiDefinitions,
+      IEnumerable<PlatformLibrary> platformLibraries
+      ) : base(rootGenerateDir, allEntities, allEnums, allUiDefinitions, platformLibraries) {
       _defaultNamespace = defaultNamespace;
     }
 
@@ -52,9 +59,15 @@ namespace x10.gen.wpf {
              xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
              mc:Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
 
+      GenerateXamlRecursively(1, classDef.RootChild);
+
       WriteLine(0, "</UserControl>");
 
       End();
+    }
+
+    private void GenerateXamlRecursively(int level, Instance instance) {
+      throw new NotImplementedException();
     }
     #endregion
 
@@ -100,7 +113,7 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(0, "using wpf_lib.lib;");   // TODO: Eventually, this should be dynamic
       WriteLine();
-      WriteLine(0, "using {0};", GetNamespace(dataModel.TreeElement));  
+      WriteLine(0, "using {0};", GetNamespace(dataModel.TreeElement));
       WriteLine();
 
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
@@ -209,7 +222,7 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(2, "// Regular Attributes");
 
-      foreach (X10RegularAttribute attribute in attributes) 
+      foreach (X10RegularAttribute attribute in attributes)
         GenerateProperty(attribute.DataType, attribute.Name);
     }
     #endregion

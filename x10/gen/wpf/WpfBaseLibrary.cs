@@ -242,7 +242,7 @@ namespace x10.gen.wpf {
             Value = "10,0,0,0",
           },
           new PlatformAttributeDynamic() {
-            LogicalName = "Text",
+            LogicalName = "text",
             PlatformName = "ToolTip",
           },
         },

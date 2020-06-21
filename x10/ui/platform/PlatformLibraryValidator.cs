@@ -15,15 +15,32 @@ namespace x10.ui.platform {
     }
 
     internal void HydrateAndValidate(UiLibrary logicalLibrary, PlatformLibrary platformLibrary) {
-      int blankNameClassDefs = platformLibrary.All.Count(x => string.IsNullOrWhiteSpace(x.PlatformName));
+      int blankNameClassDefs = platformLibrary.All.Count(x => string.IsNullOrWhiteSpace(x.LogicalName));
       if (blankNameClassDefs > 0)
-        _messages.AddError(null, "{0} Platform Class Definitions have a blank Platform Name", blankNameClassDefs);
+        _messages.AddError(null, "{0} Platform Class Definitions have a blank Logical Name", blankNameClassDefs);
 
+      // Check duplicate logical names
+      IEnumerable<string> duplicateLogicalNames = platformLibrary.All.GroupBy(x => x.LogicalName)
+        .Where(x => x.Count() > 1)
+        .Select(x => x.Key)
+        .Where(x => x != null);
+      if (duplicateLogicalNames.Count() > 0)
+        _messages.AddError(null, "Multiple definitions for Logical Names: {0}",
+          string.Join(",", duplicateLogicalNames));
+
+      // Individual validation of PlatformClassDef's
       foreach (PlatformClassDef classDef in platformLibrary.All) {
+        ValidateNoDuplicateBindingAttributes(classDef);
         ClassDef logical = HydrateAndValidateLogicalClassDef(logicalLibrary, classDef);
         if (logical != null)
           HydrateAndValidateAttributes(logical, classDef);
       }
+    }
+
+    private void ValidateNoDuplicateBindingAttributes(PlatformClassDef classDef) {
+      if (classDef.PlatformAttributes.OfType<PlatformAttributeDataBind>().Count() > 1)
+        _messages.AddError(null, "Platform UI Component {0} has multiple binding attributes",
+          classDef.PlatformName);
     }
 
     private ClassDef HydrateAndValidateLogicalClassDef(UiLibrary logicalLibrary, PlatformClassDef classDef) {
@@ -39,7 +56,7 @@ namespace x10.ui.platform {
 
     private void HydrateAndValidateAttributes(ClassDef logical, PlatformClassDef platform) {
       foreach (PlatformAttribute attribute in platform.PlatformAttributes) {
-        if (attribute is PlatformAttributeStatic staticAttr) 
+        if (attribute is PlatformAttributeStatic staticAttr)
           ValidateStaticAttribute(platform, staticAttr);
         else if (attribute is PlatformAttributeDynamic dynamicAttr)
           ValidateDynamicAttribute(logical, platform, dynamicAttr);
@@ -57,9 +74,13 @@ namespace x10.ui.platform {
 
     private void ValidateDynamicAttribute(ClassDef logical, PlatformClassDef platform, PlatformAttributeDynamic dynamicAttr) {
       UiAttributeDefinition attrDef = logical.FindAttribute(dynamicAttr.LogicalName);
-      if (attrDef == null)
-        _messages.AddError(null, "Platform Attribute {0} refers to Logical Attribute {1} of {2} which does not exist",
-          dynamicAttr.PlatformName, dynamicAttr.LogicalName, logical.Name);
+      if (attrDef == null) {
+        if (dynamicAttr is PlatformAttributeDataBind) {
+          // The main data-bind attribute doesn't need to exist as a logical attribute
+        } else
+          _messages.AddError(null, "Platform Attribute {0} refers to Logical Attribute {1} of {2} which does not exist",
+            dynamicAttr.PlatformName, dynamicAttr.LogicalName, logical.Name);
+      }
     }
   }
 }

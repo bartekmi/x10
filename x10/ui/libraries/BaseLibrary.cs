@@ -731,6 +731,7 @@ namespace x10.ui.libraries {
       #region Primordial Components (Not Abstract)
       ClassDefNative.RawHtml,
       ClassDefNative.State,
+      ClassDefNative.Visual,
       #endregion
     };
 
