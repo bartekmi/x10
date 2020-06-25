@@ -78,7 +78,7 @@ namespace x10.gen.wpf {
         return;
       }
 
-      WriteLine(level, "<{0}", platClassDef.PlatformName);
+      WriteLineMaybe(level, "<{0}", platClassDef.PlatformName);
       if (platClassDef.StyleInfo != null)
         WriteLine(level + 1, "Style=\"{ StaticResource {0} }\"", platClassDef.StyleInfo);
 
@@ -124,11 +124,11 @@ namespace x10.gen.wpf {
 
       // Close the XAML element
       if (primaryValue == null)
-        WriteLine(level, "/>");
+        WriteLineClose(level, "/>");
       else {
-        WriteLine(level, ">");
+        WriteLineClose(level, ">");
         WriteChildren(level + 1, primaryValue);
-        WriteLine(level, "<{0}/>", platClassDef.PlatformName);
+        WriteLine(level, "</{0}>", platClassDef.PlatformName);
       }
     }
 

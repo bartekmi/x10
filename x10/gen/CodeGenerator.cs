@@ -28,7 +28,7 @@ namespace x10.gen {
 
     private readonly IEnumerable<PlatformLibrary> _platformLibraries;
 
-    protected CodeGenerator(MessageBucket messages, string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions, 
+    protected CodeGenerator(MessageBucket messages, string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions,
       IEnumerable<PlatformLibrary> platformLibraries) {
       Messages = messages;
       RootGenerateDir = rootGenerateDir;
@@ -91,15 +91,44 @@ namespace x10.gen {
     }
 
     protected void WriteLine(int level, string text, params object[] args) {
+      WriteLinePrivate(level, text, args);
+      WriteLine();
+    }
+
+    // Calling this has the same effect as WriteLine(...), but if WriteLineClose() is called
+    // BEFORE any other calls to WriteLine(), the contents of both WriteLineMaybe() and WriteLineClose()
+    // will be printed on the same line
+    private bool _writingLineMaybe = false;
+    protected void WriteLineMaybe(int level, string text, params object[] args) {
+      WriteLinePrivate(level, text, args);
+      _writingLineMaybe = true;
+    }
+
+    private void WriteLinePrivate(int level, string text, params object[] args) {
       if (_writer == null)
         throw new Exception("Your forgot to Begin()");
+
+      if (_writingLineMaybe)
+        WriteLine();
 
       text = " " + text + " ";
       text = text.Replace("{ ", "{{ ").Replace(" }", " }}");
       text = text.Trim();
 
       _writer.Write(Spacer(level));
-      _writer.WriteLine(text, args);
+      _writer.Write(text, args);
+
+      _writingLineMaybe = false;
+    }
+
+    protected void WriteLineClose(int level, string text, params object[] args) {
+      if (_writingLineMaybe) {
+        _writingLineMaybe = false;
+        _writer.Write(text, args);
+      } else
+        WriteLinePrivate(level, text, args);
+
+      WriteLine();
     }
 
     protected void WriteLine() {
