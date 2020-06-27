@@ -16,7 +16,7 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; set; }
     public ClassDef ClassDef { get { return this; } }
-    public string GetElementName() {
+    public string DebugPrintAs() {
       return Name;
     }
 

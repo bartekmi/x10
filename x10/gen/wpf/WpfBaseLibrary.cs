@@ -7,44 +7,51 @@ using x10.ui.platform;
 
 namespace x10.gen.wpf {
   internal class WpfBaseLibrary {
-    private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
-
-      #region Visual (Base class for all visual components
-      new PlatformClassDef() {
-        LogicalName = "ClassDefVisual",
-        PlatformAttributes = new List<PlatformAttribute>() {
+    #region Base Classes: Visual
+    readonly static PlatformClassDef Visual = new PlatformClassDef() {
+      LogicalName = "ClassDefVisual",
+      PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "visible",
             PlatformName = "Visibility",
             Converter = "BooleanToVisibilityConverter",
           },
         },
-      },
-      #endregion
+    };
+    #endregion
+
+    private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
+
+      Visual,
 
       #region No-Data Formatting Components
       new PlatformClassDef() {
         LogicalName = "Heading1",
         PlatformName = "TextBlock",
         StyleInfo = "Heading1",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "Heading2",
         PlatformName = "TextBlock",
         StyleInfo = "Heading2",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "Heading3",
         PlatformName = "TextBlock",
         StyleInfo = "Heading3",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "HorizontalDivider",
         PlatformName = "Separator",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "Bullet",
         PlatformName = "TextBlock",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Text",
@@ -55,6 +62,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Label",
         PlatformName = "lib:Label",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
@@ -77,6 +85,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Text",
         PlatformName = "TextBlock",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "weight",
@@ -94,6 +103,7 @@ namespace x10.gen.wpf {
       },
       new PlatformClassDef() {
         LogicalName = "Pill",
+        InheritsFrom = Visual,
         // TODO... Create the actual pill component in lib
       },
       #endregion

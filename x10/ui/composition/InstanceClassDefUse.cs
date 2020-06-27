@@ -7,13 +7,14 @@ using x10.parsing;
 using x10.ui.metadata;
 
 namespace x10.ui.composition {
-  // TODO: Explain this!
+  // This type of Instance is created via a direct use of a
+  // UI element name - e.g. <ToggleButton .../>
   public class InstanceClassDefUse : Instance {
     public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement, UiAttributeValue owner) : base(xmlElement, owner) {
       RenderAs = classDef;
     }
 
-    public override string GetElementName() {
+    public override string DebugPrintAs() {
       return RenderAs.Name;
     }
 

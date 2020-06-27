@@ -17,7 +17,7 @@ namespace x10.ui.composition {
     XmlElement XmlElement { get; }
 
     ClassDef ClassDef { get; }
-    string GetElementName();
+    string DebugPrintAs();
   }
 
   public static class IAcceptsUiAttributeValuesExtensions {
@@ -46,7 +46,7 @@ namespace x10.ui.composition {
 
     public static void Print(this IAcceptsUiAttributeValues source, TextWriter writer, int indent, PrintConfig config = null) {
       PrintUtils.Indent(writer, indent);
-      writer.Write("<" + source.GetElementName());
+      writer.Write("<" + source.DebugPrintAs());
 
       foreach (UiAttributeValueAtomic atomic in source.AtomicAttributeValues())
         atomic.Print(writer);
@@ -69,7 +69,7 @@ namespace x10.ui.composition {
           classDef.RootChild.Print(writer, indent + 1, config);
 
         PrintUtils.Indent(writer, indent);
-        writer.WriteLine("</" + source.GetElementName() + ">");
+        writer.WriteLine("</" + source.DebugPrintAs() + ">");
       }
     }
   }

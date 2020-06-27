@@ -16,6 +16,9 @@ namespace x10.ui.platform {
     // Optional platform-specific style information that may be needed during code-generation
     public string StyleInfo { get; set; }
 
+    // Optional parent class PlatformClassDef name
+    public string InheritsFromName { get; set; }
+
     // Attributes - both static and dynamic
     public IEnumerable<PlatformAttribute> PlatformAttributes { get; set; }
 
@@ -33,6 +36,7 @@ namespace x10.ui.platform {
 
     // Hydrated
     public ClassDef LogicalClassDef { get; internal set; }
+    public PlatformClassDef InheritsFrom { get; internal set; }
 
     public PlatformClassDef() {
       PlatformAttributes = new List<PlatformAttribute>();

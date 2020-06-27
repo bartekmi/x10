@@ -40,9 +40,10 @@ namespace x10.ui.metadata {
     public string InheritsFromName { get; set; }
 
     // Specifies how to deal with Model References (i.e. InstanceModelRef).
-    // For example, in a Table, model ref's correspond to columns; in a Form, model ref's correspond to fields with validation,
-    // and so on.
-    // If this definition is present, a model ref will be translated to an instance of this component type (InstanceClassDefUse)
+    // For example, in a Table, model ref's correspond to columns; in a Form, 
+    // model ref's correspond to fields with validation, and so on.
+    // If this definition is present, a model ref will be translated 
+    // to an instance of this component type (InstanceClassDefUse)
     // with the apropriate path delivering the model reference
     // This name will be hydrated into the actual object
     public string ModelRefWrapperComponentName { get; set; }

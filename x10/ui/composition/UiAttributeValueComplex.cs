@@ -28,10 +28,10 @@ namespace x10.ui.composition {
         PrintValues(writer, indent, config);
       else {
         PrintUtils.Indent(writer, indent);
-        writer.WriteLine("<{0}.{1}>", Owner.GetElementName(), Definition.Name);
+        writer.WriteLine("<{0}.{1}>", Owner.DebugPrintAs(), Definition.Name);
         PrintValues(writer, indent + 1, config);
         PrintUtils.Indent(writer, indent);
-        writer.WriteLine("</{0}.{1}>", Owner.GetElementName(), Definition.Name);
+        writer.WriteLine("</{0}.{1}>", Owner.DebugPrintAs(), Definition.Name);
       }
     }
 

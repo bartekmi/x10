@@ -31,9 +31,9 @@ namespace x10.ui.platform {
       // Individual validation of PlatformClassDef's
       foreach (PlatformClassDef classDef in platformLibrary.All) {
         ValidateNoDuplicateBindingAttributes(classDef);
-        ClassDef logical = HydrateAndValidateLogicalClassDef(logicalLibrary, classDef);
-        if (logical != null)
-          HydrateAndValidateAttributes(logical, classDef);
+        HydrateAndValidateLogicalClassDef(platformLibrary, logicalLibrary, classDef);
+        if (classDef.LogicalClassDef != null) // Only hydrated after call above
+          HydrateAndValidateAttributes(classDef.LogicalClassDef, classDef);
       }
     }
 
@@ -43,15 +43,20 @@ namespace x10.ui.platform {
           classDef.PlatformName);
     }
 
-    private ClassDef HydrateAndValidateLogicalClassDef(UiLibrary logicalLibrary, PlatformClassDef classDef) {
-      ClassDef logical = logicalLibrary.FindComponentByName(classDef.LogicalName);
-      if (logical == null)
+    private void HydrateAndValidateLogicalClassDef(PlatformLibrary platformLibrary, UiLibrary logicalLibrary, PlatformClassDef classDef) {
+      // Logical Component
+      classDef.LogicalClassDef = logicalLibrary.FindComponentByName(classDef.LogicalName);
+      if (classDef.LogicalClassDef == null)
         _messages.AddError(null, "Platform UI Component {0} references Logical UI Component {1} which does not exist",
           classDef.PlatformName, classDef.LogicalName);
-      else
-        classDef.LogicalClassDef = logical;
 
-      return logical;
+      // Inherits-from Platform Component
+      if (classDef.InheritsFromName != null) {
+        classDef.InheritsFrom = platformLibrary.FindComponentByPlatformName(classDef.InheritsFromName);
+        if (classDef.InheritsFrom == null)
+          _messages.AddError(null, "Platform UI Component {0} inherits from Component {1} which does not exist",
+            classDef.PlatformName, classDef.InheritsFromName);
+      }
     }
 
     private void HydrateAndValidateAttributes(ClassDef logical, PlatformClassDef platform) {

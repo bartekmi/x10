@@ -326,26 +326,32 @@ namespace x10.compiler {
     [Fact]
     public void StateDefinition() {
       ClassDefX10 definition = RunTest(@"
-<MyComponent description='My description...'>
+<MyComponent description='My description...' model='Building'>
   <MyComponent.state>
     <State variable='myVar1' dataType='String' default='Hello World' />
-    <State variable='myVar2' dataType='Integer' default='7' />
+    <State variable='myVar2' dataType='Boolean' default='true' />
     <State variable='myVar3' dataType='Date' />
   </MyComponent.state>
-  <RawHtml/>
+  <VerticalGroup>
+    <Checkbox checked='=myVar2'/> 
+    <name visible='=myVar2'/>
+  </VerticalGroup>
 </MyComponent>
 ");
 
       Assert.Empty(_messages.Messages);
       string result = Print(definition);
 
-      Assert.Equal(@"<MyComponent description='My description...'>
+      Assert.Equal(@"<MyComponent description='My description...' model='Building'>
   <MyComponent.state>
     <State variable='myVar1' dataType='String' default='Hello World'/>
-    <State variable='myVar2' dataType='Integer' default='7'/>
+    <State variable='myVar2' dataType='Boolean' default='true'/>
     <State variable='myVar3' dataType='Date'/>
   </MyComponent.state>
-  <RawHtml/>
+  <VerticalGroup>
+    <Checkbox checked='=myVar2'/>
+    <name visible='=myVar2'/>
+  </VerticalGroup>
 </MyComponent>
 ", result);
     }

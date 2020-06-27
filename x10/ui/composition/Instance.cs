@@ -16,7 +16,9 @@ namespace x10.ui.composition {
   // values for all the attributes (expressed as UiAttributeValue's)
   public abstract class Instance : IAcceptsUiAttributeValues {
 
-    public abstract string GetElementName();
+    // Currently, this is only used for printing - i.e. debug
+    // and unit test purposes
+    public abstract string DebugPrintAs();
 
     // The Entity Member which is being displayed/edited by this Instance
     // If null, this is the root child, or one of its consecutive children
