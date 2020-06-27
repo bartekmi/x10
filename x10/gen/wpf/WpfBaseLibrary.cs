@@ -10,6 +10,7 @@ namespace x10.gen.wpf {
     #region Base Classes: Visual
     readonly static PlatformClassDef Visual = new PlatformClassDef() {
       LogicalName = "ClassDefVisual",
+      IsAbstract = true,
       PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "visible",
@@ -103,6 +104,7 @@ namespace x10.gen.wpf {
       },
       new PlatformClassDef() {
         LogicalName = "Pill",
+        PlatformName = "Pill",
         InheritsFrom = Visual,
         // TODO... Create the actual pill component in lib
       },

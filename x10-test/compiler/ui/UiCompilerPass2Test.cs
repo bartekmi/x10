@@ -122,6 +122,11 @@ namespace x10.compiler {
               Name = "label",
               DataType = DataTypes.Singleton.String,
             },
+            new UiAttributeDefinitionAtomic() {
+              Name = "sortable",
+              DataType = DataTypes.Singleton.Boolean,
+              DefaultValue = true,
+            },
           },
         },
         new ClassDefNative() {
@@ -508,7 +513,7 @@ namespace x10.compiler {
         <HelpIcon/>
       </Table.Header>
       <name/>
-      <TableColumn>
+      <TableColumn label='Paint'>
         <Button path='paintColor' label='Boo' action='doSomething'/>    <!-- Many to single -->
       </TableColumn>
     </Table>
@@ -529,7 +534,7 @@ namespace x10.compiler {
       <TableColumn>
         <name/>
       </TableColumn>
-      <TableColumn>
+      <TableColumn label='Paint'>
         <Button path='paintColor' label='Boo' action='doSomething'/>
       </TableColumn>
     </Table>

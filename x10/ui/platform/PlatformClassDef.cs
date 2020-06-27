@@ -13,11 +13,15 @@ namespace x10.ui.platform {
     // Used for actual code-generation
     public string PlatformName { get; set; }
 
+    // If true, this component only exists as a base-class
+    // for other components - it will never be rendered directly
+    public bool IsAbstract { get; set; }
+
     // Optional platform-specific style information that may be needed during code-generation
     public string StyleInfo { get; set; }
 
-    // Optional parent class PlatformClassDef name
-    public string InheritsFromName { get; set; }
+    // Optional parent class 
+    public PlatformClassDef InheritsFrom { get; internal set; }
 
     // Attributes - both static and dynamic
     public IEnumerable<PlatformAttribute> PlatformAttributes { get; set; }
@@ -36,7 +40,6 @@ namespace x10.ui.platform {
 
     // Hydrated
     public ClassDef LogicalClassDef { get; internal set; }
-    public PlatformClassDef InheritsFrom { get; internal set; }
 
     public PlatformClassDef() {
       PlatformAttributes = new List<PlatformAttribute>();
@@ -44,6 +47,10 @@ namespace x10.ui.platform {
 
     internal PlatformAttributeDynamic FindDyamicAttribute(string logicalAttrName) {
       return DynamicPlatformAttributes.FirstOrDefault(x => x.LogicalName == logicalAttrName);
+    }
+
+    public override string ToString() {
+      return string.Format("{0} => {1}", LogicalName, PlatformName);
     }
   }
 }

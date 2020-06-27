@@ -49,14 +49,6 @@ namespace x10.ui.platform {
       if (classDef.LogicalClassDef == null)
         _messages.AddError(null, "Platform UI Component {0} references Logical UI Component {1} which does not exist",
           classDef.PlatformName, classDef.LogicalName);
-
-      // Inherits-from Platform Component
-      if (classDef.InheritsFromName != null) {
-        classDef.InheritsFrom = platformLibrary.FindComponentByPlatformName(classDef.InheritsFromName);
-        if (classDef.InheritsFrom == null)
-          _messages.AddError(null, "Platform UI Component {0} inherits from Component {1} which does not exist",
-            classDef.PlatformName, classDef.InheritsFromName);
-      }
     }
 
     private void HydrateAndValidateAttributes(ClassDef logical, PlatformClassDef platform) {
