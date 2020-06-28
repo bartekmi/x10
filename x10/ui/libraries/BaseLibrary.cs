@@ -690,6 +690,7 @@ namespace x10.ui.libraries {
             IsPrimary = true,
             IsMandatory = true,
             ComplexAttributeType = ClassDefNative.Visual,
+            ModelRefWrapperComponentName = "Label",
           },
         },
       },
