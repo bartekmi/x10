@@ -32,6 +32,7 @@ namespace x10.ui.platform {
       foreach (PlatformClassDef classDef in platformLibrary.All) {
         ValidateNoDuplicateBindingAttributes(classDef);
         HydrateAndValidateLogicalClassDef(platformLibrary, logicalLibrary, classDef);
+        HydrateAndValidateInhertisFrom(platformLibrary, classDef);
         if (classDef.LogicalClassDef != null) // Only hydrated after call above
           HydrateAndValidateAttributes(classDef.LogicalClassDef, classDef);
       }
@@ -49,6 +50,23 @@ namespace x10.ui.platform {
       if (classDef.LogicalClassDef == null)
         _messages.AddError(null, "Platform UI Component {0} references Logical UI Component {1} which does not exist",
           classDef.PlatformName, classDef.LogicalName);
+    }
+
+    private void HydrateAndValidateInhertisFrom(PlatformLibrary platformLibrary, PlatformClassDef classDef) {
+      string name = classDef.InheritsFromName;
+      if (name == null)
+        return;
+
+      IEnumerable<PlatformClassDef> available = platformLibrary.All.Where(x => x.PlatformName == name);
+
+      if (available.Count() == 0)
+        _messages.AddError(null, "Platform UI Component {0} inherits-from Component {1} does not exist.",
+          classDef.PlatformName, name);
+      else if (available.Count() > 1)
+        _messages.AddError(null, "Platform UI Component {0} inherits-from Component {1}: multiple instances exist.",
+          classDef.PlatformName, name);
+      else
+        classDef.InheritsFrom = available.Single();
     }
 
     private void HydrateAndValidateAttributes(ClassDef logical, PlatformClassDef platform) {

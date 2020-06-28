@@ -20,8 +20,9 @@ namespace x10.ui.platform {
     // Optional platform-specific style information that may be needed during code-generation
     public string StyleInfo { get; set; }
 
-    // Optional parent class 
-    public PlatformClassDef InheritsFrom { get; internal set; }
+    // Optional parent class (name)
+    public string InheritsFromName { get; set; }
+    public PlatformClassDef InheritsFrom { get; set; }
 
     // Attributes - both static and dynamic
     public IEnumerable<PlatformAttribute> PlatformAttributes { get; set; }
@@ -46,6 +47,11 @@ namespace x10.ui.platform {
     }
 
     internal PlatformAttributeDynamic FindDyamicAttribute(string logicalAttrName) {
+      if (InheritsFrom != null) {
+        PlatformAttributeDynamic baseClasAttr = InheritsFrom.FindDyamicAttribute(logicalAttrName);
+        if (baseClasAttr != null)
+          return baseClasAttr;
+      }
       return DynamicPlatformAttributes.FirstOrDefault(x => x.LogicalName == logicalAttrName);
     }
 

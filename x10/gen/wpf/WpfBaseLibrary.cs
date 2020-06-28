@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using x10.parsing;
 using x10.ui.libraries;
+using x10.ui.metadata;
 using x10.ui.platform;
 
 namespace x10.gen.wpf {
@@ -114,6 +115,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "TextEdit",
         PlatformName = "TextBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
@@ -123,6 +125,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "TextArea",
         PlatformName = "TextBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
@@ -145,6 +148,7 @@ namespace x10.gen.wpf {
         LogicalName = "IntEdit",
         // TODO: Use something more specific
         PlatformName = "TextBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
@@ -155,6 +159,7 @@ namespace x10.gen.wpf {
         LogicalName = "FloatEdit",
         // TODO: Use something more specific
         PlatformName = "TextBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
@@ -164,16 +169,22 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Checkbox",
         PlatformName = "CheckBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             LogicalName = "checked",
             PlatformName = "IsChecked",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "label",
+            PlatformName = "Content",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "BooleanViaButtons",
         PlatformName = "lib:BooleanViaButtons",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Selected",
@@ -183,6 +194,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "DateEditor",
         PlatformName = "DatePicker",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "SelectedDate",
@@ -209,6 +221,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "DropDown",
         PlatformName = "ComboBox",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "SelectedItem",
@@ -222,6 +235,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "VerticalStackPanel",
         PlatformName = "StackPanel",
+        InheritsFrom = Visual,
       },
       #endregion
 
@@ -229,6 +243,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Row",
         PlatformName = "StackPanel",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Orientation",
@@ -239,6 +254,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "RepellingRow",
         PlatformName = "Grid",
+        InheritsFrom = Visual,
         // TODO: Add generation code 
       },
       #endregion
@@ -247,6 +263,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Grid",
         PlatformName = "Grid",
+        InheritsFrom = Visual,
         // TODO: Add generation code 
       },
       #endregion
@@ -256,6 +273,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "HelpIcon",
         PlatformName = "TextBlock",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Text",
@@ -274,6 +292,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Button",
         PlatformName = "Button",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "label",
@@ -284,6 +303,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "SelectableButton",
         PlatformName = "ToggleButton",
+        InheritsFromName = "Button",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             LogicalName = "selected",
@@ -305,10 +325,12 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Menu",
         PlatformName = "Menu",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "MenuItem",
         PlatformName = "MenuItem",
+        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             LogicalName = "label",
@@ -322,26 +344,30 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "Form",
         PlatformName = "lib:Form",
+        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "FormSection",
         PlatformName = "lib:FormSection",
+        InheritsFrom = Visual,
       },
       #endregion
     };
 
     #region Glue it Together
     private static PlatformLibrary _singleton;
-    public static PlatformLibrary Singleton() {
+    public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
       if (_singleton == null)
-        _singleton = CreateLibrary();
+        _singleton = CreateLibrary(errors, logicalLibrary);
       return _singleton;
     }
 
-    private static PlatformLibrary CreateLibrary() {
+    private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
       PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
         ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
       };
+
+      library.HydrateAndValidate(errors, logicalLibrary);
 
       return library;
     }

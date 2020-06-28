@@ -53,7 +53,7 @@ namespace x10.compiler {
       };
 
       foreach (UiLibrary library in libraries)
-        if (library.HydrateAndValidate(messages)) {
+        if (!library.HydrateAndValidate(messages)) {
           TestUtils.DumpMessages(messages, output);
           Assert.Empty(messages.Messages);
         }

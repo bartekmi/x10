@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 
 using x10.ui.metadata;
+using x10.parsing;
 
 namespace x10.ui.platform {
   public class PlatformLibrary {
@@ -26,6 +27,17 @@ namespace x10.ui.platform {
       _definitionsByLogicalName.TryGetValue(logicalName, out PlatformClassDef definition);
       return definition;
     }
+
+    public bool HydrateAndValidate(MessageBucket messages, UiLibrary logicalLibrary) {
+      PlatformLibraryValidator validator = new PlatformLibraryValidator(messages);
+
+      int messageCountBefore = messages.Messages.Count;
+      validator.HydrateAndValidate(logicalLibrary, this);
+      int messageCountAfter = messages.Messages.Count;
+
+      return messageCountBefore == messageCountAfter;
+    }
+
     #endregion
 
   }

@@ -8,6 +8,7 @@ using x10.parsing;
 using x10.compiler;
 using x10.model;
 using x10.ui.platform;
+using x10.ui.libraries;
 
 namespace x10.gen.wpf {
   public class GenerateLargeExample {
@@ -29,8 +30,13 @@ namespace x10.gen.wpf {
         out AllUiDefinitions allUiDefinitions);
 
       PlatformLibrary[] libraries = new PlatformLibrary[] {
-        WpfBaseLibrary.Singleton(),
+        WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton()),
       };
+
+      if (_messages.HasErrors) {
+        TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
+        Assert.Empty(_messages.Errors);
+      }
 
       string targetDir = "../../../../wpf_generated/__generated__";
       WpfCodeGenerator generator = new WpfCodeGenerator(

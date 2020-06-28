@@ -17,8 +17,7 @@ namespace x10.gen.wpf {
 
     [Fact]
     public void Validate() {
-      PlatformLibraryValidator validator = new PlatformLibraryValidator(_messages);
-      validator.HydrateAndValidate(BaseLibrary.Singleton(), WpfBaseLibrary.Singleton());
+      WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton());
 
       TestUtils.DumpMessages(_messages, _output);
       Assert.True(_messages.IsEmpty);

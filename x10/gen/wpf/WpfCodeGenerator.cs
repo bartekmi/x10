@@ -115,7 +115,7 @@ namespace x10.gen.wpf {
           string name = dynamicAttr == null ? NameUtils.Capitalize(attrName) : dynamicAttr.PlatformName;
           WriteLine(level + 1, "{0}=\"{1}\"", name, value);
         } else
-          // Currently, there are not Complex attributes
+          // Currently, there are no Complex attributes
           throw new NotImplementedException();
       }
 
