@@ -14,7 +14,7 @@
     <!-- The actual content -->
     <List path="bookings">
       <RepellingRow>
-        <Icon icon="=state"/>
+        <Icon icon="=status"/>
         <VerticalStackPanel>
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>

@@ -45,7 +45,7 @@ namespace x10.formula {
       }
 
       if (type.IsMany)
-        return GetIsManyDataType(expression, errors, memberName);
+        return GetIsManyDataType(expression, errors, type, memberName);
 
       // TODO: Check for ambiguity between state variables and entity properties
       Dictionary<string, DataType> otherVars = expression.Parser.OtherAvailableVariables;
@@ -62,12 +62,17 @@ namespace x10.formula {
       return new ExpDataType(member);
     }
 
-    private static ExpDataType GetIsManyDataType(ExpBase expression, MessageBucket errors, string memberName) {
-      if (memberName == "count")
-        return ExpDataType.Integer;
-
-      errors.AddError(expression, "{0} is not a valid property of a collection. The only valid property is 'count'", memberName);
-      return ExpDataType.ERROR;
+    private static ExpDataType GetIsManyDataType(ExpBase expression, MessageBucket errors, ExpDataType type, string memberName) {
+      switch (memberName) {
+        case "count":
+          return ExpDataType.Integer;
+        case "first":
+        case "last":
+          return type.Clone(false);
+        default:
+          errors.AddError(expression, "{0} is not a valid property of a collection. The only valid properties are: count, first, last", memberName);
+          return ExpDataType.ERROR;
+      }
     }
   }
 }

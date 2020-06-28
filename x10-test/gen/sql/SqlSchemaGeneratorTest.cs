@@ -32,6 +32,7 @@ namespace x10.gen.sql {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
 
+      TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
       Assert.False(_messages.HasErrors);
 
       SqlSchemaGenerator.Generate(entities, OUTPUT_FILE);

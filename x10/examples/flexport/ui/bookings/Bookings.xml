@@ -39,8 +39,8 @@
         <volumeCm/>
         <status/>
         <TableColumn label="Action">
-          <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=state == 'draft'"/>
-          <Row visible="=state != draft">
+          <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=status == 'draft'"/>
+          <Row visible="=status != draft">
             <Button label="View" url="/bookings/${id}"/>
             <Button label="Edit" url="/bookings/${id}/amend"/>
           </Row>

@@ -70,9 +70,18 @@ namespace x10.formula {
         throw new Exception("Added a new Member type and forgot to update this code?");
     }
 
+    internal ExpDataType Clone(bool isMany) {
+      return new ExpDataType() {
+        IsMany = isMany,
+        DataType = DataType,
+        Entity = Entity,
+        EnumName = EnumName,
+      };
+    }
+
     public override string ToString() {
       if (IsEntity)
-        return Entity.Name;
+        return IsMany ? string.Format("Many<{0}>", Entity.Name) : Entity.Name;
       if (IsPrimitive)
         return DataType.Name;
       if (IsEnumName)
@@ -88,7 +97,7 @@ namespace x10.formula {
     public override bool Equals(object obj) {
       if (obj is ExpDataType other) {
         if (IsEntity && other.IsEntity)
-          return Entity == other.Entity;
+          return Entity == other.Entity && IsMany == other.IsMany;
         if (IsPrimitive && other.IsPrimitive)
           return DataType == other.DataType;
         if (IsEnumName && other.IsEnumName)

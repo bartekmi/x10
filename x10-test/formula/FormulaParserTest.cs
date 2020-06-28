@@ -109,6 +109,9 @@ arguments:
 
     [Fact]
     public void ParseSuccessful() {
+      Entity nested = _allEntities.FindEntityByName("Nested");
+      Assert.NotNull(nested);
+
       TestExpectedSuccess("1 + 2.7", DataTypes.Singleton.Float);                    // Binary - Literals
       TestExpectedSuccess("a + c", DataTypes.Singleton.Integer);                    // Binary - Identifiers
       TestExpectedSuccess("\"Hello\" + \" World\"", DataTypes.Singleton.String);    // Binary of Strings
@@ -119,7 +122,9 @@ arguments:
       TestExpectedSuccess("myBoolean && (a < 7)", DataTypes.Singleton.Boolean);     // Logical expression
       TestExpectedSuccess("nested.attr", DataTypes.Singleton.Date);                 // Member access
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
-      TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Count
+      TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Multiple: Count
+      TestExpectedSuccess("many.first", new ExpDataType(nested, false));            // Multiple: First
+      TestExpectedSuccess("many.last", new ExpDataType(nested, false));             // Multiple: Last
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
       TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
       TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
@@ -206,10 +211,14 @@ arguments:
 
     [Fact]
     public void BadManyAttribute() {
-      TestExpectedError("many.notCount", "notCount is not a valid property of a collection. The only valid property is 'count'", 5, 13);
+      TestExpectedError("many.notCount", "notCount is not a valid property of a collection. The only valid properties are: count, first, last", 5, 13);
     }
 
     private void TestExpectedSuccess(string formula, DataType expectedType) {
+      TestExpectedSuccess(formula, new ExpDataType(expectedType));
+    }
+
+    private void TestExpectedSuccess(string formula, ExpDataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
       FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums, _functions) {
@@ -220,7 +229,7 @@ arguments:
 
       Assert.Equal(0, errors.Count);
       Assert.False(expression is ExpUnknown);
-      Assert.Same(expectedType, expression.DataType.DataType);
+      Assert.Equal(expectedType, expression.DataType);
     }
 
     private void TestExpectedError(string formula, string expectedError, int startCharPos, int endCharPos) {
