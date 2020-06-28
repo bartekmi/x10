@@ -18,6 +18,7 @@ namespace x10.formula {
     private readonly AllEnums _enums;
     private readonly AllFunctions _functions;
     private readonly MessageBucket _errors = new MessageBucket();
+    private readonly Dictionary<string, DataType> _otherAvailableVariables;
     private AllEntities _allEntities;
     private Entity _entity;
 
@@ -25,9 +26,18 @@ namespace x10.formula {
       _output = output;
       _enums = new AllEnums(_errors);
       _functions = new AllFunctions(_errors);
+      _otherAvailableVariables = new Dictionary<string, DataType>() {
+        { "stateInt", DataTypes.Singleton.Integer },
+        { "stateString", DataTypes.Singleton.String },
+      };
 
       InitializeEntities();
       InitializeFunctions();
+
+      if (_errors.HasErrors) {
+        TestUtils.DumpMessages(_errors, _output);
+        Assert.False(_errors.HasErrors);
+      }
     }
 
     private void InitializeEntities() {
@@ -53,6 +63,9 @@ attributes:
 associations:
   - name: nested
     dataType: Nested
+  - name: many
+    dataType: Nested
+    many: true
 enums:
   - name: MyEnum
     values: one, two, three
@@ -96,16 +109,18 @@ arguments:
 
     [Fact]
     public void ParseSuccessful() {
-      TestExpectedSuccess("1 + 2.7", DataTypes.Singleton.Float);                    // Binary
+      TestExpectedSuccess("1 + 2.7", DataTypes.Singleton.Float);                    // Binary - Literals
+      TestExpectedSuccess("a + c", DataTypes.Singleton.Integer);                    // Binary - Identifiers
       TestExpectedSuccess("\"Hello\" + \" World\"", DataTypes.Singleton.String);    // Binary of Strings
       TestExpectedSuccess("(1 + a) / b", DataTypes.Singleton.Float);                // Parenthesis
-      TestExpectedSuccess("a + c", DataTypes.Singleton.Integer);                    // Parenthesis
       TestExpectedSuccess("MyFunc(myString, a)", DataTypes.Singleton.String);       // Function
       TestExpectedSuccess("a * b + c * d / e", DataTypes.Singleton.Float);          // Compound expression
       TestExpectedSuccess("a < 7", DataTypes.Singleton.Boolean);                    // Inequalifty
       TestExpectedSuccess("myBoolean && (a < 7)", DataTypes.Singleton.Boolean);     // Logical expression
       TestExpectedSuccess("nested.attr", DataTypes.Singleton.Date);                 // Member access
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
+      TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Count
+      TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
     }
 
     #region Enumerated Types
@@ -181,11 +196,18 @@ arguments:
       TestExpectedError("a - nested.missing", "Entity 'Nested' does not contain an Attribute or Association 'missing'", 11, 18);
     }
 
+    [Fact]
+    public void BadManyAttribute() {
+      TestExpectedError("many.notCount", "notCount is not a valid property of a collection. The only valid property is 'count'", 5, 13);
+    }
+
     private void TestExpectedSuccess(string formula, DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
-      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums, _functions);
-      ExpBase expression = parser.Parse(element, formula, new ExpDataType(_entity));
+      FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums, _functions) {
+        OtherAvailableVariables = _otherAvailableVariables,
+      };
+      ExpBase expression = parser.Parse(element, formula, new ExpDataType(_entity, false));
       TestUtils.DumpMessages(errors, _output);
 
       Assert.Equal(0, errors.Count);
@@ -203,8 +225,10 @@ arguments:
         },
       };
 
-      FormulaParser parser = new FormulaParser(_errors, new AllEntities(_errors, new Entity[0]), _enums, _functions);
-      parser.Parse(element, formula, new ExpDataType(_entity));
+      FormulaParser parser = new FormulaParser(_errors, new AllEntities(_errors, new Entity[0]), _enums, _functions) {
+        OtherAvailableVariables = _otherAvailableVariables,
+      };
+      parser.Parse(element, formula, new ExpDataType(_entity, false));
       TestUtils.DumpMessages(_errors, _output);
       Assert.Equal(1, _errors.ErrorCount);
 

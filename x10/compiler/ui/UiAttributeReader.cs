@@ -9,6 +9,7 @@ using x10.ui.metadata;
 using x10.ui.composition;
 using x10.model;
 using System.Text.RegularExpressions;
+using x10.formula;
 
 namespace x10.compiler {
 
@@ -153,8 +154,9 @@ namespace x10.compiler {
       if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
         DataType dataType = attrPrimitive.DataType;
         string attrValue = xmlAttribute.Value.ToString();
-        if (IsFormula(attrValue))
-          formula = attrValue;
+
+        if (FormulaUtils.IsFormula(attrValue, out string strippedFormula))
+          formula = strippedFormula;
         else {
           typedValue = dataType.Parse(attrValue, _messages, xmlAttribute.Value, attrDef.Name);
           if (typedValue == null)
@@ -173,11 +175,6 @@ namespace x10.compiler {
       }
 
       return typedValue;
-    }
-
-
-    private static bool IsFormula(string valueOrFormula) {
-      return valueOrFormula.Trim().StartsWith("=");
     }
 
     public static bool IsAttachedAttribute(string attributeName, out string ownerClassDefName, out string attrName) {

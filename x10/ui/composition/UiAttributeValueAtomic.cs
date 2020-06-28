@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
+using x10.formula;
 using x10.parsing;
 using x10.ui.metadata;
 
@@ -10,6 +8,10 @@ namespace x10.ui.composition {
   public class UiAttributeValueAtomic : UiAttributeValue {
     public object Value { get; set; }
     public string Formula { get; set; }
+    public ExpBase Expression { get; set; }
+
+    // Derived
+    public UiAttributeDefinitionAtomic DefinitionAtomic { get { return (UiAttributeDefinitionAtomic)Definition; } }
 
     public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase)
       : base(attrDefinition, owner, xmlBase) {
@@ -26,7 +28,7 @@ namespace x10.ui.composition {
       writer.Write("{0}{1}='{2}'",
         attrDef.IsAttached ? attrDef.Owner.Name + "." : null,
         Definition.Name, 
-        Formula == null ? Value : Formula);
+        Formula == null ? Value : "=" + Formula);  // Equals is stripped during compilation
     }
 
     public override string ToString() {

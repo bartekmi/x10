@@ -8,6 +8,7 @@ using x10.model;
 using x10.ui.metadata;
 using x10.ui.composition;
 using x10.model.metadata;
+using x10.formula;
 
 namespace x10.compiler {
 
@@ -20,6 +21,7 @@ namespace x10.compiler {
 
     // Derived
     internal bool IsEmpty { get { return Entity == null; } }
+    internal bool IsPrimitive { get { return Member is X10Attribute; } }
 
     private UiDataModel() { }
 
@@ -61,6 +63,15 @@ namespace x10.compiler {
         Member = Member,
       };
     }
+
+    internal ExpDataType ToExpDataModel() {
+      if (IsEmpty)
+        return ExpDataType.ERROR;
+
+      return IsPrimitive ?
+        new ExpDataType(((X10Attribute)Member).DataType) :
+        new ExpDataType(Entity, IsMany);
+    }
   }
   #endregion
 
@@ -72,6 +83,7 @@ namespace x10.compiler {
     private readonly AllEntities _allEntities;
     private readonly AllEnums _allEnums;
     private readonly AllUiDefinitions _allUiDefinitions;
+    private readonly FormulaParser _parser;
 
     private static readonly string[] PASS_2_1_MODEL_REF_ATTRIBUTES = new string[] { ParserXml.ELEMENT_NAME, "ui" };
     private static readonly string[] PASS_2_1_CLASS_DEF_USE_ATTRIBUTES = new string[] { ParserXml.ELEMENT_NAME, "path" };
@@ -81,13 +93,15 @@ namespace x10.compiler {
       UiAttributeReader attributeReader,
       AllEntities allEntities,
       AllEnums allEnums,
-      AllUiDefinitions allUiDefinitions) {
+      AllUiDefinitions allUiDefinitions,
+      AllFunctions allFunctions) {
 
       _messages = messages;
       _attrReader = attributeReader;
       _allEntities = allEntities;
       _allEnums = allEnums;
       _allUiDefinitions = allUiDefinitions;
+      _parser = new FormulaParser(_messages, _allEntities, _allEnums, allFunctions);
     }
 
     internal void CompileAllUiDefinitions() {
@@ -102,13 +116,20 @@ namespace x10.compiler {
         if (rootXmlChild == null)
           continue;
 
-        // Walk the XML tree and create a data model based on Instance and UiAttributeValue
+        // Parse the Root Child
         definition.RootChild = ParseInstance(rootXmlChild, null);
+        UiDataModel rootDataModel = new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value);
         foreach (UiAttributeValueComplex attribute in definition.ComplexAttributeValues())
           foreach (Instance instance in attribute.Instances)
-            CompileRecursively(instance, null);
+            CompileRecursively(instance, rootDataModel);
 
-        CompileRecursively(definition.RootChild, new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value));
+        // Now that we have parsed the State complex attribute, we can safely set the "other variables" of our Parser
+        var stateVars = definition.GetStateVariables(_allEnums);
+        if (stateVars != null)
+          _parser.OtherAvailableVariables = stateVars.ToDictionary(x => x.Variable, x => x.DataType);
+
+        // Walk the XML tree and create a data model based on Instance and UiAttributeValue
+        CompileRecursively(definition.RootChild, rootDataModel);
       }
     }
 
@@ -326,6 +347,7 @@ namespace x10.compiler {
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
       ValidateRenderAsType(instance);
+      ParseAndValidateFormulas(instance, parentDataModel);
 
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues()) {
@@ -498,6 +520,32 @@ namespace x10.compiler {
          "Complex Attribute value must be of type {0} or inherit from it",
          requiredType.Name);
     }
+
+    #region Formula Parsing and Validation
+    private void ParseAndValidateFormulas(Instance instance, UiDataModel rootDataModel) {
+      foreach (UiAttributeValueAtomic value in instance.AtomicAttributeValues())
+        if (value.Formula != null) {
+          value.Expression = _parser.Parse(value.XmlBase, value.Formula, rootDataModel.ToExpDataModel());
+          ValidateReturnedDataType(value);
+        };
+    }
+
+    private void ValidateReturnedDataType(UiAttributeValueAtomic value) {
+      ExpDataType returnedDataType = value.Expression.DataType;
+      if (returnedDataType.IsError)
+        return;
+
+      ExpDataType expectedReturnType = new ExpDataType(value.DefinitionAtomic.DataType);
+
+      // Since anything can be converted to String, don't worry about type checking
+      if (expectedReturnType.IsString)
+        return;
+
+      if (!returnedDataType.Equals(expectedReturnType))
+        _messages.AddError(value.XmlBase, "Expected expression to return {0}, but it returns {1}",
+          expectedReturnType, returnedDataType);
+    }
+    #endregion
 
     private void InvokePass2Actions(IAcceptsUiAttributeValues component) {
       foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())

@@ -206,17 +206,15 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateState(ClassDefX10 classDef) {
-      UiAttributeValueComplex states = classDef.FindAttributeValue(ClassDefNative.STATE) as UiAttributeValueComplex;
+      IEnumerable<StateClass> states = classDef.GetStateVariables(AllEnums);
       if (states == null)
         return;
 
       WriteLine();
       WriteLine(2, "// State");
 
-      foreach (Instance instance in states.Instances) {
-        StateClass state = StateClass.FromInstance(AllEnums, instance);
+      foreach (StateClass state in states) 
         GenerateProperty(state.DataType, state.Variable);
-      }
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {

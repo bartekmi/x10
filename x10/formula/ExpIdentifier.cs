@@ -23,7 +23,7 @@ namespace x10.formula {
         Entity context = Parser.AllEntities.FindContextEntityWithError(this);
         if (context == null)
           return ExpDataType.ERROR;
-        return new ExpDataType(context);
+        return new ExpDataType(context, false);
       }
 
       if (rootType == null) {

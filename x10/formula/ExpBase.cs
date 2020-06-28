@@ -7,7 +7,7 @@ namespace x10.formula {
     public abstract ExpDataType DetermineTypeRaw(ExpDataType rootType);
     public abstract void Accept(IVisitor visitor);
      
-    protected FormulaParser Parser { get; private set; }
+    internal FormulaParser Parser { get; private set; }
     public ExpDataType DataType { get; internal set; }
 
     // IParseElement

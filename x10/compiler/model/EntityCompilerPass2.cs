@@ -99,7 +99,7 @@ namespace x10.compiler {
       FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums, _allFunctions);
 
       foreach (Entity entity in _allEntities.All) {
-        ExpDataType dataType = new ExpDataType(entity);
+        ExpDataType dataType = new ExpDataType(entity, false);
 
         foreach (ModelAttributeValue value in entity.AttributeValues)
           CheckIfFormulaAndParse(parser, null, dataType, value);

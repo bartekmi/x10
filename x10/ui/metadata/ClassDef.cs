@@ -6,6 +6,9 @@ using System.Text;
 using x10.parsing;
 using x10.model.definition;
 using x10.model.metadata;
+using static x10.ui.metadata.ClassDefNative;
+using x10.ui.composition;
+using x10.model;
 
 namespace x10.ui.metadata {
 

@@ -50,7 +50,7 @@ namespace x10.compiler {
 
       // UI Compile - Pass 2
       UiAttributeReader attrReaderForPass2 = new UiAttributeReader(_messages, allEntities, allEnums, allUiDefinitions);
-      UiCompilerPass2 uiPass2 = new UiCompilerPass2(_messages, attrReaderForPass2, allEntities, allEnums, allUiDefinitions);
+      UiCompilerPass2 uiPass2 = new UiCompilerPass2(_messages, attrReaderForPass2, allEntities, allEnums, allUiDefinitions, allFunctions);
       uiPass2.CompileAllUiDefinitions();
     }
   }

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 
 using x10.parsing;
+using x10.formula;
 using x10.model.metadata;
 using x10.model.definition;
 
@@ -65,7 +66,7 @@ namespace x10.compiler {
         }
 
         string value = scalarNode.Value.ToString();
-        if (IsFormula(value, out string strippedFormula))
+        if (FormulaUtils.IsFormula(value, out string strippedFormula))
           formula = strippedFormula;
         else { 
           if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
@@ -124,18 +125,6 @@ namespace x10.compiler {
           _messages.AddError(attribute,
             string.Format("Unknown attribute '{0}' on {1}", attribute.Key, type));
       }
-    }
-
-    private static bool IsFormula(string valueOrFormula, out string strippedFormula) {
-      string trimmed = valueOrFormula.Trim();
-
-      if (trimmed.StartsWith("=")) {
-        strippedFormula = trimmed.Substring(1);
-        return true;
-      }
-
-      strippedFormula = null;
-      return false;
     }
   }
 }

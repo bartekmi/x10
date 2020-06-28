@@ -28,7 +28,7 @@ namespace x10.compiler {
       // Read top-level (entity) attributes
       _attrReader.ReadAttributesForClassDef(definition);
 
-      // TODO: What's the point anymore
+      // TODO: What's the point anymore?
       // Perhaps we can separate Compiler 2.1 and 2.2
 
       return definition;

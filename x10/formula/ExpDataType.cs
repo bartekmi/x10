@@ -6,9 +6,10 @@ using x10.model.metadata;
 namespace x10.formula {
 
   public class ExpDataType {
-    public DataType DataType { get; set; }
-    public Entity Entity { get; set; }
-    public DataTypeEnum EnumName { get; set; }  // Used for enum name (left side of EnumNam.Value)
+    public DataType DataType { get; private set; }
+    public Entity Entity { get; private set; }
+    public DataTypeEnum EnumName { get; private set; }  // Used for enum name (left side of EnumNam.Value)
+    public bool IsMany { get; private set; }
 
     // Derived
     public bool IsEntity { get { return Entity != null; } }
@@ -43,10 +44,12 @@ namespace x10.formula {
       DataType = dataType;
     }
 
-    internal ExpDataType(Entity entity) {
+    internal ExpDataType(Entity entity, bool isMany) {
       if (entity == null)
         throw new Exception("entity is null");
+
       Entity = entity;
+      IsMany = isMany;
     }
 
     internal static ExpDataType CreateEnumNameTemporaryType(DataTypeEnum enumName) {
@@ -60,9 +63,10 @@ namespace x10.formula {
     internal ExpDataType(Member member) {
       if (member is X10Attribute attr)
         DataType = attr.DataType;
-      else if (member is Association assoc)
+      else if (member is Association assoc) {
         Entity = assoc.ReferencedEntity;
-      else
+        IsMany = assoc.IsMany;
+      } else
         throw new Exception("Added a new Member type and forgot to update this code?");
     }
 

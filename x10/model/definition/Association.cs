@@ -13,7 +13,7 @@ namespace x10.model.definition {
     public Entity ReferencedEntity { get; set; }
 
     public override ExpDataType GetExpressionDataType() {
-      return new ExpDataType(ReferencedEntity);
+      return new ExpDataType(ReferencedEntity, IsMany);
     }
   }
 }

@@ -119,7 +119,7 @@ namespace x10 {
       AllUiDefinitions allUiDefinitions = new AllUiDefinitions(messages, uiDefinitions, new UiLibrary[] { uiLibrary });
 
       UiAttributeReader attrReader = new UiAttributeReader(messages, allEntities, allEnums, allUiDefinitions);
-      UiCompilerPass2 pass2 = new UiCompilerPass2(messages, attrReader, allEntities, allEnums, allUiDefinitions);
+      UiCompilerPass2 pass2 = new UiCompilerPass2(messages, attrReader, allEntities, allEnums, allUiDefinitions, new AllFunctions(messages));
       pass2.CompileAllUiDefinitions();
     }
 

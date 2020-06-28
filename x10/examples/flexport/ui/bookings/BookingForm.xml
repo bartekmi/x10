@@ -1,6 +1,6 @@
 <BookingForm model="Booking">
   <BookingForm.state>
-    <State variable="notifyPartySameAsConsignee" dataType="Boolean" default="=isBlank(notifyParty)"/>
+    <State variable="notifyPartySameAsConsignee" dataType="Boolean" default="=IsBlank(notifyParty)"/>
   </BookingForm.state>
   <Form>
     <VerticalStackPanel>

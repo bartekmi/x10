@@ -21,11 +21,12 @@ namespace x10.formula {
     public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
       ExpDataType expressionDataType = Expression.DetermineType(rootType);
       if (expressionDataType.IsEnumName)
-        return GetEnumValue(expressionDataType.EnumName);
+        return GetEnumValueDataType(expressionDataType.EnumName);
+
       return GetMemberAccessDataType(this, Parser.Errors, expressionDataType, MemberName);
     }
 
-    private ExpDataType GetEnumValue(DataTypeEnum enumType) {
+    private ExpDataType GetEnumValueDataType(DataTypeEnum enumType) {
       if (enumType.HasEnumValue(MemberName))
         return new ExpDataType(enumType);
 
@@ -43,6 +44,14 @@ namespace x10.formula {
         return ExpDataType.ERROR;
       }
 
+      if (type.IsMany)
+        return GetIsManyDataType(expression, errors, memberName);
+
+      // TODO: Check for ambiguity between state variables and entity properties
+      Dictionary<string, DataType> otherVars = expression.Parser.OtherAvailableVariables;
+      if (otherVars != null && otherVars.TryGetValue(memberName, out DataType dataType))
+        return new ExpDataType(dataType);
+
       Entity entity = type.Entity;
       Member member = entity.FindMemberByName(memberName);
       if (member == null) {
@@ -51,6 +60,14 @@ namespace x10.formula {
       }
 
       return new ExpDataType(member);
+    }
+
+    private static ExpDataType GetIsManyDataType(ExpBase expression, MessageBucket errors, string memberName) {
+      if (memberName == "count")
+        return ExpDataType.Integer;
+
+      errors.AddError(expression, "{0} is not a valid property of a collection. The only valid property is 'count'", memberName);
+      return ExpDataType.ERROR;
     }
   }
 }
