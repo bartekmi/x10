@@ -34,6 +34,11 @@ namespace x10.formula {
         x10Expression = new ExpLiteral(parser) {
           Value = literal.Token.Value,
         };
+      } else if (expression is PrefixUnaryExpressionSyntax unary) {
+        x10Expression = new ExpUnary(parser) {
+          Token = unary.OperatorToken.ToString(),
+          Expression = ConvertToExpBase(parser, element, unary.Operand),
+        };
       } else if (expression is ParenthesizedExpressionSyntax parenth) {
         x10Expression = new ExpParenthesized(parser) {
           Expression = ConvertToExpBase(parser, element, parenth.Expression),

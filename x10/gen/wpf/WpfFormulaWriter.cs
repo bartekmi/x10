@@ -59,6 +59,11 @@ namespace x10.gen.wpf {
       _writer.Write(")");
     }
 
+    public void VisitUnary(ExpUnary exp) {
+      _writer.Write(exp.Token);
+      exp.Expression.Accept(this);
+    }
+
     public void VisitUnknown(ExpUnknown exp) {
       // This should never happen if the x10 code was compiled cleanly
     }

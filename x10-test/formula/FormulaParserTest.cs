@@ -121,6 +121,8 @@ arguments:
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
       TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Count
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
+      TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
+      TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
     }
 
     #region Enumerated Types
@@ -181,13 +183,19 @@ arguments:
     }
 
     [Fact]
-    public void DataTypeMismatch() {
+    public void DataTypeMismatchBinary() {
       TestExpectedError("a - myBoolean", "Cannot subtract Integer and Boolean", 2, 3);
       TestExpectedError("a % b", "Cannot take remainder of Integer and Float", 2, 3);
       TestExpectedError("a + myBoolean", "Cannot add Integer and Boolean", 2, 3);
       TestExpectedError("a && myBoolean", "Cannot logical-and Integer and Boolean", 2, 4);
       TestExpectedError("a > myBoolean", "Cannot compare Integer and Boolean", 2, 3);
       TestExpectedError("a == myBoolean", "Cannot test equality of Integer and Boolean", 2, 4);
+    }
+
+    [Fact]
+    public void DataTypeMismatchUnary() {
+      TestExpectedError("-myBoolean", "Cannot apply '-' to type Boolean", 0, 10);
+      TestExpectedError("!a", "Cannot apply '!' to type Integer", 0, 2);
     }
 
     [Fact]

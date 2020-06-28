@@ -91,7 +91,7 @@ namespace x10.formula {
 
           return ExpDataType.ERROR;
         default:
-          Parser.Errors.AddError(this, "Unexpected token: " + Token);
+          Parser.Errors.AddError(this, "Unexpected binary token: " + Token);
           return ExpDataType.ERROR;
       }
     }

@@ -22,7 +22,7 @@
         <shipper/>
         <consignee/>
         <Checkbox label="Notify party is same as consignee" checked="=notifyPartySameAsConsignee"/>
-        <notifyParty visible="=$state.notifyPartySameAsConsignee"/>
+        <notifyParty visible="=notifyPartySameAsConsignee"/>
       </FormSection>
 
       <FormSection label="Transportation">
