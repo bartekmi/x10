@@ -8,15 +8,16 @@
       <Table.Header>
         <RepellingRow>
           <Row>
-            <Button label="=`Archive ${selected.count}` tasks" visible="=selected.count > 0">
+            <Button label="='Archive ' + selected.count + ' tasks'" visible="=selected.count > 0">
               <Button.Action>
                 <Action backEndTarget="archiveSelectedTasks(selected)"/>
               </Button.Action>
             </Button>
 
-            <FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
+            <!-- TODO! -->
+            <!--<FilterMultiSelect label="Assignees" choices="=taskAssignees"/>
             <FilterMultiSelect label="Types" choices="=enumValues(TaskType)"/>
-            <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>
+            <FilterMultiSelect label="Statuses" choices="=enumValues(TaskStatus)"/>-->
           </Row>
           <TablePageControls/>
         </RepellingRow>

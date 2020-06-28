@@ -6,18 +6,6 @@ attributes:
   - name: state
     dataType: QuoteRequestState
 
-enums:
-  - name: QuoteRequestState
-    values: 
-      - value: quoteRequested
-        icon: quotation_mark
-      - value: quotesReady
-        icon: callout
-      - value: quoteAccepted
-        icon: thumbs_up
-      - value: quoteExpired
-        icon: dont
-
 associations:
   - name: submittedBy
     dataType: User
@@ -50,3 +38,16 @@ associations:
     validations:
       - message: Destination Location must be provided when 'Wants Destination Service' is true
         trigger: wantsDestinationService
+
+
+enums:
+  - name: QuoteRequestState
+    values: 
+      - value: quoteRequested
+        icon: quotation_mark
+      - value: quoteReady
+        icon: callout
+      - value: quoteAccepted
+        icon: thumbs_up
+      - value: quoteExpired
+        icon: dont

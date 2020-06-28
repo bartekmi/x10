@@ -38,7 +38,7 @@
                         <Bullet/>
                         <Text text="No tasks" visible="=tasks.count == 0"/>
                         <Text text="=tasks.first.headline" visible="=tasks.count == 1"/>
-                        <Text text="=`${tasks.count} tasks`" visible="=tasks.count > 1"/>
+                        <Text text="=tasks.count + 'tasks'" visible="=tasks.count > 1"/>
                     </Row>
                 </VerticalStackPanel>
 

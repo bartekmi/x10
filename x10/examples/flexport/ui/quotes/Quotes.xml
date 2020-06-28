@@ -46,11 +46,11 @@
         <state/>
 
         <TableColumn label="Action">
-          <!-- Consider an element which enforces all enums are covered (like switch) -->
+          <!-- TODO... Convert to label='=state.label' -->
           <Button label="View Request" url="/bookings/${booking.id}/edit" visible="=state == 'quoteRequested'"/>
-          <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'qoutesReady'"/>
-          <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'accepted'"/>
-          <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'expired'"/>
+          <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteReady'"/>
+          <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteAccepted'"/>
+          <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteExpired'"/>
         </TableColumn>
       </Table.Columns>
 
