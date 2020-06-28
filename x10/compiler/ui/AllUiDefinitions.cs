@@ -56,6 +56,10 @@ namespace x10.compiler {
       return definitions.Single();
     }
 
+    public bool IsWrapper(ClassDef classDef) {
+      return _libraries.Any(x => x.IsWrapper(classDef));
+    }
+
     internal void UiComponentUniquenessCheck() {
       foreach (var definitions in _uiDefinitionsByName.Where(x => x.Value.Count() > 1)) {
         foreach (ClassDefX10 definition in definitions.Value) {

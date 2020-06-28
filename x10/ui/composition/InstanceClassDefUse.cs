@@ -10,7 +10,7 @@ namespace x10.ui.composition {
   // This type of Instance is created via a direct use of a
   // UI element name - e.g. <ToggleButton .../>
   public class InstanceClassDefUse : Instance {
-    public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement, UiAttributeValue owner) : base(xmlElement, owner) {
+    public InstanceClassDefUse(ClassDef classDef, XmlElement xmlElement, UiAttributeValueComplex owner) : base(xmlElement, owner) {
       RenderAs = classDef;
     }
 

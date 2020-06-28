@@ -42,7 +42,7 @@ namespace x10.ui.composition {
 
 
     public override string ToString() {
-      return string.Format("Complex Value: for attribute {0}", Definition.Name);
+      return string.Format("{0}=[{1} instances]", Definition?.Name, Instances.Count);
     }
   }
 }

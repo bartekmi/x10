@@ -10,7 +10,7 @@ namespace x10.ui.composition {
   // at the refe
   public class InstanceModelRef : Instance {
 
-    public InstanceModelRef(XmlElement xmlElement, UiAttributeValue owner) : base(xmlElement, owner) {
+    public InstanceModelRef(XmlElement xmlElement, UiAttributeValueComplex owner) : base(xmlElement, owner) {
       // Do nothing
     }
 

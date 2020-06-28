@@ -16,6 +16,7 @@ namespace x10.ui.metadata {
 
     private readonly Dictionary<string, ClassDef> _definitionsByName;
     private readonly Dictionary<DataType, ClassDef> _dataTypesToComponent;
+    private HashSet<ClassDef> _wrapperComponents;
     private ClassDef _defaultComponentForEnums;
 
     // Derived
@@ -57,6 +58,11 @@ namespace x10.ui.metadata {
       validator.HydrateAndValidate(this);
       int messageCountAfter = messages.Messages.Count;
 
+      _wrapperComponents = new HashSet<ClassDef>(All
+        .SelectMany(x => x.ComplexAttributeDefinitions)
+        .Select(x => x.ModelRefWrapperComponent)
+        .Where(x => x != null));
+
       return messageCountBefore == messageCountAfter;
     }
     #endregion
@@ -74,6 +80,10 @@ namespace x10.ui.metadata {
         uiComponent = _defaultComponentForEnums;
 
       return uiComponent;
+    }
+
+    public bool IsWrapper(ClassDef classDef) {
+      return _wrapperComponents.Contains(classDef);
     }
     #endregion
 

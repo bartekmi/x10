@@ -448,12 +448,12 @@ namespace x10.ui.libraries {
         ComponentDataModel = Entity.Object,
         IsMany = true,
         InheritsFrom = ClassDefNative.Visual,
-        ModelRefWrapperComponentName = "TableColumn",
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionComplex() {
             IsPrimary = true,
             Name = "Columns",
             Description = "Definitions of the columns",
+            ModelRefWrapperComponentName = "TableColumn",
             IsMany = true,
             IsMandatory = true,
             ReducesManyToOne = true,

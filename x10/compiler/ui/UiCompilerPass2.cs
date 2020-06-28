@@ -138,7 +138,7 @@ namespace x10.compiler {
 
     #region Pass 2.1 - Build the Instance/AttributeValue tree
 
-    private Instance ParseInstance(XmlElement xmlElement, UiAttributeValue owner) {
+    private Instance ParseInstance(XmlElement xmlElement, UiAttributeValueComplex owner) {
       if (IsModelReference(xmlElement)) {
         Instance instance = ParseModelRefInstance(xmlElement, owner);
         return instance;
@@ -153,14 +153,11 @@ namespace x10.compiler {
       }
     }
 
-    private Instance ParseModelRefInstance(XmlElement xmlElement, UiAttributeValue owner) {
+    private Instance ParseModelRefInstance(XmlElement xmlElement, UiAttributeValueComplex owner) {
       Instance modelRefInstance;
       Instance returnInstance;
 
-      // For some components, occurrences of InstanceModelRef are wrapped in another "adapter" 
-      // component. Classic case is that model ref's in a Table are wrapped in TableColumn
-      Instance parent = owner?.Owner as Instance;
-      ClassDef wrapperClassDef = parent?.RenderAs?.ModelRefWrapperComponent;
+      ClassDef wrapperClassDef = FindModelRefWrapper(owner);
       if (wrapperClassDef != null) {
         XmlElement fakeXmlElemnt = xmlElement.CloneFileLocation();
         returnInstance = new InstanceClassDefUse(wrapperClassDef, fakeXmlElemnt, owner);
@@ -176,7 +173,25 @@ namespace x10.compiler {
       return returnInstance;
     }
 
-    private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement, UiAttributeValue owner) {
+    // For some components, occurrences of InstanceModelRef are wrapped in another "adapter" 
+    // component. Classic case is that model ref's in a Table are wrapped in TableColumn
+    private ClassDef FindModelRefWrapper(UiAttributeValueComplex complexAttr) {
+      while (complexAttr != null) {
+        // If the originally passed instance is already embedded in a wrapper, do not embed it again
+        if (_allUiDefinitions.IsWrapper((complexAttr.Owner as Instance)?.RenderAs))
+          break;
+
+        ClassDef wrapper = complexAttr.DefinitionComplex.ModelRefWrapperComponent;
+        if (wrapper != null)
+          return wrapper;
+
+        complexAttr = (complexAttr.Owner as Instance)?.Owner;
+      }
+
+      return null;
+    }
+
+    private InstanceClassDefUse ParseClassDefInstance(XmlElement xmlElement, UiAttributeValueComplex owner) {
       ClassDef classDef = _allUiDefinitions.FindDefinitionByNameWithError(xmlElement.Name, xmlElement);
       if (classDef == null)
         return null;    // Error provided by FindDefinitionByNameWithError() above
@@ -474,8 +489,7 @@ namespace x10.compiler {
     }
 
     private void ValidateRenderAsType(Instance instance) {
-      UiAttributeValueComplex owner = (instance.Owner as UiAttributeValueComplex);
-      ClassDef requiredType = owner?.DefinitionComplex.ComplexAttributeType;
+      ClassDef requiredType = instance.Owner?.DefinitionComplex.ComplexAttributeType;
       if (requiredType == null)
         return;
 

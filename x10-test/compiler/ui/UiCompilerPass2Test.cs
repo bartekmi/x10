@@ -92,7 +92,6 @@ namespace x10.compiler {
           ComponentDataModel = Entity.Object,
           IsMany = true,
           InheritsFrom = ClassDefNative.Visual,
-          ModelRefWrapperComponentName = "TableColumn",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
               IsPrimary = true,
@@ -101,6 +100,7 @@ namespace x10.compiler {
               IsMandatory = true,
               ReducesManyToOne = true,
               ComplexAttributeTypeName = "TableColumn",
+              ModelRefWrapperComponentName = "TableColumn",
             },
             new UiAttributeDefinitionComplex() {
               Name = "Header",
@@ -257,6 +257,43 @@ namespace x10.compiler {
       </TableColumn>
     </Table>
   </VerticalGroup>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void TableColumnWithRichContent() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent description='My description...' model='Building' many='True'>
+  <Table>
+    <Table.Header>
+      <HelpIcon text='A useful help message...'/>
+    </Table.Header>
+    <TableColumn>
+      <VerticalGroup>
+        <name/>
+        <ageInYears/>
+      </VerticalGroup>
+    </TableColumn>
+  </Table>
+</MyComponent>
+");
+
+      // There are errors, but we don't care about them for this test (Only testing compile 2.1)
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent description='My description...' model='Building' many='True'>
+  <Table>
+    <Table.Header>
+      <HelpIcon text='A useful help message...'/>
+    </Table.Header>
+    <TableColumn>
+      <VerticalGroup>
+        <name/>
+        <ageInYears/>
+      </VerticalGroup>
+    </TableColumn>
+  </Table>
 </MyComponent>
 ", result);
     }

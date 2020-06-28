@@ -23,7 +23,6 @@ namespace x10.ui.metadata {
       foreach (ClassDef classDef in library.All) {
         HydrateOwner(classDef);
         HydrateAndValidateBaseClass(library, classDef);
-        HydrateAndValidateModelRefWrapper(library, classDef);
         EnsurePropertiesValid(classDef);
         EnsureCorrectDataModelSpecification(classDef);
       }
@@ -55,15 +54,6 @@ namespace x10.ui.metadata {
     private void HydrateAndValidateBaseClass(UiLibrary library, ClassDef classDef) {
       string description = string.Format("Inherits-From parent of Class Definition {0}", classDef.Name);
       classDef.InheritsFrom = HydrateAndValidateClassDef(library, description, classDef.InheritsFrom, classDef.InheritsFromName, true);
-    }
-
-    private void HydrateAndValidateModelRefWrapper(UiLibrary library, ClassDef classDef) {
-      string description = string.Format("Model Reference Wrapper of Class Definition {0}", classDef.Name);
-      classDef.ModelRefWrapperComponent = HydrateAndValidateClassDef(library,
-        description,
-        classDef.ModelRefWrapperComponent,
-        classDef.ModelRefWrapperComponentName,
-        false);
     }
 
     private ClassDef HydrateAndValidateClassDef(UiLibrary library, string description, ClassDef theObject, string name, bool isMandatory) {
@@ -124,8 +114,19 @@ namespace x10.ui.metadata {
       }
 
       if (attrDef is UiAttributeDefinitionComplex attrComplex) {
-        string description = string.Format("Type of Complex Attribute {0}.{1}", attrDef.Owner.Name, attrDef.Name);
+        ClassDef classDef = attrDef.Owner;
+        string description = string.Format("Type of Complex Attribute {0}.{1}", classDef.Name, attrDef.Name);
         attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName, true);
+
+        string wrapperName = attrComplex.ModelRefWrapperComponentName;
+        if (wrapperName != null) {
+          description = string.Format("Model Reference Wrapper of {0}.{1}", classDef.Name, attrDef.Name);
+          attrComplex.ModelRefWrapperComponent = HydrateAndValidateClassDef(library,
+            description,
+            attrComplex.ModelRefWrapperComponent,
+            attrComplex.ModelRefWrapperComponentName,
+            false);
+        }
       }
 
       MessageBucket messages = new MessageBucket();

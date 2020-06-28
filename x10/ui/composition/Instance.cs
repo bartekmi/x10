@@ -33,8 +33,8 @@ namespace x10.ui.composition {
     // Every UI child eventually must resolve to a visual (UI) component
     public ClassDef RenderAs { get; set; }
 
-    // All but the root-level Instance are owned by a UiAttributeValue
-    public UiAttributeValue Owner { get; private set; }
+    // All but the root-level Instance are owned by a UiAttributeValueComplex
+    public UiAttributeValueComplex Owner { get; private set; }
 
     // IAcceptsUiAttributeValues
     public List<UiAttributeValue> AttributeValues { get; private set; }
@@ -42,12 +42,12 @@ namespace x10.ui.composition {
     public ClassDef ClassDef { get { return RenderAs; } }
 
     // Derived
-    public Instance Parent { 
+    public Instance ParentInstance { 
       get { return Owner?.Owner as Instance; }
     }
 
     // Constructor
-    protected Instance(XmlElement xmlElement, UiAttributeValue owner) {
+    protected Instance(XmlElement xmlElement, UiAttributeValueComplex owner) {
       XmlElement = xmlElement;
       Owner = owner;
       AttributeValues = new List<UiAttributeValue>();
