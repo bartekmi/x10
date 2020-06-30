@@ -19,7 +19,11 @@ namespace x10.model.metadata {
     }
 
     public static ModelAttributeDefinition Find(AppliesTo appliesTo, string name) {
-      return All.SingleOrDefault(x => x.AppliesToType(appliesTo) && x.Name == name);
+      return Find(appliesTo).SingleOrDefault(x => x.Name == name);
+    }
+
+    public static IEnumerable<ModelAttributeDefinition> Find(AppliesTo appliesTo) {
+      return All.Where(x => x.AppliesToType(appliesTo));
     }
   }
 }

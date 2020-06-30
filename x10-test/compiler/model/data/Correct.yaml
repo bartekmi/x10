@@ -43,7 +43,6 @@ enums:
     values:
       - value: one
         label: The number One
-        icon: one
       - value: two
 
 

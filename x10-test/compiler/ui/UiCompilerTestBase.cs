@@ -33,6 +33,8 @@ namespace x10.compiler {
 
 
     private AllEntities CreateEntities() {
+      model.libraries.BaseLibrary.ICON_DATA_TYPE.EnumValueValues = new string[] { "open", "covered" }; 
+
       // At this point, allEnums is unused
       AllEntities allEntities = TestUtils.EntityCompile(_messages, _allEnums, new string[] {
         @"

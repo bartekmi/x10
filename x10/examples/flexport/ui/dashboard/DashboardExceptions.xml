@@ -14,7 +14,7 @@
     <!-- The actual content -->
     <List>
       <RepellingRow>
-        <Icon icon="=type"/>
+        <Icon icon="=type.icon"/>
         <VerticalStackPanel>
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
@@ -33,7 +33,7 @@
 
           <!-- Shipment Status/Exception type -->
           <Row>
-            <Icon icon="=shipment.transportationMode"/>
+            <Icon icon="=shipment.transportationMode.icon"/>
             <shipment.status/>
             <Bullet/>
             <type/>
@@ -41,7 +41,7 @@
 
           <RepellingRow>
             <Row>
-              <Icon icon="=shipment.transportationMode"/>
+              <Icon icon="=shipment.transportationMode.icon"/>
               <shipment.currentLocation.location.name/>
               <Bullet/>
               <type/>

@@ -20,6 +20,9 @@ namespace x10.compiler {
     public LargeDemoTest(ITestOutputHelper output) {
       _output = output;
       _messages = new MessageBucket();
+
+      // This forces loading icons
+      IconLibrary.Singleton();
     }
 
     [Fact]

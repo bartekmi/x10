@@ -62,6 +62,11 @@ namespace x10.model.metadata {
           Name = "Timestamp",
           Description = "A unique point in time, expressed in UTC time",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s)),
+          Properties = new List<DataTypeProperty>() {
+            new DataTypeProperty("year", Integer),
+            new DataTypeProperty("dayOfMonth", Integer),
+            new DataTypeProperty("motnName", String),
+          }
         },
         new DataType() {
           Name = "Money",
@@ -88,6 +93,11 @@ namespace x10.model.metadata {
 
     public void AddDataType(DataType customDataType) {
       All.Add(customDataType);
+    }
+
+    public void AddDataTypes(IEnumerable<DataType> customDataTypes) {
+      foreach (DataType dataType in customDataTypes)
+        AddDataType(dataType);
     }
   }
 }

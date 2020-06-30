@@ -14,7 +14,7 @@
     <!-- The actual content -->
     <List>
       <RepellingRow>
-        <Icon icon="=state"/>
+        <Icon icon="=state.icon"/>
         <VerticalStackPanel>
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
@@ -30,7 +30,7 @@
 
           <RepellingRow>
             <Row>
-              <Icon icon="=transportationMode"/>
+              <Icon icon="=transportationMode.icon"/>
               <state/>
             </Row>
             <Row>

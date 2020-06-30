@@ -94,7 +94,7 @@ namespace x10.ui.libraries {
       },
       #endregion
 
-      #region  Atomic Text Display Components
+      #region Atomic Display Components
       new ClassDefNative() {
         Name = "Text",
         Description = "Display text on the User Interface.",
@@ -122,6 +122,18 @@ namespace x10.ui.libraries {
         Description = "Like the <Text> component, but the text will be displayed within a colored oval background. Useful for displaying small but important information - e.g. number of returned results",
         InheritsFromName = "Text",
         IsMany = false,
+      },
+      new ClassDefNative() {
+        Name = "Icon",
+        InheritsFrom = ClassDefNative.Visual,
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.String,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "icon",
+            DataType = x10.model.libraries.BaseLibrary.ICON_DATA_TYPE,
+          },
+        }
       },
       #endregion
 
@@ -755,6 +767,7 @@ namespace x10.ui.libraries {
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor");
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor");
+      library.AddDataTypeToComponentAssociation(model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon");
 
       library.SetComponentForEnums("DropDown");
 

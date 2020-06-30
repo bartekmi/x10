@@ -19,11 +19,22 @@ namespace x10.model {
     }
 
     public void Add(DataTypeEnum anEnum) {
+      SetDataTypeProperties(anEnum);
+
       if (!_enumsByName.TryGetValue(anEnum.Name, out List<DataTypeEnum> enums)) {
         enums = new List<DataTypeEnum>();
         _enumsByName[anEnum.Name] = enums;
       }
       enums.Add(anEnum);
+    }
+
+    // Data Types can have properties - see class DataTypeProperty and its explanation
+    // Here, we find all properties defined for enum values (e.g. label/icon) 
+    private void SetDataTypeProperties(DataTypeEnum theEnum) {
+      theEnum.Properties = ModelAttributeDefinitions.Find(AppliesTo.EnumValue)
+        .OfType<ModelAttributeDefinitionAtomic>()
+        .Select(x => new DataTypeProperty(x.Name, x.DataType))
+        .ToList();
     }
 
     public IEnumerable<DataTypeEnum> All {

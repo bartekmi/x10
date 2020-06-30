@@ -33,7 +33,7 @@
                 <VerticalStackPanel>
                     <ShipmentProgressIndicator/>
                     <Row>
-                        <Icon icon="=transportationMode"/>
+                        <Icon icon="=transportationMode.icon"/>
                         <status/>
                         <Bullet/>
                         <Text text="No tasks" visible="=tasks.count == 0"/>

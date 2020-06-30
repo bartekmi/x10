@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using x10.parsing;
 using x10.model.definition;
@@ -22,6 +21,8 @@ namespace x10.model.libraries {
         Name = "Base Attributes Library",
       };
 
+      DataTypes.Singleton.AddDataType(ICON_DATA_TYPE);
+
       return library;
     }
 
@@ -33,6 +34,10 @@ namespace x10.model.libraries {
     internal const string DEFAULT = "default";
     internal const string FORMULA = "formula";
 
+    public readonly static DataTypeEnum ICON_DATA_TYPE =
+      new DataTypeEnum() {
+        Name = "Icon",
+      };
 
     private static List<ModelAttributeDefinition> _attributes = new List<ModelAttributeDefinition>() {
       //============================================================================
@@ -322,7 +327,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Name = "icon",
         Description = "The name of the icon that correspond to this enum value. Will be used in UI as appropriate.",
         AppliesTo = AppliesTo.EnumValue,
-        DataType = DataTypes.Singleton.String,
+        DataType = ICON_DATA_TYPE,
         Setter = "IconName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string label = scalarNode.Value.ToString();

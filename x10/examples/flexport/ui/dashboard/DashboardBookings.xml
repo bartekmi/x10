@@ -14,7 +14,7 @@
     <!-- The actual content -->
     <List path="bookings">
       <RepellingRow>
-        <Icon icon="=status"/>
+        <Icon icon="=status.icon"/>
         <VerticalStackPanel>
           <!-- Name, etc + priority/bookmark -->
           <RepellingRow>
@@ -39,7 +39,7 @@
 
           <RepellingRow>
             <Row>
-              <Icon icon="=shipment.transportationMode"/>
+              <Icon icon="=shipment.transportationMode.icon"/>
               <status/>
             </Row>
             <Row>

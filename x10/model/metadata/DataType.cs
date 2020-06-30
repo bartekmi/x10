@@ -24,13 +24,29 @@ namespace x10.model.metadata {
     }
   }
 
+  // Data Types themselves can have properties, accessible via the member-access
+  // syntax. For example, the 'Date' DataType has accessors for day/month/year.
+  // Enum data types have accessors for icon and label.
+  public class DataTypeProperty {
+    public string Name { get; set; }
+    public DataType Type { get; set; }
+
+    public DataTypeProperty(string name, DataType type) {
+      Name = name;
+      Type = type;
+    }
+  }
+
 
   public class DataType {
     public string Name { get; set; }
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
+    public List<DataTypeProperty> Properties { get; set; }
 
+    // Derived
+    public bool IsEnum { get { return this is DataTypeEnum; } }
 
     public DataType() {
       // Do nothing
@@ -62,11 +78,15 @@ namespace x10.model.metadata {
       messages.AddError(element, completeMessage);
     }
 
+    public DataTypeProperty FindProperty(string name) {
+      if (Properties == null)
+        return null;
+
+      return Properties.SingleOrDefault(x => x.Name == name);
+    }
+
     public override string ToString() {
       return Name;
     }
-
-    // Enum-related functions. At some point, we may extract an derived class for this
-    public bool IsEnum { get { return this is DataTypeEnum; } }
   }
 }

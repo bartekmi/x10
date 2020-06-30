@@ -14,7 +14,7 @@
         <!-- The actual content -->
         <List>
             <RepellingRow>
-                <Icon icon="=type"/>
+                <Icon icon="=type.icon"/>
                 <VerticalStackPanel>
                     <Row>
                         <shipment.flexId Text.weight="bold"/>
@@ -26,7 +26,7 @@
                     </Row>
                     <RepellingRow>
                         <Row>
-                            <Icon icon="=shipment.transportationMode"/>
+                            <Icon icon="=shipment.transportationMode.icon"/>
                             <headline/>
                             <Bullet/>
                             <dueDateHuman/>

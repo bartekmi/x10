@@ -44,10 +44,10 @@ enums:
   - name: QuoteRequestState
     values: 
       - value: quoteRequested
-        icon: quotation_mark
+        icon: quotation-mark
       - value: quoteReady
         icon: callout
       - value: quoteAccepted
-        icon: thumbs_up
+        icon: thumbs-up
       - value: quoteExpired
         icon: dont

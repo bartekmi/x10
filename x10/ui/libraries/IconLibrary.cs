@@ -8,45 +8,46 @@ using x10.ui.metadata;
 namespace x10.ui.libraries {
   public class IconLibrary {
 
-    private readonly static DataType _iconType = new DataTypeEnum(new string[] {
+    private static readonly string[] iconNames = new string[] {
       "dollar-sign",
       "draft",
       "square-with-bubble",
       "ticket",
-    }) {
-      Name = "Icon",
+      "boat",
+      "airplane",
+      "truck",
+      "lightning",
+      "port",
+      "airport",
+      "factory",
+      "quotation-mark",
+      "callout",
+      "thumbs-up",
+      "dont",
+      "upload",
+      "task",
+      "human",
+      "credit-card",
     };
 
     private readonly static List<ClassDef> _classDefs = new List<ClassDef>() {
-        new ClassDefNative() {
-          Name = "Icon",
-          InheritsFrom = ClassDefNative.Visual,
-          IsMany = false,
-          AtomicDataModel = DataTypes.Singleton.String,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "icon",
-              DataType = _iconType,
-            },
-          }
-        },
+      // If there were components, they would go here.
+      // I left this here to give an example of how an extran library would look like.
     };
 
     private static UiLibrary _singleton;
     public static UiLibrary Singleton() {
       if (_singleton == null)
-        _singleton = CreateLibrary();
+        _singleton = new UiLibrary(_classDefs) {
+          Name = "Icon Library",
+        };
+
+      // Inject icon names into the existing type... The idea is that the actual 
+      // icons may be project-specific
+      model.libraries.BaseLibrary.ICON_DATA_TYPE.EnumValueValues = iconNames;
+
       return _singleton;
     }
 
-    private static UiLibrary CreateLibrary() {
-      UiLibrary library = new UiLibrary(_classDefs) {
-        Name = "Icon Library",
-      };
-
-      library.AddDataTypeToComponentAssociation(_iconType, "Icon");
-
-      return library;
-    }
   }
 }

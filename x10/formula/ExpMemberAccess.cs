@@ -38,28 +38,34 @@ namespace x10.formula {
       if (type.IsError)
         return ExpDataType.ERROR;
 
-      // TODO: In the future, we may allow member access on DataTypes - e.g. DateTime could have 'Day', etc
-      if (!type.IsEntity) {
-        errors.AddError(expression, "The context here is NOT an Entity. It is {0}", type);
+      if (type.IsPrimitive) {
+        DataTypeProperty property = type.DataType.FindProperty(memberName);
+        if (property == null) {
+          errors.AddError(expression, "Data Type '{0}' does not contain property '{1}'", type.DataType, memberName);
+          return ExpDataType.ERROR;
+        }
+        return new ExpDataType(property.Type);
+      } else if (type.IsEntity) {
+        if (type.IsMany)
+          return GetIsManyDataType(expression, errors, type, memberName);
+
+        // TODO: Check for ambiguity between state variables and entity properties
+        Dictionary<string, DataType> otherVars = expression.Parser.OtherAvailableVariables;
+        if (otherVars != null && otherVars.TryGetValue(memberName, out DataType dataType))
+          return new ExpDataType(dataType);
+
+        Entity entity = type.Entity;
+        Member member = entity.FindMemberByName(memberName);
+        if (member == null) {
+          errors.AddError(expression, "Entity '{0}' does not contain an Attribute or Association '{1}'", entity.Name, memberName);
+          return ExpDataType.ERROR;
+        }
+
+        return new ExpDataType(member);
+      } else {
+        errors.AddError(expression, "Unexpected context - neither Entity nor Primite Data Type", type);
         return ExpDataType.ERROR;
       }
-
-      if (type.IsMany)
-        return GetIsManyDataType(expression, errors, type, memberName);
-
-      // TODO: Check for ambiguity between state variables and entity properties
-      Dictionary<string, DataType> otherVars = expression.Parser.OtherAvailableVariables;
-      if (otherVars != null && otherVars.TryGetValue(memberName, out DataType dataType))
-        return new ExpDataType(dataType);
-
-      Entity entity = type.Entity;
-      Member member = entity.FindMemberByName(memberName);
-      if (member == null) {
-        errors.AddError(expression, "Entity '{0}' does not contain an Attribute or Association '{1}'", entity.Name, memberName);
-        return ExpDataType.ERROR;
-      }
-
-      return new ExpDataType(member);
     }
 
     private static ExpDataType GetIsManyDataType(ExpBase expression, MessageBucket errors, ExpDataType type, string memberName) {
