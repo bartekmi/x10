@@ -17,7 +17,6 @@ namespace x10.compiler {
     internal Entity Entity { get; private set; }
     internal bool IsMany { get; private set; }
     internal Member Member { get; private set; }
-    internal ModelAttributeDefinition AttributeDef { get; private set; }
 
     // Derived
     internal bool IsEmpty { get { return Entity == null; } }
@@ -43,13 +42,6 @@ namespace x10.compiler {
       }
 
       Member = member;
-    }
-
-    internal UiDataModel(UiDataModel previous, ModelAttributeDefinition attrDef) {
-      Entity = previous.Entity;
-      Member = previous.Member;
-      IsMany = previous.IsMany;
-      AttributeDef = attrDef;
     }
 
     public override string ToString() {
@@ -403,21 +395,6 @@ namespace x10.compiler {
 
       if (dataModel.Entity == null)
         return null;
-
-      // Special handling for enum types - enum values can have an extra level of path which is an Attribute 
-      // of the Enum Value (e.g. icon)
-      if (dataModel.Member != null &&
-        dataModel.Member is X10Attribute x10Attr &&
-        x10Attr.DataType is DataTypeEnum) {
-        // TODO: Check for other edge cases, such as trying to go beyond an attribute which is not an enumerated type
-        ModelAttributeDefinition modelAttrDefinition = ModelAttributeDefinitions.Find(AppliesTo.EnumValue, pathComponent);
-        if (modelAttrDefinition == null) {
-          _messages.AddError(xmlBase, "Attribute '{0}' does not exist on Enum Values", pathComponent);
-          return null;
-        }
-
-        return new UiDataModel(dataModel, modelAttrDefinition);
-      }
 
       Member member = dataModel.Entity.FindMemberByName(pathComponent);
       if (member == null) {
