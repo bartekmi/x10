@@ -24,6 +24,14 @@ attributes:
     dataType: PurchaseOrderProgress
     readOnly: true
 
+  - name: shippedItemCount
+    dataType: Integer
+    readOnly: true
+
+  - name: totalItemCount
+    dataType: Integer
+    readOnly: true
+
 # TODO: We'd like to have "derived attributes" which are associatoins
 #derivedAttributes:
 #  - name: otherParty

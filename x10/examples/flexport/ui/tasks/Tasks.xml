@@ -3,7 +3,7 @@
     <Heading1 text="Tasks"/>
     <HorizontalDivider/>
 
-    <Table>
+    <Table selectionStyle="checkBox">
       <!-- Header -->
       <Table.Header>
         <RepellingRow>
