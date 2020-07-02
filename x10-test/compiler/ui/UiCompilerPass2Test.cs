@@ -722,27 +722,6 @@ namespace x10.compiler {
       Assert.Single(_messages.Messages);
     }
 
-    [Fact]
-    public void EnumValueAttributeAsPartOfPath() {
-      RunTest(@"
-<MyComponent model='Apartment'>
-  <balconyType.icon/>
-</MyComponent>
-");
-
-      Assert.Empty(_messages.Messages);
-    }
-
-    [Fact]
-    public void BadEnumValueAttributeAsPartOfPath() {
-      RunTest(@"
-<MyComponent model='Apartment'>
-  <balconyType.bogus/>
-</MyComponent>
-",
-    "Attribute 'bogus' does not exist on Enum Values", 3, 4);
-    }
-
     #endregion
 
     #region Attribute Errors - Missing Mandatory and Unknown
