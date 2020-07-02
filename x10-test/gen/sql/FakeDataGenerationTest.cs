@@ -29,6 +29,7 @@ namespace x10.gen.sql {
       string INPUT_DIR = "../../../../x10/examples/flexport";
       string OUTPUT_FILE = @"C:\TEMP\x10_flexport_data.sql";
 
+      IconLibrary.Singleton();
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.Compile(INPUT_DIR);
 
