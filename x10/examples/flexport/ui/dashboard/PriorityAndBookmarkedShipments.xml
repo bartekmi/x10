@@ -16,7 +16,7 @@
             <RepellingRow>
                 <!-- Name, metadata, priority, bookmark -->
                 <RepellingRow>
-                    <transportationMode.icon/>
+                    <Icon icon="=transportationMode.icon"/>
                     <VerticalStackPanel>
                         <Row>
                             <flexId Text.weight="bold"/>

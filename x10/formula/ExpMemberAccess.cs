@@ -70,7 +70,7 @@ namespace x10.formula {
 
         return new X10DataType(member);
       } else {
-        errors.AddError(expression, "Unexpected context - neither Entity nor Primite Data Type", type);
+        errors.AddError(expression, "Unexpected context - neither Entity nor Primitive Data Type", type);
         return X10DataType.ERROR;
       }
     }

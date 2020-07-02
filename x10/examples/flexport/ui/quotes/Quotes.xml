@@ -8,10 +8,12 @@
       <Table.Header>
         <RepellingRow>
           <Row>
-            <FilterSingleSelect path="state"/>
-            <FilterRadioButtons path="transportationMode"/>
-            <FilterSearchableProperty path="shipper"/>
-            <FilterMultiSelect path="users"/>
+            <Filters>
+              <FilterSingleSelect path="state"/>
+              <FilterRadioButtons path="transportationMode"/>
+              <FilterSearchableProperty path="shipper"/>
+              <FilterMultiSelect path="users"/>
+            </Filters>
           </Row>
           <Row>
             <Button label="Request Quote" url="/quote_requests/new"/>

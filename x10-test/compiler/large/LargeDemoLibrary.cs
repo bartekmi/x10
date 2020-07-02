@@ -62,6 +62,7 @@ namespace x10.compiler {
               IsPrimary = true,
               Name = "Children",
               IsMany = true,
+              ReducesManyToOne = true,
               ComplexAttributeType = ClassDefNative.Visual,
             },
           }

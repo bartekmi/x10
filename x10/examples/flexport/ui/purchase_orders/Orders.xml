@@ -27,10 +27,9 @@
               <mustArriveBy/>
               <cargoReadyBy/>
               <!--<otherParty/>-->
+              <progress/> <!-- TODO: Multi-select-->
+              <state/> <!-- TODO: Multi-select-->
             </Filters>
-
-            <FilterMultiSelect label="Progress" path="progress"/>
-            <FilterMultiSelect label="Statuses" path="state"/>
           </Row>
           <TablePageControls/>
         </RepellingRow>

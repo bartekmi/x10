@@ -217,7 +217,7 @@ namespace x10.compiler {
     [Fact]
     public void CompileSuccessPass2_1() {
       ClassDefX10 definition = RunTest(@"
-<MyComponent description='My description...' model='Building' many='true'>
+<MyComponent description='My description...' model='Building'>
   <VerticalGroup>
     <name/>
     <apartmentCount ui='MyFunkyIntComponent'/>
@@ -238,7 +238,7 @@ namespace x10.compiler {
       // There are errors, but we don't care about them for this test (Only testing compile 2.1)
       string result = Print(definition);
 
-      Assert.Equal(@"<MyComponent description='My description...' model='Building' many='True'>
+      Assert.Equal(@"<MyComponent description='My description...' model='Building'>
   <VerticalGroup>
     <name/>
     <apartmentCount ui='MyFunkyIntComponent'/>
@@ -545,7 +545,7 @@ namespace x10.compiler {
 <MyComponent model='Building'>
   <VerticalGroup>       <!-- No path -->
     <name/>             <!-- Path for a Model Reference -->
-    <Table path='apartments.rooms'>   <!-- double member path-->
+    <Table path='demoApartment.rooms'>   <!-- double member path-->
       <Table.Header>
         <HelpIcon/>
       </Table.Header>
@@ -564,7 +564,7 @@ namespace x10.compiler {
       Assert.Equal(@"<MyComponent model='Building'>
   <VerticalGroup>
     <name/>
-    <Table path='apartments.rooms'>
+    <Table path='demoApartment.rooms'>
       <Table.Header>
         <HelpIcon/>
       </Table.Header>
@@ -690,7 +690,7 @@ namespace x10.compiler {
     <Button path='doubleBogus' label='Boo' action='doSomething'/>   <!-- Does not get here -->
   </VerticalGroup>
 </Outer>
-", "Member 'bogus' does not exist on Entity Building.", 3, 18);
+", "Member 'bogus' does not exist on 'Building'.", 3, 18);
 
       Assert.Single(_messages.Messages);
     }
@@ -699,9 +699,9 @@ namespace x10.compiler {
     public void NonExistentNestedPathMember() {
       RunTest(@"
 <Outer model='Building'>
-  <VerticalGroup path='apartments.windows'/>
+  <VerticalGroup path='demoApartment.windows'/>
 </Outer>
-", "Member 'windows' does not exist on Entity Apartment.", 3, 18);
+", "Member 'windows' does not exist on 'Apartment'.", 3, 18);
 
       Assert.Single(_messages.Messages);
     }
@@ -709,7 +709,7 @@ namespace x10.compiler {
     [Fact]
     public void BadModelReference() {
       RunTest(@"
-<Outer description='My description...' model='Building' many='true'>
+<Outer description='My description...' model='Building'>
   <Table path='apartments'>
     <Table.Header>
       <HelpIcon/>
@@ -717,7 +717,7 @@ namespace x10.compiler {
     <nonExistent/>
   </Table>
 </Outer>
-", "Member 'nonExistent' does not exist on Entity Apartment.", 7, 6);
+", "Member 'nonExistent' does not exist on 'Apartment'.", 7, 6);
 
       Assert.Single(_messages.Messages);
     }
@@ -777,7 +777,7 @@ namespace x10.compiler {
     [Fact]
     public void WrongEntityType() {
       RunTest(@"
-<Outer description='My description...' model='Building' many='true'>
+<Outer description='My description...' model='Building'>
   <Table path='apartments'>
     <TableColumn>
       <RoomViewer3D/>
@@ -811,10 +811,21 @@ namespace x10.compiler {
     [Fact]
     public void ExpectedOneGotMany() {
       RunTest(@"
+<Outer model='Room' many='true'>
+  <RoomViewer3D/>
+</Outer>
+", "The component RoomViewer3D expects a SINGLE Entity, but the path is delivering MANY 'Room' Entities", 3, 4);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
+    public void ModelAttributeOnManyEntities() {
+      RunTest(@"
 <Outer model='Building' many='true'>
   <MyFunkyIntComponent path='apartmentCount'/>
 </Outer>
-", "The component MyFunkyIntComponent expects a SINGLE value, but the path is delivering MANY 'Building.apartmentCount' values", 3, 4);
+", "Attempt to access member 'apartmentCount' in context of Many<Building>", 3, 24);
 
       Assert.Single(_messages.Messages);
     }

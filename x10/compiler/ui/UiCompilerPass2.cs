@@ -12,61 +12,6 @@ using x10.formula;
 
 namespace x10.compiler {
 
-  #region Data Model
-  internal class UiDataModel {
-    internal Entity Entity { get; private set; }
-    internal bool IsMany { get; private set; }
-    internal Member Member { get; private set; }
-
-    // Derived
-    internal bool IsEmpty { get { return Entity == null; } }
-    internal bool IsPrimitive { get { return Member is X10Attribute; } }
-
-    private UiDataModel() { }
-
-    internal UiDataModel(Entity entity, bool isMany) {
-      Entity = entity;
-      IsMany = isMany;
-    }
-
-    internal UiDataModel(Member member, bool isMany) {
-      if (member is Association association) {
-        Entity = association.ReferencedEntity;
-        // FUTURE: I believe there's an edge case here where if we are already in a isMany context,
-        // and the association referred to is also 'Many', this would be difficult to handle, and also
-        // quite advanced (A list of lists)
-        IsMany = association.IsMany;
-      } else {
-        Entity = member.Owner;
-        IsMany = isMany;
-      }
-
-      Member = member;
-    }
-
-    public override string ToString() {
-      return string.Format("Entity: {0}, IsMany: {1}, Member: {2}", Entity?.Name, IsMany, Member?.Name);
-    }
-
-    internal UiDataModel ReduceManyToOne() {
-      return new UiDataModel() {
-        Entity = Entity,
-        IsMany = false,
-        Member = Member,
-      };
-    }
-
-    internal X10DataType ToExpDataModel() {
-      if (IsEmpty)
-        return X10DataType.ERROR;
-
-      return IsPrimitive ?
-        new X10DataType(((X10Attribute)Member).DataType) :
-        new X10DataType(Entity, IsMany);
-    }
-  }
-  #endregion
-
   public class UiCompilerPass2 {
 
     #region Properties, Constructor, Top Level
@@ -110,7 +55,11 @@ namespace x10.compiler {
 
         // Parse the Root Child
         definition.RootChild = ParseInstance(rootXmlChild, null);
-        UiDataModel rootDataModel = new UiDataModel(definition.ComponentDataModel, definition.IsMany.Value);
+        
+        X10DataType rootDataModel = definition.ComponentDataModel == null ?
+          X10DataType.NULL :
+          new X10DataType(definition.ComponentDataModel, definition.IsMany.Value);
+
         foreach (UiAttributeValueComplex attribute in definition.ComplexAttributeValues())
           foreach (Instance instance in attribute.Instances)
             CompileRecursively(instance, rootDataModel);
@@ -322,14 +271,14 @@ namespace x10.compiler {
     #endregion
 
     #region Pass 2.2 - Resolve Paths, Resolve "Render-As" components, Read Attributes
-    private void CompileRecursively(Instance instance, UiDataModel parentDataModel) {
+    private void CompileRecursively(Instance instance, X10DataType parentDataModel) {
       if (instance == null)
         return;
 
       // Process this instance...
       InvokePass2Actions(instance);
 
-      UiDataModel myDataModel = ResolvePath(parentDataModel, instance);
+      X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
         ResolveUiComponent(modelReference);
         _attrReader.ReadAttributesForInstance(instance, PASS_2_1_MODEL_REF_ATTRIBUTES);
@@ -343,7 +292,7 @@ namespace x10.compiler {
 
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues()) {
-        UiDataModel childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
+        X10DataType childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
           myDataModel.ReduceManyToOne() :
           myDataModel;
 
@@ -353,7 +302,7 @@ namespace x10.compiler {
     }
 
     #region Resolve Path
-    private UiDataModel ResolvePath(UiDataModel dataModel, Instance instance) {
+    private X10DataType ResolvePath(X10DataType dataModel, Instance instance) {
       if (dataModel == null)
         return null;
 
@@ -385,29 +334,34 @@ namespace x10.compiler {
       return dataModel;
     }
 
-    private UiDataModel AdvancePathByOne(UiDataModel dataModel, string pathComponent, XmlBase xmlBase) {
+    private X10DataType AdvancePathByOne(X10DataType dataModel, string pathComponent, XmlBase xmlBase) {
 
       // Root-Level (Context) paths are indicated by a leading '/'
       if (pathComponent.StartsWith('/')) {
-        dataModel = new UiDataModel(_allEntities.FindContextEntityWithError(xmlBase), false);
+        dataModel = new X10DataType(_allEntities.FindContextEntityWithError(xmlBase), false);
         pathComponent = pathComponent.Substring(1);
       }
 
       if (dataModel.Entity == null)
         return null;
 
-      Member member = dataModel.Entity.FindMemberByName(pathComponent);
-      if (member == null) {
-        _messages.AddError(xmlBase, "Member '{0}' does not exist on Entity {1}.", pathComponent, dataModel.Entity.Name);
+      if (dataModel.IsMany) {
+        _messages.AddError(xmlBase, "Attempt to access member '{0}' in context of {1}", pathComponent, dataModel);
         return null;
       }
 
-      return new UiDataModel(member, dataModel.IsMany);
+      Member member = dataModel.Entity.FindMemberByName(pathComponent);
+      if (member == null) {
+        _messages.AddError(xmlBase, "Member '{0}' does not exist on '{1}'.", pathComponent, dataModel);
+        return null;
+      }
+
+      return new X10DataType(member);
     }
 
-    private void ValidateDataModelCompatibility(UiDataModel dataModel, Instance instance) {
+    private void ValidateDataModelCompatibility(X10DataType dataModel, Instance instance) {
       ClassDef renderAs = instance.RenderAs;
-      if (renderAs == null || dataModel.IsEmpty)
+      if (renderAs == null || dataModel.IsNull)
         return;
 
       Entity expectedEntity = renderAs.ComponentDataModel;
@@ -499,10 +453,10 @@ namespace x10.compiler {
     }
 
     #region Formula Parsing and Validation
-    private void ParseAndValidateFormulas(Instance instance, UiDataModel rootDataModel) {
+    private void ParseAndValidateFormulas(Instance instance, X10DataType rootDataModel) {
       foreach (UiAttributeValueAtomic value in instance.AtomicAttributeValues())
         if (value.Formula != null) {
-          value.Expression = _parser.Parse(value.XmlBase, value.Formula, rootDataModel.ToExpDataModel());
+          value.Expression = _parser.Parse(value.XmlBase, value.Formula, rootDataModel);
           ValidateReturnedDataType(value);
         };
     }
