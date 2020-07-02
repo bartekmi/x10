@@ -1,9 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using x10.model.definition;
-using x10.parsing;
+﻿using x10.model.metadata;
 
 namespace x10.formula {
   public class ExpUnary : ExpBase {
@@ -18,11 +13,11 @@ namespace x10.formula {
       visitor.VisitUnary(this);
     }
 
-    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
-      ExpDataType expressionType = Expression.DetermineType(rootType);
+    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
+      X10DataType expressionType = Expression.DetermineType(rootType);
 
       if (expressionType.IsError )
-        return ExpDataType.ERROR;
+        return X10DataType.ERROR;
 
       switch (Token) {
         case "-":
@@ -32,23 +27,23 @@ namespace x10.formula {
           break;
         case "!":
           if (expressionType.IsBoolean)
-            return ExpDataType.Boolean;
+            return X10DataType.Boolean;
           break;
         default:
           Parser.Errors.AddError(this, "Unexpected unary token: " + Token);
-          return ExpDataType.ERROR;
+          return X10DataType.ERROR;
       }
 
       return MismatchTypeError(expressionType);
     }
 
-    private ExpDataType MismatchTypeError(ExpDataType type) {
+    private X10DataType MismatchTypeError(X10DataType type) {
       string message = string.Format("Cannot apply '{0}' to type {1}",
         Token, type);
 
       Parser.Errors.AddError(this, message);
 
-      return ExpDataType.ERROR;
+      return X10DataType.ERROR;
     }
   }
 }

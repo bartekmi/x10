@@ -99,7 +99,7 @@ namespace x10.compiler {
       FormulaParser parser = new FormulaParser(Messages, _allEntities, _allEnums, _allFunctions);
 
       foreach (Entity entity in _allEntities.All) {
-        ExpDataType dataType = new ExpDataType(entity, false);
+        X10DataType dataType = new X10DataType(entity, false);
 
         foreach (ModelAttributeValue value in entity.AttributeValues)
           CheckIfFormulaAndParse(parser, null, dataType, value);
@@ -110,7 +110,7 @@ namespace x10.compiler {
       }
     }
 
-    private void CheckIfFormulaAndParse(FormulaParser parser, Member member, ExpDataType modelDataType, ModelAttributeValue value) {
+    private void CheckIfFormulaAndParse(FormulaParser parser, Member member, X10DataType modelDataType, ModelAttributeValue value) {
       if (value.Definition is ModelAttributeDefinitionAtomic atomicDef) {
         if (value.Formula != null) {
           value.Expression = parser.Parse(value.TreeElement, value.Formula, modelDataType);
@@ -123,13 +123,13 @@ namespace x10.compiler {
     }
 
     private void ValidateReturnedDataType(Member member, ModelAttributeDefinitionAtomic atomicDef, ModelAttributeValue value) {
-      ExpDataType returnedDataType = value.Expression.DataType;
+      X10DataType returnedDataType = value.Expression.DataType;
       if (returnedDataType.IsError)
         return;
 
-      ExpDataType expectedReturnType = atomicDef.DataTypeMustBeSameAsAttribute ?
-        member.GetExpressionDataType() :
-        new ExpDataType(atomicDef.DataType);
+      X10DataType expectedReturnType = atomicDef.DataTypeMustBeSameAsAttribute ?
+        member.GetX10DataType() :
+        new X10DataType(atomicDef.DataType);
 
       // Since anything can be converted to String, don't worry about type checking
       if (expectedReturnType.IsString)

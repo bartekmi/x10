@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using x10.model;
-using x10.model.definition;
 using x10.model.metadata;
-using x10.parsing;
 
 namespace x10.formula {
   public class ExpInvocation : ExpBase {
@@ -19,22 +15,22 @@ namespace x10.formula {
       visitor.VisitInvocation(this);
     }
 
-    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
-      List<ExpDataType> argTypes = new List<ExpDataType>();
+    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
+      List<X10DataType> argTypes = new List<X10DataType>();
       foreach (ExpBase argumentExpression in Arguments)
         argTypes.Add(argumentExpression.DetermineType(rootType));
 
       Function function = Parser.AllFunctions.FindFunctionErrorIfMultiple(FunctionName, this);
       if (function == null)
-        return ExpDataType.ERROR;
+        return X10DataType.ERROR;
 
       if (argTypes.Count == function.Arguments.Count) {
         for (int ii = 0; ii < argTypes.Count; ii++) {
           Argument expectedArg = function.Arguments[ii];
-          ExpDataType actualType = argTypes[ii];
+          X10DataType actualType = argTypes[ii];
           ExpBase expression = Arguments[ii];
 
-          if (actualType == ExpDataType.ERROR)
+          if (actualType == X10DataType.ERROR)
             continue;
 
           if (expectedArg.Type is DataTypeEnum enumType && expression is ExpLiteral literal) {
@@ -42,7 +38,7 @@ namespace x10.formula {
             continue;
           }
 
-          if (!actualType.Equals(new ExpDataType(expectedArg.Type)))
+          if (!actualType.Equals(new X10DataType(expectedArg.Type)))
             Parser.Errors.AddError(expression, "For argument at position {0}, function '{1}' expects data type {2}, but was given {3}",
               ii + 1, FunctionName, expectedArg.Type, actualType);
         }
@@ -50,7 +46,7 @@ namespace x10.formula {
         Parser.Errors.AddError(this, "Function '{0}' expects {1} argument(s) but was given {2}",
           FunctionName, function.Arguments.Count, argTypes.Count);
 
-      return new ExpDataType(function.ReturnType);
+      return new X10DataType(function.ReturnType);
     }
   }
 }

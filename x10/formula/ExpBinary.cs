@@ -1,9 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using x10.model.definition;
-using x10.parsing;
+﻿using System;
+using x10.model.metadata;
 
 namespace x10.formula {
   public class ExpBinary : ExpBase {
@@ -19,12 +15,12 @@ namespace x10.formula {
       visitor.VisitBinary(this);
     }
 
-    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
-      ExpDataType leftType = Left.DetermineType(rootType);
-      ExpDataType rightType = Right.DetermineType(rootType);
+    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
+      X10DataType leftType = Left.DetermineType(rootType);
+      X10DataType rightType = Right.DetermineType(rootType);
 
       if (leftType.IsError || rightType.IsError)
-        return ExpDataType.ERROR;
+        return X10DataType.ERROR;
 
       switch (Token) {
         case "-":
@@ -36,20 +32,20 @@ namespace x10.formula {
         case "%":
           if (!leftType.IsInteger || !rightType.IsInteger)
             return MismatchTypeError(leftType, rightType);
-          return ExpDataType.Integer;
+          return X10DataType.Integer;
         case "+":
           if (leftType.IsNumeric && rightType.IsNumeric)
             return ResultOfNumericOperation(leftType, rightType);
 
           if (leftType.IsString || rightType.IsString)
-            return ExpDataType.String;
+            return X10DataType.String;
 
           return MismatchTypeError(leftType, rightType);
         case "&&":
         case "||":
           if (!leftType.IsBoolean || !rightType.IsBoolean)
             return MismatchTypeError(leftType, rightType);
-          return ExpDataType.Boolean;
+          return X10DataType.Boolean;
         case ">":
         case "<":
         case ">=":
@@ -57,31 +53,31 @@ namespace x10.formula {
           if (leftType.IsNumeric && rightType.IsNumeric ||
               leftType.IsComparable && rightType.IsComparable &&
               leftType.DataType == rightType.DataType)
-            return ExpDataType.Boolean;
+            return X10DataType.Boolean;
           return MismatchTypeError(leftType, rightType);
         case "==":
         case "!=":
           if (leftType.IsNumeric && rightType.IsNumeric ||
               leftType.Equals(rightType) ||
               leftType.IsError || rightType.IsError)
-            return ExpDataType.Boolean;
+            return X10DataType.Boolean;
 
           // Upgrade right side to enum if possible
           if (leftType.IsEnum && Right is ExpLiteral rightLiteral) {
             rightLiteral.UpgradeToEnum(leftType.DataTypeAsEnum);
-            return ExpDataType.Boolean;
+            return X10DataType.Boolean;
           }
 
           // Upgrade left side to enum if possible
           if (rightType.IsEnum && Left is ExpLiteral leftLiteral) {
             leftLiteral.UpgradeToEnum(rightType.DataTypeAsEnum);
-            return ExpDataType.Boolean;
+            return X10DataType.Boolean;
           }
 
           return MismatchTypeError(leftType, rightType);
         case "??":
           if (leftType.IsError || rightType.IsError)
-            return ExpDataType.ERROR;
+            return X10DataType.ERROR;
           if (leftType.Equals(rightType))
             return leftType;
 
@@ -89,20 +85,20 @@ namespace x10.formula {
             leftType, rightType);
           Parser.Errors.AddError(this, message);
 
-          return ExpDataType.ERROR;
+          return X10DataType.ERROR;
         default:
           Parser.Errors.AddError(this, "Unexpected binary token: " + Token);
-          return ExpDataType.ERROR;
+          return X10DataType.ERROR;
       }
     }
 
-    private ExpDataType MismatchTypeError(ExpDataType left, ExpDataType right) {
+    private X10DataType MismatchTypeError(X10DataType left, X10DataType right) {
       string message = string.Format("Cannot {0} {1} and {2}",
         TokenToOperationName(), left, right);
 
       Parser.Errors.AddError(this, message);
 
-      return ExpDataType.ERROR;
+      return X10DataType.ERROR;
     }
 
     private string TokenToOperationName() {
@@ -126,8 +122,8 @@ namespace x10.formula {
       }
     }
 
-    private static ExpDataType ResultOfNumericOperation(ExpDataType left, ExpDataType right) {
-      return left.IsFloat || right.IsFloat ? ExpDataType.Float : ExpDataType.Integer;
+    private static X10DataType ResultOfNumericOperation(X10DataType left, X10DataType right) {
+      return left.IsFloat || right.IsFloat ? X10DataType.Float : X10DataType.Integer;
     }
   }
 }

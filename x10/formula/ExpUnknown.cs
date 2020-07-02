@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using x10.model.definition;
-using x10.parsing;
+﻿using x10.model.metadata;
 
 namespace x10.formula {
   public class ExpUnknown : ExpBase {
@@ -16,11 +12,11 @@ namespace x10.formula {
       visitor.VisitUnknown(this);
     }
 
-    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
+    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
       // If a message is present, report it
       if (DiagnosticMessage != null)
         Parser.Errors.AddError(this, DiagnosticMessage);
-      return ExpDataType.ERROR;
+      return X10DataType.ERROR;
     }
   }
 }

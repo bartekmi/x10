@@ -10,8 +10,8 @@ namespace x10.model.definition {
     public string DataTypeName { get; set; }
     public DataType DataType { get; set; }
 
-    public override ExpDataType GetExpressionDataType() {
-      return new ExpDataType(DataType);
+    public override X10DataType GetX10DataType() {
+      return new X10DataType(DataType);
     }
   }
 }

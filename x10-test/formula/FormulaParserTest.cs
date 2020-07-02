@@ -123,8 +123,8 @@ arguments:
       TestExpectedSuccess("nested.attr", DataTypes.Singleton.Date);                 // Member access
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
       TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Multiple: Count
-      TestExpectedSuccess("many.first", new ExpDataType(nested, false));            // Multiple: First
-      TestExpectedSuccess("many.last", new ExpDataType(nested, false));             // Multiple: Last
+      TestExpectedSuccess("many.first", new X10DataType(nested, false));            // Multiple: First
+      TestExpectedSuccess("many.last", new X10DataType(nested, false));             // Multiple: Last
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
       TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
       TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
@@ -215,16 +215,16 @@ arguments:
     }
 
     private void TestExpectedSuccess(string formula, DataType expectedType) {
-      TestExpectedSuccess(formula, new ExpDataType(expectedType));
+      TestExpectedSuccess(formula, new X10DataType(expectedType));
     }
 
-    private void TestExpectedSuccess(string formula, ExpDataType expectedType) {
+    private void TestExpectedSuccess(string formula, X10DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
       FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums, _functions) {
         OtherAvailableVariables = _otherAvailableVariables,
       };
-      ExpBase expression = parser.Parse(element, formula, new ExpDataType(_entity, false));
+      ExpBase expression = parser.Parse(element, formula, new X10DataType(_entity, false));
       TestUtils.DumpMessages(errors, _output);
 
       Assert.Equal(0, errors.Count);
@@ -245,7 +245,7 @@ arguments:
       FormulaParser parser = new FormulaParser(_errors, new AllEntities(_errors, new Entity[0]), _enums, _functions) {
         OtherAvailableVariables = _otherAvailableVariables,
       };
-      parser.Parse(element, formula, new ExpDataType(_entity, false));
+      parser.Parse(element, formula, new X10DataType(_entity, false));
       TestUtils.DumpMessages(_errors, _output);
       Assert.Equal(1, _errors.ErrorCount);
 

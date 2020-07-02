@@ -29,7 +29,7 @@ namespace x10.formula {
       AllFunctions = allFunctions;
     }
 
-    public ExpBase Parse(IParseElement element, string formula, ExpDataType rootType) {
+    public ExpBase Parse(IParseElement element, string formula, X10DataType rootType) {
       ExpBase expression = MicrosoftCsParser.Parse(this, element, formula);
       expression.DetermineType(rootType);
 

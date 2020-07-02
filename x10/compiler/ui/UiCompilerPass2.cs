@@ -56,13 +56,13 @@ namespace x10.compiler {
       };
     }
 
-    internal ExpDataType ToExpDataModel() {
+    internal X10DataType ToExpDataModel() {
       if (IsEmpty)
-        return ExpDataType.ERROR;
+        return X10DataType.ERROR;
 
       return IsPrimitive ?
-        new ExpDataType(((X10Attribute)Member).DataType) :
-        new ExpDataType(Entity, IsMany);
+        new X10DataType(((X10Attribute)Member).DataType) :
+        new X10DataType(Entity, IsMany);
     }
   }
   #endregion
@@ -508,11 +508,11 @@ namespace x10.compiler {
     }
 
     private void ValidateReturnedDataType(UiAttributeValueAtomic value) {
-      ExpDataType returnedDataType = value.Expression.DataType;
+      X10DataType returnedDataType = value.Expression.DataType;
       if (returnedDataType.IsError)
         return;
 
-      ExpDataType expectedReturnType = new ExpDataType(value.DefinitionAtomic.DataType);
+      X10DataType expectedReturnType = new X10DataType(value.DefinitionAtomic.DataType);
 
       // Since anything can be converted to String, don't worry about type checking
       if (expectedReturnType.IsString)

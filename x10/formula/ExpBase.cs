@@ -1,14 +1,14 @@
-﻿using x10.model.definition;
+﻿using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.formula {
 
   public abstract class ExpBase : IParseElement {
-    public abstract ExpDataType DetermineTypeRaw(ExpDataType rootType);
+    public abstract X10DataType DetermineTypeRaw(X10DataType rootType);
     public abstract void Accept(IVisitor visitor);
      
     internal FormulaParser Parser { get; private set; }
-    public ExpDataType DataType { get; internal set; }
+    public X10DataType DataType { get; internal set; }
 
     // IParseElement
     public FileInfo FileInfo { get; private set; }
@@ -22,7 +22,7 @@ namespace x10.formula {
       Parser = parser;
     }
 
-    internal ExpDataType DetermineType(ExpDataType rootType) {
+    internal X10DataType DetermineType(X10DataType rootType) {
       DataType = DetermineTypeRaw(rootType);
       return DataType;
     }

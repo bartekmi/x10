@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using x10.model.definition;
 using x10.model.metadata;
-using x10.parsing;
 
 namespace x10.formula {
   public class ExpLiteral : ExpBase {
@@ -25,22 +21,22 @@ namespace x10.formula {
       visitor.VisitLiteral(this);
     }
 
-    public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
+    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
       if (Value is string)
-        return new ExpDataType(DataTypes.Singleton.String);
+        return new X10DataType(DataTypes.Singleton.String);
       if (Value is int)
-        return new ExpDataType(DataTypes.Singleton.Integer);
+        return new X10DataType(DataTypes.Singleton.Integer);
       if (Value is double)
-        return new ExpDataType(DataTypes.Singleton.Float);
+        return new X10DataType(DataTypes.Singleton.Float);
       if (Value is bool)
-        return new ExpDataType(DataTypes.Singleton.Boolean);
+        return new X10DataType(DataTypes.Singleton.Boolean);
       if (Value is int)
-        return new ExpDataType(DataTypes.Singleton.Integer);
+        return new X10DataType(DataTypes.Singleton.Integer);
 
       // TODO: Deal with legitimate null???
 
       Parser.Errors.AddError(this, "Unexpected Data Type: " + Value.GetType().Name);
-      return ExpDataType.ERROR;
+      return X10DataType.ERROR;
     }
 
     internal void UpgradeToEnum(DataTypeEnum enumType) {
