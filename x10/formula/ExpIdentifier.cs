@@ -31,10 +31,6 @@ namespace x10.formula {
         return ExpDataType.ERROR;
       }
 
-      DataTypeEnum enumName = Parser.AllEnums.FindEnumErrorIfMultiple(Name, this);
-      if (enumName != null)
-        return ExpDataType.CreateEnumNameTemporaryType(enumName);
-
       return ExpMemberAccess.GetMemberAccessDataType(this, Parser.Errors, rootType, Name);
     }
   }

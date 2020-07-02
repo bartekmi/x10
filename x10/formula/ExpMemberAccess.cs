@@ -19,19 +19,28 @@ namespace x10.formula {
     }
 
     public override ExpDataType DetermineTypeRaw(ExpDataType rootType) {
-      ExpDataType expressionDataType = Expression.DetermineType(rootType);
-      if (expressionDataType.IsEnumName)
-        return GetEnumValueDataType(expressionDataType.EnumName);
+      ExpDataType enumType = DetermineIfEnum();
+      if (enumType != null)
+        return enumType;
 
+      ExpDataType expressionDataType = Expression.DetermineType(rootType);
       return GetMemberAccessDataType(this, Parser.Errors, expressionDataType, MemberName);
     }
 
-    private ExpDataType GetEnumValueDataType(DataTypeEnum enumType) {
-      if (enumType.HasEnumValue(MemberName))
-        return new ExpDataType(enumType);
+    // Check for "MyEnum.myEnumValue"
+    private ExpDataType DetermineIfEnum() {
+      if (Expression is ExpIdentifier expIdent) {
+        DataTypeEnum enumType = Parser.AllEnums.FindEnumErrorIfMultiple(expIdent.Name, this);
+        if (enumType != null) {
+          if (enumType.HasEnumValue(MemberName))
+            return new ExpDataType(enumType);
 
-      Parser.Errors.AddError(this, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
-      return ExpDataType.ERROR;
+          Parser.Errors.AddError(this, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
+          return ExpDataType.ERROR;
+        }
+      }
+
+      return null;
     }
 
     internal static ExpDataType GetMemberAccessDataType(ExpBase expression, MessageBucket errors, ExpDataType type, string memberName) {

@@ -8,14 +8,12 @@ namespace x10.formula {
   public class ExpDataType {
     public DataType DataType { get; private set; }
     public Entity Entity { get; private set; }
-    public DataTypeEnum EnumName { get; private set; }  // Used for enum name (left side of EnumNam.Value)
     public bool IsMany { get; private set; }
 
     // Derived
     public bool IsEntity { get { return Entity != null; } }
     public bool IsPrimitive { get { return DataType != null; } }
     public bool IsEnum { get { return DataType is DataTypeEnum; } }
-    public bool IsEnumName { get { return EnumName != null; } }
 
     public bool IsNull { get { return this == NULL; } }
     public bool IsError { get { return this == ERROR; } }
@@ -52,14 +50,6 @@ namespace x10.formula {
       IsMany = isMany;
     }
 
-    internal static ExpDataType CreateEnumNameTemporaryType(DataTypeEnum enumName) {
-      if (enumName == null)
-        throw new Exception("enumName is null");
-      return new ExpDataType() {
-        EnumName = enumName,
-      };
-    }
-
     internal ExpDataType(Member member) {
       if (member is X10Attribute attr)
         DataType = attr.DataType;
@@ -75,7 +65,6 @@ namespace x10.formula {
         IsMany = isMany,
         DataType = DataType,
         Entity = Entity,
-        EnumName = EnumName,
       };
     }
 
@@ -84,8 +73,6 @@ namespace x10.formula {
         return IsMany ? string.Format("Many<{0}>", Entity.Name) : Entity.Name;
       if (IsPrimitive)
         return DataType.Name;
-      if (IsEnumName)
-        return EnumName.Name;
       if (IsError)
         return "Error";
       if (IsNull)
@@ -100,8 +87,6 @@ namespace x10.formula {
           return Entity == other.Entity && IsMany == other.IsMany;
         if (IsPrimitive && other.IsPrimitive)
           return DataType == other.DataType;
-        if (IsEnumName && other.IsEnumName)
-          return EnumName == other.EnumName;
         if (IsNull && other.IsNull)
           return true;
         if (IsError && other.IsError)
@@ -116,8 +101,6 @@ namespace x10.formula {
         return Entity.GetHashCode();
       if (IsPrimitive)
         return DataType.GetHashCode();
-      if (IsEnumName)
-        return EnumName.GetHashCode();
       if (IsNull || IsError)
         return GetHashCode();
       throw new Exception("Should never be here");
