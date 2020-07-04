@@ -92,7 +92,7 @@ namespace x10.gen.wpf {
       foreach (UiAttributeValue attrValue in instance.AttributeValues) {
         string attrName = attrValue.Definition.Name;
 
-        if (attrValue == primaryValue || attrValue.Definition.Name == ParserXml.ELEMENT_NAME) 
+        if (attrValue == primaryValue || attrValue.Definition.Name == ParserXml.ELEMENT_NAME)
           continue;
 
         PlatformAttributeDynamic dynamicAttr = platClassDef.FindDyamicAttribute(attrName);
@@ -213,8 +213,8 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(2, "// State");
 
-      foreach (StateClass state in states) 
-        GenerateProperty(state.DataType, state.Variable);
+      foreach (StateClass state in states)
+        GenerateProperty(state.ToX10DataType(), state.Variable);
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {
@@ -428,6 +428,18 @@ namespace x10.gen.wpf {
       return writer.ToString();
     }
 
+    private string GetDataType(X10DataType dataType) {
+      if (dataType.IsPrimitive)
+        return GetDataType(dataType.DataType);
+      else if (dataType.IsEntity)
+        if (dataType.IsMany)
+          return string.Format("IEnumerable<{0}>", dataType.Entity.Name);
+        else
+          return dataType.Entity.Name;
+      else
+        return dataType.ToString();
+    }
+
     private string GetDataType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "bool";
       if (dataType == DataTypes.Singleton.Date) return "DateTime?";
@@ -442,6 +454,10 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateProperty(DataType type, string name) {
+      GenerateProperty(new X10DataType(type), name);
+    }
+
+    private void GenerateProperty(X10DataType type, string name) {
       string dataType = GetDataType(type);
       string varName = "_" + NameUtils.UncapitalizeFirstLetter(name);
       string propName = NameUtils.Capitalize(name);
