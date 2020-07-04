@@ -15,7 +15,7 @@ namespace x10.formula {
     internal readonly AllEntities AllEntities;
     internal readonly AllEnums AllEnums;
     internal readonly AllFunctions AllFunctions;
-    public Dictionary<string, DataType> OtherAvailableVariables;
+    public Dictionary<string, X10DataType> OtherAvailableVariables;
 
     public FormulaParser(MessageBucket errors,
       AllEntities allEntities,

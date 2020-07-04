@@ -107,6 +107,12 @@ namespace x10.compiler {
               IsMandatory = true,
               ComplexAttributeType = ClassDefNative.Visual,
             },
+            new UiAttributeDefinitionAtomic() {
+              Name = "selected",
+              Description = "Read/Write list of items which are currently selected",
+              IsMany = true,
+              DataType = DataTypes.Singleton.String,
+            },
           },
         },
         new ClassDefNative() {
@@ -938,6 +944,43 @@ namespace x10.compiler {
       4, 21);
 
       Assert.Single(_messages.Messages);
+    }
+    #endregion
+
+    #region Binding Complex Attribute to State
+    [Fact]
+    public void BindTableSelectdToStateVar() {
+      ClassDefX10 definition = RunTest(@"
+<Buildings description='My description...' model='Building' many='true'>
+  <Buildings.state>
+    <State variable='selectedBuildings' model='Building' many='true'/>
+  </Buildings.state>
+  <Table selected='=selectedBuildings'>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <name/>
+  </Table>
+</Buildings>
+");
+
+      Assert.Empty(_messages.Messages);
+
+      string result = Print(definition);
+      Assert.Equal(@"<Buildings description='My description...' model='Building' many='True'>
+  <Buildings.state>
+    <State variable='selectedBuildings' model='Building' many='True'/>
+  </Buildings.state>
+  <Table selected='=selectedBuildings'>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <TableColumn>
+      <name/>
+    </TableColumn>
+  </Table>
+</Buildings>
+", result);
     }
     #endregion
 

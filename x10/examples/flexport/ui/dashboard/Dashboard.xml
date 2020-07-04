@@ -3,7 +3,7 @@
     <!-- Dashboard Header Row -->
     <RepellingRow>
       <Row>
-        <Heading1 path="/currentUser" text="='Hello, ' + firstName + '!'"/>
+        <Heading1 text="='Hello, ' + __Context__.currentUser.firstName + '!'"/>
         <Filters/>
       </Row>
       <Row>

@@ -206,7 +206,7 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateState(ClassDefX10 classDef) {
-      IEnumerable<StateClass> states = classDef.GetStateVariables(AllEnums);
+      IEnumerable<StateClass> states = classDef.GetStateVariables(AllEntities, AllEnums);
       if (states == null)
         return;
 

@@ -1,14 +1,17 @@
 <Tasks model="Task" many="true" url="/tasks">
+  <Tasks.state>
+    <State variable="selectedTasks" model="Task" many="true"/>
+  </Tasks.state>
   <VerticalStackPanel>
     <Heading1 text="Tasks"/>
     <HorizontalDivider/>
 
-    <Table selectionStyle="checkBox">
+    <Table selectionStyle="checkBox" selected="=selectedTasks">
       <!-- Header -->
       <Table.Header>
         <RepellingRow>
           <Row>
-            <Button label="='Archive ' + selected.count + ' tasks'" visible="=selected.count > 0">
+            <Button label="='Archive ' + selectedTasks.count + ' tasks'" visible="=selectedTasks.count > 0">
               <Button.Action>
                 <Action backEndTarget="archiveSelectedTasks(selected)"/>
               </Button.Action>

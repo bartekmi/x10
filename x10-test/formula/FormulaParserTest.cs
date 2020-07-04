@@ -18,7 +18,7 @@ namespace x10.formula {
     private readonly AllEnums _enums;
     private readonly AllFunctions _functions;
     private readonly MessageBucket _errors = new MessageBucket();
-    private readonly Dictionary<string, DataType> _otherAvailableVariables;
+    private readonly Dictionary<string, X10DataType> _otherAvailableVariables;
     private AllEntities _allEntities;
     private Entity _entity;
 
@@ -26,9 +26,9 @@ namespace x10.formula {
       _output = output;
       _enums = new AllEnums(_errors);
       _functions = new AllFunctions(_errors);
-      _otherAvailableVariables = new Dictionary<string, DataType>() {
-        { "stateInt", DataTypes.Singleton.Integer },
-        { "stateString", DataTypes.Singleton.String },
+      _otherAvailableVariables = new Dictionary<string, X10DataType>() {
+        { "stateInt", new X10DataType(DataTypes.Singleton.Integer) },
+        { "stateString", new X10DataType(DataTypes.Singleton.String) },
       };
 
       InitializeEntities();

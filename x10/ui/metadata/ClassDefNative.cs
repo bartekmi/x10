@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using x10.model;
+using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
 
@@ -67,15 +68,28 @@ namespace x10.ui.metadata {
             new UiAttributeDefinitionAtomic() {
               Name = "dataType",
               DataType = DataTypes.Singleton.String,
-              IsMandatory = true,
+              IsMandatory = false,
               Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
                 string typeName = xmlScalar.Value.ToString();
                 allEnums.FindDataTypeByNameWithError(typeName, xmlScalar);
               }
             },
             new UiAttributeDefinitionAtomic() {
+              Name = "model",
+              DataType = DataTypes.Singleton.String,
+              IsMandatory = false,
+              Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
+                string typeName = xmlScalar.Value.ToString();
+                allEntities.FindEntityByNameWithError(typeName, xmlScalar);
+              }
+            },
+            new UiAttributeDefinitionAtomic() {
               Name = "default",
               DataType = DataTypes.Singleton.String,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "many",
+              DataType = DataTypes.Singleton.Boolean,
             },
           }
     };
@@ -85,17 +99,32 @@ namespace x10.ui.metadata {
     // Ideally, we should have a way to reflect a C# class definition and directly generate the
     // corresponding ClassDefNative definition as above
     public class StateClass {
-      public string Variable { get; set; }
-      public DataType DataType { get; set; }
-      public string Default { get; set; } // This is iffy - could by any type or formula - just like on the model side
+      public string Variable { get; private set; }
+      public DataType DataType { get; private set; }
+      public Entity Entity { get; private set; }
+      public bool IsMany { get; private set; }
+      public string Default { get; private set; } // This is iffy - could by any type or formula - just like on the model side
 
-      public static StateClass FromInstance(AllEnums allEnums, Instance instance) {
+      public static StateClass FromInstance(AllEntities allEntities, AllEnums allEnums, Instance instance) {
         string dataType = instance.FindValue<string>("dataType");
+        string model = instance.FindValue<string>("model");
+
         return new StateClass() {
           Variable = instance.FindValue<string>("variable"),
-          DataType = allEnums.FindDataTypeByName(dataType),
+          DataType = dataType == null ? null : allEnums.FindDataTypeByName(dataType),
+          Entity = model == null ? null : allEntities.FindEntityByName(model),
+          IsMany = instance.FindValue<bool>("many"),
           Default = instance.FindValue<string>("default"),
         };
+      }
+
+      public X10DataType ToX10DataType() {
+        if (Entity != null)
+          return new X10DataType(Entity, IsMany);
+        else if (DataType != null)
+          return new X10DataType(DataType);
+        else
+          return X10DataType.ERROR;
       }
     }
 

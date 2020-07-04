@@ -1,4 +1,6 @@
-﻿using x10.model.definition;
+﻿using System.Collections.Generic;
+
+using x10.model.definition;
 using x10.model.metadata;
 
 namespace x10.formula {
@@ -20,6 +22,11 @@ namespace x10.formula {
           return X10DataType.ERROR;
         return new X10DataType(context, false);
       }
+
+      // TODO: Check for ambiguity between state variables and entity properties
+      Dictionary<string, X10DataType> otherVars = Parser.OtherAvailableVariables;
+      if (otherVars != null && otherVars.TryGetValue(Name, out X10DataType dataType))
+        return dataType;
 
       if (rootType == null) {
         Parser.Errors.AddError(this, "In this context, there is no Entity to access");

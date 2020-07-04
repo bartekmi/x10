@@ -56,11 +56,6 @@ namespace x10.formula {
         if (type.IsMany)
           return GetIsManyDataType(expression, errors, type, memberName);
 
-        // TODO: Check for ambiguity between state variables and entity properties
-        Dictionary<string, DataType> otherVars = expression.Parser.OtherAvailableVariables;
-        if (otherVars != null && otherVars.TryGetValue(memberName, out DataType dataType))
-          return new X10DataType(dataType);
-
         Entity entity = type.Entity;
         Member member = entity.FindMemberByName(memberName);
         if (member == null) {

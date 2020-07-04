@@ -476,13 +476,13 @@ namespace x10.ui.libraries {
             Description = "An optional header area connected to the table. It appears above the column headings. Typical use is for pagination controls.",
             ComplexAttributeType = ClassDefNative.Visual,
           },
-          new UiAttributeDefinitionComplex() {
-            Name = "Selected",
-            Description = "Read/Write list of items which are currently selected",
-            IsMany = true,
-            // Ideally, we could constrain this to the type of the item the table is displaying
-            ComplexAttributeType = ClassDefNative.Object,
-          },
+            new UiAttributeDefinitionAtomic() {
+              Name = "selected",
+              Description = "Read/Write list of items which are currently selected",
+              IsMany = true,
+              // TODO: Add "MustBeFormula" - DataType irrelevant
+              DataType = DataTypes.Singleton.String,
+            },
           new UiAttributeDefinitionAtomic() {
             Name = "selectionStyle",
             Description = "The way in which table selection is shown",

@@ -65,9 +65,10 @@ namespace x10.compiler {
             CompileRecursively(instance, rootDataModel);
 
         // Now that we have parsed the State complex attribute, we can safely set the "other variables" of our Parser
-        var stateVars = definition.GetStateVariables(_allEnums);
+        IEnumerable<ClassDefNative.StateClass> stateVars 
+          = definition.GetStateVariables(_allEntities, _allEnums);
         if (stateVars != null)
-          _parser.OtherAvailableVariables = stateVars.ToDictionary(x => x.Variable, x => x.DataType);
+          _parser.OtherAvailableVariables = stateVars.ToDictionary(x => x.Variable, x => x.ToX10DataType());
 
         // Walk the XML tree and create a data model based on Instance and UiAttributeValue
         CompileRecursively(definition.RootChild, rootDataModel);
