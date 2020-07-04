@@ -128,14 +128,14 @@ namespace x10.ui.metadata {
       }
     }
 
-    public const string STATE = "state";
+    public const string STATE_ATTRIBUTE = "State";
     public static ClassDefNative UiClassDefClassDef = new ClassDefNative() {
       Name = "UiClassDef",
       Description = "This 'meta' class definition actually specifies what attributes are allowed on a UI Class Def",
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionComplex() {
-              Name = STATE,
+              Name = STATE_ATTRIBUTE,
               ComplexAttributeType = State,
               IsMany = true,
             },

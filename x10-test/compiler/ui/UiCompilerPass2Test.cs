@@ -375,11 +375,11 @@ namespace x10.compiler {
     public void StateDefinition() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent description='My description...' model='Building'>
-  <MyComponent.state>
+  <MyComponent.State>
     <State variable='myVar1' dataType='String' default='Hello World' />
     <State variable='myVar2' dataType='Boolean' default='true' />
     <State variable='myVar3' dataType='Date' />
-  </MyComponent.state>
+  </MyComponent.State>
   <VerticalGroup>
     <Checkbox checked='=myVar2'/> 
     <name visible='=myVar2'/>
@@ -391,11 +391,11 @@ namespace x10.compiler {
       string result = Print(definition);
 
       Assert.Equal(@"<MyComponent description='My description...' model='Building'>
-  <MyComponent.state>
+  <MyComponent.State>
     <State variable='myVar1' dataType='String' default='Hello World'/>
     <State variable='myVar2' dataType='Boolean' default='true'/>
     <State variable='myVar3' dataType='Date'/>
-  </MyComponent.state>
+  </MyComponent.State>
   <VerticalGroup>
     <Checkbox checked='=myVar2'/>
     <name visible='=myVar2'/>
@@ -952,9 +952,9 @@ namespace x10.compiler {
     public void BindTableSelectdToStateVar() {
       ClassDefX10 definition = RunTest(@"
 <Buildings description='My description...' model='Building' many='true'>
-  <Buildings.state>
+  <Buildings.State>
     <State variable='selectedBuildings' model='Building' many='true'/>
-  </Buildings.state>
+  </Buildings.State>
   <Table selected='=selectedBuildings'>
     <Table.Header>
       <HelpIcon/>
@@ -968,9 +968,9 @@ namespace x10.compiler {
 
       string result = Print(definition);
       Assert.Equal(@"<Buildings description='My description...' model='Building' many='True'>
-  <Buildings.state>
+  <Buildings.State>
     <State variable='selectedBuildings' model='Building' many='True'/>
-  </Buildings.state>
+  </Buildings.State>
   <Table selected='=selectedBuildings'>
     <Table.Header>
       <HelpIcon/>

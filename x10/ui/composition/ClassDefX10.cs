@@ -27,7 +27,7 @@ namespace x10.ui.composition {
     // Returns state information by parsing the state complex attribute.
     // Returns null if there is no state.
     public IEnumerable<StateClass> GetStateVariables(AllEntities allEntities, AllEnums allEnums) {
-      UiAttributeValueComplex states = this.FindAttributeValue(ClassDefNative.STATE) as UiAttributeValueComplex;
+      UiAttributeValueComplex states = this.FindAttributeValue(ClassDefNative.STATE_ATTRIBUTE) as UiAttributeValueComplex;
       if (states == null)
         return null;
 
