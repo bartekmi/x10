@@ -16,6 +16,10 @@ namespace x10.formula {
       visitor.VisitMemberAccess(this);
     }
 
+    public override ExpIdentifier FirstMemberOfPath() { 
+      return Expression.FirstMemberOfPath(); 
+    }
+
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
       X10DataType enumType = DetermineIfEnum();
       if (enumType != null)

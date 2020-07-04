@@ -6,6 +6,10 @@ using x10.model.metadata;
 namespace x10.formula {
   public class ExpIdentifier : ExpBase {
     public string Name { get; set; }
+    public bool IsOtherVariable { get; private set; }
+
+    // Derived
+    public bool IsContext { get { return Name == FormulaParser.CONTEXT_NAME; } }
 
     public ExpIdentifier(FormulaParser parser) : base(parser) {
       // Do nothing
@@ -15,8 +19,10 @@ namespace x10.formula {
       visitor.VisitIdentifier(this);
     }
 
+    public override ExpIdentifier FirstMemberOfPath() { return this; }
+
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
-      if (Name == FormulaParser.CONTEXT_NAME) {
+      if (IsContext) {
         Entity context = Parser.AllEntities.FindContextEntityWithError(this);
         if (context == null)
           return X10DataType.ERROR;
@@ -26,8 +32,10 @@ namespace x10.formula {
       // Check if the identifier is a state variable (i.e. OtherAvailableVariables)
       // TODO: Check for ambiguity between state variables and entity properties
       Dictionary<string, X10DataType> otherVars = Parser.OtherAvailableVariables;
-      if (otherVars != null && otherVars.TryGetValue(Name, out X10DataType dataType))
+      if (otherVars != null && otherVars.TryGetValue(Name, out X10DataType dataType)) {
+        IsOtherVariable = true;
         return dataType;
+      }
 
       // Walk down the chain of Members of rootType to try and find the identifier
       // as a property of one of the types in the chain

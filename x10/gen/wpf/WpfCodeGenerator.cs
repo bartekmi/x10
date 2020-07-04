@@ -102,13 +102,10 @@ namespace x10.gen.wpf {
         // Write the attribute
         if (attrValue is UiAttributeValueAtomic atomicValue) {
           string value;
-          if (atomicValue.Value != null) {
-            if (dynamicAttr != null && dynamicAttr.TranslationFunc != null)
-              value = dynamicAttr.TranslationFunc(atomicValue.Value)?.ToString();
-            else
-              value = atomicValue.Value.ToString();
-          } else if (atomicValue.Formula != null)
-            value = atomicValue.Formula; // TODO
+          if (atomicValue.Expression != null)
+            value = GenerateAttributeForFormula(dynamicAttr, atomicValue.Expression);
+          else if (atomicValue.Value != null)
+            value = GenerateAttributeForValue(dynamicAttr, atomicValue.Value);
           else
             continue;
 
@@ -130,6 +127,34 @@ namespace x10.gen.wpf {
         WriteChildren(level + 1, primaryValue);
         WriteLine(level, "</{0}>", platClassDef.PlatformName);
       }
+    }
+
+    private string GenerateAttributeForValue(PlatformAttributeDynamic dynamicAttr, object value) {
+      if (dynamicAttr != null && dynamicAttr.TranslationFunc != null)
+        return dynamicAttr.TranslationFunc(value)?.ToString();
+      else
+        return value.ToString();
+    }
+
+    private string GenerateAttributeForFormula(PlatformAttributeDynamic dynamicAttr, ExpBase expression) {
+      string path;
+      ExpIdentifier pathStart = expression.FirstMemberOfPath();
+      if (pathStart != null) {
+        string expressionAsPath = ExpressionToString(expression);
+        if (pathStart.IsOtherVariable)
+          path = expressionAsPath;
+        else
+          // TODO: Deal with situation where expression is relative not to UI Component root,
+          // but to some nested Enity
+          path = "Model." + expressionAsPath;
+      } else {
+        path = "TODO";
+      }
+
+      string converter = null;
+      if (dynamicAttr != null && dynamicAttr.Converter != null)
+        converter = string.Format(", Converter={{StaticResource {0}}}", dynamicAttr.Converter);
+      return string.Format("{{Binding Path={0}{1}}}", path, converter);
     }
 
     private void WriteChildren(int level, UiAttributeValue attrValue) {
