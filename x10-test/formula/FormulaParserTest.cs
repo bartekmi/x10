@@ -158,7 +158,7 @@ arguments:
 
     [Fact]
     public void AttemptEnumUpgradeWrongValue() {
-      TestExpectedError("myEnumValue == bogus", "Entity 'Entity' does not contain an Attribute or Association 'bogus'", 15, 20);
+      TestExpectedError("myEnumValue == bogus", "Identifier 'bogus' is neither a State variable: [stateInt, stateString] nor a Member of any of the following types: [Entity]", 15, 20);
     }
     #endregion
 
@@ -205,7 +205,7 @@ arguments:
 
     [Fact]
     public void MissingAttribute() {
-      TestExpectedError("a - missing", "Entity 'Entity' does not contain an Attribute or Association 'missing'", 4, 11);
+      TestExpectedError("a - missing", "Identifier 'missing' is neither a State variable: [stateInt, stateString] nor a Member of any of the following types: [Entity]", 4, 11);
       TestExpectedError("a - nested.missing", "Entity 'Nested' does not contain an Attribute or Association 'missing'", 11, 18);
     }
 

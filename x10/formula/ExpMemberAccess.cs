@@ -22,7 +22,7 @@ namespace x10.formula {
         return enumType;
 
       X10DataType expressionDataType = Expression.DetermineType(rootType);
-      return GetMemberAccessDataType(this, Parser.Errors, expressionDataType, MemberName);
+      return GetMemberAccessDataType(Parser.Errors, expressionDataType, MemberName);
     }
 
     // Check for "MyEnum.myEnumValue"
@@ -41,36 +41,41 @@ namespace x10.formula {
       return null;
     }
 
-    internal static X10DataType GetMemberAccessDataType(ExpBase expression, MessageBucket errors, X10DataType type, string memberName) {
-      if (type.IsError)
-        return X10DataType.ERROR;
+    internal X10DataType GetMemberAccessDataType(MessageBucket errors, X10DataType type, string memberName) {
+      X10DataType returnType = GetMemberAccessDataTypeStatic(type, memberName);
+      if (returnType != null)
+        return returnType;
 
+      if (type.IsPrimitive)
+        errors.AddError(this, "Data Type '{0}' does not contain property '{1}'", type.DataType, memberName);
+      else if (type.IsEntity)
+        if (type.IsMany)
+          errors.AddError(this, "{0} is not a valid property of a collection. The only valid properties are: count, first, last", memberName);
+        else
+          errors.AddError(this, "Entity '{0}' does not contain an Attribute or Association '{1}'", type.Entity.Name, memberName);
+      
+      return X10DataType.ERROR;
+    }
+
+    internal static X10DataType GetMemberAccessDataTypeStatic(X10DataType type, string memberName) {
       if (type.IsPrimitive) {
         DataTypeProperty property = type.DataType.FindProperty(memberName);
-        if (property == null) {
-          errors.AddError(expression, "Data Type '{0}' does not contain property '{1}'", type.DataType, memberName);
-          return X10DataType.ERROR;
-        }
-        return new X10DataType(property.Type);
+        if (property != null)
+          return new X10DataType(property.Type);
       } else if (type.IsEntity) {
         if (type.IsMany)
-          return GetIsManyDataType(expression, errors, type, memberName);
+          return GetIsManyDataType(type, memberName);
 
         Entity entity = type.Entity;
         Member member = entity.FindMemberByName(memberName);
-        if (member == null) {
-          errors.AddError(expression, "Entity '{0}' does not contain an Attribute or Association '{1}'", entity.Name, memberName);
-          return X10DataType.ERROR;
-        }
-
-        return new X10DataType(member);
-      } else {
-        errors.AddError(expression, "Unexpected context - neither Entity nor Primitive Data Type", type);
-        return X10DataType.ERROR;
+        if (member != null)
+          return new X10DataType(member);
       }
+
+      return null;
     }
 
-    private static X10DataType GetIsManyDataType(ExpBase expression, MessageBucket errors, X10DataType type, string memberName) {
+    private static X10DataType GetIsManyDataType(X10DataType type, string memberName) {
       switch (memberName) {
         case "count":
           return X10DataType.Integer;
@@ -78,8 +83,7 @@ namespace x10.formula {
         case "last":
           return type.Clone(false);
         default:
-          errors.AddError(expression, "{0} is not a valid property of a collection. The only valid properties are: count, first, last", memberName);
-          return X10DataType.ERROR;
+          return null;
       }
     }
   }
