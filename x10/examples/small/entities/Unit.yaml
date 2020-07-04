@@ -1,0 +1,46 @@
+name: Unit
+description: An individual rental unit
+defaultStringRepresentation: =number
+
+attributes:
+  - name: number
+    dataType: String
+    mandatory: true
+    placeholderText: Unit number
+    toolTip: Unit number corresponding to mailing address
+
+  - name: squareFeet
+    dataType: Float
+    mandatory: true
+
+  - name: numberOfBedrooms
+    dataType: Integer
+    mandatory: true
+    default: 2
+
+  - name: numberOfBathrooms
+    dataType: NumberOfBathrooms
+    mandatory: true
+    default: one
+
+  - name: hasBalcony
+    dataType: Boolean
+    mandatory: true
+    default: false
+
+enums:
+  - name: NumberOfBathrooms
+    values: 
+      - value: half
+      - value: one
+        label: 1
+      - value: oneAndHalf
+        label: 1.5
+      - value: two
+        label: 2
+      - value: three
+        label: 3
+      - value: fourPlus
+        label: 4+
+
+      

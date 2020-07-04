@@ -1,0 +1,36 @@
+<Bookings model="Booking" many="true">
+  <VerticalStackPanel>
+    <Heading1 text="Bookings"/>
+    <HorizontalDivider/>
+
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+          <Row>
+            <!-- TODO: Filters -->
+          </Row>
+      </Table.Header>
+
+      <!-- Columns -->
+      <Table.Columns>
+        <TableColumn label="Name">
+          <Row>
+            <name/>
+            <!-- TODO: All Visual component should have a tooltip property - but ensure does not conflict with existing -->
+            <!--<Icon icon="question" visible="=!isEmpty(description)" toolTip="=description"/>-->
+            <Icon icon="question" visible="=!isEmpty(description)"/>
+          </Row>
+        </TableColumn>
+        <physicalAddress.address/>
+        <physicalAddress.city/>
+        <dateOfOccupancy/>
+        <TableColumn label="Action">
+          <Row>
+            <Button label="View" url="/building/${id}"/>
+            <Button label="Edit" url="/building/${id}/edit"/>
+          </Row>
+        </TableColumn>
+      </Table.Columns>
+    </Table>
+  </VerticalStackPanel>
+</Bookings>

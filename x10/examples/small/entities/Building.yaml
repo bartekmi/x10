@@ -1,0 +1,57 @@
+name: Building
+description: A physical building which contains rental units
+defaultStringRepresentation: =name
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+    placeholderText: Name of building
+    toolTip: A short and memorable name of the Building
+
+  - name: description
+    dataType: String
+    toolTip: Description for advertising purposes
+    ui: TextArea
+
+  - name: dateOfOccupancy
+    dataType: Date
+    mandatory: true
+
+  - name: mailboxType
+    dataType: MailboxType
+    mandatory: true
+    default: inBuilding
+
+
+derivedAttributes:
+  - name: ageInYears
+    dataType: Integer
+    formula: = __Context__.now.year - dateOfOccupancy.year
+
+associations:
+  - name: units
+    many: true
+    dataType: Unit
+    owns: true
+
+  - name: physicalAddress
+    dataType: Address
+    mandatory: true
+    owns: true
+
+  - name: mailingAddress
+    dataType: Address
+    owns: true
+
+enums:
+  - name: MailboxType
+    values:
+      - value: inBuilding
+        label: Mailroom in Building
+      - value: community
+        label: Postal System Community Mailbox
+      - value: individual
+        label: Mail Delivered to Unit
+
+      

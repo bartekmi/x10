@@ -1,0 +1,16 @@
+name: Tenant
+description: Tenant of a Unit
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+  - name: phone
+    dataType: String
+  - name: email
+    dataType: String
+    mandatory: true
+
+associations:
+  - name: permanentMailingAddress
+    dataType: Address

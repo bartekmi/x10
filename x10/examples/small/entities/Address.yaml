@@ -1,0 +1,30 @@
+name: Address
+description: A physical or mailing address
+
+attributes:
+  - name: unitNumber
+    dataType: String
+
+  - name: address
+    dataType: String
+
+  - name: city
+    dataType: String
+
+  - name: stateOrProvince
+    dataType: String
+
+  - name: zip
+    dataType: String
+
+derivedAttributes:
+  - firstAddressLine:
+    dataType: String
+    formula: =isEmpty(unitNumber) ? address : address + '   Unit ' + unitNumber
+  - secondAddressLine:
+    dataType: String
+    formula: =city + ', ' + stateOrProvince
+  - thirdAddressLine:
+    dataType: String
+    formula: =zip
+      
