@@ -714,6 +714,7 @@ namespace x10.ui.libraries {
             Description = "The child components. Often, these may be <FormSection>'s.",
             IsPrimary = true,
             IsMandatory = true,
+            IsMany = true,
             ComplexAttributeType = ClassDefNative.Visual,
             ModelRefWrapperComponentName = "Label",
           },
@@ -729,6 +730,7 @@ namespace x10.ui.libraries {
             Description = "The child components.",
             IsPrimary = true,
             IsMandatory = true,
+            IsMany = true,
             ComplexAttributeType = ClassDefNative.Visual,
           },
           new UiAttributeDefinitionAtomic() {

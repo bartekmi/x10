@@ -55,7 +55,7 @@ namespace x10.compiler {
 
         // Parse the Root Child
         definition.RootChild = ParseInstance(rootXmlChild, null);
-        
+
         X10DataType rootDataModel = definition.ComponentDataModel == null ?
           X10DataType.NULL :
           new X10DataType(definition.ComponentDataModel, definition.IsMany.Value);
@@ -65,7 +65,7 @@ namespace x10.compiler {
             CompileRecursively(instance, rootDataModel);
 
         // Now that we have parsed the State complex attribute, we can safely set the "other variables" of our Parser
-        IEnumerable<ClassDefNative.StateClass> stateVars 
+        IEnumerable<ClassDefNative.StateClass> stateVars
           = definition.GetStateVariables(_allEntities, _allEnums);
         if (stateVars != null)
           _parser.OtherAvailableVariables = stateVars.ToDictionary(x => x.Variable, x => x.ToX10DataType());
@@ -172,7 +172,7 @@ namespace x10.compiler {
           _messages.AddError(xmlElement, "Class Definition '{0}' does not define a Primary Attribute, yet has child elements.",
             classDef.Name);
         else
-          ParseComplexAttribute(instance, primaryAtributeXmls, primaryAttrDef);
+          ParseComplexAttribute(instance.XmlElement, instance, primaryAtributeXmls, primaryAttrDef, true);
       }
 
       ValidateMandatoryComplexAttributes(classDef, instance);
@@ -197,7 +197,7 @@ namespace x10.compiler {
               _messages.AddWarning(xmlChild, "Empty Complex Attribute");
               continue;
             }
-            ParseComplexAttribute(owner, xmlChild.Children, complexAttrDef);
+            ParseComplexAttribute(xmlChild, owner, xmlChild.Children, complexAttrDef, false);
           } else {
             _messages.AddError(xmlChild,
               "Atomic Attribute '{0}' of Component '{1}' found where Complex Attribute expected.",
@@ -223,12 +223,25 @@ namespace x10.compiler {
             complexAttr.IsPrimary ? "Primary" : "Complex", complexAttr.Name, classDef.Name);
     }
 
-    private void ParseComplexAttribute(IAcceptsUiAttributeValues owner,
+    private void ParseComplexAttribute(
+      IParseElement source,
+      IAcceptsUiAttributeValues owner,
       List<XmlElement> children,
-      UiAttributeDefinitionComplex attrComplex) {
+      UiAttributeDefinitionComplex attrComplex,
+      bool parseAsPrimary) {
 
       if (attrComplex == null)
         return;
+
+      if (!attrComplex.IsMany && children.Count != 1) {
+        if (parseAsPrimary)
+          _messages.AddError(source, "Component '{0}' expects exactly one child, but has {1}",
+            attrComplex.Owner.Name, children.Count);
+        else
+          _messages.AddError(source, "Complex Attribute '{0}' expected exactly one child, but has {1}",
+            attrComplex.Name, children.Count);
+        return;
+      }
 
       UiAttributeValueComplex complexValue = attrComplex.CreateValueAndAddToOwnerComplex(owner, children.First().Parent);
 

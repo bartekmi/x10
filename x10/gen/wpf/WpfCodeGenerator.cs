@@ -35,6 +35,7 @@ namespace x10.gen.wpf {
     }
 
     #region Generate XAML, etc
+
     public override void Generate(ClassDefX10 classDef) {
       GenerateXamlFile(classDef);
       GenerateXamlCsFile(classDef);
@@ -67,6 +68,12 @@ namespace x10.gen.wpf {
       End();
     }
 
+
+    private readonly string[] IGNORE_ATTRIBUTES = new string[] {
+      UiAttributeDefinitions.NAME,
+      UiAttributeDefinitions.PATH,
+    };
+
     private void GenerateXamlRecursively(int level, Instance instance) {
       if (instance == null)
         return;
@@ -92,7 +99,7 @@ namespace x10.gen.wpf {
       foreach (UiAttributeValue attrValue in instance.AttributeValues) {
         string attrName = attrValue.Definition.Name;
 
-        if (attrValue == primaryValue || attrValue.Definition.Name == ParserXml.ELEMENT_NAME)
+        if (attrValue == primaryValue || IGNORE_ATTRIBUTES.Contains(attrValue.Definition.Name))
           continue;
 
         PlatformAttributeDynamic dynamicAttr = platClassDef.FindDyamicAttribute(attrName);

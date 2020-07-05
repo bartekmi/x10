@@ -14,6 +14,9 @@ namespace x10.compiler {
 
   public static class UiAttributeDefinitions {
 
+    public const string PATH = "path";
+    public const string NAME = ParserXml.ELEMENT_NAME;
+
     public static UiAttributeDefinitionAtomic FindAttribute(UiAppliesTo appliesTo, string attributeName) {
       UiAttributeDefinitionAtomic attrDef = All.SingleOrDefault(x => 
         x.AppliesToType(appliesTo) && x.Name == attributeName);
@@ -103,7 +106,7 @@ namespace x10.compiler {
         },
       },
       new UiAttributeDefinitionAtomic() {
-        Name = "path",
+        Name = PATH,
         Description = "A logical 'path' from the parent data Entity down to a lower-level Member. Use dot (.) to link multiple descending steps - e.g. 'address.city'",
         AppliesTo = UiAppliesTo.UiComponentUse,
         DataType = DataTypes.Singleton.String,

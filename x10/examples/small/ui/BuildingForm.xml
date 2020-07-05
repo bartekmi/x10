@@ -1,22 +1,22 @@
 <BuildingForm model="Building" url="/building">
   <Form>
-    <VerticalStackPanel>
-      <FormSection label="Building Info">
-        <name/>
-        <description/>
-        <dateOfOccupancy/>
-      </FormSection>
-      <FormSection path="physicalAddress" label="Physical Address">
-        <address/>
-        <city/>
-        <zip label="Zip or Postal Code"/>
-      </FormSection>
-    </VerticalStackPanel>
+    <FormSection label="Building Info">
+      <name/>
+      <description/>
+      <dateOfOccupancy/>
+    </FormSection>
+
+    <FormSection path="physicalAddress" label="Physical Address">
+      <address/>
+      <city/>
+      <zip label="Zip or Postal Code"/>
+    </FormSection>
+
     <FormSection label="Other Details">
       <dateOfOccupancy/>
       <mailboxType/>
     </FormSection>
-    
+
     <RepellingRow>
       <Text>* Required</Text>
       <Row>

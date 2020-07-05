@@ -513,6 +513,46 @@ namespace x10.compiler {
     }
 
     [Fact]
+    public void SinglePrimaryWithMultipleChildren() {
+      RunTest(@"
+<Outer description='My description...' model='Building' many='true'>
+  <Table>
+    <TableColumn>
+      <name/>
+      <ageInYears/>
+    </TableColumn>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+  </Table>
+</Outer>
+", "Component 'TableColumn' expects exactly one child, but has 2", 4, 6);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
+    public void SingleComplexWithMultipleChildren() {
+      RunTest(@"
+<Outer description='My description...' model='Building' many='true'>
+  <Table>
+    <TableColumn>
+      <TableColumn.Renderer>
+        <name/>
+        <ageInYears/>
+      </TableColumn.Renderer>
+    </TableColumn>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+  </Table>
+</Outer>
+", "Complex Attribute 'Renderer' expected exactly one child, but has 2", 5, 8);
+
+      Assert.Single(_messages.Messages);
+    }
+
+    [Fact]
     public void UnknownAttributeInClassDef() {
       RunTest(@"
 <Outer description='My description...' model='Building' foo='Junk'>

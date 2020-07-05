@@ -48,11 +48,13 @@
         <state/>
 
         <TableColumn label="Action">
-          <!-- TODO... Convert to label='=state.label' -->
-          <Button label="View Request" url="/bookings/${booking.id}/edit" visible="=state == 'quoteRequested'"/>
-          <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteReady'"/>
-          <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteAccepted'"/>
-          <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteExpired'"/>
+          <Row>
+            <!-- TODO... Convert to label='=state.label' -->
+            <Button label="View Request" url="/bookings/${booking.id}/edit" visible="=state == 'quoteRequested'"/>
+            <Button label="View Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteReady'"/>
+            <Button label="View Accepted Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteAccepted'"/>
+            <Button label="View Expired Quote" url="/quote_requests/${id}/edit" visible="=state == 'quoteExpired'"/>
+          </Row>
         </TableColumn>
       </Table.Columns>
 

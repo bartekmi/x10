@@ -39,10 +39,12 @@
         <volumeCm/>
         <status/>
         <TableColumn label="Action">
-          <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=status == 'draft'"/>
-          <Row visible="=status != 'draft'">
-            <Button label="View" url="/bookings/${id}"/>
-            <Button label="Edit" url="/bookings/${id}/amend"/>
+          <Row>
+            <Button label="Continue Draft" url="/bookings/${id}/edit" visible="=status == 'draft'"/>
+            <Row visible="=status != 'draft'">
+              <Button label="View" url="/bookings/${id}"/>
+              <Button label="Edit" url="/bookings/${id}/amend"/>
+            </Row>
           </Row>
         </TableColumn>
       </Table.Columns>
