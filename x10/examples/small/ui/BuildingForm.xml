@@ -1,4 +1,4 @@
-<Dashboard url="/building">
+<BuildingForm model="Building" url="/building">
   <Form>
     <VerticalStackPanel>
       <FormSection label="Building Info">
@@ -28,4 +28,4 @@
       </Row>
     </RepellingRow>
   </Form>
-</Dashboard>
+</BuildingForm>

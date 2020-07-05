@@ -18,13 +18,15 @@ attributes:
     dataType: String
 
 derivedAttributes:
-  - firstAddressLine:
+  - name: firstAddressLine
     dataType: String
-    formula: =isEmpty(unitNumber) ? address : address + '   Unit ' + unitNumber
-  - secondAddressLine:
+# TODO
+#    formula: '=isEmpty(unitNumber) ? address : address + "   Unit " + unitNumber'
+    formula: '=address + "   Unit " + unitNumber'
+  - name: secondAddressLine
     dataType: String
     formula: =city + ', ' + stateOrProvince
-  - thirdAddressLine:
+  - name: thirdAddressLine
     dataType: String
     formula: =zip
       

@@ -128,6 +128,7 @@ arguments:
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
       TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
       TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
+      TestExpectedSuccess("nested.attr.year", DataTypes.Singleton.Integer);         // Property of primitive type
     }
 
     #region Enumerated Types
@@ -158,7 +159,7 @@ arguments:
 
     [Fact]
     public void AttemptEnumUpgradeWrongValue() {
-      TestExpectedError("myEnumValue == bogus", "Identifier 'bogus' is neither a State variable: [stateInt, stateString] nor a Member of any of the following types: [Entity]", 15, 20);
+      TestExpectedError("myEnumValue == bogus", "Identifier 'bogus' is not a State variable: [stateInt, stateString] and not a Member of any of the following types: [Entity]", 15, 20);
     }
     #endregion
 
@@ -205,7 +206,7 @@ arguments:
 
     [Fact]
     public void MissingAttribute() {
-      TestExpectedError("a - missing", "Identifier 'missing' is neither a State variable: [stateInt, stateString] nor a Member of any of the following types: [Entity]", 4, 11);
+      TestExpectedError("a - missing", "Identifier 'missing' is not a State variable: [stateInt, stateString] and not a Member of any of the following types: [Entity]", 4, 11);
       TestExpectedError("a - nested.missing", "Entity 'Nested' does not contain an Attribute or Association 'missing'", 11, 18);
     }
 

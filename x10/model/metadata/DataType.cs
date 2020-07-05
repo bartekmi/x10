@@ -43,7 +43,11 @@ namespace x10.model.metadata {
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
-    public List<DataTypeProperty> Properties { get; set; }
+    public IEnumerable<DataTypeProperty> Properties { get; private set; }
+
+    // Initializer for properties - we do this in a deferred way so that initialization
+    // of things like DataTypes.Integer, etc, has a chance to happen beforehand
+    public Func<List<DataTypeProperty>> PropertiesInit { get; set; }
 
     // Derived
     public bool IsEnum { get { return this is DataTypeEnum; } }
@@ -87,6 +91,15 @@ namespace x10.model.metadata {
 
     public override string ToString() {
       return Name;
+    }
+
+    internal void Initialize() {
+      if (PropertiesInit != null)
+        SetProperties(PropertiesInit());
+    }
+
+    internal void SetProperties(IEnumerable<DataTypeProperty> properties) {
+      Properties = properties;
     }
   }
 }

@@ -31,10 +31,9 @@ namespace x10.model {
     // Data Types can have properties - see class DataTypeProperty and its explanation
     // Here, we find all properties defined for enum values (e.g. label/icon) 
     private void SetDataTypeProperties(DataTypeEnum theEnum) {
-      theEnum.Properties = ModelAttributeDefinitions.Find(AppliesTo.EnumValue)
+      theEnum.SetProperties(ModelAttributeDefinitions.Find(AppliesTo.EnumValue)
         .OfType<ModelAttributeDefinitionAtomic>()
-        .Select(x => new DataTypeProperty(x.Name, x.DataType))
-        .ToList();
+        .Select(x => new DataTypeProperty(x.Name, x.DataType)));
     }
 
     public IEnumerable<DataTypeEnum> All {

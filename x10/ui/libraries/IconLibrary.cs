@@ -21,6 +21,7 @@ namespace x10.ui.libraries {
       "airport",
       "factory",
       "quotation-mark",
+      "question-mark",
       "callout",
       "thumbs-up",
       "dont",

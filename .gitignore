@@ -4,4 +4,5 @@
 x10/.DS_Store
 .vs
 packages/*
+*/packages/*
 *.csproj.user

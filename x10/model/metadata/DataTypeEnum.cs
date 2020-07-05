@@ -37,7 +37,7 @@ namespace x10.model.metadata {
         return new ParseResult(text);
 
       string error = string.Format("'{0}' is not a valid member of the Enumerated Type '{1}'. Valid values are: {2}.",
-        text, Name, string.Join(", ", EnumValueValues));
+        text, Name, string.Join(", ", EnumValueValues.OrderBy(x => x)));
 
       return new ParseResult(null) {
         ParseErrorMessage = error,

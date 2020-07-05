@@ -1,0 +1,5 @@
+﻿- name: IsBlank
+  returnDataType: Boolean
+  arguments:
+    - name: value
+      dataType: String

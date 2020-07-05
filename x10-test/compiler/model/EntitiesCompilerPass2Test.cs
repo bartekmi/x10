@@ -127,7 +127,7 @@ enums:
   - name: MyEnum
     values: one, two, three
 ",
-        "Error parsing attribute 'default': 'four' is not a valid member of the Enumerated Type 'MyEnum'. Valid values are: one, two, three.", 6, 14);
+        "Error parsing attribute 'default': 'four' is not a valid member of the Enumerated Type 'MyEnum'. Valid values are: one, three, two.", 6, 14);
     }
 
     [Fact]

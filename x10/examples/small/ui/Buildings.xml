@@ -1,4 +1,4 @@
-<Bookings model="Booking" many="true">
+<Buildings model="Building" many="true">
   <VerticalStackPanel>
     <Heading1 text="Bookings"/>
     <HorizontalDivider/>
@@ -18,7 +18,7 @@
             <name/>
             <!-- TODO: All Visual component should have a tooltip property - but ensure does not conflict with existing -->
             <!--<Icon icon="question" visible="=!isEmpty(description)" toolTip="=description"/>-->
-            <Icon icon="question" visible="=!isEmpty(description)"/>
+            <Icon icon="question-mark" visible="=!IsBlank(description)"/>
           </Row>
         </TableColumn>
         <physicalAddress.address/>
@@ -33,4 +33,4 @@
       </Table.Columns>
     </Table>
   </VerticalStackPanel>
-</Bookings>
+</Buildings>

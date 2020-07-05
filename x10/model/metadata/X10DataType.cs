@@ -91,7 +91,7 @@ namespace x10.model.metadata {
       if (IsNull)
         return "Null";
 
-      throw new Exception("Added new type and forgot to update code");
+      return "Blank";
     }
 
     public override bool Equals(object obj) {

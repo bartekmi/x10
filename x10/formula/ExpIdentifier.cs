@@ -55,11 +55,14 @@ namespace x10.formula {
           return childType;
       }
 
-      string message = "Identifier '{0}' is neither a State variable: [{1}] nor a Member of any of " +
-        "the following types: [{2}]";
+      string otherVarsMessage = otherVars == null ? null : string.Format("not a State variable: [{0}] and ",
+        string.Join(", ", otherVars.Keys));
+
+      string message = "Identifier '{0}' is {1}not a Member of any of the following types: [{2}]";
+
       Parser.Errors.AddError(this, message,
         Name,
-        string.Join(", ", otherVars.Keys),
+        otherVarsMessage,
         string.Join(", ", types));
 
       return X10DataType.ERROR;

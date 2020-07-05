@@ -56,13 +56,18 @@ namespace x10.model.metadata {
           Name = "Date",
           Description = "A calendar date",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s).Date),
-          Examples = "2020-01-31"
+          Examples = "2020-01-31",
+          PropertiesInit = () => new List<DataTypeProperty>() {
+            new DataTypeProperty("year", Integer),
+            new DataTypeProperty("dayOfMonth", Integer),
+            new DataTypeProperty("motnName", String),
+          }
         },
         new DataType() {
           Name = "Timestamp",
           Description = "A unique point in time, expressed in UTC time",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s)),
-          Properties = new List<DataTypeProperty>() {
+          PropertiesInit = () => new List<DataTypeProperty>() {
             new DataTypeProperty("year", Integer),
             new DataTypeProperty("dayOfMonth", Integer),
             new DataTypeProperty("motnName", String),
@@ -85,6 +90,9 @@ namespace x10.model.metadata {
       Money = Find("Money");
       String = Find("String");
       Timestamp = Find("Timestamp");
+
+      foreach (DataType dataType in All)
+        dataType.Initialize();
     }
 
     public DataType Find(string dataTypeName) {
