@@ -22,28 +22,41 @@ namespace x10.compiler {
       List<ClassDef> definitions = new List<ClassDef>() {
         #region Basic Components
         new ClassDefNative() {
+          Name = "EditBase",
+          Description = "Base class for all Edit components",
+          InheritsFrom = ClassDefNative.Editable,
+          IsMany = false,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              Description = "Optial override of <Label> text",
+              DataType = DataTypes.Singleton.String,
+            },
+          },
+        },
+        new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
         },
         new ClassDefNative() {
           Name = "MyAverageIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
         },
         new ClassDefNative() {
           Name = "MyBasicIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
         },
         new ClassDefNative() {
           Name = "TextEdit",
           AtomicDataModel = DataTypes.Singleton.String,
           IsMany = false,
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "weight",
@@ -58,7 +71,7 @@ namespace x10.compiler {
           Name = "Checkbox",
           AtomicDataModel = DataTypes.Singleton.Boolean,
           IsMany = false,
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "checked",
@@ -68,7 +81,7 @@ namespace x10.compiler {
         },
         new ClassDefNative() {
           Name = "DropDown",
-          InheritsFrom = ClassDefNative.Visual,
+          InheritsFromName = "EditBase",
           IsMany = false,
           AtomicDataModel = new DataTypeEnum(),
         },
@@ -1022,6 +1035,39 @@ namespace x10.compiler {
 </Buildings>
 ", result);
     }
+    #endregion
+
+    #region Component Wrappers
+    [Fact]
+    public void AttributesHoistedToWrappingComponent() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Table path='apartments'>  
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <number label='Pass to Wrapper'/>
+  </Table>
+</MyComponent>
+"); 
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Table path='apartments'>
+    <Table.Header>
+      <HelpIcon/>
+    </Table.Header>
+    <TableColumn label='Pass to Wrapper'>
+      <number/>
+    </TableColumn>
+  </Table>
+</MyComponent>
+", result);
+    }
+
+
     #endregion
 
     #endregion
