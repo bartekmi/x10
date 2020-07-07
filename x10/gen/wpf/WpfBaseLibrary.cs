@@ -75,10 +75,10 @@ namespace x10.gen.wpf {
             LogicalName = "toolTip",
             PlatformName = "MyToolTip",
           },
-          // TODO: Deal with the fact that in the logical model, the Label element
-          // "wraps" its content.
-          // Perhaps an attribute on PlatformClassDef that says "Unwrap Content"???
-          // Or else a custom code-generation Action<>
+          new PlatformAttributeDynamic() {
+            LogicalName = "label",
+            PlatformName = "Text",
+          },
         },
       },
       #endregion
