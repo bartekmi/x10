@@ -176,7 +176,7 @@ namespace x10.gen.wpf {
             PlatformName = "IsChecked",
           },
           new PlatformAttributeDynamic() {
-            LogicalName = "label",
+            LogicalName = "checkboxLabel",
             PlatformName = "Content",
           },
         },

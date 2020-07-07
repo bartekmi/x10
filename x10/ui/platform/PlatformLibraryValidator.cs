@@ -75,8 +75,6 @@ namespace x10.ui.platform {
           ValidateStaticAttribute(platform, staticAttr);
         else if (attribute is PlatformAttributeDynamic dynamicAttr)
           ValidateDynamicAttribute(logical, platform, dynamicAttr);
-
-
       }
     }
 
@@ -93,8 +91,8 @@ namespace x10.ui.platform {
         if (dynamicAttr is PlatformAttributeDataBind) {
           // The main data-bind attribute doesn't need to exist as a logical attribute
         } else
-          _messages.AddError(null, "Platform Attribute {0} refers to Logical Attribute {1} of {2} which does not exist",
-            dynamicAttr.PlatformName, dynamicAttr.LogicalName, logical.Name);
+          _messages.AddError(null, "Platform Attribute {0}.{1} refers to Logical Attribute {2}.{3} which does not exist",
+            platform.PlatformName, dynamicAttr.PlatformName, logical.Name, dynamicAttr.LogicalName);
       }
     }
   }

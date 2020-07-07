@@ -33,8 +33,10 @@ namespace x10.gen.wpf {
         WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton()),
       };
 
-      if (_messages.HasErrors) 
+      if (_messages.HasErrors) {
+        TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
         Assert.Empty(_messages.Errors);
+      }
 
       string targetDir = "../../../../wpf_generated_small/__generated__";
       WpfCodeGenerator generator = new WpfCodeGenerator(

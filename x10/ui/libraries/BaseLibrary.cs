@@ -181,6 +181,14 @@ namespace x10.ui.libraries {
             Description = "The state of the <Checkbox>",
             DataType = DataTypes.Singleton.Boolean,
           },
+          new UiAttributeDefinitionAtomic() {
+            // TODO: This is very WPF-ish. I don't think having this label applies
+            // to web stuff. Strongly recommend removing this attribute.
+            // Instead, xml code will just have to use a plain Text to the right.
+            Name = "checkboxLabel",
+            Description = "Text placed to the right of the checkbox",
+            DataType = DataTypes.Singleton.String,
+          },
         },
       },
       new ClassDefNative() {
