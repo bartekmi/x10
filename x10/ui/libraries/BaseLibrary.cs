@@ -75,7 +75,7 @@ namespace x10.ui.libraries {
             ComplexAttributeType = ClassDefNative.Visual,
           },
           new UiAttributeDefinitionAtomic() {
-            Name = "text",
+            Name = "label",
             Description = "The text of the label. Normally rendered as bold text.",
             DataType = DataTypes.Singleton.String,
           },
@@ -138,51 +138,33 @@ namespace x10.ui.libraries {
       #endregion
 
       #region Edit Components
-      new ClassDefNative() {
-        Name = "EditBase",
-        Description = "Base class for all Edit components",
-        InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "label",
-            Description = "Optial override of <Label> text",
-            DataType = DataTypes.Singleton.String,
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "toolTip",
-            Description = "Optial override of <Label> Tool Tip",
-            DataType = DataTypes.Singleton.String,
-          },
-        },
-      },
 
       #region Atomic Edit Components
       new ClassDefNative() {
         Name = "TextEdit",
         Description = "One-line editor for text",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.String,
       },
       new ClassDefNative() {
         Name = "TextArea",
         Description = "Multi-line editor for text. Suitable for longer descriptions.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.String,
       },
       new ClassDefNative() {
         Name = "IntEdit",
         Description = "Editor for an Integer. Proper validation is built-in.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Integer,
       },
       new ClassDefNative() {
         Name = "FloatEdit",
         Description = "Editor for a Floating-point number. Proper validation is built-in.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Integer,
       },
@@ -190,7 +172,7 @@ namespace x10.ui.libraries {
         Name = "Checkbox",
         // Note: there is a conscious decision here not to allow tri-state, as this can be ambiguous from a user's perspective
         Description = "Editor for a Boolean value. Only two states are possible - checked and unchecked.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -204,7 +186,7 @@ namespace x10.ui.libraries {
       new ClassDefNative() {
         Name = "BooleanViaButtons",
         Description = "Editor for A Boolean value using two labelled buttons.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -228,21 +210,21 @@ namespace x10.ui.libraries {
       new ClassDefNative() {
         Name = "DateEditor",
         Description = "Editor for a date.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Date,
       },
       new ClassDefNative() {
         Name = "TimestampEditor",
         Description = "Editor for Date and Time (i.e. 'Timestamp')",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Timestamp,
       },
       new ClassDefNative() {
         Name = "DropDown",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         AtomicDataModel = new DataTypeEnum(),
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -263,7 +245,7 @@ namespace x10.ui.libraries {
       new ClassDefNative() {
         Name = "AssociationEditor",
         Description = "A drop-down style editor for selecting an associated entity. E.g. an editor for 'Appointment' in a clinic might have a drop-down to select the Doctor.",
-        InheritsFromName = "EditBase",
+        InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -505,6 +487,11 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "label",
             Description = "<Table> column label.",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "toolTip",
+            Description = "If present, an icon (?) will be placed after the column label - the Tool Tip message will be displayed to the user when they hover over the icon",
             DataType = DataTypes.Singleton.String,
           },
         },

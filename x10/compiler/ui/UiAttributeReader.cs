@@ -33,19 +33,34 @@ namespace x10.compiler {
     }
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
-      ReadAttributesPrivate(UiAppliesTo.ClassDef, classDef, UiAttributeDefinitions.All, new string[0], true);
+      IEnumerable<UiAttributeDefinitionAtomic> attrDefs = UiAttributeDefinitions.AllApplicable(UiAppliesTo.ClassDef);
+      ReadAttributesPrivate(classDef.XmlElement, classDef, attrDefs, new string[0]);
+      ErrorOnUnknownAttributes(classDef, attrDefs);
     }
 
-    internal void ReadAttributesForInstance(Instance instance, params string[] attributesToExclude) {
+    internal void ReadAttributesForInstance(Instance instance, Instance wrapper, params string[] attributesToExclude) {
+      XmlElement source = instance.XmlElement;
+
+      // If wrapper was given, extract the wrapper attributes, first
+      IEnumerable<UiAttributeDefinitionAtomic> attributesHoistedToWrapper = new List<UiAttributeDefinitionAtomic>();
+      if (wrapper != null) {
+        IEnumerable<UiAttributeDefinitionAtomic> wrapperAttrDefs = wrapper.RenderAs.AtomicAttributeDefinitions;
+        attributesHoistedToWrapper = ReadAttributesPrivate(source, wrapper, wrapperAttrDefs, attributesToExclude);
+      }
+
+      // Now, extract the actual component attributes
       IEnumerable<UiAttributeDefinitionAtomic> classDefAttrs = instance.RenderAs?.AtomicAttributeDefinitions;
-      bool classDefKnown = classDefAttrs != null;
-      IEnumerable<UiAttributeDefinitionAtomic> allAttrs = classDefKnown ?
-        UiAttributeDefinitions.All.Concat(classDefAttrs) :
-        UiAttributeDefinitions.All;
-
       UiAppliesTo appliesTo = instance is InstanceModelRef ? UiAppliesTo.UiModelReference : UiAppliesTo.UiComponentUse;
+      IEnumerable<UiAttributeDefinitionAtomic> attrDefs = UiAttributeDefinitions.AllApplicable(appliesTo);
+      if (classDefAttrs != null)
+        attrDefs = attrDefs.Concat(classDefAttrs);
 
-      ReadAttributesPrivate(appliesTo, instance, allAttrs, attributesToExclude, classDefKnown);
+      IEnumerable<string> exclude = attributesToExclude.Concat(attributesHoistedToWrapper.Select(x => x.Name));
+
+      ReadAttributesPrivate(source, instance, attrDefs, exclude);
+      if (classDefAttrs != null)
+        ErrorOnUnknownAttributes(instance, attrDefs.Concat(attributesHoistedToWrapper));
+
       ReadAttachedAttributes(instance);
     }
 
@@ -56,33 +71,33 @@ namespace x10.compiler {
 
       foreach (string attributeName in attributeNames) {
         UiAttributeDefinitionAtomic attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
-        ReadAttribute(modelComponent, attrDef);
+        ReadAttribute(modelComponent.XmlElement, modelComponent, attrDef);
       }
     }
 
-    private void ReadAttributesPrivate(UiAppliesTo appliesTo,
-      IAcceptsUiAttributeValues modelComponent,
+    private IEnumerable<UiAttributeDefinitionAtomic> ReadAttributesPrivate(
+      XmlElement source,
+      IAcceptsUiAttributeValues recipient,
       IEnumerable<UiAttributeDefinitionAtomic> attrDefs,
-      string[] attributesToExclude,
-      bool errorOnUnknownAttributes) {
+      IEnumerable<string> attributesToExclude) {
 
-      IEnumerable<UiAttributeDefinitionAtomic> applicableAttrDefs = attrDefs.Where(x => x.AppliesToType(appliesTo));
-      IEnumerable<UiAttributeDefinitionAtomic> applicableMinusExcluded = applicableAttrDefs.Where(x => !attributesToExclude.Contains(x.Name));
+      IEnumerable<UiAttributeDefinitionAtomic> applicableMinusExcluded = attrDefs.Where(x => !attributesToExclude.Contains(x.Name));
 
+      List<UiAttributeDefinitionAtomic> attributesRead = new List<UiAttributeDefinitionAtomic>();
       foreach (UiAttributeDefinitionAtomic attrDef in applicableMinusExcluded)
-        ReadAttribute(modelComponent, attrDef);
+        if (ReadAttribute(source, recipient, attrDef))
+          attributesRead.Add(attrDef);
 
-      if (errorOnUnknownAttributes)
-        ErrorOnUnknownAttributes(modelComponent, applicableAttrDefs);
+      return attributesRead;
     }
 
-    private void ReadAttribute(
-      IAcceptsUiAttributeValues modelComponent,
+    private bool ReadAttribute(
+      XmlElement source,
+      IAcceptsUiAttributeValues recipient,
       UiAttributeDefinitionAtomic attrDef) {
 
       // Error if mandatory attribute missing
-      XmlElement xmlElement = modelComponent.XmlElement;
-      XmlAttribute xmlAttribute = xmlElement.FindAttribute(attrDef.Name);
+      XmlAttribute xmlAttribute = source.FindAttribute(attrDef.Name);
 
       // Mising mandatory attribute
       if (xmlAttribute == null && attrDef.DefaultValue == null && attrDef.IsMandatory) {
@@ -90,40 +105,42 @@ namespace x10.compiler {
           "" :
           string.Format(" of Class Definition '{0}'", attrDef.Owner.Name);
 
-        _messages.AddError(xmlElement,
+        _messages.AddError(source,
           string.Format("Mandatory Atomic Attribute '{0}'{1} is missing",
           attrDef.Name, classDefOwnership));
-        return;
+        return false;
       }
 
       object typedValue = attrDef.DefaultValue;
       if (xmlAttribute != null)
-        typedValue = ParseAttributeAndAddToInstance(attrDef, xmlAttribute, modelComponent);
+        typedValue = ParseAttributeAndAddToInstance(attrDef, xmlAttribute, recipient);
 
       // If a setter has been provided, use it; 
       if (attrDef.Setter != null) {
         // TODO: Error if user attempted to provide a formula
 
-        Type modelComponentType = modelComponent.GetType();
+        Type modelComponentType = recipient.GetType();
         PropertyInfo info = attrDef.GetPropertyInfo(modelComponentType);
         if (info == null) {
           throw new Exception(string.Format("Setter property '{0}' on Model Attribute Definition '{1}' does not exist on type {2}",
             attrDef.Setter, attrDef.Name, modelComponentType.Name));
         }
-        info.SetValue(modelComponent, typedValue);
+        info.SetValue(recipient, typedValue);
       }
+
+      return xmlAttribute != null;
     }
 
-    private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues modelComponent, IEnumerable<UiAttributeDefinitionAtomic> applicableAttrDefs) {
-      HashSet<string> validAttributeNames = new HashSet<string>(applicableAttrDefs.Select(x => x.Name));
+    private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues recipient, IEnumerable<UiAttributeDefinitionAtomic> validAttributes) {
+      HashSet<string> validAttributeNames = new HashSet<string>(validAttributes.Select(x => x.Name));
 
-      foreach (XmlAttribute xmlAttribute in modelComponent.XmlElement.Attributes) {
+      foreach (XmlAttribute xmlAttribute in recipient.XmlElement.Attributes) {
         if (IsAttachedAttribute(xmlAttribute.Key, out _, out _))
           continue;
 
         if (!validAttributeNames.Contains(xmlAttribute.Key))
           _messages.AddError(xmlAttribute,
-            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", xmlAttribute.Key, modelComponent.ClassDef?.Name));
+            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", xmlAttribute.Key, recipient.ClassDef?.Name));
       }
     }
 
@@ -146,7 +163,11 @@ namespace x10.compiler {
       }
     }
 
-    private object ParseAttributeAndAddToInstance(UiAttributeDefinitionAtomic attrDef, XmlAttribute xmlAttribute, IAcceptsUiAttributeValues modelComponent) {
+    private object ParseAttributeAndAddToInstance(
+      UiAttributeDefinitionAtomic attrDef, 
+      XmlAttribute xmlAttribute, 
+      IAcceptsUiAttributeValues modelComponent) {
+
       object typedValue = attrDef.DefaultValue;
       string formula = null;
 

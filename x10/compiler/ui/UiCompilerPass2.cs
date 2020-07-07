@@ -124,6 +124,7 @@ namespace x10.compiler {
       if (wrapperClassDef != null) {
         XmlElement fakeXmlElemnt = xmlElement.CloneFileLocation();
         returnInstance = new InstanceClassDefUse(wrapperClassDef, fakeXmlElemnt, owner);
+        returnInstance.IsWrapper = true;
         UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef;
         UiAttributeValueComplex primaryAttrValue = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(returnInstance, fakeXmlElemnt);
         modelRefInstance = new InstanceModelRef(xmlElement, primaryAttrValue);
@@ -295,9 +296,10 @@ namespace x10.compiler {
       X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
         ResolveUiComponent(modelReference);
-        _attrReader.ReadAttributesForInstance(instance, PASS_2_1_MODEL_REF_ATTRIBUTES);
+        Instance wrapper = instance.ParentInstance?.IsWrapper == true ? instance.ParentInstance : null;
+        _attrReader.ReadAttributesForInstance(instance, wrapper, PASS_2_1_MODEL_REF_ATTRIBUTES);
       } else if (instance is InstanceClassDefUse)
-        _attrReader.ReadAttributesForInstance(instance, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
+        _attrReader.ReadAttributesForInstance(instance, null, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
       else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
@@ -305,7 +307,7 @@ namespace x10.compiler {
       ParseAndValidateFormulas(instance, parentDataModel);
 
       // Recurse...
-      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues()) {
+      foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues().ToList()) {
         X10DataType childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
           myDataModel.ReduceManyToOne() :
           myDataModel;

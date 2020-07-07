@@ -11,6 +11,7 @@ using x10.compiler;
 namespace x10.ui.metadata {
 
   public enum UiAppliesTo {
+    None = 0,
     ClassDef = 1,
     UiModelReference = 2,
     UiComponentUse = 4,

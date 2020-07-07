@@ -36,6 +36,9 @@ namespace x10.ui.composition {
     // All but the root-level Instance are owned by a UiAttributeValueComplex
     public UiAttributeValueComplex Owner { get; private set; }
 
+    // If true, this Instance was inserted as a wrapper around an InstanceModelRef
+    public bool IsWrapper { get; set; }
+
     // IAcceptsUiAttributeValues
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; private set; }

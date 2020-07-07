@@ -28,6 +28,10 @@ namespace x10.compiler {
       return attrDef;
     }
 
+    public static IEnumerable<UiAttributeDefinitionAtomic> AllApplicable(UiAppliesTo appliesTo) {
+      return All.Where(x => x.AppliesToType(appliesTo));
+    }
+
     public static List<UiAttributeDefinitionAtomic> All = new List<UiAttributeDefinitionAtomic>() {
 
       //=========================================================================

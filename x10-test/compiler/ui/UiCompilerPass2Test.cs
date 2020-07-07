@@ -22,41 +22,28 @@ namespace x10.compiler {
       List<ClassDef> definitions = new List<ClassDef>() {
         #region Basic Components
         new ClassDefNative() {
-          Name = "EditBase",
-          Description = "Base class for all Edit components",
-          InheritsFrom = ClassDefNative.Editable,
-          IsMany = false,
-          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "label",
-              Description = "Optial override of <Label> text",
-              DataType = DataTypes.Singleton.String,
-            },
-          },
-        },
-        new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
         },
         new ClassDefNative() {
           Name = "MyAverageIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
         },
         new ClassDefNative() {
           Name = "MyBasicIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
         },
         new ClassDefNative() {
           Name = "TextEdit",
           AtomicDataModel = DataTypes.Singleton.String,
           IsMany = false,
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "weight",
@@ -71,7 +58,7 @@ namespace x10.compiler {
           Name = "Checkbox",
           AtomicDataModel = DataTypes.Singleton.Boolean,
           IsMany = false,
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
           LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
               Name = "checked",
@@ -81,7 +68,7 @@ namespace x10.compiler {
         },
         new ClassDefNative() {
           Name = "DropDown",
-          InheritsFromName = "EditBase",
+          InheritsFrom = ClassDefNative.Editable,
           IsMany = false,
           AtomicDataModel = new DataTypeEnum(),
         },
