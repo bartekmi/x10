@@ -11,7 +11,7 @@ namespace wpf_lib.lib {
     public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
         nameof(Children),
         typeof(UIElementCollection),
-        typeof(FormSection),
+        typeof(Form),
         new PropertyMetadata());
     public UIElementCollection Children {
       get { return (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty); }
