@@ -49,7 +49,7 @@ namespace x10.gen.wpf {
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
       exp.Expression.Accept(this);
-      _writer.Write(".");
+      _writer.Write("?.");
       _writer.Write(NameUtils.Capitalize(exp.MemberName));
     }
 

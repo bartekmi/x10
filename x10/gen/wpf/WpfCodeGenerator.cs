@@ -475,11 +475,11 @@ namespace x10.gen.wpf {
     private string GetDataType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "bool";
       if (dataType == DataTypes.Singleton.Date) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Float) return "double";
-      if (dataType == DataTypes.Singleton.Integer) return "int";
+      if (dataType == DataTypes.Singleton.Float) return "double?";
+      if (dataType == DataTypes.Singleton.Integer) return "int?";
       if (dataType == DataTypes.Singleton.String) return "string";
       if (dataType == DataTypes.Singleton.Timestamp) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Money) return "double";
+      if (dataType == DataTypes.Singleton.Money) return "double?";
       if (dataType is DataTypeEnum) return dataType.Name;
 
       throw new Exception("Unknown data type: " + dataType.Name);
