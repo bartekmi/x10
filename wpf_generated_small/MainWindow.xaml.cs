@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using wpf_generated.entities;
+using wpf_generated.ui;
 
 namespace wpf_generated {
   public partial class MainWindow : Window {
@@ -14,19 +16,13 @@ namespace wpf_generated {
     }
 
     private void InitializeContext() {
-      //AppStatics.Singleton.Context = new __Context__() {
-      //  User = new User() {
-      //    FirstName = "Bartek",
-      //    LastName = "Muszynski",
-      //    Company = AppStatics.Singleton.DataSource.Companies.First(),
-      //  }
-      //};
+      AppStatics.Singleton.Context = new __Context__();
     }
 
     private static List<Type> Components() {
       return new List<Type>() {
-        //typeof(BookingForm),
-        //typeof(Bookings),
+        typeof(BuildingForm),
+        typeof(Buildings),
       };
     }
   }
