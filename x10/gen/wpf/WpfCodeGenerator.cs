@@ -323,7 +323,7 @@ namespace x10.gen.wpf {
       WriteLine(2, "// Regular Attributes");
 
       foreach (X10RegularAttribute attribute in attributes)
-        GenerateProperty(attribute.DataType, attribute.Name);
+        GenerateProperty(attribute.DataType, attribute);
     }
     #endregion
 
@@ -485,8 +485,13 @@ namespace x10.gen.wpf {
       throw new Exception("Unknown data type: " + dataType.Name);
     }
 
-    private void GenerateProperty(DataType type, string name) {
-      GenerateProperty(new X10DataType(type), name);
+    private void GenerateProperty(DataType type, Member member) {
+      GenerateProperty(new X10DataType(type), member);
+    }
+
+    private void GenerateProperty(X10DataType type, Member member) {
+      string name = MemberToName(member);
+      GenerateProperty(type, name);
     }
 
     private void GenerateProperty(X10DataType type, string name) {
@@ -502,6 +507,16 @@ namespace x10.gen.wpf {
       WriteLine(4, "RaisePropertyChanged(nameof({0}));", propName);
       WriteLine(3, "}");
       WriteLine(2, "}");
+    }
+
+    internal static string MemberToName(Member member) {
+      string name = NameUtils.Capitalize(member.Name);
+
+      // In C#, a class member name may not be the same as enclosing class
+      if (name == member.Owner.Name)
+        name = "The" + name;
+
+      return name;
     }
 
     #endregion

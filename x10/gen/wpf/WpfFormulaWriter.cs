@@ -25,8 +25,10 @@ namespace x10.gen.wpf {
     public void VisitIdentifier(ExpIdentifier exp) {
       if (exp.Name == FormulaParser.CONTEXT_NAME)
         _writer.Write("AppStatics.Singleton.Context");
-      else
-        _writer.Write(NameUtils.Capitalize(exp.Name));
+      else {
+        string name = ToIdentifier(exp.Name, exp);
+        _writer.Write(name);
+      }
     }
 
     public void VisitInvocation(ExpInvocation exp) {
@@ -50,7 +52,15 @@ namespace x10.gen.wpf {
     public void VisitMemberAccess(ExpMemberAccess exp) {
       exp.Expression.Accept(this);
       _writer.Write("?.");
-      _writer.Write(NameUtils.Capitalize(exp.MemberName));
+
+      string memberName = ToIdentifier(exp.MemberName, exp);
+      _writer.Write(memberName);
+    }
+
+    private string ToIdentifier(string name, ExpBase exp) {
+      return exp.DataType.Member == null ?
+        NameUtils.Capitalize(name) :
+        WpfCodeGenerator.MemberToName(exp.DataType.Member);
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {
