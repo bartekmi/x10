@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
-using x10.parsing;
 using x10.model.definition;
-using System.Diagnostics.CodeAnalysis;
+using x10.parsing;
+using x10.utils;
 
 namespace x10.model.metadata {
 
@@ -16,9 +18,12 @@ namespace x10.model.metadata {
     EnumValue = 32,
     Function = 64,
     FunctionArgument = 128,
+
+    Member = Association | Attribute | DerivedAttribute,
   }
 
   internal static class AppliesToHelper {
+
     internal static AppliesTo GetForObject(IAcceptsModelAttributeValues element) {
       if (element is Entity) return AppliesTo.Entity;
       if (element is Association) return AppliesTo.Association;
@@ -29,6 +34,45 @@ namespace x10.model.metadata {
 
       throw new Exception("Unexpected type: " + element.GetType());
     }
+
+    // https://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
+    internal static bool IsSingle(AppliesTo x) {
+      return (x & (x - 1)) == 0;
+    }
+
+    internal static IEnumerable<AppliesTo> GetAllSingleAppliesTo(AppliesTo bitwiseCombinedAppliesTo) {
+      return EnumUtils.List<AppliesTo>()
+        .Where(x => IsSingle(x))
+        .Where(x => (x & bitwiseCombinedAppliesTo) > 0);
+    }
+
+    internal static Type GetTypeForAppliesTo(AppliesTo singleAppliedTo) {
+      switch (singleAppliedTo) {
+        case AppliesTo.Association:
+          return typeof(Association);
+        case AppliesTo.Attribute:
+          return typeof(X10RegularAttribute);
+        case AppliesTo.DerivedAttribute:
+          return typeof(X10DerivedAttribute);
+        case AppliesTo.Entity:
+          return typeof(Entity);
+        case AppliesTo.EnumType:
+          return typeof(DataTypeEnum);
+        case AppliesTo.EnumValue:
+          return typeof(EnumValue);
+        case AppliesTo.Function:
+          return typeof(Function);
+        case AppliesTo.FunctionArgument:
+          return typeof(Argument);
+        default:
+          throw new Exception("Unexpected AppliesTo: " + singleAppliedTo);
+      }
+    }
+
+    internal static IEnumerable<Type> GetTypesForAppliesTo(AppliesTo appliesTo) {
+      return GetAllSingleAppliesTo(appliesTo).Select(x => GetTypeForAppliesTo(x));
+    }
+
   }
 
   public abstract class ModelAttributeDefinition : IComparable<ModelAttributeDefinition> {

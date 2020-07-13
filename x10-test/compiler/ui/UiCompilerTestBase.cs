@@ -44,6 +44,7 @@ attributes:
   - name: name
     description: dummy
     dataType: String
+    label: Building Name
   - name: apartmentCount
     description: dummy
     dataType: Integer

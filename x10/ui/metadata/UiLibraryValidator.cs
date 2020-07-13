@@ -23,7 +23,7 @@ namespace x10.ui.metadata {
       foreach (ClassDef classDef in library.All) {
         HydrateOwner(classDef);
         HydrateAndValidateBaseClass(library, classDef);
-        EnsurePropertiesValid(classDef);
+        ValidateUiElementName(classDef);
         EnsureCorrectDataModelSpecification(classDef);
       }
 
@@ -37,7 +37,7 @@ namespace x10.ui.metadata {
           EnsureMaxOnePrimaryAttribute(classDef);
 
           foreach (UiAttributeDefinition attrDef in classDef.LocalAttributeDefinitions)
-            ValidateAttribute(library, attrDef);
+            HydrateAndValidateAttribute(library, attrDef);
         }
     }
 
@@ -70,10 +70,8 @@ namespace x10.ui.metadata {
       return theObject;
     }
 
-    private void EnsurePropertiesValid(ClassDef classDef) {
-      MessageBucket messages = new MessageBucket();
-      if (!ModelValidationUtils.ValidateUiElementName(classDef.Name, null, messages))
-        throw new Exception(messages.Messages.Single().Message);
+    private void ValidateUiElementName(ClassDef classDef) {
+      ModelValidationUtils.ValidateUiElementName(classDef.Name, null, _messages);
     }
 
     private void EnsureNoDuplicateAttributes(ClassDef classDef) {
@@ -107,17 +105,27 @@ namespace x10.ui.metadata {
       } while (pointer != null);
     }
 
-    private void ValidateAttribute(UiLibrary library, UiAttributeDefinition attrDef) {
+    private void HydrateAndValidateAttribute(UiLibrary library, UiAttributeDefinition attrDef) {
+      ClassDef classDef = attrDef.Owner;
+
+      // Validate attribute name
       if (string.IsNullOrWhiteSpace(attrDef.Name)) {
-        _messages.AddError(null, "{0} contains an attribute with no name", attrDef.Owner.Name);
+        _messages.AddError(null, "{0} contains an attribute with no name", classDef.Name);
         return;
       }
+      if (attrDef is UiAttributeDefinitionAtomic) {
+        ModelValidationUtils.ValidateUiAtomicAttributeName(attrDef.Name, null, _messages);
+      } else if (attrDef is UiAttributeDefinitionComplex) {
+        ModelValidationUtils.ValidateUiComplexAttributeName(attrDef.Name, null, _messages);
+      } else
+        throw new Exception("Unexpected attribute definition type: " + attrDef.GetType().Name);
 
       if (attrDef is UiAttributeDefinitionComplex attrComplex) {
-        ClassDef classDef = attrDef.Owner;
+        // Hydrate and Validate Complex Attribute Type
         string description = string.Format("Type of Complex Attribute {0}.{1}", classDef.Name, attrDef.Name);
         attrComplex.ComplexAttributeType = HydrateAndValidateClassDef(library, description, attrComplex.ComplexAttributeType, attrComplex.ComplexAttributeTypeName, true);
 
+        // Hydrate and validate Model Ref Wrapper
         string wrapperName = attrComplex.ModelRefWrapperComponentName;
         if (wrapperName != null) {
           description = string.Format("Model Reference Wrapper of {0}.{1}", classDef.Name, attrDef.Name);
@@ -129,15 +137,14 @@ namespace x10.ui.metadata {
         }
       }
 
-      MessageBucket messages = new MessageBucket();
-      if (attrDef is UiAttributeDefinitionAtomic) {
-        if (!ModelValidationUtils.ValidateUiAtomicAttributeName(attrDef.Name, null, messages))
-          throw new Exception(messages.Messages.Single().Message);
-      } else if (attrDef is UiAttributeDefinitionComplex) {
-        if (!ModelValidationUtils.ValidateUiComplexAttributeName(attrDef.Name, null, messages))
-          throw new Exception(messages.Messages.Single().Message);
-      } else
-        throw new Exception("Unexpected attribute definition type: " + attrDef.GetType().Name);
+      // Hydrate and validate Take Value From Model
+      string takeValueFromModelAttr = attrDef.TakeValueFromModelAttrName;
+      if (takeValueFromModelAttr != null) {
+        attrDef.TakeValueFromModelAttr = ModelAttributeDefinitions.Find(AppliesTo.Member, takeValueFromModelAttr);
+        if (attrDef.TakeValueFromModelAttr == null) 
+          _messages.AddError(null, "Entity Member property '{0}' required by  \"Take Value From Attr\" {1}.{2} does not exist",
+            takeValueFromModelAttr, classDef.Name, attrDef.Name);
+      }
     }
   }
 }

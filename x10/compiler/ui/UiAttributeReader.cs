@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
-using x10.parsing;
-using x10.model.metadata;
-using x10.ui.metadata;
-using x10.ui.composition;
-using x10.model;
-using System.Text.RegularExpressions;
 using x10.formula;
+using x10.model;
+using x10.model.definition;
+using x10.model.metadata;
+using x10.parsing;
+using x10.ui.composition;
+using x10.ui.metadata;
 
 namespace x10.compiler {
 
@@ -34,7 +34,7 @@ namespace x10.compiler {
 
     internal void ReadAttributesForClassDef(ClassDefX10 classDef) {
       IEnumerable<UiAttributeDefinitionAtomic> attrDefs = UiAttributeDefinitions.AllApplicable(UiAppliesTo.ClassDef);
-      ReadAttributesPrivate(classDef.XmlElement, classDef, attrDefs, new string[0]);
+      ReadAttributesPrivate(classDef.XmlElement, classDef, attrDefs, null, new string[0]);
       ErrorOnUnknownAttributes(classDef, attrDefs);
     }
 
@@ -45,7 +45,7 @@ namespace x10.compiler {
       IEnumerable<UiAttributeDefinitionAtomic> attributesHoistedToWrapper = new List<UiAttributeDefinitionAtomic>();
       if (wrapper != null) {
         IEnumerable<UiAttributeDefinitionAtomic> wrapperAttrDefs = wrapper.RenderAs.AtomicAttributeDefinitions;
-        attributesHoistedToWrapper = ReadAttributesPrivate(source, wrapper, wrapperAttrDefs, attributesToExclude);
+        attributesHoistedToWrapper = ReadAttributesPrivate(source, wrapper, wrapperAttrDefs, instance.ModelMember, attributesToExclude);
       }
 
       // Now, extract the actual component attributes
@@ -57,7 +57,7 @@ namespace x10.compiler {
 
       IEnumerable<string> exclude = attributesToExclude.Concat(attributesHoistedToWrapper.Select(x => x.Name));
 
-      ReadAttributesPrivate(source, instance, attrDefs, exclude);
+      ReadAttributesPrivate(source, instance, attrDefs, instance.ModelMember, exclude);
       if (classDefAttrs != null)
         ErrorOnUnknownAttributes(instance, attrDefs.Concat(attributesHoistedToWrapper));
 
@@ -71,7 +71,7 @@ namespace x10.compiler {
 
       foreach (string attributeName in attributeNames) {
         UiAttributeDefinitionAtomic attrDef = UiAttributeDefinitions.FindAttribute(appliesTo, attributeName);
-        ReadAttribute(modelComponent.XmlElement, modelComponent, attrDef);
+        ReadAttribute(modelComponent.XmlElement, modelComponent, attrDef, null);
       }
     }
 
@@ -79,13 +79,14 @@ namespace x10.compiler {
       XmlElement source,
       IAcceptsUiAttributeValues recipient,
       IEnumerable<UiAttributeDefinitionAtomic> attrDefs,
+      Member takeAttributesFromMember,            // Some attributes can be taken from Member, if missing
       IEnumerable<string> attributesToExclude) {
 
       IEnumerable<UiAttributeDefinitionAtomic> applicableMinusExcluded = attrDefs.Where(x => !attributesToExclude.Contains(x.Name));
 
       List<UiAttributeDefinitionAtomic> attributesRead = new List<UiAttributeDefinitionAtomic>();
       foreach (UiAttributeDefinitionAtomic attrDef in applicableMinusExcluded)
-        if (ReadAttribute(source, recipient, attrDef))
+        if (ReadAttribute(source, recipient, attrDef, takeAttributesFromMember))
           attributesRead.Add(attrDef);
 
       return attributesRead;
@@ -94,26 +95,31 @@ namespace x10.compiler {
     private bool ReadAttribute(
       XmlElement source,
       IAcceptsUiAttributeValues recipient,
-      UiAttributeDefinitionAtomic attrDef) {
+      UiAttributeDefinitionAtomic attrDef,
+      Member takeAttributeFromMember) {
 
       // Error if mandatory attribute missing
-      XmlAttribute xmlAttribute = source.FindAttribute(attrDef.Name);
+      XmlScalar xmlScalar = source.FindAttribute(attrDef.Name)?.Value;
+
+      // Some UI Attributes can be derived from Model Attributes (e.g. label, etc).
+      // Attempt to do so now.
+      if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null && recipient is Instance instance) 
+        xmlScalar = DeriveAttributeValueFromModel(takeAttributeFromMember, attrDef.TakeValueFromModelAttr);
 
       // Mising mandatory attribute
-      if (xmlAttribute == null && attrDef.DefaultValue == null && attrDef.IsMandatory) {
+      if (xmlScalar == null && attrDef.DefaultValue == null && attrDef.IsMandatory) {
         string classDefOwnership = attrDef.Owner == null ?
           "" :
           string.Format(" of Class Definition '{0}'", attrDef.Owner.Name);
 
-        _messages.AddError(source,
-          string.Format("Mandatory Atomic Attribute '{0}'{1} is missing",
-          attrDef.Name, classDefOwnership));
+        _messages.AddError(source, "Mandatory Atomic Attribute '{0}'{1} is missing",
+          attrDef.Name, classDefOwnership);
         return false;
       }
 
       object typedValue = attrDef.DefaultValue;
-      if (xmlAttribute != null)
-        typedValue = ParseAttributeAndAddToInstance(attrDef, xmlAttribute, recipient);
+      if (xmlScalar != null)
+        typedValue = ParseAttributeAndAddToInstance(attrDef, xmlScalar, recipient);
 
       // If a setter has been provided, use it; 
       if (attrDef.Setter != null) {
@@ -128,7 +134,17 @@ namespace x10.compiler {
         info.SetValue(recipient, typedValue);
       }
 
-      return xmlAttribute != null;
+      return xmlScalar != null;
+    }
+
+    private XmlScalar DeriveAttributeValueFromModel(Member takeAttributeFromMember, ModelAttributeDefinition attrDef) {
+      if (takeAttributeFromMember == null)
+        return null;
+      object value = takeAttributeFromMember.FindValue(attrDef.Name);
+      if (value == null)
+        return null;
+
+      return new XmlScalar(value.ToString());
     }
 
     private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues recipient, IEnumerable<UiAttributeDefinitionAtomic> validAttributes) {
@@ -139,8 +155,8 @@ namespace x10.compiler {
           continue;
 
         if (!validAttributeNames.Contains(xmlAttribute.Key))
-          _messages.AddError(xmlAttribute,
-            string.Format("Unknown attribute '{0}' on Class Definition '{1}'", xmlAttribute.Key, recipient.ClassDef?.Name));
+          _messages.AddError(xmlAttribute, "Unknown attribute '{0}' on Class Definition '{1}'", 
+            xmlAttribute.Key, recipient.ClassDef?.Name);
       }
     }
 
@@ -158,14 +174,14 @@ namespace x10.compiler {
             continue;
           }
 
-          ParseAttributeAndAddToInstance(attrDef, xmlAttribute, instance);
+          ParseAttributeAndAddToInstance(attrDef, xmlAttribute.Value, instance);
         }
       }
     }
 
     private object ParseAttributeAndAddToInstance(
       UiAttributeDefinitionAtomic attrDef, 
-      XmlAttribute xmlAttribute, 
+      XmlScalar xmlScalar, 
       IAcceptsUiAttributeValues modelComponent) {
 
       object typedValue = attrDef.DefaultValue;
@@ -174,25 +190,25 @@ namespace x10.compiler {
       // Parse value (or don't if it's a formula)
       if (attrDef is UiAttributeDefinitionAtomic attrPrimitive) {
         DataType dataType = attrPrimitive.DataType;
-        string attrValue = xmlAttribute.Value.ToString();
+        string attrValue = xmlScalar.ToString();
 
         if (FormulaUtils.IsFormula(attrValue, out string strippedFormula))
           formula = strippedFormula;
         else {
-          typedValue = dataType.Parse(attrValue, _messages, xmlAttribute.Value, attrDef.Name);
+          typedValue = dataType.Parse(attrValue, _messages, xmlScalar, attrDef.Name);
           if (typedValue == null)
             return null;
         }
       } else
         throw new Exception("Wrong attribute type: " + attrDef.GetType().Name);
 
-      if (xmlAttribute != null) {   // It is null if default was used
-        UiAttributeValueAtomic attrValue = attrDef.CreateValueAndAddToOwnerAtomic(modelComponent, xmlAttribute.Value);
+      if (xmlScalar != null) {   // It is null if default was used
+        UiAttributeValueAtomic attrValue = attrDef.CreateValueAndAddToOwnerAtomic(modelComponent, xmlScalar);
         attrValue.Value = typedValue;
         attrValue.Formula = formula;
 
         // Do Pass-1 action, if one exists
-        attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, xmlAttribute.Value, modelComponent);
+        attrDef.Pass1Action?.Invoke(_messages, _allEntities, _allEnums, xmlScalar, modelComponent);
       }
 
       return typedValue;

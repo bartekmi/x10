@@ -45,6 +45,14 @@ namespace x10.ui.metadata {
     // Optional name of setter method if the attribute can be stored in code
     public string Setter { get; set; }
 
+    // Some Ui Attribute Definitions, when used in the context of <InstanceModelRef>,
+    // can be auto-populated from Entity Member Attributes. Classic example is that
+    // <Label.label> gets populated from label property of Member
+    public string TakeValueFromModelAttrName { get; set; }
+
+    // Hyrdrated
+    public ModelAttributeDefinition TakeValueFromModelAttr { get; set; }
+
     public Action<MessageBucket, AllEntities, AllEnums, XmlScalar, IAcceptsUiAttributeValues> Pass1Action { get; set; }
     public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2Action { get; set; }
 

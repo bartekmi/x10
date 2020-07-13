@@ -78,6 +78,7 @@ namespace x10.ui.libraries {
             Name = "label",
             Description = "The text of the label. Normally rendered as bold text.",
             DataType = DataTypes.Singleton.String,
+            TakeValueFromModelAttrName = model.libraries.BaseLibrary.LABEL,
           },
           new UiAttributeDefinitionAtomic() {
             Name = "mandatoryIndicator",

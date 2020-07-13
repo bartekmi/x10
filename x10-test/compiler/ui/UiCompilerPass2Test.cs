@@ -88,6 +88,38 @@ namespace x10.compiler {
           }
         },
         new ClassDefNative() {
+          Name = "Form",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              IsPrimary = true,
+              Name = "Children",
+              IsMany = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+              ModelRefWrapperComponentName = "Label",
+            },
+          }
+        },
+      new ClassDefNative() {
+        Name = "Label",
+        Description = "A label around a data entry or data display field/content. Normally, you get this 'for free' around model fields, but it's useful if you want to have a label around a group of fields",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            Name = "Content",
+            Description = "Embedded UI components that are 'labelled' (i.e. that live within the label)",
+            IsPrimary = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "label",
+            Description = "The text of the label. Normally rendered as bold text.",
+            DataType = DataTypes.Singleton.String,
+            TakeValueFromModelAttrName = "label",
+          },
+        }
+      },
+        new ClassDefNative() {
           Name = "Table",
           ComponentDataModel = Entity.Object,
           IsMany = true,
@@ -1055,6 +1087,54 @@ namespace x10.compiler {
     }
 
 
+    #endregion
+
+    #region Attributes From Model
+    [Fact]
+    public void AttributeFromModel_ExplicitInUi() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Form>
+    <name label='Override Label'/>
+  </Form>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Form>
+    <Label label='Override Label'>
+      <name/>
+    </Label>
+  </Form>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void AttributeFromModel_ExplicitInModel() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Form>
+    <name/>
+  </Form>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Form>
+    <Label label='Building Name'>
+      <name/>
+    </Label>
+  </Form>
+</MyComponent>
+", result);
+    }
     #endregion
 
     #endregion

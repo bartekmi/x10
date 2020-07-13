@@ -44,7 +44,7 @@ namespace x10.model.metadata {
       if (setter == null)
         return;
 
-      foreach (Type type in GetTypesForAppliesTo(definition.AppliesTo)) {
+      foreach (Type type in AppliesToHelper.GetTypesForAppliesTo(definition.AppliesTo)) {
         PropertyInfo info = definition.GetPropertyInfo(type);
         if (info == null) {
           string message = string.Format("Setter property '{0}' does not exist on type {1}",
@@ -61,7 +61,7 @@ namespace x10.model.metadata {
     }
 
     private void ValidateNoDuplicates(ModelAttributeDefinition definition, HashSet<string> uniqueApplyToAndAttributeNames) {
-      foreach (AppliesTo appliesTo in GetAllAppliesTo(definition.AppliesTo)) {
+      foreach (AppliesTo appliesTo in AppliesToHelper.GetAllSingleAppliesTo(definition.AppliesTo)) {
         string key = string.Format("{0}.{1}", definition.Name, appliesTo);
 
         if (uniqueApplyToAndAttributeNames.Contains(key)) {
@@ -75,37 +75,6 @@ namespace x10.model.metadata {
         } else
           uniqueApplyToAndAttributeNames.Add(key);
       }
-    }
-
-    private IEnumerable<AppliesTo> GetAllAppliesTo(AppliesTo bitwiseCombinedAppliesTo) {
-      return EnumUtils.List<AppliesTo>().Where(x => (x & bitwiseCombinedAppliesTo) > 0);
-    }
-
-    private Type GetTypeForAppliesTo(AppliesTo singleAppliedTo) {
-      switch (singleAppliedTo) {
-        case AppliesTo.Association:
-          return typeof(Association);
-        case AppliesTo.Attribute:
-          return typeof(X10RegularAttribute);
-        case AppliesTo.DerivedAttribute:
-          return typeof(X10DerivedAttribute);
-        case AppliesTo.Entity:
-          return typeof(Entity);
-        case AppliesTo.EnumType:
-          return typeof(DataTypeEnum);
-        case AppliesTo.EnumValue:
-          return typeof(EnumValue);
-        case AppliesTo.Function:
-          return typeof(Function);
-        case AppliesTo.FunctionArgument:
-          return typeof(Argument);
-        default:
-          throw new Exception("Unexpected AppliesTo: " + singleAppliedTo);
-      }
-    }
-
-    private IEnumerable<Type> GetTypesForAppliesTo(AppliesTo appliesTo) {
-      return GetAllAppliesTo(appliesTo).Select(x => GetTypeForAppliesTo(x));
     }
   }
 }
