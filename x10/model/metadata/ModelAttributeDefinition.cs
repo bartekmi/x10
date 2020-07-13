@@ -90,7 +90,12 @@ namespace x10.model.metadata {
     // tree, starting with the initial object, then going up the parent chain
     public bool SearchInheritanceTree { get; set; }
 
+    // A chance to do further validation or processing in Phase 2 of the compilation process
     public Action<MessageBucket, AllEntities, AllEnums, IAcceptsModelAttributeValues, ModelAttributeValue> Pass2Action { get; set; }
+
+    // Optional function to calculate a default value if attribute is missing.
+    // Available information is the accumulated attributes before the current attribute being processed.
+    public Func<IAcceptsModelAttributeValues, object> DefaultFunc { get; set; }
 
     public bool AppliesToType(AppliesTo type) {
       return (AppliesTo & type) > 0;

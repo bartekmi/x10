@@ -5,6 +5,7 @@ using System.IO;
 using x10.parsing;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.utils;
 
 namespace x10.model.libraries {
   public class BaseLibrary {
@@ -26,6 +27,7 @@ namespace x10.model.libraries {
       return library;
     }
 
+    internal const string NAME = "name";
     internal const string LABEL = "label";
     internal const string TOOL_TIP = "toolTip";
     internal const string APPLICABLE_WHEN = "applicableWhen";
@@ -51,12 +53,6 @@ namespace x10.model.libraries {
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
         DataType = DataTypes.Singleton.String,
         Setter = "Description",
-      },
-      new ModelAttributeDefinitionAtomic() {
-        Name = LABEL,
-        Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
-        DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = "ui",
@@ -95,7 +91,7 @@ namespace x10.model.libraries {
       //============================================================================
       // Entity
       new ModelAttributeDefinitionAtomic() {
-        Name = "name",
+        Name = NAME,
         Description = "The name of the model. Must be upper-case and match the filename of the file where it is defined. This is the tag used everywhere else to refer to the model",
         AppliesTo = AppliesTo.Entity,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
@@ -150,7 +146,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       //============================================================================
       // Attribute & Association
       new ModelAttributeDefinitionAtomic() {
-        Name = "name",
+        Name = NAME,
         Description = "The name of the attribute or association. Must be lower-case. This is the tag used everywhere else to refer to it",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
@@ -201,6 +197,16 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Description = "Default value for the attribute or association. This is significant when the user creates new entities of this type.",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DataTypeMustBeSameAsAttribute = true,
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = LABEL,
+        Description = "The human-readable label to use for this item if the one derived from its nanme is not appropriate",
+        AppliesTo = AppliesTo.Member,
+        DataType = DataTypes.Singleton.String,
+        DefaultFunc = (member) => {
+          string name = member.FindValue<string>(NAME);
+          return NameUtils.CamelCaseToHumanReadable(name);
+        }
       },
 
       //============================================================================

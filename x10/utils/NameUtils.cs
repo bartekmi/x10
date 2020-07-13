@@ -41,7 +41,10 @@ namespace x10.utils {
       return builder.ToString();
     }
 
-    public static string CamelCaseToHumanReadable(string name, bool capitalizeFirstLetter = false) {
+    public static string CamelCaseToHumanReadable(string name, bool capitalizeFirstLetter = true) {
+      if (name == null)
+        return null;
+
       StringBuilder builder = new StringBuilder();
 
       foreach (char c in name) {

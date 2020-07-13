@@ -43,49 +43,31 @@ namespace x10.compiler {
       return true;
     }
 
-    private void ReadAttribute(TreeHash hash, AppliesTo type, IAcceptsModelAttributeValues modelComponent, ModelAttributeDefinition attrDef) {
+    private void ReadAttribute(
+      TreeHash hash,
+      AppliesTo type,
+      IAcceptsModelAttributeValues modelComponent,
+      ModelAttributeDefinition attrDef) {
+
       // Error if mandatory attribute missing
       TreeNode attrNode = hash.FindNode(attrDef.Name);
-      if (attrNode == null) {
-        if (attrDef.ErrorSeverityIfMissing != null)
-          _messages.AddMessage(attrDef.ErrorSeverityIfMissing.Value, hash,
-            string.Format("The attribute '{0}' is missing from {1}", attrDef.Name, type));
-        return;
-      }
-
-      object typedValue = null;
+      object typedValue;
       string formula = null;
 
-      if (attrDef is ModelAttributeDefinitionAtomic attrDefAtomic) {
-        // Ensure that the value of the attribute is a scalar (not a list, etc)
-        TreeScalar scalarNode = attrNode as TreeScalar;
-        if (scalarNode == null) {
-          _messages.AddError(attrNode, string.Format("The attribute '{0}' should be a simple string of the correct type, but is a {1}",
-            attrDef.Name, attrNode.GetType().Name));
+      if (attrNode == null) {
+        if (attrDef.DefaultFunc != null)
+          typedValue = attrDef.DefaultFunc(modelComponent);
+        else {
+          if (attrDef.ErrorSeverityIfMissing != null)
+            _messages.AddMessage(attrDef.ErrorSeverityIfMissing.Value, hash,
+              "The attribute '{0}' is missing from {1}", attrDef.Name, type);
           return;
         }
-
-        string value = scalarNode.Value.ToString();
-        if (FormulaUtils.IsFormula(value, out string strippedFormula))
-          formula = strippedFormula;
-        else { 
-          if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
-            typedValue = value;
-          else {
-            // Attempt to parse the string attribute value according to its data type
-            DataType dataType = attrDefAtomic.DataType;
-            typedValue = dataType.Parse(value, _messages, scalarNode, attrDef.Name);
-            if (typedValue == null)
-              return;
-          }
-
-          // Do validation, if requried
-          attrDefAtomic.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
-        }
-      } else if (attrDef is ModelAttributeDefinitionComplex attrDefComplex) {
-        typedValue = attrDefComplex.ParseFunction.Invoke(_messages, attrNode);
-      } else
-        throw new Exception("Unexpected type: " + attrDef.GetType().Name);
+      } else {
+        bool success = ExtractTypedValue(attrNode, type, modelComponent, attrDef, out typedValue, out formula);
+        if (!success)
+          return;
+      }
 
       // If a setter has been provided, use it; 
       if (typedValue != null)
@@ -98,6 +80,51 @@ namespace x10.compiler {
         Formula = formula,
         Definition = attrDef,
       });
+    }
+
+    private bool ExtractTypedValue(
+      TreeNode attrNode,
+      AppliesTo type,
+      IAcceptsModelAttributeValues modelComponent,
+      ModelAttributeDefinition attrDef,
+      out object typedValue,
+      out string formula
+    ) {
+      typedValue = null;
+      formula = null;
+
+      if (attrDef is ModelAttributeDefinitionAtomic attrDefAtomic) {
+        // Ensure that the value of the attribute is a scalar (not a list, etc)
+        TreeScalar scalarNode = attrNode as TreeScalar;
+        if (scalarNode == null) {
+          _messages.AddError(attrNode, "The attribute '{0}' should be a simple string of the correct type, but is a {1}",
+            attrDef.Name, attrNode.GetType().Name);
+          return false;
+        }
+
+        string value = scalarNode.Value.ToString();
+        if (FormulaUtils.IsFormula(value, out string strippedFormula))
+          formula = strippedFormula;
+        else {
+          if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
+            typedValue = value;
+          else {
+            // Attempt to parse the string attribute value according to its data type
+            DataType dataType = attrDefAtomic.DataType;
+            typedValue = dataType.Parse(value, _messages, scalarNode, attrDef.Name);
+            if (typedValue == null)
+              return false;
+          }
+
+          // Do validation, if requried
+          attrDefAtomic.ValidationFunction?.Invoke(_messages, scalarNode, modelComponent, type);
+        }
+      } else if (attrDef is ModelAttributeDefinitionComplex attrDefComplex) {
+        typedValue = attrDefComplex.ParseFunction.Invoke(_messages, attrNode);
+      } else
+        throw new Exception("Unexpected type: " + attrDef.GetType().Name);
+
+      return true;
     }
 
     internal static void SetValueViaSetter(ModelAttributeDefinition attrDef, IAcceptsModelAttributeValues modelComponent, object typedValue) {
@@ -122,8 +149,7 @@ namespace x10.compiler {
           continue;
 
         if (!validAttributeNames.Contains(attribute.Key))
-          _messages.AddError(attribute,
-            string.Format("Unknown attribute '{0}' on {1}", attribute.Key, type));
+          _messages.AddError(attribute, "Unknown attribute '{0}' on {1}", attribute.Key, type);
       }
     }
   }

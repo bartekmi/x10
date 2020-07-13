@@ -1,6 +1,5 @@
 - name: TransportationMode
   description: The type of transportation mode used for the main leg of the journey
-  label: Freight Method
   ui: EnumCardSelector
   values: 
     - value: ocean

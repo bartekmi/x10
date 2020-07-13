@@ -1135,6 +1135,29 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+
+    [Fact]
+    public void AttributeFromModel_ImplicitInModel() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Form>
+    <apartmentCount/>
+  </Form>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Form>
+    <Label label='Apartment Count'>
+      <apartmentCount/>
+    </Label>
+  </Form>
+</MyComponent>
+", result);
+    }
     #endregion
 
     #endregion

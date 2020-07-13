@@ -103,7 +103,7 @@ namespace x10.compiler {
 
       // Some UI Attributes can be derived from Model Attributes (e.g. label, etc).
       // Attempt to do so now.
-      if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null && recipient is Instance instance) 
+      if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null) 
         xmlScalar = DeriveAttributeValueFromModel(takeAttributeFromMember, attrDef.TakeValueFromModelAttr);
 
       // Mising mandatory attribute
