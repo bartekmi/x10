@@ -63,7 +63,7 @@ namespace x10.gen.wpf {
       },
       new PlatformClassDef() {
         LogicalName = "Label",
-        PlatformName = "lib:Label",
+        PlatformName = "lib:EditElementWrapper",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
@@ -77,7 +77,7 @@ namespace x10.gen.wpf {
           },
           new PlatformAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "Text",
+            PlatformName = "Label",
           },
         },
       },
