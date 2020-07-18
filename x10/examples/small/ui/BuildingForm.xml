@@ -3,7 +3,6 @@
     <FormSection label="Building Info">
       <name/>
       <description/>
-      <dateOfOccupancy/>
     </FormSection>
 
     <FormSection path="physicalAddress" label="Physical Address">
@@ -13,7 +12,10 @@
     </FormSection>
 
     <FormSection label="Other Details">
-      <dateOfOccupancy/>
+      <Row>
+        <dateOfOccupancy/>
+        <ageInYears/>
+      </Row>
       <mailboxType/>
       <petPolicy/>
     </FormSection>
