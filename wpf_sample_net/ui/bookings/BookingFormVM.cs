@@ -2,11 +2,12 @@
 using System.Windows.Controls;
 
 using wpf_lib.lib;
-
+using wpf_lib.lib.utils;
 using wpf_sample.entities.booking;
 using wpf_sample.entities.core;
 
 namespace wpf_sample.ui.bookings {
+
   public partial class BookingFormVM : ViewModelBase<Booking> {
     // State
     private bool _notifyPartySameAsConsignee;
@@ -19,6 +20,10 @@ namespace wpf_sample.ui.bookings {
         }
       }
     }
+
+    // Data Sources
+    public IEnumerable<EnumValueRepresentation> TransportationModes { get; }
+      = EnumValueRepresentation.GetForEnumType(typeof(TransportationMode));
 
     // Conditions from YAML
     public bool IsLclVisibility {
@@ -42,7 +47,7 @@ namespace wpf_sample.ui.bookings {
       FormErrors errors = new FormErrors();
 
       if (Model.TargetDeliveryDate < Model.CargoReadyDate)
-        errors.Add("Target Delivery Date can't be before Cargo Ready Date", 
+        errors.Add("Target Delivery Date can't be before Cargo Ready Date",
           nameof(Model.CargoReadyDate), nameof(Model.TargetDeliveryDate));
       if (!Model.WantsOriginService && Model.OriginPort == null)
         errors.Add("Origin Port must be provided when 'Wants Origin Service' is false", nameof(Model.OriginPort));

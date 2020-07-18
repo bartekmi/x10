@@ -217,14 +217,23 @@ namespace x10.gen.wpf {
       // Binding to enum (with possible search)
       // Allow vs. not allow empty
       // Ordering (see logical 'order' attribute)
-      // Note clear where the code for this belongs, as this is already a large file
+      // Not clear where the code for this belongs, as this is already a large file
       new PlatformClassDef() {
         LogicalName = "DropDown",
         PlatformName = "ComboBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "SelectedItem",
+            PlatformName = "SelectedValue",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "SelectedValuePath",
+            Value = "Value",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "ItemsSource",
+            Value = string.Format("{{Binding {0} }}", PlatformAttributeStatic.PLURALIZED_DATA_TYPE),
+            DoSubstitutions = true,
           },
         },
       },

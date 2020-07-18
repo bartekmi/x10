@@ -98,5 +98,11 @@ namespace x10.utils {
       quotedText = quotedText.Trim();
       return quotedText.Trim('\'').Trim('"');
     }
+
+    public static string Pluralize(string singular) {
+      if (singular.EndsWith("y"))
+        return singular.Substring(0, singular.Length - 1) + "ies";
+      return singular + "s";
+    }
   }
 }

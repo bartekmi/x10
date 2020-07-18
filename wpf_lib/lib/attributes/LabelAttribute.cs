@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace wpf_lib.lib.attributes {
   public class LabelAttribute : Attribute {
-    private string _label;
+    public string Label { get; private set; }
+
     public LabelAttribute(string label) {
-      _label = label;
+      Label = label;
     }
   }
 }

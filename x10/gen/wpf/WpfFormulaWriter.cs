@@ -60,7 +60,7 @@ namespace x10.gen.wpf {
     private string ToIdentifier(string name, ExpBase exp) {
       return exp.DataType.Member == null ?
         NameUtils.Capitalize(name) :
-        WpfCodeGenerator.MemberToName(exp.DataType.Member);
+        WpfGenUtils.MemberToName(exp.DataType.Member);
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {

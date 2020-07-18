@@ -43,8 +43,12 @@
       <!-- Transportation -->
       <lib:FormSection Label="Transportation">
         <lib:EditElementWrapper Label="Transportation Mode" IsMandatory="True">
-          <lib:CardSelector Selected="{Binding Model.TransportationMode}"
-                          ItemsSourceEnum="TransportationMode"/>
+          <ComboBox SelectedValue="{Binding Model.TransportationMode}"
+                    SelectedValuePath="Value"
+                    ItemsSource="{Binding TransportationModes}"
+                    />
+          <!--<lib:CardSelector Selected="{Binding Model.TransportationMode}"
+                          ItemsSourceEnum="TransportationMode"/>-->
         </lib:EditElementWrapper>
 
         <!-- FCL / LCL -->

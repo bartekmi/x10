@@ -16,6 +16,7 @@ using x10.ui.metadata;
 using static x10.ui.metadata.ClassDefNative;
 using x10.utils;
 using x10.ui.platform;
+using x10.ui;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -34,7 +35,7 @@ namespace x10.gen.wpf {
       _defaultNamespace = defaultNamespace;
     }
 
-    #region Generate XAML, etc
+    #region Generate XAML, XAML.cs, VM (View Model), Custom VM
 
     public override void Generate(ClassDefX10 classDef) {
       GenerateXamlFile(classDef);
@@ -90,7 +91,7 @@ namespace x10.gen.wpf {
         WriteLine(level + 1, "Style=\"{ StaticResource {0} }\"", platClassDef.StyleInfo);
 
       foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
-        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.Value);
+        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.ValueWithSubstitutions(instance));
 
       UiAttributeValue primaryValue = instance.PrimaryValue;
       PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
@@ -214,6 +215,8 @@ namespace x10.gen.wpf {
       WriteLine(0, "using System.Windows.Controls;");
       WriteLine();
       WriteLine(0, "using wpf_lib.lib;");   // TODO: Eventually, this should be dynamic
+      WriteLine(0, "using wpf_lib.lib.utils;");  
+
       WriteLine();
       WriteLine(0, "using {0};", GetNamespace(dataModel.TreeElement));
       WriteLine();
@@ -222,6 +225,7 @@ namespace x10.gen.wpf {
       WriteLine(1, "public partial class {0}VM : ViewModelBase<{1}> {", classDef.Name, dataModel.Name);
 
       GenerateState(classDef);
+      GenerateDataSources(classDef);
       GenerateExpressions(classDef);
 
       // Constructor
@@ -250,6 +254,27 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {
+    }
+
+    private void GenerateDataSources(ClassDefX10 classDef) {
+      WriteLine(2, "// Data Sources");
+
+      IEnumerable<DataTypeEnum> enums = UiUtils.ListAllInstances(classDef.RootChild)
+        .Select(x => x.ModelMember)
+        .OfType<X10Attribute>()
+        .Select(x => x.DataType)
+        .OfType<DataTypeEnum>()
+        .Distinct();
+
+      foreach (DataTypeEnum anEnum in enums) {
+        string name = anEnum.Name;
+        WriteLine(2, "public IEnumerable<EnumValueRepresentation> {0} { get; }",
+          NameUtils.Pluralize(name));
+        WriteLine(3, "= EnumValueRepresentation.GetForEnumType(typeof({0}));",
+          WpfGenUtils.EnumToName(anEnum));
+      }
+
+      WriteLine();
     }
 
     private void GenerateValidations(ClassDefX10 classDef) {
@@ -418,7 +443,7 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateEnum(int level, DataTypeEnum theEnum) {
-      WriteLine(level, "public enum {0} {", theEnum.Name);
+      WriteLine(level, "public enum {0} {", WpfGenUtils.EnumToName(theEnum));
 
       foreach (EnumValue enumValue in theEnum.EnumValues) {
         if (enumValue.Label != null)
@@ -480,7 +505,7 @@ namespace x10.gen.wpf {
       if (dataType == DataTypes.Singleton.String) return "string";
       if (dataType == DataTypes.Singleton.Timestamp) return "DateTime?";
       if (dataType == DataTypes.Singleton.Money) return "double?";
-      if (dataType is DataTypeEnum) return dataType.Name;
+      if (dataType is DataTypeEnum enumType) return WpfGenUtils.EnumToName(enumType) + "?";
 
       throw new Exception("Unknown data type: " + dataType.Name);
     }
@@ -490,7 +515,7 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateProperty(X10DataType type, Member member) {
-      string name = MemberToName(member);
+      string name = WpfGenUtils.MemberToName(member);
       GenerateProperty(type, name);
     }
 
@@ -507,16 +532,6 @@ namespace x10.gen.wpf {
       WriteLine(4, "RaisePropertyChanged(nameof({0}));", propName);
       WriteLine(3, "}");
       WriteLine(2, "}");
-    }
-
-    internal static string MemberToName(Member member) {
-      string name = NameUtils.Capitalize(member.Name);
-
-      // In C#, a class member name may not be the same as enclosing class
-      if (name == member.Owner.Name)
-        name = "The" + name;
-
-      return name;
     }
 
     #endregion

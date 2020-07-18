@@ -45,8 +45,11 @@ namespace x10.ui.composition {
     public ClassDef ClassDef { get { return RenderAs; } }
 
     // Derived
-    public Instance ParentInstance { 
-      get { return Owner?.Owner as Instance; }
+    public Instance ParentInstance { get { return Owner?.Owner as Instance; } }
+    public IEnumerable<Instance> ChildInstances {
+      get {
+        return AttributeValues.OfType<UiAttributeValueComplex>().SelectMany(x => x.Instances);
+      }
     }
 
     // Constructor

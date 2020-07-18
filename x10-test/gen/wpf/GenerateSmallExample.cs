@@ -23,9 +23,9 @@ namespace x10.gen.wpf {
     [Fact]
     public void Generate() {
       string sourceDir = "../../../../x10/examples/small";
-      LargeDemoTest.CompileEverything(_output, _messages, sourceDir, 
-        out AllEntities allEntities, 
-        out AllEnums allEnums, 
+      LargeDemoTest.CompileEverything(_output, _messages, sourceDir,
+        out AllEntities allEntities,
+        out AllEnums allEnums,
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
@@ -33,19 +33,16 @@ namespace x10.gen.wpf {
         WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton()),
       };
 
-      if (_messages.HasErrors) {
-        TestUtils.DumpMessages(_messages, _output, CompileMessageSeverity.Error);
-        Assert.Empty(_messages.Errors);
-      }
+      Assert.Empty(_messages.Errors);
 
       string targetDir = "../../../../wpf_generated_small/__generated__";
       WpfCodeGenerator generator = new WpfCodeGenerator(
         _messages,
-        targetDir, 
-        "wpf_generated", 
-        allEntities, 
-        allEnums, 
-        allUiDefinitions, 
+        targetDir,
+        "wpf_generated",
+        allEntities,
+        allEnums,
+        allUiDefinitions,
         libraries);
 
       _messages.Clear();

@@ -87,6 +87,7 @@
       <DependentUpon>Label.xaml</DependentUpon>
     </Compile>
     <Compile Include="lib\NotificationObject.cs" />
+    <Compile Include="lib\utils\EnumValueRepresentation.cs" />
     <Compile Include="lib\utils\NameUtils.cs" />
     <Compile Include="lib\utils\WpfUtils.cs" />
     <Compile Include="lib\ViewModelBase.cs" />

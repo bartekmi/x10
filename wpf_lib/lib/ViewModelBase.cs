@@ -14,7 +14,7 @@ namespace wpf_lib.lib {
     public virtual void FireCustomPropertyNotification() { }
 
     // View Models override this to implement error validation
-    public virtual FormErrors CalculateErrors() { return null; }
+    public virtual FormErrors CalculateErrors() { return new FormErrors(); }
 
     protected bool ShowErrors = true; // TODO: Only show after submit pressed
 

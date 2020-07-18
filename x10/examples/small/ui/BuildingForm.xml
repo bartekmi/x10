@@ -15,6 +15,7 @@
     <FormSection label="Other Details">
       <dateOfOccupancy/>
       <mailboxType/>
+      <petPolicy/>
     </FormSection>
 
     <RepellingRow>

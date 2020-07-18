@@ -35,6 +35,7 @@ namespace x10.model.libraries {
     internal const string PLACEHOLDER_TEXT = "placeholderText";
     internal const string DEFAULT = "default";
     internal const string FORMULA = "formula";
+    internal const string VALUE = "value";
 
     public readonly static DataTypeEnum ICON_DATA_TYPE =
       new DataTypeEnum() {
@@ -300,7 +301,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       //============================================================================
       // Enums Values
       new ModelAttributeDefinitionAtomic() {
-        Name = "value",
+        Name = VALUE,
         Description = "The raw value or symbol for this enum choice. This is what gets stored and communicated in the underlying data. Must be lower-case.",
         AppliesTo = AppliesTo.EnumValue,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
@@ -327,6 +328,10 @@ Typical use would be if entities are going to be represented on a drop-down.",
           if (string.IsNullOrWhiteSpace(label))
             messages.AddError(scalarNode,
             "There should never be a blank enum value. If the value is optional, just make the attribute that uses it non-mandatory.");
+        },
+        DefaultFunc = (member) => {
+          string value = member.FindValue<string>(VALUE);
+          return NameUtils.CamelCaseToHumanReadable(value);
         }
       },
       new ModelAttributeDefinitionAtomic() {
