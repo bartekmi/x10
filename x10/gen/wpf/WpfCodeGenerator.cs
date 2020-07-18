@@ -215,7 +215,7 @@ namespace x10.gen.wpf {
       WriteLine(0, "using System.Windows.Controls;");
       WriteLine();
       WriteLine(0, "using wpf_lib.lib;");   // TODO: Eventually, this should be dynamic
-      WriteLine(0, "using wpf_lib.lib.utils;");  
+      WriteLine(0, "using wpf_lib.lib.utils;");
 
       WriteLine();
       WriteLine(0, "using {0};", GetNamespace(dataModel.TreeElement));
@@ -290,6 +290,7 @@ namespace x10.gen.wpf {
       Begin(entity.TreeElement.FileInfo, ".cs");
 
       WriteLine(0, "using System;");
+      WriteLine(0, "using System.Collections.Generic;");
       WriteLine();
 
       WriteLine(0, "using wpf_lib.lib;");
@@ -375,7 +376,7 @@ namespace x10.gen.wpf {
       WriteLine(2, "// Associations");
 
       foreach (Association association in associations) {
-        string dataType = association.ReferencedEntity.Name;
+        string dataType = AssociationDataType(association);
         string propName = association.NameUpperCased;
         string bindablePropName = BindablePropName(association);
 
@@ -390,8 +391,16 @@ namespace x10.gen.wpf {
       }
     }
 
-    private string BindablePropName(Association association) {
-      return association.Name + "Bindable";
+    private static string BindablePropName(Association association) {
+      return association.NameUpperCased + "Bindable";
+    }
+
+    private static string AssociationDataType(Association association) {
+      string associationTarget = association.ReferencedEntity.Name;
+      if (association.IsMany)
+        return string.Format("List<{0}>", associationTarget);
+      else
+        return associationTarget;
     }
     #endregion
 
@@ -402,10 +411,20 @@ namespace x10.gen.wpf {
       WriteLine(3, "return new {0} {", entity.Name);
 
       foreach (Member member in entity.Members) {
-        ModelAttributeValue value = member.FindAttribute(BaseLibrary.DEFAULT);
-        if (value != null) {
-          WriteLine(4, "{0} = {1},", member.NameUpperCased, AttributeValueToString(value));
+        string initializer = null;
+        ModelAttributeValue defaultValue = member.FindAttribute(BaseLibrary.DEFAULT);
+        if (defaultValue != null)
+          initializer = AttributeValueToString(defaultValue);
+        else if (member is Association association) {
+          string associationTarget = association.ReferencedEntity.Name;
+          if (association.IsMany)
+            initializer = string.Format("new List<{0}>()", associationTarget);
+          else
+            initializer = string.Format("{0}.Create()", associationTarget);
         }
+
+        if (initializer != null)
+          WriteLine(4, "{0} = {1},", member.NameUpperCased, initializer);
       }
 
       WriteLine(3, "};");
