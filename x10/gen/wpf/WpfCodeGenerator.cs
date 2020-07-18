@@ -124,8 +124,12 @@ namespace x10.gen.wpf {
           throw new NotImplementedException();
       }
 
+      Member member = instance.ModelMember;
       if (dataBind != null && !dataBindAlreadyRendered)
-        WriteLine(level + 1, "{0}=\"{ Binding Model.{1} }\"", dataBind.PlatformName, instance.ModelMember.NameUpperCased);
+        WriteLine(level + 1, "{0}=\"{ Binding Model.{1}{2} }\"", 
+          dataBind.PlatformName, 
+          member.NameUpperCased,
+          member.IsReadOnly ? ", Mode=OneWay" : null);
 
       // Close the XAML element
       if (primaryValue == null)
