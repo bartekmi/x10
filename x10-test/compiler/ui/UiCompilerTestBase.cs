@@ -41,6 +41,10 @@ namespace x10.compiler {
 name: Building
 description: dummy
 attributes:
+  - name: id
+    description: dummy
+    dataType: String
+    readOnly: true
   - name: name
     description: dummy
     dataType: String

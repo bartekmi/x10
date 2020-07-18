@@ -1,6 +1,7 @@
 <BuildingForm model="Building" url="/building">
   <Form>
     <FormSection label="Building Info">
+      <id/>
       <name/>
       <description/>
     </FormSection>

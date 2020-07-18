@@ -753,9 +753,11 @@ namespace x10.ui.libraries {
       #endregion
 
       #region Primordial Components (Not Abstract)
+      // TODO: This needs fixing, because it's too easy to miss adding this
       ClassDefNative.RawHtml,
       ClassDefNative.State,
       ClassDefNative.Visual,
+      ClassDefNative.Editable,
       #endregion
     };
 

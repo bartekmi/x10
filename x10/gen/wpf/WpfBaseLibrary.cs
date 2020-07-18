@@ -120,6 +120,10 @@ namespace x10.gen.wpf {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
           },
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "IsReadOnly",
+          },
         },
       },
       new PlatformClassDef() {

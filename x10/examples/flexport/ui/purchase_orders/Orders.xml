@@ -45,7 +45,8 @@
         <TableColumn>
           <Text text="=shippedItemCount + '/' + totalItemCount + ' lines booked'"/>
         </TableColumn>
-        <state editable="true"/>
+        <!-- state used to be "editable=true' -->
+        <state/>
       </Table.Columns>
 
     </Table>

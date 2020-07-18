@@ -33,13 +33,14 @@ namespace x10.ui.metadata {
     };
 
     public static ClassDefNative Editable = new ClassDefNative() {
-      Name = "ClassDefVisual",
+      Name = "ClassDefEditable",
       InheritsFrom = Visual,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
-              Name = "editable",
+              Name = "readOnly",
               DataType = DataTypes.Singleton.Boolean,
-              DefaultValue = true,
+              DefaultValue = false,
+              TakeValueFromModelAttrName = "readOnly",
             },
             new UiAttributeDefinitionAtomic() {
               Name = "mandatory",

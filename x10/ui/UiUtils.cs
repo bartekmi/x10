@@ -15,6 +15,9 @@ namespace x10.ui {
     }
 
     private static void ListAllInstances(List<Instance> instances, Instance instance) {
+      if (instance == null)
+        return;
+
       instances.Add(instance);
 
       foreach (Instance child in instance.ChildInstances)
