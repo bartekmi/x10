@@ -16,7 +16,9 @@ namespace wpf_generated {
     }
 
     private void InitializeContext() {
-      AppStatics.Singleton.Context = new __Context__();
+      AppStatics.Singleton.Context = new __Context__() {
+        Now = DateTime.Now,
+      };
     }
 
     private static List<Type> Components() {

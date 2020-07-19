@@ -1,7 +1,7 @@
 <BuildingForm model="Building" url="/building">
   <Form>
     <FormSection label="Building Info">
-      <id/>
+      <moniker/>
       <name/>
       <description/>
     </FormSection>

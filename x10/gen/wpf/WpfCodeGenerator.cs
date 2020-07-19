@@ -254,7 +254,7 @@ namespace x10.gen.wpf {
       WriteLine(2, "// State");
 
       foreach (StateClass state in states)
-        GenerateProperty(state.ToX10DataType(), state.Variable);
+        GenerateProperty(state.ToX10DataType(), state.Variable, null);
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {
@@ -311,7 +311,9 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(1, "public class {0} : EntityBase {", entity.Name);
 
-      GenerateRegularAttributes(entity.RegularAttributes);
+      DerivedAttributeDependencyMap dependencyMap = DerivedAttributeDependencyMap.BuildMap(entity);
+
+      GenerateRegularAttributes(dependencyMap, entity.RegularAttributes);
       GenerateDerivedAttributes(entity.DerivedAttributes);
       GenerateAssociations(entity.Associations);
       GenerateToString(entity);
@@ -321,6 +323,10 @@ namespace x10.gen.wpf {
       WriteLine(0, "}");
 
       End();
+    }
+
+    private Dictionary<ExpBase, IEnumerable<Member>> CalculateFormulaDependencies(Entity entity) {
+      throw new NotImplementedException();
     }
 
     private void GenerateExtraUsings(Entity entity) {
@@ -348,12 +354,14 @@ namespace x10.gen.wpf {
     }
 
     #region Regular Attributes
-    private void GenerateRegularAttributes(IEnumerable<X10RegularAttribute> attributes) {
+    private void GenerateRegularAttributes(DerivedAttributeDependencyMap dependencyMap, IEnumerable<X10RegularAttribute> attributes) {
       WriteLine();
       WriteLine(2, "// Regular Attributes");
 
-      foreach (X10RegularAttribute attribute in attributes)
-        GenerateProperty(attribute.DataType, attribute);
+      foreach (X10RegularAttribute attribute in attributes) {
+        HashSet<X10DerivedAttribute> dependentDerivedAttributes = dependencyMap.ChildDependencies(attribute);
+        GenerateProperty(attribute.DataType, attribute, dependentDerivedAttributes);
+      }
     }
     #endregion
 
@@ -533,16 +541,16 @@ namespace x10.gen.wpf {
       throw new Exception("Unknown data type: " + dataType.Name);
     }
 
-    private void GenerateProperty(DataType type, Member member) {
-      GenerateProperty(new X10DataType(type), member);
+    private void GenerateProperty(DataType type, Member member, IEnumerable<Member> extraRaiseChange) {
+      GenerateProperty(new X10DataType(type), member, extraRaiseChange);
     }
 
-    private void GenerateProperty(X10DataType type, Member member) {
+    private void GenerateProperty(X10DataType type, Member member, IEnumerable<Member> extraRaiseChange) {
       string name = WpfGenUtils.MemberToName(member);
-      GenerateProperty(type, name);
+      GenerateProperty(type, name, extraRaiseChange.Select(x => WpfGenUtils.MemberToName(x)));
     }
 
-    private void GenerateProperty(X10DataType type, string name) {
+    private void GenerateProperty(X10DataType type, string name, IEnumerable<string> extraRaiseChange) {
       string dataType = GetDataType(type);
       string varName = "_" + NameUtils.UncapitalizeFirstLetter(name);
       string propName = NameUtils.Capitalize(name);
@@ -553,6 +561,13 @@ namespace x10.gen.wpf {
       WriteLine(3, "set {");
       WriteLine(4, "{0} = value;", varName);
       WriteLine(4, "RaisePropertyChanged(nameof({0}));", propName);
+
+      if (extraRaiseChange?.Count() > 0) {
+        WriteLine();
+        foreach (string extraPropName in extraRaiseChange)
+          WriteLine(4, "RaisePropertyChanged(nameof({0}));", extraPropName);
+      }
+
       WriteLine(3, "}");
       WriteLine(2, "}");
     }

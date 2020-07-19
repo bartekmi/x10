@@ -16,6 +16,10 @@ namespace x10.formula {
       visitor.VisitMemberAccess(this);
     }
 
+    public override IEnumerable<ExpBase> ChildExpressions() {
+      return new ExpBase[] { Expression };
+    }
+
     public override ExpIdentifier FirstMemberOfPath() { 
       return Expression.FirstMemberOfPath(); 
     }

@@ -18,5 +18,24 @@ namespace x10.formula {
       strippedFormula = null;
       return false;
     }
+
+    /// <summary>
+    /// Recursively list all ExpBase including this one and all descendents
+    /// </summary>
+    public static IEnumerable<ExpBase> ListAll(ExpBase instance) {
+      List<ExpBase> exp = new List<ExpBase>();
+      ListAllInstances(exp, instance);
+      return exp;
+    }
+
+    private static void ListAllInstances(List<ExpBase> instances, ExpBase instance) {
+      if (instance == null)
+        return;
+
+      instances.Add(instance);
+
+      foreach (ExpBase child in instance.ChildExpressions())
+        ListAllInstances(instances, child);
+    }
   }
 }

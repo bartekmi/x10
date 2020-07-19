@@ -3,7 +3,7 @@ description: A physical building which contains rental units
 defaultStringRepresentation: =name
 
 attributes:
-  - name: id
+  - name: moniker
     dataType: String
     readOnly: true
     default: 1

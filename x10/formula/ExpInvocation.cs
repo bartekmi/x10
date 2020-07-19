@@ -15,6 +15,10 @@ namespace x10.formula {
       visitor.VisitInvocation(this);
     }
 
+    public override IEnumerable<ExpBase> ChildExpressions() {
+      return Arguments;
+    }
+
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
       List<X10DataType> argTypes = new List<X10DataType>();
       foreach (ExpBase argumentExpression in Arguments)

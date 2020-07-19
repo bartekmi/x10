@@ -1,4 +1,5 @@
-﻿using x10.model.metadata;
+﻿using System.Collections.Generic;
+using x10.model.metadata;
 
 namespace x10.formula {
   public class ExpParenthesized : ExpBase {
@@ -10,6 +11,10 @@ namespace x10.formula {
 
     public override void Accept(IVisitor visitor) {
       visitor.VisitParenthesized(this);
+    }
+
+    public override IEnumerable<ExpBase> ChildExpressions() {
+      return new ExpBase[] { Expression };
     }
 
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
