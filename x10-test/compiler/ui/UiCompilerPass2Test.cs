@@ -11,6 +11,7 @@ using x10.model.metadata;
 using x10.ui.composition;
 using x10.ui.metadata;
 using x10.model.definition;
+using x10.ui.libraries;
 
 namespace x10.compiler {
   public class UiCompilerPass2Test : UiCompilerTestBase {
@@ -1153,6 +1154,37 @@ namespace x10.compiler {
   <Form>
     <Label label='Apartment Count'>
       <apartmentCount/>
+    </Label>
+  </Form>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void AttributeFromModel_ReadOnly() {
+      // Because we want the ClassDefNative.Editable.ReadOnly parameter to function properly,
+      // We need to initialize the UI Base Library
+      BaseLibrary.Singleton().HydrateAndValidate(_messages);
+
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Form>
+    <id/>
+    <derived ui='MyFunkyIntComponent'/>
+  </Form>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Form>
+    <Label label='Id'>
+      <id readOnly='True'/>
+    </Label>
+    <Label label='Derived'>
+      <derived ui='MyFunkyIntComponent' readOnly='True'/>
     </Label>
   </Form>
 </MyComponent>

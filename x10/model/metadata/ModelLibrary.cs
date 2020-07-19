@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace x10.model.metadata {
@@ -11,6 +12,10 @@ namespace x10.model.metadata {
 
     public ModelLibrary(List<ModelAttributeDefinition> attributes) {
       Attributes = attributes;
+    }
+
+    internal ModelAttributeDefinition Find(string attrName) {
+      return Attributes.Single(x => x.Name == attrName);
     }
   }
 }

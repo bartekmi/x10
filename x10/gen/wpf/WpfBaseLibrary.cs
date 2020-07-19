@@ -146,6 +146,10 @@ namespace x10.gen.wpf {
             PlatformName = "MinLines",
             Value = "3",
           },
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "IsReadOnly",
+          },
         },
       },
       new PlatformClassDef() {
@@ -157,6 +161,10 @@ namespace x10.gen.wpf {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
           },
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "IsReadOnly",
+          },
         },
       },
       new PlatformClassDef() {
@@ -167,6 +175,10 @@ namespace x10.gen.wpf {
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "Text",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "IsReadOnly",
           },
         },
       },
@@ -202,6 +214,10 @@ namespace x10.gen.wpf {
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "SelectedDate",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "IsReadOnly",
           },
         },
       },

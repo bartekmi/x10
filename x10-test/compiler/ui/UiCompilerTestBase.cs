@@ -59,6 +59,13 @@ attributes:
   - name: hasUndergroundParking
     description: dummy
     dataType: Boolean
+
+derivedAttributes:
+  - name: derived
+    description: dummy
+    dataType: Integer
+    formula: =apartmentCount + 1
+
 associations:
   - name: apartments
     description: dummy

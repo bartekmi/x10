@@ -36,6 +36,7 @@ namespace x10.model.libraries {
     internal const string DEFAULT = "default";
     internal const string FORMULA = "formula";
     internal const string VALUE = "value";
+    internal const string READ_ONLY = "readOnly";
 
     public readonly static DataTypeEnum ICON_DATA_TYPE =
       new DataTypeEnum() {
@@ -177,7 +178,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "IsMandatory",
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "readOnly",
+        Name = READ_ONLY,
         Description = "If true, this field can never be directly edited by a user. Determines what kind of UI is generated",
         AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
         DefaultIfMissing = false,

@@ -13,6 +13,11 @@ namespace x10.model.definition {
     public X10DerivedAttribute() {
       // Derived attributes are always read-only, and this cannot be changed
       // in the Entity definition files.
+      AttributeValues.Add(new ModelAttributeValue(null) {
+        Value = true,
+        Definition = BaseLibrary.Singleton().Find(BaseLibrary.READ_ONLY),
+      });
+
       IsReadOnly = true;
     }
   }
