@@ -8,7 +8,7 @@ namespace x10.ui {
     /// <summary>
     /// Recursively list all instances including this one and all descendents
     /// </summary>
-    public static IEnumerable<Instance> ListAllInstances(Instance instance) {
+    public static IEnumerable<Instance> ListSelfAndDescendants(Instance instance) {
       List<Instance> instances = new List<Instance>();
       ListAllInstances(instances, instance);
       return instances;
@@ -22,6 +22,20 @@ namespace x10.ui {
 
       foreach (Instance child in instance.ChildInstances)
         ListAllInstances(instances, child);
+    }
+
+    /// <summary>
+    /// List self, then all ancestors in order down to root
+    /// </summary>
+    public static IEnumerable<Instance> ListSelfAndAncestors(Instance instance) {
+      List<Instance> all = new List<Instance>();
+
+      while (instance != null) {
+        all.Add(instance);
+        instance = instance.ParentInstance;
+      }
+
+      return all;
     }
   }
 }

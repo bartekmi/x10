@@ -128,7 +128,7 @@ namespace x10.gen.wpf {
       if (dataBind != null && !dataBindAlreadyRendered)
         WriteLine(level + 1, "{0}=\"{ Binding Model.{1}{2} }\"", 
           dataBind.PlatformName, 
-          member.NameUpperCased,
+          GetBindingPath(instance),
           member.IsReadOnly ? ", Mode=OneWay" : null);
 
       // Close the XAML element
@@ -139,6 +139,15 @@ namespace x10.gen.wpf {
         WriteChildren(level + 1, primaryValue);
         WriteLine(level, "</{0}>", platClassDef.PlatformName);
       }
+    }
+
+    private string GetBindingPath(Instance instance) {
+      IEnumerable<string> names = UiUtils.ListSelfAndAncestors(instance)
+        .Reverse()
+        .Where(x => x.ModelMember != null)
+        .Select(x => WpfGenUtils.MemberToName(x.ModelMember));
+
+      return string.Join(".", names);
     }
 
     private string GenerateAttributeForValue(PlatformAttributeDynamic dynamicAttr, object value) {
@@ -263,7 +272,7 @@ namespace x10.gen.wpf {
     private void GenerateDataSources(ClassDefX10 classDef) {
       WriteLine(2, "// Data Sources");
 
-      IEnumerable<DataTypeEnum> enums = UiUtils.ListAllInstances(classDef.RootChild)
+      IEnumerable<DataTypeEnum> enums = UiUtils.ListSelfAndDescendants(classDef.RootChild)
         .Select(x => x.ModelMember)
         .OfType<X10Attribute>()
         .Select(x => x.DataType)
@@ -373,7 +382,7 @@ namespace x10.gen.wpf {
       foreach (X10DerivedAttribute attribute in attributes) {
         string dataType = GetDataType(attribute.DataType);
 
-        WriteLine(2, "public {0} {1} {", dataType, attribute.NameUpperCased);
+        WriteLine(2, "public {0} {1} {", dataType, WpfGenUtils.MemberToName(attribute));
         WriteLine(3, "get {");
         WriteLine(4, "return {0};", ExpressionToString(attribute.Expression));
         WriteLine(3, "}");
@@ -389,7 +398,7 @@ namespace x10.gen.wpf {
 
       foreach (Association association in associations) {
         string dataType = AssociationDataType(association);
-        string propName = association.NameUpperCased;
+        string propName = WpfGenUtils.MemberToName(association);
         string bindablePropName = BindablePropName(association);
 
         WriteLine(2, "public virtual {0} {1} { get; set; }", dataType, propName);
@@ -404,7 +413,7 @@ namespace x10.gen.wpf {
     }
 
     private static string BindablePropName(Association association) {
-      return association.NameUpperCased + "Bindable";
+      return WpfGenUtils.MemberToName(association) + "Bindable";
     }
 
     private static string AssociationDataType(Association association) {
@@ -436,7 +445,7 @@ namespace x10.gen.wpf {
         }
 
         if (initializer != null)
-          WriteLine(4, "{0} = {1},", member.NameUpperCased, initializer);
+          WriteLine(4, "{0} = {1},", WpfGenUtils.MemberToName(member), initializer);
       }
 
       WriteLine(3, "};");

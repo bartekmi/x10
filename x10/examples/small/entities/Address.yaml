@@ -7,6 +7,7 @@ attributes:
 
   - name: address
     dataType: String
+    default: 111 Certain St.
 
   - name: city
     dataType: String
