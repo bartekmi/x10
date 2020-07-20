@@ -32,6 +32,12 @@ attributes:
     dataType: PetPolicy
     mandatory: true
 
+  - name: mailingAddressSameAsPhysical
+    dataType: Boolean
+    mandatory: true
+    default: true
+    label: Mailing Address is Same as Physical Address
+
 
 derivedAttributes:
   - name: ageInYears

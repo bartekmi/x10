@@ -25,7 +25,15 @@ namespace x10.ui.platform {
     public PlatformClassDef InheritsFrom { get; set; }
 
     // Attributes - both static and dynamic
-    public IEnumerable<PlatformAttribute> PlatformAttributes { get; set; }
+    private IEnumerable<PlatformAttribute> _platformAttributes;
+    public IEnumerable<PlatformAttribute> PlatformAttributes { 
+      get { return _platformAttributes; }
+      set {
+        _platformAttributes = value;
+        foreach (PlatformAttribute attribute in value)
+          attribute.Owner = this;
+      }
+    }
 
 
     // Derived

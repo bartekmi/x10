@@ -7,6 +7,10 @@ using x10.utils;
 
 namespace x10.gen.wpf {
   internal static class WpfGenUtils {
+
+    internal const string MODEL_PROPERTY = "Model";
+    internal const string MODEL_PROPERTY_PREFIX = MODEL_PROPERTY + ".";
+
     internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum) {
 
       if (asEnum != null)

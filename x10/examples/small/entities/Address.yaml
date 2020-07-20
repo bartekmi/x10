@@ -17,6 +17,7 @@ attributes:
 
   - name: zip
     dataType: String
+    label: Zip or Postal Code
 
 derivedAttributes:
   - name: firstAddressLine

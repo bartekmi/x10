@@ -9,7 +9,18 @@
     <FormSection path="physicalAddress" label="Physical Address">
       <address/>
       <city/>
-      <zip label="Zip or Postal Code"/>
+      <stateOrProvince/>
+      <zip/>
+    </FormSection>
+
+    <FormSection label="Mailing Address">
+      <mailingAddressSameAsPhysical/>
+      <VerticalStackPanel path="mailingAddress" visible="=!mailingAddressSameAsPhysical">
+        <address label="Address or Post Office (PO) Box"/>
+        <city/>
+        <stateOrProvince/>
+        <zip/>
+      </VerticalStackPanel>
     </FormSection>
 
     <FormSection label="Other Details">

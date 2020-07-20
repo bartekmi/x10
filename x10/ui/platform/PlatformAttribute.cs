@@ -8,5 +8,7 @@ namespace x10.ui.platform {
     // Name of this attribute in the platform-specific world.
     // Used for actual code-generation
     public string PlatformName { get; set; }
+
+    public PlatformClassDef Owner { get; set; }
   }
 }

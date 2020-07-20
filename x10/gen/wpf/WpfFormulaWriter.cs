@@ -11,9 +11,11 @@ namespace x10.gen.wpf {
   internal class WpfFormulaWriter : IVisitor {
 
     private TextWriter _writer;
+    private bool _prefixWithModel; // Prefix with model when generating for VM
 
-    internal WpfFormulaWriter(TextWriter writer) {
+    internal WpfFormulaWriter(TextWriter writer, bool prefixWithModel) {
       _writer = writer;
+      _prefixWithModel = prefixWithModel;
     }
 
     public void VisitBinary(ExpBinary exp) {
@@ -27,6 +29,8 @@ namespace x10.gen.wpf {
         _writer.Write("AppStatics.Singleton.Context");
       else {
         string name = ToIdentifier(exp.Name, exp);
+        if (_prefixWithModel)
+          name = WpfGenUtils.MODEL_PROPERTY_PREFIX + name;
         _writer.Write(name);
       }
     }

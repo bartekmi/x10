@@ -23,6 +23,11 @@ namespace x10.gen.wpf {
 
     private readonly string _defaultNamespace;
 
+    // Per-Class Def Data 
+    // The following members are only private (as opposed to passed down the call-stack)
+    // for convenience. They are re-set with every new ClassDef generation
+    private Dictionary<string, ExpBase> _viewModelMethodToExpression = new Dictionary<string, ExpBase>();
+
     public WpfCodeGenerator(
       MessageBucket messages,
       string rootGenerateDir,
@@ -62,6 +67,7 @@ namespace x10.gen.wpf {
              xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
              mc:Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
 
+      _viewModelMethodToExpression.Clear();
       GenerateXamlRecursively(1, classDef.RootChild);
 
       WriteLine(0, "</UserControl>");
@@ -111,7 +117,7 @@ namespace x10.gen.wpf {
         if (attrValue is UiAttributeValueAtomic atomicValue) {
           string value;
           if (atomicValue.Expression != null)
-            value = GenerateAttributeForFormula(dynamicAttr, atomicValue.Expression);
+            value = GenerateBindingForFormula(instance, dynamicAttr, atomicValue.Expression);
           else if (atomicValue.Value != null)
             value = GenerateAttributeForValue(dynamicAttr, atomicValue.Value);
           else
@@ -126,8 +132,9 @@ namespace x10.gen.wpf {
 
       Member member = instance.ModelMember;
       if (dataBind != null && !dataBindAlreadyRendered)
-        WriteLine(level + 1, "{0}=\"{ Binding Model.{1}{2} }\"", 
-          dataBind.PlatformName, 
+        WriteLine(level + 1, "{0}=\"{ Binding {1}{2}{3} }\"",
+          dataBind.PlatformName,
+          WpfGenUtils.MODEL_PROPERTY_PREFIX,
           GetBindingPath(instance),
           member.IsReadOnly ? ", Mode=OneWay" : null);
 
@@ -157,19 +164,25 @@ namespace x10.gen.wpf {
         return value.ToString();
     }
 
-    private string GenerateAttributeForFormula(PlatformAttributeDynamic dynamicAttr, ExpBase expression) {
+    private string GenerateBindingForFormula(Instance context, PlatformAttributeDynamic dynamicAttr, ExpBase expression) {
       string path;
       ExpIdentifier pathStart = expression.FirstMemberOfPath();
       if (pathStart != null) {
-        string expressionAsPath = ExpressionToString(expression);
+        // In this case, we know we have a simple path, so we can just inject it as the WPF path
+        string expressionAsPath = ExpressionToString(expression, true);
         if (pathStart.IsOtherVariable)
           path = expressionAsPath;
         else
           // TODO: Deal with situation where expression is relative not to UI Component root,
           // but to some nested Enity
-          path = "Model." + expressionAsPath;
+          path = WpfGenUtils.MODEL_PROPERTY_PREFIX + expressionAsPath;
       } else {
-        path = "TODO";
+        // In this case, we have some sort of a more complex expression - we will render the expression in the
+        // View Model, and reference it here
+        // TODO: There is opportunity for duplicate names here, but we'll live with it for now
+        path = string.Format("{0}_{1}",
+          context.RenderAs.Name, dynamicAttr.PlatformName);
+        _viewModelMethodToExpression[path] = expression;
       }
 
       string converter = null;
@@ -243,7 +256,7 @@ namespace x10.gen.wpf {
 
       // Constructor
       WriteLine(2, "public {0}VM(UserControl userControl) : base(userControl) {", classDef.Name);
-      WriteLine(3, "Model = {0}.Create();", dataModel.Name);
+      WriteLine(3, "{0} = {1}.Create();", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
       WriteLine(2, "}");
 
       GenerateValidations(classDef);
@@ -267,6 +280,22 @@ namespace x10.gen.wpf {
     }
 
     private void GenerateExpressions(ClassDefX10 classDef) {
+      if (_viewModelMethodToExpression.Count > 0) {
+        WriteLine(2, "// Properties used in XAML bindings");
+        foreach (var pair in _viewModelMethodToExpression)
+          // TODO: This will not handle formulas which return non-atomic types
+          GeneratePropertyForFormula(pair.Value.DataType.DataType, pair.Key, pair.Value, true);
+
+        WriteLine();
+
+        WriteLine(2, "// Ensures all properties above are refreshed every time anything changes");
+        WriteLine(2, "public override void FireCustomPropertyNotification() {");
+        foreach (string propertyName in _viewModelMethodToExpression.Keys)
+          WriteLine(3, "RaisePropertyChanged(nameof({0}));", propertyName);
+        WriteLine(2, "}");
+
+        WriteLine();
+      }
     }
 
     private void GenerateDataSources(ClassDefX10 classDef) {
@@ -379,15 +408,11 @@ namespace x10.gen.wpf {
       WriteLine();
       WriteLine(2, "// Derived Attributes");
 
-      foreach (X10DerivedAttribute attribute in attributes) {
-        string dataType = GetDataType(attribute.DataType);
-
-        WriteLine(2, "public {0} {1} {", dataType, WpfGenUtils.MemberToName(attribute));
-        WriteLine(3, "get {");
-        WriteLine(4, "return {0};", ExpressionToString(attribute.Expression));
-        WriteLine(3, "}");
-        WriteLine(2, "}");
-      }
+      foreach (X10DerivedAttribute attribute in attributes)
+        GeneratePropertyForFormula(attribute.DataType,
+          WpfGenUtils.MemberToName(attribute),
+          attribute.Expression,
+          false);
     }
     #endregion
 
@@ -509,18 +534,18 @@ namespace x10.gen.wpf {
       if (value.Value != null)
         return WpfGenUtils.TypedLiteralToString(value.Value, value.EnumType);
       else if (value.Formula != null)
-        return ExpressionToString(value.Expression);
+        return ExpressionToString(value.Expression, false);
       else
         return "BLANK VALUE";
     }
 
-    private string ExpressionToString(ExpBase expression) {
+    private string ExpressionToString(ExpBase expression, bool prefixWithModel) {
       if (expression == null)
         return "EXPRESSION MISSING";
 
       using StringWriter writer = new StringWriter();
 
-      WpfFormulaWriter formulaWriterVisitor = new WpfFormulaWriter(writer);
+      WpfFormulaWriter formulaWriterVisitor = new WpfFormulaWriter(writer, prefixWithModel);
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }
@@ -577,6 +602,16 @@ namespace x10.gen.wpf {
           WriteLine(4, "RaisePropertyChanged(nameof({0}));", extraPropName);
       }
 
+      WriteLine(3, "}");
+      WriteLine(2, "}");
+    }
+
+    private void GeneratePropertyForFormula(DataType dataTypeObj, string propertyName, ExpBase expression, bool prefixWithModel) {
+      string dataType = GetDataType(dataTypeObj);
+
+      WriteLine(2, "public {0} {1} {", dataType, propertyName);
+      WriteLine(3, "get {");
+      WriteLine(4, "return {0};", ExpressionToString(expression, prefixWithModel));
       WriteLine(3, "}");
       WriteLine(2, "}");
     }
