@@ -20,7 +20,7 @@ namespace wpf_lib.lib {
       Loaded += (s, e) => Form.RegisterErrorDisplay(this);
     }
 
-    internal void DisplayErrors(FormErrors errors) {
+    internal void DisplayErrors(EntityErrors errors) {
       Visibility = errors.HasErrors ? Visibility.Visible : Visibility.Collapsed;
       uxContent.Text = string.Join("\n\r", errors.Errors.Select(x => x.Message));
     }

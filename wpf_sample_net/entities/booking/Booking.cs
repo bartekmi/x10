@@ -152,11 +152,23 @@ namespace wpf_sample.entities.booking {
         RaisePropertyChanged(nameof(OriginPortBindable));
       }
     }
+   
+    // Validations
+    public override void CalculateErrors(EntityErrors errors) {
+      if (TargetDeliveryDate < CargoReadyDate)
+        errors.Add("Target Delivery Date can't be before Cargo Ready Date",
+          nameof(CargoReadyDate), nameof(TargetDeliveryDate));
+      if (!WantsOriginService && OriginPort == null)
+        errors.Add("Origin Port must be provided when 'Wants Origin Service' is false",
+          nameof(OriginPort));
+    }
 
+    // Overrides
     public override string ToString() {
       return Name;
     }
 
+    // Static Create
     public static Booking Create() {
       return new Booking() {
         Shipper = AppStatics.Singleton.Context.User.Company,

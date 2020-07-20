@@ -66,7 +66,7 @@ namespace wpf_lib.lib {
       Loaded += (s, e) => Form.RegisterEditWrapper(this);
     }
 
-    internal void DisplayErrors(IEnumerable<FormError> errorsForField) {
+    internal void DisplayErrors(IEnumerable<EntityError> errorsForField) {
       if (errorsForField.Count() == 0) {
         uxErrorMessage.Visibility = Visibility.Collapsed;
         uxBorder.BorderBrush = null;

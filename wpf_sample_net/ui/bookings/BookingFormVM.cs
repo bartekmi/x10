@@ -43,17 +43,6 @@ namespace wpf_sample.ui.bookings {
     }
 
     // Validations
-    public override FormErrors CalculateErrors() {
-      FormErrors errors = new FormErrors();
-
-      if (Model.TargetDeliveryDate < Model.CargoReadyDate)
-        errors.Add("Target Delivery Date can't be before Cargo Ready Date",
-          nameof(Model.CargoReadyDate), nameof(Model.TargetDeliveryDate));
-      if (!Model.WantsOriginService && Model.OriginPort == null)
-        errors.Add("Origin Port must be provided when 'Wants Origin Service' is false", nameof(Model.OriginPort));
-
-      return errors;
-    }
 
     // TODO - does this need to be moved to hand-coded custom file?
     public IEnumerable<Company> ShipperCompanies {

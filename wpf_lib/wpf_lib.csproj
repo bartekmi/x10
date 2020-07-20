@@ -76,7 +76,7 @@
     <Compile Include="lib\form\Form.xaml.cs">
       <DependentUpon>Form.xaml</DependentUpon>
     </Compile>
-    <Compile Include="lib\form\FormError.cs" />
+    <Compile Include="lib\EntityErrors.cs" />
     <Compile Include="lib\form\FormErrorDisplay.xaml.cs">
       <DependentUpon>FormErrorDisplay.xaml</DependentUpon>
     </Compile>

@@ -13,9 +13,6 @@ namespace wpf_lib.lib {
     // on properties defined in the 'custom' partial class definition
     public virtual void FireCustomPropertyNotification() { }
 
-    // View Models override this to implement error validation
-    public virtual FormErrors CalculateErrors() { return new FormErrors(); }
-
     protected bool ShowErrors = true; // TODO: Only show after submit pressed
 
     public T Model {
@@ -36,7 +33,8 @@ namespace wpf_lib.lib {
       FireCustomPropertyNotification();
 
       if (ShowErrors) {
-        FormErrors errors = CalculateErrors();
+        EntityErrors errors = new EntityErrors();
+        Model.CalculateErrors(errors);
         PopulateErrors(errors);
       }
     }
@@ -46,7 +44,7 @@ namespace wpf_lib.lib {
       _userControl = userControl;
     }
 
-    private void PopulateErrors(FormErrors errors) {
+    private void PopulateErrors(EntityErrors errors) {
       Form.ShowErrors(_userControl, errors);
     }
   }

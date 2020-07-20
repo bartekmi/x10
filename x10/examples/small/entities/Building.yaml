@@ -22,6 +22,9 @@ attributes:
   - name: dateOfOccupancy
     dataType: Date
     mandatory: true
+    validations:
+      - message: Occupancy date cannot be in the future
+        trigger: dateOfOccupancy > __Context__.now
 
   - name: mailboxType
     dataType: MailboxType

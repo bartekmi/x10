@@ -26,18 +26,18 @@ namespace wpf_lib.lib {
       Children = PART_Host.Children;
     }
 
-    internal void ShowErrors(FormErrors errors) {
+    internal void ShowErrors(EntityErrors errors) {
       foreach (FormErrorDisplay display in _errorDisplays)
         display.DisplayErrors(errors);
 
       foreach (EditElementWrapper wrapper in _editWrappers) {
-        IEnumerable<FormError> errorsForField = errors.ErrorsForField(wrapper.EditorFor);
+        IEnumerable<EntityError> errorsForField = errors.ErrorsForField(wrapper.EditorFor);
         wrapper.DisplayErrors(errorsForField);
       }
     }
 
     #region Helper Methods
-    internal static void ShowErrors(UserControl userControl, FormErrors errors) {
+    internal static void ShowErrors(UserControl userControl, EntityErrors errors) {
       if (userControl.Content is Form form) 
         form.ShowErrors(errors);
     }
