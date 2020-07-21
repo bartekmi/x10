@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace wpf_lib.lib {
@@ -13,7 +14,7 @@ namespace wpf_lib.lib {
     // on properties defined in the 'custom' partial class definition
     public virtual void FireCustomPropertyNotification() { }
 
-    protected bool ShowErrors = true; // TODO: Only show after submit pressed
+    public bool ShowErrors { get; private set; }
 
     public T Model {
       get { return (T)ModelUntyped; }
@@ -32,16 +33,37 @@ namespace wpf_lib.lib {
     private void ModelUntyped_PropertyChanged(object sender, PropertyChangedEventArgs e) {
       FireCustomPropertyNotification();
 
-      if (ShowErrors) {
-        EntityErrors errors = new EntityErrors();
-        Model.CalculateErrors(errors);
-        PopulateErrors(errors);
-      }
+      if (ShowErrors)
+        CalculateAndPopulateErrors();
+    }
+
+    private bool CalculateAndPopulateErrors() {
+      EntityErrors errors = new EntityErrors();
+      Model.CalculateErrors(errors);
+      PopulateErrors(errors);
+      return errors.HasErrors;
     }
 
     private UserControl _userControl;
     protected ViewModelBase(UserControl userControl) {
       _userControl = userControl;
+    }
+
+    public void SubmitData(Action submitAction, string successMessage) {
+      ShowErrors = true;
+      bool hasErrors = CalculateAndPopulateErrors();
+
+      if (hasErrors) {
+        MessageBox.Show("Please fix your errors, first", "Errors", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        return;
+      }
+
+      try {
+        submitAction();
+        MessageBox.Show(successMessage, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+      } catch (Exception e) {
+        MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+      }
     }
 
     private void PopulateErrors(EntityErrors errors) {

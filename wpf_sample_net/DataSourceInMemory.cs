@@ -20,6 +20,8 @@ namespace wpf_sample {
     private List<Port> _ports;
     public IEnumerable<Port> Ports { get { return _ports; } }
 
+    public IEnumerable<Booking> Bookings { get; } = new List<Booking>();
+
     public DataSourceInMemory() {
       _companies = new List<Company>() {
         new Company() {
@@ -85,6 +87,10 @@ namespace wpf_sample {
           CountryCode = "US",
         },
       };
+    }
+
+    public void Create(Booking booking) {
+      ((List<Booking>)Bookings).Add(booking);
     }
   }
 }

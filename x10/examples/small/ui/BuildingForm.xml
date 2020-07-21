@@ -37,7 +37,7 @@
       <Row>
         <FormButton label="Save" validate="true">
           <FormButton.Action>
-            <Action backEndTarget="/buildings/save" successUrl="/buildings"/>
+            <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
           </FormButton.Action>
         </FormButton>
       </Row>

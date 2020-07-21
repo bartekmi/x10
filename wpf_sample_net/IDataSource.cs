@@ -12,5 +12,7 @@ namespace wpf_sample {
     IEnumerable<Company> Companies { get; }
     IEnumerable<Location> Locations { get; }
     IEnumerable<Port> Ports { get; }
+
+    void Create(Booking model);
   }
 }

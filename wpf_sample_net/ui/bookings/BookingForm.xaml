@@ -96,6 +96,11 @@
 
 
       <lib:FormErrorDisplay/>
+      
+      <!-- Buttons -->
+      <StackPanel Orientation="Horizontal">
+        <Button Content="Submit" Click="SubmitClick"/>
+      </StackPanel>
     </StackPanel>
   </lib:Form>
 </UserControl>
