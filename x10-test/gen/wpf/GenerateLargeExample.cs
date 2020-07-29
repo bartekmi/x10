@@ -18,6 +18,7 @@ namespace x10.gen.wpf {
 
     public GenerateLargeExample(ITestOutputHelper output) {
       _output = output;
+      _messages.ThrowExceptionOnFirstError = false;
     }
 
     [Fact]

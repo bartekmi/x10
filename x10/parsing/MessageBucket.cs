@@ -4,6 +4,7 @@ using System.Linq;
 namespace x10.parsing {
   public class MessageBucket {
     public HashSet<CompileMessage> Messages { get; private set; }
+    public bool ThrowExceptionOnFirstError { get; set; }
 
     // Derived
     public bool HasErrors { get { return Messages.Any(x => x.Severity == CompileMessageSeverity.Error); } }
@@ -43,6 +44,9 @@ namespace x10.parsing {
 
       if (substitutions != null && substitutions.Length > 0)
         message = string.Format(message, substitutions);
+
+      if (ThrowExceptionOnFirstError && severity == CompileMessageSeverity.Error)
+        throw new System.Exception(message);
 
       Add(new CompileMessage() {
         ParseElement = element,

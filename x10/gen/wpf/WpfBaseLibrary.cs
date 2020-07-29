@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Text;
+
 using x10.parsing;
 using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
+using x10.ui.composition;
 
 namespace x10.gen.wpf {
   internal class WpfBaseLibrary {
@@ -326,6 +329,16 @@ namespace x10.gen.wpf {
           new PlatformAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Content",
+          },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "SubmitButton",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeByFunc() {
+            PlatformName = "Click",
+            // TODO: Need a more robust way to get unique element name for code-gen purposes
+            Function = (instance) => instance.FindValue("label") + "Click",
           },
         },
       },

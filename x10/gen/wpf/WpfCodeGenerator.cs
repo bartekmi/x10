@@ -115,19 +115,19 @@ namespace x10.gen.wpf {
 
         // Write the attribute
         if (attrValue is UiAttributeValueAtomic atomicValue) {
+          string name = dynamicAttr == null ? NameUtils.Capitalize(attrName) : dynamicAttr.PlatformName;
           string value;
           if (atomicValue.Expression != null)
-            value = GenerateBindingForFormula(instance, dynamicAttr, atomicValue.Expression);
+            value = GenerateBindingForFormula(instance, dynamicAttr, name, atomicValue.Expression);
           else if (atomicValue.Value != null)
             value = GenerateAttributeForValue(dynamicAttr, atomicValue.Value);
           else
             continue;
 
-          string name = dynamicAttr == null ? NameUtils.Capitalize(attrName) : dynamicAttr.PlatformName;
           WriteLine(level + 1, "{0}=\"{1}\"", name, value);
-        } else
-          // Currently, there are no Complex attributes
-          throw new NotImplementedException();
+        } else {
+          // TODO - e.g. Action from submit button
+        }
       }
 
       Member member = instance.ModelMember;
@@ -164,7 +164,7 @@ namespace x10.gen.wpf {
         return value.ToString();
     }
 
-    private string GenerateBindingForFormula(Instance context, PlatformAttributeDynamic dynamicAttr, ExpBase expression) {
+    private string GenerateBindingForFormula(Instance context, PlatformAttributeDynamic dynamicAttr, string attrName, ExpBase expression) {
       string path;
       ExpIdentifier pathStart = expression.FirstMemberOfPath();
       if (pathStart != null) {
@@ -181,7 +181,7 @@ namespace x10.gen.wpf {
         // View Model, and reference it here
         // TODO: There is opportunity for duplicate names here, but we'll live with it for now
         path = string.Format("{0}_{1}",
-          context.RenderAs.Name, dynamicAttr.PlatformName);
+          context.RenderAs.Name, attrName);
         _viewModelMethodToExpression[path] = expression;
       }
 

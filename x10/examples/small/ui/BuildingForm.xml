@@ -35,11 +35,11 @@
     <RepellingRow>
       <Text>* Required</Text>
       <Row>
-        <FormButton label="Save" validate="true">
-          <FormButton.Action>
+        <SubmitButton label="Save">
+          <SubmitButton.Action>
             <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
-          </FormButton.Action>
-        </FormButton>
+          </SubmitButton.Action>
+        </SubmitButton>
       </Row>
     </RepellingRow>
   </Form>

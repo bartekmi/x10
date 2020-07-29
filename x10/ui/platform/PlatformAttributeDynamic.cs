@@ -14,9 +14,9 @@ namespace x10.ui.platform {
     // If all is required is a simple enum-to-enum coversion, use this
     public IEnumerable<EnumConversion> EnumConversions { get; set; }
 
-    // Optional converter function for the attribute. Now that converter
+    // Optional converter function for the attribute. Note that converter
     // may need to be bi-directional for editable properties.
-    // The interpretation of 'Converter' is platform-specific
+    // The interpretation of 'Converter' is platform-specific.
     public string Converter { get; set; }
   }
 }

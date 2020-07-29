@@ -611,6 +611,16 @@ namespace x10.ui.libraries {
         // TODO: Add cross-validation... Either Action or url must be provided
       },
       new ClassDefNative() {
+        Name = "SubmitButton",
+        Description = "A button which triggers validation and submits user input",
+        InheritsFromName = "Button",
+      },
+      new ClassDefNative() {
+        Name = "CancelButton",
+        Description = "A button which cancels the current user edits or in-progress action",
+        InheritsFromName = "Button",
+      },
+      new ClassDefNative() {
         Name = "SelectableButton",
         Description = "A button with state - such that it can be toggled on and off",
         InheritsFromName = "Button",
@@ -734,19 +744,6 @@ namespace x10.ui.libraries {
             Description = "The label of this <FormSection>.",
             DataType = DataTypes.Singleton.String,
             IsMandatory = true,
-          },
-        },
-      },
-      new ClassDefNative() {
-        Name = "FormButton",
-        Description = "A button on a <Form> - typically every <Form> has a row of buttons at the bottom such as 'Save/Submit', 'Cancel', etc",
-        InheritsFromName = "Button",
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "validate",
-            Description = "If true, will trigger validation, and will not allow the action to be executed if validation fails.",
-            IsMandatory = true,
-            DataType = DataTypes.Singleton.Boolean,
           },
         },
       },

@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+
+using FileInfo = x10.parsing.FileInfo;
+using x10.gen.wpf;
 using x10.model.metadata;
 using x10.parsing;
 
@@ -31,6 +35,13 @@ namespace x10.formula {
     internal X10DataType DetermineType(X10DataType rootType) {
       DataType = DetermineTypeRaw(rootType);
       return DataType;
+    }
+
+    public override string ToString() {
+      using StringWriter writer = new StringWriter();
+      FormulaWriter visitor = new FormulaWriter(writer);
+      this.Accept(visitor);
+      return writer.ToString();
     }
   }
 }
