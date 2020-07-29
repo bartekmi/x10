@@ -56,7 +56,8 @@ namespace x10.gen {
         GenerateEnumFile(enumFileGroup.Key, enumFileGroup);
     }
 
-    protected PlatformClassDef FindPlatformClassDef(string logicalName) {
+    internal PlatformClassDef FindPlatformClassDef(Instance instance) {
+      string logicalName = instance.ClassDef.Name;
       return _platformLibraries
         .Select(x => x.FindComponentByLogicalName(logicalName))
         .FirstOrDefault(x => x != null);
@@ -90,7 +91,7 @@ namespace x10.gen {
       _writer = null;
     }
 
-    protected void WriteLine(int level, string text, params object[] args) {
+    public void WriteLine(int level, string text, params object[] args) {
       WriteLinePrivate(level, text, args);
       WriteLine();
     }
@@ -131,7 +132,7 @@ namespace x10.gen {
       WriteLine();
     }
 
-    protected void WriteLine() {
+    public void WriteLine() {
       _writer.WriteLine();
     }
 

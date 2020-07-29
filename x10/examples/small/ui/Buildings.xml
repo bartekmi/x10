@@ -1,6 +1,6 @@
 <Buildings model="Building" many="true">
   <VerticalStackPanel>
-    <Heading1 text="Bookings"/>
+    <Heading1 text="Buildings"/>
     <HorizontalDivider/>
 
     <Table>

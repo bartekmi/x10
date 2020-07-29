@@ -8,6 +8,7 @@ using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
+using x10.gen.wpf.codelet;
 
 namespace x10.gen.wpf {
   internal class WpfBaseLibrary {
@@ -332,7 +333,7 @@ namespace x10.gen.wpf {
           },
         },
       },
-      new PlatformClassDef() {
+      new PlatformClassDefWithCodelet() {
         LogicalName = "SubmitButton",
         InheritsFromName = "Button",
         PlatformAttributes = new List<PlatformAttribute>() {
@@ -342,9 +343,18 @@ namespace x10.gen.wpf {
             Function = (instance) => instance.FindValue("label") + "Click",
           },
         },
+        Codelet = new CodeletRecipee() {
+          Comment = "Submit Method(s)",
+          GenerateInXamlCs = (generator, instance) => {
+            generator.WriteLine(2, "private void {0}Click(object sender, RoutedEventArgs e) {", instance.FindValue("label"));
+            generator.WriteLine(3, "ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.Create(ViewModel.Model),");
+            generator.WriteLine(4, "\"Saved\");");
+            generator.WriteLine(2, "}");
+          }
+        },
       },
       new PlatformClassDef() {
-        LogicalName = "SelectableButton",
+      LogicalName = "SelectableButton",
         PlatformName = "ToggleButton",
         InheritsFromName = "Button",
         PlatformAttributes = new List<PlatformAttribute>() {
@@ -366,12 +376,12 @@ namespace x10.gen.wpf {
 
       #region Menu
       new PlatformClassDef() {
-        LogicalName = "Menu",
+      LogicalName = "Menu",
         PlatformName = "Menu",
         InheritsFrom = Visual,
       },
       new PlatformClassDef() {
-        LogicalName = "MenuItem",
+      LogicalName = "MenuItem",
         PlatformName = "MenuItem",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
@@ -385,35 +395,35 @@ namespace x10.gen.wpf {
 
       #region Form
       new PlatformClassDef() {
-        LogicalName = "Form",
+      LogicalName = "Form",
         PlatformName = "lib:Form",
         InheritsFrom = Visual,
       },
       new PlatformClassDef() {
-        LogicalName = "FormSection",
+      LogicalName = "FormSection",
         PlatformName = "lib:FormSection",
         InheritsFrom = Visual,
       },
       #endregion
     };
 
-    #region Glue it Together
-    private static PlatformLibrary _singleton;
-    public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
-      if (_singleton == null)
-        _singleton = CreateLibrary(errors, logicalLibrary);
-      return _singleton;
-    }
-
-    private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
-      PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-        ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
-      };
-
-      library.HydrateAndValidate(errors, logicalLibrary);
-
-      return library;
-    }
-    #endregion
+  #region Glue it Together
+  private static PlatformLibrary _singleton;
+  public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
+    if (_singleton == null)
+      _singleton = CreateLibrary(errors, logicalLibrary);
+    return _singleton;
   }
+
+  private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
+    PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
+      ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
+    };
+
+    library.HydrateAndValidate(errors, logicalLibrary);
+
+    return library;
+  }
+  #endregion
+}
 }

@@ -25,7 +25,7 @@ namespace wpf_generated {
 
 
     private AppStatics() {
-      // DataSource = new DataSourceInMemory();
+      DataSource = new DataSourceInMemory();
       WpfLibConfig.AssemblyForFindingTypes = "wpf_generated";
     }
   }

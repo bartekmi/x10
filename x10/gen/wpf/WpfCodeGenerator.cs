@@ -17,6 +17,7 @@ using static x10.ui.metadata.ClassDefNative;
 using x10.utils;
 using x10.ui.platform;
 using x10.ui;
+using x10.gen.wpf.codelet;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -53,7 +54,7 @@ namespace x10.gen.wpf {
       }
     }
 
-    #region XAML File
+    #region .xaml File
     private void GenerateXamlFile(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".xaml");
 
@@ -85,7 +86,7 @@ namespace x10.gen.wpf {
       if (instance == null)
         return;
 
-      PlatformClassDef platClassDef = FindPlatformClassDef(instance.ClassDef.Name);
+      PlatformClassDef platClassDef = FindPlatformClassDef(instance);
       if (platClassDef == null) {
         Messages.AddError(instance.XmlElement, "No platform-specific Class Definition for Logical Class {0}",
           instance.ClassDef.Name);
@@ -203,7 +204,7 @@ namespace x10.gen.wpf {
     }
     #endregion
 
-    #region XML cs File
+    #region .xaml.cs File
     private void GenerateXamlCsFile(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".xaml.cs");
 
@@ -214,8 +215,13 @@ namespace x10.gen.wpf {
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
       WriteLine(1, "public partial class {0} : UserControl {", classDef.Name);
 
+      WriteLine();
+      WriteLine(2, "private {0}VM ViewModel { get { return ({0}VM)DataContext; } }", classDef.Name);
+      WriteLine();
+
       GenerateConstructor(classDef);
       GenerateMethods(classDef);
+      CodeletGenerator.Generate(this, CodeletTarget.XamlCs, classDef.RootChild);
 
       WriteLine(1, "}");
       WriteLine(0, "}");
@@ -228,13 +234,14 @@ namespace x10.gen.wpf {
       WriteLine(3, "InitializeComponent();");
       WriteLine(3, "DataContext = new {0}VM(this);", classDef.Name);
       WriteLine(2, "}");
+      WriteLine();
     }
 
     private void GenerateMethods(ClassDefX10 classDef) {
     }
     #endregion
 
-    #region View Model File
+    #region View Model (VM) File
     private void GenerateViewModelFile(ClassDefX10 classDef) {
       Entity dataModel = classDef.ComponentDataModel;
 

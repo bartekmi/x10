@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7FC3C268-A6CB-4C82-8D2A-7C67ADE80000}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>wpf_generated_small</RootNamespace>
+    <RootNamespace>wpf_generated</RootNamespace>
     <AssemblyName>wpf_generated_small</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="data\DataSourceInMemory.cs" />
     <Compile Include="functions\Functions.cs" />
     <Compile Include="__generated__\entities\Address.cs" />
     <Compile Include="__generated__\entities\Building.cs" />
