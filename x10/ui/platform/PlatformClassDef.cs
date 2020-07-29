@@ -22,7 +22,6 @@ namespace x10.ui.platform {
 
     // Optional parent class (name)
     public string InheritsFromName { get; set; }
-    public PlatformClassDef InheritsFrom { get; set; }
 
     // Attributes - both static and dynamic
     private IEnumerable<PlatformAttribute> _platformAttributes;
@@ -43,12 +42,19 @@ namespace x10.ui.platform {
     public IEnumerable<PlatformAttributeDynamic> DynamicPlatformAttributes {
       get { return PlatformAttributes.OfType<PlatformAttributeDynamic>(); }
     }
+    public IEnumerable<PlatformAttributeByFunc> ByFuncPlatformAttributes {
+      get { return PlatformAttributes.OfType<PlatformAttributeByFunc>(); }
+    }
     public PlatformAttributeDataBind DataBindAttribute {
       get { return PlatformAttributes.OfType<PlatformAttributeDataBind>().SingleOrDefault(); }
+    }
+    public string EffectivePlatformName {
+      get { return PlatformName == null ? InheritsFrom.EffectivePlatformName : PlatformName; }
     }
 
     // Hydrated
     public ClassDef LogicalClassDef { get; internal set; }
+    public PlatformClassDef InheritsFrom { get; set; }
 
     public PlatformClassDef() {
       PlatformAttributes = new List<PlatformAttribute>();
@@ -64,7 +70,7 @@ namespace x10.ui.platform {
     }
 
     public override string ToString() {
-      return string.Format("{0} => {1}", LogicalName, PlatformName);
+      return string.Format("{0} => {1}", LogicalName, EffectivePlatformName);
     }
   }
 }

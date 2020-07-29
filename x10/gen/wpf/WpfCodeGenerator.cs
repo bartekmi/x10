@@ -92,12 +92,15 @@ namespace x10.gen.wpf {
         return;
       }
 
-      WriteLineMaybe(level, "<{0}", platClassDef.PlatformName);
+      WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
       if (platClassDef.StyleInfo != null)
         WriteLine(level + 1, "Style=\"{ StaticResource {0} }\"", platClassDef.StyleInfo);
 
       foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
         WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.ValueWithSubstitutions(instance));
+
+      foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes)
+        WriteLine(level + 1, "{0}=\"{1}\"", byFuncAttr.PlatformName, byFuncAttr.Function(instance));
 
       UiAttributeValue primaryValue = instance.PrimaryValue;
       PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
@@ -144,7 +147,7 @@ namespace x10.gen.wpf {
       else {
         WriteLineClose(level, ">");
         WriteChildren(level + 1, primaryValue);
-        WriteLine(level, "</{0}>", platClassDef.PlatformName);
+        WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }
     }
 
@@ -164,7 +167,7 @@ namespace x10.gen.wpf {
         return value.ToString();
     }
 
-    private string GenerateBindingForFormula(Instance context, PlatformAttributeDynamic dynamicAttr, string attrName, ExpBase expression) {
+    private string GenerateBindingForFormula(Instance context, PlatformAttributeDynamic dynamicAttr, string name, ExpBase expression) {
       string path;
       ExpIdentifier pathStart = expression.FirstMemberOfPath();
       if (pathStart != null) {
@@ -181,7 +184,7 @@ namespace x10.gen.wpf {
         // View Model, and reference it here
         // TODO: There is opportunity for duplicate names here, but we'll live with it for now
         path = string.Format("{0}_{1}",
-          context.RenderAs.Name, attrName);
+          context.RenderAs.Name, name);
         _viewModelMethodToExpression[path] = expression;
       }
 

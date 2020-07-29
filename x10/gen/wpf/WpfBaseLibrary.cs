@@ -334,6 +334,7 @@ namespace x10.gen.wpf {
       },
       new PlatformClassDef() {
         LogicalName = "SubmitButton",
+        InheritsFromName = "Button",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "Click",
