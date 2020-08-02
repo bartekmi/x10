@@ -6,6 +6,7 @@ using System.IO;
 using x10.formula;
 using x10.utils;
 using System.Linq;
+using x10.model.metadata;
 
 namespace x10.gen.wpf {
   internal class WpfFormulaWriter : IVisitor {
@@ -25,6 +26,10 @@ namespace x10.gen.wpf {
     }
 
     public void VisitIdentifier(ExpIdentifier exp) {
+      // This is the case for Enum Names
+      if (exp.DataType == null)
+        return;
+
       if (exp.Name == FormulaParser.CONTEXT_NAME)
         _writer.Write("AppStatics.Singleton.Context");
       else {
@@ -50,10 +55,15 @@ namespace x10.gen.wpf {
     }
 
     public void VisitLiteral(ExpLiteral exp) {
+      if (WriteEnum(exp, exp.Value.ToString()))
+        return;
       _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
+      if (WriteEnum(exp, exp.MemberName))
+        return;
+
       exp.Expression.Accept(this);
       _writer.Write("?.");
 
@@ -80,6 +90,17 @@ namespace x10.gen.wpf {
 
     public void VisitUnknown(ExpUnknown exp) {
       // This should never happen if the x10 code was compiled cleanly
+    }
+
+    private bool WriteEnum(ExpBase expression, string name) {
+      X10DataType dataType = expression.DataType;
+
+      if (expression.IsEnumLiteral) {
+        _writer.Write("{0}.{1}", dataType.DataType?.Name, NameUtils.Capitalize(name));
+        return true;
+      }
+
+      return false;
     }
   }
 }

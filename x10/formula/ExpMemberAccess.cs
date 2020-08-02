@@ -26,8 +26,10 @@ namespace x10.formula {
 
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
       X10DataType enumType = DetermineIfEnum();
-      if (enumType != null)
+      if (enumType != null) {
+        IsEnumLiteral = true;
         return enumType;
+      }
 
       X10DataType expressionDataType = Expression.DetermineType(rootType);
       return GetMemberAccessDataType(Parser.Errors, expressionDataType, MemberName);
@@ -41,7 +43,7 @@ namespace x10.formula {
           if (enumType.HasEnumValue(MemberName))
             return new X10DataType(enumType);
 
-          Parser.Errors.AddError(this, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
+          Parser.Errors.AddError(this, MemberName, enumType.AvailableValuesAsStrings, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
           return X10DataType.ERROR;
         }
       }

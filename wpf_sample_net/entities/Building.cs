@@ -86,6 +86,7 @@ namespace wpf_generated.entities {
       set {
         _mailingAddressSameAsPhysical = value;
         RaisePropertyChanged(nameof(MailingAddressSameAsPhysical));
+        RaisePropertyChanged(nameof(ApplicableWhenForMailingAddress));
       }
     }
 
@@ -93,6 +94,11 @@ namespace wpf_generated.entities {
     public int? AgeInYears {
       get {
         return AppStatics.Singleton.Context?.Now?.Year - DateOfOccupancy?.Year;
+      }
+    }
+    public bool ApplicableWhenForMailingAddress {
+      get {
+        return !MailingAddressSameAsPhysical;
       }
     }
 

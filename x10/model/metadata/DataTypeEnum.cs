@@ -20,7 +20,7 @@ namespace x10.model.metadata {
     public TreeElement TreeElement { get; set; }
 
     // Dervied
-    public string AvailableValuesAsString { get { return string.Join(", ", EnumValues); } }
+    public IEnumerable<string> AvailableValuesAsStrings { get { return EnumValues.Select(x => x.Value.ToString()); } }
 
     public DataTypeEnum() {
       EnumValues = new List<EnumValue>();

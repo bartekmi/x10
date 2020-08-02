@@ -15,7 +15,7 @@
 
     <FormSection label="Mailing Address">
       <mailingAddressSameAsPhysical/>
-      <VerticalStackPanel path="mailingAddress" visible="=!mailingAddressSameAsPhysical">
+      <VerticalStackPanel path="mailingAddress">
         <address label="Address or Post Office (PO) Box"/>
         <city/>
         <stateOrProvince/>

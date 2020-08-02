@@ -19,6 +19,7 @@ namespace x10.formula {
 
     internal FormulaParser Parser { get; private set; }
     public X10DataType DataType { get; internal set; }
+    public bool IsEnumLiteral { get; internal set; }
 
     // IParseElement
     public FileInfo FileInfo { get; private set; }

@@ -5,14 +5,6 @@ namespace x10.formula {
   public class ExpLiteral : ExpBase {
     public object Value { get; set; }
 
-    // Enums in formulas are represented simply as string contants
-    // - e.g. "myEnumValue"
-    // During the formula validation steps (where the type of each
-    // expression is determined), if an enum value is expected and
-    // String literal is encoutered, we attempt to convert and validate it.
-    public DataTypeEnum InferredEnumType { get; private set; }
-    public EnumValue InferredEnumValue { get; private set; }
-
     public ExpLiteral(FormulaParser parser) : base(parser) {
       // Do nothing
     }
@@ -40,13 +32,14 @@ namespace x10.formula {
     }
 
     internal void UpgradeToEnum(DataTypeEnum enumType) {
-      InferredEnumType = enumType;
+      IsEnumLiteral = true;
+      DataType = new X10DataType(enumType);
 
       if (Value is String) {
-        InferredEnumValue = enumType.FindEnumValue(Value);
-        if (InferredEnumValue == null)
-          Parser.Errors.AddError(this, "Attempted to upgrade '{0}' to Enumerated Type {1}. No such value exists. Available values: {2}",
-            Value, enumType.Name, enumType.AvailableValuesAsString);
+        EnumValue inferredEnumValue = enumType.FindEnumValue(Value);
+        if (inferredEnumValue == null)
+          Parser.Errors.AddError(this, Value.ToString(), enumType.AvailableValuesAsStrings, "Attempted to upgrade '{0}' to Enumerated Type {1}. No such value exists.",
+            Value, enumType.Name);
       } else
         Parser.Errors.AddError(this, "Attempted to upgrade '{0}' to Enumerated Type {1}. Expected a String, but got data type '{2}' instead.",
           Value, enumType.Name, Value.GetType().Name);

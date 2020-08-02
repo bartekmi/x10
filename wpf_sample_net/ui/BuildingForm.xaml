@@ -79,7 +79,7 @@
         />
       </lib:EditElementWrapper>
       <StackPanel
-        Visibility="{Binding Path=VerticalStackPanel_Visibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+        Visibility="{Binding Path=Model.ApplicableWhenForMailingAddress, Converter={StaticResource BooleanToVisibilityConverter}}"
       >
         <lib:EditElementWrapper
           Label="Address or Post Office (PO) Box"

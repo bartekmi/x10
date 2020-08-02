@@ -52,6 +52,9 @@ namespace x10.compiler {
       UiAttributeReader attrReaderForPass2 = new UiAttributeReader(_messages, allEntities, allEnums, allUiDefinitions);
       UiCompilerPass2 uiPass2 = new UiCompilerPass2(_messages, attrReaderForPass2, allEntities, allEnums, allUiDefinitions, allFunctions);
       uiPass2.CompileAllUiDefinitions();
+
+      // Post-Compile Transformations
+      PostCompileTransformations.PostCompile(allEntities, allEnums, allUiDefinitions, allFunctions);
     }
   }
 }

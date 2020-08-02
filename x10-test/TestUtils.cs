@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using x10.parsing;
 using x10.model.definition;
-using x10.model.metadata;
 using x10.model;
 using x10.compiler;
 using x10.ui.composition;
@@ -19,6 +17,7 @@ using FileInfo = x10.parsing.FileInfo;
 
 namespace x10 {
   public class TestUtils {
+    #region General Utils
     public static void DumpMessages(MessageBucket messages, ITestOutputHelper output, CompileMessageSeverity? severities = null) {
       if (messages.IsEmpty)
         output.WriteLine("No Errors");
@@ -26,6 +25,14 @@ namespace x10 {
         foreach (CompileMessage message in messages.FilteredMessages(severities))
           output.WriteLine(message.ToString());
     }
+
+    public static void StopIfErrors(MessageBucket messages, ITestOutputHelper output) {
+      if (messages.HasErrors) {
+        DumpMessages(messages, output);
+        Assert.False(messages.HasErrors);
+      }
+    }
+    #endregion
 
     #region Model Compilation
     public static Entity EntityCompilePass1(MessageBucket _messages, AllEnums _allEnums, string yaml, string fileName = null) {
