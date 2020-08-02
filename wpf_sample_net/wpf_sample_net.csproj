@@ -59,10 +59,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="entities\Address.cs" />
+    <Compile Include="entities\Building.cs" />
     <Compile Include="entities\core\Port.cs" />
     <Compile Include="entities\core\Location.cs" />
+    <Compile Include="entities\Move.cs" />
+    <Compile Include="entities\Tenant.cs" />
+    <Compile Include="entities\Unit.cs" />
+    <Compile Include="functions\Functions.cs" />
     <Compile Include="ui\bookings\Bookings.xaml.cs">
       <DependentUpon>Bookings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\BuildingForm.xaml.cs">
+      <DependentUpon>BuildingForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\BuildingFormVM.cs">
+      <DependentUpon>BuildingForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\Buildings.xaml.cs">
+      <DependentUpon>Buildings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\BuildingsVM.cs">
+      <DependentUpon>Buildings.xaml</DependentUpon>
     </Compile>
     <Page Include="ui\bookings\BookingForm.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -101,6 +119,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ui\BuildingForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ui\Buildings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

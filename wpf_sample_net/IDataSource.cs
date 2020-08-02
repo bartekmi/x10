@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using wpf_generated.entities;
 using wpf_sample.entities.booking;
 using wpf_sample.entities.core;
 
@@ -14,5 +15,6 @@ namespace wpf_sample {
     IEnumerable<Port> Ports { get; }
 
     void Create(Booking model);
+    void Create(Building model);
   }
 }

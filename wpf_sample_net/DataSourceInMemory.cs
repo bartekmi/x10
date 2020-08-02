@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-using wpf_lib.lib;
+using wpf_generated.entities;
 
 using wpf_sample.entities.booking;
 using wpf_sample.entities.core;
@@ -21,6 +17,7 @@ namespace wpf_sample {
     public IEnumerable<Port> Ports { get { return _ports; } }
 
     public IEnumerable<Booking> Bookings { get; } = new List<Booking>();
+    public IEnumerable<Building> Buildings { get; } = new List<Building>();
 
     public DataSourceInMemory() {
       _companies = new List<Company>() {
@@ -91,6 +88,10 @@ namespace wpf_sample {
 
     public void Create(Booking booking) {
       ((List<Booking>)Bookings).Add(booking);
+    }
+
+    public void Create(Building building) {
+      ((List<Building>)Buildings).Add(building);
     }
   }
 }

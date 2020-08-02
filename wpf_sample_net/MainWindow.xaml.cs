@@ -8,6 +8,7 @@ using wpf_sample.entities;
 using wpf_sample.ui.bookings;
 
 using wpf_sample.entities.core;
+using wpf_generated.ui;
 
 namespace wpf_sample {
   public partial class MainWindow : Window {
@@ -32,6 +33,8 @@ namespace wpf_sample {
       return new List<Type>() {
         typeof(BookingForm),
         typeof(Bookings),
+        typeof(BuildingForm),
+        typeof(Buildings)
       };
     }
   }
