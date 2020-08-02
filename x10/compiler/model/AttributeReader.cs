@@ -141,15 +141,17 @@ namespace x10.compiler {
 
     private void ErrorOnUnknownAttributes(TreeHash hash, AppliesTo type, string[] ignoreAttributes) {
       HashSet<string> validAttributeNames =
-        new HashSet<string>(ModelAttributeDefinitions.All.Where(x => x.AppliesToType(type))
+        new HashSet<string>(ModelAttributeDefinitions.All
+          .Where(x => x.AppliesToType(type))
           .Select(x => x.Name));
 
       foreach (TreeAttribute attribute in hash.Attributes) {
-        if (ignoreAttributes.Contains(attribute.Key))
+        string attrName = attribute.Key;
+        if (ignoreAttributes.Contains(attrName))
           continue;
 
-        if (!validAttributeNames.Contains(attribute.Key))
-          _messages.AddError(attribute, "Unknown attribute '{0}' on {1}", attribute.Key, type);
+        if (!validAttributeNames.Contains(attrName))
+          _messages.AddError(attribute, attrName, validAttributeNames, "Unknown attribute '{0}' on {1}", attrName, type);
       }
     }
   }

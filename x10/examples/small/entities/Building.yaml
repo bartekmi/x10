@@ -61,6 +61,7 @@ associations:
   - name: mailingAddress
     dataType: Address
     owns: true
+    applicableWhen: =!mailingAddressSameAsPhysical
 
 enums:
   - name: MailboxType

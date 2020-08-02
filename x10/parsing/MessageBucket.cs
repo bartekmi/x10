@@ -32,6 +32,10 @@ namespace x10.parsing {
       AddMessage(CompileMessageSeverity.Error, element, message, substitutions);
     }
 
+    public void AddError(IParseElement element, string actualValue, IEnumerable<string> allowedValues, string message, params object[] substitutions) {
+      AddMessage(CompileMessageSeverity.Error, element, actualValue, allowedValues, message, substitutions);
+    }
+
     public void AddWarning(IParseElement element, string message, params object[] substitutions) {
       AddMessage(CompileMessageSeverity.Warning, element, message, substitutions);
     }
@@ -41,6 +45,10 @@ namespace x10.parsing {
     }
 
     public void AddMessage(CompileMessageSeverity severity, IParseElement element, string message, params object[] substitutions) {
+      AddMessage(severity, element, null, null, message, substitutions);
+    }
+
+    public void AddMessage(CompileMessageSeverity severity, IParseElement element, string actualValue, IEnumerable<string> allowedValues, string message, params object[] substitutions) {
 
       if (substitutions != null && substitutions.Length > 0)
         message = string.Format(message, substitutions);
@@ -48,11 +56,16 @@ namespace x10.parsing {
       if (ThrowExceptionOnFirstError && severity == CompileMessageSeverity.Error)
         throw new System.Exception(message);
 
-      Add(new CompileMessage() {
+      CompileMessage compileMessage = new CompileMessage() {
         ParseElement = element,
         Message = message,
         Severity = severity,
-      });
+      };
+
+      compileMessage.ActualValue = actualValue;
+      compileMessage.AllowedValues = allowedValues;
+
+      Add(compileMessage);
     }
 
     public void Add(CompileMessage error) {
