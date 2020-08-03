@@ -49,11 +49,5 @@ namespace wpf_generated.entities {
         RaisePropertyChanged(nameof(PermanentMailingAddressBindable));
       }
     }
-
-    public static Tenant Create() {
-      return new Tenant {
-        PermanentMailingAddress = Address.Create(),
-      };
-    }
   }
 }

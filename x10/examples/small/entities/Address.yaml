@@ -7,17 +7,20 @@ attributes:
 
   - name: address
     dataType: String
-    default: 111 Certain St.
+    mandatory: true
 
   - name: city
     dataType: String
+    mandatory: true
 
   - name: stateOrProvince
     dataType: String
+    mandatory: true
 
   - name: zip
     dataType: String
     label: Zip or Postal Code
+    mandatory: true
 
 derivedAttributes:
   - name: firstAddressLine

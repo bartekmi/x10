@@ -49,13 +49,5 @@ namespace wpf_generated.entities {
         RaisePropertyChanged(nameof(TenantBindable));
       }
     }
-
-    public static Move Create() {
-      return new Move {
-        From = Unit.Create(),
-        To = Unit.Create(),
-        Tenant = Tenant.Create(),
-      };
-    }
   }
 }

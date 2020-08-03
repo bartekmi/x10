@@ -5,7 +5,7 @@ namespace wpf_lib.lib {
   public abstract class EntityBase : NotificationObject {
 
     // Entities override this to implement error validation
-    public virtual void CalculateErrors(EntityErrors errors) { }
+    public virtual void CalculateErrors(string prefix, EntityErrors errors) { }
 
     private int _id;
     [Key]

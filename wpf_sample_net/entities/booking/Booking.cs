@@ -154,12 +154,12 @@ namespace wpf_sample.entities.booking {
     }
    
     // Validations
-    public override void CalculateErrors(EntityErrors errors) {
+    public override void CalculateErrors(string prefix, EntityErrors errors) {
       if (TargetDeliveryDate < CargoReadyDate)
-        errors.Add("Target Delivery Date can't be before Cargo Ready Date",
+        errors.Add("Target Delivery Date can't be before Cargo Ready Date", prefix,
           nameof(CargoReadyDate), nameof(TargetDeliveryDate));
       if (!WantsOriginService && OriginPort == null)
-        errors.Add("Origin Port must be provided when 'Wants Origin Service' is false",
+        errors.Add("Origin Port must be provided when 'Wants Origin Service' is false", prefix,
           nameof(OriginPort));
     }
 

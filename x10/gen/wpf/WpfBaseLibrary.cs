@@ -85,7 +85,7 @@ namespace x10.gen.wpf {
           },
           new PlatformAttributeByFunc() {
             PlatformName = "EditorFor",
-            Function = (instance) => WpfGenUtils.MemberToName(instance.ModelMember),
+            Function = (instance) => WpfGenUtils.GetBindingPath(instance),
           },
         },
       },

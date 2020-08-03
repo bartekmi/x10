@@ -82,9 +82,15 @@ namespace wpf_generated.entities {
 
     // Associations
 
-    public static Address Create() {
+    // Validations
+    public override void CalculateErrors(string prefix, EntityErrors errors) {
+      if (string.IsNullOrWhiteSpace(TheAddress?.ToString()))
+        errors.Add("Name is required", prefix, nameof(TheAddress));
+    }
+
+    public static Address Create(EntityBase owner) {
       return new Address {
-        TheAddress = "111 Certain St.",
+        Owner = owner,
       };
     }
   }

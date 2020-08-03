@@ -139,7 +139,7 @@ namespace x10.gen.wpf {
         WriteLine(level + 1, "{0}=\"{ Binding {1}{2}{3} }\"",
           dataBind.PlatformName,
           WpfGenUtils.MODEL_PROPERTY_PREFIX,
-          GetBindingPath(instance),
+          WpfGenUtils.GetBindingPath(instance),
           member.IsReadOnly ? ", Mode=OneWay" : null);
 
       // Close the XAML element
@@ -150,17 +150,6 @@ namespace x10.gen.wpf {
         WriteChildren(level + 1, primaryValue);
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }
-    }
-
-    private string GetBindingPath(Instance instance) {
-      IEnumerable<string> names = UiUtils.ListSelfAndAncestors(instance)
-        .Reverse()
-        .Select(x => x.ModelMember)
-        .Where(x => x != null)
-        .Distinct()   // Eliminates duplicate Members - e.g. field and its wrapper
-        .Select(x => WpfGenUtils.MemberToName(x));
-
-      return string.Join(".", names);
     }
 
     private string GenerateAttributeForValue(PlatformAttributeDynamic dynamicAttr, object value) {
@@ -268,7 +257,7 @@ namespace x10.gen.wpf {
 
       // Constructor
       WriteLine(2, "public {0}VM(UserControl userControl) : base(userControl) {", classDef.Name);
-      WriteLine(3, "{0} = {1}.Create();", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
+      WriteLine(3, "{0} = {1}.Create(null);", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
       WriteLine(2, "}");
 
       WriteLine(1, "}");
@@ -362,7 +351,7 @@ namespace x10.gen.wpf {
       GenerateRegularAttributes(dependencyMap, entity.RegularAttributes);
       GenerateDerivedAttributes(entity.DerivedAttributes);
       GenerateAssociations(entity.Associations);
-      GenerateValidations(entity.EditableMembers);
+      GenerateValidations(entity);
       GenerateToString(entity);
       GenerateCreateFunction(entity);
 
@@ -460,24 +449,47 @@ namespace x10.gen.wpf {
     #endregion
 
     #region Validations
-    private void GenerateValidations(IEnumerable<Member> editableMembers) {
+    private void GenerateValidations(Entity entity) {
       WriteLine();
       WriteLine(2, "// Validations");
-      WriteLine(2, "public override void CalculateErrors(EntityErrors errors) {");
+      WriteLine(2, "public override void CalculateErrors(string prefix, EntityErrors errors) {");
 
-      foreach (Member member in editableMembers) {
+      // Validation of mandatory members
+      foreach (Member member in entity.Members) {
         string propName = WpfGenUtils.MemberToName(member);
         string humanName = NameUtils.CamelCaseToHumanReadable(member.Name);
         bool canBeEmpty = member is X10Attribute attr && CanBeEmpty(attr.DataType);
 
-        if (canBeEmpty && member.IsMandatory) {
+        if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
           WriteLine(3, "if (string.IsNullOrWhiteSpace({0}?.ToString()))", propName);
-          WriteLine(4, "errors.Add(\"{0} is required\", nameof({1}));", humanName, propName);
+          WriteLine(4, "errors.Add(\"{0} is required\", prefix, nameof({1}));", humanName, propName);
+        }
+      }
+
+      // Forward validation to owned associations
+      IEnumerable<Association> ownedAssociations = entity.Associations.Where(x => x.Owns);
+      if (ownedAssociations.Any()) {
+        WriteLine();
+        foreach (Association association in ownedAssociations) {
+          if (association.IsMany) {
+            // TODO
+          } else {
+            bool applicableWhen = GenerateApplicableWhen(association);
+            string name = WpfGenUtils.MemberToName(association);
+            WriteLine(3 + (applicableWhen ? 1 : 0), "{0}.CalculateErrors(\"{0}.\", errors);", name);
+          }
         }
       }
 
       WriteLine(2, "}");
+    }
 
+    private bool GenerateApplicableWhen(Member member) {
+      if (member.HasAttribute(BaseLibrary.APPLICABLE_WHEN)) {
+        WriteLine(3, "if ({0})", PostCompileTransformations.ApplicableWhenPropertyName(member));
+        return true;
+      }
+      return false;
     }
     #endregion
 
@@ -497,27 +509,37 @@ namespace x10.gen.wpf {
     #region Create Default Entity
     private void GenerateCreateFunction(Entity entity) {
       WriteLine();
-      WriteLine(2, "public static {0} Create() {", entity.Name);
-      WriteLine(3, "return new {0} {", entity.Name);
+      WriteLine(2, "public static {0} Create(EntityBase owner) {", entity.Name);
+      WriteLine(3, "{0} newEntity = new {0} {", entity.Name);
+      WriteLine(4, "Owner = owner,");
 
-      foreach (Member member in entity.Members) {
-        string initializer = null;
-        ModelAttributeValue defaultValue = member.FindAttribute(BaseLibrary.DEFAULT);
-        if (defaultValue != null)
-          initializer = AttributeValueToString(defaultValue);
-        else if (member is Association association) {
+      foreach (X10RegularAttribute attribute in entity.RegularAttributes) {
+        ModelAttributeValue defaultValue = attribute.FindAttribute(BaseLibrary.DEFAULT);
+        if (defaultValue != null) {
+          WriteLine(4, "{0} = {1},",
+            WpfGenUtils.MemberToName(attribute),
+            AttributeValueToString(defaultValue));
+        }
+      }
+      WriteLine(3, "};");
+      WriteLine();
+
+      IEnumerable<Association> associations = entity.Associations.Where(x => x.Owns);
+      if (associations.Count() > 0) {
+        foreach (Association association in associations) {
           string associationTarget = association.ReferencedEntity.Name;
+          string initializer;
           if (association.IsMany)
             initializer = string.Format("new List<{0}>()", associationTarget);
           else
-            initializer = string.Format("{0}.Create()", associationTarget);
-        }
+            initializer = string.Format("{0}.Create(newEntity)", associationTarget);
 
-        if (initializer != null)
-          WriteLine(4, "{0} = {1},", WpfGenUtils.MemberToName(member), initializer);
+          WriteLine(3, "newEntity.{0} = {1};", WpfGenUtils.MemberToName(association), initializer);
+        }
+        WriteLine();
       }
 
-      WriteLine(3, "};");
+      WriteLine(3, "return newEntity;");
       WriteLine(2, "}");
     }
     #endregion

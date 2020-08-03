@@ -31,7 +31,7 @@ namespace wpf_lib.lib {
       foreach (FormErrorDisplay display in _errorDisplays)
         display.DisplayErrors(errors);
 
-      foreach (EditElementWrapper wrapper in _editWrappers) {
+      foreach (EditElementWrapper wrapper in _editWrappers.Where(x => x.EditorFor != null)) {
         IEnumerable<EntityError> errorsForField = errors.ErrorsForField(wrapper.EditorFor);
         wrapper.DisplayErrors(errorsForField);
       }

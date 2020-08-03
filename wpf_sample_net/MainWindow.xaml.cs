@@ -31,8 +31,8 @@ namespace wpf_sample {
 
     private static List<Type> Components() {
       return new List<Type>() {
-        typeof(BookingForm),
-        typeof(Bookings),
+        //typeof(BookingForm),
+        //typeof(Bookings),
         typeof(BuildingForm),
         typeof(Buildings)
       };

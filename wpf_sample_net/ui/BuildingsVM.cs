@@ -11,7 +11,7 @@ namespace wpf_generated.ui {
     // Data Sources
 
     public BuildingsVM(UserControl userControl) : base(userControl) {
-      Model = Building.Create();
+      // TODO
     }
   }
 }

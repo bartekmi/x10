@@ -39,7 +39,7 @@ namespace wpf_lib.lib {
 
     private bool CalculateAndPopulateErrors() {
       EntityErrors errors = new EntityErrors();
-      Model.CalculateErrors(errors);
+      Model.CalculateErrors(null, errors);
       PopulateErrors(errors);
       return errors.HasErrors;
     }

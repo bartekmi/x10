@@ -32,7 +32,6 @@ namespace x10.model.definition {
     public IEnumerable<X10RegularAttribute> RegularAttributes { get { return Members.OfType<X10RegularAttribute>(); } }
     public IEnumerable<X10DerivedAttribute> DerivedAttributes { get { return Members.OfType<X10DerivedAttribute>(); } }
     public IEnumerable<Association> Associations { get { return Members.OfType<Association>(); } }
-    public IEnumerable<Member> EditableMembers { get { return Members.Where(x => !x.IsReadOnly); } }
 
     // Rehydrated
     public Entity InheritsFrom { get; internal set; }

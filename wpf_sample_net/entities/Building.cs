@@ -129,27 +129,35 @@ namespace wpf_generated.entities {
     }
 
     // Validations
-    public override void CalculateErrors(EntityErrors errors) {
+    public override void CalculateErrors(string prefix, EntityErrors errors) {
       if (string.IsNullOrWhiteSpace(Name?.ToString()))
-        errors.Add("Name is required", nameof(Name));
+        errors.Add("Name is required", prefix, nameof(Name));
       if (DateOfOccupancy > AppStatics.Singleton.Context.Now)
-        errors.Add("Occupancy date cannot be in the future",
+        errors.Add("Occupancy date cannot be in the future", prefix,
           nameof(DateOfOccupancy));
+
+      PhysicalAddress.CalculateErrors("PhysicalAddress.", errors);
+      if (ApplicableWhenForMailingAddress)
+        MailingAddress.CalculateErrors("MailingAddress.", errors);
     }
 
     public override string ToString() {
       return Name?.ToString();
     }
 
-    public static Building Create() {
-      return new Building {
+    public static Building Create(EntityBase owner) {
+      Building newEntity = new Building {
+        Owner = owner,
         Moniker = "1",
         MailboxType = MailboxTypeEnum.InBuilding,
         MailingAddressSameAsPhysical = true,
-        Units = new List<Unit>(),
-        PhysicalAddress = Address.Create(),
-        MailingAddress = Address.Create(),
       };
+
+      newEntity.Units = new List<Unit>();
+      newEntity.PhysicalAddress = Address.Create(newEntity);
+      newEntity.MailingAddress = Address.Create(newEntity);
+
+      return newEntity;
     }
   }
 }

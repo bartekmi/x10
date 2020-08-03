@@ -28,6 +28,7 @@
       </lib:EditElementWrapper>
       <lib:EditElementWrapper
         Label="Description"
+        EditorFor="Description"
       >
         <TextBox
           TextWrapping="Wrap"
@@ -42,6 +43,7 @@
     >
       <lib:EditElementWrapper
         Label="Address"
+        EditorFor="PhysicalAddress.TheAddress"
       >
         <TextBox
           Text="{ Binding Model.PhysicalAddress.TheAddress }"
@@ -84,6 +86,7 @@
       >
         <lib:EditElementWrapper
           Label="Address or Post Office (PO) Box"
+          EditorFor="MailingAddress.TheAddress"
         >
           <TextBox
             Text="{ Binding Model.MailingAddress.TheAddress }"

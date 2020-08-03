@@ -27,7 +27,7 @@ namespace wpf_generated.ui {
     }
 
     public BuildingFormVM(UserControl userControl) : base(userControl) {
-      Model = Building.Create();
+      Model = Building.Create(null);
     }
   }
 }

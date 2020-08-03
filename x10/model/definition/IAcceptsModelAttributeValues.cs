@@ -39,6 +39,10 @@ namespace x10.model.definition {
       return FindValue<T>(source, attributeName, out ModelAttributeValue _);
     }
 
+    public static bool HasAttribute(this IAcceptsModelAttributeValues source, string attributeName) {
+      return FindAttribute(source, attributeName) != null;
+    }
+
     public static ModelAttributeValue FindAttribute(this IAcceptsModelAttributeValues source, string attributeName) {
       ModelAttributeValue value = FindAttributeNoInheritance(source, attributeName);
 

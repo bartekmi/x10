@@ -55,7 +55,7 @@ namespace x10.compiler {
         }
     }
 
-    private static string ApplicableWhenPropertyName(Member member) {
+    public static string ApplicableWhenPropertyName(Member member) {
       return "ApplicableWhenFor" + NameUtils.Capitalize(member.Name);
     }
 

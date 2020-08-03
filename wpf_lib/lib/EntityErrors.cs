@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 namespace wpf_lib.lib {
   public class EntityError {
     public string Message { get; private set; }
+    public string Prefix { get; private set; }
     public List<string> Fields { get; private set; }  // Some errors might affect multiple fields
 
-    public EntityError(string message, params string[] fields) {
+    public EntityError(string message, string prefix, params string[] fields) {
       Message = message;
+      Prefix = prefix;
       Fields = new List<string>(fields);
     }
 
     public override string ToString() {
       return string.Format("{0}: {1}", string.Join(", ", Fields), Message);
+    }
+
+    internal bool RelatesTo(string fieldWithPrefix) {
+      return Fields.Any(x => Prefix + x == fieldWithPrefix);
     }
   }
 
@@ -29,12 +35,12 @@ namespace wpf_lib.lib {
       Errors = new List<EntityError>();
     }
 
-    public void Add(string message, params string[] fields) {
-      Errors.Add(new EntityError(message, fields));
+    public void Add(string message, string prefix, params string[] fields) {
+      Errors.Add(new EntityError(message, prefix, fields));
     }
 
-    public IEnumerable<EntityError> ErrorsForField(string field) {
-      return Errors.Where(x => x.Fields.Contains(field));
+    public IEnumerable<EntityError> ErrorsForField(string fieldWithPrefix) {
+      return Errors.Where(x => x.RelatesTo(fieldWithPrefix));
     }
 
     public override string ToString() {

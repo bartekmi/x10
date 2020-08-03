@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+
 using x10.model.definition;
 using x10.model.metadata;
+using x10.ui;
+using x10.ui.composition;
 using x10.utils;
 
 namespace x10.gen.wpf {
@@ -32,6 +35,17 @@ namespace x10.gen.wpf {
         name = "The" + name;
 
       return name;
+    }
+
+    internal static string GetBindingPath(Instance instance) {
+      IEnumerable<string> names = UiUtils.ListSelfAndAncestors(instance)
+        .Reverse()
+        .Select(x => x.ModelMember)
+        .Where(x => x != null)
+        .Distinct()   // Eliminates duplicate Members - e.g. field and its wrapper
+        .Select(x => WpfGenUtils.MemberToName(x));
+
+      return string.Join(".", names);
     }
 
     internal static string EnumToName(DataTypeEnum enumType) {
