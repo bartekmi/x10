@@ -15,6 +15,9 @@ namespace x10.ui.metadata {
     }
 
     #region Primordial Components
+
+    internal const string ATTR_VISIBLE = "visible";
+
     public static ClassDefNative Object = new ClassDefNative() {
       Name = "ClassDefObject",
     };
@@ -24,7 +27,7 @@ namespace x10.ui.metadata {
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
             new UiAttributeDefinitionAtomic() {
-              Name = "visible",
+              Name = ATTR_VISIBLE,
               Description = "Is the object visible on the UI?",
               DataType = DataTypes.Singleton.Boolean,
               DefaultValue = false,

@@ -40,6 +40,9 @@ namespace x10.ui.composition {
       return source.AttributeValues
         .FirstOrDefault(x => x.Definition.Name == attributeName);
     }
+    public static bool HasAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
+      return FindAttributeValue(source, attributeName) != null;
+    }
 
     public static IEnumerable<UiAttributeValueAtomic> AtomicAttributeValues(this IAcceptsUiAttributeValues source) {
       return source.AttributeValues.OfType<UiAttributeValueAtomic>();

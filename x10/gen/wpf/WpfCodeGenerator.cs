@@ -173,7 +173,7 @@ namespace x10.gen.wpf {
       ExpIdentifier pathStart = expression.FirstMemberOfPath();
       if (pathStart != null) {
         // In this case, we know we have a simple path, so we can just inject it as the WPF path
-        string expressionAsPath = ExpressionToString(expression, true);
+        string expressionAsPath = ExpressionToString(expression, false);
         if (pathStart.IsOtherVariable)
           path = expressionAsPath;
         else
