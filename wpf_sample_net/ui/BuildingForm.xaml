@@ -20,6 +20,7 @@
       </lib:EditElementWrapper>
       <lib:EditElementWrapper
         Label="Name"
+        EditorFor="Name"
       >
         <TextBox
           Text="{ Binding Model.Name }"

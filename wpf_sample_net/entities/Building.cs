@@ -128,6 +128,15 @@ namespace wpf_generated.entities {
       }
     }
 
+    // Validations
+    public override void CalculateErrors(EntityErrors errors) {
+      if (string.IsNullOrWhiteSpace(Name?.ToString()))
+        errors.Add("Name is required", nameof(Name));
+      if (DateOfOccupancy > AppStatics.Singleton.Context.Now)
+        errors.Add("Occupancy date cannot be in the future",
+          nameof(DateOfOccupancy));
+    }
+
     public override string ToString() {
       return Name?.ToString();
     }

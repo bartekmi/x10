@@ -155,8 +155,10 @@ namespace x10.gen.wpf {
     private string GetBindingPath(Instance instance) {
       IEnumerable<string> names = UiUtils.ListSelfAndAncestors(instance)
         .Reverse()
-        .Where(x => x.ModelMember != null)
-        .Select(x => WpfGenUtils.MemberToName(x.ModelMember));
+        .Select(x => x.ModelMember)
+        .Where(x => x != null)
+        .Distinct()   // Eliminates duplicate Members - e.g. field and its wrapper
+        .Select(x => WpfGenUtils.MemberToName(x));
 
       return string.Join(".", names);
     }
@@ -269,8 +271,6 @@ namespace x10.gen.wpf {
       WriteLine(3, "{0} = {1}.Create();", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
       WriteLine(2, "}");
 
-      GenerateValidations(classDef);
-
       WriteLine(1, "}");
       WriteLine(0, "}");
 
@@ -329,8 +329,6 @@ namespace x10.gen.wpf {
       WriteLine();
     }
 
-    private void GenerateValidations(ClassDefX10 classDef) {
-    }
     #endregion
 
     private void GenerateViewModelCustomFile(ClassDefX10 classDef) {
@@ -364,6 +362,7 @@ namespace x10.gen.wpf {
       GenerateRegularAttributes(dependencyMap, entity.RegularAttributes);
       GenerateDerivedAttributes(entity.DerivedAttributes);
       GenerateAssociations(entity.Associations);
+      GenerateValidations(entity.EditableMembers);
       GenerateToString(entity);
       GenerateCreateFunction(entity);
 
@@ -460,6 +459,41 @@ namespace x10.gen.wpf {
     }
     #endregion
 
+    #region Validations
+    private void GenerateValidations(IEnumerable<Member> editableMembers) {
+      WriteLine();
+      WriteLine(2, "// Validations");
+      WriteLine(2, "public override void CalculateErrors(EntityErrors errors) {");
+
+      foreach (Member member in editableMembers) {
+        string propName = WpfGenUtils.MemberToName(member);
+        string humanName = NameUtils.CamelCaseToHumanReadable(member.Name);
+        bool canBeEmpty = member is X10Attribute attr && CanBeEmpty(attr.DataType);
+
+        if (canBeEmpty && member.IsMandatory) {
+          WriteLine(3, "if (string.IsNullOrWhiteSpace({0}?.ToString()))", propName);
+          WriteLine(4, "errors.Add(\"{0} is required\", nameof({1}));", humanName, propName);
+        }
+      }
+
+      WriteLine(2, "}");
+
+    }
+    #endregion
+
+    #region Create ToString()
+    private void GenerateToString(Entity entity) {
+      ModelAttributeValue value = entity.FindAttribute(BaseLibrary.DEFAULT_STRING_REPRESENTATION);
+      if (value == null)
+        return;
+
+      WriteLine();
+      WriteLine(2, "public override string ToString() {");
+      WriteLine(3, "return {0}?.ToString();", AttributeValueToString(value));
+      WriteLine(2, "}");
+    }
+    #endregion
+
     #region Create Default Entity
     private void GenerateCreateFunction(Entity entity) {
       WriteLine();
@@ -484,19 +518,6 @@ namespace x10.gen.wpf {
       }
 
       WriteLine(3, "};");
-      WriteLine(2, "}");
-    }
-    #endregion
-
-    #region Create ToString()
-    private void GenerateToString(Entity entity) {
-      ModelAttributeValue value = entity.FindAttribute(BaseLibrary.DEFAULT_STRING_REPRESENTATION);
-      if (value == null)
-        return;
-
-      WriteLine();
-      WriteLine(2, "public override string ToString() {");
-      WriteLine(3, "return {0}?.ToString();", AttributeValueToString(value));
       WriteLine(2, "}");
     }
     #endregion
@@ -583,6 +604,11 @@ namespace x10.gen.wpf {
       if (dataType is DataTypeEnum enumType) return WpfGenUtils.EnumToName(enumType) + "?";
 
       throw new Exception("Unknown data type: " + dataType.Name);
+    }
+
+    private bool CanBeEmpty(DataType dataType) {
+      if (dataType == DataTypes.Singleton.Boolean) return false;
+      return true;
     }
 
     private void GenerateProperty(DataType type, Member member, IEnumerable<Member> extraRaiseChange) {

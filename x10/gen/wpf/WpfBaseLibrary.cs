@@ -83,6 +83,10 @@ namespace x10.gen.wpf {
             LogicalName = "label",
             PlatformName = "Label",
           },
+          new PlatformAttributeByFunc() {
+            PlatformName = "EditorFor",
+            Function = (instance) => WpfGenUtils.MemberToName(instance.ModelMember),
+          },
         },
       },
       #endregion

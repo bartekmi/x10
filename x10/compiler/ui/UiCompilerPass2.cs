@@ -343,6 +343,8 @@ namespace x10.compiler {
         }
 
         instance.ModelMember = dataModel.Member;
+        if (instance.ParentInstance?.IsWrapper == true)
+          instance.ParentInstance.ModelMember = dataModel.Member;
       }
 
       ValidateDataModelCompatibility(dataModel, instance);
