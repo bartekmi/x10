@@ -8,7 +8,6 @@ namespace x10.model.definition {
   public abstract class ModelComponent : IAcceptsModelAttributeValues {
     public string Name { get; set; }
     public string Description { get; set; }
-    public List<Validation> Validations { get; set; }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }

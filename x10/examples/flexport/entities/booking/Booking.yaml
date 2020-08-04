@@ -32,9 +32,6 @@ attributes:
     datagen_pattern: (75% => null)
     datagen_min: 2020-03-15
     datagen_max: 2020-07-15
-    validations:
-      - message: Target Delivery Date can't be before Cargo Ready Date
-        trigger: targetDeliveryDate < cargoReadyDate
 
   - name: notifyParty
     dataType: String
@@ -148,25 +145,15 @@ associations:
   - name: originPort
     dataType: Port
     ui: AssociationEditor
-    validations:
-      - message: Origin Port must be provided when 'Wants Origin Service' is false
-        trigger: !wantsOriginService && originPort == null
 
     # Destination Location / Port
   - name: destinationPort
     dataType: Port
     ui: AssociationEditor
-    validations:
-      - message: Destination Port must be provided when 'Wants Destination Service' is false
-        trigger: !wantsDestinationService && destinationPort == null
 
   - name: destinationLocation
     dataType: Location
     ui: AssociationEditor
-    validations:
-      - message: Destination Location must be provided when 'Wants Destination Service' is true
-        trigger: wantsDestinationService && destinationLocation == null
-
 
   - name: cargo
     dataType: Cargo
@@ -188,6 +175,15 @@ associations:
     ui: MetadataEditor
     datagen_quantity: 0..2
 
+validations:
+  - message: Target Delivery Date can't be before Cargo Ready Date
+    trigger: =targetDeliveryDate < cargoReadyDate
+  - message: Destination Location must be provided when 'Wants Destination Service' is true
+    trigger: =wantsDestinationService && destinationLocation == null
+  - message: Origin Port must be provided when 'Wants Origin Service' is false
+    trigger: =!wantsOriginService && originPort == null
+  - message: Destination Port must be provided when 'Wants Destination Service' is false
+    trigger: =!wantsDestinationService && destinationPort == null
 
 enums:
   - name: BookingStatus

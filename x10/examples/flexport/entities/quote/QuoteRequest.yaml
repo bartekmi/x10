@@ -20,25 +20,23 @@ associations:
   - name: originPort
     dataType: Port
     ui: AssociationEditor
-    validations:
-      - message: Origin Port must be provided when 'Wants Origin Service' is false
-        trigger: !wantsOriginService
 
     # Destination Location / Port
   - name: destinationPort
     dataType: Port
     ui: AssociationEditor
-    validations:
-      - message: Destination Port must be provided when 'Wants Destination Service' is false
-        trigger: !wantsDestinationService
 
   - name: destinationLocation
     dataType: Location
     ui: AssociationEditor
-    validations:
-      - message: Destination Location must be provided when 'Wants Destination Service' is true
-        trigger: wantsDestinationService
 
+validations:
+  - message: Origin Port must be provided when 'Wants Origin Service' is false
+    trigger: =!wantsOriginService
+  - message: Destination Port must be provided when 'Wants Destination Service' is false
+    trigger: =!wantsDestinationService
+  - message: Destination Location must be provided when 'Wants Destination Service' is true
+    trigger: =wantsDestinationService
 
 enums:
   - name: QuoteRequestState

@@ -11,9 +11,10 @@ namespace x10.model.definition {
       get { return _localMembers; }
       set {
         foreach (Member member in value)
-          AddMembers(member);
+          AddMember(member);
       }
     }
+    public List<Validation> Validations { get; } = new List<Validation>();
 
     public String InheritsFromName { get; set; }
     public string UiName { get; set; }
@@ -60,9 +61,14 @@ namespace x10.model.definition {
       return Members.FirstOrDefault(x => x.Name == name);
     }
 
-    internal void AddMembers(Member member) {
+    internal void AddMember(Member member) {
       member.Owner = this;
       LocalMembers.Add(member);
+    }
+
+    internal void AddValidation(Validation validation) {
+      validation.Owner = this;
+      Validations.Add(validation);
     }
 
     #region Primordial Entities

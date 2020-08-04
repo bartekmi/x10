@@ -25,11 +25,6 @@ attributes:
 
   - name: readingLevel
     dataType: ReadingLevel
-    validations: 
-      - message: Reading Level is necessary if the Genre is Kids Books
-        trigger: genre == Kids Books && readingLevel == null
-
-
 
 associations:
   - name: printings
@@ -37,8 +32,9 @@ associations:
     many: true
     owns: true
 
-
-
+validations: 
+  - message: Reading Level is necessary if the Genre is Kids Books
+    trigger: =genre == Kids Books && readingLevel == null
 
 enums:
   - name: Genre

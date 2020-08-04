@@ -50,7 +50,7 @@ namespace x10.model.libraries {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
         AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute |
-          AppliesTo.EnumType | AppliesTo.Function | AppliesTo.FunctionArgument,
+          AppliesTo.EnumType | AppliesTo.Function | AppliesTo.FunctionArgument | AppliesTo.Validation,
         ErrorSeverityIfMissing = CompileMessageSeverity.Warning,
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
         DataType = DataTypes.Singleton.String,
@@ -70,24 +70,17 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = TOOL_TIP,
         Description = "The default UI Tool Tipe for this type of item",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | 
+          AppliesTo.EnumType | AppliesTo.Validation,
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = APPLICABLE_WHEN,
         Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
-        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType |
+          AppliesTo.Validation,
         DataType = DataTypes.Singleton.Boolean,
         MustBeFormula = true,
-      },
-      new ModelAttributeDefinitionComplex() {
-        Name = "validations",
-        Description = "A list of validations at the Entity, Attribute or Association level",
-        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.Entity,
-        ParseFunction = (messages, treeElement) => {
-          return null;
-        },
-        Setter = "Validations",
       },
 
       //============================================================================
@@ -396,6 +389,26 @@ Typical use would be if entities are going to be represented on a drop-down.",
           string dataTypeName = attributeValue.Value?.ToString();
           arg.Type = allEnums.FindDataTypeByNameWithError(dataTypeName, attributeValue.TreeElement);
         },
+      },
+
+      //============================================================================
+      // Validation
+      new ModelAttributeDefinitionAtomic() {
+        Name = "message",
+        Description = "Error or warning message to be displayed to the user if trigger condition is met",
+        AppliesTo = AppliesTo.Validation,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Setter = "Message",
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "trigger",
+        Description = "Trigger condition for the validation. E.g. if value must be positive, condition would be 'value <= 0'",
+        AppliesTo = AppliesTo.Validation,
+        ErrorSeverityIfMissing = CompileMessageSeverity.Error,
+        DataType = DataTypes.Singleton.String,
+        Setter = "Trigger",
+        MustBeFormula = true,
       },
     };
   }

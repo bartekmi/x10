@@ -18,9 +18,6 @@ attributes:
   - name: startUseDate  ## When the machine was first put into service.
     dataType: Date
     mandatory: true
-    validations:
-      - message: StartUseDate must be after ProductionDate
-        trigger: startUseDate < productionDate
   
   - name: lastServiceDate
     dataType: Date
@@ -29,6 +26,9 @@ attributes:
     dataType: MachineStatus
     mandatory: true
 
+validations:
+  - message: StartUseDate must be after ProductionDate
+    trigger: =startUseDate < productionDate
 
 
 

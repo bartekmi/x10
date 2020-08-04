@@ -11,9 +11,6 @@ attributes:
     dataType: Date
     applicableWhen: =isOpen == IsOpen.normal
     mandatory: true
-    validations:
-      - message: Due Date must be later than the Check-Out Date. A Due Date is necessary unless it is an open loan.
-        trigger: loan.checkOutDate < dueDate
   
   - name: returnDate
     dataType: Date
@@ -25,14 +22,14 @@ attributes:
   - name: conditionIn
     dataType: Condition
     mandatory: true
-  
-
 
 associations:
   - name: book
     dataType: Book
 
-
+validations:
+  - message: Due Date must be later than the Check-Out Date. A Due Date is necessary unless it is an open loan.
+    trigger: loan.checkOutDate < dueDate
 
 enums:
   - name: IsOpen

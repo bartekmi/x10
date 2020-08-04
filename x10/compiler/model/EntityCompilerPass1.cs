@@ -21,7 +21,7 @@ namespace x10.compiler {
       _attrReader = attributeReader;
     }
 
-    internal Entity CompileEntity(TreeNode rootNodeUntyped) {   
+    internal Entity CompileEntity(TreeNode rootNodeUntyped) {
       TreeHash rootNode = rootNodeUntyped as TreeHash;
       if (rootNode == null) {
         _messages.AddError(rootNodeUntyped, "The root node of an Entity file must be a Hash, but was: " + rootNodeUntyped.GetType().Name);
@@ -33,48 +33,70 @@ namespace x10.compiler {
       };
 
       // Read top-level (entity) attributes
-      _attrReader.ReadAttributes(rootNode, AppliesTo.Entity, entity, "attributes", "associations", "enums", "derivedAttributes");
+      _attrReader.ReadAttributes(rootNode, AppliesTo.Entity, entity, "attributes", "derivedAttributes", "associations", "validations", "enums");
 
-      // Read Entity Attributes
+      ReadRegularAttributes(rootNode, entity);
+      ReadDerivedAttributes(rootNode, entity);
+      ReadAssociations(rootNode, entity);
+      ReadEnums(rootNode);
+      ReadValidations(rootNode, entity);
+
+      return entity;
+    }
+
+    private void ReadRegularAttributes(TreeHash rootNode, Entity entity) {
       TreeSequence attributes = TreeUtils.GetOptional<TreeSequence>(rootNode, "attributes", _messages);
       if (attributes != null) {
         foreach (TreeNode attribute in attributes.Children) {
           X10Attribute x10Attribute = new X10RegularAttribute();
           x10Attribute.TreeElement = attribute;
-          entity.AddMembers(x10Attribute);
+          entity.AddMember(x10Attribute);
           _attrReader.ReadAttributes(attribute, AppliesTo.Attribute, x10Attribute);
         }
       }
+    }
 
-      // Read Entity Derived Attributes
+    private void ReadDerivedAttributes(TreeHash rootNode, Entity entity) {
       TreeSequence derivedAttributes = TreeUtils.GetOptional<TreeSequence>(rootNode, "derivedAttributes", _messages);
       if (derivedAttributes != null) {
         foreach (TreeNode attribute in derivedAttributes.Children) {
           X10Attribute x10Attribute = new X10DerivedAttribute();
           x10Attribute.TreeElement = attribute;
-          entity.AddMembers(x10Attribute);
+          entity.AddMember(x10Attribute);
           _attrReader.ReadAttributes(attribute, AppliesTo.DerivedAttribute, x10Attribute);
         }
       }
+    }
 
-      // Read Associations
+    private void ReadAssociations(TreeHash rootNode, Entity entity) {
       TreeSequence associations = TreeUtils.GetOptional<TreeSequence>(rootNode, "associations", _messages);
       if (associations != null) {
-        foreach (TreeNode attribute in associations.Children) {
-          Association association = new Association();
-          association.TreeElement = attribute;
-          entity.AddMembers(association);
-          _attrReader.ReadAttributes(attribute, AppliesTo.Association, association);
+        foreach (TreeNode association in associations.Children) {
+          Association x10Association = new Association();
+          x10Association.TreeElement = association;
+          entity.AddMember(x10Association);
+          _attrReader.ReadAttributes(association, AppliesTo.Association, x10Association);
         }
       }
+    }
 
-      // Read Enums
+    private void ReadEnums(TreeHash rootNode) {
       TreeSequence enums = TreeUtils.GetOptional<TreeSequence>(rootNode, "enums", _messages);
       if (enums != null)
         foreach (TreeNode enumRootNode in enums.Children)
           _enumsCompiler.CompileEnum(enumRootNode, false);
+    }
 
-      return entity;
+    private void ReadValidations(TreeHash rootNode, Entity entity) {
+      TreeSequence validations = TreeUtils.GetOptional<TreeSequence>(rootNode, "validations", _messages);
+      if (validations != null) {
+        foreach (TreeNode validation in validations.Children) {
+          Validation x10Validation = new Validation();
+          x10Validation.TreeElement = validation;
+          entity.AddValidation(x10Validation);
+          _attrReader.ReadAttributes(validation, AppliesTo.Validation, x10Validation);
+        }
+      }
     }
   }
 }

@@ -14,9 +14,6 @@ attributes:
   - name: printingDate
     dataType: Date
     mandatory: true
-    validations:
-      - message: Printing Date must be equal to or later than the Title's Publication Date
-        trigger: title.publicationDate > printingDate
 
   - name: name
     dataType: String
@@ -26,16 +23,15 @@ attributes:
   - name: copyrightDate
     dataType: Date
     mandatory: true
-    validations:
-      - message: Copyright Date cannot be earlier than the Printing Date.
-        trigger: copyrightDate < printingDate
-
-
-
-
 
 associations:
   - name: books
     dataType: Book
     many: true
     owns: true
+
+validations:
+  - message: Printing Date must be equal to or later than the Title's Publication Date
+    trigger: =title.publicationDate > printingDate
+  - message: Copyright Date cannot be earlier than the Printing Date.
+    trigger: =copyrightDate < printingDate

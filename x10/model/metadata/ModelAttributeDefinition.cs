@@ -18,22 +18,12 @@ namespace x10.model.metadata {
     EnumValue = 32,
     Function = 64,
     FunctionArgument = 128,
+    Validation = 256,
 
     Member = Association | Attribute | DerivedAttribute,
   }
 
   internal static class AppliesToHelper {
-
-    internal static AppliesTo GetForObject(IAcceptsModelAttributeValues element) {
-      if (element is Entity) return AppliesTo.Entity;
-      if (element is Association) return AppliesTo.Association;
-      if (element is X10RegularAttribute) return AppliesTo.Attribute;
-      if (element is X10DerivedAttribute) return AppliesTo.DerivedAttribute;
-      if (element is DataType) return AppliesTo.EnumType;
-      if (element is EnumValue) return AppliesTo.EnumValue;
-
-      throw new Exception("Unexpected type: " + element.GetType());
-    }
 
     // https://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
     internal static bool IsSingle(AppliesTo x) {
@@ -64,6 +54,8 @@ namespace x10.model.metadata {
           return typeof(Function);
         case AppliesTo.FunctionArgument:
           return typeof(Argument);
+        case AppliesTo.Validation:
+          return typeof(Validation);
         default:
           throw new Exception("Unexpected AppliesTo: " + singleAppliedTo);
       }

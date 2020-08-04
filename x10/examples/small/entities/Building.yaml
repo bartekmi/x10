@@ -22,9 +22,6 @@ attributes:
   - name: dateOfOccupancy
     dataType: Date
     mandatory: true
-    validations:
-      - message: Occupancy date cannot be in the future
-        trigger: dateOfOccupancy > __Context__.now
 
   - name: mailboxType
     dataType: MailboxType
@@ -62,6 +59,10 @@ associations:
     dataType: Address
     owns: true
     applicableWhen: =!mailingAddressSameAsPhysical
+
+validations:
+  - message: Occupancy date cannot be in the future
+    trigger: dateOfOccupancy > __Context__.now
 
 enums:
   - name: MailboxType
