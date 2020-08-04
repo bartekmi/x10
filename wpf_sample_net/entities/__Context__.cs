@@ -9,6 +9,6 @@ using wpf_sample.entities.core;
 namespace wpf_sample.entities {
   public class __Context__ {
     public User User { get; set; }
-    public DateTime? Now { get; set; }
+    public DateTime? Today { get; set; }
   }
 }

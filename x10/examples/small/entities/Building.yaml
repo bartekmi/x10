@@ -42,7 +42,7 @@ attributes:
 derivedAttributes:
   - name: ageInYears
     dataType: Integer
-    formula: = __Context__.now.year - dateOfOccupancy.year
+    formula: = __Context__.today.year - dateOfOccupancy.year
 
 associations:
   - name: units
@@ -62,7 +62,7 @@ associations:
 
 validations:
   - message: Occupancy date cannot be in the future
-    trigger: dateOfOccupancy > __Context__.now
+    trigger: =dateOfOccupancy > __Context__.today
 
 enums:
   - name: MailboxType

@@ -29,6 +29,8 @@ associations:
     dataType: Book
     many: true
     owns: true
+  - name: title
+    dataType: Title
 
 validations:
   - message: Printing Date must be equal to or later than the Title's Publication Date

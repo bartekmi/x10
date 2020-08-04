@@ -138,11 +138,13 @@ arguments:
     }
 
     [Fact]
+    // TODO: This doesn't actually test the fact that string was upgraded to enum
     public void UpgradeEnumInCompareOnRight() {
       TestExpectedSuccess("myEnumValue == \"three\"", DataTypes.Singleton.Boolean);
     }
 
     [Fact]
+    // TODO: This doesn't actually test the fact that string was upgraded to enum
     public void UpgradeEnumInCompareOnLeft() {
       TestExpectedSuccess("\"three\" == myEnumValue", DataTypes.Singleton.Boolean);
     }

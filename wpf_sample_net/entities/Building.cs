@@ -93,7 +93,7 @@ namespace wpf_generated.entities {
     // Derived Attributes
     public int? AgeInYears {
       get {
-        return AppStatics.Singleton.Context?.Now?.Year - DateOfOccupancy?.Year;
+        return AppStatics.Singleton.Context?.Today?.Year - DateOfOccupancy?.Year;
       }
     }
     public bool ApplicableWhenForMailingAddress {
@@ -132,7 +132,7 @@ namespace wpf_generated.entities {
     public override void CalculateErrors(string prefix, EntityErrors errors) {
       if (string.IsNullOrWhiteSpace(Name?.ToString()))
         errors.Add("Name is required", prefix, nameof(Name));
-      if (DateOfOccupancy > AppStatics.Singleton.Context.Now)
+      if (DateOfOccupancy > AppStatics.Singleton.Context.Today)
         errors.Add("Occupancy date cannot be in the future", prefix,
           nameof(DateOfOccupancy));
 

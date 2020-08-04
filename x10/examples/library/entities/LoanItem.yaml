@@ -26,10 +26,12 @@ attributes:
 associations:
   - name: book
     dataType: Book
+  - name: loan
+    dataType: Loan
 
 validations:
   - message: Due Date must be later than the Check-Out Date. A Due Date is necessary unless it is an open loan.
-    trigger: loan.checkOutDate < dueDate
+    trigger: =loan.checkOutDate < dueDate
 
 enums:
   - name: IsOpen

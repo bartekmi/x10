@@ -2,7 +2,7 @@
 description: This special entity defines data that is available globally
 
 attributes:
-  - name: now
-    dataType: Timestamp
+  - name: today
+    dataType: Date
     mandatory: true
     readOnly: true

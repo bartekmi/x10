@@ -106,6 +106,11 @@ namespace x10.compiler {
         if (FormulaUtils.IsFormula(value, out string strippedFormula))
           formula = strippedFormula;
         else {
+          if (attrDefAtomic.MustBeFormula) {
+            _messages.AddError(attrNode, "Attribute '{0}' must be a formula (must start with '=').", attrDefAtomic.Name);
+            return false;
+          }
+
           if (attrDefAtomic.DataTypeMustBeSameAsAttribute)
             typedValue = value;
           else {

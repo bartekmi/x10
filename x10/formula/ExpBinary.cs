@@ -64,7 +64,8 @@ namespace x10.formula {
         case "!=":
           if (leftType.IsNumeric && rightType.IsNumeric ||
               leftType.Equals(rightType) ||
-              leftType.IsError || rightType.IsError)
+              leftType.IsError || rightType.IsError ||
+              leftType.IsNull || rightType.IsNull)
             return X10DataType.Boolean;
 
           // Upgrade right side to enum if possible

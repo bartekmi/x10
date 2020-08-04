@@ -30,6 +30,16 @@ attributes:
 #    formula: >
 #      ="Flex-" + id
 
+  - name: wantsOriginService
+    dataType: Boolean
+    default: true
+    datagen_pattern: (50% => True)
+
+  - name: wantsDestinationService
+    dataType: Boolean
+    default: false
+    datagen_pattern: (75% => True)
+
 associations:
   - name: shipper
     dataType: Company

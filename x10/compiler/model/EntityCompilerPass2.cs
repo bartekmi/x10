@@ -107,18 +107,25 @@ namespace x10.compiler {
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
             CheckIfFormulaAndParse(parser, member, dataType, value);
+
+        foreach (Validation validation in entity.Validations)
+          foreach (ModelAttributeValue value in validation.AttributeValues)
+            CheckIfFormulaAndParse(parser, null, dataType, value);
       }
     }
 
-    private void CheckIfFormulaAndParse(FormulaParser parser, Member member, X10DataType modelDataType, ModelAttributeValue value) {
+    private void CheckIfFormulaAndParse(
+      FormulaParser parser, 
+      Member member, 
+      X10DataType modelDataType, 
+      ModelAttributeValue value
+      ) {
+
       if (value.Definition is ModelAttributeDefinitionAtomic atomicDef) {
         if (value.Formula != null) {
           value.Expression = parser.Parse(value.TreeElement, value.Formula, modelDataType);
           ValidateReturnedDataType(member, atomicDef, value);
-        } else {
-          if (atomicDef.MustBeFormula)
-            Messages.AddError(value.TreeElement, "Attribute '{0}' must be a formula (must start with '=').", atomicDef.Name);
-        }
+        } 
       }
     }
 

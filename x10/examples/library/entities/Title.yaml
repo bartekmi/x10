@@ -34,7 +34,7 @@ associations:
 
 validations: 
   - message: Reading Level is necessary if the Genre is Kids Books
-    trigger: =genre == Kids Books && readingLevel == null
+    trigger: =genre == "kidsBooks" && readingLevel == null
 
 enums:
   - name: Genre
