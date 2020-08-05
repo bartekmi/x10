@@ -23,6 +23,8 @@ namespace x10.gen.wpf {
         return string.Format("\"{0}\"", literal);
       else if (literal is bool)
         return literal.ToString().ToLower();
+      else if (literal == null)
+        return "null";
       else
         return literal.ToString();
     }

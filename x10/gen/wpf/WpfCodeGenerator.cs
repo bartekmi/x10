@@ -481,6 +481,31 @@ namespace x10.gen.wpf {
         }
       }
 
+      // Explicit Validations
+      if (entity.Validations.Any()) {
+        WriteLine();
+        foreach (Validation validation in entity.Validations) {
+
+          ExpBase expression = validation.TriggerExpression;
+          IEnumerable<string> memberNames = FormulaUtils.ListAll(expression)
+            .OfType<ExpIdentifier>()
+            .Where(x => x.DataType?.Member?.Owner == entity)
+            .Select(x => WpfGenUtils.MemberToName(x.DataType.Member));
+
+          
+          if (memberNames.Count() == 0) {
+            Messages.AddError(null, "Validation message has no local member references: " + validation.Trigger);
+            continue;
+          }
+
+          string triggerExpression = ExpressionToString(expression, false);
+          WriteLine(3, "if ({0})", triggerExpression);
+
+          string affectedAttributes = string.Join(", ", memberNames.Select(x => string.Format("nameof({0})", x)));
+          WriteLine(4, "errors.Add(\"{0}\", prefix, {1});", validation.Message, affectedAttributes);
+        }
+      }
+
       WriteLine(2, "}");
     }
 

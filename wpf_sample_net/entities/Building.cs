@@ -132,13 +132,14 @@ namespace wpf_generated.entities {
     public override void CalculateErrors(string prefix, EntityErrors errors) {
       if (string.IsNullOrWhiteSpace(Name?.ToString()))
         errors.Add("Name is required", prefix, nameof(Name));
-      if (DateOfOccupancy > AppStatics.Singleton.Context.Today)
-        errors.Add("Occupancy date cannot be in the future", prefix,
-          nameof(DateOfOccupancy));
 
       PhysicalAddress.CalculateErrors("PhysicalAddress.", errors);
       if (ApplicableWhenForMailingAddress)
         MailingAddress.CalculateErrors("MailingAddress.", errors);
+
+      if (DateOfOccupancy > AppStatics.Singleton.Context.Today)
+        errors.Add("Occupancy date cannot be in the future", prefix,
+          nameof(DateOfOccupancy));
     }
 
     public override string ToString() {

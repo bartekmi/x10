@@ -35,6 +35,7 @@ namespace x10.model.libraries {
     internal const string PLACEHOLDER_TEXT = "placeholderText";
     internal const string DEFAULT = "default";
     internal const string FORMULA = "formula";
+    internal const string TRIGGER = "trigger";
     internal const string VALUE = "value";
     internal const string READ_ONLY = "readOnly";
 
@@ -402,7 +403,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Setter = "Message",
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = "trigger",
+        Name = TRIGGER,
         Description = "Trigger condition for the validation. E.g. if value must be positive, condition would be 'value <= 0'",
         AppliesTo = AppliesTo.Validation,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,

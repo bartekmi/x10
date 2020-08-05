@@ -55,7 +55,7 @@ namespace x10.gen.wpf {
     }
 
     public void VisitLiteral(ExpLiteral exp) {
-      if (WriteEnum(exp, exp.Value.ToString()))
+      if (WriteEnum(exp, exp.Value))
         return;
       _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
     }
@@ -92,11 +92,14 @@ namespace x10.gen.wpf {
       // This should never happen if the x10 code was compiled cleanly
     }
 
-    private bool WriteEnum(ExpBase expression, string name) {
+    private bool WriteEnum(ExpBase expression, object nameOrNull) {
       X10DataType dataType = expression.DataType;
 
       if (expression.IsEnumLiteral) {
-        _writer.Write("{0}.{1}", dataType.DataType?.Name, NameUtils.Capitalize(name));
+        if (nameOrNull == null)
+          _writer.Write("null");
+        else
+          _writer.Write("{0}.{1}", dataType.DataType?.Name, NameUtils.Capitalize(nameOrNull.ToString()));
         return true;
       }
 
