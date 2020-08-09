@@ -24,6 +24,7 @@
         <physicalAddress.address/>
         <physicalAddress.city/>
         <dateOfOccupancy/>
+        <petPolicy/>
         <TableColumn label="Action">
           <Row>
             <Button label="View" url="/building/${id}"/>

@@ -9,8 +9,67 @@
   <StackPanel>
     <TextBlock
       Style="{ StaticResource Heading1 }"
-      Text="Bookings"
+      Text="Buildings"
     />
     <Separator/>
+    <Grid>
+      <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Model}" CanUserAddRows="False">
+        <DataGrid.Columns>
+          <DataGridTemplateColumn Header="Name">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal" Margin="5,2">
+                  <TextBlock Text="{Binding Name}"/>
+                  <TextBlock Text="(?)" ToolTip="{Binding Description}" Visibility="{Binding IsBlankDescription, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn Header="Address">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding PhysicalAddress.TheAddress}"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn Header="City">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding PhysicalAddress.City}"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn Header="Date of Occupancy">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <DatePicker SelectedDate="{Binding DateOfOccupancy}"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn Header="Pet Policy">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding PetPolicy}"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn Header="Action">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal" Margin="5,2">
+                  <Button Content="View" Margin="5,2" Padding="5, 2"/>
+                  <Button Content="Edit" Margin="5,2" Padding="5, 2"/>
+                </StackPanel>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
   </StackPanel>
 </UserControl>

@@ -306,6 +306,25 @@ namespace x10.gen.wpf {
       #endregion
       #endregion
 
+      #region Table
+      new PlatformClassDef() {
+        LogicalName = "Table",
+        PlatformName = "Table",
+        InheritsFrom = Visual,
+      },
+      new PlatformClassDef() {
+        LogicalName = "TableColumn",
+        PlatformName = "TableColumn",
+        InheritsFrom = Visual,
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "ToolTip",
+          },
+        },
+      },
+      #endregion
+
       #region Button / Actions
       new PlatformClassDef() {
         LogicalName = "HelpIcon",

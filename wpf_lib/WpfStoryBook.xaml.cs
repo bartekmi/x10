@@ -44,8 +44,8 @@ namespace wpf_lib {
 
     private void PrintModel(object sender, RoutedEventArgs e) {
       FrameworkElement element = (FrameworkElement)uxContent.Children[0];
-      EntityBase entity = ((ViewModelBase)element.DataContext).ModelUntyped;
-      string json = JsonConvert.SerializeObject(entity, Formatting.Indented);
+      object model = ((ViewModelBase)element.DataContext).ModelUntyped;
+      string json = JsonConvert.SerializeObject(model, Formatting.Indented);
       Console.WriteLine(json);
     }
   }

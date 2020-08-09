@@ -63,6 +63,7 @@
     <Compile Include="lib\card_selector\CardSelector.xaml.cs">
       <DependentUpon>CardSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="lib\converter\DateToHumanConverter.cs" />
     <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="lib\utils\EnumValueRepresentation.cs" />
     <Compile Include="lib\utils\NameUtils.cs" />
     <Compile Include="lib\utils\WpfUtils.cs" />
+    <Compile Include="lib\ViewModelBaseMany.cs" />
     <Compile Include="lib\ViewModelBase.cs" />
     <Compile Include="WpfLibConfig.cs" />
     <Compile Include="WpfStoryBook.xaml.cs">

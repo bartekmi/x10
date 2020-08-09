@@ -10,6 +10,7 @@
       <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
       <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
       <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+      <converters:DateToHumanConverter x:Key="DateToHumanConverter"/>
 
       <Style x:Key="Heading1" TargetType="TextBlock">
         <Setter Property="FontSize" Value="24" />

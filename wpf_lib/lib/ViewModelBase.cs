@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace wpf_lib.lib {
   public abstract class ViewModelBase : NotificationObject {
-    internal EntityBase ModelUntyped { get; set; }
+    internal object ModelUntyped { get; set; }
   }
 
   public abstract class ViewModelBase<T> : ViewModelBase where T : EntityBase {
@@ -20,11 +20,11 @@ namespace wpf_lib.lib {
       get { return (T)ModelUntyped; }
       set {
         if (ModelUntyped != null)
-          ModelUntyped.PropertyChanged -= ModelUntyped_PropertyChanged;
+          Model.PropertyChanged -= ModelUntyped_PropertyChanged;
 
         ModelUntyped = value;
         if (ModelUntyped != null)
-          ModelUntyped.PropertyChanged += ModelUntyped_PropertyChanged;
+          Model.PropertyChanged += ModelUntyped_PropertyChanged;
 
         RaisePropertyChanged(nameof(Model));
       }

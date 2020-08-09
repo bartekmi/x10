@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using wpf_generated.entities;
 
@@ -17,7 +18,9 @@ namespace wpf_sample {
     public IEnumerable<Port> Ports { get { return _ports; } }
 
     public IEnumerable<Booking> Bookings { get; } = new List<Booking>();
-    public IEnumerable<Building> Buildings { get; } = new List<Building>();
+
+    private List<Building> _buildings;
+    public IEnumerable<Building> Buildings { get { return _buildings; } }
 
     public DataSourceInMemory() {
       _companies = new List<Company>() {
@@ -82,6 +85,32 @@ namespace wpf_sample {
           City = "Seattle",
           StateOrProvince = "WA",
           CountryCode = "US",
+        },
+      };
+
+      _buildings = new List<Building>() {
+        new Building() {
+          Name = "The District",
+          Description = "Fashinable high-rise close to downtown Vancouver",
+          PhysicalAddress = new Address() {
+            TheAddress = "576 12 Ave",
+            City = "Vancouver",
+          },
+          MailingAddressSameAsPhysical = true,
+          DateOfOccupancy = new DateTime(2013, 01, 12),
+          PetPolicy = PetPolicyEnum.AllPetsOk,
+        },
+        new Building() {
+          Name = "Filipino Community",
+          Description = "4-Unit in NW Edmonton",
+          PhysicalAddress = new Address() {
+            TheAddress = "10609 & 10611 155 Ave",
+            City = "Edmonton",
+          },
+          MailingAddressSameAsPhysical = true,
+          DateOfOccupancy = new DateTime(1975, 06, 15),
+          PetPolicy = PetPolicyEnum.DogsOnly,
+          MailboxType = MailboxTypeEnum.InBuilding,
         },
       };
     }

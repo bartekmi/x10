@@ -8,7 +8,7 @@ namespace wpf_generated.ui {
 
     public Buildings() {
       InitializeComponent();
-      DataContext = new BuildingsVM(this);
+      DataContext = new BuildingsVM();
     }
 
   }
