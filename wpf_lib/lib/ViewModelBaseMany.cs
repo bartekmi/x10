@@ -13,5 +13,9 @@ namespace wpf_lib.lib {
         ModelUntyped = value;
       }
     }
+
+    protected ViewModelBaseMany(UserControl userControl) {
+      UserControl = userControl;
+    }
   }
 }

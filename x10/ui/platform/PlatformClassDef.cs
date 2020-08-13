@@ -23,6 +23,15 @@ namespace x10.ui.platform {
     // Optional parent class (name)
     public string InheritsFromName { get; set; }
 
+    // In some cases, the platform-specific implementation of a logical components maps to multiple
+    // nested components. In those, cases, use this property to define chained nested components.
+    // One example is the logical TableColumn component which maps to multiple nested components in WPF.
+    public PlatformClassDef NestedClassDef { get; set; }
+
+    // If present, this specifies the name of the wrapper property that the primary content attribute
+    // should be wrapped in.
+    public string PrimaryAttributeWrapperProperty { get; set; }
+
     // Attributes - both static and dynamic
     private IEnumerable<PlatformAttribute> _platformAttributes;
     public IEnumerable<PlatformAttribute> PlatformAttributes { 

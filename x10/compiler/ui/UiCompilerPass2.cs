@@ -58,7 +58,7 @@ namespace x10.compiler {
 
         X10DataType rootDataModel = definition.ComponentDataModel == null ?
           X10DataType.NULL :
-          new X10DataType(definition.ComponentDataModel, definition.IsMany.Value);
+          new X10DataType(definition.ComponentDataModel, definition.IsMany);
 
         foreach (UiAttributeValueComplex attribute in definition.ComplexAttributeValues())
           foreach (Instance instance in attribute.Instances)
@@ -418,14 +418,14 @@ namespace x10.compiler {
           (dataModel.IsMany ? "Entities" : "Entity");
 
         string entityOrScalarExpected = renderAs.DataModelType == DataModelType.Scalar ?
-          (renderAs.IsMany.Value ? "values" : "value") :
-          (renderAs.IsMany.Value ? "Entities" : "Entity");
+          (renderAs.IsMany ? "values" : "value") :
+          (renderAs.IsMany ? "Entities" : "Entity");
 
-        if (renderAs.IsMany.Value && !dataModel.IsMany)
+        if (renderAs.IsMany && !dataModel.IsMany)
           _messages.AddError(instance.XmlElement,
             string.Format("The component {0} expects MANY {1}, but the path is delivering a SINGLE '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
-        else if (!renderAs.IsMany.Value && dataModel.IsMany)
+        else if (!renderAs.IsMany && dataModel.IsMany)
           _messages.AddError(instance.XmlElement,
             string.Format("The component {0} expects a SINGLE {1}, but the path is delivering MANY '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));

@@ -12,12 +12,12 @@ using x10.model.libraries;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
-using x10.ui.metadata;
 using static x10.ui.metadata.ClassDefNative;
 using x10.utils;
 using x10.ui.platform;
 using x10.ui;
 using x10.gen.wpf.codelet;
+using x10.ui.metadata;
 
 namespace x10.gen.wpf {
   public class WpfCodeGenerator : CodeGenerator {
@@ -69,7 +69,7 @@ namespace x10.gen.wpf {
              mc:Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
 
       _viewModelMethodToExpression.Clear();
-      GenerateXamlRecursively(1, classDef.RootChild);
+      GenerateXamlRecursively(1, classDef.RootChild, true);
 
       WriteLine(0, "</UserControl>");
 
@@ -82,10 +82,11 @@ namespace x10.gen.wpf {
       UiAttributeDefinitions.PATH,
     };
 
-    private void GenerateXamlRecursively(int level, Instance instance) {
+    private void GenerateXamlRecursively(int level, Instance instance, bool dataContextIsVM) {
       if (instance == null)
         return;
 
+      // Find the Platform Class Definition
       PlatformClassDef platClassDef = FindPlatformClassDef(instance);
       if (platClassDef == null) {
         Messages.AddError(instance.XmlElement, "No platform-specific Class Definition for Logical Class {0}",
@@ -93,13 +94,16 @@ namespace x10.gen.wpf {
         return;
       }
 
+      // Open the XAML tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
       if (platClassDef.StyleInfo != null)
         WriteLine(level + 1, "Style=\"{ StaticResource {0} }\"", platClassDef.StyleInfo);
 
+      // Write Static Attributes
       foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
         WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.ValueWithSubstitutions(instance));
 
+      // Write ByFunc Attributes
       foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes)
         WriteLine(level + 1, "{0}=\"{1}\"", byFuncAttr.PlatformName, byFuncAttr.Function(instance));
 
@@ -107,6 +111,7 @@ namespace x10.gen.wpf {
       PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
       bool dataBindAlreadyRendered = false;
 
+      // Write the logical attributes contained in the instance
       foreach (UiAttributeValue attrValue in instance.AttributeValues) {
         string attrName = attrValue.Definition.Name;
 
@@ -134,20 +139,49 @@ namespace x10.gen.wpf {
         }
       }
 
+      // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
       Member member = instance.ModelMember;
       if (dataBind != null && !dataBindAlreadyRendered)
-        WriteLine(level + 1, "{0}=\"{ Binding {1}{2}{3} }\"",
+        WriteLine(level + 1, "{0}=\"{ Binding {1}{2}{3}{4} }\"",
           dataBind.PlatformName,
-          WpfGenUtils.MODEL_PROPERTY_PREFIX,
+          dataContextIsVM ? WpfGenUtils.MODEL_PROPERTY : null,
+          member == null || !dataContextIsVM ? null : ".",
           WpfGenUtils.GetBindingPath(instance),
-          member.IsReadOnly ? ", Mode=OneWay" : null);
+          member?.IsReadOnly == true ? ", Mode=OneWay" : null);
 
-      // Close the XAML element
+      // Are there any nested class defs to be generated?
+      List<PlatformClassDef> nestedClassDefs = new List<PlatformClassDef>();
+      PlatformClassDef nestedClassDef = platClassDef.NestedClassDef;
+      while (nestedClassDef != null) {
+        nestedClassDefs.Add(nestedClassDef);
+        nestedClassDef = nestedClassDef.NestedClassDef;
+      }
+      string primaryAttrWrapper = platClassDef.PrimaryAttributeWrapperProperty == null ?
+        null : string.Format("{0}.{1}", platClassDef.PlatformName, platClassDef.PrimaryAttributeWrapperProperty);
+
+
+      // Close the XAML element, possibly recursively writing nested content
       if (primaryValue == null)
         WriteLineClose(level, "/>");
       else {
         WriteLineClose(level, ">");
-        WriteChildren(level + 1, primaryValue);
+
+        foreach (PlatformClassDef nested in nestedClassDefs) // See PlatformClassDef.NestedClassDef
+          WriteLine(++level, "<{0}>", nested.PlatformName);
+
+        if (primaryAttrWrapper != null)
+          WriteLine(++level, "<{0}>", primaryAttrWrapper);
+
+        bool reducesManyToOne = ((UiAttributeDefinitionComplex)primaryValue.Definition).ReducesManyToOne;
+        WriteChildren(level + 1, primaryValue, reducesManyToOne ? false : dataContextIsVM);
+
+        if (primaryAttrWrapper != null)
+          WriteLine(level--, "</{0}>", primaryAttrWrapper);
+
+        nestedClassDefs.Reverse();
+        foreach (PlatformClassDef nested in nestedClassDefs)
+          WriteLine(level--, "</{0}>", nested.PlatformName);
+
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }
     }
@@ -186,10 +220,10 @@ namespace x10.gen.wpf {
       return string.Format("{{Binding Path={0}{1}}}", path, converter);
     }
 
-    private void WriteChildren(int level, UiAttributeValue attrValue) {
+    private void WriteChildren(int level, UiAttributeValue attrValue, bool dataContextIsVM) {
       if (attrValue is UiAttributeValueComplex complexAttr) {
         foreach (Instance childInstance in complexAttr.Instances)
-          GenerateXamlRecursively(level, childInstance);
+          GenerateXamlRecursively(level, childInstance, dataContextIsVM);
       } else
         throw new NotImplementedException();
     }
@@ -249,7 +283,10 @@ namespace x10.gen.wpf {
       WriteLine();
 
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
-      WriteLine(1, "public partial class {0}VM : ViewModelBase<{1}> {", classDef.Name, dataModel.Name);
+      WriteLine(1, "public partial class {0}VM : ViewModelBase{1}<{2}> {",
+        classDef.Name,
+        classDef.IsMany ? "Many" : null,
+        dataModel.Name);
 
       GenerateState(classDef);
       GenerateDataSources(classDef);
@@ -257,7 +294,13 @@ namespace x10.gen.wpf {
 
       // Constructor
       WriteLine(2, "public {0}VM(UserControl userControl) : base(userControl) {", classDef.Name);
-      WriteLine(3, "{0} = {1}.Create(null);", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
+      if (classDef.IsMany)
+        WriteLine(3, "{0} = AppStatics.Singleton.DataSource.{1};",
+          WpfGenUtils.MODEL_PROPERTY,
+          NameUtils.Pluralize(dataModel.Name));
+      else
+        WriteLine(3, "{0} = {1}.Create(null);", WpfGenUtils.MODEL_PROPERTY, dataModel.Name);
+
       WriteLine(2, "}");
 
       WriteLine(1, "}");
@@ -492,7 +535,7 @@ namespace x10.gen.wpf {
             .Where(x => x.DataType?.Member?.Owner == entity)
             .Select(x => WpfGenUtils.MemberToName(x.DataType.Member));
 
-          
+
           if (memberNames.Count() == 0) {
             Messages.AddError(null, "Validation message has no local member references: " + validation.Trigger);
             continue;

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 
 namespace wpf_lib.lib {
   public abstract class ViewModelBase : NotificationObject {
+    internal UserControl UserControl;
     internal object ModelUntyped { get; set; }
   }
 
@@ -44,9 +45,8 @@ namespace wpf_lib.lib {
       return errors.HasErrors;
     }
 
-    private UserControl _userControl;
     protected ViewModelBase(UserControl userControl) {
-      _userControl = userControl;
+      UserControl = userControl;
     }
 
     public void SubmitData(Action submitAction, string successMessage) {
@@ -67,7 +67,7 @@ namespace wpf_lib.lib {
     }
 
     private void PopulateErrors(EntityErrors errors) {
-      Form.ShowErrors(_userControl, errors);
+      Form.ShowErrors(UserControl, errors);
     }
   }
 }

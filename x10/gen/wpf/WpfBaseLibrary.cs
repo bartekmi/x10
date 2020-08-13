@@ -309,19 +309,38 @@ namespace x10.gen.wpf {
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",
-        PlatformName = "Table",
+        PlatformName = "DataGrid",
         InheritsFrom = Visual,
+        PrimaryAttributeWrapperProperty = "Columns",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "AutoGenerateColumns",
+            Value = "False",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "CanUserAddRows",
+            Value = "False",
+          },
+          new PlatformAttributeDataBind() {
+            PlatformName = "ItemsSource",
+          },
+        },
       },
       new PlatformClassDef() {
         LogicalName = "TableColumn",
-        PlatformName = "TableColumn",
-        InheritsFrom = Visual,
+        PlatformName = "DataGridTemplateColumn",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "ToolTip",
+            LogicalName = "label",
+            PlatformName = "Header",
           },
         },
+        NestedClassDef = new PlatformClassDef() {
+          PlatformName = "DataGridTemplateColumn.CellTemplate",
+          NestedClassDef = new PlatformClassDef() {
+            PlatformName = "DataTemplate",
+          }
+        }
       },
       #endregion
 
@@ -353,6 +372,10 @@ namespace x10.gen.wpf {
           new PlatformAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Content",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "url",
+            PlatformName = "ToolTip",
           },
         },
       },

@@ -497,6 +497,7 @@ namespace x10.ui.libraries {
             Name = "label",
             Description = "<Table> column label.",
             DataType = DataTypes.Singleton.String,
+            TakeValueFromModelAttrName = model.libraries.BaseLibrary.LABEL,
           },
           new UiAttributeDefinitionAtomic() {
             Name = "toolTip",

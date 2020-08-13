@@ -35,7 +35,7 @@ namespace x10.ui.metadata {
     public DataType AtomicDataModel { get; set; }
 
     // Is the Component Data Model a list?
-    public bool? IsMany { get; set; }
+    public bool IsMany { get; set; }
 
     // Spacifies Inheritance base class - in the object-oriented sense. Children inherit 
     // all the Attribute Definitions of their ancestors

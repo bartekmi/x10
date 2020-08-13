@@ -9,7 +9,7 @@ using wpf_sample;
 
 namespace wpf_generated.ui {
   public partial class BuildingsVM : ViewModelBaseMany<Building> {
-    public BuildingsVM()  {
+    public BuildingsVM(UserControl userControl) : base(userControl) {
       Model = AppStatics.Singleton.DataSource.Buildings;
     }
   }
