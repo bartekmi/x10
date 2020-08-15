@@ -373,6 +373,7 @@ namespace x10.gen.wpf {
 
       WriteLine(0, "using System;");
       WriteLine(0, "using System.Collections.Generic;");
+      WriteLine(0, "using Newtonsoft.Json;");
       WriteLine();
 
       WriteLine(0, "using wpf_lib.lib;");
@@ -468,6 +469,7 @@ namespace x10.gen.wpf {
         string bindablePropName = BindablePropName(association);
 
         WriteLine(2, "public virtual {0} {1} { get; set; }", dataType, propName);
+        WriteLine(2, "[JsonIgnore]");
         WriteLine(2, "public {0} {1} {", dataType, bindablePropName);
         WriteLine(3, "get { return {0}; }", propName);
         WriteLine(3, "set {");

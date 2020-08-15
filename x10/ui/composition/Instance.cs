@@ -38,7 +38,7 @@ namespace x10.ui.composition {
     public ClassDef RenderAs { get; set; }
 
     // All but the root-level Instance are owned by a UiAttributeValueComplex
-    public UiAttributeValueComplex Owner { get; private set; }
+    public UiAttributeValueComplex Owner { get; set; }
 
     // If true, this Instance was inserted as a wrapper around an InstanceModelRef
     public bool IsWrapper { get; set; }

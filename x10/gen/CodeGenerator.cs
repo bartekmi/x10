@@ -57,7 +57,7 @@ namespace x10.gen {
     }
 
     internal PlatformClassDef FindPlatformClassDef(Instance instance) {
-      string logicalName = instance.ClassDef.Name;
+      string logicalName = instance.RenderAs.Name;
       return _platformLibraries
         .Select(x => x.FindComponentByLogicalName(logicalName))
         .FirstOrDefault(x => x != null);

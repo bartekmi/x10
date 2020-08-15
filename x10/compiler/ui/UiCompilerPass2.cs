@@ -128,6 +128,7 @@ namespace x10.compiler {
         UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef;
         UiAttributeValueComplex primaryAttrValue = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(returnInstance, fakeXmlElemnt);
         modelRefInstance = new InstanceModelRef(xmlElement, primaryAttrValue);
+        modelRefInstance.Owner = primaryAttrValue;
         primaryAttrValue.AddInstance(modelRefInstance);
       } else
         returnInstance = modelRefInstance = new InstanceModelRef(xmlElement, owner);
@@ -298,9 +299,10 @@ namespace x10.compiler {
         ResolveUiComponent(modelReference);
         Instance wrapper = instance.ParentInstance?.IsWrapper == true ? instance.ParentInstance : null;
         _attrReader.ReadAttributesForInstance(instance, wrapper, PASS_2_1_MODEL_REF_ATTRIBUTES);
-      } else if (instance is InstanceClassDefUse)
-        _attrReader.ReadAttributesForInstance(instance, null, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
-      else
+      } else if (instance is InstanceClassDefUse) {
+        if (!instance.IsWrapper)  // Extraction of wrapper attributes is handled above
+          _attrReader.ReadAttributesForInstance(instance, null, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
+      } else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
       ValidateRenderAsType(instance);
@@ -327,26 +329,19 @@ namespace x10.compiler {
       if (path != null) {   // It is perfectly valid for a UiChildComponentUse to not specify a path
         XmlBase pathScalar;
 
-        if (instance is InstanceModelRef)
+        if (instance is InstanceModelRef || instance.IsWrapper)
           pathScalar = instance.XmlElement;
         else if (instance is InstanceClassDefUse)
-          pathScalar = instance.FindAttributeValue("path").XmlBase;
+          pathScalar = instance.FindAttributeValue(UiAttributeDefinitions.PATH).XmlBase;
         else
           throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
         ExpBase pathExpression = _parser.Parse(pathScalar, path, dataType);
         dataType = pathExpression.DataType;
-
-        List<Member> pathComponents = ExpressionToMemberList(pathExpression);
-        if (instance.ParentInstance?.IsWrapper == true) {
-          instance.ParentInstance.ModelMember = dataType.Member;
-          instance.ParentInstance.PathComponents = pathComponents;
-        } else
-          instance.PathComponents = pathComponents;
-
-        instance.ModelMember = dataType.Member; // TODO: Move into else??? Or make this property derived???
+        instance.PathComponents = ExpressionToMemberList(pathExpression);
       }
 
+      instance.ModelMember = dataType.Member;
       ValidateDataTypeCompatibility(dataType, instance);
 
       return dataType;
@@ -429,23 +424,24 @@ namespace x10.compiler {
     // 2. The Member may dictate a component
     // 3. Finally, the DataType MUST dictate a component
     private void ResolveUiComponent(InstanceModelRef modelReference) {
-      ClassDef classDefForModelRef = null;
-      Member member = modelReference.ModelMember;
-
       // If this has been set, it comes from the Pass2 action in UiAttributeDefinitions
       if (modelReference.RenderAs != null)
-        classDefForModelRef = modelReference.RenderAs;
-      else if (member != null) {
-        if (member.Ui != null)
-          classDefForModelRef = member.Ui;
-        else if (member is X10Attribute attribute)
-          classDefForModelRef = _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
-        else if (member is Association)
-          _messages.AddError(modelReference.XmlElement, "Could not identify UI Component for Association '{0}' of Entity '{1}'",
-            member.Name, member.Owner.Name);
-        else
-          throw new Exception("Unexpected member type: " + member.GetType().Name);
-      }
+        return;
+
+      Member member = modelReference.ModelMember;
+      if (member == null)
+        return;
+
+      ClassDef classDefForModelRef = null;
+      if (member.Ui != null)
+        classDefForModelRef = member.Ui;
+      else if (member is X10Attribute attribute)
+        classDefForModelRef = _allUiDefinitions.FindUiComponentForDataType(attribute, modelReference.XmlElement);
+      else if (member is Association)
+        _messages.AddError(modelReference.XmlElement, "Could not identify UI Component for Association '{0}' of Entity '{1}'",
+          member.Name, member.Owner.Name);
+      else
+        throw new Exception("Unexpected member type: " + member.GetType().Name);
 
       modelReference.RenderAs = classDefForModelRef;
     }
