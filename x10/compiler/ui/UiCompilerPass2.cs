@@ -334,13 +334,8 @@ namespace x10.compiler {
         else
           throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
-        string[] pathComponents = path.Split('.');    // Note that path is already validated in UiAttributeDefintions, Pass1.
-
-        foreach (string pathComponent in pathComponents) {
-          dataModel = AdvancePathByOne(dataModel, pathComponent, pathScalar);
-          if (dataModel == null)
-            return null;
-        }
+        ExpBase pathExpression = _parser.Parse(pathScalar, path, dataModel);
+        dataModel = pathExpression.DataType;
 
         instance.ModelMember = dataModel.Member;
         if (instance.ParentInstance?.IsWrapper == true)
@@ -350,31 +345,6 @@ namespace x10.compiler {
       ValidateDataModelCompatibility(dataModel, instance);
 
       return dataModel;
-    }
-
-    private X10DataType AdvancePathByOne(X10DataType dataModel, string pathComponent, XmlBase xmlBase) {
-
-      // Root-Level (Context) paths are indicated by a leading '/'
-      if (pathComponent.StartsWith('/')) {
-        dataModel = new X10DataType(_allEntities.FindContextEntityWithError(xmlBase), false);
-        pathComponent = pathComponent.Substring(1);
-      }
-
-      if (dataModel.Entity == null)
-        return null;
-
-      if (dataModel.IsMany) {
-        _messages.AddError(xmlBase, "Attempt to access member '{0}' in context of {1}", pathComponent, dataModel);
-        return null;
-      }
-
-      Member member = dataModel.Entity.FindMemberByName(pathComponent);
-      if (member == null) {
-        _messages.AddError(xmlBase, "Member '{0}' does not exist on '{1}'.", pathComponent, dataModel);
-        return null;
-      }
-
-      return new X10DataType(member);
     }
 
     private void ValidateDataModelCompatibility(X10DataType dataModel, Instance instance) {

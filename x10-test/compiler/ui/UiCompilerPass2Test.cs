@@ -703,7 +703,7 @@ namespace x10.compiler {
     public void ReadContextData() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent model='Building'>
-  <TextEdit path='/currentUser.firstName'/>
+  <TextEdit path='__Context__.currentUser.firstName'/>
 </MyComponent>
 ");
 
@@ -711,7 +711,7 @@ namespace x10.compiler {
       string result = Print(definition);
 
       Assert.Equal(@"<MyComponent model='Building'>
-  <TextEdit path='/currentUser.firstName'/>
+  <TextEdit path='__Context__.currentUser.firstName'/>
 </MyComponent>
 ", result);
     }
@@ -769,7 +769,7 @@ namespace x10.compiler {
     <Button path='doubleBogus' label='Boo' action='doSomething'/>   <!-- Does not get here -->
   </VerticalGroup>
 </Outer>
-", "Member 'bogus' does not exist on 'Building'.", 3, 18);
+", "Identifier 'bogus' is not a Member of type: Building", 3, 18);
 
       Assert.Single(_messages.Messages);
     }
@@ -780,7 +780,7 @@ namespace x10.compiler {
 <Outer model='Building'>
   <VerticalGroup path='demoApartment.windows'/>
 </Outer>
-", "Member 'windows' does not exist on 'Apartment'.", 3, 18);
+", "Entity 'Apartment' does not contain an Attribute or Association 'windows'", 3, 32);
 
       Assert.Single(_messages.Messages);
     }
@@ -796,7 +796,7 @@ namespace x10.compiler {
     <nonExistent/>
   </Table>
 </Outer>
-", "Member 'nonExistent' does not exist on 'Apartment'.", 7, 6);
+", "Identifier 'nonExistent' is not a Member of type: Apartment", 7, 6);
 
       Assert.Single(_messages.Messages);
     }
@@ -904,7 +904,7 @@ namespace x10.compiler {
 <Outer model='Building' many='true'>
   <MyFunkyIntComponent path='apartmentCount'/>
 </Outer>
-", "Attempt to access member 'apartmentCount' in context of Many<Building>", 3, 24);
+", "Identifier 'apartmentCount' is not a Member of type: Many<Building>", 3, 24);
 
       Assert.Single(_messages.Messages);
     }

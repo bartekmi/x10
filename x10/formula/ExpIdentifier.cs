@@ -21,7 +21,10 @@ namespace x10.formula {
 
     public override ExpIdentifier FirstMemberOfPath() { return this; }
 
-    public override X10DataType DetermineTypeRaw(X10DataType rootType) {
+    public override X10DataType DetermineTypeRaw(X10DataType type) {
+      if (type.IsError)
+        return X10DataType.ERROR;
+
       if (IsContext) {
         Entity context = Parser.AllEntities.FindContextEntityWithError(this);
         if (context == null)
@@ -37,33 +40,25 @@ namespace x10.formula {
         return dataType;
       }
 
-      // Walk down the chain of Members of rootType to try and find the identifier
-      // as a property of one of the types in the chain
-      List<X10DataType> types = new List<X10DataType>();
-      while (rootType != null) {
-        types.Add(rootType);
-
-        if (rootType.Member != null)
-          rootType = new X10DataType(rootType.Member.Owner, false);
-        else
-          rootType = null;  // Same as 'break'
-      }
-
-      foreach (X10DataType type in types) {
-        X10DataType childType = ExpMemberAccess.GetMemberAccessDataTypeStatic(type, Name);
-        if (childType != null)
-          return childType;
-      }
+      // As of Aug 15, 2020, I am removing the code which walks down the path of Member.Owner
+      // to allow formulas that reference properties of parent attributes
+      // While this was useful in some cases (specifically, when a form sub-component was
+      // targeted/narrowed by 'path' - and formulas in it could still access parent attributes)
+      // it was fraught with problems, e.g.
+      // 1. What if the parent data was not even loaded?
+      // 2. What if the component was in a Table or other Many-to-one component and does not
+      //    have access to parent data
+      // If this functionality is ever needed, you can retrieve it from the Code Repo based on
+      // the above date, but you should also fixed the aforementioned issues.
+      X10DataType childType = ExpMemberAccess.GetMemberAccessDataTypeStatic(type, Name);
+      if (childType != null)
+        return childType;
 
       string otherVarsMessage = otherVars == null ? null : string.Format("not a State variable: [{0}] and ",
         string.Join(", ", otherVars.Keys));
 
-      string message = "Identifier '{0}' is {1}not a Member of any of the following types: [{2}]";
-
-      Parser.Errors.AddError(this, message,
-        Name,
-        otherVarsMessage,
-        string.Join(", ", types));
+      string message = "Identifier '{0}' is {1}not a Member of type: {2}";
+      Parser.Errors.AddError(this, message, Name, otherVarsMessage, type);
 
       return X10DataType.ERROR;
     }

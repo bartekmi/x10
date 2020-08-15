@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lib="clr-namespace:wpf_lib;assembly=wpf_lib"
         mc:Ignorable="d"
-        Title="WPF Sample (Hand-Coded)">
+        Title="WPF Small Example (Generated)">
   
   <lib:WpfStoryBook Name="uxWpfStoryBook"/>
   
