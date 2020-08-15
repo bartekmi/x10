@@ -318,8 +318,8 @@ namespace x10.compiler {
     }
 
     #region Resolve Path
-    private X10DataType ResolvePath(X10DataType dataModel, Instance instance) {
-      if (dataModel == null)
+    private X10DataType ResolvePath(X10DataType dataType, Instance instance) {
+      if (dataType == null)
         return null;
 
       string path = instance.Path;
@@ -334,40 +334,61 @@ namespace x10.compiler {
         else
           throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
-        ExpBase pathExpression = _parser.Parse(pathScalar, path, dataModel);
-        dataModel = pathExpression.DataType;
+        ExpBase pathExpression = _parser.Parse(pathScalar, path, dataType);
+        dataType = pathExpression.DataType;
 
-        instance.ModelMember = dataModel.Member;
-        if (instance.ParentInstance?.IsWrapper == true)
-          instance.ParentInstance.ModelMember = dataModel.Member;
+        List<Member> pathComponents = ExpressionToMemberList(pathExpression);
+        if (instance.ParentInstance?.IsWrapper == true) {
+          instance.ParentInstance.ModelMember = dataType.Member;
+          instance.ParentInstance.PathComponents = pathComponents;
+        } else
+          instance.PathComponents = pathComponents;
+
+        instance.ModelMember = dataType.Member; // TODO: Move into else??? Or make this property derived???
       }
 
-      ValidateDataModelCompatibility(dataModel, instance);
+      ValidateDataTypeCompatibility(dataType, instance);
 
-      return dataModel;
+      return dataType;
     }
 
-    private void ValidateDataModelCompatibility(X10DataType dataModel, Instance instance) {
+    // The only path that is allowed is a chain of members separated by dots.
+    // This method both enforces this, and also extracts this list of members
+    private List<Member> ExpressionToMemberList(ExpBase expression) {
+      List<Member> memberList = new List<Member>();
+
+      while (expression != null) {
+        memberList.Add(expression.DataType.Member);
+        if (expression is ExpIdentifier)
+          break;
+        if (expression is ExpMemberAccess memberAccess)
+          expression = memberAccess.Expression;
+      }
+
+      return memberList;
+    }
+
+    private void ValidateDataTypeCompatibility(X10DataType dataType, Instance instance) {
       ClassDef renderAs = instance.RenderAs;
-      if (renderAs == null || dataModel.IsNull)
+      if (renderAs == null || dataType.IsNull)
         return;
 
       Entity expectedEntity = renderAs.ComponentDataModel;
 
       // Ensure correct Entity delivered (if applicable)
       if (expectedEntity != null) {
-        if (dataModel.Entity == null) {
+        if (dataType.Entity == null) {
           // There must have been an error in path somewhere up the chain. Nothing new to report.
-        } else if (dataModel.Entity.IsA(expectedEntity)) {
+        } else if (dataType.Entity.IsA(expectedEntity)) {
           // All is well - the Entity type handed down by path matches what the component expects
         } else
           _messages.AddError(instance.XmlElement,
             string.Format("Data Type mismatch. Component {0} expects Entity '{1}', but the path is delivering Entity '{2}'",
-            renderAs.Name, expectedEntity.Name, dataModel.Entity.Name));
+            renderAs.Name, expectedEntity.Name, dataType.Entity.Name));
       }
 
       // Ensure correct atomic type delivered (if applicable)
-      if (dataModel.Member is X10Attribute x10attribute) {
+      if (dataType.Member is X10Attribute x10attribute) {
         DataType dataTypeProvided = x10attribute.DataType;
         if (renderAs.DataModelType == DataModelType.Scalar)
           if (renderAs.AtomicDataModel != dataTypeProvided)
@@ -379,23 +400,23 @@ namespace x10.compiler {
       // Validate the compatibility of the resolved data model and the receiving component:
       // One->One and Many->Many ok, but mismatch is an error.
       if (renderAs.CaresAboutDataModel) {
-        string dataModelFromPath = dataModel.Member == null ?
-          dataModel.Entity?.Name :
-          string.Format("{0}.{1}", dataModel.Entity?.Name, dataModel.Member.Name);
+        string dataModelFromPath = dataType.Member == null ?
+          dataType.Entity?.Name :
+          string.Format("{0}.{1}", dataType.Entity?.Name, dataType.Member.Name);
 
-        string entityOrScalarProvided = dataModel.Member is X10Attribute ?
-          (dataModel.IsMany ? "values" : "value") :
-          (dataModel.IsMany ? "Entities" : "Entity");
+        string entityOrScalarProvided = dataType.Member is X10Attribute ?
+          (dataType.IsMany ? "values" : "value") :
+          (dataType.IsMany ? "Entities" : "Entity");
 
         string entityOrScalarExpected = renderAs.DataModelType == DataModelType.Scalar ?
           (renderAs.IsMany ? "values" : "value") :
           (renderAs.IsMany ? "Entities" : "Entity");
 
-        if (renderAs.IsMany && !dataModel.IsMany)
+        if (renderAs.IsMany && !dataType.IsMany)
           _messages.AddError(instance.XmlElement,
             string.Format("The component {0} expects MANY {1}, but the path is delivering a SINGLE '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));
-        else if (!renderAs.IsMany && dataModel.IsMany)
+        else if (!renderAs.IsMany && dataType.IsMany)
           _messages.AddError(instance.XmlElement,
             string.Format("The component {0} expects a SINGLE {1}, but the path is delivering MANY '{2}' {3}",
             renderAs.Name, entityOrScalarExpected, dataModelFromPath, entityOrScalarProvided));

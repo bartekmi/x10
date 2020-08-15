@@ -24,6 +24,10 @@ namespace x10.ui.composition {
     // If null, this is the root child, or one of its consecutive children
     // where no path has been set yet.
     public Member ModelMember { get; set; }
+    // public Member ModelMember { get { return PathComponents == null ? null : PathComponents.LastOrDefault(); } }
+
+    // The path components of this Instance. 
+    public List<Member> PathComponents { get; set; }
 
     // This is analogous to Path in WPF... it is a dot-separated list of
     // model members descending down the graph of model objects
