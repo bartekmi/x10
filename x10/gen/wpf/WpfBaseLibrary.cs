@@ -265,8 +265,7 @@ namespace x10.gen.wpf {
             PlatformName = "ItemsSource",
             Function = (instance) => {
               string dataType = (instance.ModelMember as X10Attribute)?.DataType?.Name;
-              return string.Format("{{ Binding ElementName={0}, Path=DataContext.{1} }}",
-                WpfGenUtils.ROOT_USER_CONTROL_NAME,
+              return string.Format("{{ Binding {0} }}",
                 NameUtils.Pluralize(dataType)
               );
             }

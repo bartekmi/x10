@@ -66,8 +66,7 @@ namespace x10.gen.wpf {
              xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
              xmlns:local = ""{0}""
              xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
-             mc:Ignorable = ""d""
-             Name=""{2}""> ", GetNamespace(classDef.XmlElement), classDef.Name, WpfGenUtils.ROOT_USER_CONTROL_NAME);
+             mc:Ignorable = ""d"">", GetNamespace(classDef.XmlElement), classDef.Name);
 
       _viewModelMethodToExpression.Clear();
       GenerateXamlRecursively(1, classDef.RootChild, true);
