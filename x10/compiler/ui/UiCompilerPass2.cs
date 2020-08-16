@@ -360,6 +360,7 @@ namespace x10.compiler {
           expression = memberAccess.Expression;
       }
 
+      memberList.Reverse();
       return memberList;
     }
 

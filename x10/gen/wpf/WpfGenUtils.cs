@@ -39,13 +39,14 @@ namespace x10.gen.wpf {
       return name;
     }
 
-    internal static string GetBindingPath(Instance instance) {
-      IEnumerable<string> names = UiUtils.ListSelfAndAncestors(instance)
-        .Reverse()
-        .Select(x => x.ModelMember)
-        .Where(x => x != null)
-        .Distinct()   // Eliminates duplicate Members - e.g. field and its wrapper
-        .Select(x => WpfGenUtils.MemberToName(x));
+    internal static string GetBindingPath(Instance thisInstance) {
+      List<string> names = new List<string>();
+
+      foreach (Instance instance in UiUtils.ListSelfAndAncestors(thisInstance).Reverse()) {
+        if (instance.PathComponents == null)
+          continue;
+        names.AddRange(instance.PathComponents.Select(member => WpfGenUtils.MemberToName(member)));
+      }
 
       return string.Join(".", names);
     }

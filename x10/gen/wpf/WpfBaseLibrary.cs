@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 using x10.parsing;
 using x10.ui.libraries;
@@ -85,7 +86,7 @@ namespace x10.gen.wpf {
           },
           new PlatformAttributeByFunc() {
             PlatformName = "EditorFor",
-            Function = (instance) => WpfGenUtils.GetBindingPath(instance),
+            Function = (instance) => WpfGenUtils.GetBindingPath(instance.ChildInstances.Single()),
           },
         },
       },
