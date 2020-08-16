@@ -66,7 +66,8 @@ namespace x10.gen.wpf {
              xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
              xmlns:local = ""{0}""
              xmlns:lib = ""clr-namespace:wpf_lib.lib;assembly=wpf_lib""
-             mc:Ignorable = ""d""> ", GetNamespace(classDef.XmlElement), classDef.Name);
+             mc:Ignorable = ""d""
+             Name=""{2}""> ", GetNamespace(classDef.XmlElement), classDef.Name, WpfGenUtils.ROOT_USER_CONTROL_NAME);
 
       _viewModelMethodToExpression.Clear();
       GenerateXamlRecursively(1, classDef.RootChild, true);
@@ -101,7 +102,7 @@ namespace x10.gen.wpf {
 
       // Write Static Attributes
       foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
-        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.ValueWithSubstitutions(instance));
+        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.Value);
 
       // Write ByFunc Attributes
       foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes)

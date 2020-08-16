@@ -13,6 +13,7 @@ namespace x10.gen.wpf {
 
     internal const string MODEL_PROPERTY = "Model";
     internal const string MODEL_PROPERTY_PREFIX = MODEL_PROPERTY + ".";
+    internal const string ROOT_USER_CONTROL_NAME = "RootUserControl";
 
     internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum) {
 

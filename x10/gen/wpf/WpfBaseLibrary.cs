@@ -10,6 +10,8 @@ using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
 using x10.gen.wpf.codelet;
+using x10.model.definition;
+using x10.utils;
 
 namespace x10.gen.wpf {
   internal class WpfBaseLibrary {
@@ -259,10 +261,15 @@ namespace x10.gen.wpf {
             PlatformName = "SelectedValuePath",
             Value = "Value",
           },
-          new PlatformAttributeStatic() {
+          new PlatformAttributeByFunc() {
             PlatformName = "ItemsSource",
-            Value = string.Format("{{Binding {0} }}", PlatformAttributeStatic.PLURALIZED_DATA_TYPE),
-            DoSubstitutions = true,
+            Function = (instance) => {
+              string dataType = (instance.ModelMember as X10Attribute)?.DataType?.Name;
+              return string.Format("{{ Binding ElementName={0}, Path=DataContext.{1} }}",
+                WpfGenUtils.ROOT_USER_CONTROL_NAME,
+                NameUtils.Pluralize(dataType)
+              );
+            }
           },
         },
       },
@@ -454,23 +461,23 @@ namespace x10.gen.wpf {
       #endregion
     };
 
-  #region Glue it Together
-  private static PlatformLibrary _singleton;
-  public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
-    if (_singleton == null)
-      _singleton = CreateLibrary(errors, logicalLibrary);
-    return _singleton;
+    #region Glue it Together
+    private static PlatformLibrary _singleton;
+    public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
+      if (_singleton == null)
+        _singleton = CreateLibrary(errors, logicalLibrary);
+      return _singleton;
+    }
+
+    private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
+      PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
+        ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
+      };
+
+      library.HydrateAndValidate(errors, logicalLibrary);
+
+      return library;
+    }
+    #endregion
   }
-
-  private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
-    PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-      ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
-    };
-
-    library.HydrateAndValidate(errors, logicalLibrary);
-
-    return library;
-  }
-  #endregion
-}
 }
