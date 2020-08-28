@@ -59,6 +59,10 @@ namespace wpf_sample.ui.bookings {
     }
 
     public BookingFormVM(UserControl userControl) : base(userControl) {
+      // Do nothing
+    }
+
+    public override void PopulateData(Parameters parameters) {
       Model = Booking.Create();
     }
   }

@@ -2,9 +2,15 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using wpf_lib.storybook;
 
 namespace wpf_lib.lib {
   public abstract class ViewModelBase : NotificationObject {
+
+    public const string NEW_ENTITY_URL_TAG = "new";
+
+    public abstract void PopulateData(Parameters parameters);
+
     internal UserControl UserControl;
     internal object ModelUntyped { get; set; }
   }

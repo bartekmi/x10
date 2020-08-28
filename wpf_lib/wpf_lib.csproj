@@ -93,8 +93,11 @@
     <Compile Include="lib\utils\WpfUtils.cs" />
     <Compile Include="lib\ViewModelBaseMany.cs" />
     <Compile Include="lib\ViewModelBase.cs" />
+    <Compile Include="storybook\ControlTypeWrapper.cs" />
+    <Compile Include="lib\TopLevelControlBase.cs" />
+    <Compile Include="lib\Parameters.cs" />
     <Compile Include="WpfLibConfig.cs" />
-    <Compile Include="WpfStoryBook.xaml.cs">
+    <Compile Include="storybook\WpfStoryBook.xaml.cs">
       <DependentUpon>WpfStoryBook.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -157,7 +160,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="WpfStoryBook.xaml">
+    <Page Include="storybook\WpfStoryBook.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -17,6 +17,7 @@ namespace wpf_sample {
       InitializeContext();
 
       uxWpfStoryBook.InitializeComponents(Components());
+      uxWpfStoryBook.SetUrl("/buildings");
     }
 
     private void InitializeContext() {

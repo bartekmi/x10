@@ -5,6 +5,8 @@ using wpf_lib.lib;
 using wpf_lib.lib.utils;
 
 using wpf_generated.entities;
+using wpf_sample;
+using System.Linq;
 
 namespace wpf_generated.ui {
   public partial class BuildingFormVM : ViewModelBase<Building> {
@@ -27,7 +29,15 @@ namespace wpf_generated.ui {
     }
 
     public BuildingFormVM(UserControl userControl) : base(userControl) {
-      Model = Building.Create(null);
+      // Do nothing
+    }
+
+    public override void PopulateData(Parameters parameters) {
+      if (parameters.GetParameter("buildingId") == ViewModelBase.NEW_ENTITY_URL_TAG)
+        Model = Building.Create(null);
+      else
+        Model = AppStatics.Singleton.DataSource.Buildings
+          .SingleOrDefault(x => x.Id == parameters.GetParameterAsInt("buildingId"));
     }
   }
 }
