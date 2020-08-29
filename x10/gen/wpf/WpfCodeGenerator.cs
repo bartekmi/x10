@@ -59,7 +59,7 @@ namespace x10.gen.wpf {
       Begin(classDef.XmlElement.FileInfo, ".xaml");
 
       WriteLine(0,
-@"<UserControl x:Class=""{0}.{1}""
+@"<lib:TopLevelControlBase x:Class=""{0}.{1}""
              xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
              xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
              xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
@@ -71,7 +71,7 @@ namespace x10.gen.wpf {
       _viewModelMethodToExpression.Clear();
       GenerateXamlRecursively(1, classDef.RootChild, true);
 
-      WriteLine(0, "</UserControl>");
+      WriteLine(0, "</lib:TopLevelControlBase>");
 
       End();
     }
@@ -235,10 +235,11 @@ namespace x10.gen.wpf {
 
       WriteLine(0, "using System.Windows;");
       WriteLine(0, "using System.Windows.Controls;");
+      WriteLine(0, "using wpf_lib.lib;");
       WriteLine();
 
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
-      WriteLine(1, "public partial class {0} : UserControl {", classDef.Name);
+      WriteLine(1, "public partial class {0} : TopLevelControlBase {", classDef.Name);
 
       WriteLine();
       WriteLine(2, "private {0}VM ViewModel { get { return ({0}VM)DataContext; } }", classDef.Name);
@@ -258,6 +259,7 @@ namespace x10.gen.wpf {
       WriteLine(2, "public {0}() {", classDef.Name);
       WriteLine(3, "InitializeComponent();");
       WriteLine(3, "DataContext = new {0}VM(this);", classDef.Name);
+      WriteLine(3, "Url = \"{0}\";", classDef.Url);
       WriteLine(2, "}");
       WriteLine();
     }
@@ -291,6 +293,7 @@ namespace x10.gen.wpf {
       GenerateState(classDef);
       GenerateDataSources(classDef);
       GenerateExpressions(classDef);
+      GenereatePopulateDataMethod(classDef);
 
       // Constructor
       WriteLine(2, "public {0}VM(UserControl userControl) : base(userControl) {", classDef.Name);
@@ -321,25 +324,6 @@ namespace x10.gen.wpf {
         GenerateProperty(state.ToX10DataType(), state.Variable, null);
     }
 
-    private void GenerateExpressions(ClassDefX10 classDef) {
-      if (_viewModelMethodToExpression.Count > 0) {
-        WriteLine(2, "// Properties used in XAML bindings");
-        foreach (var pair in _viewModelMethodToExpression)
-          // TODO: This will not handle formulas which return non-atomic types
-          GeneratePropertyForFormula(pair.Value.DataType.DataType, pair.Key, pair.Value, true);
-
-        WriteLine();
-
-        WriteLine(2, "// Ensures all properties above are refreshed every time anything changes");
-        WriteLine(2, "public override void FireCustomPropertyNotification() {");
-        foreach (string propertyName in _viewModelMethodToExpression.Keys)
-          WriteLine(3, "RaisePropertyChanged(nameof({0}));", propertyName);
-        WriteLine(2, "}");
-
-        WriteLine();
-      }
-    }
-
     private void GenerateDataSources(ClassDefX10 classDef) {
       WriteLine(2, "// Data Sources");
 
@@ -361,9 +345,47 @@ namespace x10.gen.wpf {
       WriteLine();
     }
 
+    private void GenerateExpressions(ClassDefX10 classDef) {
+      if (_viewModelMethodToExpression.Count > 0) {
+        WriteLine(2, "// Properties used in XAML bindings");
+        foreach (var pair in _viewModelMethodToExpression)
+          // TODO: This will not handle formulas which return non-atomic types
+          GeneratePropertyForFormula(pair.Value.DataType.DataType, pair.Key, pair.Value, true);
+
+        WriteLine();
+
+        WriteLine(2, "// Ensures all properties above are refreshed every time anything changes");
+        WriteLine(2, "public override void FireCustomPropertyNotification() {");
+        foreach (string propertyName in _viewModelMethodToExpression.Keys)
+          WriteLine(3, "RaisePropertyChanged(nameof({0}));", propertyName);
+        WriteLine(2, "}");
+
+        WriteLine();
+      }
+    }
+
+    private void GenereatePopulateDataMethod(ClassDefX10 classDef) {
+      string modelName = classDef.ComponentDataModel.Name;
+
+      WriteLine(2, "public override void PopulateData(Parameters parameters) {");
+
+      if (classDef.IsMany) {
+        WriteLine(3, "Model = AppStatics.Singleton.DataSource.{0};", NameUtils.Pluralize(modelName));
+      } else {
+        WriteLine(3, "string id = parameters.Single();");
+        WriteLine(3, "if (id == NEW_ENTITY_URL_TAG)");
+        WriteLine(4, "Model = {0}.Create(null);", modelName);
+        WriteLine(3, "else");
+        WriteLine(4, "Model = AppStatics.Singleton.DataSource.GetById<{0}>(int.Parse(id));", modelName);
+      }
+
+      WriteLine(2, "}");
+    }
+
     #endregion
 
     private void GenerateViewModelCustomFile(ClassDefX10 classDef) {
+      // TODO
     }
     #endregion
 

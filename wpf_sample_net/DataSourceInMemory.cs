@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using wpf_generated.entities;
-
+using wpf_lib.lib;
 using wpf_sample.entities.booking;
 using wpf_sample.entities.core;
 
@@ -117,15 +118,32 @@ namespace wpf_sample {
       };
     }
 
-    public void UpdateOrCreate(Booking booking) {
+    public void CreateOrUpdate(Booking booking) {
       ((List<Booking>)Bookings).Add(booking);
     }
 
-    public void UpdateOrCreate(Building building) {
+    public void CreateOrUpdate(Building building) {
       if (building.IsNew()) {
         building.Id = Buildings.Max(x => x.Id) + 1;
         ((List<Building>)Buildings).Add(building);
       }
+    }
+
+    public T GetById<T>(int id) where T : EntityBase {
+      IEnumerable<T> collection = GetCollection<T>();
+      return collection.SingleOrDefault(x => x.Id == id);
+    }
+
+    private IEnumerable<T> GetCollection<T>() where T : EntityBase {
+      Dictionary<Type, IEnumerable> typeToCollection = new Dictionary<Type, IEnumerable>() {
+        { typeof(Building), Buildings },
+        { typeof(Booking), Bookings },
+      };
+
+      if (typeToCollection.TryGetValue(typeof(T), out IEnumerable collection))
+        return (IEnumerable<T>)collection;
+
+      throw new Exception("No collection for Type: " + typeof(T).Name);
     }
   }
 }

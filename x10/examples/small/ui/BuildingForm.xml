@@ -1,4 +1,4 @@
-<BuildingForm model="Building" url="/building">
+<BuildingForm model="Building" url="/building/{$buildingId}" query="GetBuilding(buildingId: $buildingId">
   <Form>
     <FormSection label="Building Info">
       <moniker/>

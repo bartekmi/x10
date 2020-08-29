@@ -88,6 +88,7 @@ namespace x10.compiler {
         Description = "For top-level components, this is the top-level string to which the application can jump to show the UI",
         AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,
+        Setter = "Url",
       },
       new UiAttributeDefinitionAtomic() {
         Name = "query",

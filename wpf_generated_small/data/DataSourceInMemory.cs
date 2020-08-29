@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
+using wpf_lib.lib;
 using wpf_generated.entities;
 
 namespace wpf_generated.data {
@@ -20,15 +24,52 @@ namespace wpf_generated.data {
           MailingAddressSameAsPhysical = true,
           PhysicalAddress = new Address() {
             TheAddress = "111 Prominent Ave",
+            City = "Whitehorse",
+            StateOrProvince = "YK",
+            Zip = "Z57 1Z7",
+          }
+        },
+        new Building() {
+          Id = 2,
+          Moniker = "Bldg-2",
+          Name = "Our Home",
+          Description = "Our family home - loved and beautiful",
+          DateOfOccupancy = new DateTime(1985, 6, 1),
+          MailboxType = MailboxTypeEnum.Community,
+          PetPolicy = PetPolicyEnum.NoPets,
+          MailingAddressSameAsPhysical = true,
+          PhysicalAddress = new Address() {
+            TheAddress = "115 Scenic Park Cres NW",
             City = "Calgary",
+            StateOrProvince = "AB",
             Zip = "T3L 1R9",
           }
         },
       };
     }
 
-    public void Create(Building building) {
-      ((List<Building>)Buildings).Add(building);
+    public void CreateOrUpdate(Building building) {
+      if (building.IsNew()) {
+        building.Id = Buildings.Max(x => x.Id) + 1;
+        ((List<Building>)Buildings).Add(building);
+      }
+    }
+
+    public T GetById<T>(int id) where T : EntityBase {
+      IEnumerable<T> collection = GetCollection<T>();
+      return collection.SingleOrDefault(x => x.Id == id);
+    }
+
+    private IEnumerable<T> GetCollection<T>() where T : EntityBase {
+      Dictionary<Type, IEnumerable> typeToCollection = new Dictionary<Type, IEnumerable>() {
+        { typeof(Building), Buildings },
+        // Add more types here
+      };
+
+      if (typeToCollection.TryGetValue(typeof(T), out IEnumerable collection))
+        return (IEnumerable<T>)collection;
+
+      throw new Exception("No collection for Type: " + typeof(T).Name);
     }
 
   }

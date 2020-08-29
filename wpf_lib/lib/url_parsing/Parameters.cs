@@ -22,5 +22,17 @@ namespace wpf_lib.lib {
     public int GetParameterAsInt(string name) {
       return int.Parse(GetParameter(name));
     }
+
+    public string Single() {
+      if (_parameters.Count != 1)
+        throw new Exception("Expected single parameter, but was: " + this);
+
+      return _parameters.Single().Item2;
+    }
+
+    public override string ToString() {
+      return string.Join("; ", _parameters
+        .Select(x => string.Format("{0} = {1}", x.Item1, x.Item2)));
+    }
   }
 }

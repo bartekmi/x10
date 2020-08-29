@@ -376,13 +376,17 @@ namespace x10.gen.wpf {
         PlatformName = "Button",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "Click",
+            Value = "NavigateToUrlInTag",
+          },
           new PlatformAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Content",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "url",
-            PlatformName = "ToolTip",
+            PlatformName = "Tag",
           },
         },
       },

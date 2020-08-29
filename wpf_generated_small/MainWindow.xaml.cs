@@ -9,10 +9,14 @@ using wpf_generated.ui;
 namespace wpf_generated {
   public partial class MainWindow : Window {
     public MainWindow() {
+      AppStatics.Create();
+
       InitializeComponent();
       InitializeContext();
 
+      AppStatics.Singleton.Navigation = uxWpfStoryBook;
       uxWpfStoryBook.InitializeComponents(Components());
+      uxWpfStoryBook.NavigateToUrl("/buildings");
     }
 
     private void InitializeContext() {

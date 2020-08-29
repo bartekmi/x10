@@ -1,4 +1,4 @@
-<Buildings model="Building" many="true">
+<Buildings model="Building" many="true" url="/buildings" query="Buildings">
   <VerticalStackPanel>
     <Heading1 text="Buildings"/>
     <HorizontalDivider/>
@@ -27,8 +27,11 @@
         <petPolicy/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" url="/building/${id}"/>
-            <Button label="Edit" url="/building/${id}/edit"/>
+            <!-- TODO: 
+            1) id should be lower case and validated against model 
+            2) edit vs. view - need to solve problem of hierarchical properties and optional url args -->
+            <Button label="View" url="/building/{Id}"/>
+            <Button label="Edit" url="/building/{Id}"/>
           </Row>
         </TableColumn>
       </Table.Columns>

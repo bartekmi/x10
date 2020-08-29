@@ -22,7 +22,6 @@ namespace wpf_sample {
     public IDataSource DataSource { get; private set; }
     public __Context__ Context { get; set; }
 
-
     private AppStatics() {
       DataSource = new DataSourceInMemory();
       WpfLibConfig.AssemblyForFindingTypes = "wpf_sample_net";

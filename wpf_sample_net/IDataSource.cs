@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using wpf_lib.lib;
 using wpf_generated.entities;
 using wpf_sample.entities.booking;
 using wpf_sample.entities.core;
@@ -18,7 +17,9 @@ namespace wpf_sample {
     // Small example stuff
     IEnumerable<Building> Buildings { get; }
 
-    void UpdateOrCreate(Booking model);
-    void UpdateOrCreate(Building model);
+    void CreateOrUpdate(Booking model);
+    void CreateOrUpdate(Building model);
+
+    T GetById<T>(int id) where T : EntityBase;
   }
 }

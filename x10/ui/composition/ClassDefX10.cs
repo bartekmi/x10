@@ -10,6 +10,7 @@ using static x10.ui.metadata.ClassDefNative;
 namespace x10.ui.composition {
   public class ClassDefX10 : ClassDef, IAcceptsUiAttributeValues {
     public Instance RootChild { get; set; }
+    public string Url { get; set; }
 
     // IAcceptsUiAttributeValues
     public List<UiAttributeValue> AttributeValues { get; private set; }
