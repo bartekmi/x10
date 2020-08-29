@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using wpf_generated.entities;
 
 using wpf_sample.entities.booking;
@@ -117,12 +117,15 @@ namespace wpf_sample {
       };
     }
 
-    public void Create(Booking booking) {
+    public void UpdateOrCreate(Booking booking) {
       ((List<Booking>)Bookings).Add(booking);
     }
 
-    public void Create(Building building) {
-      ((List<Building>)Buildings).Add(building);
+    public void UpdateOrCreate(Building building) {
+      if (building.IsNew()) {
+        building.Id = Buildings.Max(x => x.Id) + 1;
+        ((List<Building>)Buildings).Add(building);
+      }
     }
   }
 }

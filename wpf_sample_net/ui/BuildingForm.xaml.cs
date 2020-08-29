@@ -18,7 +18,7 @@ namespace wpf_generated.ui {
 
     // Submit Method(s)
     private void SaveClick(object sender, RoutedEventArgs e) {
-      ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.Create(ViewModel.Model),
+      ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.UpdateOrCreate(ViewModel.Model),
         "Saved");
     }
 

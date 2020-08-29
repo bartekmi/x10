@@ -20,7 +20,7 @@ namespace wpf_sample.ui.bookings {
     }
 
     private void SubmitClick(object sender, RoutedEventArgs e) {
-      ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.Create(ViewModel.Model),
+      ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.UpdateOrCreate(ViewModel.Model),
         "Booking saved");
     }
   }

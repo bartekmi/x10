@@ -18,7 +18,7 @@ namespace wpf_sample {
     // Small example stuff
     IEnumerable<Building> Buildings { get; }
 
-    void Create(Booking model);
-    void Create(Building model);
+    void UpdateOrCreate(Booking model);
+    void UpdateOrCreate(Building model);
   }
 }
