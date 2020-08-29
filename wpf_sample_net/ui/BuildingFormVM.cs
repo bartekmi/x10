@@ -33,11 +33,11 @@ namespace wpf_generated.ui {
     }
 
     public override void PopulateData(Parameters parameters) {
-      if (parameters.GetParameter("buildingId") == ViewModelBase.NEW_ENTITY_URL_TAG)
+      if (parameters.GetParameter("$buildingId") == ViewModelBase.NEW_ENTITY_URL_TAG)
         Model = Building.Create(null);
       else
         Model = AppStatics.Singleton.DataSource.Buildings
-          .SingleOrDefault(x => x.Id == parameters.GetParameterAsInt("buildingId"));
+          .SingleOrDefault(x => x.Id == parameters.GetParameterAsInt("$buildingId"));
     }
   }
 }

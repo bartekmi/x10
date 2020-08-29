@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using wpf_lib.lib;
 
 namespace wpf_lib.storybook {
-  public partial class WpfStoryBook : UserControl {
+  public partial class WpfStoryBook : UserControl, INavigation {
 
     private IEnumerable<ControlTypeWrapper> _wrappers;
 
@@ -21,7 +21,9 @@ namespace wpf_lib.storybook {
       _wrappers = types.Select(x => new ControlTypeWrapper(x));
     }
 
-    public void SetUrl(string url) {
+    public void NavigateToUrl(string url) {
+      uxTextBoxUrl.Text = url;
+
       foreach (ControlTypeWrapper wrapper in _wrappers) {
         if (wrapper.CorrespondsToUrl(url, out Parameters parameters)) {
           TopLevelControlBase control = wrapper.GetUserControl();
@@ -38,7 +40,7 @@ namespace wpf_lib.storybook {
     private void UxTextBoxUrl_KeyDown(object sender, KeyEventArgs e) {
       if (e.Key == Key.Return) {
         string url = uxTextBoxUrl.Text;
-        SetUrl(url);
+        NavigateToUrl(url);
       }
     }
 

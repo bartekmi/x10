@@ -90,6 +90,7 @@ namespace wpf_sample {
 
       _buildings = new List<Building>() {
         new Building() {
+          Id = 1,
           Name = "The District",
           Description = "Fashinable high-rise close to downtown Vancouver",
           PhysicalAddress = new Address() {
@@ -101,6 +102,7 @@ namespace wpf_sample {
           PetPolicy = PetPolicyEnum.AllPetsOk,
         },
         new Building() {
+          Id = 2,
           Name = "Filipino Community",
           Description = "4-Unit in NW Edmonton",
           PhysicalAddress = new Address() {

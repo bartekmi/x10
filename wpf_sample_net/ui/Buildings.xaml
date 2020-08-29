@@ -62,8 +62,8 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal" Margin="5,2">
-                  <Button Content="View" Margin="5,2" Padding="5, 2"/>
-                  <Button Content="Edit" Margin="5,2" Padding="5, 2"/>
+                  <Button Tag="/building/{Id}" Content="View" Margin="5,2" Padding="5, 2" Click="NavigateToUrlInTag"/>
+                  <Button Tag="/building/{Id}" Content="Edit" Margin="5,2" Padding="5, 2" Click="NavigateToUrlInTag"/>
                 </StackPanel>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>

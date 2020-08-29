@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wpf_lib;
+using wpf_lib.storybook;
 using wpf_sample.entities;
 
 namespace wpf_sample {
-  public class AppStatics {
-    private static AppStatics _singleton;
+  public class AppStatics : BaseAppStatics {
     public static AppStatics Singleton { 
       get {
-        if (_singleton == null)
-          _singleton = new AppStatics();
-        return _singleton;
+        return (AppStatics)BaseSingleton;
       }
+    }
+
+    public static void Create() {
+      BaseSingleton = new AppStatics();
     }
 
     public IDataSource DataSource { get; private set; }

@@ -13,11 +13,14 @@ using wpf_generated.ui;
 namespace wpf_sample {
   public partial class MainWindow : Window {
     public MainWindow() {
+      AppStatics.Create();
+
       InitializeComponent();
       InitializeContext();
 
+      AppStatics.Singleton.Navigation = uxWpfStoryBook;
       uxWpfStoryBook.InitializeComponents(Components());
-      uxWpfStoryBook.SetUrl("/buildings");
+      uxWpfStoryBook.NavigateToUrl("/buildings");
     }
 
     private void InitializeContext() {

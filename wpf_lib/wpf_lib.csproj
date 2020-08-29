@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseAppStatics.cs" />
     <Compile Include="lib\attributes\IconAttribute.cs" />
     <Compile Include="lib\attributes\LabelAttribute.cs" />
     <Compile Include="lib\card_selector\BooleanViaButtons.xaml.cs">
@@ -88,6 +89,7 @@
       <DependentUpon>Label.xaml</DependentUpon>
     </Compile>
     <Compile Include="lib\NotificationObject.cs" />
+    <Compile Include="lib\url_parsing\ParsedUrl.cs" />
     <Compile Include="lib\utils\EnumValueRepresentation.cs" />
     <Compile Include="lib\utils\NameUtils.cs" />
     <Compile Include="lib\utils\WpfUtils.cs" />
@@ -95,7 +97,8 @@
     <Compile Include="lib\ViewModelBase.cs" />
     <Compile Include="storybook\ControlTypeWrapper.cs" />
     <Compile Include="lib\TopLevelControlBase.cs" />
-    <Compile Include="lib\Parameters.cs" />
+    <Compile Include="lib\url_parsing\Parameters.cs" />
+    <Compile Include="storybook\INavigation.cs" />
     <Compile Include="WpfLibConfig.cs" />
     <Compile Include="storybook\WpfStoryBook.xaml.cs">
       <DependentUpon>WpfStoryBook.xaml</DependentUpon>
