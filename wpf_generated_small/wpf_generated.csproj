@@ -74,6 +74,10 @@
       <DependentUpon>Buildings.xaml</DependentUpon>
     </Compile>
     <Compile Include="__generated__\ui\BuildingsVM.cs" />
+    <Compile Include="__generated__\ui\TenantForm.xaml.cs" />
+    <Compile Include="__generated__\ui\TenantFormVM.cs" />
+    <Compile Include="__generated__\ui\Tenants.xaml.cs" />
+    <Compile Include="__generated__\ui\TenantsVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +97,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="__generated__\ui\Buildings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="__generated__\ui\TenantForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="__generated__\ui\Tenants.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,27 @@
+<TenantForm model="Tenant" url="/tenant/{$tenantId}" query="GetTenant(tenantId: $tenantId">
+  <Form>
+    <FormSection label="Tenant Info">
+      <name/>
+      <phone/>
+      <email/>
+    </FormSection>
+
+    <FormSection path="permanentMailingAddress" label="Permanent Mailing Address">
+      <address/>
+      <city/>
+      <stateOrProvince/>
+      <zip/>
+    </FormSection>
+
+    <RepellingRow>
+      <Text>* Required</Text>
+      <Row>
+        <SubmitButton label="Save">
+          <SubmitButton.Action>
+            <Action backEndTarget="/tenants/create" successUrl="/tenants"/>
+          </SubmitButton.Action>
+        </SubmitButton>
+      </Row>
+    </RepellingRow>
+  </Form>
+</TenantForm>

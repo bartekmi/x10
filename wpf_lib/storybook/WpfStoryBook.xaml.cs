@@ -34,7 +34,7 @@ namespace wpf_lib.storybook {
         }
       }
 
-      MessageBox.Show("URL not recognized", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+      MessageBox.Show("URL not recognized: " + url, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     private void UxTextBoxUrl_KeyDown(object sender, KeyEventArgs e) {

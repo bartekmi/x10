@@ -29,6 +29,8 @@ namespace wpf_generated {
       return new List<Type>() {
         typeof(BuildingForm),
         typeof(Buildings),
+        typeof(TenantForm),
+        typeof(Tenants),
       };
     }
   }

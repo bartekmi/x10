@@ -8,6 +8,9 @@ namespace wpf_generated.data {
     IEnumerable<Building> Buildings { get; }
     void CreateOrUpdate(Building model);
 
+    IEnumerable<Tenant> Tenants { get; }
+    void CreateOrUpdate(Tenant model);
+
     T GetById<T>(int id) where T : EntityBase;
   }
 }

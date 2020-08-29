@@ -404,7 +404,7 @@ namespace x10.gen.wpf {
           Comment = "Submit Method(s)",
           GenerateInXamlCs = (generator, instance) => {
             generator.WriteLine(2, "private void {0}Click(object sender, RoutedEventArgs e) {", instance.FindValue("label"));
-            generator.WriteLine(3, "ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.Create(ViewModel.Model),");
+            generator.WriteLine(3, "ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.CreateOrUpdate(ViewModel.Model),");
             generator.WriteLine(4, "\"Saved\");");
             generator.WriteLine(2, "}");
           }

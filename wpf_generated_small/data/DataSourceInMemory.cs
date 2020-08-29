@@ -8,10 +8,17 @@ using wpf_generated.entities;
 
 namespace wpf_generated.data {
   public class DataSourceInMemory : IDataSource {
+    #region Properties
     private List<Building> _buildings;
     public IEnumerable<Building> Buildings { get { return _buildings; } }
 
+    private List<Tenant> _tenants;
+    public IEnumerable<Tenant> Tenants { get { return _tenants; } }
+    #endregion
+
+    #region Initial Data / Constructor
     public DataSourceInMemory() {
+      #region Buildings
       _buildings = new List<Building>() {
         new Building() {
           Id = 1,
@@ -46,23 +53,67 @@ namespace wpf_generated.data {
           }
         },
       };
-    }
+      #endregion
 
-    public void CreateOrUpdate(Building building) {
-      if (building.IsNew()) {
-        building.Id = Buildings.Max(x => x.Id) + 1;
-        ((List<Building>)Buildings).Add(building);
+      #region Tenants
+      _tenants = new List<Tenant>() {
+        new Tenant() {
+          Id = 1,
+          Name = "Bartek Muszynski",
+          Phone = "825-903-2717",
+          Email = "220bartek@gmail.com",
+          PermanentMailingAddress = new Address() {
+            TheAddress = "111 Prominent Ave",
+            City = "Whitehorse",
+            StateOrProvince = "YK",
+            Zip = "Z57 1Z7",
+          }
+        },
+        new Tenant() {
+          Id = 2,
+          Name = "Imelda Muszynski",
+          Phone = "825-973-2717",
+          Email = "imuszynski@gmail.com",
+          PermanentMailingAddress = new Address() {
+            TheAddress = "101 Toronto Ave",
+            City = "Toronton",
+            StateOrProvince = "ON",
+            Zip = "Y1Y Z7D",
+          }
+        },
+      };
+      #endregion
+    }
+    #endregion
+
+    #region CreateOrUpdate
+    public void CreateOrUpdate(Building model) {
+      if (model.IsNew()) {
+        model.Id = Buildings.Max(x => x.Id) + 1;
+        ((List<Building>)Buildings).Add(model);
       }
     }
 
+    public void CreateOrUpdate(Tenant model) {
+      if (model.IsNew()) {
+        model.Id = Tenants.Max(x => x.Id) + 1;
+        ((List<Tenant>)Tenants).Add(model);
+      }
+    }
+    #endregion
+
+    #region GetById
     public T GetById<T>(int id) where T : EntityBase {
       IEnumerable<T> collection = GetCollection<T>();
       return collection.SingleOrDefault(x => x.Id == id);
     }
 
+
+
     private IEnumerable<T> GetCollection<T>() where T : EntityBase {
       Dictionary<Type, IEnumerable> typeToCollection = new Dictionary<Type, IEnumerable>() {
         { typeof(Building), Buildings },
+        { typeof(Tenant), Tenants },
         // Add more types here
       };
 
@@ -71,6 +122,6 @@ namespace wpf_generated.data {
 
       throw new Exception("No collection for Type: " + typeof(T).Name);
     }
-
+    #endregion
   }
 }
