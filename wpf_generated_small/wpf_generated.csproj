@@ -69,15 +69,30 @@
     <Compile Include="__generated__\ui\BuildingForm.xaml.cs">
       <DependentUpon>BuildingForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="__generated__\ui\BuildingFormVM.cs" />
+    <Compile Include="__generated__\ui\BuildingFormVM.cs">
+      <DependentUpon>BuildingForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="__generated__\ui\Buildings.xaml.cs">
       <DependentUpon>Buildings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="__generated__\ui\BuildingsVM.cs" />
-    <Compile Include="__generated__\ui\TenantForm.xaml.cs" />
-    <Compile Include="__generated__\ui\TenantFormVM.cs" />
-    <Compile Include="__generated__\ui\Tenants.xaml.cs" />
-    <Compile Include="__generated__\ui\TenantsVM.cs" />
+    <Compile Include="__generated__\ui\BuildingsVM.cs">
+      <DependentUpon>Buildings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="__generated__\ui\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="__generated__\ui\TenantForm.xaml.cs">
+      <DependentUpon>TenantForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="__generated__\ui\TenantFormVM.cs">
+      <DependentUpon>TenantForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="__generated__\ui\Tenants.xaml.cs">
+      <DependentUpon>Tenants.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="__generated__\ui\TenantsVM.cs">
+      <DependentUpon>Tenants.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +112,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="__generated__\ui\Buildings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="__generated__\ui\Header.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

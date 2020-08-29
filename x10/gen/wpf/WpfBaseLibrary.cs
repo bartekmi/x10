@@ -442,9 +442,17 @@ namespace x10.gen.wpf {
         PlatformName = "MenuItem",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeByFunc() {
+            PlatformName = "Click",
+            Function = (instance) => instance.HasAttributeValue("url") ? "NavigateToUrlInTag" : null
+          },
           new PlatformAttributeDataBind() {
             LogicalName = "label",
             PlatformName = "Header",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "url",
+            PlatformName = "Tag",
           },
         },
       },

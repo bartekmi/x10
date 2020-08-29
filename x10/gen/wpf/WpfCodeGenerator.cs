@@ -47,11 +47,15 @@ namespace x10.gen.wpf {
       GenerateXamlFile(classDef);
       GenerateXamlCsFile(classDef);
 
-      // Some trivial components might not have a data model - perhaps just text, etc
-      if (classDef.ComponentDataModel != null) {
+      if (GenerateVM(classDef)) {
         GenerateViewModelFile(classDef);
         GenerateViewModelCustomFile(classDef);
       }
+    }
+
+    // Some trivial components might not have a data model - perhaps just text, etc
+    private bool GenerateVM(ClassDefX10 classDef) {
+      return classDef.ComponentDataModel != null;
     }
 
     #region .xaml File
@@ -104,8 +108,11 @@ namespace x10.gen.wpf {
         WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.Value);
 
       // Write ByFunc Attributes
-      foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes)
-        WriteLine(level + 1, "{0}=\"{1}\"", byFuncAttr.PlatformName, byFuncAttr.Function(instance));
+      foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes) {
+        string value = byFuncAttr.Function(instance);
+        if (value != null)
+          WriteLine(level + 1, "{0}=\"{1}\"", byFuncAttr.PlatformName, value);
+      }
 
       UiAttributeValue primaryValue = instance.PrimaryValue;
       PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
@@ -241,9 +248,11 @@ namespace x10.gen.wpf {
       WriteLine(0, "namespace {0} {", GetNamespace(classDef.XmlElement));
       WriteLine(1, "public partial class {0} : TopLevelControlBase {", classDef.Name);
 
-      WriteLine();
-      WriteLine(2, "private {0}VM ViewModel { get { return ({0}VM)DataContext; } }", classDef.Name);
-      WriteLine();
+      if (GenerateVM(classDef)) {
+        WriteLine();
+        WriteLine(2, "private {0}VM ViewModel { get { return ({0}VM)DataContext; } }", classDef.Name);
+        WriteLine();
+      }
 
       GenerateConstructor(classDef);
       GenerateMethods(classDef);
@@ -258,7 +267,8 @@ namespace x10.gen.wpf {
     private void GenerateConstructor(ClassDefX10 classDef) {
       WriteLine(2, "public {0}() {", classDef.Name);
       WriteLine(3, "InitializeComponent();");
-      WriteLine(3, "DataContext = new {0}VM(this);", classDef.Name);
+      if (GenerateVM(classDef))
+        WriteLine(3, "DataContext = new {0}VM(this);", classDef.Name);
       WriteLine(3, "Url = \"{0}\";", classDef.Url);
       WriteLine(2, "}");
       WriteLine();

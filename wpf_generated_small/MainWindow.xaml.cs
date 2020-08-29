@@ -15,6 +15,7 @@ namespace wpf_generated {
       InitializeContext();
 
       AppStatics.Singleton.Navigation = uxWpfStoryBook;
+      uxWpfStoryBook.SetHeader(new Header());
       uxWpfStoryBook.InitializeComponents(Components());
       uxWpfStoryBook.NavigateToUrl("/buildings");
     }
