@@ -67,6 +67,9 @@
     <Compile Include="entities\Tenant.cs" />
     <Compile Include="entities\Unit.cs" />
     <Compile Include="functions\Functions.cs" />
+    <Compile Include="ui\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ui\bookings\Bookings.xaml.cs">
       <DependentUpon>Bookings.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
     <Compile Include="ui\BuildingsVM.cs">
       <DependentUpon>Buildings.xaml</DependentUpon>
     </Compile>
+    <Page Include="ui\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ui\bookings\BookingForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

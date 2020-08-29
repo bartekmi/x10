@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 
 using wpf_sample.entities;
-using wpf_sample.ui.bookings;
 
 using wpf_sample.entities.core;
 using wpf_generated.ui;
@@ -19,6 +18,7 @@ namespace wpf_sample {
       InitializeContext();
 
       AppStatics.Singleton.Navigation = uxWpfStoryBook;
+      uxWpfStoryBook.SetHeader(new Header());
       uxWpfStoryBook.InitializeComponents(Components());
       uxWpfStoryBook.NavigateToUrl("/buildings");
     }
@@ -35,10 +35,8 @@ namespace wpf_sample {
 
     private static List<Type> Components() {
       return new List<Type>() {
-        //typeof(BookingForm),
-        //typeof(Bookings),
         typeof(BuildingForm),
-        typeof(Buildings)
+        typeof(Buildings),
       };
     }
   }

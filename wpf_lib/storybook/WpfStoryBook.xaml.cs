@@ -17,6 +17,14 @@ namespace wpf_lib.storybook {
       uxTextBoxUrl.KeyDown += UxTextBoxUrl_KeyDown;
     }
 
+    public void SetHeader(UserControl header) {
+      uxHeader.Children.Add(header);
+    }
+
+    public void SetFooter(UserControl footer) {
+      uxFooter.Children.Add(footer);
+    }
+
     public void InitializeComponents(IEnumerable<Type> types) {
       _wrappers = types.Select(x => new ControlTypeWrapper(x));
     }
