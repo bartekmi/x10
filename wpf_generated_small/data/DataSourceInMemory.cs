@@ -14,6 +14,15 @@ namespace wpf_generated.data {
 
     private List<Tenant> _tenants;
     public IEnumerable<Tenant> Tenants { get { return _tenants; } }
+
+    private Dictionary<Type, IEnumerable> TypeToCollection() {
+      return new Dictionary<Type, IEnumerable>() {
+        { typeof(Building), Buildings },
+        { typeof(Tenant), Tenants },
+        // Add more types here
+      };
+    }
+
     #endregion
 
     #region Initial Data / Constructor
@@ -52,13 +61,13 @@ namespace wpf_generated.data {
             Zip = "T3L 1R9",
           }
         },
-      };
+    };
       #endregion
 
       #region Tenants
       _tenants = new List<Tenant>() {
         new Tenant() {
-          Id = 1,
+      Id = 1,
           Name = "Bartek Muszynski",
           Phone = "825-903-2717",
           Email = "220bartek@gmail.com",
@@ -83,6 +92,21 @@ namespace wpf_generated.data {
         },
       };
       #endregion
+
+      Validate();
+    }
+
+    private void Validate() {
+      foreach (var item in TypeToCollection()) {
+        string type = item.Key.Name;
+        IEnumerable<EntityBase> records = item.Value.Cast<EntityBase>();
+        if (records.Any(x => x.IsNew()))
+          throw new Exception("Some id's not set for " + type);
+
+        IEnumerable<int> ids = records.Select(x => x.Id);
+        if (new HashSet<int>(ids).Count != ids.Count())
+          throw new Exception("Some id's are not unique for " + type);
+      }
     }
     #endregion
 
@@ -108,16 +132,9 @@ namespace wpf_generated.data {
       return collection.SingleOrDefault(x => x.Id == id);
     }
 
-
-
     private IEnumerable<T> GetCollection<T>() where T : EntityBase {
-      Dictionary<Type, IEnumerable> typeToCollection = new Dictionary<Type, IEnumerable>() {
-        { typeof(Building), Buildings },
-        { typeof(Tenant), Tenants },
-        // Add more types here
-      };
 
-      if (typeToCollection.TryGetValue(typeof(T), out IEnumerable collection))
+      if (TypeToCollection().TryGetValue(typeof(T), out IEnumerable collection))
         return (IEnumerable<T>)collection;
 
       throw new Exception("No collection for Type: " + typeof(T).Name);
