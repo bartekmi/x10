@@ -156,6 +156,26 @@
         />
       </lib:EditElementWrapper>
     </lib:FormSection>
+
+    <lib:FormSection
+      Label="Units"
+    >
+      <lib:EditableList AddLabel="+ Add Unit" ItemsSource="{Binding Units}">
+        <!--<lib:EditableList.ItemTemplate>
+          <DataTemplate>
+            <lib:EditElementWrapper
+              Label="Name / Number"
+              EditorFor="Name"
+            >
+              <TextBox
+                Text="{ Binding Model.Number }"
+              />
+            </lib:EditElementWrapper>
+          </DataTemplate>
+        </lib:EditableList.ItemTemplate>-->
+      </lib:EditableList>
+    </lib:FormSection>
+
     <Grid>
       <TextBlock/>
       <StackPanel

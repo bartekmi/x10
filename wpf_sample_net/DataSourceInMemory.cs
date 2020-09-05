@@ -101,6 +101,22 @@ namespace wpf_sample {
           MailingAddressSameAsPhysical = true,
           DateOfOccupancy = new DateTime(2013, 01, 12),
           PetPolicy = PetPolicyEnum.AllPetsOk,
+          Units = new List<Unit>() {
+            new Unit() {
+              Number = "510",
+              SquareFeet = 780,
+              NumberOfBedrooms = 2,
+              NumberOfBathrooms = NumberOfBathroomsEnum.One,
+              HasBalcony = false,
+            },
+            new Unit() {
+              Number = "628",
+              SquareFeet = 1130,
+              NumberOfBedrooms = 2,
+              NumberOfBathrooms = NumberOfBathroomsEnum.Two,
+              HasBalcony = true,
+            },
+          },
         },
         new Building() {
           Id = 2,
@@ -114,6 +130,22 @@ namespace wpf_sample {
           DateOfOccupancy = new DateTime(1975, 06, 15),
           PetPolicy = PetPolicyEnum.DogsOnly,
           MailboxType = MailboxTypeEnum.InBuilding,
+          Units = new List<Unit>() {
+            new Unit() {
+              Number = "10609-Main",
+              SquareFeet = 1200,
+              NumberOfBedrooms = 3,
+              NumberOfBathrooms = NumberOfBathroomsEnum.One,
+              HasBalcony = false,
+            },
+            new Unit() {
+              Number = "10609-Basement",
+              SquareFeet = 820,
+              NumberOfBedrooms = 2,
+              NumberOfBathrooms = NumberOfBathroomsEnum.One,
+              HasBalcony = false,
+            },
+          },
         },
       };
     }

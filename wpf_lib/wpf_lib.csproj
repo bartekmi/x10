@@ -68,6 +68,9 @@
     <Compile Include="lib\converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="lib\converter\NullToBooleanConverter.cs" />
     <Compile Include="lib\converter\NullToVisibilityConverter.cs" />
+    <Compile Include="lib\list\EditableList.xaml.cs">
+      <DependentUpon>EditableList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="lib\EditElementWrapper.xaml.cs">
       <DependentUpon>EditElementWrapper.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,9 @@
     </Compile>
     <Compile Include="lib\Label.xaml.cs">
       <DependentUpon>Label.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="lib\list\EditableListItem.xaml.cs">
+      <DependentUpon>EditableListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="lib\NotificationObject.cs" />
     <Compile Include="lib\url_parsing\ParsedUrl.cs" />
@@ -139,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="lib\list\EditableList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="lib\EditElementWrapper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -162,6 +172,10 @@
     <Page Include="lib\Label.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="lib\list\EditableListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="storybook\WpfStoryBook.xaml">
       <Generator>MSBuild:Compile</Generator>
