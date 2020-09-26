@@ -26,6 +26,9 @@ namespace Small {
       // Add in-memory event provider
       services.AddInMemorySubscriptionProvider();
 
+      // Add CORS
+      services.AddCors();
+
       // Add GraphQL Services
       services.AddGraphQL(sp => CreateSchema(sp));
     }
@@ -59,6 +62,12 @@ namespace Small {
       app
         .UseRouting()
         .UseWebSockets()
+        .UseCors(policy => {
+          policy.AllowAnyHeader();
+          policy.AllowAnyMethod();
+          policy.SetIsOriginAllowed(origin => true); // allow any origin
+          policy.AllowCredentials();
+        })
         .UseGraphQL("/graphql")
         .UsePlayground("/graphql")
         .UseVoyager("/graphql");
