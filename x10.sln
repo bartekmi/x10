@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30001.183
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hot_chocolate_small", "hot_chocolate_small\HotChocolateSmall.csproj", "{5C361373-63DE-4ECA-A7D9-EC57343C4000}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "x10", "x10\x10.csproj", "{5C361373-63DE-4ECA-A7D9-EC57343C4954}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "x10-test", "x10-test\x10-test.csproj", "{591A42BE-D4C7-427E-94AD-2AF888AD5350}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_sample_net", "wpf_sample_net\wpf_sample_net.csproj", "{92AF9ED2-C212-4351-8D82-E3232B805A4A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_lib", "wpf_lib\wpf_lib.csproj", "{4340A4C4-0CDF-482F-908A-F3E4E5F5D3D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

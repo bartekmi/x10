@@ -56,7 +56,7 @@ namespace x10.ui.metadata {
       }
     }
     public bool CaresAboutDataModel {
-      get { return DataModelType != null && IsMany != null; }
+      get { return DataModelType != null; }
     }
     public IEnumerable<UiAttributeDefinition> AttributeDefinitions {
       get {

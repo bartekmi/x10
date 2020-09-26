@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using System;
+using System.IO;
+
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
@@ -24,22 +27,28 @@ namespace Small {
       services.AddInMemorySubscriptionProvider();
 
       // Add GraphQL Services
-      services.AddGraphQL(sp => SchemaBuilder.New()
-          .AddServices(sp)
-          .AddQueryType(d => d.Name("Query"))
-          .AddMutationType(d => d.Name("Mutation"))
-          .AddSubscriptionType(d => d.Name("Subscription"))
+      services.AddGraphQL(sp => CreateSchema(sp));
+    }
 
-          .AddType<SmallQueries>()
-          .AddType<SmallMutations>()
+    public static ISchema CreateSchema(IServiceProvider sp) {
+      ISchema schema = SchemaBuilder.New()
+        .AddServices(sp)
+        .AddQueryType(d => d.Name("Query"))
+        .AddMutationType(d => d.Name("Mutation"))
 
-          .AddType<Address>()
-          .AddType<Tenant>()
-          .AddType<Unit>()
-          .AddType<Building>()
-          .AddType<Move>()
+        .AddType<SmallQueries>()
+        .AddType<SmallMutations>()
 
-          .Create());
+        .AddType<Address>()
+        .AddType<Tenant>()
+        .AddType<Unit>()
+        .AddType<Building>()
+        .AddType<Move>()
+
+        .Create();
+
+      File.WriteAllText(Program.SCHEMA_OUTPUT_FILE, schema.ToString());
+      return schema;
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -48,11 +57,11 @@ namespace Small {
       }
 
       app
-          .UseRouting()
-          .UseWebSockets()
-          .UseGraphQL("/graphql")
-          .UsePlayground("/graphql")
-          .UseVoyager("/graphql");
+        .UseRouting()
+        .UseWebSockets()
+        .UseGraphQL("/graphql")
+        .UsePlayground("/graphql")
+        .UseVoyager("/graphql");
     }
   }
 }
