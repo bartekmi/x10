@@ -5,7 +5,7 @@
       "label": "build",
       "command": "dotnet",
       "type": "process",
-      "args": ["build", "${workspaceFolder}/x10.sln"],
+      "args": ["build", "${workspaceFolder}/hot_chocolate_small/HotChocolateSmall.csproj"],
       "problemMatcher": "$tsc"
     },
     {

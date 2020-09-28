@@ -11,9 +11,9 @@ namespace Small.Repositories {
     private Dictionary<int, Move> _moves;
 
     public SmallRepository() {
-      _buildings = CreateBuildings().ToDictionary(t => t.Id);
-      _tenants = CreateTenants().ToDictionary(t => t.Id);
-      _moves = CreateMoves().ToDictionary(t => t.Id);
+      _buildings = CreateBuildings().ToDictionary(t => t.Dbid);
+      _tenants = CreateTenants().ToDictionary(t => t.Dbid);
+      _moves = CreateMoves().ToDictionary(t => t.Dbid);
     }
 
     #region Buildings
@@ -26,8 +26,8 @@ namespace Small.Repositories {
     }
 
     public int AddBuilding(Building building) {
-      int newId = _buildings.Values.Max(x => x.Id) + 1;
-      building.Id = newId;
+      int newId = _buildings.Values.Max(x => x.Dbid) + 1;
+      building.Dbid = newId;
       building.Moniker = "Bldg-" + newId;
       _buildings[newId] = building;
       return newId;
@@ -37,7 +37,7 @@ namespace Small.Repositories {
     private static IEnumerable<Building> CreateBuildings() {
       return new List<Building>() {
         new Building() {
-          Id = 1,
+          Dbid = 1,
           Moniker = "Bldg-1",
           Name = "The Grotto",
           Description = "A stylish bungalow in the middle of town",
@@ -69,7 +69,7 @@ namespace Small.Repositories {
           }
         },
         new Building() {
-          Id = 2,
+          Dbid = 2,
           Moniker = "Bldg-2",
           Name = "Our Home",
           Description = "Our family home - loved and beautiful",
@@ -100,7 +100,7 @@ namespace Small.Repositories {
     private static IEnumerable<Tenant> CreateTenants() {
       return new List<Tenant>() {
         new Tenant() {
-          Id = 1,
+          Dbid = 1,
           Name = "Bartek Muszynski",
           Phone = "825-903-2717",
           Email = "220bartek@gmail.com",
@@ -112,7 +112,7 @@ namespace Small.Repositories {
           }
         },
         new Tenant() {
-          Id = 2,
+          Dbid = 2,
           Name = "Imelda Muszynski",
           Phone = "825-973-2717",
           Email = "imuszynski@gmail.com",
