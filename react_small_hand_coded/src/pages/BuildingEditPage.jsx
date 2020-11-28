@@ -3,8 +3,8 @@
 import * as React from "react";
 import { graphql, QueryRenderer } from "react-relay";
 
-// import Text from "latitude/Text";
-// import Group from "latitude/Group"
+import Text from "latitude/Text";
+import Group from "latitude/Group"
 
 import environment from "../environment";
 import type {BuildingEditPageQueryResponse} from "./__generated__/BuildingEditPageQuery.graphql";
@@ -18,17 +18,17 @@ function BuildingEditPage(props: Props): React.Node {
   const {building} = props;
   
   return (
-    <p>{building.name}</p>
-    // <Group flexDirection="column">
-    //   <Group>
-    //     <Text>Name:</Text>
-    //     <Text>{building.name}</Text>
-    //   </Group>
-    //   <Group>
-    //     <Text>Description:</Text>
-    //     <Text>{building.description}</Text>
-    //   </Group>
-    // </Group>
+    //<p>{building.name}</p>
+    <Group flexDirection="column">
+      <Group>
+        <Text>Name:</Text>
+        <Text>{building.name}</Text>
+      </Group>
+      <Group>
+        <Text>Description:</Text>
+        <Text>{building.description}</Text>
+      </Group>
+    </Group>
   );
 }
 

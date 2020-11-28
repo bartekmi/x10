@@ -28,19 +28,37 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        // look for .js or .jsx files
-        test: /\.(js|jsx)$/,
-        // in the `src` directory
+        test: /\.jsx?$/,
         include: path.resolve(paths.appSrc),
         exclude: /(node_modules)/,
         use: {
           // use babel for transpiling JavaScript files
           loader: "babel-loader",
           options: {
-            presets: ["@babel/react"]
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-flow"
+            ]
           }
         }
       },
+      {
+        test: /\.jsx?$/,
+        include: /node_modules\/latitude\/.*/,
+        exclude: /node_modules\/latitude\/node_modules\/.*/,
+        use: {
+          // use babel for transpiling JavaScript files
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-flow"
+            ]
+          }
+        }
+      },      
       {
         // look for .css or .scss files
         test: /\.(css|scss)$/,
