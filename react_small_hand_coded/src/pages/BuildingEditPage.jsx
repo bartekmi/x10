@@ -35,27 +35,27 @@ function BuildingEditPage(props: Props): React.Node {
 
   return (
     //<p>{building.name}</p>
-    // <Group flexDirection="column">
-    //   <Group>
-    //     <Text>Name:</Text>
-    //     <Text>{building.name}</Text>
-    //   </Group>
-    //   <Group>
-    //     <Text>Description:</Text>
-    //     <Text>{building.description}</Text>
-    //   </Group>
-    // </Group>
-    <>
-      <DummyStatefulComponent
-        onText="I am ON :)"
-        offText="I am OFF :("
-        onChange={((value) => setOn(value))}
-      />
-      <OnOffContext.Provider value={isOn ? contextValues.on : contextValues.off}>
-        <DummyContextComponent text="This is the main text!"/>
-      </OnOffContext.Provider>
-      <DummyContextComponent text="Surrounded by default values ~~~"/>
-    </>
+    <Group flexDirection="column">
+      <Group>
+        <Text>Name:</Text>
+        <Text>{building.name}</Text>
+      </Group>
+      <Group>
+        <Text>Description:</Text>
+        <Text>{building.description}</Text>
+      </Group>
+    </Group>
+    // <>
+    //   <DummyStatefulComponent
+    //     onText="I am ON :)"
+    //     offText="I am OFF :("
+    //     onChange={((value) => setOn(value))}
+    //   />
+    //   <OnOffContext.Provider value={isOn ? contextValues.on : contextValues.off}>
+    //     <DummyContextComponent text="This is the main text!"/>
+    //   </OnOffContext.Provider>
+    //   <DummyContextComponent text="Surrounded by default values ~~~"/>
+    // </>
   );
 }
 
