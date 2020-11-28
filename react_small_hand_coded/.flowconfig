@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+node_modules/latitude/flow-typed-overrides
 
 [lints]
 
