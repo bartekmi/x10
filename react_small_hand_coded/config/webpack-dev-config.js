@@ -31,17 +31,7 @@ module.exports = merge(common, {
         test: /\.jsx?$/,
         include: path.resolve(paths.appSrc),
         exclude: /(node_modules)/,
-        use: {
-          // use babel for transpiling JavaScript files
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-flow"
-            ]
-          }
-        }
+        loader: "babel-loader", // Options in .babelrc
       },
       {
         test: /\.jsx?$/,
@@ -55,6 +45,9 @@ module.exports = merge(common, {
               "@babel/preset-env",
               "@babel/preset-react",
               "@babel/preset-flow"
+            ],
+            "plugins": [
+              "@babel/plugin-proposal-class-properties",
             ]
           }
         }
@@ -62,8 +55,6 @@ module.exports = merge(common, {
       {
         // look for .css or .scss files
         test: /\.(css|scss)$/,
-        // in the `src` directory
-        include: [path.resolve(paths.appSrc)],
         use: [
           {
             loader: "style-loader"

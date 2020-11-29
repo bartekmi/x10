@@ -8,8 +8,11 @@ import Text from "latitude/Text";
 import TextInput from "latitude/TextInput";
 import TextareaInput from "latitude/TextareaInput";
 import Label from "latitude/Label";
+import Button from "latitude/button/Button";
 
+import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
 import environment from "../environment";
+
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
 type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;
@@ -19,8 +22,11 @@ type Props = {|
 |};
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
-  const [ editedBuilding, setEditedBuilding ] = React.useState(building);
+  const [editedBuilding, setEditedBuilding] = React.useState(building);
 
+  const save = () => {
+    console.log("Clicked Save!")
+  };
 
   const contextValues = {
     on: {
@@ -36,29 +42,41 @@ function BuildingEditPage(props: Props): React.Node {
   return (
     <Group flexDirection="column">
       <Text scale="headline">{`Editing Building ${building.name || ""}`}</Text>
-      <Group>
-        <Label value="Name:" >
-          <TextInput 
-            value={editedBuilding.name}
-            onChange={() => {}}
-          />
-        </Label>
-        <Text>Name:</Text>
-      </Group>
-      <Group>
-        <Text>Description:</Text>
-        <Text>{building.description}</Text>
-      </Group>
+      <Label value="Name:" >
+        <TextInput
+          value={editedBuilding.name}
+          onChange={(value) => {
+            setEditedBuilding({...editedBuilding, name: value})
+          }}
+        />
+      </Label>
+      <Label value="Description:" >
+        <TextareaInput
+          value={editedBuilding.description}
+          onChange={(value) => {
+            setEditedBuilding({...editedBuilding, description: value})
+          }}
+        />
+      </Label>
+      <Label value="Date of Occupancy:" >
+        <X10_CalendarDateInput
+          value={editedBuilding.dateOfOccupancy}
+          onChange={(value) => {
+            setEditedBuilding({...editedBuilding, dateOfOccupancy: value})
+          }}
+        />
+      </Label>
+      <Button onClick={save}>Save</Button>
     </Group>
   );
 }
 
 type WrapperProps = {
   +match: {
-  +params: {
-    +id: string
+    +params: {
+      +id: string
+    }
   }
-}
 };
 export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
   const stringId = props.match.params.id;
@@ -95,6 +113,7 @@ const query = graphql`
     building(id: $id) {
       name
       description
+      dateOfOccupancy
     }
   }
 `;

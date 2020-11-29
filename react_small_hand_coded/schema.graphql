@@ -1,0 +1,322 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Address {
+  city: String
+  dbid: Int!
+  stateOrProvince: String
+  theAddress: String
+  unitNumber: String
+  zip: String
+}
+
+"A physical structure that contains Units to be occupied by Tenants"
+type Building {
+  dateOfOccupancy: DateTime
+  dbid: Int!
+  description: String!
+  mailboxType: MailboxTypeEnum
+  mailingAddress: Address
+  mailingAddressSameAsPhysical: Boolean!
+  moniker: String
+  name: String!
+  petPolicy: PetPolicyEnum
+  physicalAddress: Address
+  units: [Unit]
+}
+
+"A connection to a list of items."
+type BuildingConnection {
+  "A list of edges."
+  edges: [BuildingEdge!]
+  "A flattened list of the nodes."
+  nodes: [Building]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type BuildingEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Building
+}
+
+type Move {
+  date: DateTime
+  dbid: Int!
+  from: Unit
+  tenant: Tenant
+  to: Unit
+}
+
+type Mutation {
+  "Creates a new Building"
+  createBuilding(dateOfOccupancy: DateTime! description: String mailboxType: MailboxTypeEnum mailingAddress: AddressInput mailingAddressSameAsPhysical: Boolean! name: String! petPolicy: PetPolicyEnum physicalAddress: AddressInput!): Int!
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+  "Indicates whether more edges exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more edges exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+}
+
+type Query {
+  "Retrieve a Building by its id"
+  building("The id of the building." id: Int!): Building!
+  "Gets all buildings."
+  buildings(after: String before: String first: PaginationAmount last: PaginationAmount order_by: BuildingSort where: BuildingFilter): BuildingConnection
+  "Gets all tenants."
+  tenants(after: String before: String first: PaginationAmount last: PaginationAmount order_by: TenantSort where: TenantFilter): TenantConnection
+}
+
+type Tenant {
+  dbid: Int!
+  email: String
+  name: String
+  permanentMailingAddress: Address
+  phone: String
+}
+
+"A connection to a list of items."
+type TenantConnection {
+  "A list of edges."
+  edges: [TenantEdge!]
+  "A flattened list of the nodes."
+  nodes: [Tenant]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type TenantEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Tenant
+}
+
+type Unit {
+  dbid: Int!
+  hasBalcony: Boolean!
+  number: String
+  numberOfBathrooms: NumberOfBathroomsEnum
+  numberOfBedrooms: Int
+  squareFeet: Float
+}
+
+input AddressInput {
+  city: String
+  dbid: Int!
+  stateOrProvince: String
+  theAddress: String
+  unitNumber: String
+  zip: String
+}
+
+"A physical structure that contains Units to be occupied by Tenants"
+input BuildingFilter {
+  AND: [BuildingFilter!]
+  dateOfOccupancy: DateTime
+  dateOfOccupancy_gt: DateTime
+  dateOfOccupancy_gte: DateTime
+  dateOfOccupancy_in: [DateTime]
+  dateOfOccupancy_lt: DateTime
+  dateOfOccupancy_lte: DateTime
+  dateOfOccupancy_not: DateTime
+  dateOfOccupancy_not_gt: DateTime
+  dateOfOccupancy_not_gte: DateTime
+  dateOfOccupancy_not_in: [DateTime]
+  dateOfOccupancy_not_lt: DateTime
+  dateOfOccupancy_not_lte: DateTime
+  dbid: Int
+  dbid_gt: Int
+  dbid_gte: Int
+  dbid_in: [Int!]
+  dbid_lt: Int
+  dbid_lte: Int
+  dbid_not: Int
+  dbid_not_gt: Int
+  dbid_not_gte: Int
+  dbid_not_in: [Int!]
+  dbid_not_lt: Int
+  dbid_not_lte: Int
+  description: String
+  description_contains: String
+  description_ends_with: String
+  description_in: [String!]
+  description_not: String
+  description_not_contains: String
+  description_not_ends_with: String
+  description_not_in: [String!]
+  description_not_starts_with: String
+  description_starts_with: String
+  mailboxType: MailboxTypeEnum
+  mailboxType_gt: MailboxTypeEnum
+  mailboxType_gte: MailboxTypeEnum
+  mailboxType_in: [MailboxTypeEnum]
+  mailboxType_lt: MailboxTypeEnum
+  mailboxType_lte: MailboxTypeEnum
+  mailboxType_not: MailboxTypeEnum
+  mailboxType_not_gt: MailboxTypeEnum
+  mailboxType_not_gte: MailboxTypeEnum
+  mailboxType_not_in: [MailboxTypeEnum]
+  mailboxType_not_lt: MailboxTypeEnum
+  mailboxType_not_lte: MailboxTypeEnum
+  mailingAddressSameAsPhysical: Boolean
+  mailingAddressSameAsPhysical_not: Boolean
+  moniker: String
+  moniker_contains: String
+  moniker_ends_with: String
+  moniker_in: [String]
+  moniker_not: String
+  moniker_not_contains: String
+  moniker_not_ends_with: String
+  moniker_not_in: [String]
+  moniker_not_starts_with: String
+  moniker_starts_with: String
+  name: String
+  name_contains: String
+  name_ends_with: String
+  name_in: [String!]
+  name_not: String
+  name_not_contains: String
+  name_not_ends_with: String
+  name_not_in: [String!]
+  name_not_starts_with: String
+  name_starts_with: String
+  OR: [BuildingFilter!]
+  petPolicy: PetPolicyEnum
+  petPolicy_gt: PetPolicyEnum
+  petPolicy_gte: PetPolicyEnum
+  petPolicy_in: [PetPolicyEnum]
+  petPolicy_lt: PetPolicyEnum
+  petPolicy_lte: PetPolicyEnum
+  petPolicy_not: PetPolicyEnum
+  petPolicy_not_gt: PetPolicyEnum
+  petPolicy_not_gte: PetPolicyEnum
+  petPolicy_not_in: [PetPolicyEnum]
+  petPolicy_not_lt: PetPolicyEnum
+  petPolicy_not_lte: PetPolicyEnum
+}
+
+"A physical structure that contains Units to be occupied by Tenants"
+input BuildingSort {
+  dateOfOccupancy: SortOperationKind
+  dbid: SortOperationKind
+  description: SortOperationKind
+  mailboxType: SortOperationKind
+  mailingAddressSameAsPhysical: SortOperationKind
+  moniker: SortOperationKind
+  name: SortOperationKind
+  petPolicy: SortOperationKind
+}
+
+input TenantFilter {
+  AND: [TenantFilter!]
+  dbid: Int
+  dbid_gt: Int
+  dbid_gte: Int
+  dbid_in: [Int!]
+  dbid_lt: Int
+  dbid_lte: Int
+  dbid_not: Int
+  dbid_not_gt: Int
+  dbid_not_gte: Int
+  dbid_not_in: [Int!]
+  dbid_not_lt: Int
+  dbid_not_lte: Int
+  email: String
+  email_contains: String
+  email_ends_with: String
+  email_in: [String]
+  email_not: String
+  email_not_contains: String
+  email_not_ends_with: String
+  email_not_in: [String]
+  email_not_starts_with: String
+  email_starts_with: String
+  name: String
+  name_contains: String
+  name_ends_with: String
+  name_in: [String]
+  name_not: String
+  name_not_contains: String
+  name_not_ends_with: String
+  name_not_in: [String]
+  name_not_starts_with: String
+  name_starts_with: String
+  OR: [TenantFilter!]
+  phone: String
+  phone_contains: String
+  phone_ends_with: String
+  phone_in: [String]
+  phone_not: String
+  phone_not_contains: String
+  phone_not_ends_with: String
+  phone_not_in: [String]
+  phone_not_starts_with: String
+  phone_starts_with: String
+}
+
+input TenantSort {
+  dbid: SortOperationKind
+  email: SortOperationKind
+  name: SortOperationKind
+  phone: SortOperationKind
+}
+
+enum MailboxTypeEnum {
+  INBUILDING
+  COMMUNITY
+  INDIVIDUAL
+}
+
+enum NumberOfBathroomsEnum {
+  HALF
+  ONE
+  ONEANDHALF
+  TWO
+  THREE
+  FOURPLUS
+}
+
+enum PetPolicyEnum {
+  NOPETS
+  ALLPETSOK
+  CATSONLY
+  DOGSONLY
+}
+
+enum SortOperationKind {
+  ASC
+  DESC
+}
+
+"The `Boolean` scalar type represents `true` or `false`."
+scalar Boolean
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+"The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http:\/\/en.wikipedia.org\/wiki\/IEEE_floating_point)."
+scalar Float
+
+"The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."
+scalar Int
+
+scalar PaginationAmount
+
+"The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."
+scalar String

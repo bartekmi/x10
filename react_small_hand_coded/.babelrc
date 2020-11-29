@@ -1,3 +1,5 @@
+// CAREFUL: Any settings here can be overridden by webpack config files
+// if "options" are specified for babel-loader
 {
   "presets": [
     "@babel/preset-env",

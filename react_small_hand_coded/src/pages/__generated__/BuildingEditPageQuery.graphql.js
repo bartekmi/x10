@@ -15,6 +15,7 @@ export type BuildingEditPageQueryResponse = {|
   +building: {|
     +name: string,
     +description: string,
+    +dateOfOccupancy: ?string,
   |}
 |};
 export type BuildingEditPageQuery = {|
@@ -31,6 +32,7 @@ query BuildingEditPageQuery(
   building(id: $id) {
     name
     description
+    dateOfOccupancy
   }
 }
 */
@@ -71,6 +73,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "description",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "dateOfOccupancy",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -94,16 +103,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "7b762376ceced91802d1713d6748a525",
+    "cacheID": "89c5cb650f315cbafa5566c999308915",
     "id": null,
     "metadata": {},
     "name": "BuildingEditPageQuery",
     "operationKind": "query",
-    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    name\n    description\n  }\n}\n"
+    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    name\n    description\n    dateOfOccupancy\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '41dce0811c9aaa130989506b85c4b987';
+(node/*: any*/).hash = 'dee2fef873c1cbd01f6396f2e5cfaecc';
 
 module.exports = node;
