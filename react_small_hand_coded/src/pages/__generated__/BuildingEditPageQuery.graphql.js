@@ -13,8 +13,8 @@ export type BuildingEditPageQueryVariables = {|
 |};
 export type BuildingEditPageQueryResponse = {|
   +building: {|
-    +name: ?string,
-    +description: ?string,
+    +name: string,
+    +description: string,
   |}
 |};
 export type BuildingEditPageQuery = {|

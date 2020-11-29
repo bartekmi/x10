@@ -45,6 +45,6 @@
     "clean": "rm -rf build/*",
     "start": "node config/webpack-dev-server.js",
     "start:prod": "yarn build; serve build",
-    "relay": "relay-compiler --src ./src --schema ../schema.graphql --extensions js jsx"
+    "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions js jsx"
   }
 }

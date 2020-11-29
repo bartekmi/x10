@@ -13,8 +13,8 @@ export type BuildingsPageQueryResponse = {|
   +buildings: ?{|
     +nodes: ?$ReadOnlyArray<?{|
       +dbid: number,
-      +name: ?string,
-      +description: ?string,
+      +name: string,
+      +description: string,
     |}>
   |}
 |};

@@ -13,9 +13,7 @@ namespace Small.Entities {
     FourPlus,
   }
 
-
   public class Unit : EntityBase {
-
     public string? Number { get; set;}
     public double? SquareFeet { get; set;}
     public int? NumberOfBedrooms { get; set;}

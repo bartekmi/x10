@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using HotChocolate;
+
 namespace Small.Entities {
 
   public enum MailboxTypeEnum {
@@ -23,7 +25,9 @@ namespace Small.Entities {
 
     // Regular Attributes
     public string? Moniker { get; set; }
+    [GraphQLNonNullType]
     public string? Name { get; set; }
+    [GraphQLNonNullType]
     public string? Description { get; set; }
     public DateTime? DateOfOccupancy { get; set; }
     public MailboxTypeEnum? MailboxType { get; set; }

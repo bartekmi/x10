@@ -3,14 +3,14 @@
 import * as React from "react";
 import { graphql, QueryRenderer } from "react-relay";
 
-import Text from "latitude/Text";
 import Group from "latitude/Group"
+import Text from "latitude/Text";
+import TextInput from "latitude/TextInput";
+import TextareaInput from "latitude/TextareaInput";
+import Label from "latitude/Label";
 
 import environment from "../environment";
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
-import DummyStatefulComponent from "../debug/DummyStatefulComponent";
-import DummyContextComponent from "../debug/DummyContextComponent";
-import OnOffContext from "../debug/OnOffContext";
 
 type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;
 
@@ -18,9 +18,9 @@ type Props = {|
   +building: Building,
 |};
 function BuildingEditPage(props: Props): React.Node {
-  const [isOn, setOn] = React.useState(false);
-
   const { building } = props;
+  const [ editedBuilding, setEditedBuilding ] = React.useState(building);
+
 
   const contextValues = {
     on: {
@@ -34,28 +34,22 @@ function BuildingEditPage(props: Props): React.Node {
   };
 
   return (
-    //<p>{building.name}</p>
     <Group flexDirection="column">
+      <Text scale="headline">{`Editing Building ${building.name || ""}`}</Text>
       <Group>
+        <Label value="Name:" >
+          <TextInput 
+            value={editedBuilding.name}
+            onChange={() => {}}
+          />
+        </Label>
         <Text>Name:</Text>
-        <Text>{building.name}</Text>
       </Group>
       <Group>
         <Text>Description:</Text>
         <Text>{building.description}</Text>
       </Group>
     </Group>
-    // <>
-    //   <DummyStatefulComponent
-    //     onText="I am ON :)"
-    //     offText="I am OFF :("
-    //     onChange={((value) => setOn(value))}
-    //   />
-    //   <OnOffContext.Provider value={isOn ? contextValues.on : contextValues.off}>
-    //     <DummyContextComponent text="This is the main text!"/>
-    //   </OnOffContext.Provider>
-    //   <DummyContextComponent text="Surrounded by default values ~~~"/>
-    // </>
   );
 }
 
