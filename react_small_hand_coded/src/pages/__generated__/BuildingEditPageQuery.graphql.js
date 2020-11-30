@@ -16,6 +16,15 @@ export type BuildingEditPageQueryResponse = {|
     +name: string,
     +description: string,
     +dateOfOccupancy: ?string,
+    +mailingAddressSameAsPhysical: boolean,
+    +physicalAddress: ?{|
+      +city: ?string,
+      +dbid: number,
+      +stateOrProvince: ?string,
+      +theAddress: ?string,
+      +unitNumber: ?string,
+      +zip: ?string,
+    |},
   |}
 |};
 export type BuildingEditPageQuery = {|
@@ -33,6 +42,15 @@ query BuildingEditPageQuery(
     name
     description
     dateOfOccupancy
+    mailingAddressSameAsPhysical
+    physicalAddress {
+      city
+      dbid
+      stateOrProvince
+      theAddress
+      unitNumber
+      zip
+    }
   }
 }
 */
@@ -80,6 +98,66 @@ v1 = [
         "kind": "ScalarField",
         "name": "dateOfOccupancy",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "mailingAddressSameAsPhysical",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Address",
+        "kind": "LinkedField",
+        "name": "physicalAddress",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "city",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "dbid",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "stateOrProvince",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "theAddress",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "unitNumber",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "zip",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -103,16 +181,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "89c5cb650f315cbafa5566c999308915",
+    "cacheID": "76c3d73df59c748ec9852b800e1eba75",
     "id": null,
     "metadata": {},
     "name": "BuildingEditPageQuery",
     "operationKind": "query",
-    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    name\n    description\n    dateOfOccupancy\n  }\n}\n"
+    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    name\n    description\n    dateOfOccupancy\n    mailingAddressSameAsPhysical\n    physicalAddress {\n      city\n      dbid\n      stateOrProvince\n      theAddress\n      unitNumber\n      zip\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'dee2fef873c1cbd01f6396f2e5cfaecc';
+(node/*: any*/).hash = '6ff72cba03f14ac1fcefe2875952d230';
 
 module.exports = node;

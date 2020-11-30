@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { graphql, QueryRenderer } from "react-relay";
+import { graphql, QueryRenderer, commitMutation } from "react-relay";
 
 import Group from "latitude/Group"
 import Text from "latitude/Text";
@@ -46,7 +46,7 @@ function BuildingEditPage(props: Props): React.Node {
         <TextInput
           value={editedBuilding.name}
           onChange={(value) => {
-            setEditedBuilding({...editedBuilding, name: value})
+            setEditedBuilding({ ...editedBuilding, name: value })
           }}
         />
       </Label>
@@ -54,7 +54,7 @@ function BuildingEditPage(props: Props): React.Node {
         <TextareaInput
           value={editedBuilding.description}
           onChange={(value) => {
-            setEditedBuilding({...editedBuilding, description: value})
+            setEditedBuilding({ ...editedBuilding, description: value })
           }}
         />
       </Label>
@@ -62,21 +62,21 @@ function BuildingEditPage(props: Props): React.Node {
         <X10_CalendarDateInput
           value={editedBuilding.dateOfOccupancy}
           onChange={(value) => {
-            setEditedBuilding({...editedBuilding, dateOfOccupancy: value})
+            setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
           }}
         />
       </Label>
-      <Button onClick={save}>Save</Button>
+      <Button onClick={() => saveBuilding(editedBuilding)}>Save</Button>
     </Group>
   );
 }
 
 type WrapperProps = {
   +match: {
-    +params: {
-      +id: string
-    }
+  +params: {
+    +id: string
   }
+}
 };
 export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
   const stringId = props.match.params.id;
@@ -114,6 +114,51 @@ const query = graphql`
       name
       description
       dateOfOccupancy
+      mailingAddressSameAsPhysical
+      physicalAddress {
+        city
+        dbid
+        stateOrProvince
+        theAddress
+        unitNumber
+        zip
+      }
     }
+  }
+`;
+
+function saveBuilding(building: Building) {
+  const variables = {
+    name: building.name,
+    description: building.description,
+    dateOfOccupancy: building.dateOfOccupancy,
+    mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
+    physicalAddress: building.physicalAddress,
+  };
+
+  return commitMutation(
+    environment,
+    {
+      mutation,
+      variables,
+    }
+  );
+}
+
+const mutation = graphql`
+  mutation BuildingEditPageMutation(
+    $dateOfOccupancy: DateTime!
+    $description: String!
+    $mailingAddressSameAsPhysical: Boolean!
+    $name: String!
+    $physicalAddress: AddressInput!
+  ) {
+    createBuilding(
+      dateOfOccupancy: $dateOfOccupancy
+      description: $description
+      mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
+      name: $name
+      physicalAddress: $physicalAddress
+    )
   }
 `;
