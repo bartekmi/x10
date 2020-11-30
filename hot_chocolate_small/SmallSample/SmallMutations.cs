@@ -12,7 +12,8 @@ namespace Small {
     /// <summary>
     /// Creates a new Building
     /// </summary>
-    public int CreateBuilding(
+    public int CreateOrUpdateBuilding(
+        int? dbid,  // Presence of dbid indicate an update vs an insert
         string name,
         string? description,
         DateTime dateOfOccupancy,
@@ -22,6 +23,7 @@ namespace Small {
         Address physicalAddress,
         Address? mailingAddress,
         [Service] ISmallRepository repository) {
+
       Building building = new Building() {
         Name = name,
         Description = description,
@@ -32,8 +34,13 @@ namespace Small {
         PhysicalAddress = physicalAddress,
         MailingAddress = mailingAddress,
       };
-      int id = repository.AddBuilding(building);
-      return id;
+
+      if (dbid == null)
+        dbid = repository.AddBuilding(building);
+      else 
+        repository.UpdateBuilding(building);
+
+      return dbid.Value;
     }
   }
 }

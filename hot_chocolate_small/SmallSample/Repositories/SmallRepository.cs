@@ -33,6 +33,10 @@ namespace Small.Repositories {
       return newId;
     }
 
+    public void UpdateBuilding(Building building) {
+      _buildings[building.Dbid] = building;
+    }
+
 
     private static IEnumerable<Building> CreateBuildings() {
       return new List<Building>() {

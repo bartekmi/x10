@@ -111,6 +111,7 @@ export default function BuildingEditPageWrapper(props: WrapperProps): React.Node
 const query = graphql`
   query BuildingEditPageQuery($id: Int!) {
     building(id: $id) {
+      dbid
       name
       description
       dateOfOccupancy
@@ -129,6 +130,7 @@ const query = graphql`
 
 function saveBuilding(building: Building) {
   const variables = {
+    dbid: building.dbid,
     name: building.name,
     description: building.description,
     dateOfOccupancy: building.dateOfOccupancy,
@@ -147,13 +149,15 @@ function saveBuilding(building: Building) {
 
 const mutation = graphql`
   mutation BuildingEditPageMutation(
+    $dbid: Int
     $dateOfOccupancy: DateTime!
     $description: String!
     $mailingAddressSameAsPhysical: Boolean!
     $name: String!
     $physicalAddress: AddressInput!
   ) {
-    createBuilding(
+    createOrUpdateBuilding(
+      dbid: $dbid
       dateOfOccupancy: $dateOfOccupancy
       description: $description
       mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical

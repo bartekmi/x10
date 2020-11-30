@@ -13,6 +13,7 @@ export type BuildingEditPageQueryVariables = {|
 |};
 export type BuildingEditPageQueryResponse = {|
   +building: {|
+    +dbid: number,
     +name: string,
     +description: string,
     +dateOfOccupancy: ?string,
@@ -39,6 +40,7 @@ query BuildingEditPageQuery(
   $id: Int!
 ) {
   building(id: $id) {
+    dbid
     name
     description
     dateOfOccupancy
@@ -63,7 +65,14 @@ var v0 = [
     "name": "id"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "dbid",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -78,6 +87,7 @@ v1 = [
     "name": "building",
     "plural": false,
     "selections": [
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -121,13 +131,7 @@ v1 = [
             "name": "city",
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "dbid",
-            "storageKey": null
-          },
+          (v1/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -169,7 +173,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "BuildingEditPageQuery",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -178,19 +182,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "BuildingEditPageQuery",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "76c3d73df59c748ec9852b800e1eba75",
+    "cacheID": "435f1d207f2beb9a44498fc75abfcac9",
     "id": null,
     "metadata": {},
     "name": "BuildingEditPageQuery",
     "operationKind": "query",
-    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    name\n    description\n    dateOfOccupancy\n    mailingAddressSameAsPhysical\n    physicalAddress {\n      city\n      dbid\n      stateOrProvince\n      theAddress\n      unitNumber\n      zip\n    }\n  }\n}\n"
+    "text": "query BuildingEditPageQuery(\n  $id: Int!\n) {\n  building(id: $id) {\n    dbid\n    name\n    description\n    dateOfOccupancy\n    mailingAddressSameAsPhysical\n    physicalAddress {\n      city\n      dbid\n      stateOrProvince\n      theAddress\n      unitNumber\n      zip\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '6ff72cba03f14ac1fcefe2875952d230';
+(node/*: any*/).hash = 'ed21e7fac6272024e24f1d1943fccb1e';
 
 module.exports = node;
