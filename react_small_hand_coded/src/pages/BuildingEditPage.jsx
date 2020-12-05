@@ -7,6 +7,7 @@ import Group from "latitude/Group"
 import Text from "latitude/Text";
 import TextInput from "latitude/TextInput";
 import TextareaInput from "latitude/TextareaInput";
+import SelectInput from "latitude/select/SelectInput";
 import Label from "latitude/Label";
 import Button from "latitude/button/Button";
 
@@ -15,6 +16,8 @@ import environment from "../environment";
 import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
+
+const DEFAULT_MAILBOX_TYPE = "INBUILDING";
 
 type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;
 
@@ -63,6 +66,28 @@ function BuildingEditPage(props: Props): React.Node {
           }}
         />
       </Label>
+      <Label value="Mailbox Type:" >
+        <SelectInput
+          value={editedBuilding.mailboxType}
+          options={[
+            {
+              label: "Community Mailbox - Outdoors",
+              value: "COMMUNITY",
+            },
+            {
+              label: "Shared Mail Room - in Building",
+              value: "INBUILDING",
+            },
+            {
+              label: "Individual Mailbox",
+              value: "INDIVIDUAL",
+            },
+          ]}
+          onChange={(value) => {
+            setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE})
+          }}
+        />
+      </Label>
       <Button 
         intent="basic" kind="solid"
         onClick={() => saveBuilding(editedBuilding)}
@@ -75,10 +100,10 @@ function BuildingEditPage(props: Props): React.Node {
 
 type WrapperProps = {
   +match: {
-  +params: {
-    +id: string
+    +params: {
+      +id: string
+    }
   }
-}
 };
 export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
   const stringId = props.match.params.id;
@@ -118,9 +143,11 @@ function createDefaultBuilding(): Building {
   return {
     dbid: DBID_LOCALLY_CREATED,
     dateOfOccupancy: null,
+    mailboxType: DEFAULT_MAILBOX_TYPE,
     description: "",
     mailingAddressSameAsPhysical: true,
     name: "",
+    petPolicy: null,
     physicalAddress: {
       dbid: DBID_LOCALLY_CREATED,
       city: "",
@@ -139,7 +166,9 @@ const query = graphql`
       name
       description
       dateOfOccupancy
+      mailboxType
       mailingAddressSameAsPhysical
+      petPolicy
       physicalAddress {
         city
         dbid
@@ -158,6 +187,7 @@ function saveBuilding(building: Building) {
     name: building.name,
     description: building.description,
     dateOfOccupancy: building.dateOfOccupancy,
+    mailboxType: building.mailboxType,
     mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
     physicalAddress: building.physicalAddress,
   };
@@ -176,6 +206,7 @@ const mutation = graphql`
     $dbid: Int!
     $dateOfOccupancy: DateTime!
     $description: String!
+    $mailboxType: MailboxTypeEnum!
     $mailingAddressSameAsPhysical: Boolean!
     $name: String!
     $physicalAddress: AddressInput!
@@ -184,6 +215,7 @@ const mutation = graphql`
       dbid: $dbid
       dateOfOccupancy: $dateOfOccupancy
       description: $description
+      mailboxType: $mailboxType
       mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
       name: $name
       physicalAddress: $physicalAddress

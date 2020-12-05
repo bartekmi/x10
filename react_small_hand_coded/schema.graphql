@@ -17,7 +17,7 @@ type Building {
   dateOfOccupancy: DateTime
   dbid: Int!
   description: String!
-  mailboxType: MailboxTypeEnum
+  mailboxType: MailboxTypeEnum!
   mailingAddress: Address
   mailingAddressSameAsPhysical: Boolean!
   moniker: String
@@ -169,13 +169,13 @@ input BuildingFilter {
   mailboxType: MailboxTypeEnum
   mailboxType_gt: MailboxTypeEnum
   mailboxType_gte: MailboxTypeEnum
-  mailboxType_in: [MailboxTypeEnum]
+  mailboxType_in: [MailboxTypeEnum!]
   mailboxType_lt: MailboxTypeEnum
   mailboxType_lte: MailboxTypeEnum
   mailboxType_not: MailboxTypeEnum
   mailboxType_not_gt: MailboxTypeEnum
   mailboxType_not_gte: MailboxTypeEnum
-  mailboxType_not_in: [MailboxTypeEnum]
+  mailboxType_not_in: [MailboxTypeEnum!]
   mailboxType_not_lt: MailboxTypeEnum
   mailboxType_not_lte: MailboxTypeEnum
   mailingAddressSameAsPhysical: Boolean

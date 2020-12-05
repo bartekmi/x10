@@ -30,7 +30,9 @@ namespace Small.Entities {
     [GraphQLNonNullType]
     public string? Description { get; set; }
     public DateTime? DateOfOccupancy { get; set; }
+    [GraphQLNonNullType]
     public MailboxTypeEnum? MailboxType { get; set; }
+    // We'll leave this one nullable just for fun-sies.
     public PetPolicyEnum? PetPolicy { get; set; }
     public bool MailingAddressSameAsPhysical { get; set; }
 
