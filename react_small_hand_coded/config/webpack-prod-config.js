@@ -23,7 +23,7 @@ module.exports = merge(common, {
   output: {
     filename: "[chunkhash]_[name].js",
     path: paths.appBuild,
-    publicPath: "/"
+    publicPath: "/" // e.g. vendors~DatePickerOverride.js
   },
   plugins: [
     // Uglify to minify your JavaScript

@@ -12,6 +12,7 @@ import Button from "latitude/button/Button";
 
 import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
 import environment from "../environment";
+import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
@@ -23,10 +24,6 @@ type Props = {|
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
-
-  const save = () => {
-    console.log("Clicked Save!")
-  };
 
   const contextValues = {
     on: {
@@ -80,6 +77,10 @@ type WrapperProps = {
 };
 export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
   const stringId = props.match.params.id;
+  if (stringId == null) {
+    return <BuildingEditPage building={createDefaultBuilding()}/>
+  }
+
   const id: number = parseInt(stringId);
   if (isNaN(id)) {
     throw new Error("Not a number: " + stringId);
@@ -106,6 +107,24 @@ export default function BuildingEditPageWrapper(props: WrapperProps): React.Node
       }}
     />
   );
+}
+
+function createDefaultBuilding(): Building {
+  return {
+    dbid: DBID_LOCALLY_CREATED,
+    dateOfOccupancy: null,
+    description: "",
+    mailingAddressSameAsPhysical: true,
+    name: "",
+    physicalAddress: {
+      dbid: DBID_LOCALLY_CREATED,
+      city: "",
+      stateOrProvince: "",
+      theAddress: "",
+      unitNumber: "",
+      zip: ""
+    }
+  };
 }
 
 const query = graphql`
@@ -149,7 +168,7 @@ function saveBuilding(building: Building) {
 
 const mutation = graphql`
   mutation BuildingEditPageMutation(
-    $dbid: Int
+    $dbid: Int!
     $dateOfOccupancy: DateTime!
     $description: String!
     $mailingAddressSameAsPhysical: Boolean!

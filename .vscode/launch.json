@@ -5,13 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Small - Hot Chocolate",
-      "type": "coreclr",
-      "request": "launch",
+      "name": "Debug",
+      "type":"coreclr",
+      "request":"launch",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp3.0/HotChocolateSmall.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/x10",
+      "cwd": "${workspaceFolder}/hot_chocolate_small",
       "console": "internalConsole",
       "stopAtEntry": false
     }

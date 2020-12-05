@@ -19,11 +19,11 @@ module.exports = {
     modules: ["node_modules"],
     // Aliases help with shortening relative paths
     // 'Components/button' === '../../../components/button'
-    alias: {
-      Components: path.resolve(paths.appSrc, "components"),
-      Containers: path.resolve(paths.appSrc, "containers"),
-      Utils: path.resolve(paths.appSrc, "utils")
-    }
+    // alias: {
+    //   Components: path.resolve(paths.appSrc, "components"),
+    //   Containers: path.resolve(paths.appSrc, "containers"),
+    //   Utils: path.resolve(paths.appSrc, "utils")
+    // }
   },
   module: {
     rules: [

@@ -9,11 +9,13 @@ using Small.Repositories;
 namespace Small {
   [ExtendObjectType(Name = "Mutation")]
   public class SmallMutations {
+    const int BLANK_DBID = -1;
+
     /// <summary>
     /// Creates a new Building
     /// </summary>
     public int CreateOrUpdateBuilding(
-        int? dbid,  // Presence of dbid indicate an update vs an insert
+        int dbid,
         string name,
         string? description,
         DateTime dateOfOccupancy,
@@ -35,12 +37,14 @@ namespace Small {
         MailingAddress = mailingAddress,
       };
 
-      if (dbid == null)
+      if (dbid == BLANK_DBID)
         dbid = repository.AddBuilding(building);
-      else 
+      else {
+        building.Dbid = dbid;
         repository.UpdateBuilding(building);
+      }
 
-      return dbid.Value;
+      return dbid;
     }
   }
 }

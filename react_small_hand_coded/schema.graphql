@@ -56,7 +56,7 @@ type Move {
 
 type Mutation {
   "Creates a new Building"
-  createOrUpdateBuilding(dateOfOccupancy: DateTime! dbid: Int description: String mailboxType: MailboxTypeEnum mailingAddress: AddressInput mailingAddressSameAsPhysical: Boolean! name: String! petPolicy: PetPolicyEnum physicalAddress: AddressInput!): Int!
+  createOrUpdateBuilding(dateOfOccupancy: DateTime! dbid: Int! description: String mailboxType: MailboxTypeEnum mailingAddress: AddressInput mailingAddressSameAsPhysical: Boolean! name: String! petPolicy: PetPolicyEnum physicalAddress: AddressInput!): Int!
 }
 
 "Information about pagination in a connection."

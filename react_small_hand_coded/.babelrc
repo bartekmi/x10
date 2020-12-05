@@ -9,7 +9,9 @@
     "@babel/preset-flow"
     ],
   "plugins": [
-    "relay",
-    "react-hot-loader/babel"
+    "relay"
+    // Commenting out to minimize the number of things that can go wrong for now
+    // Note that its successor, "React Fast Refresh" is recommended where possible
+    // ,"react-hot-loader/babel"
   ]
 }

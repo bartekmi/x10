@@ -12,14 +12,14 @@
       "label": "publish",
       "command": "dotnet",
       "type": "process",
-      "args": ["publish", "${workspaceFolder}/x10/x10.csproj"],
+      "args": ["publish", "${workspaceFolder}/hot_chocolate_small/HotChocolateSmall.csproj"],
       "problemMatcher": "$tsc"
     },
     {
       "label": "watch",
       "command": "dotnet",
       "type": "process",
-      "args": ["watch", "run", "${workspaceFolder}/x10/x10.csproj"],
+      "args": ["watch", "run", "${workspaceFolder}/hot_chocolate_small/HotChocolateSmall.csproj"],
       "problemMatcher": "$tsc"
     }
   ]

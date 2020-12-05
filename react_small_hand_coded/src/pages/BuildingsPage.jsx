@@ -4,7 +4,11 @@ import * as React from "react";
 import { Link } from 'react-router-dom';
 import { graphql, QueryRenderer } from "react-relay";
 
+import Button from "latitude/button/Button";
+import Text from "latitude/Text";
+
 import environment from "../environment";
+import history from '../history';
 
 type Building = {
   +dbid: number,
@@ -20,7 +24,7 @@ function BuildingsPage(props: Props) {
 
   return (
     <div className="container">
-      <h1>Buildings</h1>
+      <Text scale="headline">Buildings</Text>
 
       <table>
         <thead>
@@ -33,13 +37,19 @@ function BuildingsPage(props: Props) {
           {buildings.map(building =>
             <tr>
               <td>
-                <Link to={`/buildings/view/${building.dbid}`}>{building.name}</Link>
+                <Link key={building.dbid} to={`/buildings/edit/${building.dbid}`}>{building.name}</Link>
               </td>
               <td>{building.description}</td>
             </tr>
           )}
         </tbody>
       </table>
+
+      <Button
+        onClick={() => history.push("/buildings/new")}
+      >
+        New Building
+      </Button>
     </div>
   );
 }
