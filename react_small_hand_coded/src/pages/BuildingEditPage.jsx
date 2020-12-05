@@ -63,7 +63,12 @@ function BuildingEditPage(props: Props): React.Node {
           }}
         />
       </Label>
-      <Button onClick={() => saveBuilding(editedBuilding)}>Save</Button>
+      <Button 
+        intent="basic" kind="solid"
+        onClick={() => saveBuilding(editedBuilding)}
+      >
+        Save
+      </Button>
     </Group>
   );
 }
