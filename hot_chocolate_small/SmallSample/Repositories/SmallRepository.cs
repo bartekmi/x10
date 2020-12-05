@@ -101,6 +101,18 @@ namespace Small.Repositories {
       return _tenants[id];
     }
 
+    public int AddTenant(Tenant tenant) {
+      int newId = _tenants.Values.Max(x => x.Dbid) + 1;
+      tenant.Dbid = newId;
+      _tenants[newId] = tenant;
+      return newId;
+    }
+
+    public void UpdateTenant(Tenant tenant) {
+      _tenants[tenant.Dbid] = tenant;
+    }
+
+
     private static IEnumerable<Tenant> CreateTenants() {
       return new List<Tenant>() {
         new Tenant() {

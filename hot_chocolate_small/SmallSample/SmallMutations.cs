@@ -11,8 +11,9 @@ namespace Small {
   public class SmallMutations {
     const int BLANK_DBID = -1;
 
+    #region Building
     /// <summary>
-    /// Creates a new Building
+    /// Creates a new Building or updates an existing one, depending on the value of dbid
     /// </summary>
     public int CreateOrUpdateBuilding(
         int dbid,
@@ -46,5 +47,34 @@ namespace Small {
 
       return dbid;
     }
+    #endregion
+
+    #region Building
+    /// <summary>
+    /// Creates a new Tenant or updates an existing one, depending on the value of dbid
+    /// </summary>
+    public int CreateOrUpdateTenant(
+        int dbid,
+        string name,
+        string phone,
+        string email,
+        [Service] ISmallRepository repository) {
+
+      Tenant tenant = new Tenant() {
+        Name = name,
+        Phone = phone,
+        Email = email,
+      };
+
+      if (dbid == BLANK_DBID)
+        dbid = repository.AddTenant(tenant);
+      else {
+        tenant.Dbid = dbid;
+        repository.UpdateTenant(tenant);
+      }
+
+      return dbid;
+    }
+    #endregion
   }
 }

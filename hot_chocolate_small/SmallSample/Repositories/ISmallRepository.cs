@@ -16,5 +16,7 @@ namespace Small.Repositories {
     // Mutations
     int AddBuilding(Building building);
     void UpdateBuilding(Building building);
+    int AddTenant(Tenant tenant);
+    void UpdateTenant(Tenant tenant);
   }
 }

@@ -55,8 +55,10 @@ type Move {
 }
 
 type Mutation {
-  "Creates a new Building"
+  "Creates a new Building or updates an existing one, depending on the value of dbid"
   createOrUpdateBuilding(dateOfOccupancy: DateTime! dbid: Int! description: String mailboxType: MailboxTypeEnum mailingAddress: AddressInput mailingAddressSameAsPhysical: Boolean! name: String! petPolicy: PetPolicyEnum physicalAddress: AddressInput!): Int!
+  "Creates a new Tenant or updates an existing one, depending on the value of dbid"
+  createOrUpdateTenant(dbid: Int! email: String! name: String! phone: String!): Int!
 }
 
 "Information about pagination in a connection."
@@ -72,18 +74,20 @@ type PageInfo {
 }
 
 type Query {
-  "Retrieve a Building by its id"
+  "Retrieve a Building by id"
   building("The id of the building." id: Int!): Building!
   "Gets all buildings."
   buildings(after: String before: String first: PaginationAmount last: PaginationAmount order_by: BuildingSort where: BuildingFilter): BuildingConnection
+  "Retrieve a Tenant by id"
+  tenant("The id of the tenant." id: Int!): Tenant!
   "Gets all tenants."
   tenants(after: String before: String first: PaginationAmount last: PaginationAmount order_by: TenantSort where: TenantFilter): TenantConnection
 }
 
 type Tenant {
   dbid: Int!
-  email: String
-  name: String
+  email: String!
+  name: String!
   permanentMailingAddress: Address
   phone: String
 }
@@ -240,21 +244,21 @@ input TenantFilter {
   email: String
   email_contains: String
   email_ends_with: String
-  email_in: [String]
+  email_in: [String!]
   email_not: String
   email_not_contains: String
   email_not_ends_with: String
-  email_not_in: [String]
+  email_not_in: [String!]
   email_not_starts_with: String
   email_starts_with: String
   name: String
   name_contains: String
   name_ends_with: String
-  name_in: [String]
+  name_in: [String!]
   name_not: String
   name_not_contains: String
   name_not_ends_with: String
-  name_not_in: [String]
+  name_not_in: [String!]
   name_not_starts_with: String
   name_starts_with: String
   OR: [TenantFilter!]
