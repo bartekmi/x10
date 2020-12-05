@@ -35,9 +35,9 @@ function BuildingsPage(props: Props) {
         </thead>
         <tbody>
           {buildings.map(building =>
-            <tr>
+            <tr key={building.dbid}>
               <td>
-                <Link key={building.dbid} to={`/buildings/edit/${building.dbid}`}>{building.name}</Link>
+                <Link to={`/buildings/edit/${building.dbid}`}>{building.name}</Link>
               </td>
               <td>{building.description}</td>
             </tr>

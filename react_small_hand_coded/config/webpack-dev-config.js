@@ -2,6 +2,7 @@
 
 const path = require("path");
 const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const {merge} = require("webpack-merge");
 
 const paths = require("./paths");
@@ -27,7 +28,12 @@ module.exports = merge(common, {
       "process.env": {
         NODE_ENV: JSON.stringify("development")
       }
-    })
+    }),
+    new CopyPlugin({
+      patterns: [
+        {from: "public", to: "public" }
+      ]
+    }),
   ],
   module: {
     rules: [
