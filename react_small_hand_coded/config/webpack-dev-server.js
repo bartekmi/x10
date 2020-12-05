@@ -5,8 +5,9 @@ const webpack = require("webpack");
 const paths = require("./paths");
 const config = require("./webpack-dev-config.js");
 
-// Change port to suit your preference
-const Port = 3000;
+// For some unknown reason, switching the port to something other than the 3000 default
+// causes the favicon to show!?!
+const Port = 3001;
 const Host = "localhost";
 
 const options = {
@@ -36,6 +37,9 @@ const options = {
   // Open a browser... The react start script has a better way - it only opens
   // if not already open, or else returns you to same tab. Debug setting are preserved.
   open: true,
+
+  // https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback
+  historyApiFallback: true
 };
 
 WebpackDevServer.addDevServerEntrypoints(config, options);

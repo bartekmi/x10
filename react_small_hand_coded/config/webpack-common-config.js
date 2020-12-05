@@ -10,7 +10,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml
+      template: paths.appHtml,
     })
   ],
   resolve: {

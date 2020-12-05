@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import { graphql, QueryRenderer } from "react-relay";
 
 import Button from "latitude/button/Button";
+import Table from "latitude/table/Table";
+import TextCell from "latitude/table/TextCell";
+import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
 
 import environment from "../environment";
@@ -20,32 +23,52 @@ type Props = {|
   +buildings: $ReadOnlyArray < Building >,
 |};
 function BuildingsPage(props: Props) {
+  const [sortBy, setSortBy] = React.useState({
+    columnId: "name",
+    direction: "asc",
+  });
+
   const { buildings } = props;
+  const columnDefinitions = [
+    {
+      id: "name",
+      header: "Name",
+      render: (building: Building) => <LinkCell
+        value={building.name}
+        href={`/buildings/edit/${building.dbid}`}
+      />,
+      width: 150,
+      comparator: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      id: "description",
+      header: "Description",
+      render: (building: Building) => <TextCell value={building.description} />,
+      width: 500,
+    },
+  ];
 
   return (
     <div className="container">
       <Text scale="headline">Buildings</Text>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {buildings.map(building =>
-            <tr key={building.dbid}>
-              <td>
-                <Link to={`/buildings/edit/${building.dbid}`}>{building.name}</Link>
-              </td>
-              <td>{building.description}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <div
+        style={{
+          height: "500px",
+          width: "100%",
+        }}
+      >
+        <Table
+          data={buildings}
+          columnDefinitions={columnDefinitions}
+          getUniqueRowId={data => data.dbid.toString()}
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+        />
+      </div>
 
       <Button
+        intent="basic" kind="solid"
         onClick={() => history.push("/buildings/new")}
       >
         New Building
