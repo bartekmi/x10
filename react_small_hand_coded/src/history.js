@@ -6,6 +6,6 @@ type HistoryType = {
   +push: (url: string) => void;
 };
 
-const history = createBrowserHistory();
+const history = (createBrowserHistory(): HistoryType);
 
 export default history;
