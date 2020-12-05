@@ -43,12 +43,12 @@ module.exports = merge(common, {
         exclude: /(node_modules)/,
         loader: "babel-loader", // Options in .babelrc
       },
+      // Special processing for Latitude
       {
         test: /\.jsx?$/,
         include: /node_modules\/latitude\/.*/,
         exclude: /node_modules\/latitude\/node_modules\/.*/,
         use: {
-          // use babel for transpiling JavaScript files
           loader: "babel-loader",
           options: {
             presets: [
@@ -63,22 +63,8 @@ module.exports = merge(common, {
         }
       },      
       {
-        // look for .css or .scss files
         test: /\.(css|scss)$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              // This enables local scoped CSS based in CSS Modules spec
-              modules: true,
-            }
-          }
-          // Add additional loaders here. (e.g. sass-loader)
-        ]
+        use: ["style-loader", "css-loader"]
       }
     ]
   }

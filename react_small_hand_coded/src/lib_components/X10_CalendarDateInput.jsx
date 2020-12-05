@@ -1,17 +1,9 @@
 // @flow
 
 import * as React from "react";
+
 import CalendarDateInput from "latitude/date/CalendarDateInput";
-import {
-  addDaysFromCalendarDate,
-  today,
-  type CalendarDate,
-  parseStringToCalendarDate,
-  formatCalendarDate,
-  shouldBeCalendarDate,
-  calendarDateToMoment,
-  momentToCalendarDate,
-} from "latitude/date/CalendarDateType";
+import {type CalendarDate} from "latitude/date/CalendarDateType";
 
 type Props = {|
   value: ?string,
