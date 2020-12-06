@@ -12,12 +12,16 @@ import Label from "latitude/Label";
 import Button from "latitude/button/Button";
 
 import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
-import environment from "../environment";
 import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
+import environment from "../environment";
+
+import PetPolicyEnum from "../constants/PetPolicyEnum";
+import MailboxTypeEnum from "../constants/MailboxTypeEnum";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
 const DEFAULT_MAILBOX_TYPE = "INBUILDING";
+const DEFAULT_PET_POLICY = null;
 
 type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;
 
@@ -69,22 +73,20 @@ function BuildingEditPage(props: Props): React.Node {
       <Label value="Mailbox Type:" >
         <SelectInput
           value={editedBuilding.mailboxType}
-          options={[
-            {
-              label: "Community Mailbox - Outdoors",
-              value: "COMMUNITY",
-            },
-            {
-              label: "Shared Mail Room - in Building",
-              value: "INBUILDING",
-            },
-            {
-              label: "Individual Mailbox",
-              value: "INDIVIDUAL",
-            },
-          ]}
+          options={MailboxTypeEnum}
           onChange={(value) => {
             setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE})
+          }}
+        />
+      </Label>
+      <Label value="Pet Policy:" >
+        <SelectInput
+          value={editedBuilding.petPolicy}
+          isNullable={true}
+          placeholder="(No Policy)"
+          options={PetPolicyEnum}
+          onChange={(value) => {
+            setEditedBuilding({ ...editedBuilding, petPolicy: value})
           }}
         />
       </Label>
@@ -147,7 +149,7 @@ function createDefaultBuilding(): Building {
     description: "",
     mailingAddressSameAsPhysical: true,
     name: "",
-    petPolicy: null,
+    petPolicy: DEFAULT_PET_POLICY,
     physicalAddress: {
       dbid: DBID_LOCALLY_CREATED,
       city: "",
@@ -189,6 +191,7 @@ function saveBuilding(building: Building) {
     dateOfOccupancy: building.dateOfOccupancy,
     mailboxType: building.mailboxType,
     mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
+    petPolicy: building.petPolicy,
     physicalAddress: building.physicalAddress,
   };
 
@@ -209,6 +212,7 @@ const mutation = graphql`
     $mailboxType: MailboxTypeEnum!
     $mailingAddressSameAsPhysical: Boolean!
     $name: String!
+    $petPolicy: PetPolicyEnum
     $physicalAddress: AddressInput!
   ) {
     createOrUpdateBuilding(
@@ -218,6 +222,7 @@ const mutation = graphql`
       mailboxType: $mailboxType
       mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
       name: $name
+      petPolicy: $petPolicy
       physicalAddress: $physicalAddress
     )
   }

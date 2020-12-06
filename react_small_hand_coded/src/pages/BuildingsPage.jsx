@@ -10,13 +10,18 @@ import TextCell from "latitude/table/TextCell";
 import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
 
+import enumToLabel from "../lib_components/utils/enumToLabel";
 import environment from "../environment";
-import history from '../history';
+import history from "../history";
+import PetPolicyEnum from "../constants/PetPolicyEnum";
+
+import {type PetPolicyEnum as PetPolicEnumGql} from "./__generated__/BuildingsPageQuery.graphql"
 
 type Building = {
   +dbid: number,
   +name: string,
-    +description: string,
+  +description: string,
+  +petPolicy: PetPolicEnumGql,
 };
 
 type Props = {|
@@ -44,7 +49,15 @@ function BuildingsPage(props: Props) {
       id: "description",
       header: "Description",
       render: (building: Building) => <TextCell value={building.description} />,
-      width: 500,
+      width: 300,
+    },
+    {
+      id: "petPolicy",
+      header: "Pet Policy",
+      render: (building: Building) => <TextCell 
+        value={enumToLabel(PetPolicyEnum, building.petPolicy)} 
+      />,
+      width: 150,
     },
   ];
 
@@ -106,6 +119,7 @@ const query = graphql`
         dbid
         name
         description
+        petPolicy
       }
     }
   }
