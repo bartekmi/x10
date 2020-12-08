@@ -22,6 +22,9 @@ type Building = {
   +name: string,
   +description: string,
   +petPolicy: PetPolicEnumGql,
+  +physicalAddress: {
+    +city: string,
+  }
 };
 
 type Props = {|
@@ -46,18 +49,24 @@ function BuildingsPage(props: Props) {
       comparator: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      id: "description",
-      header: "Description",
-      render: (building: Building) => <TextCell value={building.description} />,
-      width: 300,
-    },
-    {
       id: "petPolicy",
       header: "Pet Policy",
       render: (building: Building) => <TextCell 
         value={enumToLabel(PetPolicyEnum, building.petPolicy)} 
       />,
       width: 150,
+    },
+    {
+      id: "physicalAddress_city",
+      header: "City",
+      render: (building: Building) => <TextCell value={building.physicalAddress.city} />,
+      width: 100,
+    },
+    {
+      id: "description",
+      header: "Description",
+      render: (building: Building) => <TextCell value={building.description} />,
+      width: 300,
     },
   ];
 
@@ -120,6 +129,9 @@ const query = graphql`
         name
         description
         petPolicy
+        physicalAddress {
+          city
+        }
       }
     }
   }

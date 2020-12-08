@@ -23,7 +23,7 @@ type Building {
   moniker: String
   name: String!
   petPolicy: PetPolicyEnum
-  physicalAddress: Address
+  physicalAddress: Address!
   units: [Unit]
 }
 

@@ -38,6 +38,7 @@ namespace Small.Entities {
 
     // Associations
     public List<Unit>? Units { get; set; }
+    [GraphQLNonNullType]
     public Address? PhysicalAddress { get; set; }
     public Address? MailingAddress { get; set; }
   }

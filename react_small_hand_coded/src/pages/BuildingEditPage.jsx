@@ -17,6 +17,7 @@ import environment from "../environment";
 
 import PetPolicyEnum from "../constants/PetPolicyEnum";
 import MailboxTypeEnum from "../constants/MailboxTypeEnum";
+import AddressEditPage, {createDefaultAddress} from "./AddressEditPage";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
@@ -31,17 +32,6 @@ type Props = {|
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
-
-  const contextValues = {
-    on: {
-      valueBefore: "ON - BEFORE",
-      valueAfter: "ON - AFTER",
-    },
-    off: {
-      valueBefore: "OFF - BEFORE",
-      valueAfter: "OFF - AFTER",
-    },
-  };
 
   return (
     <Group flexDirection="column">
@@ -90,6 +80,13 @@ function BuildingEditPage(props: Props): React.Node {
           }}
         />
       </Label>
+
+      <Text scale="title">Physical Address</Text>
+      <AddressEditPage 
+        address={editedBuilding.physicalAddress}
+        onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
+      />
+
       <Button 
         intent="basic" kind="solid"
         onClick={() => saveBuilding(editedBuilding)}
@@ -150,14 +147,7 @@ function createDefaultBuilding(): Building {
     mailingAddressSameAsPhysical: true,
     name: "",
     petPolicy: DEFAULT_PET_POLICY,
-    physicalAddress: {
-      dbid: DBID_LOCALLY_CREATED,
-      city: "",
-      stateOrProvince: "",
-      theAddress: "",
-      unitNumber: "",
-      zip: ""
-    }
+    physicalAddress: createDefaultAddress(),
   };
 }
 
