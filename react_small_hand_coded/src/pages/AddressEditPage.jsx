@@ -4,11 +4,10 @@ import * as React from "react";
 
 import Group from "latitude/Group"
 import TextInput from "latitude/TextInput";
-import Label from "latitude/Label";
-import InputError from "latitude/InputError";
 
 import isEmpty from "../lib_components/utils/isEmpty";
 import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
+import FormField from "../lib_components/form/FormField";
 
 export type Address = {|
   +city: ?string,
@@ -29,34 +28,39 @@ export default function AddressEditPage(props: Props): React.Node {
 
   return (
     <Group flexDirection="column">
-      <Label value="Unit Number:" >
+      <FormField label="Unit Number:" >
         <TextInput
           value={unitNumber || ""}
           onChange={(value) => {
             onChange({ ...address, unitNumber: value })
           }}
         />
-      </Label>
-      <Label value="Address:" >
-        <InputError errorText="Address is mandatory" showError={isEmpty(theAddress)}>
+      </FormField>
+      <FormField 
+        label="Address:" 
+        indicateRequired={true}
+        errorMessage={isEmpty(theAddress) ? "Address is mandatory" : null}
+      >
           <TextInput
             value={theAddress || ""}
             onChange={(value) => {
               onChange({ ...address, theAddress: value })
             }}
           />
-        </InputError>
-      </Label>
-      <Label value="City:" >
-        <InputError errorText="City is mandatory" showError={isEmpty(city)}>
-          <TextInput
-            value={city || ""}
-            onChange={(value) => {
-              onChange({ ...address, city: value })
-            }}
-          />
-        </InputError>
-      </Label>
+      </FormField>
+
+      <FormField 
+        label="City:" 
+        indicateRequired={true}
+        errorMessage={isEmpty(city) ? "City is mandatory" : null}
+      >
+        <TextInput
+          value={city || ""}
+          onChange={(value) => {
+            onChange({ ...address, city: value })
+          }}
+        />
+      </FormField>
     </Group>
   );
 }

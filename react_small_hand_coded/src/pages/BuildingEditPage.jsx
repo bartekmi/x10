@@ -14,12 +14,17 @@ import InputError from "latitude/InputError";
 
 import isEmpty from "../lib_components/utils/isEmpty";
 import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
-import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
+import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
+import FormField from "../lib_components/form/FormField";
+import FormSubmitButton from "../lib_components/form/FormSubmitButton";
+import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
+import { FormProvider } from "../lib_components/form/FormContext";
+
 import environment from "../environment";
 
 import PetPolicyEnum from "../constants/PetPolicyEnum";
 import MailboxTypeEnum from "../constants/MailboxTypeEnum";
-import AddressEditPage, {createDefaultAddress} from "./AddressEditPage";
+import AddressEditPage, { createDefaultAddress } from "./AddressEditPage";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
@@ -37,84 +42,95 @@ function BuildingEditPage(props: Props): React.Node {
   const { name, description, dateOfOccupancy, petPolicy } = editedBuilding;
 
   return (
-    <Group flexDirection="column">
-      <Text scale="headline">{`Editing Building ${name || ""}`}</Text>
-      <Label value="Name:" >
-        <InputError errorText="Name is mandatory" showError={isEmpty(name)}>
+    <FormProvider value={[]}>
+      <Group flexDirection="column">
+        <Text scale="headline">{`Editing Building ${name || ""}`}</Text>
+        <FormField
+          label="Name: "
+          indicateRequired={true}
+          errorMessage={isEmpty(name) ? "Name is mandatory" : null}
+        >
           <TextInput
             value={name}
             onChange={(value) => {
               setEditedBuilding({ ...editedBuilding, name: value })
             }}
           />
-        </InputError>
-      </Label>
-      <Label value="Description:" >
-        <TextareaInput
-          value={description}
-          onChange={(value) => {
-            setEditedBuilding({ ...editedBuilding, description: value })
-          }}
-        />
-      </Label>
-      <Label value="Date of Occupancy:" >
-        <InputError errorText="Date of Occupancy is mandatory" showError={isEmpty(dateOfOccupancy)}>
+        </FormField>
+
+        <FormField label="Description: ">
+          <TextareaInput
+            value={description}
+            onChange={(value) => {
+              setEditedBuilding({ ...editedBuilding, description: value })
+            }}
+          />
+        </FormField>
+
+        <FormField
+          label="Date of Occupancy: "
+          indicateRequired={true}
+          errorMessage={isEmpty(dateOfOccupancy) ? "Date of Occupancy is mandatory" : null}
+        >
           <X10_CalendarDateInput
             value={dateOfOccupancy}
             onChange={(value) => {
               setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
             }}
           />
-        </InputError>
-      </Label>
-      <Label value="Mailbox Type:" >
-        <SelectInput
-          value={editedBuilding.mailboxType}
-          options={MailboxTypeEnum}
-          onChange={(value) => {
-            setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE})
-          }}
-        />
-      </Label>
-      <Label value="Pet Policy:" >
-        <SelectInput
-          value={editedBuilding.petPolicy}
-          isNullable={true}
-          placeholder="(No Policy)"
-          options={PetPolicyEnum}
-          onChange={(value) => {
-            setEditedBuilding({ ...editedBuilding, petPolicy: value})
-          }}
-        />
-      </Label>
+        </FormField>
 
-      <Text scale="title">Physical Address</Text>
-      <AddressEditPage 
-        address={editedBuilding.physicalAddress}
-        onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
-      />
+        <FormField
+          label="Mailbox Type: "
+          indicateRequired={true}
+        >
+          <SelectInput
+            value={editedBuilding.mailboxType}
+            options={MailboxTypeEnum}
+            onChange={(value) => {
+              setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
+            }}
+          />
+        </FormField>
 
-      <Button 
-        intent="basic" kind="solid"
-        onClick={() => saveBuilding(editedBuilding)}
-      >
-        Save
-      </Button>
-    </Group>
+        <FormField label="Pet Policy: ">
+          <SelectInput
+            value={editedBuilding.petPolicy}
+            isNullable={true}
+            placeholder="(No Policy)"
+            options={PetPolicyEnum}
+            onChange={(value) => {
+              setEditedBuilding({ ...editedBuilding, petPolicy: value })
+            }}
+          />
+        </FormField>
+
+        <Text scale="title">Physical Address</Text>
+        <AddressEditPage
+          address={editedBuilding.physicalAddress}
+          onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
+        />
+
+        <Group>
+          <FormErrorDisplay />
+          <FormSubmitButton onClick={() => saveBuilding(editedBuilding)} />
+        </Group>
+      </Group>
+    </FormProvider>
   );
 }
 
 type WrapperProps = {
   +match: {
-    +params: {
-      +id: string
-    }
+  +params: {
+    +id: string
   }
+}
 };
 export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
   const stringId = props.match.params.id;
   if (stringId == null) {
-    return <BuildingEditPage building={createDefaultBuilding()}/>
+    return <BuildingEditPage building={createDefaultBuilding()} />
   }
 
   const id: number = parseInt(stringId);

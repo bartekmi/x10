@@ -8,6 +8,7 @@ type OnOffContextType = {
 };
 
 const OnOffContext: React.Context<OnOffContextType> = React.createContext(
+  // This default context kicks in if you useContext(), but there is none above.
   {
     valueBefore: "Default Before",
     valueAfter: "Default After",
