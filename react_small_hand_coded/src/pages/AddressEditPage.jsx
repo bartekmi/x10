@@ -53,6 +53,7 @@ export default function AddressEditPage(props: Props): React.Node {
         label="City:" 
         indicateRequired={true}
         errorMessage={isEmpty(city) ? "City is mandatory" : null}
+        toolTip="If this is a rural address, enter the closest city or village"
       >
         <TextInput
           value={city || ""}

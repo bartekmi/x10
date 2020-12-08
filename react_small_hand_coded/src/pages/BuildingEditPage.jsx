@@ -10,7 +10,7 @@ import TextareaInput from "latitude/TextareaInput";
 import SelectInput from "latitude/select/SelectInput";
 import Label from "latitude/Label";
 import Button from "latitude/button/Button";
-import InputError from "latitude/InputError";
+import Checkbox from "latitude/Checkbox";
 
 import isEmpty from "../lib_components/utils/isEmpty";
 import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
@@ -39,7 +39,7 @@ type Props = {|
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
-  const { name, description, dateOfOccupancy, petPolicy } = editedBuilding;
+  const { name, description, dateOfOccupancy, petPolicy, mailingAddressSameAsPhysical, physicalAddress, mailingAddress } = editedBuilding;
 
   return (
     <FormProvider value={[]}>
@@ -107,9 +107,25 @@ function BuildingEditPage(props: Props): React.Node {
 
         <Text scale="title">Physical Address</Text>
         <AddressEditPage
-          address={editedBuilding.physicalAddress}
+          address={physicalAddress}
           onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
         />
+
+        <Checkbox 
+          checked={mailingAddressSameAsPhysical}
+          label="Mailing Address Same as Physical Address"
+          onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddressSameAsPhysical: value })}
+        />
+
+        {!mailingAddressSameAsPhysical ? (
+          <Group flexDirection="column">
+            <Text scale="title">Mailing Address</Text>
+            <AddressEditPage
+              address={mailingAddress || createDefaultAddress()}
+              onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddress: value })}
+            />
+          </Group>
+        ) : null}
 
         <Group>
           <FormErrorDisplay />
@@ -171,6 +187,7 @@ function createDefaultBuilding(): Building {
     name: "",
     petPolicy: DEFAULT_PET_POLICY,
     physicalAddress: createDefaultAddress(),
+    mailingAddress: null,
   };
 }
 
@@ -192,6 +209,14 @@ const query = graphql`
         unitNumber
         zip
       }
+      mailingAddress {
+        city
+        dbid
+        stateOrProvince
+        theAddress
+        unitNumber
+        zip
+      }
     }
   }
 `;
@@ -203,6 +228,7 @@ function saveBuilding(building: Building) {
     description: building.description,
     dateOfOccupancy: building.dateOfOccupancy,
     mailboxType: building.mailboxType,
+    mailingAddress: building.mailingAddress,
     mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
     petPolicy: building.petPolicy,
     physicalAddress: building.physicalAddress,
@@ -223,6 +249,7 @@ const mutation = graphql`
     $dateOfOccupancy: DateTime!
     $description: String!
     $mailboxType: MailboxTypeEnum!
+    $mailingAddress: AddressInput
     $mailingAddressSameAsPhysical: Boolean!
     $name: String!
     $petPolicy: PetPolicyEnum
@@ -233,6 +260,7 @@ const mutation = graphql`
       dateOfOccupancy: $dateOfOccupancy
       description: $description
       mailboxType: $mailboxType
+      mailingAddress: $mailingAddress
       mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
       name: $name
       petPolicy: $petPolicy

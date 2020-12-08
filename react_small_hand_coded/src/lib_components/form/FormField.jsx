@@ -12,17 +12,22 @@ type Props = {|
   +label: string,
   +indicateRequired?: boolean,
   +errorMessage?: string | null,
+  +toolTip?: string,
 |};
 export default function FormField(props: Props): React.Node {
   const errors = React.useContext(FormContext);
-  const {children, label, indicateRequired = false, errorMessage} = props;
+  const {children, label, indicateRequired = false, errorMessage, toolTip} = props;
 
   if (errorMessage != null) {
     errors.push(errorMessage);
   }
 
   return (
-    <Label value={label} indicateRequired={indicateRequired}>
+    <Label 
+      value={label} 
+      indicateRequired={indicateRequired}
+      helpTooltip={toolTip}
+    >
       <InputError errorText={errorMessage || null} showError={errorMessage != null}>
         {children}
       </InputError>
