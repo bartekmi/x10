@@ -5,8 +5,10 @@ import * as React from "react";
 import Group from "latitude/Group"
 import TextInput from "latitude/TextInput";
 import Label from "latitude/Label";
+import InputError from "latitude/InputError";
 
-import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
+import isEmpty from "../lib_components/utils/isEmpty";
+import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
 
 export type Address = {|
   +city: ?string,
@@ -23,32 +25,37 @@ type Props = {|
 |};
 export default function AddressEditPage(props: Props): React.Node {
   const { address, onChange } = props;
+  const { unitNumber, theAddress, city } = address;
 
   return (
     <Group flexDirection="column">
       <Label value="Unit Number:" >
         <TextInput
-          value={address.unitNumber || ""}
+          value={unitNumber || ""}
           onChange={(value) => {
             onChange({ ...address, unitNumber: value })
           }}
         />
       </Label>
       <Label value="Address:" >
-        <TextInput
-          value={address.theAddress || ""}
-          onChange={(value) => {
-            onChange({ ...address, theAddress: value })
-          }}
-        />
+        <InputError errorText="Address is mandatory" showError={isEmpty(theAddress)}>
+          <TextInput
+            value={theAddress || ""}
+            onChange={(value) => {
+              onChange({ ...address, theAddress: value })
+            }}
+          />
+        </InputError>
       </Label>
       <Label value="City:" >
-        <TextInput
-          value={address.city || ""}
-          onChange={(value) => {
-            onChange({ ...address, city: value })
-          }}
-        />
+        <InputError errorText="City is mandatory" showError={isEmpty(city)}>
+          <TextInput
+            value={city || ""}
+            onChange={(value) => {
+              onChange({ ...address, city: value })
+            }}
+          />
+        </InputError>
       </Label>
     </Group>
   );

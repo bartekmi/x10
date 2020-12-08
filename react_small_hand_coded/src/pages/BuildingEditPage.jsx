@@ -10,7 +10,9 @@ import TextareaInput from "latitude/TextareaInput";
 import SelectInput from "latitude/select/SelectInput";
 import Label from "latitude/Label";
 import Button from "latitude/button/Button";
+import InputError from "latitude/InputError";
 
+import isEmpty from "../lib_components/utils/isEmpty";
 import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
 import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
 import environment from "../environment";
@@ -32,33 +34,38 @@ type Props = {|
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
+  const { name, description, dateOfOccupancy, petPolicy } = editedBuilding;
 
   return (
     <Group flexDirection="column">
-      <Text scale="headline">{`Editing Building ${building.name || ""}`}</Text>
+      <Text scale="headline">{`Editing Building ${name || ""}`}</Text>
       <Label value="Name:" >
-        <TextInput
-          value={editedBuilding.name}
-          onChange={(value) => {
-            setEditedBuilding({ ...editedBuilding, name: value })
-          }}
-        />
+        <InputError errorText="Name is mandatory" showError={isEmpty(name)}>
+          <TextInput
+            value={name}
+            onChange={(value) => {
+              setEditedBuilding({ ...editedBuilding, name: value })
+            }}
+          />
+        </InputError>
       </Label>
       <Label value="Description:" >
         <TextareaInput
-          value={editedBuilding.description}
+          value={description}
           onChange={(value) => {
             setEditedBuilding({ ...editedBuilding, description: value })
           }}
         />
       </Label>
       <Label value="Date of Occupancy:" >
-        <X10_CalendarDateInput
-          value={editedBuilding.dateOfOccupancy}
-          onChange={(value) => {
-            setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
-          }}
-        />
+        <InputError errorText="Date of Occupancy is mandatory" showError={isEmpty(dateOfOccupancy)}>
+          <X10_CalendarDateInput
+            value={dateOfOccupancy}
+            onChange={(value) => {
+              setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
+            }}
+          />
+        </InputError>
       </Label>
       <Label value="Mailbox Type:" >
         <SelectInput
