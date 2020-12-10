@@ -22,7 +22,6 @@ namespace Small.Entities {
   /// A physical structure that contains Units to be occupied by Tenants
   /// </summary>
   public class Building : EntityBase {
-
     // Regular Attributes
     public string? Moniker { get; set; }
     [GraphQLNonNullType]
@@ -37,6 +36,7 @@ namespace Small.Entities {
     public bool MailingAddressSameAsPhysical { get; set; }
 
     // Associations
+    [GraphQLNonNullType]
     public List<Unit>? Units { get; set; }
     [GraphQLNonNullType]
     public Address? PhysicalAddress { get; set; }

@@ -19,12 +19,14 @@ import FormField from "../lib_components/form/FormField";
 import FormSubmitButton from "../lib_components/form/FormSubmitButton";
 import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
 import { FormProvider } from "../lib_components/form/FormContext";
+import MultiStacker from "../lib_components/multi/MultiStacker";
 
 import environment from "../environment";
 
 import PetPolicyEnum from "../constants/PetPolicyEnum";
 import MailboxTypeEnum from "../constants/MailboxTypeEnum";
 import AddressEditPage, { createDefaultAddress } from "./AddressEditPage";
+import UnitEdit, { createDefaultUnit, type Unit } from "./UnitEdit";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
@@ -39,7 +41,17 @@ type Props = {|
 function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
-  const { name, description, dateOfOccupancy, petPolicy, mailingAddressSameAsPhysical, physicalAddress, mailingAddress } = editedBuilding;
+  const { 
+    name, 
+    description, 
+    dateOfOccupancy, 
+    petPolicy, 
+    mailboxType,
+    mailingAddressSameAsPhysical, 
+    physicalAddress, 
+    mailingAddress, 
+    units 
+  } = editedBuilding;
 
   return (
     <FormProvider value={[]}>
@@ -85,7 +97,7 @@ function BuildingEditPage(props: Props): React.Node {
           indicateRequired={true}
         >
           <SelectInput
-            value={editedBuilding.mailboxType}
+            value={mailboxType}
             options={MailboxTypeEnum}
             onChange={(value) => {
               setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
@@ -95,7 +107,7 @@ function BuildingEditPage(props: Props): React.Node {
 
         <FormField label="Pet Policy: ">
           <SelectInput
-            value={editedBuilding.petPolicy}
+            value={petPolicy}
             isNullable={true}
             placeholder="(No Policy)"
             options={PetPolicyEnum}
@@ -127,6 +139,17 @@ function BuildingEditPage(props: Props): React.Node {
           </Group>
         ) : null}
 
+        <Text scale="title">Units</Text>
+        <MultiStacker 
+          items={units}
+          itemDisplayFunc={(data, onChangeInner) => (<UnitEdit 
+            unit={data}
+            onChange={onChangeInner}
+          />)}
+          onChange={(value) => setEditedBuilding({ ...editedBuilding, units: value })}
+          addNewItem={createDefaultUnit}
+        />
+
         <Group>
           <FormErrorDisplay />
           <FormSubmitButton onClick={() => saveBuilding(editedBuilding)} />
@@ -136,6 +159,16 @@ function BuildingEditPage(props: Props): React.Node {
   );
 }
 
+function createUnitEdit(data: Unit, onChange: (unit: Unit) => void): React.Node {
+  return (
+    <UnitEdit 
+      unit={data}
+      onChange={onChange}
+    />
+  );
+}
+
+// TODO: Split this out into a separate wrapper file!
 type WrapperProps = {
   +match: {
   +params: {
@@ -183,11 +216,12 @@ function createDefaultBuilding(): Building {
     dateOfOccupancy: null,
     mailboxType: DEFAULT_MAILBOX_TYPE,
     description: "",
+    mailingAddress: null,
     mailingAddressSameAsPhysical: true,
     name: "",
     petPolicy: DEFAULT_PET_POLICY,
     physicalAddress: createDefaultAddress(),
-    mailingAddress: null,
+    units: [],
   };
 }
 
@@ -199,6 +233,14 @@ const query = graphql`
       description
       dateOfOccupancy
       mailboxType
+      mailingAddress {
+        city
+        dbid
+        stateOrProvince
+        theAddress
+        unitNumber
+        zip
+      }
       mailingAddressSameAsPhysical
       petPolicy
       physicalAddress {
@@ -209,13 +251,14 @@ const query = graphql`
         unitNumber
         zip
       }
-      mailingAddress {
-        city
+      units {
+        id
         dbid
-        stateOrProvince
-        theAddress
-        unitNumber
-        zip
+        hasBalcony
+        number
+        numberOfBathrooms
+        numberOfBedrooms
+        squareFeet
       }
     }
   }

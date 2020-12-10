@@ -57,6 +57,7 @@ namespace Small.Repositories {
           },
           Units = new List<Unit>() {
             new Unit() {
+              Dbid = 1,
               Number = "Main",
               SquareFeet = 920,
               NumberOfBedrooms = 3,
@@ -64,6 +65,7 @@ namespace Small.Repositories {
               HasBalcony = true,
             },
             new Unit() {
+              Dbid = 2,
               Number = "Basement",
               SquareFeet = 720,
               NumberOfBedrooms = 2,
@@ -86,7 +88,8 @@ namespace Small.Repositories {
             City = "Calgary",
             StateOrProvince = "AB",
             Zip = "T3L 1R9",
-          }
+          },
+          Units = new List<Unit>(),
         },
       };
     }

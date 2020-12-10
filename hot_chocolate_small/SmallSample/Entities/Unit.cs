@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+
+using HotChocolate;
 
 namespace Small.Entities {
 
@@ -14,10 +15,14 @@ namespace Small.Entities {
   }
 
   public class Unit : EntityBase {
+    [GraphQLNonNullType]
     public string? Number { get; set;}
     public double? SquareFeet { get; set;}
+    [GraphQLNonNullType]
     public int? NumberOfBedrooms { get; set;}
+    [GraphQLNonNullType]
     public NumberOfBathroomsEnum? NumberOfBathrooms { get; set;}
+    [GraphQLNonNullType]
     public bool HasBalcony { get; set;}
   }
 }

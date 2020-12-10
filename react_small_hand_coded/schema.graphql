@@ -6,6 +6,7 @@ schema {
 type Address {
   city: String
   dbid: Int!
+  id: String!
   stateOrProvince: String
   theAddress: String
   unitNumber: String
@@ -17,6 +18,7 @@ type Building {
   dateOfOccupancy: DateTime
   dbid: Int!
   description: String!
+  id: String!
   mailboxType: MailboxTypeEnum!
   mailingAddress: Address
   mailingAddressSameAsPhysical: Boolean!
@@ -24,7 +26,7 @@ type Building {
   name: String!
   petPolicy: PetPolicyEnum
   physicalAddress: Address!
-  units: [Unit]
+  units: [Unit!]!
 }
 
 "A connection to a list of items."
@@ -50,6 +52,7 @@ type Move {
   date: DateTime
   dbid: Int!
   from: Unit
+  id: String!
   tenant: Tenant
   to: Unit
 }
@@ -87,6 +90,7 @@ type Query {
 type Tenant {
   dbid: Int!
   email: String!
+  id: String!
   name: String!
   permanentMailingAddress: Address
   phone: String
@@ -114,15 +118,17 @@ type TenantEdge {
 type Unit {
   dbid: Int!
   hasBalcony: Boolean!
-  number: String
-  numberOfBathrooms: NumberOfBathroomsEnum
-  numberOfBedrooms: Int
+  id: String!
+  number: String!
+  numberOfBathrooms: NumberOfBathroomsEnum!
+  numberOfBedrooms: Int!
   squareFeet: Float
 }
 
 input AddressInput {
   city: String
   dbid: Int!
+  id: String!
   stateOrProvince: String
   theAddress: String
   unitNumber: String
@@ -166,6 +172,16 @@ input BuildingFilter {
   description_not_in: [String!]
   description_not_starts_with: String
   description_starts_with: String
+  id: String
+  id_contains: String
+  id_ends_with: String
+  id_in: [String!]
+  id_not: String
+  id_not_contains: String
+  id_not_ends_with: String
+  id_not_in: [String!]
+  id_not_starts_with: String
+  id_starts_with: String
   mailboxType: MailboxTypeEnum
   mailboxType_gt: MailboxTypeEnum
   mailboxType_gte: MailboxTypeEnum
@@ -220,6 +236,7 @@ input BuildingSort {
   dateOfOccupancy: SortOperationKind
   dbid: SortOperationKind
   description: SortOperationKind
+  id: SortOperationKind
   mailboxType: SortOperationKind
   mailingAddressSameAsPhysical: SortOperationKind
   moniker: SortOperationKind
@@ -251,6 +268,16 @@ input TenantFilter {
   email_not_in: [String!]
   email_not_starts_with: String
   email_starts_with: String
+  id: String
+  id_contains: String
+  id_ends_with: String
+  id_in: [String!]
+  id_not: String
+  id_not_contains: String
+  id_not_ends_with: String
+  id_not_in: [String!]
+  id_not_starts_with: String
+  id_starts_with: String
   name: String
   name_contains: String
   name_ends_with: String
@@ -277,6 +304,7 @@ input TenantFilter {
 input TenantSort {
   dbid: SortOperationKind
   email: SortOperationKind
+  id: SortOperationKind
   name: SortOperationKind
   phone: SortOperationKind
 }

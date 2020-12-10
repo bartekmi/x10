@@ -1,5 +1,5 @@
 // @flow
 
-export default function isEmpty(value: ?string): boolean {
-  return value == null || value.trim() === "";
+export default function isEmpty(value: ?string | ?number): boolean {
+  return value == null || String(value).trim() === "";
 }
