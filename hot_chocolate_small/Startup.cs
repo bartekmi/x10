@@ -17,6 +17,8 @@ namespace Small {
     public void ConfigureServices(IServiceCollection services) {
       services.AddSingleton<ISmallRepository, SmallRepository>();
 
+      services.AddCors();
+
       BuildSchema(services)
         .AddApolloTracing();
     }
@@ -41,6 +43,12 @@ namespace Small {
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
       app
+        .UseCors(policy => {
+          policy.AllowAnyHeader();
+          policy.AllowAnyMethod();
+          policy.SetIsOriginAllowed(origin => true); // allow any origin
+          policy.AllowCredentials();
+        })        
         .UseRouting()
         .UseEndpoints(endpoints =>
         {
