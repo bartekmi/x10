@@ -11,7 +11,7 @@ const NumberOfBathroomsEnum = [
   },
   {
     label: "One + Half",
-    value: "ONEANDHALF",
+    value: "ONE_AND_HALF",
   },
   {
     label: "Two",
@@ -23,7 +23,7 @@ const NumberOfBathroomsEnum = [
   },
   {
     label: "Four Plus",
-    value: "FOURPLUS",
+    value: "FOUR_PLUS",
   },
 ]
 

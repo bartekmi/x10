@@ -7,7 +7,7 @@ const MailboxTypeEnum = [
   },
   {
     label: "Shared Mail Room - in Building",
-    value: "INBUILDING",
+    value: "IN_BUILDING",
   },
   {
     label: "Individual Mailbox",

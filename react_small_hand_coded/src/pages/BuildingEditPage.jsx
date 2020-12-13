@@ -31,7 +31,7 @@ import UnitEdit, { createDefaultUnit, type Unit } from "./UnitEdit";
 
 import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
-const DEFAULT_MAILBOX_TYPE = "INBUILDING";
+const DEFAULT_MAILBOX_TYPE = "IN_BUILDING";
 const DEFAULT_PET_POLICY = null;
 
 type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;

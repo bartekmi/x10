@@ -3,19 +3,19 @@
 const PetPolicyEnum = [
   {
     label: "All Pets OK",
-    value: "ALLPETSOK",
+    value: "ALL_PETS_OK",
   },
   {
     label: "Cats Only",
-    value: "CATSONLY",
+    value: "CATS_ONLY",
   },
   {
     label: "Dogs Only",
-    value: "DOGSONLY",
+    value: "DOGS_ONLY",
   },
   {
     label: "No Pets",
-    value: "NOPETS",
+    value: "NO_PETS",
   },
 ]
 
