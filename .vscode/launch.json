@@ -5,15 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug",
+      "name": "Debug - Hot Choc",
       "type":"coreclr",
       "request":"launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp3.0/HotChocolateSmall.dll",
+      "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
       "args": [],
       "cwd": "${workspaceFolder}/hot_chocolate_small",
       "console": "internalConsole",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }      
     }
   ]
 }
