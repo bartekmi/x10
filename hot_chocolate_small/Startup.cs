@@ -1,17 +1,12 @@
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-using System;
-using System.IO;
 
 using HotChocolate;
-using HotChocolate.AspNetCore;
-using HotChocolate.AspNetCore.Voyager;
-using HotChocolate.Subscriptions;
+using HotChocolate.Execution.Configuration;
 
-using Small;
 using Small.Entities;
 using Small.Repositories;
 
@@ -20,57 +15,37 @@ namespace Small {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
-      // Add the custom services like repositories etc ...
       services.AddSingleton<ISmallRepository, SmallRepository>();
 
-      // Add in-memory event provider
-      services.AddInMemorySubscriptionProvider();
-
-      // Add CORS
-      services.AddCors();
-
-      // Add GraphQL Services
-      services.AddGraphQL(sp => CreateSchema(sp));
+      BuildSchema(services)
+        .AddApolloTracing();
     }
 
-    public static ISchema CreateSchema(IServiceProvider sp) {
-      ISchema schema = SchemaBuilder.New()
-        .AddServices(sp)
+    internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {
+      return services
+        .AddGraphQLServer()
+
+        // The two roots - queries and mutations
         .AddQueryType(d => d.Name("Query"))
         .AddMutationType(d => d.Name("Mutation"))
-
         .AddType<SmallQueries>()
         .AddType<SmallMutations>()
 
+        // Application types
         .AddType<Address>()
         .AddType<Tenant>()
         .AddType<Unit>()
         .AddType<Building>()
-        .AddType<Move>()
-
-        .Create();
-
-      File.WriteAllText(Program.SCHEMA_OUTPUT_FILE, schema.ToString());
-      return schema;
+        .AddType<Move>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-      if (env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-      }
-
       app
         .UseRouting()
-        .UseWebSockets()
-        .UseCors(policy => {
-          policy.AllowAnyHeader();
-          policy.AllowAnyMethod();
-          policy.SetIsOriginAllowed(origin => true); // allow any origin
-          policy.AllowCredentials();
-        })
-        .UseGraphQL("/graphql")
-        .UsePlayground("/graphql")
-        .UseVoyager("/graphql");
+        .UseEndpoints(endpoints =>
+        {
+            endpoints.MapGraphQL();
+        });
     }
   }
 }

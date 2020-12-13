@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from "react";
+import { v4 as uuid } from 'uuid';
 import { graphql, QueryRenderer, commitMutation } from "react-relay";
 
 import Group from "latitude/Group"
@@ -212,6 +213,7 @@ export default function BuildingEditPageWrapper(props: WrapperProps): React.Node
 
 function createDefaultBuilding(): Building {
   return {
+    id: uuid(),
     dbid: DBID_LOCALLY_CREATED,
     dateOfOccupancy: null,
     mailboxType: DEFAULT_MAILBOX_TYPE,
@@ -228,12 +230,14 @@ function createDefaultBuilding(): Building {
 const query = graphql`
   query BuildingEditPageQuery($id: Int!) {
     building(id: $id) {
+      id
       dbid
       name
       description
       dateOfOccupancy
       mailboxType
       mailingAddress {
+        id
         city
         dbid
         stateOrProvince
@@ -244,6 +248,7 @@ const query = graphql`
       mailingAddressSameAsPhysical
       petPolicy
       physicalAddress {
+        id
         city
         dbid
         stateOrProvince
@@ -275,6 +280,7 @@ function saveBuilding(building: Building) {
     mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
     petPolicy: building.petPolicy,
     physicalAddress: building.physicalAddress,
+    units: building.units,
   };
 
   return commitMutation(
@@ -297,6 +303,7 @@ const mutation = graphql`
     $name: String!
     $petPolicy: PetPolicyEnum
     $physicalAddress: AddressInput!
+    $units: [UnitInput!]!
   ) {
     createOrUpdateBuilding(
       dbid: $dbid
@@ -308,6 +315,7 @@ const mutation = graphql`
       name: $name
       petPolicy: $petPolicy
       physicalAddress: $physicalAddress
+      units: $units
     )
   }
 `;

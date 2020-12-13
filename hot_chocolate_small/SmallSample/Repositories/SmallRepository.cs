@@ -30,6 +30,9 @@ namespace Small.Repositories {
       building.Dbid = newId;
       building.Moniker = "Bldg-" + newId;
       _buildings[newId] = building;
+
+      Console.WriteLine(building);
+
       return newId;
     }
 
@@ -50,6 +53,7 @@ namespace Small.Repositories {
           PetPolicy = PetPolicyEnum.DogsOnly,
           MailingAddressSameAsPhysical = true,
           PhysicalAddress = new Address() {
+            Dbid = 1,
             TheAddress = "111 Prominent Ave",
             City = "Whitehorse",
             StateOrProvince = "YK",
@@ -84,6 +88,7 @@ namespace Small.Repositories {
           PetPolicy = PetPolicyEnum.NoPets,
           MailingAddressSameAsPhysical = true,
           PhysicalAddress = new Address() {
+            Dbid = 2,
             TheAddress = "115 Scenic Park Cres NW",
             City = "Calgary",
             StateOrProvince = "AB",
@@ -124,6 +129,7 @@ namespace Small.Repositories {
           Phone = "825-903-2717",
           Email = "220bartek@gmail.com",
           PermanentMailingAddress = new Address() {
+            Dbid = 3,
             TheAddress = "111 Prominent Ave",
             City = "Whitehorse",
             StateOrProvince = "YK",
@@ -136,6 +142,7 @@ namespace Small.Repositories {
           Phone = "825-973-2717",
           Email = "imuszynski@gmail.com",
           PermanentMailingAddress = new Address() {
+            Dbid = 4,
             TheAddress = "101 Toronto Ave",
             City = "Toronton",
             StateOrProvince = "ON",

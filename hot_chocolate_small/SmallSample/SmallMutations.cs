@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using HotChocolate;
 using HotChocolate.Types;
@@ -25,6 +26,7 @@ namespace Small {
         bool mailingAddressSameAsPhysical,
         Address physicalAddress,
         Address? mailingAddress,
+        IEnumerable<Unit> units,
         [Service] ISmallRepository repository) {
 
       Building building = new Building() {
@@ -36,6 +38,7 @@ namespace Small {
         MailingAddressSameAsPhysical = mailingAddressSameAsPhysical,
         PhysicalAddress = physicalAddress,
         MailingAddress = mailingAddress,
+        Units = new List<Unit>(units),
       };
 
       if (dbid == BLANK_DBID)

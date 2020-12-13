@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from "react";
+import { v4 as uuid } from 'uuid';
 
 import Group from "latitude/Group"
 import TextInput from "latitude/TextInput";
@@ -10,6 +11,7 @@ import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
 import FormField from "../lib_components/form/FormField";
 
 export type Address = {|
+  +id: string,
   +city: ?string,
   +dbid: number,
   +stateOrProvince: ?string,
@@ -68,6 +70,7 @@ export default function AddressEditPage(props: Props): React.Node {
 
 export function createDefaultAddress(): Address {
   return {
+    id: uuid(),
     dbid: DBID_LOCALLY_CREATED,
     city: "",
     stateOrProvince: "",
