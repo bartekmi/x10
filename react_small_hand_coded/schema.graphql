@@ -4,40 +4,39 @@ schema {
 }
 
 type Address {
-  city: String
-  dbid: Int!
-  id: String!
-  stateOrProvince: String
-  theAddress: String
   unitNumber: String
+  theAddress: String
+  city: String
+  stateOrProvince: String
   zip: String
+  id: String!
+  dbid: Int!
 }
 
 "A physical structure that contains Units to be occupied by Tenants"
 type Building {
-  dateOfOccupancy: DateTime
-  dbid: Int!
-  description: String!
-  id: String!
-  mailboxType: MailboxTypeEnum!
-  mailingAddress: Address
-  mailingAddressSameAsPhysical: Boolean!
   moniker: String
   name: String!
+  description: String!
+  dateOfOccupancy: DateTime
+  mailboxType: MailboxTypeEnum!
   petPolicy: PetPolicyEnum
-  physicalAddress: Address!
+  mailingAddressSameAsPhysical: Boolean!
   units: [Unit!]!
+  physicalAddress: Address!
+  mailingAddress: Address
+  id: String!
+  dbid: Int!
 }
 
 "A connection to a list of items."
 type BuildingConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
   "A list of edges."
   edges: [BuildingEdge!]
   "A flattened list of the nodes."
-  nodes: [Building]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  totalCount: Int!
+  nodes: [Building!]
 }
 
 "An edge in a connection."
@@ -45,66 +44,65 @@ type BuildingEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: Building
+  node: Building!
 }
 
 type Move {
   date: DateTime
-  dbid: Int!
   from: Unit
-  id: String!
-  tenant: Tenant
   to: Unit
+  tenant: Tenant
+  id: String!
+  dbid: Int!
 }
 
 type Mutation {
   "Creates a new Building or updates an existing one, depending on the value of dbid"
-  createOrUpdateBuilding(dateOfOccupancy: DateTime! dbid: Int! description: String mailboxType: MailboxTypeEnum mailingAddress: AddressInput mailingAddressSameAsPhysical: Boolean! name: String! petPolicy: PetPolicyEnum physicalAddress: AddressInput!): Int!
+  createOrUpdateBuilding(dbid: Int! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! physicalAddress: AddressInput! mailingAddress: AddressInput units: [UnitInput!]!): Int!
   "Creates a new Tenant or updates an existing one, depending on the value of dbid"
-  createOrUpdateTenant(dbid: Int! email: String! name: String! phone: String!): Int!
+  createOrUpdateTenant(dbid: Int! name: String! phone: String! email: String!): Int!
 }
 
 "Information about pagination in a connection."
 type PageInfo {
-  "When paginating forwards, the cursor to continue."
-  endCursor: String
   "Indicates whether more edges exist following the set defined by the clients arguments."
   hasNextPage: Boolean!
   "Indicates whether more edges exist prior the set defined by the clients arguments."
   hasPreviousPage: Boolean!
   "When paginating backwards, the cursor to continue."
   startCursor: String
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
 }
 
 type Query {
-  "Retrieve a Building by id"
+  "Retrieve a Building by id\n\n\n**Returns:**\nThe Building."
   building("The id of the building." id: Int!): Building!
-  "Gets all buildings."
-  buildings(after: String before: String first: PaginationAmount last: PaginationAmount order_by: BuildingSort where: BuildingFilter): BuildingConnection
-  "Retrieve a Tenant by id"
+  "Gets all buildings.\n\n\n**Returns:**\nAll Buildings."
+  buildings(first: Int after: String last: Int before: String where: BuildingFilter order_by: BuildingSort): BuildingConnection
+  "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Building."
   tenant("The id of the tenant." id: Int!): Tenant!
-  "Gets all tenants."
-  tenants(after: String before: String first: PaginationAmount last: PaginationAmount order_by: TenantSort where: TenantFilter): TenantConnection
+  "Gets all tenants.\n\n\n**Returns:**\nAll Tenants."
+  tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection
 }
 
 type Tenant {
-  dbid: Int!
-  email: String!
-  id: String!
   name: String!
-  permanentMailingAddress: Address
   phone: String
+  email: String!
+  permanentMailingAddress: Address
+  id: String!
+  dbid: Int!
 }
 
 "A connection to a list of items."
 type TenantConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
   "A list of edges."
   edges: [TenantEdge!]
   "A flattened list of the nodes."
-  nodes: [Tenant]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  totalCount: Int!
+  nodes: [Tenant!]
 }
 
 "An edge in a connection."
@@ -112,205 +110,387 @@ type TenantEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: Tenant
+  node: Tenant!
 }
 
 type Unit {
-  dbid: Int!
+  number: String!
+  squareFeet: Float
+  numberOfBedrooms: Int!
+  numberOfBathrooms: NumberOfBathroomsEnum!
   hasBalcony: Boolean!
   id: String!
-  number: String!
-  numberOfBathrooms: NumberOfBathroomsEnum!
-  numberOfBedrooms: Int!
-  squareFeet: Float
+  dbid: Int!
+}
+
+input AddressFilter {
+  AND: [AddressFilter!]
+  OR: [AddressFilter!]
+  unitNumber: String
+  unitNumber_not: String
+  unitNumber_contains: String
+  unitNumber_not_contains: String
+  unitNumber_starts_with: String
+  unitNumber_not_starts_with: String
+  unitNumber_ends_with: String
+  unitNumber_not_ends_with: String
+  unitNumber_in: [String]
+  unitNumber_not_in: [String]
+  theAddress: String
+  theAddress_not: String
+  theAddress_contains: String
+  theAddress_not_contains: String
+  theAddress_starts_with: String
+  theAddress_not_starts_with: String
+  theAddress_ends_with: String
+  theAddress_not_ends_with: String
+  theAddress_in: [String]
+  theAddress_not_in: [String]
+  city: String
+  city_not: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  city_in: [String]
+  city_not_in: [String]
+  stateOrProvince: String
+  stateOrProvince_not: String
+  stateOrProvince_contains: String
+  stateOrProvince_not_contains: String
+  stateOrProvince_starts_with: String
+  stateOrProvince_not_starts_with: String
+  stateOrProvince_ends_with: String
+  stateOrProvince_not_ends_with: String
+  stateOrProvince_in: [String]
+  stateOrProvince_not_in: [String]
+  zip: String
+  zip_not: String
+  zip_contains: String
+  zip_not_contains: String
+  zip_starts_with: String
+  zip_not_starts_with: String
+  zip_ends_with: String
+  zip_not_ends_with: String
+  zip_in: [String]
+  zip_not_in: [String]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
 }
 
 input AddressInput {
-  city: String
-  dbid: Int!
-  id: String!
-  stateOrProvince: String
-  theAddress: String
   unitNumber: String
+  theAddress: String
+  city: String
+  stateOrProvince: String
   zip: String
+  id: String!
+  dbid: Int!
+}
+
+input AddressSort {
+  unitNumber: SortOperationKind
+  theAddress: SortOperationKind
+  city: SortOperationKind
+  stateOrProvince: SortOperationKind
+  zip: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
 }
 
 "A physical structure that contains Units to be occupied by Tenants"
 input BuildingFilter {
   AND: [BuildingFilter!]
-  dateOfOccupancy: DateTime
-  dateOfOccupancy_gt: DateTime
-  dateOfOccupancy_gte: DateTime
-  dateOfOccupancy_in: [DateTime]
-  dateOfOccupancy_lt: DateTime
-  dateOfOccupancy_lte: DateTime
-  dateOfOccupancy_not: DateTime
-  dateOfOccupancy_not_gt: DateTime
-  dateOfOccupancy_not_gte: DateTime
-  dateOfOccupancy_not_in: [DateTime]
-  dateOfOccupancy_not_lt: DateTime
-  dateOfOccupancy_not_lte: DateTime
-  dbid: Int
-  dbid_gt: Int
-  dbid_gte: Int
-  dbid_in: [Int!]
-  dbid_lt: Int
-  dbid_lte: Int
-  dbid_not: Int
-  dbid_not_gt: Int
-  dbid_not_gte: Int
-  dbid_not_in: [Int!]
-  dbid_not_lt: Int
-  dbid_not_lte: Int
+  OR: [BuildingFilter!]
+  moniker: String
+  moniker_not: String
+  moniker_contains: String
+  moniker_not_contains: String
+  moniker_starts_with: String
+  moniker_not_starts_with: String
+  moniker_ends_with: String
+  moniker_not_ends_with: String
+  moniker_in: [String]
+  moniker_not_in: [String]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
   description: String
-  description_contains: String
-  description_ends_with: String
-  description_in: [String!]
   description_not: String
+  description_contains: String
   description_not_contains: String
-  description_not_ends_with: String
-  description_not_in: [String!]
-  description_not_starts_with: String
   description_starts_with: String
-  id: String
-  id_contains: String
-  id_ends_with: String
-  id_in: [String!]
-  id_not: String
-  id_not_contains: String
-  id_not_ends_with: String
-  id_not_in: [String!]
-  id_not_starts_with: String
-  id_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_in: [String!]
+  description_not_in: [String!]
+  dateOfOccupancy: DateTime
+  dateOfOccupancy_not: DateTime
+  dateOfOccupancy_in: [DateTime]
+  dateOfOccupancy_not_in: [DateTime]
+  dateOfOccupancy_gt: DateTime
+  dateOfOccupancy_not_gt: DateTime
+  dateOfOccupancy_gte: DateTime
+  dateOfOccupancy_not_gte: DateTime
+  dateOfOccupancy_lt: DateTime
+  dateOfOccupancy_not_lt: DateTime
+  dateOfOccupancy_lte: DateTime
+  dateOfOccupancy_not_lte: DateTime
   mailboxType: MailboxTypeEnum
-  mailboxType_gt: MailboxTypeEnum
-  mailboxType_gte: MailboxTypeEnum
-  mailboxType_in: [MailboxTypeEnum!]
-  mailboxType_lt: MailboxTypeEnum
-  mailboxType_lte: MailboxTypeEnum
   mailboxType_not: MailboxTypeEnum
-  mailboxType_not_gt: MailboxTypeEnum
-  mailboxType_not_gte: MailboxTypeEnum
+  mailboxType_in: [MailboxTypeEnum!]
   mailboxType_not_in: [MailboxTypeEnum!]
+  mailboxType_gt: MailboxTypeEnum
+  mailboxType_not_gt: MailboxTypeEnum
+  mailboxType_gte: MailboxTypeEnum
+  mailboxType_not_gte: MailboxTypeEnum
+  mailboxType_lt: MailboxTypeEnum
   mailboxType_not_lt: MailboxTypeEnum
+  mailboxType_lte: MailboxTypeEnum
   mailboxType_not_lte: MailboxTypeEnum
+  petPolicy: PetPolicyEnum
+  petPolicy_not: PetPolicyEnum
+  petPolicy_in: [PetPolicyEnum]
+  petPolicy_not_in: [PetPolicyEnum]
+  petPolicy_gt: PetPolicyEnum
+  petPolicy_not_gt: PetPolicyEnum
+  petPolicy_gte: PetPolicyEnum
+  petPolicy_not_gte: PetPolicyEnum
+  petPolicy_lt: PetPolicyEnum
+  petPolicy_not_lt: PetPolicyEnum
+  petPolicy_lte: PetPolicyEnum
+  petPolicy_not_lte: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean
   mailingAddressSameAsPhysical_not: Boolean
-  moniker: String
-  moniker_contains: String
-  moniker_ends_with: String
-  moniker_in: [String]
-  moniker_not: String
-  moniker_not_contains: String
-  moniker_not_ends_with: String
-  moniker_not_in: [String]
-  moniker_not_starts_with: String
-  moniker_starts_with: String
-  name: String
-  name_contains: String
-  name_ends_with: String
-  name_in: [String!]
-  name_not: String
-  name_not_contains: String
-  name_not_ends_with: String
-  name_not_in: [String!]
-  name_not_starts_with: String
-  name_starts_with: String
-  OR: [BuildingFilter!]
-  petPolicy: PetPolicyEnum
-  petPolicy_gt: PetPolicyEnum
-  petPolicy_gte: PetPolicyEnum
-  petPolicy_in: [PetPolicyEnum]
-  petPolicy_lt: PetPolicyEnum
-  petPolicy_lte: PetPolicyEnum
-  petPolicy_not: PetPolicyEnum
-  petPolicy_not_gt: PetPolicyEnum
-  petPolicy_not_gte: PetPolicyEnum
-  petPolicy_not_in: [PetPolicyEnum]
-  petPolicy_not_lt: PetPolicyEnum
-  petPolicy_not_lte: PetPolicyEnum
+  units_some: UnitFilter
+  units_none: UnitFilter
+  units_all: UnitFilter
+  units_any: Boolean
+  physicalAddress: AddressFilter
+  mailingAddress: AddressFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
 }
 
 "A physical structure that contains Units to be occupied by Tenants"
 input BuildingSort {
-  dateOfOccupancy: SortOperationKind
-  dbid: SortOperationKind
-  description: SortOperationKind
-  id: SortOperationKind
-  mailboxType: SortOperationKind
-  mailingAddressSameAsPhysical: SortOperationKind
   moniker: SortOperationKind
   name: SortOperationKind
+  description: SortOperationKind
+  dateOfOccupancy: SortOperationKind
+  mailboxType: SortOperationKind
   petPolicy: SortOperationKind
+  mailingAddressSameAsPhysical: SortOperationKind
+  physicalAddress: AddressSort
+  mailingAddress: AddressSort
+  id: SortOperationKind
+  dbid: SortOperationKind
 }
 
 input TenantFilter {
   AND: [TenantFilter!]
-  dbid: Int
-  dbid_gt: Int
-  dbid_gte: Int
-  dbid_in: [Int!]
-  dbid_lt: Int
-  dbid_lte: Int
-  dbid_not: Int
-  dbid_not_gt: Int
-  dbid_not_gte: Int
-  dbid_not_in: [Int!]
-  dbid_not_lt: Int
-  dbid_not_lte: Int
-  email: String
-  email_contains: String
-  email_ends_with: String
-  email_in: [String!]
-  email_not: String
-  email_not_contains: String
-  email_not_ends_with: String
-  email_not_in: [String!]
-  email_not_starts_with: String
-  email_starts_with: String
-  id: String
-  id_contains: String
-  id_ends_with: String
-  id_in: [String!]
-  id_not: String
-  id_not_contains: String
-  id_not_ends_with: String
-  id_not_in: [String!]
-  id_not_starts_with: String
-  id_starts_with: String
-  name: String
-  name_contains: String
-  name_ends_with: String
-  name_in: [String!]
-  name_not: String
-  name_not_contains: String
-  name_not_ends_with: String
-  name_not_in: [String!]
-  name_not_starts_with: String
-  name_starts_with: String
   OR: [TenantFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
   phone: String
-  phone_contains: String
-  phone_ends_with: String
-  phone_in: [String]
   phone_not: String
+  phone_contains: String
   phone_not_contains: String
-  phone_not_ends_with: String
-  phone_not_in: [String]
-  phone_not_starts_with: String
   phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  phone_in: [String]
+  phone_not_in: [String]
+  email: String
+  email_not: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  email_in: [String!]
+  email_not_in: [String!]
+  permanentMailingAddress: AddressFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
 }
 
 input TenantSort {
-  dbid: SortOperationKind
-  email: SortOperationKind
-  id: SortOperationKind
   name: SortOperationKind
   phone: SortOperationKind
+  email: SortOperationKind
+  permanentMailingAddress: AddressSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+input UnitFilter {
+  AND: [UnitFilter!]
+  OR: [UnitFilter!]
+  number: String
+  number_not: String
+  number_contains: String
+  number_not_contains: String
+  number_starts_with: String
+  number_not_starts_with: String
+  number_ends_with: String
+  number_not_ends_with: String
+  number_in: [String!]
+  number_not_in: [String!]
+  squareFeet: Float
+  squareFeet_not: Float
+  squareFeet_in: [Float]
+  squareFeet_not_in: [Float]
+  squareFeet_gt: Float
+  squareFeet_not_gt: Float
+  squareFeet_gte: Float
+  squareFeet_not_gte: Float
+  squareFeet_lt: Float
+  squareFeet_not_lt: Float
+  squareFeet_lte: Float
+  squareFeet_not_lte: Float
+  numberOfBedrooms: Int
+  numberOfBedrooms_not: Int
+  numberOfBedrooms_in: [Int!]
+  numberOfBedrooms_not_in: [Int!]
+  numberOfBedrooms_gt: Int
+  numberOfBedrooms_not_gt: Int
+  numberOfBedrooms_gte: Int
+  numberOfBedrooms_not_gte: Int
+  numberOfBedrooms_lt: Int
+  numberOfBedrooms_not_lt: Int
+  numberOfBedrooms_lte: Int
+  numberOfBedrooms_not_lte: Int
+  numberOfBathrooms: NumberOfBathroomsEnum
+  numberOfBathrooms_not: NumberOfBathroomsEnum
+  numberOfBathrooms_in: [NumberOfBathroomsEnum!]
+  numberOfBathrooms_not_in: [NumberOfBathroomsEnum!]
+  numberOfBathrooms_gt: NumberOfBathroomsEnum
+  numberOfBathrooms_not_gt: NumberOfBathroomsEnum
+  numberOfBathrooms_gte: NumberOfBathroomsEnum
+  numberOfBathrooms_not_gte: NumberOfBathroomsEnum
+  numberOfBathrooms_lt: NumberOfBathroomsEnum
+  numberOfBathrooms_not_lt: NumberOfBathroomsEnum
+  numberOfBathrooms_lte: NumberOfBathroomsEnum
+  numberOfBathrooms_not_lte: NumberOfBathroomsEnum
+  hasBalcony: Boolean
+  hasBalcony_not: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+input UnitInput {
+  number: String!
+  squareFeet: Float
+  numberOfBedrooms: Int!
+  numberOfBathrooms: NumberOfBathroomsEnum!
+  hasBalcony: Boolean!
+  id: String!
+  dbid: Int!
 }
 
 enum MailboxTypeEnum {
-  INBUILDING
+  IN_BUILDING
   COMMUNITY
   INDIVIDUAL
 }
@@ -318,17 +498,17 @@ enum MailboxTypeEnum {
 enum NumberOfBathroomsEnum {
   HALF
   ONE
-  ONEANDHALF
+  ONE_AND_HALF
   TWO
   THREE
-  FOURPLUS
+  FOUR_PLUS
 }
 
 enum PetPolicyEnum {
-  NOPETS
-  ALLPETSOK
-  CATSONLY
-  DOGSONLY
+  NO_PETS
+  ALL_PETS_OK
+  CATS_ONLY
+  DOGS_ONLY
 }
 
 enum SortOperationKind {
@@ -336,19 +516,23 @@ enum SortOperationKind {
   DESC
 }
 
-"The `Boolean` scalar type represents `true` or `false`."
-scalar Boolean
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer("If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String "Deferred when true." if: Boolean) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The @deprecated directive is used within the type system definition language to indicate deprecated portions of a GraphQL service’s schema,such as deprecated fields on a type or deprecated enum values."
+directive @deprecated("Deprecations include a reason for why it is deprecated, which is formatted using Markdown syntax (as specified by CommonMark)." reason: String = "No longer supported") on FIELD_DEFINITION | ENUM_VALUE
+
+"Directs the executor to include this field or fragment only when the `if` argument is true."
+directive @include("Included when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Directs the executor to skip this field or fragment when the `if` argument is true."
+directive @skip("Skipped when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime
-
-"The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http:\/\/en.wikipedia.org\/wiki\/IEEE_floating_point)."
-scalar Float
-
-"The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."
-scalar Int
-
-scalar PaginationAmount
-
-"The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."
-scalar String
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
