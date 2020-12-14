@@ -116,7 +116,8 @@ export function createDefaultUnit(): Unit {
     hasBalcony: false,
     number: "", 
     numberOfBathrooms: "ONE", 
-    numberOfBedrooms: 0, 
+    // $FlowExpectedError Making this null forces user to enter input
+    numberOfBedrooms: null,
     squareFeet: null, 
   };
 }
