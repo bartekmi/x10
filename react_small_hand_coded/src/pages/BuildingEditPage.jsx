@@ -21,7 +21,7 @@ import FormSubmitButton from "../lib_components/form/FormSubmitButton";
 import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
 import FormSection from "../lib_components/form/FormSection";
 import FormFooter from "../lib_components/form/FormFooter";
-import { FormProvider } from "../lib_components/form/FormContext";
+import FormProvider from "../lib_components/form/FormProvider";
 import MultiStacker from "../lib_components/multi/MultiStacker";
 
 import environment from "../environment";

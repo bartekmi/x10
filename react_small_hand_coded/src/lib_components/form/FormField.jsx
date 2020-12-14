@@ -5,7 +5,7 @@ import * as React from "react";
 import Label from "latitude/Label";
 import InputError from "latitude/InputError";
 
-import FormContext from "./FormContext";
+import {FormContext} from "./FormProvider";
 
 type Props = {|
   +children: React.Node,

@@ -6,7 +6,7 @@ import Text from "latitude/Text";
 import Group from "latitude/Group";
 import Button from "latitude/button/Button";
 
-import FormContext from "./FormContext";
+import {FormContext} from "./FormProvider";
 
 type Props = {|
   +label?: string,
