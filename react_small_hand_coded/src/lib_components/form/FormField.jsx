@@ -12,15 +12,16 @@ type Props = {|
   +label: string,
   +indicateRequired?: boolean,
   +errorMessage?: string | null,
+  +errorMessageFullContext?: string,
   +toolTip?: string,
   +maxWidth?: number,
 |};
 export default function FormField(props: Props): React.Node {
   const errors = React.useContext(FormContext);
-  const {children, label, indicateRequired = false, errorMessage, toolTip, maxWidth} = props;
+  const {children, label, indicateRequired = false, errorMessage, errorMessageFullContext = null, toolTip, maxWidth} = props;
 
   if (errorMessage != null) {
-    errors.push(errorMessage);
+    errors.push(errorMessageFullContext || errorMessage);
   }
 
   const style = maxWidth ? {

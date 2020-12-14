@@ -11,6 +11,7 @@ import Checkbox from "latitude/Checkbox";
 import SelectInput from "latitude/select/SelectInput";
 
 import isEmpty from "../lib_components/utils/isEmpty";
+import isPositive from "../lib_components/utils/isPositive";
 import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
 import FormField from "../lib_components/form/FormField";
 
@@ -45,6 +46,7 @@ export default function UnitEdit(props: Props): React.Node {
       <FormField 
         label="Number:" 
         indicateRequired={true}
+        errorMessageFullContext="Unit Number is mandatory"
         errorMessage={isEmpty(number) ? "Mandatory" : null}
       >
         <TextInput
@@ -67,7 +69,8 @@ export default function UnitEdit(props: Props): React.Node {
       <FormField 
         label="Bedrooms:" 
         indicateRequired={true}
-        errorMessage={isEmpty(numberOfBedrooms) ? "Mandatory" : null}
+        errorMessageFullContext="Number of bedrooms is mandatory"
+        errorMessage={!isPositive(numberOfBedrooms) ? "Mandatory" : null}
       >
         <FloatInput
           value={numberOfBedrooms}
@@ -83,7 +86,6 @@ export default function UnitEdit(props: Props): React.Node {
       <FormField 
         label="Bathrooms:" 
         indicateRequired={true}
-        errorMessage={isEmpty(numberOfBathrooms) ? "Mandatory" : null}
       >
         <SelectInput
           value={numberOfBathrooms}

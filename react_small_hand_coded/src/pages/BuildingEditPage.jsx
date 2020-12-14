@@ -169,15 +169,6 @@ function BuildingEditPage(props: Props): React.Node {
   );
 }
 
-function createUnitEdit(data: Unit, onChange: (unit: Unit) => void): React.Node {
-  return (
-    <UnitEdit 
-      unit={data}
-      onChange={onChange}
-    />
-  );
-}
-
 // TODO: Split this out into a separate wrapper file!
 type WrapperProps = {
   +match: {
