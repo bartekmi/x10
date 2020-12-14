@@ -19,6 +19,7 @@ import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
 import FormField from "../lib_components/form/FormField";
 import FormSubmitButton from "../lib_components/form/FormSubmitButton";
 import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
+import FormSection from "../lib_components/form/FormSection";
 import { FormProvider } from "../lib_components/form/FormContext";
 import MultiStacker from "../lib_components/multi/MultiStacker";
 
@@ -57,28 +58,29 @@ function BuildingEditPage(props: Props): React.Node {
   return (
     <FormProvider value={[]}>
       <Group flexDirection="column">
-        <Text scale="headline">{`Editing Building ${name || ""}`}</Text>
-        <FormField
-          label="Name: "
-          indicateRequired={true}
-          errorMessage={isEmpty(name) ? "Name is mandatory" : null}
-        >
-          <TextInput
-            value={name}
-            onChange={(value) => {
-              setEditedBuilding({ ...editedBuilding, name: value })
-            }}
-          />
-        </FormField>
+        <FormSection label="Building Info">
+          <FormField
+            label="Name: "
+            indicateRequired={true}
+            errorMessage={isEmpty(name) ? "Name is mandatory" : null}
+          >
+            <TextInput
+              value={name}
+              onChange={(value) => {
+                setEditedBuilding({ ...editedBuilding, name: value })
+              }}
+            />
+          </FormField>
 
-        <FormField label="Description: ">
-          <TextareaInput
-            value={description}
-            onChange={(value) => {
-              setEditedBuilding({ ...editedBuilding, description: value })
-            }}
-          />
-        </FormField>
+          <FormField label="Description: ">
+            <TextareaInput
+              value={description}
+              onChange={(value) => {
+                setEditedBuilding({ ...editedBuilding, description: value })
+              }}
+            />
+          </FormField>
+        </FormSection>
 
         <FormField
           label="Date of Occupancy: "
