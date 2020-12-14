@@ -30,7 +30,7 @@ export default function AddressEditPage(props: Props): React.Node {
 
   return (
     <Group flexDirection="column">
-      <FormField label="Unit Number:" >
+      <FormField label="Unit Number:" maxWidth={120}>
         <TextInput
           value={unitNumber || ""}
           onChange={(value) => {
@@ -56,6 +56,7 @@ export default function AddressEditPage(props: Props): React.Node {
         indicateRequired={true}
         errorMessage={isEmpty(city) ? "City is mandatory" : null}
         toolTip="If this is a rural address, enter the closest city or village"
+        maxWidth={350}
       >
         <TextInput
           value={city || ""}

@@ -13,14 +13,19 @@ type Props = {|
   +indicateRequired?: boolean,
   +errorMessage?: string | null,
   +toolTip?: string,
+  +maxWidth?: number,
 |};
 export default function FormField(props: Props): React.Node {
   const errors = React.useContext(FormContext);
-  const {children, label, indicateRequired = false, errorMessage, toolTip} = props;
+  const {children, label, indicateRequired = false, errorMessage, toolTip, maxWidth} = props;
 
   if (errorMessage != null) {
     errors.push(errorMessage);
   }
+
+  const style = maxWidth ? {
+    maxWidth: maxWidth + "px"
+  } : {};
 
   return (
     <Label 
@@ -29,7 +34,9 @@ export default function FormField(props: Props): React.Node {
       helpTooltip={toolTip}
     >
       <InputError errorText={errorMessage || null} showError={errorMessage != null}>
-        {children}
+        <div style={style}>
+          {children}
+        </div>
       </InputError>
     </Label>
   );

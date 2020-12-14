@@ -20,6 +20,7 @@ import FormField from "../lib_components/form/FormField";
 import FormSubmitButton from "../lib_components/form/FormSubmitButton";
 import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
 import FormSection from "../lib_components/form/FormSection";
+import FormFooter from "../lib_components/form/FormFooter";
 import { FormProvider } from "../lib_components/form/FormContext";
 import MultiStacker from "../lib_components/multi/MultiStacker";
 
@@ -63,6 +64,7 @@ function BuildingEditPage(props: Props): React.Node {
             label="Name: "
             indicateRequired={true}
             errorMessage={isEmpty(name) ? "Name is mandatory" : null}
+            maxWidth={350}
           >
             <TextInput
               value={name}
@@ -82,81 +84,86 @@ function BuildingEditPage(props: Props): React.Node {
           </FormField>
         </FormSection>
 
-        <FormField
-          label="Date of Occupancy: "
-          indicateRequired={true}
-          errorMessage={isEmpty(dateOfOccupancy) ? "Date of Occupancy is mandatory" : null}
-        >
-          <X10_CalendarDateInput
-            value={dateOfOccupancy}
-            onChange={(value) => {
-              setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
-            }}
+        <Group gap={40}>
+          <FormField
+            label="Date of Occupancy: "
+            indicateRequired={true}
+            errorMessage={isEmpty(dateOfOccupancy) ? "Date of Occupancy is mandatory" : null}
+          >
+            <X10_CalendarDateInput
+              value={dateOfOccupancy}
+              onChange={(value) => {
+                setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
+              }}
+            />
+          </FormField>
+
+          <FormField
+            label="Mailbox Type: "
+            indicateRequired={true}
+          >
+            <SelectInput
+              value={mailboxType}
+              options={MailboxTypeEnum}
+              onChange={(value) => {
+                setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
+              }}
+            />
+          </FormField>
+
+          <FormField label="Pet Policy: ">
+            <SelectInput
+              value={petPolicy}
+              isNullable={true}
+              placeholder="(No Policy)"
+              options={PetPolicyEnum}
+              onChange={(value) => {
+                setEditedBuilding({ ...editedBuilding, petPolicy: value })
+              }}
+            />
+          </FormField>
+        </Group>
+
+        <FormSection label="Physical Address">
+          <AddressEditPage
+            address={physicalAddress}
+            onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
           />
-        </FormField>
+        </FormSection>
 
-        <FormField
-          label="Mailbox Type: "
-          indicateRequired={true}
-        >
-          <SelectInput
-            value={mailboxType}
-            options={MailboxTypeEnum}
-            onChange={(value) => {
-              setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
-            }}
+        <FormSection label="Mailing Address">
+          <Checkbox 
+            checked={mailingAddressSameAsPhysical}
+            label="Mailing Address Same as Physical Address"
+            onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddressSameAsPhysical: value })}
           />
-        </FormField>
 
-        <FormField label="Pet Policy: ">
-          <SelectInput
-            value={petPolicy}
-            isNullable={true}
-            placeholder="(No Policy)"
-            options={PetPolicyEnum}
-            onChange={(value) => {
-              setEditedBuilding({ ...editedBuilding, petPolicy: value })
-            }}
-          />
-        </FormField>
-
-        <Text scale="title">Physical Address</Text>
-        <AddressEditPage
-          address={physicalAddress}
-          onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
-        />
-
-        <Checkbox 
-          checked={mailingAddressSameAsPhysical}
-          label="Mailing Address Same as Physical Address"
-          onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddressSameAsPhysical: value })}
-        />
-
-        {!mailingAddressSameAsPhysical ? (
-          <Group flexDirection="column">
-            <Text scale="title">Mailing Address</Text>
+          {!mailingAddressSameAsPhysical ? (
             <AddressEditPage
               address={mailingAddress || createDefaultAddress()}
               onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddress: value })}
             />
+          ) : null}
+        </FormSection>
+
+        <FormSection label="Units">
+          <MultiStacker 
+            items={units}
+            itemDisplayFunc={(data, onChangeInner) => (<UnitEdit 
+              unit={data}
+              onChange={onChangeInner}
+            />)}
+            onChange={(value) => setEditedBuilding({ ...editedBuilding, units: value })}
+            addNewItem={createDefaultUnit}
+          />
+        </FormSection>
+
+        <FormFooter>
+          <Group justifyContent="space-between"> 
+            <FormErrorDisplay />
+            <FormSubmitButton onClick={() => saveBuilding(editedBuilding)} />
           </Group>
-        ) : null}
-
-        <Text scale="title">Units</Text>
-        <MultiStacker 
-          items={units}
-          itemDisplayFunc={(data, onChangeInner) => (<UnitEdit 
-            unit={data}
-            onChange={onChangeInner}
-          />)}
-          onChange={(value) => setEditedBuilding({ ...editedBuilding, units: value })}
-          addNewItem={createDefaultUnit}
-        />
-
-        <Group>
-          <FormErrorDisplay />
-          <FormSubmitButton onClick={() => saveBuilding(editedBuilding)} />
-        </Group>
+        </FormFooter>
       </Group>
     </FormProvider>
   );

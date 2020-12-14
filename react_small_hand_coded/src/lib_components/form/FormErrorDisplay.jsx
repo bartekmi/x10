@@ -11,8 +11,8 @@ export default function FormErrorDisplay(): React.Node {
   const errors = React.useContext(FormContext);
 
   return (
-    <Group flexDirection="column">
-      {errors.map(error => <Text key={error}>{error}</Text>)}
+    <Group flexDirection="column" gap={0}>
+      {errors.map(error => <Text color="red40" key={error}>{error}</Text>)}
     </Group>
   );
 }
