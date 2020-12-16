@@ -10,7 +10,7 @@ import TextCell from "latitude/table/TextCell";
 import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
 
-import enumToLabel from "../lib_components/utils/enumToLabel";
+import enumToLabel from "react_lib/utils/enumToLabel";
 import environment from "../environment";
 import history from "../history";
 import PetPolicyEnum from "../constants/PetPolicyEnum";

@@ -6,9 +6,9 @@ import { v4 as uuid } from 'uuid';
 import Group from "latitude/Group"
 import TextInput from "latitude/TextInput";
 
-import isEmpty from "../lib_components/utils/isEmpty";
-import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
-import FormField from "../lib_components/form/FormField";
+import isEmpty from "react_lib/utils/isEmpty";
+import { DBID_LOCALLY_CREATED } from "react_lib/constants";
+import FormField from "react_lib/form/FormField";
 
 export type Address = {|
   +id: string,

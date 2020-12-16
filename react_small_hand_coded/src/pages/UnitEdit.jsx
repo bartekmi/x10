@@ -10,10 +10,10 @@ import FloatInput from "latitude/FloatInput";
 import Checkbox from "latitude/Checkbox";
 import SelectInput from "latitude/select/SelectInput";
 
-import isEmpty from "../lib_components/utils/isEmpty";
-import isPositive from "../lib_components/utils/isPositive";
-import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
-import FormField from "../lib_components/form/FormField";
+import isEmpty from "react_lib/utils/isEmpty";
+import isPositive from "react_lib/utils/isPositive";
+import { DBID_LOCALLY_CREATED } from "react_lib/constants";
+import FormField from "react_lib/form/FormField";
 
 import NumberOfBathroomsEnum from "../constants/NumberOfBathroomsEnum";
 import {type NumberOfBathroomsEnum as NumberOfBathroomsEnumGql} from "./__generated__/BuildingEditPageQuery.graphql"

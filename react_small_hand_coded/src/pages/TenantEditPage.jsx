@@ -11,7 +11,7 @@ import Label from "latitude/Label";
 import Button from "latitude/button/Button";
 
 import environment from "../environment";
-import {DBID_LOCALLY_CREATED} from "../lib_components/constants";
+import {DBID_LOCALLY_CREATED} from "react_lib/constants";
 
 import type { TenantEditPageQueryResponse } from "./__generated__/TenantEditPageQuery.graphql";
 

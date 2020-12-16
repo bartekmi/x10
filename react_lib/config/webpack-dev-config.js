@@ -5,11 +5,7 @@ const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 const {merge} = require("webpack-merge");
 
-const paths = require("./paths");
-// import common webpack config
-const common = require("./webpack-common-config.js");
-
-module.exports = merge(common, {
+module.exports = {
   entry: [paths.appIndexJs],
   mode: "development",
   output: {
@@ -63,24 +59,9 @@ module.exports = merge(common, {
         }
       },      
       {
-        test: /\.jsx?$/,
-        include: /node_modules\/react_lib\/.*/,
-        exclude: /node_modules\/react_lib\/node_modules\/.*/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-flow"
-            ],
-          }
-        }
-      },      
-      {
         test: /\.(css|scss)$/,
         use: ["style-loader", "css-loader"]
       }
     ]
   }
-});
+}

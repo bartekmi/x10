@@ -13,16 +13,16 @@ import Label from "latitude/Label";
 import Button from "latitude/button/Button";
 import Checkbox from "latitude/Checkbox";
 
-import isEmpty from "../lib_components/utils/isEmpty";
-import X10_CalendarDateInput from "../lib_components/X10_CalendarDateInput";
-import { DBID_LOCALLY_CREATED } from "../lib_components/constants";
-import FormField from "../lib_components/form/FormField";
-import FormSubmitButton from "../lib_components/form/FormSubmitButton";
-import FormErrorDisplay from "../lib_components/form/FormErrorDisplay";
-import FormSection from "../lib_components/form/FormSection";
-import FormFooter from "../lib_components/form/FormFooter";
-import FormProvider from "../lib_components/form/FormProvider";
-import MultiStacker from "../lib_components/multi/MultiStacker";
+import isEmpty from "react_lib/utils/isEmpty";
+import X10_CalendarDateInput from "react_lib/X10_CalendarDateInput";
+import { DBID_LOCALLY_CREATED } from "react_lib/constants";
+import FormField from "react_lib/form/FormField";
+import FormSubmitButton from "react_lib/form/FormSubmitButton";
+import FormErrorDisplay from "react_lib/form/FormErrorDisplay";
+import FormSection from "react_lib/form/FormSection";
+import FormFooter from "react_lib/form/FormFooter";
+import FormProvider from "react_lib/form/FormProvider";
+import MultiStacker from "react_lib/multi/MultiStacker";
 
 import environment from "../environment";
 
