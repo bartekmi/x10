@@ -1,6 +1,6 @@
 // @flow
 
-const PetPolicyEnum = [
+export const PetPolicyEnumPairs = [
   {
     label: "All Pets OK",
     value: "ALL_PETS_OK",
@@ -19,4 +19,4 @@ const PetPolicyEnum = [
   },
 ]
 
-export default PetPolicyEnum;
+export type PetPolicyEnum = "ALL_PETS_OK" |  "CATS_ONLY" |  "DOGS_ONLY" |  "NO_PETS";

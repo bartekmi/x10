@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { v4 as uuid } from 'uuid';
-import { graphql, QueryRenderer, commitMutation } from "react-relay";
+import { graphql, commitMutation } from "react-relay";
 
 import Group from "latitude/Group"
 import Text from "latitude/Text";
@@ -26,22 +26,32 @@ import MultiStacker from "react_lib/multi/MultiStacker";
 
 import environment from "../environment";
 
-import PetPolicyEnum from "../constants/PetPolicyEnum";
-import MailboxTypeEnum from "../constants/MailboxTypeEnum";
-import AddressEditPage, { createDefaultAddress } from "./AddressEditPage";
+import { type PetPolicyEnum, PetPolicyEnumPairs } from "../constants/PetPolicyEnum";
+import { type MailboxTypeEnum, MailboxTypeEnumPairs } from "../constants/MailboxTypeEnum";
+import AddressEditPage, { createDefaultAddress, type Address } from "./AddressEditPage";
 import UnitEdit, { createDefaultUnit, type Unit } from "./UnitEdit";
-
-import type { BuildingEditPageQueryResponse } from "./__generated__/BuildingEditPageQuery.graphql";
 
 const DEFAULT_MAILBOX_TYPE = "IN_BUILDING";
 const DEFAULT_PET_POLICY = null;
 
-type Building = $PropertyType<BuildingEditPageQueryResponse, "building">;
+type Building = {|
+  +id: string,
+  +dbid: number,
+  +name: string,
+  +description: string,
+  +dateOfOccupancy: ?string,
+  +mailboxType: MailboxTypeEnum,
+  +mailingAddress: ?Address,
+  +mailingAddressSameAsPhysical: boolean,
+  +petPolicy: ?PetPolicyEnum,
+  +physicalAddress: Address,
+  +units: $ReadOnlyArray<Unit>
+|};
 
 type Props = {|
   +building: Building,
 |};
-function BuildingEditPage(props: Props): React.Node {
+export default function BuildingEditPage(props: Props): React.Node {
   const { building } = props;
   const [editedBuilding, setEditedBuilding] = React.useState(building);
   const { 
@@ -104,7 +114,7 @@ function BuildingEditPage(props: Props): React.Node {
           >
             <SelectInput
               value={mailboxType}
-              options={MailboxTypeEnum}
+              options={MailboxTypeEnumPairs}
               onChange={(value) => {
                 setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
               }}
@@ -116,7 +126,7 @@ function BuildingEditPage(props: Props): React.Node {
               value={petPolicy}
               isNullable={true}
               placeholder="(No Policy)"
-              options={PetPolicyEnum}
+              options={PetPolicyEnumPairs}
               onChange={(value) => {
                 setEditedBuilding({ ...editedBuilding, petPolicy: value })
               }}
@@ -169,49 +179,7 @@ function BuildingEditPage(props: Props): React.Node {
   );
 }
 
-// TODO: Split this out into a separate wrapper file!
-type WrapperProps = {
-  +match: {
-  +params: {
-    +id: string
-  }
-}
-};
-export default function BuildingEditPageWrapper(props: WrapperProps): React.Node {
-  const stringId = props.match.params.id;
-  if (stringId == null) {
-    return <BuildingEditPage building={createDefaultBuilding()} />
-  }
-
-  const id: number = parseInt(stringId);
-  if (isNaN(id)) {
-    throw new Error("Not a number: " + stringId);
-  }
-
-  return (
-    <QueryRenderer
-      environment={environment}
-      query={query}
-      variables={{
-        id
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <div>{error.message}</div>;
-        } else if (props) {
-          return (
-            <BuildingEditPage
-              building={props.building}
-            />
-          );
-        }
-        return <div>Loading</div>;
-      }}
-    />
-  );
-}
-
-function createDefaultBuilding(): Building {
+export function createDefaultBuilding(): Building {
   return {
     id: uuid(),
     dbid: DBID_LOCALLY_CREATED,
@@ -226,48 +194,6 @@ function createDefaultBuilding(): Building {
     units: [],
   };
 }
-
-const query = graphql`
-  query BuildingEditPageQuery($id: Int!) {
-    building(id: $id) {
-      id
-      dbid
-      name
-      description
-      dateOfOccupancy
-      mailboxType
-      mailingAddress {
-        id
-        city
-        dbid
-        stateOrProvince
-        theAddress
-        unitNumber
-        zip
-      }
-      mailingAddressSameAsPhysical
-      petPolicy
-      physicalAddress {
-        id
-        city
-        dbid
-        stateOrProvince
-        theAddress
-        unitNumber
-        zip
-      }
-      units {
-        id
-        dbid
-        hasBalcony
-        number
-        numberOfBathrooms
-        numberOfBedrooms
-        squareFeet
-      }
-    }
-  }
-`;
 
 function saveBuilding(building: Building) {
   const variables = {

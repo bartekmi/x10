@@ -14,7 +14,7 @@ import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 import './App.css';
 import BuildingsPage from "./pages/BuildingsPage";
 import TenantsPage from "./pages/TenantsPage";
-import BuildingEditPage from "./pages/BuildingEditPage";
+import BuildingEditPageInterface from "./pages/BuildingEditPageInterface";
 import TenantEditPage from "./pages/TenantEditPage";
 import history from './history';
 
@@ -41,8 +41,8 @@ export default function App(): React.Node {
         <Route exact path="/" component={BuildingsPage} />
 
         <Route exact path="/buildings" component={BuildingsPage} />
-        <Route path="/buildings/edit/:id" component={BuildingEditPage} />
-        <Route exact path="/buildings/new" component={BuildingEditPage} />
+        <Route path="/buildings/edit/:id" component={BuildingEditPageInterface} />
+        <Route exact path="/buildings/new" component={BuildingEditPageInterface} />
 
         <Route exact path="/tenants" component={TenantsPage} />
         <Route path="/tenants/edit/:id" component={TenantEditPage} />

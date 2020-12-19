@@ -15,21 +15,15 @@ import isPositive from "react_lib/utils/isPositive";
 import { DBID_LOCALLY_CREATED } from "react_lib/constants";
 import FormField from "react_lib/form/FormField";
 
-import NumberOfBathroomsEnum from "../constants/NumberOfBathroomsEnum";
-import {type NumberOfBathroomsEnum as NumberOfBathroomsEnumGql} from "./__generated__/BuildingEditPageQuery.graphql"
+import { type NumberOfBathroomsEnum, NumberOfBathroomsEnumPairs } from "../constants/NumberOfBathroomsEnum";
 
 export type Unit = {|
   +id: string,
   +dbid: number,
   +number: string,
   +squareFeet: ?number,
-  // We would like number here to be optional so we can handle null user input in a 
-  // legitimate way. But that breaks our nice paradign of using GraphQL data types
-  // to directly populate the UI. In particular, some fields that are mandatory as
-  // far as the data model is concerned (i.e. GraphQL) should be nullable before the
-  // user has had a chance to enter them. This is a systemic problem.
   +numberOfBedrooms: number,
-  +numberOfBathrooms: NumberOfBathroomsEnumGql,
+  +numberOfBathrooms: NumberOfBathroomsEnum,
   +hasBalcony: boolean,
 |};
 
@@ -89,7 +83,7 @@ export default function UnitEdit(props: Props): React.Node {
       >
         <SelectInput
           value={numberOfBathrooms}
-          options={NumberOfBathroomsEnum}
+          options={NumberOfBathroomsEnumPairs}
           onChange={(value) => {
             invariant(value, "Select Input configured to not return null values - should never happen");
             onChange({ ...unit, numberOfBathrooms: value })

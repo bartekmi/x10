@@ -1,6 +1,6 @@
 // @flow
 
-const NumberOfBathroomsEnum = [
+export const NumberOfBathroomsEnumPairs = [
   {
     label: "Half",
     value: "HALF",
@@ -27,4 +27,4 @@ const NumberOfBathroomsEnum = [
   },
 ]
 
-export default NumberOfBathroomsEnum;
+export type NumberOfBathroomsEnum = "HALF" | "ONE" | "ONE_AND_HALF" | "TWO" | "THREE" | "FOUR_PLUS";

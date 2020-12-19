@@ -13,15 +13,13 @@ import Text from "latitude/Text";
 import enumToLabel from "react_lib/utils/enumToLabel";
 import environment from "../environment";
 import history from "../history";
-import PetPolicyEnum from "../constants/PetPolicyEnum";
-
-import {type PetPolicyEnum as PetPolicEnumGql} from "./__generated__/BuildingsPageQuery.graphql"
+import { type PetPolicyEnum, PetPolicyEnumPairs } from "../constants/PetPolicyEnum";
 
 type Building = {
   +dbid: number,
   +name: string,
   +description: string,
-  +petPolicy: PetPolicEnumGql,
+  +petPolicy: PetPolicyEnum,
   +physicalAddress: {
     +city: string,
   }
@@ -52,7 +50,7 @@ function BuildingsPage(props: Props) {
       id: "petPolicy",
       header: "Pet Policy",
       render: (building: Building) => <TextCell 
-        value={enumToLabel(PetPolicyEnum, building.petPolicy)} 
+        value={enumToLabel(PetPolicyEnumPairs, building.petPolicy)} 
       />,
       width: 150,
     },

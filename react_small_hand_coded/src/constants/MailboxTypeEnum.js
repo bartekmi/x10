@@ -1,6 +1,6 @@
 // @flow
 
-const MailboxTypeEnum = [
+export const MailboxTypeEnumPairs = [
   {
     label: "Community Mailbox - Outdoors",
     value: "COMMUNITY",
@@ -13,6 +13,7 @@ const MailboxTypeEnum = [
     label: "Individual Mailbox",
     value: "INDIVIDUAL",
   },
-]
+];
 
-export default MailboxTypeEnum;
+export type MailboxTypeEnum = "COMMUNITY" | "IN_BUILDING" | "INDIVIDUAL";
+

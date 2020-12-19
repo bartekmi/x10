@@ -9,7 +9,6 @@
     "clean": "rm -rf build/*"
   },
   "devDependencies": {
-    "webpack": "^5.10.3",
-    "webpack-cli": "^4.2.0"
+    "webpack": "^5.10.3"
   }
 }
