@@ -50,7 +50,7 @@ export default function BuildingEditPageInterface(props: Props): React.Node {
 }
 
 const query = graphql`
-  query BuildingEditPageQuery($id: Int!) {
+  query BuildingEditPageInterfaceQuery($id: Int!) {
     building(id: $id) {
       id
       dbid
