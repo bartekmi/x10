@@ -9,5 +9,11 @@ namespace Small.Entities {
       }
     }
     public int Dbid { get; set; }
+
+    private static int _nextUniqueDbid = 1000;
+    public void EnsureUniqueDbid() {
+      if (Dbid == -1)
+        Dbid = _nextUniqueDbid++;
+    }
   }
 }

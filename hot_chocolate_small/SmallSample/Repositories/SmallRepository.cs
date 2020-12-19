@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,9 +27,7 @@ namespace Small.Repositories {
     }
 
     public int AddBuilding(Building building) {
-      int newId = _buildings.Values.Max(x => x.Dbid) + 1;
-      building.Dbid = newId;
-      building.Moniker = "Bldg-" + newId;
+      int newId = EnsureUniqueDbids(building);
       _buildings[newId] = building;
 
       Console.WriteLine(building);
@@ -37,15 +36,25 @@ namespace Small.Repositories {
     }
 
     public void UpdateBuilding(Building building) {
+      EnsureUniqueDbids(building);
       _buildings[building.Dbid] = building;
     }
 
+    private static int EnsureUniqueDbids(Building building) {
+      building.EnsureUniqueDbid();
+      building.PhysicalAddress.EnsureUniqueDbid();
+      building.MailingAddress?.EnsureUniqueDbid();
+      if (building.Units != null)
+        foreach (Unit unit in building.Units)
+          unit.EnsureUniqueDbid();
+
+      return building.Dbid;
+    }
 
     private static IEnumerable<Building> CreateBuildings() {
       return new List<Building>() {
         new Building() {
           Dbid = 1,
-          Moniker = "Bldg-1",
           Name = "The Grotto",
           Description = "A stylish bungalow in the middle of town",
           DateOfOccupancy = DateTime.Now,
@@ -80,7 +89,6 @@ namespace Small.Repositories {
         },
         new Building() {
           Dbid = 2,
-          Moniker = "Bldg-2",
           Name = "Our Home",
           Description = "Our family home - loved and beautiful",
           DateOfOccupancy = new DateTime(1985, 6, 1),
@@ -93,6 +101,30 @@ namespace Small.Repositories {
             City = "Calgary",
             StateOrProvince = "AB",
             Zip = "T3L 1R9",
+          },
+          Units = new List<Unit>(),
+        },
+        new Building() {
+          Dbid = 3,
+          Name = "Separate Mailing Address",
+          Description = "PO Box mailing address",
+          DateOfOccupancy = new DateTime(1985, 6, 1),
+          MailboxType = MailboxTypeEnum.Community,
+          PetPolicy = PetPolicyEnum.NoPets,
+          MailingAddressSameAsPhysical = false,
+          PhysicalAddress = new Address() {
+            Dbid = 3,
+            TheAddress = "111 Fair Lane",
+            City = "Fancytown",
+            StateOrProvince = "AB",
+            Zip = "T3Q 1R8",
+          },
+          MailingAddress = new Address() {
+            Dbid = 4,
+            TheAddress = "PO Box #12345",
+            City = "Edmonton",
+            StateOrProvince = "AB",
+            Zip = "T3R 7V7",
           },
           Units = new List<Unit>(),
         },

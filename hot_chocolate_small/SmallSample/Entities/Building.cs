@@ -23,7 +23,7 @@ namespace Small.Entities {
   /// </summary>
   public class Building : EntityBase {
     // Regular Attributes
-    public string? Moniker { get; set; }
+    public string? Moniker { get { return "Bldg-" + Dbid; } }
     [GraphQLNonNullType]
     public string? Name { get; set; }
     [GraphQLNonNullType]
