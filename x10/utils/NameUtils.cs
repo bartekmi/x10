@@ -23,6 +23,11 @@ namespace x10.utils {
       return builder.ToString();
     }
 
+    public static string CamelCaseToSnakeCaseAllCaps(string camelOrPascalCase) {
+      string snakeCase = CamelCaseToSnakeCase(camelOrPascalCase);
+      return snakeCase.ToUpper();
+    }
+
     public static string CamelCaseToSnakeCase(string camelOrPascalCase) {
       StringBuilder builder = new StringBuilder();
       bool isInCapital = true;

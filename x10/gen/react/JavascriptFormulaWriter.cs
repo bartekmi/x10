@@ -12,11 +12,9 @@ namespace x10.gen.react {
   internal class JavascriptFormulaWriter : IVisitor {
 
     private TextWriter _writer;
-    private bool _prefixWithModel; // Prefix with model when generating for VM
 
-    internal WpfFormulaWriter(TextWriter writer, bool prefixWithModel) {
+    internal JavascriptFormulaWriter(TextWriter writer) {
       _writer = writer;
-      _prefixWithModel = prefixWithModel;
     }
 
     public void VisitBinary(ExpBinary exp) {
@@ -34,8 +32,6 @@ namespace x10.gen.react {
         _writer.Write("AppStatics.Singleton.Context");
       else {
         string name = ToIdentifier(exp.Name, exp);
-        if (_prefixWithModel)
-          name = WpfGenUtils.MODEL_PROPERTY_PREFIX + name;
         _writer.Write(name);
       }
     }
@@ -57,7 +53,7 @@ namespace x10.gen.react {
     public void VisitLiteral(ExpLiteral exp) {
       if (WriteEnum(exp, exp.Value))
         return;
-      _writer.Write(WpfGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
+      _writer.Write(ReactGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
@@ -74,7 +70,7 @@ namespace x10.gen.react {
     private string ToIdentifier(string name, ExpBase exp) {
       return exp.DataType.Member == null ?
         NameUtils.Capitalize(name) :
-        WpfGenUtils.MemberToName(exp.DataType.Member);
+        exp.DataType.Member.Name;
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {

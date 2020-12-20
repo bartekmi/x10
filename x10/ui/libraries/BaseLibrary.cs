@@ -504,6 +504,11 @@ namespace x10.ui.libraries {
             Description = "If present, an icon (?) will be placed after the column label - the Tool Tip message will be displayed to the user when they hover over the icon",
             DataType = DataTypes.Singleton.String,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "width",
+            Description = "Specifies the width of the table column in pixels",
+            DataType = DataTypes.Singleton.Float,
+          },
         },
       },
       new ClassDefNative() {
@@ -726,6 +731,11 @@ namespace x10.ui.libraries {
             ModelRefWrapperComponentName = "Label",
           },
         },
+      },
+      new ClassDefNative() {
+        Name = "FormErrorDisplay",
+        Description = "Can only exist embedded in a <Form>. Displays all errors. Typicall, located next to the Submit button.",
+        InheritsFrom = ClassDefNative.Visual,
       },
       new ClassDefNative() {
         Name = "FormSection",

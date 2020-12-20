@@ -4,11 +4,26 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+
+    {
+      "name": "Code Generate",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        "engineLogging": true
+      }
+    },
     {
       "name": "Debug - Hot Choc",
       "type":"coreclr",
       "request":"launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build_hot_chocolate",
       "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
       "args": [],
       "cwd": "${workspaceFolder}/hot_chocolate_small",

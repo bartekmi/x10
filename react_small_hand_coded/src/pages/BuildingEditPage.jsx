@@ -1,5 +1,6 @@
 // @flow
 
+import invariant from "invariant";
 import * as React from "react";
 import { v4 as uuid } from 'uuid';
 import { graphql, commitMutation } from "react-relay";
@@ -31,10 +32,7 @@ import { type MailboxTypeEnum, MailboxTypeEnumPairs } from "../constants/Mailbox
 import AddressEditPage, { createDefaultAddress, type Address } from "./AddressEditPage";
 import UnitEdit, { createDefaultUnit, type Unit } from "./UnitEdit";
 
-const DEFAULT_MAILBOX_TYPE = "IN_BUILDING";
-const DEFAULT_PET_POLICY = null;
-
-type Building = {|
+export type Building = {|
   +id: string,
   +dbid: number,
   +name: string,
@@ -45,15 +43,15 @@ type Building = {|
   +mailingAddressSameAsPhysical: boolean,
   +petPolicy: ?PetPolicyEnum,
   +physicalAddress: Address,
-  +units: $ReadOnlyArray<Unit>
+  +units: $ReadOnlyArray<Unit>,
 |};
 
 type Props = {|
   +building: Building,
+  +onChange: (building: Building) => void,
 |};
 export default function BuildingEditPage(props: Props): React.Node {
-  const { building } = props;
-  const [editedBuilding, setEditedBuilding] = React.useState(building);
+  const { building, onChange } = props;
   const { 
     name, 
     description, 
@@ -64,7 +62,7 @@ export default function BuildingEditPage(props: Props): React.Node {
     physicalAddress, 
     mailingAddress, 
     units 
-  } = editedBuilding;
+  } = building;
 
   return (
     <FormProvider value={[]}>
@@ -79,7 +77,7 @@ export default function BuildingEditPage(props: Props): React.Node {
             <TextInput
               value={name}
               onChange={(value) => {
-                setEditedBuilding({ ...editedBuilding, name: value })
+                onChange({ ...building, name: value })
               }}
             />
           </FormField>
@@ -88,7 +86,7 @@ export default function BuildingEditPage(props: Props): React.Node {
             <TextareaInput
               value={description}
               onChange={(value) => {
-                setEditedBuilding({ ...editedBuilding, description: value })
+                onChange({ ...building, description: value })
               }}
             />
           </FormField>
@@ -103,7 +101,7 @@ export default function BuildingEditPage(props: Props): React.Node {
             <X10_CalendarDateInput
               value={dateOfOccupancy}
               onChange={(value) => {
-                setEditedBuilding({ ...editedBuilding, dateOfOccupancy: value })
+                onChange({ ...building, dateOfOccupancy: value })
               }}
             />
           </FormField>
@@ -116,7 +114,8 @@ export default function BuildingEditPage(props: Props): React.Node {
               value={mailboxType}
               options={MailboxTypeEnumPairs}
               onChange={(value) => {
-                setEditedBuilding({ ...editedBuilding, mailboxType: value || DEFAULT_MAILBOX_TYPE })
+                invariant(value, "Will always be set");
+                onChange({ ...building, mailboxType: value })
               }}
             />
           </FormField>
@@ -128,7 +127,7 @@ export default function BuildingEditPage(props: Props): React.Node {
               placeholder="(No Policy)"
               options={PetPolicyEnumPairs}
               onChange={(value) => {
-                setEditedBuilding({ ...editedBuilding, petPolicy: value })
+                onChange({ ...building, petPolicy: value })
               }}
             />
           </FormField>
@@ -137,7 +136,7 @@ export default function BuildingEditPage(props: Props): React.Node {
         <FormSection label="Physical Address">
           <AddressEditPage
             address={physicalAddress}
-            onChange={(value) => setEditedBuilding({ ...editedBuilding, physicalAddress: value })}
+            onChange={(value) => onChange({ ...building, physicalAddress: value })}
           />
         </FormSection>
 
@@ -145,13 +144,13 @@ export default function BuildingEditPage(props: Props): React.Node {
           <Checkbox 
             checked={mailingAddressSameAsPhysical}
             label="Mailing Address Same as Physical Address"
-            onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddressSameAsPhysical: value })}
+            onChange={(value) => onChange({ ...building, mailingAddressSameAsPhysical: value })}
           />
 
           {!mailingAddressSameAsPhysical ? (
             <AddressEditPage
               address={mailingAddress || createDefaultAddress()}
-              onChange={(value) => setEditedBuilding({ ...editedBuilding, mailingAddress: value })}
+              onChange={(value) => onChange({ ...building, mailingAddress: value })}
             />
           ) : null}
         </FormSection>
@@ -163,7 +162,7 @@ export default function BuildingEditPage(props: Props): React.Node {
               unit={data}
               onChange={onChangeInner}
             />)}
-            onChange={(value) => setEditedBuilding({ ...editedBuilding, units: value })}
+            onChange={(value) => onChange({ ...building, units: value })}
             addNewItem={createDefaultUnit}
           />
         </FormSection>
@@ -171,7 +170,7 @@ export default function BuildingEditPage(props: Props): React.Node {
         <FormFooter>
           <Group justifyContent="space-between"> 
             <FormErrorDisplay />
-            <FormSubmitButton onClick={() => saveBuilding(editedBuilding)} />
+            <FormSubmitButton onClick={() => saveBuilding(building)} />
           </Group>
         </FormFooter>
       </Group>
@@ -184,12 +183,12 @@ export function createDefaultBuilding(): Building {
     id: uuid(),
     dbid: DBID_LOCALLY_CREATED,
     dateOfOccupancy: null,
-    mailboxType: DEFAULT_MAILBOX_TYPE,
+    mailboxType: "IN_BUILDING",
     description: "",
     mailingAddress: null,
     mailingAddressSameAsPhysical: true,
     name: "",
-    petPolicy: DEFAULT_PET_POLICY,
+    petPolicy: null,
     physicalAddress: createDefaultAddress(),
     units: [],
   };

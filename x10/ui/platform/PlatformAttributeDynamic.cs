@@ -18,5 +18,13 @@ namespace x10.ui.platform {
     // may need to be bi-directional for editable properties.
     // The interpretation of 'Converter' is platform-specific.
     public string Converter { get; set; }
+
+    public string GenerateAttributeForValue(object value) {
+      if (TranslationFunc != null)
+        return TranslationFunc(value)?.ToString();
+      else
+        return value.ToString();
+    }
+
   }
 }

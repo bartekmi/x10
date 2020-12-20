@@ -6,7 +6,18 @@ import { graphql, QueryRenderer } from "react-relay";
 
 import environment from "../environment";
 
-import BuildingEditPage, {createDefaultBuilding} from "./BuildingEditPage";
+import BuildingEditPage, {createDefaultBuilding, type Building} from "./BuildingEditPage";
+
+type BuildingEditFormProps = {|
+  +building: Building,
+|};
+function BuildingEditForm(props: BuildingEditFormProps): React.Node {
+  const [editedBuilding, setEditedBuilding] = React.useState(props.building);
+  return <BuildingEditPage 
+    building={editedBuilding} 
+    onChange={setEditedBuilding}
+  />
+}
 
 type Props = {
   +match: {
@@ -18,7 +29,7 @@ type Props = {
 export default function BuildingEditPageInterface(props: Props): React.Node {
   const stringId = props.match.params.id;
   if (stringId == null) {
-    return <BuildingEditPage building={createDefaultBuilding()} />
+    return <BuildingEditForm building={createDefaultBuilding()} />
   }
 
   const id: number = parseInt(stringId);
@@ -38,7 +49,7 @@ export default function BuildingEditPageInterface(props: Props): React.Node {
           return <div>{error.message}</div>;
         } else if (props) {
           return (
-            <BuildingEditPage
+            <BuildingEditForm
               building={props.building}
             />
           );

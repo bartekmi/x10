@@ -15,80 +15,70 @@ using x10.utils;
 
 namespace x10.gen.react {
   internal class LatitudeLibrary {
-    #region Base Classes: Visual
-    readonly static PlatformClassDef Visual = new PlatformClassDef() {
-      LogicalName = "ClassDefVisual",
-      IsAbstract = true,
-      PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
-            LogicalName = "visible",
-            PlatformName = "Visibility",
-            Converter = "BooleanToVisibilityConverter",
-          },
-        },
-    };
-    #endregion
 
     private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
-
-      Visual,
 
       #region No-Data Formatting Components
       new PlatformClassDef() {
         LogicalName = "Heading1",
-        PlatformName = "TextBlock",
-        StyleInfo = "Heading1",
-        InheritsFrom = Visual,
+        PlatformName = "Text",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "scale",
+            Value = "display",
+          },
+        },
       },
       new PlatformClassDef() {
         LogicalName = "Heading2",
-        PlatformName = "TextBlock",
-        StyleInfo = "Heading2",
-        InheritsFrom = Visual,
+        PlatformName = "Text",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "scale",
+            Value = "headline",
+          },
+        },
       },
       new PlatformClassDef() {
         LogicalName = "Heading3",
-        PlatformName = "TextBlock",
-        StyleInfo = "Heading3",
-        InheritsFrom = Visual,
+        PlatformName = "Text",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "scale",
+            Value = "title",
+          },
+        },
       },
       new PlatformClassDef() {
         LogicalName = "HorizontalDivider",
         PlatformName = "Separator",
-        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
         LogicalName = "Bullet",
-        PlatformName = "TextBlock",
-        InheritsFrom = Visual,
+        PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
-            PlatformName = "Text",
+            PlatformName = "children",
             Value = "•",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "Label",
-        PlatformName = "lib:EditElementWrapper",
-        InheritsFrom = Visual,
+        PlatformName = "Label",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
-            PlatformName = "IsMandatory",
+            PlatformName = "indicateRequired",
             TranslationFunc = (value) => value?.ToString() == "mandatory",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "toolTip",
-            PlatformName = "MyToolTip",
+            PlatformName = "helpTooltip",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "Label",
-          },
-          new PlatformAttributeByFunc() {
-            PlatformName = "EditorFor",
-            Function = (instance) => WpfGenUtils.GetBindingPath(instance.ChildInstances.Single()),
+            PlatformName = "value",
           },
         },
       },
@@ -97,146 +87,118 @@ namespace x10.gen.react {
       #region  Atomic Text Display Components
       new PlatformClassDef() {
         LogicalName = "Text",
-        PlatformName = "TextBlock",
-        InheritsFrom = Visual,
+        PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDynamic() {
             LogicalName = "weight",
-            PlatformName = "FontWeight",
+            PlatformName = "weight",
             EnumConversions = new List<EnumConversion>() {
               new EnumConversion("normal", null),
-              // Note that it would be nice to use the actual WPF object here, but that
-              // would require splitting this code off into its own project and MEF'ing
-              // it in for the actual code generation (or trigger the code generation from
-              // that project)
-              new EnumConversion("bold", "Bold"),
+              new EnumConversion("bold", "bold"),
             },
           },
         },
-      },
-      new PlatformClassDef() {
-        LogicalName = "Pill",
-        PlatformName = "Pill",
-        InheritsFrom = Visual,
-        // TODO... Create the actual pill component in lib
       },
       #endregion
 
       #region Edit Components
       new PlatformClassDef() {
         LogicalName = "TextEdit",
-        PlatformName = "TextBox",
-        InheritsFrom = Visual,
+        PlatformName = "TextInput",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "Text",
+            PlatformName = "value",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
-            PlatformName = "IsReadOnly",
+            PlatformName = "readOnly",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "TextArea",
-        PlatformName = "TextBox",
-        InheritsFrom = Visual,
+        PlatformName = "TextareaInput",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "Text",
+            PlatformName = "value",
           },
           new PlatformAttributeStatic() {
-            PlatformName = "TextWrapping",
-            Value = "Wrap",
-          },
-          new PlatformAttributeStatic() {
-            PlatformName = "AcceptsReturn",
-            Value = "True",
-          },
-          new PlatformAttributeStatic() {
-            PlatformName = "MinLines",
+            PlatformName = "rows",
             Value = "3",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
-            PlatformName = "IsReadOnly",
+            PlatformName = "readOnly",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "IntEdit",
         // TODO: Use something more specific
-        PlatformName = "TextBox",
-        InheritsFrom = Visual,
+        PlatformName = "FloatInput",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "Text",
+            PlatformName = "value",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
-            PlatformName = "IsReadOnly",
+            PlatformName = "readOnly",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "decimalPrecision",
+            Value = "0",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "FloatEdit",
-        // TODO: Use something more specific
-        PlatformName = "TextBox",
-        InheritsFrom = Visual,
+        PlatformName = "FloatInput",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "Text",
+            PlatformName = "value",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
-            PlatformName = "IsReadOnly",
+            PlatformName = "readOnly",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "Checkbox",
-        PlatformName = "CheckBox",
-        InheritsFrom = Visual,
+        PlatformName = "Checkbox",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             LogicalName = "checked",
-            PlatformName = "IsChecked",
+            PlatformName = "checked",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "checkboxLabel",
-            PlatformName = "Content",
+            PlatformName = "label",
           },
-        },
-      },
-      new PlatformClassDef() {
-        LogicalName = "BooleanViaButtons",
-        PlatformName = "lib:BooleanViaButtons",
-        InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
-            PlatformName = "Selected",
+          new PlatformAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "disabled",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "DateEditor",
-        PlatformName = "DatePicker",
-        InheritsFrom = Visual,
+        PlatformName = "X10_CalendarDateInput",
+        ImportDir = "react_lib",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "SelectedDate",
+            PlatformName = "value",
           },
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
-            PlatformName = "IsReadOnly",
+            PlatformName = "readOnly",
           },
         },
       },
       // Need to create my own control in lib which converts the Text property to DateTime
-      // https://stackoverflow.com/questions/10658472/datetimepicker-for-wpf-4-0
       //new PlatformClassDef() {
       //  LogicalName = "TimestampEditor",
-      //  PlatformName = "DateTimePicker",
+      //  PlatformName = "DateTimeInput",
       //  PlatformAttributes = new List<PlatformAttribute>() {
       //    new PlatformAttributeDataBind() {
       //      PlatformName = "SelectedDate",
@@ -251,23 +213,16 @@ namespace x10.gen.react {
       // Not clear where the code for this belongs, as this is already a large file
       new PlatformClassDef() {
         LogicalName = "DropDown",
-        PlatformName = "ComboBox",
-        InheritsFrom = Visual,
+        PlatformName = "SelectInput",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
-            PlatformName = "SelectedValue",
-          },
-          new PlatformAttributeStatic() {
-            PlatformName = "SelectedValuePath",
-            Value = "Value",
+            PlatformName = "value",
           },
           new PlatformAttributeByFunc() {
-            PlatformName = "ItemsSource",
+            PlatformName = "options",
             Function = (instance) => {
               string dataType = (instance.ModelMember as X10Attribute)?.DataType?.Name;
-              return string.Format("{{ Binding {0} }}",
-                NameUtils.Pluralize(dataType)
-              );
+              return string.Format("{0}EnumPairs", dataType);
             }
           },
         },
@@ -275,158 +230,104 @@ namespace x10.gen.react {
       #endregion
 
       #region Layout Components
-      #region Vertical
+      #region 1-Dimensional
       new PlatformClassDef() {
         LogicalName = "VerticalStackPanel",
-        PlatformName = "StackPanel",
-        InheritsFrom = Visual,
-      },
-      #endregion
-
-      #region Horizontal
-      new PlatformClassDef() {
-        LogicalName = "Row",
-        PlatformName = "StackPanel",
-        InheritsFrom = Visual,
+        PlatformName = "Group",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
-            PlatformName = "Orientation",
-            Value = "Horizontal",
+            PlatformName = "flexDirection",
+            Value = "column",
           },
         },
       },
       new PlatformClassDef() {
+        LogicalName = "Row",
+        PlatformName = "Group",
+      },
+      new PlatformClassDef() {
         LogicalName = "RepellingRow",
-        PlatformName = "Grid",
-        InheritsFrom = Visual,
-        // TODO: Add generation code 
+        PlatformName = "Group",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "justifyContent",
+            Value = "space-between",
+          },
+        },
       },
       #endregion
 
       #region 2-Dimensional
-      new PlatformClassDef() {
-        LogicalName = "Grid",
-        PlatformName = "Grid",
-        InheritsFrom = Visual,
-        // TODO: Add generation code 
-      },
+      // TODO
       #endregion
       #endregion
 
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",
-        PlatformName = "DataGrid",
-        InheritsFrom = Visual,
-        PrimaryAttributeWrapperProperty = "Columns",
+        PlatformName = "Table",
+        ImportDir = "latitude/table",
+        PrimaryAttributeWrapperProperty = "columnDefinitions",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "AutoGenerateColumns",
-            Value = "False",
-          },
-          new PlatformAttributeStatic() {
-            PlatformName = "CanUserAddRows",
-            Value = "False",
-          },
           new PlatformAttributeDataBind() {
-            PlatformName = "ItemsSource",
+            PlatformName = "data",
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "getUniqueRowId",
+            Value = "row => row.id",
           },
         },
       },
       new PlatformClassDef() {
         LogicalName = "TableColumn",
-        PlatformName = "DataGridTemplateColumn",
+        PlatformName = "",  // Just a JavaScript object
         PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeDataBind() {
+            PlatformName = "render",
+          },
           new PlatformAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "Header",
+            PlatformName = "header",
+          },
+          new PlatformAttributeDynamic() {
+            LogicalName = "width",
+            PlatformName = "width",
           },
         },
-        NestedClassDef = new PlatformClassDef() {
-          PlatformName = "DataGridTemplateColumn.CellTemplate",
-          NestedClassDef = new PlatformClassDef() {
-            PlatformName = "DataTemplate",
-          }
-        }
       },
       #endregion
 
-      #region Button / Actions
+      # region Misc
       new PlatformClassDef() {
         LogicalName = "HelpIcon",
-        PlatformName = "TextBlock",
-        InheritsFrom = Visual,
+        PlatformName = "HelpTooltip",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "Text",
-            Value = "(?)",
-          },
-          new PlatformAttributeStatic() {
-            PlatformName = "Padding",
-            Value = "10,0,0,0",
-          },
           new PlatformAttributeDynamic() {
             LogicalName = "text",
-            PlatformName = "ToolTip",
+            PlatformName = "text",
           },
         },
       },
+      # endregion
+
+      #region Button / Actions
       new PlatformClassDef() {
         LogicalName = "Button",
         PlatformName = "Button",
-        InheritsFrom = Visual,
+        ImportDir = "latitude/button",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "Click",
-            Value = "NavigateToUrlInTag",
-          },
           new PlatformAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "Content",
+            PlatformName = "text",
           },
-          new PlatformAttributeDynamic() {
-            LogicalName = "url",
-            PlatformName = "Tag",
-          },
-        },
-      },
-      new PlatformClassDefWithCodelet() {
-        LogicalName = "SubmitButton",
-        InheritsFromName = "Button",
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeByFunc() {
-            PlatformName = "Click",
-            // TODO: Need a more robust way to get unique element name for code-gen purposes
-            Function = (instance) => instance.FindValue("label") + "Click",
-          },
-        },
-        Codelet = new CodeletRecipee() {
-          Comment = "Submit Method(s)",
-          GenerateInXamlCs = (generator, instance) => {
-            generator.WriteLine(2, "private void {0}Click(object sender, RoutedEventArgs e) {", instance.FindValue("label"));
-            generator.WriteLine(3, "ViewModel.SubmitData(() => AppStatics.Singleton.DataSource.CreateOrUpdate(ViewModel.Model),");
-            generator.WriteLine(4, "\"Saved\");");
-            generator.WriteLine(2, "}");
-          }
-        },
-      },
-      new PlatformClassDef() {
-      LogicalName = "SelectableButton",
-        PlatformName = "ToggleButton",
-        InheritsFromName = "Button",
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
-            LogicalName = "selected",
-            PlatformName = "IsChecked",
-          },
-          new PlatformAttributeDynamic() {
-            LogicalName = "onSelect",
-            PlatformName = "Checked",
-          },
-          new PlatformAttributeDynamic() {
-            LogicalName = "onDeselect",
-            PlatformName = "OnUnchecked",
-          },
+          // new PlatformAttributeStatic() {
+          //   PlatformName = "Click",
+          //   Value = "NavigateToUrlInTag",
+          // },
+          // new PlatformAttributeDynamic() {
+          //   LogicalName = "url",
+          //   PlatformName = "Tag",
+          // },
         },
       },
       #endregion
@@ -435,12 +336,10 @@ namespace x10.gen.react {
       new PlatformClassDef() {
       LogicalName = "Menu",
         PlatformName = "Menu",
-        InheritsFrom = Visual,
       },
       new PlatformClassDef() {
       LogicalName = "MenuItem",
         PlatformName = "MenuItem",
-        InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "Click",
@@ -460,14 +359,36 @@ namespace x10.gen.react {
 
       #region Form
       new PlatformClassDef() {
-      LogicalName = "Form",
-        PlatformName = "lib:Form",
-        InheritsFrom = Visual,
+        LogicalName = "Form",
+        PlatformName = "FormProvider",
+        ImportDir = "react_lib/form",
       },
       new PlatformClassDef() {
-      LogicalName = "FormSection",
-        PlatformName = "lib:FormSection",
-        InheritsFrom = Visual,
+        LogicalName = "FormSection",
+        PlatformName = "FormSection",
+        ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeDynamic() {
+            LogicalName = "label",
+            PlatformName = "label",
+          },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "FormErrorDisplay",
+        PlatformName = "FormErrorDisplay",
+        ImportDir = "react_lib/form",
+      },
+      new PlatformClassDefWithCodelet() {
+        LogicalName = "SubmitButton",
+        PlatformName = "FormSubmitButton",
+        ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic() {
+            PlatformName = "onClick",
+            Value = "{() => save(editedObject)}",
+          },
+        },
       },
       #endregion
     };

@@ -32,6 +32,9 @@ namespace x10.ui.platform {
     // should be wrapped in.
     public string PrimaryAttributeWrapperProperty { get; set; }
 
+    // If present, import the component from this directory.
+    public string ImportDir {get;set;}
+
     // Attributes - both static and dynamic
     private IEnumerable<PlatformAttribute> _platformAttributes;
     public IEnumerable<PlatformAttribute> PlatformAttributes { 

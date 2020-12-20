@@ -92,7 +92,7 @@ namespace x10.gen {
     }
 
     public void WriteLine(int level, string text, params object[] args) {
-      WriteLinePrivate(level, text, args);
+      WritePrivate(level, text, args);
       WriteLine();
     }
 
@@ -101,11 +101,11 @@ namespace x10.gen {
     // will be printed on the same line
     private bool _writingLineMaybe = false;
     protected void WriteLineMaybe(int level, string text, params object[] args) {
-      WriteLinePrivate(level, text, args);
+      WritePrivate(level, text, args);
       _writingLineMaybe = true;
     }
 
-    private void WriteLinePrivate(int level, string text, params object[] args) {
+    private void WritePrivate(int level, string text, params object[] args) {
       if (_writer == null)
         throw new Exception("Your forgot to Begin()");
 
@@ -127,7 +127,7 @@ namespace x10.gen {
         _writingLineMaybe = false;
         _writer.Write(text, args);
       } else
-        WriteLinePrivate(level, text, args);
+        WritePrivate(level, text, args);
 
       WriteLine();
     }

@@ -2,7 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
+      "label": "build_x10",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/x10/x10.csproj"],
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "build_hot_chocolate",
       "command": "dotnet",
       "type": "process",
       "args": ["build", "${workspaceFolder}/hot_chocolate_small/HotChocolateSmall.csproj"],
