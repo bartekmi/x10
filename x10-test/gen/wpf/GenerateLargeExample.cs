@@ -38,17 +38,16 @@ namespace x10.gen.wpf {
         Assert.Empty(_messages.Errors);
 
       string targetDir = "../../../../wpf_generated/__generated__";
-      WpfCodeGenerator generator = new WpfCodeGenerator(
+      WpfCodeGenerator generator = new WpfCodeGenerator("wpf_generated");
+
+      _messages.Clear();
+      generator.Generate(
         _messages,
         targetDir, 
-        "wpf_generated", 
         allEntities, 
         allEnums, 
         allUiDefinitions, 
         libraries);
-
-      _messages.Clear();
-      generator.Generate();
 
       TestUtils.DumpMessages(_messages, _output);
     }

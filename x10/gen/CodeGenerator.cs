@@ -26,19 +26,24 @@ namespace x10.gen {
     protected AllUiDefinitions AllUiDefinitions;
     protected MessageBucket Messages;
 
-    private readonly IEnumerable<PlatformLibrary> _platformLibraries;
+    private IEnumerable<PlatformLibrary> _platformLibraries;
 
-    protected CodeGenerator(MessageBucket messages, string rootGenerateDir, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions,
+    public void Generate(
+      MessageBucket messages, 
+      string rootGenerateDir, 
+      AllEntities allEntities, 
+      AllEnums allEnums, 
+      AllUiDefinitions allUiDefinitions,
       IEnumerable<PlatformLibrary> platformLibraries) {
+
       Messages = messages;
       RootGenerateDir = rootGenerateDir;
       AllEntities = allEntities;
       AllEnums = allEnums;
       AllUiDefinitions = allUiDefinitions;
       _platformLibraries = platformLibraries;
-    }
 
-    public void Generate() {
+      
       foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
         Generate(entity);
 

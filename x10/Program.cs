@@ -9,44 +9,71 @@ using x10.model;
 using x10.ui.platform;
 using x10.ui.libraries;
 using x10.ui.metadata;
+
+using x10.gen;
 using x10.gen.react;
+using x10.gen.wpf;
 
 [assembly: InternalsVisibleTo("x10-test")]
 
 namespace x10 {
+
+  public class GenConfig {
+    public string TargetDir {get;set;}
+    public PlatformLibrary[] Libraries {get;set;}
+    public CodeGenerator Generator {get;set;}
+  }
+
   public class Program {
+
+    private static MessageBucket _messages = new MessageBucket();
+
+    private static readonly GenConfig REACT_SMALL_CONFIG = new GenConfig() {
+      TargetDir = "../react_generated_small/__generated__",
+      Libraries = new PlatformLibrary[] {LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton())},
+      Generator = new ReactCodeGenerator(),
+    };
+
+    private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
+      TargetDir = "../wpf_generated_small/__generated__",
+      Libraries = new PlatformLibrary[] {WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton())},
+      Generator = new WpfCodeGenerator("wpf_generated"),
+    };
+
     public static void Main(string[] args) {
 
-      MessageBucket _messages = new MessageBucket();
+      GenConfig config = REACT_SMALL_CONFIG;
+      //GenConfig config = WPF_SMALL_CONFIG;
+      
+      MessageBucket messages = new MessageBucket();
 
       string sourceDir = "examples/small";
-      CompileEverything(_messages, sourceDir,
+      CompileEverything(messages, sourceDir,
         out AllEntities allEntities,
         out AllEnums allEnums,
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
       PlatformLibrary[] libraries = new PlatformLibrary[] {
-        LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton()),
+        LatitudeLibrary.Singleton(messages, BaseLibrary.Singleton()),
       };
 
-      DumpMessages(_messages);
-      if (_messages.Errors.Count() > 0 )
+      DumpMessages(messages);
+      if (messages.Errors.Count() > 0 )
         throw new Exception("Errors during compilation");
 
-      string targetDir = "../react_generated_small/__generated__";
-      ReactCodeGenerator generator = new ReactCodeGenerator(
-        _messages,
-        targetDir,
+      CodeGenerator generator = config.Generator;
+
+      messages.Clear();
+      generator.Generate(
+        messages, 
+        config.TargetDir,
         allEntities,
         allEnums,
         allUiDefinitions,
         libraries);
 
-      _messages.Clear();
-      generator.Generate();
-
-      DumpMessages(_messages);
+      DumpMessages(messages);
     }
 
     internal static void CompileEverything(MessageBucket messages, string rootDir,

@@ -37,16 +37,16 @@ namespace x10.gen.react {
       Assert.Empty(_messages.Errors);
 
       string targetDir = "../../../../react_generated_small/__generated__";
-      ReactCodeGenerator generator = new ReactCodeGenerator(
+      ReactCodeGenerator generator = new ReactCodeGenerator();
+
+      _messages.Clear();
+      generator.Generate(
         _messages,
         targetDir,
         allEntities,
         allEnums,
         allUiDefinitions,
         libraries);
-
-      _messages.Clear();
-      generator.Generate();
 
       TestUtils.DumpMessages(_messages, _output);
     }

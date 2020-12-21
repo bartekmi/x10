@@ -29,15 +29,7 @@ namespace x10.gen.wpf {
     // for convenience. They are re-set with every new ClassDef generation
     private Dictionary<string, ExpBase> _viewModelMethodToExpression = new Dictionary<string, ExpBase>();
 
-    public WpfCodeGenerator(
-      MessageBucket messages,
-      string rootGenerateDir,
-      string defaultNamespace,
-      AllEntities allEntities,
-      AllEnums allEnums,
-      AllUiDefinitions allUiDefinitions,
-      IEnumerable<PlatformLibrary> platformLibraries
-      ) : base(messages, rootGenerateDir, allEntities, allEnums, allUiDefinitions, platformLibraries) {
+    public WpfCodeGenerator(string defaultNamespace) {
       _defaultNamespace = defaultNamespace;
     }
 

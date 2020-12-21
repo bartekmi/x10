@@ -26,17 +26,6 @@ namespace x10.gen.react {
       UiAttributeDefinitions.PATH,
     };
 
-    public ReactCodeGenerator(
-      MessageBucket messages,
-      string rootGenerateDir,
-      AllEntities allEntities,
-      AllEnums allEnums,
-      AllUiDefinitions allUiDefinitions,
-      IEnumerable<PlatformLibrary> platformLibraries
-      ) : base(messages, rootGenerateDir, allEntities, allEnums, allUiDefinitions, platformLibraries) {
-      // Do nothing
-    }
-
     public override void Generate(ClassDefX10 classDef) {
       GenerateReactFunctionalComponent(classDef);
     }
@@ -49,10 +38,14 @@ namespace x10.gen.react {
       WriteLine(0, "// @flow");
       WriteLine();
 
+      Entity model = classDef.ComponentDataModel;
+
       GenerateImports(isForm);
-      GenerateType(classDef.ComponentDataModel);
+      if (model != null)
+        GenerateType(classDef.ComponentDataModel);
       GenerateComponent(classDef);
-      GenerateDefaultEntity(classDef.ComponentDataModel);
+      if (model != null)
+        GenerateDefaultEntity(classDef.ComponentDataModel);
 
       End();
     }
@@ -104,22 +97,26 @@ namespace x10.gen.react {
 
 
     private void GenerateComponent(ClassDefX10 classDef) {
-      Entity dataModel = classDef.ComponentDataModel;
-      string typeName = dataModel.Name;
-      string variableName = NameUtils.UncapitalizeFirstLetter(dataModel.Name);
+      Entity model = classDef.ComponentDataModel;
+      string typeName = model?.Name;
+      string variableName = model == null ? null : NameUtils.UncapitalizeFirstLetter(typeName);
 
       // Props
       WriteLine(0, "type Props = {{|");
-      WriteLine(1, "+{0}: {1},", variableName, typeName);
-      WriteLine(1, "+onChange: ({0}: {1}) => void,", variableName, typeName);
+      if (model != null) {
+        WriteLine(1, "+{0}: {1},", variableName, typeName);
+        WriteLine(1, "+onChange: ({0}: {1}) => void,", variableName, typeName);
+      }
       WriteLine(0, "|}};");
 
       // Component Definition
-      WriteLine(0, "export default function {0}Edit(props: Props): React.Node {", typeName);
-      WriteLine(1, "const { {0}, onChange } = props;", variableName);
-      WriteLine(1, "const {");
-      // TODO: Generate props destructuring
-      WriteLine(1, "} = building;");
+      WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
+      if (model != null) {
+        WriteLine(1, "const { {0}, onChange } = props;", variableName);
+        WriteLine(1, "const {");
+        // TODO: Generate data destructuring
+        WriteLine(1, "} = {0};", variableName);
+      }
 
       WriteLine(1, "return (");
       GenerateComponentRecursively(2, classDef.RootChild);
@@ -131,7 +128,7 @@ namespace x10.gen.react {
       if (instance == null)
         return;
 
-    // Find the Platform Class Definition
+      // Find the Platform Class Definition
       PlatformClassDef platClassDef = FindPlatformClassDef(instance);
       if (platClassDef == null) {
         Messages.AddError(instance.XmlElement, "No platform-specific Class Definition for Logical Class {0}",
@@ -187,8 +184,8 @@ namespace x10.gen.react {
 
       // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
       Member member = instance.ModelMember;
-      if (dataBind != null && !dataBindAlreadyRendered)
-        WriteLine(level + 1, string.Format("{0}={ {1} }", dataBind.PlatformName, member.Name));
+      if (dataBind != null && member != null && !dataBindAlreadyRendered)
+        WriteLine(level + 1, "{0}={ {1} }", dataBind.PlatformName, member.Name);
 
       // Are there any nested children to be generated?
       List<PlatformClassDef> nestedClassDefs = new List<PlatformClassDef>();
@@ -224,7 +221,7 @@ namespace x10.gen.react {
           WriteLine(level--, "</{0}>", nested.PlatformName);
 
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
-      }      
+      }
     }
 
     private void WriteChildren(int level, UiAttributeValue attrValue) {
@@ -257,7 +254,7 @@ namespace x10.gen.react {
       foreach (Member member in model.Members)
         WriteLine(2, "{0}: {1},", member.Name, GetDefaultValue(member));
 
-      WriteLine(1, "}};");
+      WriteLine(1, "};");
       WriteLine(0, "}");
     }
 
