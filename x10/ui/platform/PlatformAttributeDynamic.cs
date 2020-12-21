@@ -19,12 +19,19 @@ namespace x10.ui.platform {
     // The interpretation of 'Converter' is platform-specific.
     public string Converter { get; set; }
 
+    public PlatformAttributeDynamic() {}
+
+    // Convenience constructor for most common use
+    public PlatformAttributeDynamic(string logicalName, string platformName) {
+      LogicalName = logicalName;
+      PlatformName = platformName;
+    }
+
     public string GenerateAttributeForValue(object value) {
       if (TranslationFunc != null)
         return TranslationFunc(value)?.ToString();
       else
         return value.ToString();
     }
-
   }
 }

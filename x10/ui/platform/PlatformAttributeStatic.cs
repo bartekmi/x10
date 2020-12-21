@@ -11,5 +11,13 @@ namespace x10.ui.platform {
 
     // Value of the attribute
     public string Value { get; set; }
+
+    public PlatformAttributeStatic() {}
+
+    // Convenience constructor for most common use
+    public PlatformAttributeStatic(string platformName, string value) {
+      PlatformName = platformName;
+      Value = value;
+    }
   }
 }

@@ -12,7 +12,6 @@ using x10.model.libraries;
 using x10.model.metadata;
 using x10.parsing;
 using x10.ui.composition;
-using static x10.ui.metadata.ClassDefNative;
 using x10.utils;
 using x10.ui.platform;
 using x10.ui;
@@ -58,13 +57,20 @@ namespace x10.gen.react {
 
       WriteLine();
       WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
+      WriteLine();
     }
 
     private void GenerateType(Entity model) {
       WriteLine(0, "export type {0} = {{|", model.Name);
+
+      WriteLine(1, "+id: string,");
+      WriteLine(1, "+dbid: number,");
+
       foreach (Member member in model.Members)
-        WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
+        if (!(member is X10DerivedAttribute))
+          WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
       WriteLine(0, "|}};");
+      WriteLine();
     }
 
     private string GetType(Member member) {
@@ -108,6 +114,7 @@ namespace x10.gen.react {
         WriteLine(1, "+onChange: ({0}: {1}) => void,", variableName, typeName);
       }
       WriteLine(0, "|}};");
+      WriteLine();
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
@@ -117,11 +124,13 @@ namespace x10.gen.react {
         // TODO: Generate data destructuring
         WriteLine(1, "} = {0};", variableName);
       }
+      WriteLine();
 
       WriteLine(1, "return (");
       GenerateComponentRecursively(2, classDef.RootChild);
       WriteLine(1, ");");
       WriteLine(0, "}");
+      WriteLine();
     }
 
     private void GenerateComponentRecursively(int level, Instance instance) {

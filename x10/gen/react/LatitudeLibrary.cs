@@ -362,16 +362,16 @@ namespace x10.gen.react {
         LogicalName = "Form",
         PlatformName = "FormProvider",
         ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic("value", "{[]}"),
+        },
       },
       new PlatformClassDef() {
         LogicalName = "FormSection",
         PlatformName = "FormSection",
         ImportDir = "react_lib/form",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "label",
-          },
+          new PlatformAttributeDynamic("label", "label"),
         },
       },
       new PlatformClassDef() {
