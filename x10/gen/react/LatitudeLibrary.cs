@@ -23,30 +23,21 @@ namespace x10.gen.react {
         LogicalName = "Heading1",
         PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "scale",
-            Value = "display",
-          },
+          new PlatformAttributeStatic("scale", "display"),
         },
       },
       new PlatformClassDef() {
         LogicalName = "Heading2",
         PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "scale",
-            Value = "headline",
-          },
+          new PlatformAttributeStatic("scale", "headline"),
         },
       },
       new PlatformClassDef() {
         LogicalName = "Heading3",
         PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "scale",
-            Value = "title",
-          },
+          new PlatformAttributeStatic("scale", "title"),
         },
       },
       new PlatformClassDef() {
@@ -57,10 +48,7 @@ namespace x10.gen.react {
         LogicalName = "Bullet",
         PlatformName = "Text",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "children",
-            Value = "•",
-          },
+          new PlatformAttributeStatic("children", "•"),
         },
       },
       new PlatformClassDef() {
@@ -122,10 +110,7 @@ namespace x10.gen.react {
           new PlatformAttributeDataBind() {
             PlatformName = "value",
           },
-          new PlatformAttributeStatic() {
-            PlatformName = "rows",
-            Value = "3",
-          },
+          new PlatformAttributeStatic("rows", "{3}"),
           new PlatformAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
@@ -214,6 +199,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "DropDown",
         PlatformName = "SelectInput",
+        ImportDir = "latitude/select",
         PlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeDataBind() {
             PlatformName = "value",
@@ -235,10 +221,7 @@ namespace x10.gen.react {
         LogicalName = "VerticalStackPanel",
         PlatformName = "Group",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "flexDirection",
-            Value = "column",
-          },
+          new PlatformAttributeStatic("flexDirection", "column"),
         },
       },
       new PlatformClassDef() {
@@ -249,10 +232,7 @@ namespace x10.gen.react {
         LogicalName = "RepellingRow",
         PlatformName = "Group",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "justifyContent",
-            Value = "space-between",
-          },
+          new PlatformAttributeStatic("justifyContent", "space-between"),
         },
       },
       #endregion
@@ -272,10 +252,7 @@ namespace x10.gen.react {
           new PlatformAttributeDataBind() {
             PlatformName = "data",
           },
-          new PlatformAttributeStatic() {
-            PlatformName = "getUniqueRowId",
-            Value = "row => row.id",
-          },
+          new PlatformAttributeStatic("getUniqueRowId", "{row => row.id}"),
         },
       },
       new PlatformClassDef() {
@@ -384,10 +361,7 @@ namespace x10.gen.react {
         PlatformName = "FormSubmitButton",
         ImportDir = "react_lib/form",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic() {
-            PlatformName = "onClick",
-            Value = "{() => save(editedObject)}",
-          },
+          new PlatformAttributeStatic("onClick","{() => save(editedObject)}"),
         },
       },
       #endregion
@@ -396,14 +370,14 @@ namespace x10.gen.react {
     #region Glue it Together
     private static PlatformLibrary _singleton;
     public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
-      if (_singleton == null)
+      if (_singleton == null) 
         _singleton = CreateLibrary(errors, logicalLibrary);
       return _singleton;
     }
 
     private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
       PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-        ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
+        ImportPath = "latitude",
       };
 
       library.HydrateAndValidate(errors, logicalLibrary);

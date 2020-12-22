@@ -30,6 +30,7 @@ namespace x10.ui.platform {
 
       // Individual validation of PlatformClassDef's
       foreach (PlatformClassDef classDef in platformLibrary.All) {
+        classDef.Owner = platformLibrary;
         ValidateNoDuplicateBindingAttributes(classDef);
         HydrateAndValidateLogicalClassDef(platformLibrary, logicalLibrary, classDef);
         HydrateAndValidateInhertisFrom(platformLibrary, classDef);

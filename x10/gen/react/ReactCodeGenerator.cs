@@ -29,6 +29,9 @@ namespace x10.gen.react {
       GenerateReactFunctionalComponent(classDef);
     }
 
+    private OutputPlaceholder _importsPlaceholder;
+    private OutputPlaceholder _destructuringPlaceholder;
+
     private void GenerateReactFunctionalComponent(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
@@ -57,6 +60,7 @@ namespace x10.gen.react {
 
       WriteLine();
       WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
+      _importsPlaceholder = CreatePlaceholder(0);
       WriteLine();
     }
 
@@ -121,7 +125,7 @@ namespace x10.gen.react {
       if (model != null) {
         WriteLine(1, "const { {0}, onChange } = props;", variableName);
         WriteLine(1, "const {");
-        // TODO: Generate data destructuring
+        _destructuringPlaceholder = CreatePlaceholder(1);
         WriteLine(1, "} = {0};", variableName);
       }
       WriteLine();
@@ -145,12 +149,18 @@ namespace x10.gen.react {
         return;
       }
 
+      _importsPlaceholder.WriteLine("import {0} from '{1}';", platClassDef.PlatformName, platClassDef.ImportPath);
+
       // Open the React tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
 
       // Write Static Attributes
-      foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes)
-        WriteLine(level + 1, "{0}=\"{1}\"", staticAttr.PlatformName, staticAttr.Value);
+      foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes) {
+        string value = staticAttr.Value.Trim();
+        if (!(value.StartsWith("{") && value.EndsWith("}"))) // Do not add quotes to {bracked}
+          value = string.Format("'{0}'", value);
+        WriteLine(level + 1, "{0}={1}", staticAttr.PlatformName, value);
+      }
 
       // Write ByFunc Attributes
       foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes) {

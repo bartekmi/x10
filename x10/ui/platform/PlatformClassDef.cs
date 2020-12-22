@@ -6,6 +6,9 @@ using x10.ui.metadata;
 
 namespace x10.ui.platform {
   public class PlatformClassDef {
+    // The library which owns this definition
+    public PlatformLibrary Owner { get; internal set; }
+
     // Name of equivalent component in the logical "ClassDef" world
     public string LogicalName { get; set; }
 
@@ -62,6 +65,12 @@ namespace x10.ui.platform {
     }
     public string EffectivePlatformName {
       get { return PlatformName == null ? InheritsFrom.EffectivePlatformName : PlatformName; }
+    }
+    public string ImportPath {
+      get {
+        string dir = ImportDir == null ? Owner.ImportPath : ImportDir;
+        return string.Format("{0}/{1}", dir, PlatformName);
+      }
     }
 
     // Hydrated

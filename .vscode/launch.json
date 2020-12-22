@@ -16,7 +16,7 @@
       "console": "internalConsole",
       "stopAtEntry": false,
       "logging": {
-        "engineLogging": true
+        // "engineLogging": true
       }
     },
     {

@@ -14,6 +14,7 @@ using x10.ui.platform;
 using x10.parsing;
 
 namespace x10.gen {
+
   public abstract class CodeGenerator {
 
     public abstract void Generate(ClassDefX10 classDef);
@@ -29,10 +30,10 @@ namespace x10.gen {
     private IEnumerable<PlatformLibrary> _platformLibraries;
 
     public void Generate(
-      MessageBucket messages, 
-      string rootGenerateDir, 
-      AllEntities allEntities, 
-      AllEnums allEnums, 
+      MessageBucket messages,
+      string rootGenerateDir,
+      AllEntities allEntities,
+      AllEnums allEnums,
       AllUiDefinitions allUiDefinitions,
       IEnumerable<PlatformLibrary> platformLibraries) {
 
@@ -43,7 +44,7 @@ namespace x10.gen {
       AllUiDefinitions = allUiDefinitions;
       _platformLibraries = platformLibraries;
 
-      
+
       foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
         Generate(entity);
 
@@ -68,9 +69,9 @@ namespace x10.gen {
         .FirstOrDefault(x => x != null);
     }
 
-
     #region Write Helpers
     private TextWriter _writer;
+    private List<Output> _outputs;
 
     protected void Begin(FileInfo fileInfo, string extension) {
       string relativePath = fileInfo.RelativePath;
@@ -89,11 +90,16 @@ namespace x10.gen {
       if (!Directory.Exists(dir))
         Directory.CreateDirectory(dir);
       _writer = new StreamWriter(absolutePath);
+      _outputs = new List<Output>();
     }
 
     protected void End() {
+      foreach (Output output in _outputs)
+        output.Write(_writer);
+
       _writer.Dispose();
       _writer = null;
+      _outputs = null;
     }
 
     public void WriteLine(int level, string text, params object[] args) {
@@ -117,20 +123,24 @@ namespace x10.gen {
       if (_writingLineMaybe)
         WriteLine();
 
-      text = " " + text + " ";
-      text = text.Replace("{ ", "{{ ").Replace(" }", " }}");
-      text = text.Trim();
+      text = EscapeSpaceProtectedBraces(text);
 
-      _writer.Write(Spacer(level));
-      _writer.Write(text, args);
+      _outputs.Add(new OutputWrite(Spacer(level)));
+      _outputs.Add(new OutputWrite(text, args));
 
       _writingLineMaybe = false;
+    }
+
+    internal static string EscapeSpaceProtectedBraces(string text) {
+      text = " " + text + " ";
+      text = text.Replace("{ ", "{{ ").Replace(" }", " }}");
+      return text.Trim();
     }
 
     protected void WriteLineClose(int level, string text, params object[] args) {
       if (_writingLineMaybe) {
         _writingLineMaybe = false;
-        _writer.Write(text, args);
+        _outputs.Add(new OutputWrite(text, args));
       } else
         WritePrivate(level, text, args);
 
@@ -138,12 +148,69 @@ namespace x10.gen {
     }
 
     public void WriteLine() {
-      _writer.WriteLine();
+      _outputs.Add(new OutputWriteLine());
     }
 
-    private string Spacer(int level) {
+    public OutputPlaceholder CreatePlaceholder(int indent) {
+      OutputPlaceholder placeholder = new OutputPlaceholder(indent);
+      _outputs.Add(placeholder);
+      return placeholder;
+    }
+
+    internal static string Spacer(int level) {
       return new string(' ', level * 2);
     }
     #endregion
+
+    #region Output
+    public abstract class Output {
+      internal abstract void Write(TextWriter writer);
+    }
+
+    class OutputWrite : Output {
+      private string _text;
+      private object[] _args;
+      internal OutputWrite(string text, object[] args = null) {
+        _text = text;
+        _args = args;
+      }
+      internal override void Write(TextWriter writer) {
+        if (_args == null)
+          writer.Write(_text);
+        else
+          writer.Write(_text, _args);
+      }
+    }
+
+    class OutputWriteLine : Output {
+      private string _text;
+      internal override void Write(TextWriter writer) {
+        writer.WriteLine();
+      }
+    }
+
+    public class OutputPlaceholder : Output {
+      private int _indent;
+      private List<string> _lines = new List<string>();
+
+      internal OutputPlaceholder(int indent) {
+        _indent = indent;
+      }
+
+      internal override void Write(TextWriter writer) {
+        string spacer = CodeGenerator.Spacer(_indent);
+        foreach (string line in _lines.Distinct().OrderBy(x => x)) {
+          writer.Write(spacer);
+          writer.WriteLine(line);
+        }
+      }
+
+      public void WriteLine(string text, params object[] args) {
+        text = CodeGenerator.EscapeSpaceProtectedBraces(text);
+        _lines.Add(string.Format(text, args));
+      }
+    }
+    #endregion
+
   }
 }
