@@ -84,11 +84,8 @@ namespace x10.gen.wpf {
 
       // Find the Platform Class Definition
       PlatformClassDef platClassDef = FindPlatformClassDef(instance);
-      if (platClassDef == null) {
-        Messages.AddError(instance.XmlElement, "No platform-specific Class Definition for Logical Class {0}",
-          instance.ClassDef.Name);
+      if (platClassDef == null) 
         return;
-      }
 
       // Open the XAML tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);

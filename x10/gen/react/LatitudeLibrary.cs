@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 using x10.parsing;
 using x10.ui.libraries;
@@ -11,7 +7,6 @@ using x10.ui.platform;
 using x10.ui.composition;
 using x10.gen.wpf.codelet;
 using x10.model.definition;
-using x10.utils;
 
 namespace x10.gen.react {
   internal class LatitudeLibrary {

@@ -27,11 +27,11 @@ namespace x10.ui.platform {
       PlatformName = platformName;
     }
 
-    public string GenerateAttributeForValue(object value) {
+    public object GenerateAttributeForValue(object value) {
       if (TranslationFunc != null)
-        return TranslationFunc(value)?.ToString();
+        return TranslationFunc(value);
       else
-        return value.ToString();
+        return value;
     }
   }
 }
