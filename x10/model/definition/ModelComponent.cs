@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using x10.utils;
 using x10.parsing;
 
 namespace x10.model.definition {

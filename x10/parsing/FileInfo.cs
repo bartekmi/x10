@@ -9,6 +9,7 @@ namespace x10.parsing {
     public string[] RelativeDirComponents { get; private set; }
     public string FileName { get; private set; }
 
+    // Derived
     public string RelativePath {
       get {
         IEnumerable<string> components = RelativeDirComponents

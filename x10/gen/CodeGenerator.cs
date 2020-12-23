@@ -73,13 +73,9 @@ namespace x10.gen {
     private TextWriter _writer;
     private List<Output> _outputs;
 
-    protected void Begin(FileInfo fileInfo, string extension) {
-      string relativePath = fileInfo.RelativePath;
-      string relativeDir = Path.GetDirectoryName(relativePath);
-      string filenameNoExt = Path.GetFileNameWithoutExtension(relativePath);
-      filenameNoExt = NameUtils.CapitalizeFirstLetter(filenameNoExt);
-
-      string absolutePath = Path.Combine(RootGenerateDir, relativeDir, filenameNoExt + extension);
+    protected void Begin(FileInfo fileInfo, string extension, bool capitalize = true) {
+      string relativePath = AssembleRelativePath(fileInfo, extension, capitalize);
+      string absolutePath = Path.Combine(RootGenerateDir, relativePath);
       Begin(absolutePath);
     }
 
@@ -212,5 +208,22 @@ namespace x10.gen {
     }
     #endregion
 
+    #region Utilities
+    protected string AssembleRelativePath(FileInfo fileInfo, string extension, bool capitalize) {
+      string relativePath = fileInfo.RelativePath;
+      string relativeDir = Path.GetDirectoryName(relativePath);
+      string filenameNoExt = Path.GetFileNameWithoutExtension(relativePath);
+      if (capitalize)
+        filenameNoExt = NameUtils.CapitalizeFirstLetter(filenameNoExt);
+
+      return Path.Combine(relativeDir, filenameNoExt + extension ?? "");
+    }
+
+    protected IEnumerable<DataTypeEnum> FindLocalEnums(Entity entity) {
+      FileInfo fileInfo = entity.TreeElement.FileInfo;
+      return AllEnums.All
+        .Where(x => x.TreeElement.FileInfo.FilePath == fileInfo.FilePath);
+    }
+    #endregion
   }
 }

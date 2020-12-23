@@ -30,7 +30,6 @@ attributes:
 
   - name: petPolicy
     dataType: PetPolicy
-    mandatory: true
 
   - name: mailingAddressSameAsPhysical
     dataType: Boolean

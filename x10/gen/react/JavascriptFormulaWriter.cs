@@ -53,7 +53,7 @@ namespace x10.gen.react {
     public void VisitLiteral(ExpLiteral exp) {
       if (WriteEnum(exp, exp.Value))
         return;
-      _writer.Write(ReactGenUtils.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
+      _writer.Write(ReactCodeGenerator.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {

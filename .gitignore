@@ -1,10 +1,11 @@
 */obj/*
 */bin/*
-*/__generated__/*
+**/__generated__/*
+*/packages/*
+*/dist/*
+
 x10/.DS_Store
 .vs
-packages/*
-*/packages/*
 *.csproj.user
 
 # Node projects

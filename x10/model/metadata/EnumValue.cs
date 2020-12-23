@@ -16,6 +16,13 @@ namespace x10.model.metadata {
     public string ValueUpperCased {
       get { return NameUtils.CapitalizeFirstLetter(Value.ToString()); }
     }
+    public string EffectiveLabel {
+      get {
+        return Label == null ?
+          NameUtils.CamelCaseToHumanReadable(Value.ToString()) :
+          Label;
+      }
+    }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }

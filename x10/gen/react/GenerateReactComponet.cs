@@ -1,110 +1,50 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using FileInfo = x10.parsing.FileInfo;
 using x10.compiler;
 using x10.formula;
-using x10.model;
 using x10.model.definition;
-using x10.model.libraries;
 using x10.model.metadata;
-using x10.parsing;
 using x10.ui.composition;
 using x10.utils;
 using x10.ui.platform;
-using x10.ui;
 using x10.ui.metadata;
 
 namespace x10.gen.react {
-  public class ReactCodeGenerator : CodeGenerator {
+  public partial class ReactCodeGenerator {
 
     private readonly string[] IGNORE_ATTRIBUTES = new string[] {
       UiAttributeDefinitions.NAME,
       UiAttributeDefinitions.PATH,
     };
 
-    public override void Generate(ClassDefX10 classDef) {
-      GenerateReactFunctionalComponent(classDef);
-    }
-
     private OutputPlaceholder _importsPlaceholder;
     private OutputPlaceholder _destructuringPlaceholder;
 
-    private void GenerateReactFunctionalComponent(ClassDefX10 classDef) {
+    public override void Generate(ClassDefX10 classDef) {
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
+      GenerateFileHeader();
+
       bool isForm = true; // TODO
-
-      WriteLine(0, "// @flow");
-      WriteLine();
-
       Entity model = classDef.ComponentDataModel;
 
       GenerateImports(isForm);
-      if (model != null)
-        GenerateType(classDef.ComponentDataModel);
       GenerateComponent(classDef);
-      if (model != null)
-        GenerateDefaultEntity(classDef.ComponentDataModel);
 
       End();
     }
 
     private void GenerateImports(bool isForm) {
       WriteLine(0, "import * as React from 'react';");
-      WriteLine(0, "import { v4 as uuid } from 'uuid';");
       if (isForm)
         WriteLine(0, "import { graphql, commitMutation } from 'react-relay';");
 
-      WriteLine();
-      WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
       _importsPlaceholder = CreatePlaceholder(0);
       WriteLine();
     }
-
-    private void GenerateType(Entity model) {
-      WriteLine(0, "export type {0} = {{|", model.Name);
-
-      WriteLine(1, "+id: string,");
-      WriteLine(1, "+dbid: number,");
-
-      foreach (Member member in model.Members)
-        if (!(member is X10DerivedAttribute))
-          WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
-      WriteLine(0, "|}};");
-      WriteLine();
-    }
-
-    private string GetType(Member member) {
-      if (member is Association association) {
-        string refedEntityName = association.ReferencedEntity.Name;
-        if (association.IsMany)
-          return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
-        else
-          return string.Format("{0}{1}", association.IsMandatory ? "" : "?", refedEntityName);
-      } else if (member is X10Attribute attribute) {
-        DataType dataType = attribute.DataType;
-        return GetAtomicFlowType(dataType);
-      }
-
-      return "null,";
-    }
-
-    private string GetAtomicFlowType(DataType dataType) {
-      if (dataType == DataTypes.Singleton.Boolean) return "bool";
-      if (dataType == DataTypes.Singleton.Date) return "string";
-      if (dataType == DataTypes.Singleton.Float) return "number";
-      if (dataType == DataTypes.Singleton.Integer) return "number";
-      if (dataType == DataTypes.Singleton.String) return "string";
-      if (dataType == DataTypes.Singleton.Timestamp) return "string";
-      if (dataType == DataTypes.Singleton.Money) return "number";
-      if (dataType is DataTypeEnum enumType) return dataType.Name;
-
-      throw new Exception("Unknown data type: " + dataType.Name);
-    }
-
 
     private void GenerateComponent(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
@@ -261,55 +201,5 @@ namespace x10.gen.react {
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }
-
-
-    private void GenerateDefaultEntity(Entity model) {
-      WriteLine(0, "export function createDefault{0}(): {0} {", model.Name);
-      WriteLine(1, "return {");
-
-      WriteLine(2, "id: uuid(),");
-      WriteLine(2, "dbid: DBID_LOCALLY_CREATED,");
-
-      foreach (Member member in model.Members)
-        WriteLine(2, "{0}: {1},", member.Name, GetDefaultValue(member));
-
-      WriteLine(1, "};");
-      WriteLine(0, "}");
-    }
-
-    private string GetDefaultValue(Member member) {
-      if (member is Association association) {
-        if (association.IsMany)
-          return "[]";
-        else
-          if (association.IsMandatory) {
-          // TODO: Need to register an import
-          return string.Format("createDefault{0}()", association.ReferencedEntity.Name);
-        }
-      } else if (member is X10RegularAttribute attribute) {
-        object defaultValue = attribute.DefaultValue;
-        DataType dataType = attribute.DataType;
-
-        if (defaultValue == null) {
-          if (dataType == DataTypes.Singleton.Boolean) return "false";
-          if (dataType == DataTypes.Singleton.String) return "''";
-        } else
-          return ReactGenUtils.TypedLiteralToString(defaultValue, dataType as DataTypeEnum);
-      }
-
-      return "null";
-    }
-
-    public override void Generate(Entity entity) {
-    }
-
-    public override void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums) {
-      Begin(fileInfo, ".js");
-
-      // foreach (DataTypeEnum anEnum in enums)
-      //   GenerateEnum(0, anEnum);
-
-      End();
-    }
-  }
+ }
 }
