@@ -6,11 +6,9 @@ using System.Linq;
 using x10.compiler;
 using x10.formula;
 using x10.model.definition;
-using x10.model.metadata;
 using x10.ui.composition;
 using x10.utils;
 using x10.ui.platform;
-using x10.ui.metadata;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -52,12 +50,6 @@ namespace x10.gen.react {
       }
     }
 
-    private string VariableName(Entity model) {
-      if (model == null)
-        return null;
-      return NameUtils.UncapitalizeFirstLetter(model.Name);
-    }
-
     private void GenerateComponent(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
       string typeName = model?.Name;
@@ -88,6 +80,31 @@ namespace x10.gen.react {
       WriteLine();
     }
 
+    #region GenerateComponentRecursively
+    private void GenerateComponentRecursively(int level, Instance instance) {
+      if (instance == null)
+        return;
+
+      // Find the Platform Class Definition
+      PlatformClassDef platClassDef = FindPlatformClassDef(instance);
+      if (platClassDef == null)
+        return;
+
+      _importsPlaceholder.WriteLine("import {0} from '{1}';", platClassDef.PlatformName, platClassDef.ImportPath);
+
+      // Open the React tag
+      WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
+
+      WriteStaticAttributes(level, platClassDef);
+      WriteByFuncAttributes(level, platClassDef, instance);
+      bool dataBindAlreadyRendered = WriteLogicalAttributes(level, platClassDef, instance);
+      if (!dataBindAlreadyRendered)
+        WritePrimaryBindingAttribute(level, platClassDef, instance);
+      WritePrimaryAttributeAsProperty(level, platClassDef, instance);
+
+      WriteNestedContentsAndClosingTag(level, platClassDef, instance);
+    }
+
     private void WriteStaticAttributes(int level, PlatformClassDef platClassDef) {
       foreach (PlatformAttributeStatic staticAttr in platClassDef.StaticPlatformAttributes) {
         string value = staticAttr.Value.Trim();
@@ -95,6 +112,45 @@ namespace x10.gen.react {
           value = string.Format("'{0}'", value);
         WriteLine(level + 1, "{0}={1}", staticAttr.PlatformName, value);
       }
+    }
+
+    private void WritePrimaryAttributeAsProperty(int level, PlatformClassDef platClassDef, Instance instance) {
+      string propName = platClassDef.PrimaryAttributeWrapperProperty;
+      if (propName == null)
+        return;
+
+      UiAttributeValue primaryValue = instance.PrimaryValue;
+
+      WriteLine(level + 1, "{0}={ [", propName);
+
+      if (primaryValue is UiAttributeValueComplex complexAttr) {
+        foreach (Instance childInstance in complexAttr.Instances) 
+          RenderInstanceAsJavaScript(level + 2, childInstance);
+      } else
+        throw new NotImplementedException();
+
+      WriteLine(level + 1, "] }", propName);
+    }
+
+    private void RenderInstanceAsJavaScript(int level, Instance instance) {
+      WriteLine(level, "{");
+      foreach (UiAttributeValue value in instance.AttributeValues) {
+        if (IGNORE_ATTRIBUTES.Contains(value.Definition.Name))
+          continue;
+          
+        if (value is UiAttributeValueAtomic atomicValue)
+          WriteLine(level + 1, "{0}: {1},", value.Definition.Name, TypedLiteralToString(atomicValue.Value, null));
+        else if (value is UiAttributeValueComplex complexValue) {
+          WriteLine(level + 1, "{0}: ", value.Definition.Name);
+          // TODO: Obviously, an assumption here!
+          // TEMP code
+          foreach (Instance childInstance in complexValue.Instances) 
+            RenderInstanceAsJavaScript(level + 2, childInstance);
+
+          //RenderInstanceAsJavaScript(level + 1, complexValue.Instances.Single());
+        }
+      }
+      WriteLine(level, "},");
     }
 
     private void WriteByFuncAttributes(int level, PlatformClassDef platClassDef, Instance instance) {
@@ -130,14 +186,7 @@ namespace x10.gen.react {
             WriteLine(level + 1, "{0}={ {1} }", name, formula);
           } else if (atomicValue.Value != null && dynamicAttr != null) {
             object value = dynamicAttr.GenerateAttributeForValue(atomicValue.Value);
-            if (value == null)
-              WriteLine(level + 1, "{0}={ null }", name);
-            if (value is string)
-              WriteLine(level + 1, "{0}='{1}'", name, value);
-            else if (value is bool)
-              WriteLine(level + 1, "{0}={ {1} }", name, value.ToString().ToLower());
-            else
-              WriteLine(level + 1, "{0}={ {1} }", name, value);
+            WriteLine(level + 1, "{0}={ {1} }", name, TypedLiteralToString(value, null));
           }
         } else {
           // TODO - e.g. Action from submit button
@@ -167,9 +216,10 @@ namespace x10.gen.react {
       }
     }
 
-    private void WriteNestedContents(int level, PlatformClassDef platClassDef, Instance instance) {
-      ShouldGenerateNestedChildren(platClassDef, out List<PlatformClassDef> nestedClassDefs, out string primaryAttrWrapper);
-      UiAttributeValue primaryValue = instance.PrimaryValue;
+    #region Nested Children / Closing Tag
+    private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
+      UiAttributeValue primaryValue = platClassDef.PrimaryAttributeWrapperProperty == null ?
+        instance.PrimaryValue : null;
 
       // Close the XAML element, possibly recursively writing nested content
       if (primaryValue == null)
@@ -177,72 +227,20 @@ namespace x10.gen.react {
       else {
         WriteLineClose(level, ">");
 
-        foreach (PlatformClassDef nested in nestedClassDefs) // See PlatformClassDef.NestedClassDef
-          WriteLine(++level, "<{0}>", nested.PlatformName);
-
-        if (primaryAttrWrapper != null)
-          WriteLine(++level, "<{0}>", primaryAttrWrapper);
-
-        bool reducesManyToOne = ((UiAttributeDefinitionComplex)primaryValue.Definition).ReducesManyToOne;
-        WriteChildren(level + 1, primaryValue);
-
-        if (primaryAttrWrapper != null)
-          WriteLine(level--, "</{0}>", primaryAttrWrapper);
-
-        nestedClassDefs.Reverse();
-        foreach (PlatformClassDef nested in nestedClassDefs)
-          WriteLine(level--, "</{0}>", nested.PlatformName);
+        if (primaryValue is UiAttributeValueComplex complexAttr) {
+          foreach (Instance childInstance in complexAttr.Instances)
+            GenerateComponentRecursively(level, childInstance);
+        } else
+          throw new NotImplementedException();
 
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }
     }
 
-    private void WriteChildren(int level, UiAttributeValue attrValue) {
-      if (attrValue is UiAttributeValueComplex complexAttr) {
-        foreach (Instance childInstance in complexAttr.Instances)
-          GenerateComponentRecursively(level, childInstance);
-      } else
-        throw new NotImplementedException();
-    }
+    #endregion
+    #endregion
 
-    private void ShouldGenerateNestedChildren(
-      PlatformClassDef platClassDef, 
-      out List<PlatformClassDef> nestedClassDefs,
-      out string primaryAttrWrapper) {
-
-      nestedClassDefs = new List<PlatformClassDef>();
-      PlatformClassDef child = platClassDef.NestedClassDef;
-      while (child != null) {
-        nestedClassDefs.Add(child);
-        child = child.NestedClassDef;
-      }
-      primaryAttrWrapper = platClassDef.PrimaryAttributeWrapperProperty == null ?
-        null : string.Format("{0}.{1}", platClassDef.PlatformName, platClassDef.PrimaryAttributeWrapperProperty);
-    }
-
-    private void GenerateComponentRecursively(int level, Instance instance) {
-      if (instance == null)
-        return;
-
-      // Find the Platform Class Definition
-      PlatformClassDef platClassDef = FindPlatformClassDef(instance);
-      if (platClassDef == null) 
-        return;
-
-      _importsPlaceholder.WriteLine("import {0} from '{1}';", platClassDef.PlatformName, platClassDef.ImportPath);
-
-      // Open the React tag
-      WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
-
-      WriteStaticAttributes(level, platClassDef);
-      WriteByFuncAttributes(level, platClassDef, instance);
-      bool dataBindAlreadyRendered = WriteLogicalAttributes(level, platClassDef, instance);
-      if (!dataBindAlreadyRendered)
-        WritePrimaryBindingAttribute(level, platClassDef, instance);
-
-      WriteNestedContents(level, platClassDef, instance);
-    }
-
+    #region Utilities
     private string GenerateFormula(Instance context, PlatformAttributeDynamic dynamicAttr, string name, ExpBase expression) {
       if (expression == null)
         return "EXPRESSION MISSING";
@@ -253,5 +251,12 @@ namespace x10.gen.react {
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }
+
+    private string VariableName(Entity model) {
+      if (model == null)
+        return null;
+      return NameUtils.UncapitalizeFirstLetter(model.Name);
+    }
+    #endregion
   }
 }
