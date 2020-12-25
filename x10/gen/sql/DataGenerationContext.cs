@@ -14,7 +14,7 @@ namespace x10.gen.sql {
     private Random _random;
     private readonly StaticDictionaries _staticDictionaries = new StaticDictionaries();
 
-    internal const string DATA_FILES_ROOT = @"C:\x10\x10\data";  // TODO: Move to config
+    internal const string DATA_FILES_ROOT = @".";  // Copied by build process
 
     internal static DataGenerationContext CreateContext(MessageBucket messages, DataGenLanguageParser parser, Random random, Entity entity) {
       DataGenerationContext context = new DataGenerationContext() {

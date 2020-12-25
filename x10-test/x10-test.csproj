@@ -15,4 +15,10 @@
     <ProjectReference Include="..\x10\x10.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\data\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

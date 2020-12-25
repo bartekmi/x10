@@ -59,7 +59,7 @@ namespace x10.parsing {
       
       CompileMessage error = _messages.Messages.Single();
       Assert.Equal(CompileMessageSeverity.Error, error.Severity);
-      Assert.Equal("Can't parse YAML file. Error: (Line: 4, Col: 1, Idx: 35) - (Line: 4, Col: 1, Idx: 35): While scanning a simple key, could not find expected ':'.", error.Message);
+      Assert.True(error.Message.StartsWith("Can't parse YAML file. Error:"));
 
       Assert.Equal(4, error.ParseElement.Start.LineNumber);
       Assert.Equal(1, error.ParseElement.Start.CharacterPosition);
