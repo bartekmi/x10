@@ -216,7 +216,6 @@ namespace x10.gen.react {
       }
     }
 
-    #region Nested Children / Closing Tag
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
       UiAttributeValue primaryValue = platClassDef.PrimaryAttributeWrapperProperty == null ?
         instance.PrimaryValue : null;
@@ -237,7 +236,6 @@ namespace x10.gen.react {
       }
     }
 
-    #endregion
     #endregion
 
     #region Utilities
