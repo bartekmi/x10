@@ -722,7 +722,7 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionComplex() {
-            Name = "Child",
+            Name = "Children",
             Description = "The child components. Often, these may be <FormSection>'s.",
             IsPrimary = true,
             IsMandatory = true,
@@ -743,7 +743,7 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionComplex() {
-            Name = "Child",
+            Name = "Children",
             Description = "The child components.",
             IsPrimary = true,
             IsMandatory = true,
