@@ -16,10 +16,17 @@ namespace x10.gen.react {
     }
 
     public override object CalculateValue(CodeGenerator generator, Instance instance, out bool isCodeSnippet) {
+      ReactCodeGenerator reactGenerator = (ReactCodeGenerator)generator;
       isCodeSnippet = false;
 
       UiAttributeValueAtomic atomicValue = instance.FindAttributeValue(LogicalName) as UiAttributeValueAtomic;
-      if (atomicValue == null) return null;
+      if (atomicValue == null) {
+        if (IsMainDatabindingAttribute) {
+          isCodeSnippet = true;
+          return reactGenerator.MainVariableName;
+        } else
+          return null;
+      }
 
       if (atomicValue.Expression != null) {
         isCodeSnippet = true;

@@ -105,6 +105,8 @@ namespace x10.utils {
     }
 
     public static string Pluralize(string singular) {
+      if (singular.EndsWith("s"))
+        return singular + "es";
       if (singular.EndsWith("y"))
         return singular.Substring(0, singular.Length - 1) + "ies";
       return singular + "s";

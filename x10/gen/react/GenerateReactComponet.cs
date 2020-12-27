@@ -18,11 +18,7 @@ namespace x10.gen.react {
       React,
     }
 
-    private readonly string[] IGNORE_ATTRIBUTES = new string[] {
-      UiAttributeDefinitions.NAME,
-      UiAttributeDefinitions.PATH,
-    };
-
+    internal string MainVariableName;
     internal OutputPlaceholder ImportsPlaceholder;
     internal OutputPlaceholder DestructuringPlaceholder;
 
@@ -57,24 +53,27 @@ namespace x10.gen.react {
 
     private void GenerateComponent(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
-      string typeName = model?.Name;
-      string variableName = VariableName(model);
+      MainVariableName = VariableName(model, classDef.IsMany);
 
       // Props
       WriteLine(0, "type Props = {{|");
       if (model != null) {
-        WriteLine(1, "+{0}: {1},", variableName, typeName);
-        WriteLine(1, "+onChange: ({0}: {1}) => void,", variableName, typeName);
+        string typeName = model.Name;
+        if (classDef.IsMany)
+          typeName = string.Format("$ReadOnlyArray<{0}>", typeName);
+
+        WriteLine(1, "+{0}: {1},", MainVariableName, typeName);
+        WriteLine(1, "+onChange: ({0}: {1}) => void,", MainVariableName, typeName);
       }
       WriteLine(0, "|}};");
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
       if (model != null) {
-        WriteLine(1, "const { {0}, onChange } = props;", variableName);
+        WriteLine(1, "const { {0}, onChange } = props;", MainVariableName);
         WriteLine(1, "const {");
         DestructuringPlaceholder = CreatePlaceholder(2);
-        WriteLine(1, "} = {0};", variableName);
+        WriteLine(1, "} = {0};", MainVariableName);
       }
       WriteLine();
 
@@ -171,7 +170,7 @@ namespace x10.gen.react {
         else {
           WriteLine(level + 1, "onChange={ (value) => {");
           WriteLine(level + 2, "onChange({ ...{0}, {1}: value })",
-            VariableName(member.Owner),
+            VariableName(member.Owner, false /* TODO */),
             member.Name);
           WriteLine(level + 1, "} }");
         }
