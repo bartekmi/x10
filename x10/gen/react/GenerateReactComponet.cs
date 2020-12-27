@@ -201,23 +201,21 @@ namespace x10.gen.react {
 
     #region Utilities
     private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
-      value = value ?? attribute.DefaultValue;
-      if (value == null) return;
-
       bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;
       string name = attribute.PlatformName;
 
-      if (value is string && !isCodeSnippet)
-        value = TypedLiteralToString(value, null);
+      value = value ?? attribute.DefaultValue;
+      if (value == null) return;
+      string jsValue = isCodeSnippet ? value.ToString() : TypedLiteralToString(value, null);
 
       if (outputType == OutputType.React) {
         bool needsBrackets = isCodeSnippet || !(value is string);
         if (needsBrackets)
-          WriteLine(level + 1, "{0}={ {1} }", name, value);
+          WriteLine(level + 1, "{0}={ {1} }", name, jsValue);
         else
-          WriteLine(level + 1, "{0}={1}", name, value);
+          WriteLine(level + 1, "{0}={1}", name, jsValue);
       } else
-        WriteLine(level + 1, "{0}: {1},", name, value);
+        WriteLine(level + 1, "{0}: {1},", name, jsValue);
     }
     #endregion
   }
