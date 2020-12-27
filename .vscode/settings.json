@@ -5,5 +5,15 @@
      "editor.tabSize": 2,
      "editor.detectIndentation": false,
   },
-  "editor.codeLens": true
+  "editor.codeLens": true,
+
+  // Color customizations to make things a bit more visible.
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#545555a4",
+
+    "editor.findMatchHighlightBorder": "#ff0000",
+    "editor.findMatchHighlightBackground": "#b35d0ea1", //Other SEARCH MATCHES
+    "editor.findMatchBorder": "#ff0000",
+    "editor.findMatchBackground": "#0f8135a8", //Current SEARCH MATCH
+  }  
 }

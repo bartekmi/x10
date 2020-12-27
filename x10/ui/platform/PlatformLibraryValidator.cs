@@ -40,7 +40,7 @@ namespace x10.ui.platform {
     }
 
     private void ValidateNoDuplicateBindingAttributes(PlatformClassDef classDef) {
-      if (classDef.PlatformAttributes.OfType<PlatformAttributeDataBind>().Count() > 1)
+      if (classDef.PlatformAttributes.OfType<PlatformAttributeDynamic>().Count(x => x.IsMainDatabindingAttribute) > 1)
         _messages.AddError(null, "Platform UI Component {0} has multiple binding attributes",
           classDef.PlatformName);
     }
@@ -81,7 +81,8 @@ namespace x10.ui.platform {
 
     private void ValidateStaticAttribute(PlatformClassDef platform, PlatformAttributeStatic staticAttr) {
       if (string.IsNullOrWhiteSpace(staticAttr.PlatformName) ||
-          string.IsNullOrWhiteSpace(staticAttr.Value))
+          staticAttr.Value == null || 
+          staticAttr.Value is string s && string.IsNullOrWhiteSpace(s))
         _messages.AddError(null, "Platform Attribute {0} of Platform Component {1} must specify both name and value",
           staticAttr, platform.PlatformName);
     }
@@ -89,7 +90,7 @@ namespace x10.ui.platform {
     private void ValidateDynamicAttribute(ClassDef logical, PlatformClassDef platform, PlatformAttributeDynamic dynamicAttr) {
       UiAttributeDefinition attrDef = logical.FindAttribute(dynamicAttr.LogicalName);
       if (attrDef == null) {
-        if (dynamicAttr is PlatformAttributeDataBind) {
+        if (dynamicAttr.IsMainDatabindingAttribute) {
           // The main data-bind attribute doesn't need to exist as a logical attribute
         } else
           _messages.AddError(null, "Platform Attribute {0}.{1} refers to Logical Attribute {2}.{3} which does not exist",

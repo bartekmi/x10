@@ -34,6 +34,12 @@ namespace x10.gen.react {
       return AssembleRelativePath(fileInfo, null, true);  // TODO: Single source of truth for capitalization
     }
 
+    internal string VariableName(Entity model) {
+      if (model == null)
+        return null;
+      return NameUtils.UncapitalizeFirstLetter(model.Name);
+    }
+
     #region Enum-Related Helpers
 
     private static string EnumToName(DataTypeEnum enumType) {

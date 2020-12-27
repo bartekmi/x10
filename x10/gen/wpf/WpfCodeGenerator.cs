@@ -98,13 +98,13 @@ namespace x10.gen.wpf {
 
       // Write ByFunc Attributes
       foreach (PlatformAttributeByFunc byFuncAttr in platClassDef.ByFuncPlatformAttributes) {
-        string value = byFuncAttr.Function(instance);
+        object value = byFuncAttr.Function(instance);
         if (value != null)
           WriteLine(level + 1, "{0}=\"{1}\"", byFuncAttr.PlatformName, value);
       }
 
       UiAttributeValue primaryValue = instance.PrimaryValue;
-      PlatformAttributeDataBind dataBind = platClassDef.DataBindAttribute;
+      PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
       bool dataBindAlreadyRendered = false;
 
       // Write the logical attributes contained in the instance

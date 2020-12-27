@@ -20,7 +20,7 @@ namespace x10.gen.wpf {
       LogicalName = "ClassDefVisual",
       IsAbstract = true,
       PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "visible",
             PlatformName = "Visibility",
             Converter = "BooleanToVisibilityConverter",
@@ -73,16 +73,16 @@ namespace x10.gen.wpf {
         PlatformName = "lib:EditElementWrapper",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
             PlatformName = "IsMandatory",
             TranslationFunc = (value) => value?.ToString() == "mandatory",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "toolTip",
             PlatformName = "MyToolTip",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Label",
           },
@@ -100,7 +100,7 @@ namespace x10.gen.wpf {
         PlatformName = "TextBlock",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "weight",
             PlatformName = "FontWeight",
             EnumConversions = new List<EnumConversion>() {
@@ -128,10 +128,11 @@ namespace x10.gen.wpf {
         PlatformName = "TextBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "Text",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "IsReadOnly",
           },
@@ -142,7 +143,8 @@ namespace x10.gen.wpf {
         PlatformName = "TextBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "Text",
           },
           new PlatformAttributeStatic() {
@@ -157,7 +159,7 @@ namespace x10.gen.wpf {
             PlatformName = "MinLines",
             Value = "3",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "IsReadOnly",
           },
@@ -169,10 +171,11 @@ namespace x10.gen.wpf {
         PlatformName = "TextBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "Text",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "IsReadOnly",
           },
@@ -184,10 +187,11 @@ namespace x10.gen.wpf {
         PlatformName = "TextBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "Text",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "IsReadOnly",
           },
@@ -198,11 +202,12 @@ namespace x10.gen.wpf {
         PlatformName = "CheckBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             LogicalName = "checked",
             PlatformName = "IsChecked",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "checkboxLabel",
             PlatformName = "Content",
           },
@@ -213,7 +218,8 @@ namespace x10.gen.wpf {
         PlatformName = "lib:BooleanViaButtons",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "Selected",
           },
         },
@@ -223,10 +229,11 @@ namespace x10.gen.wpf {
         PlatformName = "DatePicker",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "SelectedDate",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "IsReadOnly",
           },
@@ -254,7 +261,8 @@ namespace x10.gen.wpf {
         PlatformName = "ComboBox",
         InheritsFrom = Visual,
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "SelectedValue",
           },
           new PlatformAttributeStatic() {
@@ -328,7 +336,8 @@ namespace x10.gen.wpf {
             PlatformName = "CanUserAddRows",
             Value = "False",
           },
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             PlatformName = "ItemsSource",
           },
         },
@@ -337,7 +346,7 @@ namespace x10.gen.wpf {
         LogicalName = "TableColumn",
         PlatformName = "DataGridTemplateColumn",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Header",
           },
@@ -365,7 +374,7 @@ namespace x10.gen.wpf {
             PlatformName = "Padding",
             Value = "10,0,0,0",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "text",
             PlatformName = "ToolTip",
           },
@@ -380,11 +389,11 @@ namespace x10.gen.wpf {
             PlatformName = "Click",
             Value = "NavigateToUrlInTag",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Content",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "url",
             PlatformName = "Tag",
           },
@@ -415,15 +424,16 @@ namespace x10.gen.wpf {
         PlatformName = "ToggleButton",
         InheritsFromName = "Button",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             LogicalName = "selected",
             PlatformName = "IsChecked",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "onSelect",
             PlatformName = "Checked",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "onDeselect",
             PlatformName = "OnUnchecked",
           },
@@ -446,11 +456,12 @@ namespace x10.gen.wpf {
             PlatformName = "Click",
             Function = (instance) => instance.HasAttributeValue("url") ? "NavigateToUrlInTag" : null
           },
-          new PlatformAttributeDataBind() {
+          new WpfAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             LogicalName = "label",
             PlatformName = "Header",
           },
-          new PlatformAttributeDynamic() {
+          new WpfAttributeDynamic() {
             LogicalName = "url",
             PlatformName = "Tag",
           },

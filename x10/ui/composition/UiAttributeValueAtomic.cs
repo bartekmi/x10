@@ -12,6 +12,7 @@ namespace x10.ui.composition {
 
     // Derived
     public UiAttributeDefinitionAtomic DefinitionAtomic { get { return (UiAttributeDefinitionAtomic)Definition; } }
+    public Instance Instance { get { return (Instance)Owner; } }
 
     public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, IAcceptsUiAttributeValues owner, XmlBase xmlBase)
       : base(attrDefinition, owner, xmlBase) {

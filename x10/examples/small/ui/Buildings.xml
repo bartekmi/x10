@@ -13,7 +13,7 @@
 
       <!-- Columns -->
       <Table.Columns>
-        <TableColumn label="Name">
+        <TableColumn label="Name" width="150">
           <Row>
             <name/>
             <!-- TODO: All Visual component should have a tooltip property - but ensure does not conflict with existing -->

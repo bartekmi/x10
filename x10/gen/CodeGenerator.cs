@@ -187,7 +187,6 @@ namespace x10.gen {
     }
 
     class OutputWriteLine : Output {
-      private string _text;
       internal override void Write(TextWriter writer) {
         writer.WriteLine();
       }

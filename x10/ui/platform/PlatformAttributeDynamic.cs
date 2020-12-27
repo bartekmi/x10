@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
+using x10.ui.composition;
+
 
 namespace x10.ui.platform {
-  public class PlatformAttributeDynamic : PlatformAttribute {
+  public abstract class PlatformAttributeDynamic : PlatformAttribute {
     // Name of equivalent attribute in the logical "UiAttributeDefinition" world
     public string LogicalName { get; set; }
+
+    // If true, this is the main data-binding attribute for an edit component
+    // There can only be one of these per PlatformClassDef
+    public bool IsMainDatabindingAttribute {get;set;}
 
     // Optional translation function from the logical value to the actual
     // value to be used in code-generation

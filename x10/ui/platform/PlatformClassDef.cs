@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using x10.ui.metadata;
 
@@ -62,8 +61,8 @@ namespace x10.ui.platform {
     public IEnumerable<PlatformAttributeByFunc> ByFuncPlatformAttributes {
       get { return PlatformAttributes.OfType<PlatformAttributeByFunc>(); }
     }
-    public PlatformAttributeDataBind DataBindAttribute {
-      get { return PlatformAttributes.OfType<PlatformAttributeDataBind>().SingleOrDefault(); }
+    public PlatformAttributeDynamic DataBindAttribute {
+      get { return PlatformAttributes.OfType<PlatformAttributeDynamic>().SingleOrDefault(x => x.IsMainDatabindingAttribute); }
     }
     public string EffectivePlatformName {
       get { return PlatformName == null ? InheritsFrom.EffectivePlatformName : PlatformName; }
