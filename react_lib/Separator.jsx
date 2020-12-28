@@ -3,6 +3,8 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite";
 
+import colors from "latitude/colors";
+
 export default function Separator(): React.Node {
   return (
     <div className={css(styles.main)}/>
