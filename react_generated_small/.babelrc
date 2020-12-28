@@ -3,10 +3,8 @@
 {
   "presets": [
     "@babel/preset-env",
-    // https://babeljs.io/docs/en/babel-preset-react
-    "@babel/preset-react",
-    // https://www.npmjs.com/package/@babel/preset-flow
-    "@babel/preset-flow"
+    "@babel/preset-flow",
+    "@babel/preset-react"
     ],
   "plugins": [
     "relay"
