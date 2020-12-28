@@ -9,8 +9,12 @@ import Table from "latitude/table/Table";
 import TextCell from "latitude/table/TextCell";
 import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
+import Group from "latitude/Group";
+import HelpTooltip from "latitude/HelpTooltip";
 
 import enumToLabel from "react_lib/utils/enumToLabel";
+import CellRenderer from "react_lib/table/CellRenderer";
+
 import environment from "../environment";
 import history from "../history";
 import { type PetPolicyEnum, PetPolicyEnumPairs } from "../constants/PetPolicyEnum";
@@ -66,7 +70,27 @@ function BuildingsPage(props: Props) {
       render: (building: Building) => <TextCell value={building.description} />,
       width: 300,
     },
+    {
+      id: "name_and_description",
+      header: "Name/Desc",
+      render: (building: Building) => 
+        <CellRenderer>
+          <span>
+            <Text children={building.name}/>
+            <HelpTooltip text={building.description}/>
+          </span>
+        </CellRenderer>,
+      width: 150,
+      comparator: (a, b) => a.name.localeCompare(b.name),
+    },
   ];
+
+//   <CellRenderer>
+//   <Group>
+//     <Text children={building.name}/>
+//     <HelpTooltip text={building.description}/>
+//   </Group>
+// </CellRenderer>,
 
   return (
     <div className="container">

@@ -6,7 +6,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 const {merge} = require("webpack-merge");
 
 const paths = require("./paths");
-// import common webpack config
 const common = require("./webpack-common-config.js");
 
 module.exports = merge(common, {
@@ -41,7 +40,16 @@ module.exports = merge(common, {
         test: /\.jsx?$/,
         include: path.resolve(paths.appSrc),
         exclude: /(node_modules)/,
-        loader: "babel-loader", // Options in .babelrc
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-flow"
+            ],
+          }
+        }
       },
       // Special processing for Latitude
       {
@@ -59,21 +67,6 @@ module.exports = merge(common, {
             "plugins": [
               "@babel/plugin-proposal-class-properties",
             ]
-          }
-        }
-      },      
-      {
-        test: /\.jsx?$/,
-        include: /node_modules\/react_lib\/.*/,
-        exclude: /node_modules\/react_lib\/node_modules\/.*/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-flow"
-            ],
           }
         }
       },      

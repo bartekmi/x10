@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import Label from "latitude/Label";
-import InputError from "latitude/InputError";
+import InputValidationMessage from "latitude/InputValidationMessage";
 
 import {FormContext} from "./FormProvider";
 
@@ -34,11 +34,11 @@ export default function FormField(props: Props): React.Node {
       indicateRequired={indicateRequired}
       helpTooltip={toolTip}
     >
-      <InputError errorText={errorMessage || null} showError={errorMessage != null}>
+      <InputValidationMessage errorText={errorMessage || null} showError={errorMessage != null}>
         <div style={style}>
           {children}
         </div>
-      </InputError>
+      </InputValidationMessage>
     </Label>
   );
 }

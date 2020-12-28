@@ -297,7 +297,7 @@ namespace x10.gen.react {
       },
       #endregion
 
-      # region Misc
+      #region Misc
       new PlatformClassDef() {
         LogicalName = "HelpIcon",
         PlatformName = "HelpTooltip",

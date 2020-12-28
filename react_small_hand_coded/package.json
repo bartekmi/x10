@@ -6,7 +6,6 @@
   "author": "Bartek Muszynski <bartek@flexport.com>",
   "license": "MIT",
   "dependencies": {
-    "react_lib": "file:../react_lib",
     "latitude": "file:../../../flexport/open_source/latitude/",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
