@@ -20,7 +20,7 @@
       }
     },
     {
-      "name": "Debug - Hot Choc",
+      "name": "Hot Choc",
       "type":"coreclr",
       "request":"launch",
       "preLaunchTask": "build_hot_chocolate",

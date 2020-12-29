@@ -8,11 +8,13 @@ namespace Small.Entities {
     // Regular Attributes
     [GraphQLNonNullType]
     public string? Name { get; set; }
+    [GraphQLNonNullType]
     public string? Phone { get; set; }
     [GraphQLNonNullType]
     public string? Email { get; set; }
 
     // Associations
+    [GraphQLNonNullType]
     public Address? PermanentMailingAddress { get; set; }
   }
 }

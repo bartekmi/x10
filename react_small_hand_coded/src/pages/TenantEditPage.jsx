@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from "react";
+import { v4 as uuid } from 'uuid';
 import { graphql, QueryRenderer, commitMutation } from "react-relay";
 
 import Group from "latitude/Group"
@@ -9,6 +10,10 @@ import TextInput from "latitude/TextInput";
 import TextareaInput from "latitude/TextareaInput";
 import Label from "latitude/Label";
 import Button from "latitude/button/Button";
+
+import FormProvider from 'react_lib/form/FormProvider';
+import FormSection from 'react_lib/form/FormSection';
+import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 
 import environment from "../environment";
 import {DBID_LOCALLY_CREATED} from "react_lib/constants";
@@ -24,51 +29,112 @@ function TenantEditPage(props: Props): React.Node {
   const { tenant } = props;
   const [editedTenant, setEditedTenant] = React.useState(tenant);
 
-  const contextValues = {
-    on: {
-      valueBefore: "ON - BEFORE",
-      valueAfter: "ON - AFTER",
-    },
-    off: {
-      valueBefore: "OFF - BEFORE",
-      valueAfter: "OFF - AFTER",
-    },
-  };
+  const {
+    name,
+    phone,
+    email,
+    permanentMailingAddress,
+  } = editedTenant;
 
   return (
-    <Group flexDirection="column">
-      <Text scale="headline">{`Editing Tenant ${tenant.name || ""}`}</Text>
-      <Label value="Name:" >
-        <TextInput
-          value={editedTenant.name}
-          onChange={(value) => {
-            setEditedTenant({ ...editedTenant, name: value })
-          }}
-        />
-      </Label>
-      <Label value="Phone:" >
-        <TextInput
-          value={editedTenant.phone || ""}
-          onChange={(value) => {
-            setEditedTenant({ ...editedTenant, phone: value })
-          }}
-        />
-      </Label>
-      <Label value="Email:" >
-        <TextInput
-          value={editedTenant.email}
-          onChange={(value) => {
-            setEditedTenant({ ...editedTenant, email: value })
-          }}
-        />
-      </Label>
+    <FormProvider value={ [] }>
+      <Text scale="headline">{`Editing Tenant ${name || ""}`}</Text>
+      <FormSection
+          label='Tenant Info'
+      >
+        <Label value="Name:" >
+          <TextInput
+            value={name}
+            onChange={(value) => {
+              setEditedTenant({ ...editedTenant, name: value })
+            }}
+          />
+        </Label>
+        <Label value="Phone:" >
+          <TextInput
+            value={phone || ""}
+            onChange={(value) => {
+              setEditedTenant({ ...editedTenant, phone: value })
+            }}
+          />
+        </Label>
+        <Label value="Email:" >
+          <TextInput
+            value={email}
+            onChange={(value) => {
+              setEditedTenant({ ...editedTenant, email: value })
+            }}
+          />
+        </Label>
+      </FormSection>
+      <FormSection
+          label='Permanent Mailing Address'
+      >
+        <Label
+            value='Address'
+        >
+          <TextInput
+            value={ permanentMailingAddress.theAddress || "" }
+            onChange={ (value) => {
+              const newValue = { ...editedTenant, permanentMailingAddress: {
+                ...editedTenant.permanentMailingAddress,
+                theAddress: value,
+              }};
+              setEditedTenant(newValue);
+            } }
+          />
+        </Label>
+        <Label
+            value='City'
+        >
+          <TextInput
+            value={ permanentMailingAddress.city || "" }
+            onChange={ (value) => {
+              const newValue = { ...editedTenant, permanentMailingAddress: {
+                ...editedTenant.permanentMailingAddress,
+                city: value,
+              }};
+              setEditedTenant(newValue);
+            } }
+          />
+        </Label>
+        <Label
+            value='State Or Province'
+        >
+          <TextInput
+            value={ permanentMailingAddress.stateOrProvince || "" }
+            onChange={ (value) => {
+              const newValue = { ...editedTenant, permanentMailingAddress: {
+                ...editedTenant.permanentMailingAddress,
+                stateOrProvince: value,
+              }};
+              setEditedTenant(newValue);
+            } }
+          />
+        </Label>
+        <Label
+            value='Zip or Postal Code'
+        >
+          <TextInput
+            value={ permanentMailingAddress.zip || "" }
+            onChange={ (value) => {
+              const newValue = { ...editedTenant, permanentMailingAddress: {
+                ...editedTenant.permanentMailingAddress,
+                zip: value,
+              }};
+              // $FlowIgnore
+              setEditedTenant(newValue);
+            } }
+          />
+        </Label>
+      </FormSection>
       <Button 
         intent="basic" kind="solid"
         onClick={() => saveTenant(editedTenant)}
       >
         Save
       </Button>
-    </Group>
+    </FormProvider>
   );
 }
 
@@ -119,6 +185,15 @@ function createDefaultTenant(): Tenant {
     name: "",
     phone: "",
     email: "",
+    permanentMailingAddress: {
+      id: uuid(),
+      dbid: DBID_LOCALLY_CREATED,
+      city: "",
+      stateOrProvince: "",
+      theAddress: "",
+      unitNumber: "",
+      zip: "",
+    },
   };
 }
 
@@ -129,6 +204,15 @@ const query = graphql`
       name
       phone
       email
+      permanentMailingAddress {
+        id
+        city
+        dbid
+        stateOrProvince
+        theAddress
+        unitNumber
+        zip
+      }
     }
   }
 `;
@@ -139,6 +223,7 @@ function saveTenant(tenant: Tenant) {
     name: tenant.name,
     phone: tenant.phone,
     email: tenant.email,
+    permanentMailingAddress: tenant.permanentMailingAddress,
   };
 
   return commitMutation(
@@ -156,12 +241,14 @@ const mutation = graphql`
     $name: String!
     $phone: String!
     $email: String!
+    $permanentMailingAddress: AddressInput!
   ) {
     createOrUpdateTenant(
       dbid: $dbid
       name: $name
       phone: $phone
       email: $email
+      permanentMailingAddress: $permanentMailingAddress
     )
   }
 `;

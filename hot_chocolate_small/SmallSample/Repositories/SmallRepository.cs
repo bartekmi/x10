@@ -63,6 +63,7 @@ namespace Small.Repositories {
           MailingAddressSameAsPhysical = true,
           PhysicalAddress = new Address() {
             Dbid = 1,
+            UnitNumber = "",
             TheAddress = "111 Prominent Ave",
             City = "Whitehorse",
             StateOrProvince = "YK",
@@ -97,6 +98,7 @@ namespace Small.Repositories {
           MailingAddressSameAsPhysical = true,
           PhysicalAddress = new Address() {
             Dbid = 2,
+            UnitNumber = "",
             TheAddress = "115 Scenic Park Cres NW",
             City = "Calgary",
             StateOrProvince = "AB",
@@ -114,6 +116,7 @@ namespace Small.Repositories {
           MailingAddressSameAsPhysical = false,
           PhysicalAddress = new Address() {
             Dbid = 3,
+            UnitNumber = "",
             TheAddress = "111 Fair Lane",
             City = "Fancytown",
             StateOrProvince = "AB",
@@ -121,6 +124,7 @@ namespace Small.Repositories {
           },
           MailingAddress = new Address() {
             Dbid = 4,
+            UnitNumber = "",
             TheAddress = "PO Box #12345",
             City = "Edmonton",
             StateOrProvince = "AB",
@@ -142,16 +146,22 @@ namespace Small.Repositories {
     }
 
     public int AddTenant(Tenant tenant) {
-      int newId = _tenants.Values.Max(x => x.Dbid) + 1;
-      tenant.Dbid = newId;
+      int newId = EnsureUniqueDbids(tenant);
       _tenants[newId] = tenant;
       return newId;
     }
 
     public void UpdateTenant(Tenant tenant) {
+      EnsureUniqueDbids(tenant);
       _tenants[tenant.Dbid] = tenant;
     }
 
+    private static int EnsureUniqueDbids(Tenant tenant) {
+      tenant.EnsureUniqueDbid();
+      tenant.PermanentMailingAddress.EnsureUniqueDbid();
+
+      return tenant.Dbid;
+    }
 
     private static IEnumerable<Tenant> CreateTenants() {
       return new List<Tenant>() {
@@ -162,6 +172,7 @@ namespace Small.Repositories {
           Email = "220bartek@gmail.com",
           PermanentMailingAddress = new Address() {
             Dbid = 3,
+            UnitNumber = "",
             TheAddress = "111 Prominent Ave",
             City = "Whitehorse",
             StateOrProvince = "YK",
@@ -175,6 +186,7 @@ namespace Small.Repositories {
           Email = "imuszynski@gmail.com",
           PermanentMailingAddress = new Address() {
             Dbid = 4,
+            UnitNumber = "",
             TheAddress = "101 Toronto Ave",
             City = "Toronton",
             StateOrProvince = "ON",

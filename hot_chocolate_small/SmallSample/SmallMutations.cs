@@ -61,12 +61,14 @@ namespace Small {
         string name,
         string phone,
         string email,
+        Address permanentMailingAddress,
         [Service] ISmallRepository repository) {
 
       Tenant tenant = new Tenant() {
         Name = name,
         Phone = phone,
         Email = email,
+        PermanentMailingAddress = permanentMailingAddress,
       };
 
       if (dbid == BLANK_DBID)
