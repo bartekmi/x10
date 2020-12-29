@@ -131,7 +131,10 @@ namespace x10.gen.react {
 
       foreach (PlatformAttribute attribute in platClassDef.PlatformAttributes) {
         object value = attribute.CalculateValue(this, instance, out bool isCodeSnippet);
-        WriteAttribute(outputType, level + 1, value, attribute, isCodeSnippet);
+        if (value is CodeSnippetGenerator snippetGenerator)
+          snippetGenerator.Generate(this, level, platClassDef, instance);
+        else
+          WriteAttribute(outputType, level + 1, value, attribute, isCodeSnippet);
       }
 
       WritePrimaryAttributeAsProperty(level + 1, platClassDef, instance);
@@ -155,26 +158,6 @@ namespace x10.gen.react {
         throw new NotImplementedException();
 
       WriteLine(level + 1, "}", propName);
-    }
-
-    // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
-    private void WritePrimaryBindingAttribute(int level, PlatformClassDef platClassDef, Instance instance) {
-      PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
-      Member member = instance.ModelMember;
-
-      if (dataBind != null && member != null) {
-        DestructuringPlaceholder.WriteLine(member.Name + ",");
-        WriteLine(level + 1, "{0}={ {1} }", dataBind.PlatformName, member.Name);
-        if (member.IsReadOnly)
-          WriteLine(level + 1, "onChange={ () => { } }");
-        else {
-          WriteLine(level + 1, "onChange={ (value) => {");
-          WriteLine(level + 2, "onChange({ ...{0}, {1}: value })",
-            VariableName(member.Owner, false /* TODO */),
-            member.Name);
-          WriteLine(level + 1, "} }");
-        }
-      }
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
