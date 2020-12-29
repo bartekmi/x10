@@ -39,10 +39,13 @@ module.exports = merge(common, {
       {
         test: /\.jsx?$/,
         include: path.resolve(paths.appSrc),
-        exclude: /(node_modules)/,
         loader: "babel-loader", // Options in .babelrc
       },
-      // Special processing for Latitude
+      {
+        test: /\.jsx?$/,
+        include: path.resolve(paths.appGenerated),
+        loader: "babel-loader", // Options in .babelrc
+      },
       {
         test: /\.jsx?$/,
         include: /node_modules\/latitude\/.*/,
@@ -58,21 +61,6 @@ module.exports = merge(common, {
             "plugins": [
               "@babel/plugin-proposal-class-properties",
             ]
-          }
-        }
-      },      
-      {
-        test: /\.jsx?$/,
-        include: /node_modules\/react_lib\/.*/,
-        exclude: /node_modules\/react_lib\/node_modules\/.*/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-flow"
-            ],
           }
         }
       },      
