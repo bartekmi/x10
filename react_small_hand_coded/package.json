@@ -43,7 +43,7 @@
     "webpack-merge": "^5.1.4"
   },
   "scripts": {
-    "copy-react-lib": "cp -r ../react_lib src/react_lib",
+    "react-lib": "rsync -avu ../react_lib/ src/react_lib",
     "build": "yarn copy-react-lib && yarn webpack --config config/webpack-dev-config.js",
     "start": "yarn copy-react-lib && node config/webpack-dev-server.js",
     "relay": "relay-compiler --src ./src --schema ./schema.graphql --customScalars.DateTime=String --extensions js jsx",
