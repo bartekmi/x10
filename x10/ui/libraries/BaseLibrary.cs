@@ -106,6 +106,8 @@ namespace x10.ui.libraries {
             Name = "text",
             Description = "The text to display",
             DataType = DataTypes.Singleton.String,
+            IsPrimary = true,
+            IsMandatory = true,
           },
           new UiAttributeDefinitionAtomic() {
             Name = "weight",

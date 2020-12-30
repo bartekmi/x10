@@ -58,6 +58,20 @@ namespace x10.parsing {
 
       while (reader.Read()) {
         switch (reader.NodeType) {
+          case XmlNodeType.Text:
+            XmlScalar scalar = new XmlScalar(reader.Value);
+            SetLocation(scalar, reader);
+            current.SetTextContent(scalar);
+
+            reader.Read();
+
+            if (reader.NodeType != XmlNodeType.EndElement)
+              throw new XmlException("Closing tag expected after text content", null, reader.LineNumber, reader.LinePosition);
+
+            current = (XmlElement)current.Parent;
+
+            break;
+
           case XmlNodeType.Element:
             XmlElement newElement = new XmlElement(reader.Name);
             SetLocation(newElement, reader);

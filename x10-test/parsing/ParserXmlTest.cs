@@ -100,6 +100,34 @@ This is some gibberish - definitely <not> XML!!!
 ", "Can't parse XML file. Error: 'attr1' is a duplicate attribute name. Line 2, position 23.", 2, 23);
     }
 
+    [Fact]
+    public void ElementWithNestedText() {
+      XmlElement root = _parser.ParseFromString(@"
+<Level1>
+  <Text>Hello World</Text>
+  <Other/>
+</Level1>
+");
+
+      XmlElement text = root.Children[0];
+
+      Assert.Equal("Text", text.Name);
+      Assert.Equal("Hello World", text.TextContent.Value);
+      Assert.Equal(0, text.Children.Count);
+    }
+
+    [Fact]
+    public void ExplicitMessageIfElementsInText() {
+      _parser.ParseFromString(@"
+<Level1>
+  <Text>Hello <p> Not Allowed! </p> World</Text>
+</Level1>
+");
+
+      Assert.Contains("Closing tag expected after text content", _messages.Errors.Single().Message);
+    }
+
+    #region Utilities
     private void RunTest(string xml, string expectedError, int line, int character) {
       _parser.ParseFromString(xml);
 
@@ -111,7 +139,6 @@ This is some gibberish - definitely <not> XML!!!
       Assert.Equal(character, error.ParseElement.Start.CharacterPosition);
     }
 
-    #region Utilities
     private void VerifyElement(XmlElement element, string name, int attrCount, int childCount, int line, int character) {
       Assert.Equal(name, element.Name);
       Assert.Equal(attrCount, element.Attributes.Count);

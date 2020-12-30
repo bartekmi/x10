@@ -161,8 +161,9 @@ namespace x10.gen.react {
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
-      UiAttributeValue primaryValue = platClassDef.PrimaryAttributeWrapperProperty == null ?
-        instance.PrimaryValue : null;
+      UiAttributeValueComplex primaryValue = instance.PrimaryValue as UiAttributeValueComplex;
+      if (platClassDef.PrimaryAttributeWrapperProperty != null)
+        primaryValue = null;
 
       // Close the XAML element, possibly recursively writing nested content
       if (primaryValue == null)
@@ -170,11 +171,8 @@ namespace x10.gen.react {
       else {
         WriteLineClose(level, ">");
 
-        if (primaryValue is UiAttributeValueComplex complexAttr) {
-          foreach (Instance childInstance in complexAttr.Instances)
-            GenerateComponentRecursively(OutputType.React, level + 1, childInstance);
-        } else
-          throw new NotImplementedException();
+        foreach (Instance childInstance in primaryValue.Instances)
+          GenerateComponentRecursively(OutputType.React, level + 1, childInstance);
 
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }

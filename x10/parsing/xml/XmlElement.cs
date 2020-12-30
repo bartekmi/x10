@@ -7,11 +7,17 @@ namespace x10.parsing {
     public string Name { get; private set; }
     public List<XmlAttribute> Attributes { get; private set; }
     public List<XmlElement> Children { get; private set; }
+    public XmlScalar TextContent { get; private set; }
 
     public XmlElement(string name) {
       Name = name;
       Attributes = new List<XmlAttribute>();
       Children = new List<XmlElement>();
+    }
+
+    public void SetTextContent(XmlScalar scalar) {
+      TextContent = scalar;
+      scalar.Parent = this;
     }
 
     public void AddAttribute(XmlAttribute attribute) {

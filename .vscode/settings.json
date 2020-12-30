@@ -5,7 +5,7 @@
      "editor.tabSize": 2,
      "editor.detectIndentation": false,
   },
-  "editor.codeLens": true,
+  // "editor.codeLens": true,
 
   // Color customizations to make things a bit more visible.
   "workbench.colorCustomizations": {

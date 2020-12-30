@@ -72,17 +72,10 @@ namespace x10.ui.metadata {
       get { return AttributeDefinitions.OfType<UiAttributeDefinitionComplex>(); }
     }
 
-    // For now, we will limit the primary attribute to be complex. In general, this should 
-    // not have to be the case. In particular, it would be very convenient to have a Text
-    // component where it's possible to type plain text as the "primary attribute" - 
-    // or "content attribute" as it's known is XAML
-    public UiAttributeDefinitionComplex PrimaryAttributeDef {
-      get {
-        UiAttributeDefinition attribute = AttributeDefinitions.SingleOrDefault(x => x.IsPrimary);
-        if (attribute != null && !(attribute is UiAttributeDefinitionComplex))
-          throw new Exception("Primary attribute must be complex - see comments above");
-        return (UiAttributeDefinitionComplex)attribute;
-      }
+    // If this ClassDef has a primary attribute - the attribute which corresponds to the content between
+    // the XML tags, as in: <MyClassDef>...my content...</MyClassDef>, return it.
+    public UiAttributeDefinition PrimaryAttributeDef {
+      get { return AttributeDefinitions.SingleOrDefault(x => x.IsPrimary); }
     }
 
     //----------------------------------------------------------------------------------

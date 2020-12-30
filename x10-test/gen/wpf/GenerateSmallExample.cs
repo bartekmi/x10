@@ -20,7 +20,7 @@ namespace x10.gen.wpf {
       _output = output;
     }
 
-    [Fact]
+    [Fact(Skip = "Not really worth maintaining this")]
     public void Generate() {
       string sourceDir = "../../../../x10/examples/small";
       LargeDemoTest.CompileEverything(_output, _messages, sourceDir,

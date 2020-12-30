@@ -125,7 +125,7 @@ namespace x10.compiler {
         XmlElement fakeXmlElemnt = xmlElement.CloneFileLocation();
         returnInstance = new InstanceClassDefUse(wrapperClassDef, fakeXmlElemnt, owner);
         returnInstance.IsWrapper = true;
-        UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef;
+        UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef as UiAttributeDefinitionComplex;
         UiAttributeValueComplex primaryAttrValue = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(returnInstance, fakeXmlElemnt);
         modelRefInstance = new InstanceModelRef(xmlElement, primaryAttrValue);
         modelRefInstance.Owner = primaryAttrValue;
@@ -169,9 +169,9 @@ namespace x10.compiler {
 
       // Is there a Primary Complex attribute? If so, parse it.
       if (primaryAtributeXmls.Count > 0) {
-        UiAttributeDefinitionComplex primaryAttrDef = classDef.PrimaryAttributeDef;
+        UiAttributeDefinitionComplex primaryAttrDef = classDef.PrimaryAttributeDef as UiAttributeDefinitionComplex;
         if (primaryAttrDef == null)
-          _messages.AddError(xmlElement, "Class Definition '{0}' does not define a Primary Attribute, yet has child elements.",
+          _messages.AddError(xmlElement, "Class Definition '{0}' does not define a Complex Primary Attribute, yet has child elements.",
             classDef.Name);
         else
           ParseComplexAttribute(instance.XmlElement, instance, primaryAtributeXmls, primaryAttrDef, true);

@@ -23,6 +23,18 @@ namespace x10.compiler {
       List<ClassDef> definitions = new List<ClassDef>() {
         #region Basic Components
         new ClassDefNative() {
+          Name = "Text",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "text",
+              DataType = DataTypes.Singleton.String,
+              IsPrimary = true,
+              IsMandatory = true,
+            },
+          }
+        },
+        new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
@@ -385,7 +397,7 @@ namespace x10.compiler {
 ", Print(inner));
     }
 
-    [Fact]
+    [Fact(Skip = "Ability to do this not yet implemented in ParserXml")]
     public void RawHtmlSpecialComponent() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent description='My description...'>
@@ -607,7 +619,7 @@ namespace x10.compiler {
   </TextEdit>
 </Outer>
 ",
-      "Class Definition 'TextEdit' does not define a Primary Attribute, yet has child elements.", 3, 4);
+      "Class Definition 'TextEdit' does not define a Complex Primary Attribute, yet has child elements.", 3, 4);
 
       Assert.Single(_messages.Messages);
     }
@@ -1190,6 +1202,44 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+    #endregion
+
+    #region Text as XML Element content
+    [Fact]
+    public void TextAsXmlContent() {
+      ClassDefX10 definition = RunTest(@"
+<Outer description='My description...'>
+  <Form>
+    <Text>Embedded</Text>
+    <Text text='Inline'/>
+  </Form>
+</Outer>
+");
+
+      Assert.Empty(_messages.Messages);
+
+      string result = Print(definition);
+      Assert.Equal(@"<Outer description='My description...'>
+  <Form>
+    <Text text='Embedded'/>
+    <Text text='Inline'/>
+  </Form>
+</Outer>
+", result);
+    }
+
+    [Fact]
+    public void DuplicatePrimaryAtomicAttribute() {
+      RunTest(@"<Outer description='My description...'>
+  <Text text='Inline'>Embedded</Text>
+</Outer>
+",
+      "Attribute 'text' specified as both Attribute and content",
+      2, 9);
+
+      Assert.Single(_messages.Messages);
+    }
+
     #endregion
 
     #endregion

@@ -32,7 +32,8 @@
                             <dueDateHuman/>
                         </Row>
                         <Row>
-                            Due <dueDate Text.weight="bold"/>
+                          <Text>Due</Text>
+                          <dueDate Text.weight="bold"/>
                         </Row>
                     </RepellingRow>
                 </VerticalStackPanel>

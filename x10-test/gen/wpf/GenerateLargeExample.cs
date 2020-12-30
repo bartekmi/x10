@@ -21,7 +21,7 @@ namespace x10.gen.wpf {
       _messages.ThrowExceptionOnFirstError = false;
     }
 
-    [Fact]
+    [Fact(Skip = "Not really worth maintaining this")]
     public void Generate() {
       string sourceDir = "../../../../x10/examples/flexport";
       LargeDemoTest.CompileEverything(_output, _messages, sourceDir, 

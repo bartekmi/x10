@@ -59,7 +59,7 @@ namespace x10.parsing {
       
       CompileMessage error = _messages.Messages.Single();
       Assert.Equal(CompileMessageSeverity.Error, error.Severity);
-      Assert.True(error.Message.StartsWith("Can't parse YAML file. Error:"));
+      Assert.StartsWith("Can't parse YAML file. Error:", error.Message);
 
       Assert.Equal(4, error.ParseElement.Start.LineNumber);
       Assert.Equal(1, error.ParseElement.Start.CharacterPosition);

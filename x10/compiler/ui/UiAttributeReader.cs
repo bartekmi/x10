@@ -98,12 +98,22 @@ namespace x10.compiler {
       UiAttributeDefinitionAtomic attrDef,
       Member takeAttributeFromMember) {
 
-      // Error if mandatory attribute missing
+      // If Primary Attribute, could be specified as content
       XmlScalar xmlScalar = source.FindAttribute(attrDef.Name)?.Value;
+      if (attrDef.IsPrimary) {
+        XmlScalar xmlScalarFromText = source.TextContent;
+        if (xmlScalarFromText != null) {
+          if (xmlScalar != null) {
+            _messages.AddError(xmlScalar, "Attribute '{0}' specified as both Attribute and content", attrDef.Name);
+            return false;
+          }
+          xmlScalar = xmlScalarFromText;
+        }
+      }
 
       // Some UI Attributes can be derived from Model Attributes (e.g. label, etc).
       // Attempt to do so now.
-      if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null) 
+      if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null)
         xmlScalar = DeriveAttributeValueFromModel(takeAttributeFromMember, attrDef.TakeValueFromModelAttr);
 
       // Mising mandatory attribute
@@ -155,7 +165,7 @@ namespace x10.compiler {
           continue;
 
         if (!validAttributeNames.Contains(xmlAttribute.Key))
-          _messages.AddError(xmlAttribute, "Unknown attribute '{0}' on Class Definition '{1}'", 
+          _messages.AddError(xmlAttribute, "Unknown attribute '{0}' on Class Definition '{1}'",
             xmlAttribute.Key, recipient.ClassDef?.Name);
       }
     }
@@ -180,8 +190,8 @@ namespace x10.compiler {
     }
 
     private object ParseAttributeAndAddToInstance(
-      UiAttributeDefinitionAtomic attrDef, 
-      XmlScalar xmlScalar, 
+      UiAttributeDefinitionAtomic attrDef,
+      XmlScalar xmlScalar,
       IAcceptsUiAttributeValues modelComponent) {
 
       object typedValue = attrDef.DefaultValue;

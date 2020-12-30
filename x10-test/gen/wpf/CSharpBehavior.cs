@@ -12,8 +12,8 @@ namespace x10.gen.wpf {
   public class CSharpBehavior {
     [Fact]
     public void AccessYearOfNullableDate() {
-      Assert.Equal(GetYear(new DateTime(2020, 1, 2)), 2020);
-      Assert.Equal(GetYear(null), null);
+      Assert.Equal(2020, GetYear(new DateTime(2020, 1, 2)));
+      Assert.Null(GetYear(null));
     }
 
     private int? GetYear(DateTime? date) {
