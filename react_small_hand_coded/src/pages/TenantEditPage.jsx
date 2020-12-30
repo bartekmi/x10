@@ -76,11 +76,9 @@ function TenantEditPage(props: Props): React.Node {
           <TextInput
             value={ permanentMailingAddress.theAddress || "" }
             onChange={ (value) => {
-              const newValue = { ...editedTenant, permanentMailingAddress: {
-                ...editedTenant.permanentMailingAddress,
-                theAddress: value,
-              }};
-              setEditedTenant(newValue);
+              let newObj = JSON.parse(JSON.stringify(editedTenant));
+              newObj.permanentMailingAddress.theAddress = value;
+              setEditedTenant(newObj);
             } }
           />
         </Label>
