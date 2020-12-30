@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace x10 {
   }
 
   public class Program {
+    private const string INTERMEDIATE_FILES_DIR = "temp/x10";
 
     private static MessageBucket _messages = new MessageBucket();
 
@@ -63,6 +65,9 @@ namespace x10 {
         throw new Exception("Errors during compilation");
 
       CodeGenerator generator = config.Generator;
+      generator.IntermediateFilePath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+        INTERMEDIATE_FILES_DIR);
 
       messages.Clear();
       generator.Generate(

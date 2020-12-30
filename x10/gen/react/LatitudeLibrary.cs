@@ -87,6 +87,10 @@ namespace x10.gen.react {
               new EnumConversion("bold", "bold"),
             },
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "children",
+          },
         },
       },
       #endregion

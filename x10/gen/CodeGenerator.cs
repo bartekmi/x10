@@ -17,6 +17,8 @@ namespace x10.gen {
 
   public abstract class CodeGenerator {
 
+    public string IntermediateFilePath { get; set; }
+
     public abstract void Generate(ClassDefX10 classDef);
     public abstract void Generate(Entity entity);
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
@@ -48,8 +50,10 @@ namespace x10.gen {
       foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
         Generate(entity);
 
-      foreach (ClassDefX10 classDef in AllUiDefinitions.All)
+      foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
+        PrintIntermediateFile(classDef);
         Generate(classDef);
+      }
 
       GenerateEnumFiles();
     }
@@ -90,10 +94,7 @@ namespace x10.gen {
     protected void Begin(string absolutePath) {
       if (_writer != null)
         throw new Exception("Someone before me did not End() after Being()");
-      string dir = Path.GetDirectoryName(absolutePath);
-      if (!Directory.Exists(dir))
-        Directory.CreateDirectory(dir);
-      _writer = new StreamWriter(absolutePath);
+      _writer = CreateIntermediateDirs(absolutePath);
       _outputs = new List<Output>();
     }
 
@@ -230,6 +231,26 @@ namespace x10.gen {
       FileInfo fileInfo = entity.TreeElement.FileInfo;
       return AllEnums.All
         .Where(x => x.TreeElement.FileInfo.FilePath == fileInfo.FilePath);
+    }
+
+    private StreamWriter CreateIntermediateDirs(string absolutePath) {
+      string dir = Path.GetDirectoryName(absolutePath);
+      if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
+      return new StreamWriter(absolutePath);
+    }
+    #endregion
+
+    #region Debugging
+    private void PrintIntermediateFile(ClassDefX10 classDef) {
+      if (IntermediateFilePath == null)
+        return;
+
+      string relativePath = classDef.XmlElement.FileInfo.RelativePath;
+      string absolutePath = Path.Combine(IntermediateFilePath, relativePath);
+
+      using (TextWriter writer = CreateIntermediateDirs(absolutePath)) 
+        classDef.Print(writer, 0, null);
     }
     #endregion
   }
