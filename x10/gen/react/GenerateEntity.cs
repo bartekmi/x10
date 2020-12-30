@@ -40,7 +40,7 @@ namespace x10.gen.react {
           WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
           if (member is Association association) {
             Entity entity = association.ReferencedEntity;
-            importsPlaceholder.WriteLine("import {0} from '{1}'", entity.Name, ImportPath(entity));
+            importsPlaceholder.WriteLine("import { type {0} } from '{1}'", entity.Name, ImportPath(entity));
           }
         }
       WriteLine(0, "|}};");
@@ -48,7 +48,9 @@ namespace x10.gen.react {
     }
 
     private string GetType(Member member) {
-      string optionalIndicator = member.IsMandatory ? "" : "?";
+      // Strings are never marked as optional because, at the very least, the have default value of ""
+      bool isString = member is X10RegularAttribute regular && regular.DataType == DataTypes.Singleton.String;
+      string optionalIndicator = member.IsMandatory || isString ? "" : "?";
 
       if (member is Association association) {
         string refedEntityName = association.ReferencedEntity.Name;
@@ -112,7 +114,7 @@ namespace x10.gen.react {
           if (association.IsMandatory) {
             Entity entity = association.ReferencedEntity;
             string funcName = "createDefault" + entity.Name;
-            importsPlaceholder.WriteLine("import {0} from '{1}'", funcName, ImportPath(entity));
+            importsPlaceholder.WriteLine("import { {0} } from '{1}'", funcName, ImportPath(entity));
             return funcName + "()";
           }
       } else if (member is X10RegularAttribute attribute) {

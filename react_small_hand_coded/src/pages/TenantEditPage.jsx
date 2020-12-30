@@ -38,7 +38,7 @@ function TenantEditPage(props: Props): React.Node {
 
   return (
     <FormProvider value={ [] }>
-      <Text scale="headline">{`Editing Tenant ${name || ""}`}</Text>
+      <Text scale="headline">{`Editing Tenant ${name}`}</Text>
       <FormSection
           label='Tenant Info'
       >
@@ -52,7 +52,7 @@ function TenantEditPage(props: Props): React.Node {
         </Label>
         <Label value="Phone:" >
           <TextInput
-            value={phone || ""}
+            value={phone}
             onChange={(value) => {
               setEditedTenant({ ...editedTenant, phone: value })
             }}
@@ -74,7 +74,7 @@ function TenantEditPage(props: Props): React.Node {
             value='Address'
         >
           <TextInput
-            value={ permanentMailingAddress.theAddress || "" }
+            value={ permanentMailingAddress.theAddress }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(editedTenant));
               newObj.permanentMailingAddress.theAddress = value;
@@ -86,7 +86,7 @@ function TenantEditPage(props: Props): React.Node {
             value='City'
         >
           <TextInput
-            value={ permanentMailingAddress.city || "" }
+            value={ permanentMailingAddress.city }
             onChange={ (value) => {
               const newValue = { ...editedTenant, permanentMailingAddress: {
                 ...editedTenant.permanentMailingAddress,
@@ -100,7 +100,7 @@ function TenantEditPage(props: Props): React.Node {
             value='State Or Province'
         >
           <TextInput
-            value={ permanentMailingAddress.stateOrProvince || "" }
+            value={ permanentMailingAddress.stateOrProvince }
             onChange={ (value) => {
               const newValue = { ...editedTenant, permanentMailingAddress: {
                 ...editedTenant.permanentMailingAddress,
@@ -114,7 +114,7 @@ function TenantEditPage(props: Props): React.Node {
             value='Zip or Postal Code'
         >
           <TextInput
-            value={ permanentMailingAddress.zip || "" }
+            value={ permanentMailingAddress.zip }
             onChange={ (value) => {
               const newValue = { ...editedTenant, permanentMailingAddress: {
                 ...editedTenant.permanentMailingAddress,
