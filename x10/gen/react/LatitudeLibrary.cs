@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using x10.parsing;
 using x10.gen.wpf.codelet;
@@ -291,12 +292,19 @@ namespace x10.gen.react {
             PlatformName = "render",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              Member member = PlatformUtils.Unwrap(instance).ModelMember;
-              if (member == null)
-                return "() => 'TODO'";
+              Instance inner = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();      
+              Member member = inner.ModelMember;
+              if (member == null) {
+                return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                  generator.WriteLine(indent, "render: (data) =>");
+                  generator.GenerateComponentRecursively(ReactCodeGenerator.OutputType.React, indent + 1, inner);
+                  generator.WriteLine(indent, ",");
+                });
+              }
 
               generator.ImportsPlaceholder.WriteLine("import TextCell from 'latitude/table/TextCell'");
-              return string.Format("data => <TextCell value={{ data.{0} }} />",
+
+              return string.Format("(data) => <TextCell value={{ data.{0} }} />",
                 PlatformUtils.ComposePath(instance)
               );
             },

@@ -13,7 +13,7 @@ using x10.ui.platform;
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
 
-    enum OutputType {
+    internal enum OutputType {
       JSON,
       React,
     }
@@ -103,19 +103,14 @@ namespace x10.gen.react {
       if (platClassDef == null) return;
 
       WriteLine(level, "{");
-
-      foreach (PlatformAttribute attribute in platClassDef.PlatformAttributes) {
-        object value = attribute.CalculateValue(this, instance, out bool isCodeSnippet);
-        WriteAttribute(OutputType.JSON, level + 1, value, attribute, isCodeSnippet);
-      }
-
+      CalculateAndWriteAttributes(OutputType.JSON, level + 1, platClassDef, instance);
       WriteLine(level, "},");
     }
     #endregion
 
     #region GenerateComponentRecursively
 
-    private void GenerateComponentRecursively(OutputType outputType, int level, Instance instance) {
+    internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance) {
       if (instance == null)
         return;
 
@@ -128,15 +123,7 @@ namespace x10.gen.react {
 
       // Open the React tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
-
-      foreach (PlatformAttribute attribute in platClassDef.PlatformAttributes) {
-        object value = attribute.CalculateValue(this, instance, out bool isCodeSnippet);
-        if (value is CodeSnippetGenerator snippetGenerator)
-          snippetGenerator.Generate(this, level, platClassDef, instance);
-        else
-          WriteAttribute(outputType, level + 1, value, attribute, isCodeSnippet);
-      }
-
+      CalculateAndWriteAttributes(outputType, level + 1, platClassDef, instance);
       WritePrimaryAttributeAsProperty(level + 1, platClassDef, instance);
       WriteNestedContentsAndClosingTag(level, platClassDef, instance);
     }
@@ -150,14 +137,14 @@ namespace x10.gen.react {
 
       UiAttributeValue primaryValue = instance.PrimaryValue;
 
-      WriteLine(level + 1, "{0}={", propName);
+      WriteLine(level, "{0}={", propName);
 
       if (primaryValue is UiAttributeValueComplex complexAttr) {
-        RenderComplexAttrAsJavascript(level + 2, complexAttr);
+        RenderComplexAttrAsJavascript(level + 1, complexAttr);
       } else
         throw new NotImplementedException();
 
-      WriteLine(level + 1, "}", propName);
+      WriteLine(level, "}", propName);
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
@@ -181,7 +168,17 @@ namespace x10.gen.react {
     #endregion
 
     #region Utilities
-    private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
+    private void CalculateAndWriteAttributes(OutputType outputType, int level, PlatformClassDef platClassDef, Instance instance) {
+      foreach (PlatformAttribute attribute in platClassDef.PlatformAttributes) {
+        object value = attribute.CalculateValue(this, instance, out bool isCodeSnippet);
+        if (value is CodeSnippetGenerator snippetGenerator)
+          snippetGenerator.Generate(this, level, platClassDef, instance);
+        else
+          WriteAttribute(outputType, level, value, attribute, isCodeSnippet);
+      }
+    }
+
+   private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
       bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;
       string name = attribute.PlatformName;
 
@@ -192,11 +189,11 @@ namespace x10.gen.react {
       if (outputType == OutputType.React) {
         bool needsBrackets = isCodeSnippet || !(value is string);
         if (needsBrackets)
-          WriteLine(level + 1, "{0}={ {1} }", name, jsValue);
+          WriteLine(level, "{0}={ {1} }", name, jsValue);
         else
-          WriteLine(level + 1, "{0}={1}", name, jsValue);
+          WriteLine(level, "{0}={1}", name, jsValue);
       } else
-        WriteLine(level + 1, "{0}: {1},", name, jsValue);
+        WriteLine(level, "{0}: {1},", name, jsValue);
     }
     #endregion
   }

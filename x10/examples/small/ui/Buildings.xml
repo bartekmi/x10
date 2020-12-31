@@ -16,9 +16,7 @@
         <TableColumn label="Name" width="150">
           <Row>
             <name/>
-            <!-- TODO: All Visual component should have a tooltip property - but ensure does not conflict with existing -->
-            <!--<Icon icon="question" visible="=!isEmpty(description)" toolTip="=description"/>-->
-            <Icon icon="question-mark" visible="=!IsBlank(description)"/>
+            <HelpIcon visible="=!IsBlank(description)" text="=description"/>
           </Row>
         </TableColumn>
         <physicalAddress.address/>
