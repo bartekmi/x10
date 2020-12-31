@@ -27,7 +27,7 @@ namespace x10.gen {
     protected AllEntities AllEntities;
     protected AllEnums AllEnums;
     protected AllUiDefinitions AllUiDefinitions;
-    protected MessageBucket Messages;
+    public MessageBucket Messages;
 
     private IEnumerable<PlatformLibrary> _platformLibraries;
 

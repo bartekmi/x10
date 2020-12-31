@@ -45,11 +45,15 @@ namespace x10.gen.react {
 
     #region Enum-Related Helpers
 
-    private static string EnumToName(DataTypeEnum enumType) {
+    internal static string EnumToName(DataTypeEnum enumType) {
       return enumType.Name + "Enum";
     }
 
-    private static string ToEnumValueString(object value) {
+    internal static string EnumToPairsConstant(DataTypeEnum enumType) {
+      return enumType.Name + "EnumPairs";
+    }
+
+    internal static string ToEnumValueString(object value) {
       return NameUtils.CamelCaseToSnakeCaseAllCaps(value.ToString());
     }
 

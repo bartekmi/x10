@@ -18,11 +18,13 @@ namespace x10.parsing {
       }
     }
 
-    public string FilePath {
+    public string RelativePathNoExtension {
       get {
-        return Path.Combine(RootPath, RelativePath);
+        int dotIndex = RelativePath.LastIndexOf('.');
+        return RelativePath.Substring(0, dotIndex);
       }
     }
+    public string FilePath => Path.Combine(RootPath, RelativePath);
 
     public FileInfo(string rootPath, string[] relativeDirComponents, string fileName) {
       RootPath = rootPath;

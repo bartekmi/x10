@@ -141,7 +141,7 @@ namespace x10.gen.react {
     }
 
     private void GeneratePairs(DataTypeEnum theEnum) {
-      WriteLine(0, "export const {0}EnumPairs = [", theEnum.Name);
+      WriteLine(0, "export const {0} = [", EnumToPairsConstant(theEnum));
 
       foreach (EnumValue enumValue in theEnum.EnumValues) {
         WriteLine(1, "{");

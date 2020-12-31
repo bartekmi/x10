@@ -8,6 +8,7 @@ using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
+using x10.model.metadata;
 
 
 namespace x10.gen.react {
@@ -214,12 +215,24 @@ namespace x10.gen.react {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
           },
-          new PlatformAttributeByFunc() {
+          new JavaScriptAttributeByFunc() {
             PlatformName = "options",
-            Function = (instance) => {
-              string dataType = (instance.ModelMember as X10Attribute)?.DataType?.Name;
-              return string.Format("{0}EnumPairs", dataType);
-            }
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              DataTypeEnum dataType = (instance.ModelMember as X10Attribute)?.DataType as DataTypeEnum;
+              if (dataType == null) {
+                generator.Messages.AddError(instance.XmlElement, "Expected data type to be an enum");
+                return null;
+              }
+
+              string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
+
+              generator.ImportsPlaceholder.WriteLine("import { {0} } from '{1}'", 
+                pairsConstant,
+                dataType.TreeElement.FileInfo.RelativePathNoExtension);
+
+              return pairsConstant;
+            },
           },
         },
       },
