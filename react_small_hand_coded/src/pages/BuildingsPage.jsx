@@ -11,6 +11,7 @@ import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
 import Group from "latitude/Group";
 import HelpTooltip from "latitude/HelpTooltip";
+import TextLink from "latitude/TextLink";
 
 import enumToLabel from "react_lib/utils/enumToLabel";
 import CellRenderer from "react_lib/table/CellRenderer";
@@ -34,42 +35,12 @@ type Props = {|
 |};
 function BuildingsPage(props: Props) {
   const [sortBy, setSortBy] = React.useState({
-    columnId: "name",
+    columnId: "name_and_description",
     direction: "asc",
   });
 
   const { buildings } = props;
   const columnDefinitions = [
-    {
-      id: "name",
-      header: "Name",
-      render: (building: Building) => <LinkCell
-        value={building.name}
-        href={`/buildings/edit/${building.dbid}`}
-      />,
-      width: 150,
-      comparator: (a, b) => a.name.localeCompare(b.name),
-    },
-    {
-      id: "petPolicy",
-      header: "Pet Policy",
-      render: (building: Building) => <TextCell 
-        value={enumToLabel(PetPolicyEnumPairs, building.petPolicy)} 
-      />,
-      width: 150,
-    },
-    {
-      id: "physicalAddress_city",
-      header: "City",
-      render: (building: Building) => <TextCell value={building.physicalAddress.city} />,
-      width: 100,
-    },
-    {
-      id: "description",
-      header: "Description",
-      render: (building: Building) => <TextCell value={building.description} />,
-      width: 300,
-    },
     {
       id: "name_and_description",
       header: "Name/Desc",
@@ -83,14 +54,34 @@ function BuildingsPage(props: Props) {
       width: 150,
       comparator: (a, b) => a.name.localeCompare(b.name),
     },
+    {
+      id: "petPolicy",
+      header: "Pet Policy",
+      render: (building: Building) => <TextCell 
+        value={enumToLabel(PetPolicyEnumPairs, building.petPolicy)} 
+      />,
+      width: 70,
+    },
+    {
+      id: "physicalAddress_city",
+      header: "City",
+      render: (building: Building) => <TextCell value={building.physicalAddress.city} />,
+      width: 70,
+    },
+    {
+      id: "actions",
+      header: "Actions!",
+      render: (building: Building) => 
+        <CellRenderer>
+          <Group>
+            <Button onClick={() => console.log(building)}>Edit</Button>
+            <TextLink href={`/buildings/edit/${building.dbid}`}>Edit</TextLink>
+          </Group>
+        </CellRenderer>,
+      width: 150,
+      comparator: (a, b) => a.name.localeCompare(b.name),
+    },
   ];
-
-//   <CellRenderer>
-//   <Group>
-//     <Text children={building.name}/>
-//     <HelpTooltip text={building.description}/>
-//   </Group>
-// </CellRenderer>,
 
   return (
     <div className="container">

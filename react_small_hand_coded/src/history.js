@@ -1,6 +1,6 @@
 // @flow
 
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory } from 'history/cjs/history';
 
 type HistoryType = {
   +push: (url: string) => void;
