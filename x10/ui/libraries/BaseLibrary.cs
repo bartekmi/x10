@@ -15,7 +15,7 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
-            // IsPrimary = true,    FUTURE: This is a prime candidate for a "primary" atomic attribute that receives text
+            IsPrimary = true, 
             Name = "text",
             Description = "The text of the heading",
             DataType = DataTypes.Singleton.String,
@@ -28,7 +28,7 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
-            // IsPrimary = true,    FUTURE: This is a prime candidate for a "primary" atomic attribute that receives text
+            IsPrimary = true,
             Name = "text",
             Description = "The text of the heading",
             DataType = DataTypes.Singleton.String,
@@ -41,7 +41,7 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
-            // IsPrimary = true,    FUTURE: This is a prime candidate for a "primary" atomic attribute that receives text
+            IsPrimary = true,
             Name = "text",
             Description = "The text of the heading",
             DataType = DataTypes.Singleton.String,
@@ -761,14 +761,6 @@ namespace x10.ui.libraries {
         },
       },
       #endregion
-
-      #region Primordial Components (Not Abstract)
-      // TODO: This needs fixing, because it's too easy to miss adding this
-      ClassDefNative.RawHtml,
-      ClassDefNative.State,
-      ClassDefNative.Visual,
-      ClassDefNative.Editable,
-      #endregion
     };
 
     #region Glue it Together
@@ -780,6 +772,7 @@ namespace x10.ui.libraries {
     }
 
     private static UiLibrary CreateLibrary() {
+      definitions.AddRange(ClassDefNative.PRIMORDIAL_COMPONENTS);
       UiLibrary library = new UiLibrary(definitions) {
         Name = "Base Library",
       };

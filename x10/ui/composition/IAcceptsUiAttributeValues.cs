@@ -43,6 +43,13 @@ namespace x10.ui.composition {
     public static bool HasAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       return FindAttributeValue(source, attributeName) != null;
     }
+    public static UiAttributeValue RemoveAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
+      UiAttributeValue value = FindAttributeValue(source, attributeName);
+      if (value == null)
+        return null;
+      source.AttributeValues.Remove(value);
+      return value;
+    }
 
     public static IEnumerable<UiAttributeValueAtomic> AtomicAttributeValues(this IAcceptsUiAttributeValues source) {
       return source.AttributeValues.OfType<UiAttributeValueAtomic>();
@@ -60,9 +67,10 @@ namespace x10.ui.composition {
         atomic.Print(writer);
 
       if (config != null) {
-        if (config.AlwaysPrintRenderAs)
-          if (source is InstanceModelRef modelRef)
-            writer.Write(" renderAs='{0}'", modelRef.RenderAs == null ? "NULL" : modelRef.RenderAs.Name);
+        if (config.AlwaysPrintRenderAs && source is InstanceModelRef modelRef)
+          writer.Write(" renderAs='{0}'", modelRef.RenderAs?.Name ?? "NULL");
+        if (config.PrintModelMember && source is Instance instance && instance.ModelMember != null)
+          writer.Write(" modelMember='{0}'", instance.ModelMember);
       }
 
       if (source.ComplexAttributeValues().Count() == 0 && !(source is ClassDefX10))

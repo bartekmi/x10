@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
-using x10.compiler;
+using x10.utils;
 using x10.formula;
 using x10.model.definition;
+using x10.ui;
 using x10.ui.composition;
-using x10.utils;
 using x10.ui.platform;
+using x10.ui.metadata;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -22,14 +22,25 @@ namespace x10.gen.react {
     internal OutputPlaceholder ImportsPlaceholder;
     internal OutputPlaceholder DestructuringPlaceholder;
 
-    public override void Generate(ClassDefX10 classDef) {
-      Begin(classDef.XmlElement.FileInfo, ".jsx");
+    private void PreProcessTree(ClassDefX10 classDef) {
+      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild)) 
+        if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
+          Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
+          UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
+          intermediate.AttributeValues.Add(visibleAttribute);
+        }
+    }
 
-      GenerateFileHeader();
+    public override void Generate(ClassDefX10 classDef) {
+      PreProcessTree(classDef);
 
       bool isForm = true; // TODO
       Entity model = classDef.ComponentDataModel;
 
+
+      Begin(classDef.XmlElement.FileInfo, ".jsx");
+
+      GenerateFileHeader();
       GenerateImports(model, isForm);
       GenerateComponent(classDef);
 

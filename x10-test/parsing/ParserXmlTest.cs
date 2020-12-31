@@ -113,7 +113,7 @@ This is some gibberish - definitely <not> XML!!!
 
       Assert.Equal("Text", text.Name);
       Assert.Equal("Hello World", text.TextContent.Value);
-      Assert.Equal(0, text.Children.Count);
+      Assert.Empty(text.Children);
     }
 
     [Fact]

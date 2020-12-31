@@ -250,7 +250,9 @@ namespace x10.gen {
       string absolutePath = Path.Combine(IntermediateFilePath, relativePath);
 
       using (TextWriter writer = CreateIntermediateDirs(absolutePath)) 
-        classDef.Print(writer, 0, null);
+        classDef.Print(writer, 0, new PrintConfig() {
+          PrintModelMember = true,
+        });
     }
     #endregion
   }

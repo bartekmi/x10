@@ -15,7 +15,22 @@ using x10.model.metadata;
 namespace x10.gen.react {
   internal class LatitudeLibrary {
 
+    internal const string VISIBILITY_CONTROL = "VisibilityControl";
+
     private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
+
+      #region Primordial / Special Components
+      new PlatformClassDef() {
+        LogicalName = ClassDefNative.VisibilityControl.Name,
+        PlatformName = VISIBILITY_CONTROL,
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = ClassDefNative.ATTR_VISIBLE,
+            PlatformName = "visible",
+          },
+        },
+      },
+      #endregion
 
       #region No-Data Formatting Components
       new PlatformClassDef() {

@@ -111,7 +111,7 @@ namespace x10.compiler {
           _attrReader.ReadSpecificAttributes(instance, UiAppliesTo.UiComponentUse, PASS_2_1_CLASS_DEF_USE_ATTRIBUTES);
         return instance;
       } else {
-        _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name\\>) or a Component Reference (e.g. <TextField path='name'\\> but got neither.");
+        _messages.AddError(xmlElement, "Expecting either a Model Reference (e.g. <name/>) or a Component Reference (e.g. <TextField path='name'/> but got neither.");
         return null;
       }
     }
@@ -128,7 +128,6 @@ namespace x10.compiler {
         UiAttributeDefinitionComplex wrapperPrimaryAttr = wrapperClassDef.PrimaryAttributeDef as UiAttributeDefinitionComplex;
         UiAttributeValueComplex primaryAttrValue = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(returnInstance, fakeXmlElemnt);
         modelRefInstance = new InstanceModelRef(xmlElement, primaryAttrValue);
-        modelRefInstance.Owner = primaryAttrValue;
         primaryAttrValue.AddInstance(modelRefInstance);
       } else
         returnInstance = modelRefInstance = new InstanceModelRef(xmlElement, owner);
@@ -150,6 +149,7 @@ namespace x10.compiler {
         if (wrapper != null)
           return wrapper;
 
+        // TODO: This code is suspect... Why do we travel up the tree??? What is the use case for this?
         complexAttr = (complexAttr.Owner as Instance)?.Owner;
       }
 
@@ -341,8 +341,14 @@ namespace x10.compiler {
         instance.PathComponents = ExpressionToMemberList(pathExpression);
       }
 
-      instance.ModelMember = dataType.Member;
-      ValidateDataTypeCompatibility(dataType, instance);
+      if (instance.IsWrapper) {
+        // This child will set it for its parent
+      } else {
+        instance.ModelMember = dataType.Member;
+        ValidateDataTypeCompatibility(dataType, instance);
+        if (instance.ParentInstance?.IsWrapper == true)
+          instance.ParentInstance.ModelMember = dataType.Member;
+      }
 
       return dataType;
     }

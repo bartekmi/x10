@@ -16,6 +16,8 @@ namespace x10.ui.metadata {
 
     #region Primordial Components
 
+    // WARNING! WARNING! WARINING! ********* If adding new component, also add to array at bottom ***********
+
     internal const string ATTR_VISIBLE = "visible";
 
     public static ClassDefNative Object = new ClassDefNative() {
@@ -33,6 +35,20 @@ namespace x10.ui.metadata {
               DefaultValue = false,
             },
           }
+    };
+
+    public static ClassDefNative VisibilityControl = new ClassDefNative() {
+      Name = "VisibilityControl",
+      InheritsFrom = Visual,
+      Description = "Automatically inserted by code generation schemes which require separate intermediate component to control visibility",
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            Name = "Content",
+            Description = "The content which is made visible or invisible",
+            IsPrimary = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+      }
     };
 
     public static ClassDefNative Editable = new ClassDefNative() {
@@ -144,6 +160,17 @@ namespace x10.ui.metadata {
               IsMany = true,
             },
           }
+    };
+  
+    // WARNING! WARNING! WARINING! ********* DO NOT MOVE THIS TO THE TOP!!! ***********
+    // As crazy as it sounds, C# initializes static variables in the order in which they appear in the file
+    // Add all primordial components to this array.
+    internal static readonly ClassDefNative[] PRIMORDIAL_COMPONENTS = new ClassDefNative[] {
+      ClassDefNative.RawHtml,
+      ClassDefNative.State,
+      ClassDefNative.Visual,
+      ClassDefNative.VisibilityControl,
+      ClassDefNative.Editable,
     };
     #endregion
   }

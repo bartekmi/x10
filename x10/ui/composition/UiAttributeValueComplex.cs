@@ -20,7 +20,17 @@ namespace x10.ui.composition {
     }
 
     public void AddInstance(Instance instance) {
+      instance.Owner = this;
       Instances.Add(instance);
+    }
+
+    // Replace old instance with _new. Old instance MUST exist;
+    public void ReplaceInstance(Instance old, Instance _new) {
+      int index = Instances.IndexOf(old);
+      if (index == -1)
+        throw new Exception("Old instance not found");
+      _new.Owner = this;
+      Instances[index] = _new;
     }
 
     public void Print(TextWriter writer, int indent, PrintConfig config = null) {
