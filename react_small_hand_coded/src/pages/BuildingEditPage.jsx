@@ -18,6 +18,7 @@ import isEmpty from "react_lib/utils/isEmpty";
 import X10_CalendarDateInput from "react_lib/X10_CalendarDateInput";
 import { DBID_LOCALLY_CREATED } from "react_lib/constants";
 import FormField from "react_lib/form/FormField";
+import VisibilityControl from "react_lib/VisibilityControl";
 import FormSubmitButton from "react_lib/form/FormSubmitButton";
 import FormErrorDisplay from "react_lib/form/FormErrorDisplay";
 import FormSection from "react_lib/form/FormSection";
@@ -147,12 +148,12 @@ export default function BuildingEditPage(props: Props): React.Node {
             onChange={(value) => onChange({ ...building, mailingAddressSameAsPhysical: value })}
           />
 
-          {!mailingAddressSameAsPhysical ? (
+          <VisibilityControl visible={!mailingAddressSameAsPhysical}>
             <AddressEditPage
               address={mailingAddress || createDefaultAddress()}
               onChange={(value) => onChange({ ...building, mailingAddress: value })}
             />
-          ) : null}
+          </VisibilityControl>
         </FormSection>
 
         <FormSection label="Units">
