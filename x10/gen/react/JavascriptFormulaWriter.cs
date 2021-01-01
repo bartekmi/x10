@@ -10,9 +10,11 @@ namespace x10.gen.react {
   internal class JavaScriptFormulaWriter : IVisitor {
 
     private TextWriter _writer;
+    private string _variableName;
 
-    internal JavaScriptFormulaWriter(TextWriter writer) {
+    internal JavaScriptFormulaWriter(TextWriter writer, string variableName) {
       _writer = writer;
+      _variableName = variableName;
     }
 
     public void VisitBinary(ExpBinary exp) {
@@ -27,18 +29,13 @@ namespace x10.gen.react {
         return;
 
       if (exp.Name == FormulaParser.CONTEXT_NAME)
-        _writer.Write("AppStatics.Singleton.Context");
-      else {
-        string name = ToIdentifier(exp.Name, exp);
-        _writer.Write(name);
-      }
+        _writer.Write("Context");
+      else 
+        _writer.Write("{0}.{1}", _variableName, exp.Name);
     }
 
     public void VisitInvocation(ExpInvocation exp) {
-      // For now, all methods are assumed to be a members of a global static class called 'Functions'
-      _writer.Write("Functions.");
-
-      _writer.Write(NameUtils.Capitalize(exp.FunctionName));
+      _writer.Write(exp.FunctionName);
       _writer.Write("(");
       foreach (ExpBase argument in exp.Arguments) {
         argument.Accept(this);
@@ -60,15 +57,7 @@ namespace x10.gen.react {
 
       exp.Expression.Accept(this);
       _writer.Write("?.");
-
-      string memberName = ToIdentifier(exp.MemberName, exp);
-      _writer.Write(memberName);
-    }
-
-    private string ToIdentifier(string name, ExpBase exp) {
-      return exp.DataType.Member == null ?
-        NameUtils.Capitalize(name) :
-        exp.DataType.Member.Name;
+      _writer.Write(exp.MemberName);
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {

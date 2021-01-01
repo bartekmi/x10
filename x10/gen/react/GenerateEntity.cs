@@ -197,7 +197,7 @@ namespace x10.gen.react {
           entity.Name,
           GetType(attribute));
 
-        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression));
+        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression, variableName));
         WriteLine(0, "}");
       }
 

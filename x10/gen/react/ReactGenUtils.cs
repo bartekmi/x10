@@ -54,13 +54,13 @@ namespace x10.gen.react {
     #endregion
 
     #region Expression Helpers
-    internal static string ExpressionToString(ExpBase expression) {
+    internal static string ExpressionToString(ExpBase expression, string variableName) {
       if (expression == null)
         return "EXPRESSION MISSING";
 
       using StringWriter writer = new StringWriter();
 
-      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer);
+      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, variableName);
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }
