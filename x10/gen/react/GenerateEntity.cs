@@ -22,12 +22,14 @@ namespace x10.gen.react {
       GenerateType(entity, importsPlaceholder);
       GenerateDefaultEntity(entity, importsPlaceholder);
       GenerateEnums(entity);
+      GenerateDerivedAttributes(entity);
 
       End();
     }
 
     #region Generate Type Definition
     private void GenerateType(Entity model, OutputPlaceholder importsPlaceholder) {
+      WriteLine(0, "// Type Definition");
       WriteLine(0, "export type {0} = {{|", model.Name);
 
       WriteLine(1, "+id: string,");
@@ -44,6 +46,7 @@ namespace x10.gen.react {
           }
         }
       WriteLine(0, "|}};");
+      WriteLine();
       WriteLine();
     }
 
@@ -67,7 +70,7 @@ namespace x10.gen.react {
     }
 
     private string GetAtomicFlowType(DataType dataType) {
-      if (dataType == DataTypes.Singleton.Boolean) return "bool";
+      if (dataType == DataTypes.Singleton.Boolean) return "boolean";
       if (dataType == DataTypes.Singleton.Date) return "string";
       if (dataType == DataTypes.Singleton.Float) return "number";
       if (dataType == DataTypes.Singleton.Integer) return "number";
@@ -82,6 +85,7 @@ namespace x10.gen.react {
 
     #region Generate Default Entity
     private void GenerateDefaultEntity(Entity model, OutputPlaceholder importsPlaceholder) {
+      WriteLine(0, "// Create Default Function");
       WriteLine(0, "export function createDefault{0}(): {0} {", model.Name);
       WriteLine(1, "return {");
 
@@ -103,6 +107,7 @@ namespace x10.gen.react {
 
       WriteLine(1, "};");
       WriteLine(0, "}");
+      WriteLine();
       WriteLine();
     }
 
@@ -132,12 +137,21 @@ namespace x10.gen.react {
     }
     #endregion
 
-    #region GenerateEnums
+    #region Generate Enums
     private void GenerateEnums(Entity entity) {
-      foreach (DataTypeEnum theEnum in FindLocalEnums(entity)) {
+      IEnumerable<DataTypeEnum> enums = FindLocalEnums(entity);
+      if (enums.Count() == 0)
+        return;
+
+      WriteLine(0, "// Enums");
+
+      foreach (DataTypeEnum theEnum in enums) {
         GeneratePairs(theEnum);
         GenerateEnumType(theEnum);
       }
+
+      WriteLine();
+      WriteLine();
     }
 
     private void GeneratePairs(DataTypeEnum theEnum) {
@@ -164,6 +178,30 @@ namespace x10.gen.react {
         EnumToName(theEnum),
         string.Join(" | ", enumStrings));
 
+      WriteLine();
+    }
+    #endregion
+
+    #region Generate Derived Attributes
+    private void GenerateDerivedAttributes(Entity entity) {
+      if (entity.DerivedAttributes.Count() == 0)
+        return;
+
+      WriteLine(0, "// Derived Attribute Functions");
+
+      foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
+        string variableName = VariableName(entity, false);
+        WriteLine(0, "export function {0} ({1}: {2}): {3} {", 
+          DerivedAttrFuncName(attribute), 
+          variableName, 
+          entity.Name,
+          GetType(attribute));
+
+        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression));
+        WriteLine(0, "}");
+      }
+
+      WriteLine();
       WriteLine();
     }
     #endregion

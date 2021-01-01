@@ -35,7 +35,7 @@ namespace x10.gen.react {
 
       if (atomicValue.Expression != null) {
         isCodeSnippet = true;
-        return GenerateFormula(instance, atomicValue.Expression);
+        return ReactCodeGenerator.ExpressionToString(atomicValue.Expression);
       } else
         return GenerateAttributeForValue(atomicValue.Value);
     }
@@ -56,7 +56,7 @@ namespace x10.gen.react {
       else {
         generator.WriteLine(level + 1, "onChange={ (value) => {");
         Member first = path.First();
-        string variableName = generator.VariableName(first.Owner, false /* TODO */);
+        string variableName = ReactCodeGenerator.VariableName(first.Owner, false /* TODO */);
         
         if (path.Count() == 1) 
           generator.WriteLine(level + 2, "onChange({ ...{0}, {1}: value })",
@@ -70,17 +70,6 @@ namespace x10.gen.react {
 
         generator.WriteLine(level + 1, "} }");
       }
-    }
-
-    private string GenerateFormula(Instance context, ExpBase expression) {
-      if (expression == null)
-        return "EXPRESSION MISSING";
-
-      using StringWriter writer = new StringWriter();
-
-      JavascriptFormulaWriter formulaWriterVisitor = new JavascriptFormulaWriter(writer);
-      expression.Accept(formulaWriterVisitor);
-      return writer.ToString();
     }
   }
 }

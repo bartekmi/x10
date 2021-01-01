@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.IO;
 
 using x10.formula;
 using x10.utils;
-using System.Linq;
 using x10.model.metadata;
 
 namespace x10.gen.react {
-  internal class JavascriptFormulaWriter : IVisitor {
+  internal class JavaScriptFormulaWriter : IVisitor {
 
     private TextWriter _writer;
 
-    internal JavascriptFormulaWriter(TextWriter writer) {
+    internal JavaScriptFormulaWriter(TextWriter writer) {
       _writer = writer;
     }
 

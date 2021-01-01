@@ -217,7 +217,7 @@ namespace x10.gen {
     #endregion
 
     #region Utilities
-    protected string AssembleRelativePath(FileInfo fileInfo, string extension, bool capitalize) {
+    protected static string AssembleRelativePath(FileInfo fileInfo, string extension, bool capitalize) {
       string relativePath = fileInfo.RelativePath;
       string relativeDir = Path.GetDirectoryName(relativePath);
       string filenameNoExt = Path.GetFileNameWithoutExtension(relativePath);
