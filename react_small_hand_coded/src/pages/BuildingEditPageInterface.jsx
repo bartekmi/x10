@@ -6,7 +6,8 @@ import { graphql, QueryRenderer } from "react-relay";
 
 import environment from "../environment";
 
-import BuildingEditPage, {createDefaultBuilding, type Building} from "./BuildingEditPage";
+import BuildingEditPage from "./BuildingEditPage";
+import { type Building, createDefaultBuilding } from "entities/Building";
 
 type BuildingEditFormProps = {|
   +building: Building,

@@ -26,26 +26,15 @@ import FormFooter from "react_lib/form/FormFooter";
 import FormProvider from "react_lib/form/FormProvider";
 import MultiStacker from "react_lib/multi/MultiStacker";
 
-import environment from "../environment";
+import environment from "environment";
 
-import { type PetPolicyEnum, PetPolicyEnumPairs } from "../constants/PetPolicyEnum";
-import { type MailboxTypeEnum, MailboxTypeEnumPairs } from "../constants/MailboxTypeEnum";
-import AddressEditPage, { createDefaultAddress, type Address } from "./AddressEditPage";
-import UnitEdit, { createDefaultUnit, type Unit } from "./UnitEdit";
+import { type PetPolicyEnum, PetPolicyEnumPairs } from "constants/PetPolicyEnum";
+import { type MailboxTypeEnum, MailboxTypeEnumPairs } from "constants/MailboxTypeEnum";
+import AddressEditPage from "pages/AddressEditPage";
+import UnitEdit, { createDefaultUnit, type Unit } from "pages/UnitEdit";
 
-export type Building = {|
-  +id: string,
-  +dbid: number,
-  +name: string,
-  +description: string,
-  +dateOfOccupancy: ?string,
-  +mailboxType: MailboxTypeEnum,
-  +mailingAddress: ?Address,
-  +mailingAddressSameAsPhysical: boolean,
-  +petPolicy: ?PetPolicyEnum,
-  +physicalAddress: Address,
-  +units: $ReadOnlyArray<Unit>,
-|};
+import { type Address, createDefaultAddress } from "entities/Address";
+import { type Building, createDefaultBuilding } from "entities/Building";
 
 type Props = {|
   +building: Building,
@@ -177,22 +166,6 @@ export default function BuildingEditPage(props: Props): React.Node {
       </Group>
     </FormProvider>
   );
-}
-
-export function createDefaultBuilding(): Building {
-  return {
-    id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
-    dateOfOccupancy: null,
-    mailboxType: "IN_BUILDING",
-    description: "",
-    mailingAddress: null,
-    mailingAddressSameAsPhysical: true,
-    name: "",
-    petPolicy: null,
-    physicalAddress: createDefaultAddress(),
-    units: [],
-  };
 }
 
 function saveBuilding(building: Building) {
