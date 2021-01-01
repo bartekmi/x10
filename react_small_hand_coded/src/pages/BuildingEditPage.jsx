@@ -34,7 +34,7 @@ import AddressEditPage from "pages/AddressEditPage";
 import UnitEdit, { createDefaultUnit, type Unit } from "pages/UnitEdit";
 
 import { type Address, createDefaultAddress } from "entities/Address";
-import { type Building, createDefaultBuilding } from "entities/Building";
+import { type Building, createDefaultBuilding, buildingAgeInYears } from "entities/Building";
 
 type Props = {|
   +building: Building,
@@ -94,6 +94,10 @@ export default function BuildingEditPage(props: Props): React.Node {
                 onChange({ ...building, dateOfOccupancy: value })
               }}
             />
+          </FormField>
+
+          <FormField label="Age in Years">
+            <Text>{buildingAgeInYears(building)}</Text>
           </FormField>
 
           <FormField

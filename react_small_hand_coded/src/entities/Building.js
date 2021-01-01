@@ -1,8 +1,12 @@
 // @flow
 
 import { v4 as uuid } from 'uuid';
+import * as React from "react";
 
 import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
+import { getYear } from 'react_lib/type_helpers/dateFunctions';
+
+import { AppContext } from "AppContext";
 import { createDefaultAddress } from 'entities/Address'
 import { type Address } from 'entities/Address'
 import { type Unit } from 'entities/Unit'
@@ -86,11 +90,10 @@ export type PetPolicyEnum = 'NO_PETS' | 'ALL_PETS_OK' | 'CATS_ONLY' | 'DOGS_ONLY
 
 // Derived Attribute Functions
 export function buildingAgeInYears (building: Building): ?number {
-  return null; // TODO
-  // return Context?.today?.year - building.dateOfOccupancy?.year;
+  const appContext = React.useContext(AppContext);
+  const result = appContext.now.getFullYear() - getYear(building.dateOfOccupancy); 
+  return isNaN(result) ? null : result;
 }
 export function buildingApplicableWhenForMailingAddress (building: Building): ?boolean {
   return !building.mailingAddressSameAsPhysical;
 }
-
-
