@@ -4,7 +4,7 @@ using System.Linq;
 
 using x10.parsing;
 
-// This unpleasant circular dependency is due to the fact that DataType does double-dute as
+// This unpleasant circular dependency is due to the fact that DataType does double-duty as
 // our basic data types, and also enums defined in the 'definition' sister package
 // Consider deriving new type EnumDataType from DataType which would live in the 'definition' package
 using x10.model.definition;

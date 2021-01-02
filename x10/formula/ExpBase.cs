@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 
 using FileInfo = x10.parsing.FileInfo;
@@ -21,10 +22,15 @@ namespace x10.formula {
     public X10DataType DataType { get; internal set; }
     public bool IsEnumLiteral { get; internal set; }
 
-    // IParseElement
+    // Derived
+    public bool IsContext => this is ExpIdentifier identifier && identifier.Name == FormulaParser.CONTEXT_NAME;
+    public bool UsesContext => FormulaUtils.ListAll(this).Any(x => x.IsContext);
+
+    // IParseElement Implementation
     public FileInfo FileInfo { get; private set; }
     public PositionMark Start { get; set; }
     public PositionMark End { get; set; }
+
     public void SetFileInfo(FileInfo fileInfo) {
       FileInfo = fileInfo;
     }

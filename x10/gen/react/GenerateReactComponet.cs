@@ -19,7 +19,7 @@ namespace x10.gen.react {
     }
 
     internal string MainVariableName;
-    internal OutputPlaceholder ImportsPlaceholder;
+    internal ImportsPlaceholder ImportsPlaceholder;
     internal OutputPlaceholder DestructuringPlaceholder;
 
     private void PreProcessTree(ClassDefX10 classDef) {
@@ -53,7 +53,8 @@ namespace x10.gen.react {
         WriteLine(0, "import { graphql, commitMutation } from 'react-relay';");
       WriteLine();
 
-      ImportsPlaceholder = CreatePlaceholder(0);
+      ImportsPlaceholder = new ImportsPlaceholder();
+      AddPlaceholder(ImportsPlaceholder);
       WriteLine();
 
       if (model != null) {
@@ -130,7 +131,7 @@ namespace x10.gen.react {
       if (platClassDef == null)
         return;
 
-      ImportsPlaceholder.WriteLine("import {0} from '{1}';", platClassDef.PlatformName, platClassDef.ImportPath);
+      ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
 
       // Open the React tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);

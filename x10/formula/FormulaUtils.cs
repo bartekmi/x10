@@ -22,20 +22,20 @@ namespace x10.formula {
     /// <summary>
     /// Recursively list all ExpBase including this one and all descendents
     /// </summary>
-    public static IEnumerable<ExpBase> ListAll(ExpBase instance) {
-      List<ExpBase> exp = new List<ExpBase>();
-      ListAllInstances(exp, instance);
-      return exp;
+    public static IEnumerable<ExpBase> ListAll(ExpBase expression) {
+      List<ExpBase> expressions = new List<ExpBase>();
+      ListAllInstances(expressions, expression);
+      return expressions;
     }
 
-    private static void ListAllInstances(List<ExpBase> instances, ExpBase instance) {
-      if (instance == null)
+    private static void ListAllInstances(List<ExpBase> expressions, ExpBase expression) {
+      if (expression == null)
         return;
 
-      instances.Add(instance);
+      expressions.Add(expression);
 
-      foreach (ExpBase child in instance.ChildExpressions())
-        ListAllInstances(instances, child);
+      foreach (ExpBase child in expression.ChildExpressions())
+        ListAllInstances(expressions, child);
     }
   }
 }

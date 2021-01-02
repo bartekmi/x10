@@ -162,6 +162,10 @@ namespace x10.gen {
       return placeholder;
     }
 
+    public void AddPlaceholder(Output placeholder) {
+      _outputs.Add(placeholder);
+    }
+
     internal static string Spacer(int level) {
       return new string(' ', level * 2);
     }
@@ -169,7 +173,7 @@ namespace x10.gen {
 
     #region Output
     public abstract class Output {
-      internal abstract void Write(TextWriter writer);
+      public abstract void Write(TextWriter writer);
     }
 
     class OutputWrite : Output {
@@ -179,7 +183,7 @@ namespace x10.gen {
         _text = text;
         _args = args;
       }
-      internal override void Write(TextWriter writer) {
+      public override void Write(TextWriter writer) {
         if (_args == null)
           writer.Write(_text);
         else
@@ -188,7 +192,7 @@ namespace x10.gen {
     }
 
     class OutputWriteLine : Output {
-      internal override void Write(TextWriter writer) {
+      public override void Write(TextWriter writer) {
         writer.WriteLine();
       }
     }
@@ -201,7 +205,7 @@ namespace x10.gen {
         _indent = indent;
       }
 
-      internal override void Write(TextWriter writer) {
+      public override void Write(TextWriter writer) {
         string spacer = CodeGenerator.Spacer(_indent);
         foreach (string line in _lines.Distinct().OrderBy(x => x)) {
           writer.Write(spacer);

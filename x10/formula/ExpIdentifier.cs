@@ -8,9 +8,6 @@ namespace x10.formula {
     public string Name { get; set; }
     public bool IsOtherVariable { get; private set; }
 
-    // Derived
-    public bool IsContext { get { return Name == FormulaParser.CONTEXT_NAME; } }
-
     public ExpIdentifier(FormulaParser parser) : base(parser) {
       // Do nothing
     }

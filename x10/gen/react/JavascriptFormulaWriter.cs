@@ -28,8 +28,8 @@ namespace x10.gen.react {
       if (exp.DataType == null)
         return;
 
-      if (exp.Name == FormulaParser.CONTEXT_NAME)
-        _writer.Write("Context");
+      if (exp.IsContext)
+        _writer.Write("appContext");
       else 
         _writer.Write("{0}.{1}", _variableName, exp.Name);
     }

@@ -243,9 +243,7 @@ namespace x10.gen.react {
 
               string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
 
-              generator.ImportsPlaceholder.WriteLine("import { {0} } from '{1}'", 
-                pairsConstant,
-                dataType.TreeElement.FileInfo.RelativePathNoExtension);
+              generator.ImportsPlaceholder.Import(pairsConstant, dataType);
 
               return pairsConstant;
             },
@@ -317,7 +315,7 @@ namespace x10.gen.react {
                 });
               }
 
-              generator.ImportsPlaceholder.WriteLine("import TextCell from 'latitude/table/TextCell'");
+              generator.ImportsPlaceholder.ImportDefault("TextCell");
 
               return string.Format("(data) => <TextCell value={{ data.{0} }} />",
                 PlatformUtils.ComposePath(instance)

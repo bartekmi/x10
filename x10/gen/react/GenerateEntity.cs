@@ -16,7 +16,8 @@ namespace x10.gen.react {
       WriteLine(0, "import { v4 as uuid } from 'uuid';");
       WriteLine();
       WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
-      OutputPlaceholder importsPlaceholder = CreatePlaceholder(0);
+      ImportsPlaceholder importsPlaceholder = new ImportsPlaceholder();
+      AddPlaceholder(importsPlaceholder);
       WriteLine();
 
       GenerateType(entity, importsPlaceholder);
@@ -28,7 +29,7 @@ namespace x10.gen.react {
     }
 
     #region Generate Type Definition
-    private void GenerateType(Entity model, OutputPlaceholder importsPlaceholder) {
+    private void GenerateType(Entity model, ImportsPlaceholder importsPlaceholder) {
       WriteLine(0, "// Type Definition");
       WriteLine(0, "export type {0} = {{|", model.Name);
 
@@ -42,7 +43,7 @@ namespace x10.gen.react {
           WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
           if (member is Association association) {
             Entity entity = association.ReferencedEntity;
-            importsPlaceholder.WriteLine("import { type {0} } from '{1}'", entity.Name, ImportPath(entity));
+            importsPlaceholder.ImportType(entity.Name, entity);
           }
         }
       WriteLine(0, "|}};");
@@ -84,7 +85,7 @@ namespace x10.gen.react {
     #endregion
 
     #region Generate Default Entity
-    private void GenerateDefaultEntity(Entity model, OutputPlaceholder importsPlaceholder) {
+    private void GenerateDefaultEntity(Entity model, ImportsPlaceholder importsPlaceholder) {
       WriteLine(0, "// Create Default Function");
       WriteLine(0, "export function createDefault{0}(): {0} {", model.Name);
       WriteLine(1, "return {");
@@ -111,7 +112,7 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private string GetDefaultValue(Member member, OutputPlaceholder importsPlaceholder) {
+    private string GetDefaultValue(Member member, ImportsPlaceholder importsPlaceholder) {
       if (member is Association association) {
         if (association.IsMany)
           return "[]";
@@ -119,7 +120,7 @@ namespace x10.gen.react {
           if (association.IsMandatory) {
             Entity entity = association.ReferencedEntity;
             string funcName = "createDefault" + entity.Name;
-            importsPlaceholder.WriteLine("import { {0} } from '{1}'", funcName, ImportPath(entity));
+            importsPlaceholder.Import(funcName, entity);
             return funcName + "()";
           }
       } else if (member is X10RegularAttribute attribute) {
@@ -197,6 +198,8 @@ namespace x10.gen.react {
           entity.Name,
           GetType(attribute));
 
+        if (attribute.Expression.UsesContext)
+          WriteLine(1, "const appContext = React.useContext(AppContext);");
         WriteLine(1, "return {0};", ExpressionToString(attribute.Expression, variableName));
         WriteLine(0, "}");
       }
