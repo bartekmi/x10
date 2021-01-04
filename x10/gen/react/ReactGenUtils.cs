@@ -21,6 +21,14 @@ namespace x10.gen.react {
       return AssembleRelativePath(fileInfo, null, true);  // TODO: Single source of truth for capitalization
     }
 
+    #region Import Placeholder
+    internal ImportsPlaceholder ImportsPlaceholder;
+    internal void InsertImportsPlaceholder() {
+      ImportsPlaceholder = new ImportsPlaceholder();
+      AddPlaceholder(ImportsPlaceholder);
+    }
+    #endregion
+
     #region Names of Things and Code Snippet Generation
     internal static string VariableName(Entity model, bool isMany) {
       if (model == null)
@@ -54,13 +62,13 @@ namespace x10.gen.react {
     #endregion
 
     #region Expression Helpers
-    internal static string ExpressionToString(ExpBase expression, string variableName) {
+    internal string ExpressionToString(ExpBase expression, string variableName) {
       if (expression == null)
         return "EXPRESSION MISSING";
 
       using StringWriter writer = new StringWriter();
 
-      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, variableName);
+      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, variableName, ImportsPlaceholder);
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }

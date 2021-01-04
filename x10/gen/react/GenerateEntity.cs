@@ -16,12 +16,11 @@ namespace x10.gen.react {
       WriteLine(0, "import { v4 as uuid } from 'uuid';");
       WriteLine();
       WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
-      ImportsPlaceholder importsPlaceholder = new ImportsPlaceholder();
-      AddPlaceholder(importsPlaceholder);
       WriteLine();
+      InsertImportsPlaceholder();
 
-      GenerateType(entity, importsPlaceholder);
-      GenerateDefaultEntity(entity, importsPlaceholder);
+      GenerateType(entity);
+      GenerateDefaultEntity(entity);
       GenerateEnums(entity);
       GenerateDerivedAttributes(entity);
 
@@ -29,7 +28,7 @@ namespace x10.gen.react {
     }
 
     #region Generate Type Definition
-    private void GenerateType(Entity model, ImportsPlaceholder importsPlaceholder) {
+    private void GenerateType(Entity model) {
       WriteLine(0, "// Type Definition");
       WriteLine(0, "export type {0} = {{|", model.Name);
 
@@ -43,7 +42,7 @@ namespace x10.gen.react {
           WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
           if (member is Association association) {
             Entity entity = association.ReferencedEntity;
-            importsPlaceholder.ImportType(entity.Name, entity);
+            ImportsPlaceholder.ImportType(entity.Name, entity);
           }
         }
       WriteLine(0, "|}};");
@@ -85,7 +84,7 @@ namespace x10.gen.react {
     #endregion
 
     #region Generate Default Entity
-    private void GenerateDefaultEntity(Entity model, ImportsPlaceholder importsPlaceholder) {
+    private void GenerateDefaultEntity(Entity model) {
       WriteLine(0, "// Create Default Function");
       WriteLine(0, "export function createDefault{0}(): {0} {", model.Name);
       WriteLine(1, "return {");
@@ -97,7 +96,7 @@ namespace x10.gen.react {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else {
-          string defaultValue = GetDefaultValue(member, importsPlaceholder);
+          string defaultValue = GetDefaultValue(member, ImportsPlaceholder);
           if (defaultValue == null) {
             defaultValue = "null";
             if (member.IsMandatory)
@@ -198,8 +197,11 @@ namespace x10.gen.react {
           entity.Name,
           GetType(attribute));
 
-        if (attribute.Expression.UsesContext)
+        if (attribute.Expression.UsesContext) {
           WriteLine(1, "const appContext = React.useContext(AppContext);");
+          ImportsPlaceholder.ImportAppContext();
+        }
+
         WriteLine(1, "return {0};", ExpressionToString(attribute.Expression, variableName));
         WriteLine(0, "}");
       }

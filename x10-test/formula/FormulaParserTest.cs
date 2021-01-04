@@ -22,6 +22,7 @@ namespace x10.formula {
     private AllEntities _allEntities;
     private Entity _entity;
 
+    #region Test Initialization
     public FormulaParserTest(ITestOutputHelper output) {
       _output = output;
       _enums = new AllEnums(_errors);
@@ -106,7 +107,9 @@ arguments:
       funcCompiler.CompileFunctionFromString(funcWithEnumYaml);
       Assert.Equal(2, _functions.All.Count());
     }
+    #endregion
 
+    #region Success 
     [Fact]
     public void ParseSuccessful() {
       Entity nested = _allEntities.FindEntityByName("Nested");
@@ -128,8 +131,23 @@ arguments:
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
       TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
       TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
-      TestExpectedSuccess("nested.attr.year", DataTypes.Singleton.Integer);         // Property of primitive type
     }
+
+    // Assume an expression A.B.C
+    // Note that the expression tree is built in such a way that the top-level expression is
+    // (A.B) . C
+    [Fact]
+    public void ParsePropertyOfDataType() {
+      ExpBase expression = TestExpectedSuccess("nested.attr.year", DataTypes.Singleton.Integer);         
+
+      Assert.True(expression is ExpMemberAccess);
+      ExpMemberAccess expMemberAccess = (ExpMemberAccess)expression;
+
+      Assert.Equal("year", expMemberAccess.MemberName);
+      Assert.Same(DataTypes.Singleton.Date, expMemberAccess.Expression.DataType.DataType);
+    }
+
+    #endregion
 
     #region Enumerated Types
     [Fact]
@@ -165,6 +183,7 @@ arguments:
     }
     #endregion
 
+    #region Parsing Errors
     [Fact]
     public void ParseWithSyntaxErrors() {
       TestExpectedError("a + b)", "Unexpected token ')'", 0, 5);
@@ -216,12 +235,14 @@ arguments:
     public void BadManyAttribute() {
       TestExpectedError("many.notCount", "notCount is not a valid property of a collection. The only valid properties are: count, first, last", 5, 13);
     }
+    #endregion
 
-    private void TestExpectedSuccess(string formula, DataType expectedType) {
-      TestExpectedSuccess(formula, new X10DataType(expectedType));
+    #region Utils
+    private ExpBase TestExpectedSuccess(string formula, DataType expectedType) {
+      return TestExpectedSuccess(formula, new X10DataType(expectedType));
     }
 
-    private void TestExpectedSuccess(string formula, X10DataType expectedType) {
+    private ExpBase TestExpectedSuccess(string formula, X10DataType expectedType) {
       MessageBucket errors = new MessageBucket();
       IParseElement element = new XmlElement("Dummy") { Start = new PositionMark() };
       FormulaParser parser = new FormulaParser(errors, new AllEntities(errors, new Entity[0]), _enums, _functions) {
@@ -233,6 +254,8 @@ arguments:
       Assert.Equal(0, errors.Count);
       Assert.False(expression is ExpUnknown);
       Assert.Equal(expectedType, expression.DataType);
+
+      return expression;
     }
 
     private void TestExpectedError(string formula, string expectedError, int startCharPos, int endCharPos) {
@@ -262,4 +285,5 @@ arguments:
       Assert.Equal(100 + endCharPos, newElement.End.CharacterPosition);
     }
   }
+  #endregion
 }

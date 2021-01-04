@@ -62,6 +62,20 @@ namespace x10.gen.react {
       });
     }
 
+    // Some special cases
+    public void ImportAppContext() {
+      ImportReact();
+      Import("AppContext", "AppContext");
+    }
+
+    public void ImportReact() {
+      _imports.Add(new ImportData() {
+        ImportName = "* as React",
+        Path = "react",
+        IsDefault = true,
+      });
+    }
+
     public void ImportType(string type, IAcceptsModelAttributeValues entity) {
       ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension);
     }
@@ -100,6 +114,8 @@ namespace x10.gen.react {
 
         writer.WriteLine(" from '{0}';", group.Key);
       }
+
+      writer.WriteLine();
     }
   }
 }

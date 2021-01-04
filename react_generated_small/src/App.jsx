@@ -13,10 +13,22 @@ import Text from "latitude/Text";
 import colors from "latitude/colors";
 import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 
+import { AppContextProvider } from "AppContext";
+
 import BuildingForm from "../__generated__/ui/BuildingForm";
 
 export default function App(): React.Node {
+
+  const appContext = {
+    today: new Date(),
+    currentUser: {
+      name: "Bartek Muszynski",
+      username: "bartekmi",
+    },
+  };
+
   return (
+    <AppContextProvider value={appContext}>
     <div className={css(styles.app)}>
       <Router history={history}>
 
@@ -30,6 +42,7 @@ export default function App(): React.Node {
         
       </Router>
     </div>
+    </AppContextProvider>
   );
 }
 

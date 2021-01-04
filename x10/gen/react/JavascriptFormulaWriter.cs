@@ -11,10 +11,12 @@ namespace x10.gen.react {
 
     private TextWriter _writer;
     private string _variableName;
+    private ImportsPlaceholder _imports;
 
-    internal JavaScriptFormulaWriter(TextWriter writer, string variableName) {
+    internal JavaScriptFormulaWriter(TextWriter writer, string variableName, ImportsPlaceholder imports) {
       _writer = writer;
       _variableName = variableName;
+      _imports = imports;
     }
 
     public void VisitBinary(ExpBinary exp) {
@@ -52,12 +54,46 @@ namespace x10.gen.react {
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
+      // If Expression corresponds to a primitive type (e.g. Date), we are accessing a "member" of
+      // the type - e.g. Date.year. This requires special handling
+      if (WriteDataTypeMemberAccess(exp))
+        return;
+
       if (WriteEnum(exp, exp.MemberName))
         return;
 
       exp.Expression.Accept(this);
       _writer.Write("?.");
       _writer.Write(exp.MemberName);
+    }
+
+    private bool WriteDataTypeMemberAccess(ExpMemberAccess exp) {
+      if (!exp.Expression.DataType.IsPrimitive)
+        return false;
+
+      string conversionFunction = null;
+      string conversionFunctionCollection = null;
+
+      DataType dataType = exp.Expression.DataType.DataType;
+      if (dataType == DataTypes.Singleton.Date) {
+        conversionFunctionCollection = "react_lib/type_helpers/dateFunctions";
+        if (exp.MemberName == "year") {
+          conversionFunction = "getYear";
+        }
+      } 
+
+      if (conversionFunction != null) {
+        _writer.Write(conversionFunction);
+        _writer.Write("(");
+        exp.Expression.Accept(this);
+        _writer.Write(")");
+
+        _imports.Import(conversionFunction, conversionFunctionCollection);
+
+        return true;
+      }
+
+      return false;
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {

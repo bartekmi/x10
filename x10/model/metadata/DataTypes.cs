@@ -60,7 +60,7 @@ namespace x10.model.metadata {
           PropertiesInit = () => new List<DataTypeProperty>() {
             new DataTypeProperty("year", Integer),
             new DataTypeProperty("dayOfMonth", Integer),
-            new DataTypeProperty("motnName", String),
+            new DataTypeProperty("monthName", String),
           }
         },
         new DataType() {
@@ -70,7 +70,7 @@ namespace x10.model.metadata {
           PropertiesInit = () => new List<DataTypeProperty>() {
             new DataTypeProperty("year", Integer),
             new DataTypeProperty("dayOfMonth", Integer),
-            new DataTypeProperty("motnName", String),
+            new DataTypeProperty("monthName", String),
           }
         },
         new DataType() {

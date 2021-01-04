@@ -11,16 +11,15 @@ import Text from "latitude/Text";
 import colors from "latitude/colors";
 import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 
-import './App.css';
+import 'App.css';
+import { AppContextProvider } from "AppContext";
+
 import BuildingsPage from "./pages/BuildingsPage";
 import TenantsPage from "./pages/TenantsPage";
 import BuildingEditPageInterface from "./pages/BuildingEditPageInterface";
 import TenantEditPage from "./pages/TenantEditPage";
 import history from './history';
 
-
-
-import { AppContextProvider } from "AppContext";
 
 export default function App(): React.Node {
 

@@ -20,8 +20,8 @@ namespace x10.formula {
       return new ExpBase[] { Expression };
     }
 
-    public override ExpIdentifier FirstMemberOfPath() { 
-      return Expression.FirstMemberOfPath(); 
+    public override ExpIdentifier FirstMemberOfPath() {
+      return Expression.FirstMemberOfPath();
     }
 
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
@@ -63,7 +63,7 @@ namespace x10.formula {
           errors.AddError(this, "{0} is not a valid property of a collection. The only valid properties are: count, first, last", memberName);
         else
           errors.AddError(this, "Entity '{0}' does not contain an Attribute or Association '{1}'", type.Entity.Name, memberName);
-      
+
       return X10DataType.ERROR;
     }
 

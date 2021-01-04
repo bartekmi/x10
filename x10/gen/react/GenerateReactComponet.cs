@@ -19,7 +19,6 @@ namespace x10.gen.react {
     }
 
     internal string MainVariableName;
-    internal ImportsPlaceholder ImportsPlaceholder;
     internal OutputPlaceholder DestructuringPlaceholder;
 
     private void PreProcessTree(ClassDefX10 classDef) {

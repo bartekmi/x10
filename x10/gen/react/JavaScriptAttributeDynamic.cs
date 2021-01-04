@@ -17,8 +17,9 @@ namespace x10.gen.react {
       // Do nothing
     }
 
-    public override object CalculateValue(CodeGenerator generator, Instance instance, out bool isCodeSnippet) {
-      string variableName = ((ReactCodeGenerator)generator).MainVariableName;
+    public override object CalculateValue(CodeGenerator genericGenerator, Instance instance, out bool isCodeSnippet) {
+      ReactCodeGenerator generator = (ReactCodeGenerator)genericGenerator;
+      string variableName = generator.MainVariableName;
       isCodeSnippet = false;
 
       UiAttributeValueAtomic atomicValue = instance.FindAttributeValue(LogicalName) as UiAttributeValueAtomic;
@@ -36,7 +37,7 @@ namespace x10.gen.react {
       } else { // logical attribute WAS found...
         if (atomicValue.Expression != null) {
           isCodeSnippet = true;
-          return ReactCodeGenerator.ExpressionToString(atomicValue.Expression, variableName);
+          return generator.ExpressionToString(atomicValue.Expression, variableName);
         } else
           return GenerateAttributeForValue(atomicValue.Value);
       }
