@@ -23,6 +23,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = ClassDefNative.VisibilityControl.Name,
         PlatformName = VISIBILITY_CONTROL,
+        ImportDir = "react_lib",
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = ClassDefNative.ATTR_VISIBLE,
@@ -315,7 +316,7 @@ namespace x10.gen.react {
                 });
               }
 
-              generator.ImportsPlaceholder.ImportDefault("TextCell");
+              generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell");
 
               return string.Format("(data) => <TextCell value={{ data.{0} }} />",
                 PlatformUtils.ComposePath(instance)
