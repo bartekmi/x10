@@ -46,32 +46,47 @@ namespace x10.gen.react {
     // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
     private void WritePrimaryBindingAttribute(ReactCodeGenerator generator, int level, PlatformClassDef platClassDef, Instance instance) {
       PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
+
+      if (instance.ModelMember is X10DerivedAttribute derivedAttribute)
+        WritePrimaryBindingAttributeForDerived(generator, level, dataBind, derivedAttribute);
+      else
+        WritePrimaryBindingAttributeForRegular(generator, level, dataBind, instance);
+    }
+
+    private void WritePrimaryBindingAttributeForDerived(ReactCodeGenerator generator, int level, PlatformAttributeDynamic dataBind, X10DerivedAttribute derivedAttribute) {
+      generator.ImportsPlaceholder.ImportDerivedAttributeFunction(derivedAttribute);
+      string functionName = ReactCodeGenerator.DerivedAttrFuncName(derivedAttribute);
+      generator.WriteLine(level, "{0}={ {1}({2}) }", dataBind.PlatformName, functionName, generator.MainVariableName);
+      generator.WriteLine(level, "onChange={ () => { } }");
+    }
+
+    private void WritePrimaryBindingAttributeForRegular(ReactCodeGenerator generator, int level, PlatformAttributeDynamic dataBind, Instance instance) {
       IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
 
       generator.DestructuringPlaceholder.WriteLine(path.First().Name + ","); // const {...} = topLevelVar;
       string pathExpression = string.Join(".", path.Select(x => x.Name));
       bool isReadOnly = path.Any(x => x.IsReadOnly);
 
-      generator.WriteLine(level + 1, "{0}={ {1} }", dataBind.PlatformName, pathExpression);
+      generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, pathExpression);
 
       if (isReadOnly) // Special case for read-only: dummy onChane prop
-        generator.WriteLine(level + 1, "onChange={ () => { } }");
+        generator.WriteLine(level, "onChange={ () => { } }");
       else {
-        generator.WriteLine(level + 1, "onChange={ (value) => {");
+        generator.WriteLine(level, "onChange={ (value) => {");
         Member first = path.First();
         string variableName = ReactCodeGenerator.VariableName(first.Owner, false /* TODO */);
 
         if (path.Count() == 1)
-          generator.WriteLine(level + 2, "onChange({ ...{0}, {1}: value })",
+          generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: value })",
             variableName,
             first.Name);
         else {
-          generator.WriteLine(level + 2, "let newObj = JSON.parse(JSON.stringify({0}));", variableName);
-          generator.WriteLine(level + 2, "newObj.{0} = value;", pathExpression);
-          generator.WriteLine(level + 2, "onChange(newObj);");
+          generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", variableName);
+          generator.WriteLine(level + 1, "newObj.{0} = value;", pathExpression);
+          generator.WriteLine(level + 1, "onChange(newObj);");
         }
 
-        generator.WriteLine(level + 1, "} }");
+        generator.WriteLine(level, "} }");
       }
     }
   }

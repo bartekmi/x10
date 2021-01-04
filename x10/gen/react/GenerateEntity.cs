@@ -191,6 +191,8 @@ namespace x10.gen.react {
 
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
         string variableName = VariableName(entity, false);
+        MainVariableName = variableName;
+
         WriteLine(0, "export function {0} ({1}: {2}): {3} {", 
           DerivedAttrFuncName(attribute), 
           variableName, 

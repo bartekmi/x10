@@ -40,6 +40,10 @@ namespace x10.gen.react {
       });
     }
 
+    public void ImportDerivedAttributeFunction(X10DerivedAttribute derivedAttribute) {
+      Import(ReactCodeGenerator.DerivedAttrFuncName(derivedAttribute), derivedAttribute.Owner);
+    }
+
     public void Import(string functionOrConstant, IAcceptsModelAttributeValues entity) {
       Import(functionOrConstant, entity.TreeElement.FileInfo.RelativePathNoExtension);
     }
