@@ -83,13 +83,12 @@ namespace x10.gen.react {
       if (member is Association association) {
         if (association.IsMany)
           return "[]";
-        else
-          if (association.IsMandatory) {
-            Entity entity = association.ReferencedEntity;
-            string funcName = "createDefault" + entity.Name;
-            importsPlaceholder.Import(funcName, entity);
-            return funcName + "()";
-          }
+        else {
+          Entity entity = association.ReferencedEntity;
+          string funcName = "createDefault" + entity.Name;
+          importsPlaceholder.Import(funcName, entity);
+          return funcName + "()";
+        }
       } else if (member is X10RegularAttribute attribute) {
         object defaultValue = attribute.DefaultValue;
         DataType dataType = attribute.DataType;
@@ -160,9 +159,9 @@ namespace x10.gen.react {
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
         MainVariableName = VariableName(entity, false);
 
-        WriteLine(0, "export function {0}({1}: {2}): {3} {", 
-          DerivedAttrFuncName(attribute), 
-          MainVariableName, 
+        WriteLine(0, "export function {0}({1}: {2}): {3} {",
+          DerivedAttrFuncName(attribute),
+          MainVariableName,
           entity.Name,
           GetType(attribute));
 
@@ -189,8 +188,13 @@ namespace x10.gen.react {
       else if (member is X10RegularAttribute regular)
         // Strings are never marked as optional because, at the very least, the have default value of ""
         isMandatory = member.IsMandatory || regular.DataType == DataTypes.Singleton.String;
+      else if (member is Association)
+        // Generate mandatory even if not mandatory. Non-mandatory element cause all kinds of 
+        // problems with typing, not to mention the fact that we would need to create the optional
+        // association object at just the right type during editing
+        isMandatory = true;
       else
-        isMandatory = member.IsMandatory;
+        throw new NotImplementedException("Unknown member type: " + member.GetType());
 
       string optionalIndicator = isMandatory ? "" : "?";
       if (member is Association association) {
