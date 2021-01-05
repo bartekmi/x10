@@ -182,33 +182,43 @@ namespace x10.gen.react {
     #region Utilities
 
     private string GetType(Member member) {
-      bool isMandatory = false;
-      if (member is X10DerivedAttribute derived)
-        isMandatory = true; // TODO... Should we derive from formula?
-      else if (member is X10RegularAttribute regular)
-        // Strings are never marked as optional because, at the very least, the have default value of ""
-        isMandatory = member.IsMandatory || regular.DataType == DataTypes.Singleton.String;
-      else if (member is Association)
-        // Generate mandatory even if not mandatory. Non-mandatory element cause all kinds of 
-        // problems with typing, not to mention the fact that we would need to create the optional
-        // association object at just the right type during editing
-        isMandatory = true;
-      else
-        throw new NotImplementedException("Unknown member type: " + member.GetType());
-
-      string optionalIndicator = isMandatory ? "" : "?";
       if (member is Association association) {
         string refedEntityName = association.ReferencedEntity.Name;
         if (association.IsMany)
           return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
         else
-          return optionalIndicator + refedEntityName;
+          // Generate mandatory even if not mandatory. Non-mandatory element cause all kinds of 
+          // problems with typing, not to mention the fact that we would need to create the optional
+          // association object at just the right type during editing
+          return refedEntityName;
       } else if (member is X10Attribute attribute) {
-        DataType dataType = attribute.DataType;
-        return optionalIndicator + GetAtomicFlowType(dataType);
-      }
+        string optionalIndicator = IsMandatory(attribute) ? "" : "?";
+        return optionalIndicator + GetAtomicFlowType(attribute.DataType);
+      } else
+        throw new NotImplementedException("Unknown member type: " + member.GetType());
+    }
 
-      return "null,";
+    private bool IsMandatory(X10Attribute attribute) {
+      DataType dataType = attribute.DataType;
+
+      // The mandatory/optional decision is made based on the usual UI used to represent
+      // the data type. It is assumed that booleans are represented by CheckBoxes and
+      // Strings are represented by TextInput's or similar where the empty string represents
+      // no user input
+      if (dataType == DataTypes.Singleton.Boolean) return true;
+      if (dataType == DataTypes.Singleton.String) return true;
+
+      // All UI element used to represent these types can have a null state. For example,
+      // a DateInput UI can have a state where no value has been specified, and so for all
+      // the other types.
+      if (dataType == DataTypes.Singleton.Date) return false;
+      if (dataType == DataTypes.Singleton.Float) return false;
+      if (dataType == DataTypes.Singleton.Integer) return false;
+      if (dataType == DataTypes.Singleton.Timestamp) return false;
+      if (dataType == DataTypes.Singleton.Money) return false;
+      if (dataType is DataTypeEnum enumType) return false;
+
+      throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }
 
     private string GetAtomicFlowType(DataType dataType) {
@@ -221,7 +231,7 @@ namespace x10.gen.react {
       if (dataType == DataTypes.Singleton.Money) return "number";
       if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
 
-      throw new Exception("Unknown data type: " + dataType.Name);
+      throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }
     #endregion
   }
