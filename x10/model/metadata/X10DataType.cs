@@ -5,8 +5,8 @@ using x10.model.definition;
 namespace x10.model.metadata {
 
   public class X10DataType {
-    public DataType DataType { get; private set; }
-    public Entity Entity { get; private set; }
+    public DataType DataType { get; private set; }  // Either this one...
+    public Entity Entity { get; private set; }      // ...or this one must be set
     public bool IsMany { get; private set; }
 
     // May or may not be present. X10DataType stands on its own with just the above

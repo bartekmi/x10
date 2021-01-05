@@ -49,38 +49,6 @@ namespace x10.gen.react {
       WriteLine();
       WriteLine();
     }
-
-    private string GetType(Member member) {
-      // Strings are never marked as optional because, at the very least, the have default value of ""
-      bool isString = member is X10Attribute regular && regular.DataType == DataTypes.Singleton.String;
-      string optionalIndicator = member.IsMandatory || isString ? "" : "?";
-
-      if (member is Association association) {
-        string refedEntityName = association.ReferencedEntity.Name;
-        if (association.IsMany)
-          return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
-        else
-          return optionalIndicator + refedEntityName;
-      } else if (member is X10Attribute attribute) {
-        DataType dataType = attribute.DataType;
-        return optionalIndicator + GetAtomicFlowType(dataType);
-      }
-
-      return "null,";
-    }
-
-    private string GetAtomicFlowType(DataType dataType) {
-      if (dataType == DataTypes.Singleton.Boolean) return "boolean";
-      if (dataType == DataTypes.Singleton.Date) return "string";
-      if (dataType == DataTypes.Singleton.Float) return "number";
-      if (dataType == DataTypes.Singleton.Integer) return "number";
-      if (dataType == DataTypes.Singleton.String) return "string";
-      if (dataType == DataTypes.Singleton.Timestamp) return "string";
-      if (dataType == DataTypes.Singleton.Money) return "number";
-      if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
-
-      throw new Exception("Unknown data type: " + dataType.Name);
-    }
     #endregion
 
     #region Generate Default Entity
@@ -209,6 +177,47 @@ namespace x10.gen.react {
 
       WriteLine();
       WriteLine();
+    }
+    #endregion
+
+    #region Utilities
+
+    private string GetType(Member member) {
+      bool isMandatory = false;
+      if (member is X10DerivedAttribute derived)
+        isMandatory = true; // TODO... Should we derive from formula?
+      else if (member is X10RegularAttribute regular)
+        // Strings are never marked as optional because, at the very least, the have default value of ""
+        isMandatory = member.IsMandatory || regular.DataType == DataTypes.Singleton.String;
+      else
+        isMandatory = member.IsMandatory;
+
+      string optionalIndicator = isMandatory ? "" : "?";
+      if (member is Association association) {
+        string refedEntityName = association.ReferencedEntity.Name;
+        if (association.IsMany)
+          return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
+        else
+          return optionalIndicator + refedEntityName;
+      } else if (member is X10Attribute attribute) {
+        DataType dataType = attribute.DataType;
+        return optionalIndicator + GetAtomicFlowType(dataType);
+      }
+
+      return "null,";
+    }
+
+    private string GetAtomicFlowType(DataType dataType) {
+      if (dataType == DataTypes.Singleton.Boolean) return "boolean";
+      if (dataType == DataTypes.Singleton.Date) return "string";
+      if (dataType == DataTypes.Singleton.Float) return "number";
+      if (dataType == DataTypes.Singleton.Integer) return "number";
+      if (dataType == DataTypes.Singleton.String) return "string";
+      if (dataType == DataTypes.Singleton.Timestamp) return "string";
+      if (dataType == DataTypes.Singleton.Money) return "number";
+      if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
+
+      throw new Exception("Unknown data type: " + dataType.Name);
     }
     #endregion
   }
