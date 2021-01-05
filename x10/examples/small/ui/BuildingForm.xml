@@ -1,5 +1,6 @@
 <BuildingForm model="Building" url="/building/{$buildingId}" query="GetBuilding(buildingId: $buildingId">
   <Form>
+    <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
     <FormSection label="Building Info">
       <moniker/>
       <name/>

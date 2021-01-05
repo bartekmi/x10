@@ -20,8 +20,8 @@
           </Row>
         </TableColumn>
         <physicalAddress.address/>
-        <physicalAddress.city/>
-        <dateOfOccupancy/>
+        <physicalAddress.secondAddressLine label="City / Province"/>
+        <ageInYears/>
         <petPolicy/>
         <TableColumn label="Action">
           <Row>
