@@ -46,17 +46,19 @@ namespace x10.compiler {
         // Do not override "visible" attribute if defined
         if (!instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
           UiAttributeDefinitionAtomic attrDef = ClassDefNative.Visual.FindAtomicAttribute(ClassDefNative.ATTR_VISIBLE);
+          string applicableWhenName = ApplicableWhenPropertyName(instance.ModelMember);
+          Member applicableWhenDerivedAttr = instance.ModelMember.Owner.Members.Single(x => x.Name == applicableWhenName) ;
           instance.AttributeValues.Add(new UiAttributeValueAtomic(attrDef, instance, instance.XmlElement) {
             Expression = new ExpIdentifier(null) {
               Name = ApplicableWhenPropertyName(instance.ModelMember),
-              DataType = new X10DataType(DataTypes.Singleton.Boolean),
+              DataType = new X10DataType(applicableWhenDerivedAttr),
             },
           });
         }
     }
 
     public static string ApplicableWhenPropertyName(Member member) {
-      return "ApplicableWhenFor" + NameUtils.Capitalize(member.Name);
+      return "applicableWhenFor" + NameUtils.Capitalize(member.Name);
     }
 
   }
