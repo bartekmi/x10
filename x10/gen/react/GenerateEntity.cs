@@ -157,11 +157,11 @@ namespace x10.gen.react {
       WriteLine(0, "// Derived Attribute Functions");
 
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
-        MainVariableName = VariableName(entity, false);
+        PushSourceVariableName(VariableName(entity, false));
 
         WriteLine(0, "export function {0}({1}: {2}): {3} {",
           DerivedAttrFuncName(attribute),
-          MainVariableName,
+          SourceVariableName,
           entity.Name,
           GetType(attribute));
 
@@ -172,6 +172,8 @@ namespace x10.gen.react {
 
         WriteLine(1, "return {0};", ExpressionToString(attribute.Expression));
         WriteLine(0, "}");
+
+        PopSourceVariableName();
       }
 
       WriteLine();

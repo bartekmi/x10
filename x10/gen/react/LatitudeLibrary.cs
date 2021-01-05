@@ -311,7 +311,11 @@ namespace x10.gen.react {
               if (member == null) {
                 return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
                   generator.WriteLine(indent, "render: (data) =>");
+                  
+                  generator.PushSourceVariableName("data");
                   generator.GenerateComponentRecursively(ReactCodeGenerator.OutputType.React, indent + 1, inner);
+                  generator.PopSourceVariableName();
+                  
                   generator.WriteLine(indent, ",");
                 });
               }

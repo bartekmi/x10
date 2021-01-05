@@ -18,8 +18,6 @@ namespace x10.gen.react {
       React,
     }
 
-    internal string MainVariableName;
-
     private void PreProcessTree(ClassDefX10 classDef) {
       foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild)) 
         if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
@@ -63,7 +61,7 @@ namespace x10.gen.react {
 
     private void GenerateComponent(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
-      MainVariableName = VariableName(model, classDef.IsMany);
+      PushSourceVariableName(VariableName(model, classDef.IsMany));
 
       // Props
       WriteLine(0, "type Props = {{|");
@@ -72,15 +70,15 @@ namespace x10.gen.react {
         if (classDef.IsMany)
           typeName = string.Format("$ReadOnlyArray<{0}>", typeName);
 
-        WriteLine(1, "+{0}: {1},", MainVariableName, typeName);
-        WriteLine(1, "+onChange: ({0}: {1}) => void,", MainVariableName, typeName);
+        WriteLine(1, "+{0}: {1},", SourceVariableName, typeName);
+        WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, typeName);
       }
       WriteLine(0, "|}};");
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
       if (model != null) 
-        WriteLine(1, "const { {0}, onChange } = props;", MainVariableName);
+        WriteLine(1, "const { {0}, onChange } = props;", SourceVariableName);
       WriteLine();
 
       WriteLine(1, "return (");
@@ -88,6 +86,8 @@ namespace x10.gen.react {
       WriteLine(1, ");");
       WriteLine(0, "}");
       WriteLine();
+
+      PopSourceVariableName();
     }
 
     #region GenerateJavascriptObjectRecursively

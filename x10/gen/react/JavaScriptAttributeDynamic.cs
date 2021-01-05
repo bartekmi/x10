@@ -28,7 +28,7 @@ namespace x10.gen.react {
         if (IsMainDatabindingAttribute) {
           isCodeSnippet = true;
           if (instance.ModelMember == null)
-            return generator.MainVariableName;
+            return generator.SourceVariableName;
           else
             return new CodeSnippetGenerator(WritePrimaryBindingAttribute);
         } else
@@ -56,17 +56,16 @@ namespace x10.gen.react {
         generator.WriteLine(level, "onChange={ () => { } }"); // Special case for read-only: dummy onChane prop
       } else {
         string pathExpression = string.Join(".", path.Select(x => x.Name));
-        generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.MainVariableName, pathExpression);
+        generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.SourceVariableName, pathExpression);
         generator.WriteLine(level, "onChange={ (value) => {");
         Member first = path.First();
-        string variableName = ReactCodeGenerator.VariableName(first.Owner, false /* TODO */);
 
         if (path.Count() == 1)
           generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: value })",
-            variableName,
+            generator.SourceVariableName,
             first.Name);
         else {
-          generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", variableName);
+          generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", generator.SourceVariableName);
           generator.WriteLine(level + 1, "newObj.{0} = value;", pathExpression);
           generator.WriteLine(level + 1, "onChange(newObj);");
         }

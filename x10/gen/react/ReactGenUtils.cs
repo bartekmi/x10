@@ -1,5 +1,6 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
 
 using x10.formula;
 using x10.utils;
@@ -29,6 +30,19 @@ namespace x10.gen.react {
     }
     #endregion
 
+    #region Source Variable Name
+    private Stack<string> _sourceVariableNames = new Stack<string>();
+    internal string SourceVariableName { get { return _sourceVariableNames.Peek(); } }
+
+    internal void PushSourceVariableName(string variableName) {
+      _sourceVariableNames.Push(variableName);
+    }
+
+    internal void PopSourceVariableName() {
+      _sourceVariableNames.Pop();
+    }
+    #endregion
+
     #region Names of Things and Code Snippet Generation
     internal static string VariableName(Entity model, bool isMany) {
       if (model == null)
@@ -40,7 +54,7 @@ namespace x10.gen.react {
     }
 
     internal static string DerivedAttrFuncName(X10DerivedAttribute attribute) {
-      return 
+      return
         NameUtils.UncapitalizeFirstLetter(attribute.Owner.Name) +
         NameUtils.Capitalize(attribute.Name);
     }
@@ -68,7 +82,7 @@ namespace x10.gen.react {
 
       using StringWriter writer = new StringWriter();
 
-      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, MainVariableName, ImportsPlaceholder);
+      JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, SourceVariableName, ImportsPlaceholder);
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
     }
