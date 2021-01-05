@@ -193,7 +193,7 @@ namespace x10.gen.react {
         string variableName = VariableName(entity, false);
         MainVariableName = variableName;
 
-        WriteLine(0, "export function {0} ({1}: {2}): {3} {", 
+        WriteLine(0, "export function {0}({1}: {2}): {3} {", 
           DerivedAttrFuncName(attribute), 
           variableName, 
           entity.Name,
