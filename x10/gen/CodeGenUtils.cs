@@ -1,10 +1,13 @@
+using System.Xml.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using x10.model.definition;
+using x10.model.metadata;
 using x10.ui.composition;
 using x10.ui;
+using x10.formula;
 
 namespace x10.gen {
   public static class CodeGenUtils {
@@ -22,6 +25,10 @@ namespace x10.gen {
       return members;
     }
 
-
+    public static ExpBase PathToExpression(IEnumerable<Member> path) {
+      FormulaParser parser = new FormulaParser(null, null, null, null);
+      string pathAsString = string.Join(".", path.Select(x => x.Name));
+      return parser.Parse(null, pathAsString, new X10DataType(path.First().Owner, false));
+    }
   }
 }

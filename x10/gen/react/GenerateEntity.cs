@@ -52,7 +52,7 @@ namespace x10.gen.react {
 
     private string GetType(Member member) {
       // Strings are never marked as optional because, at the very least, the have default value of ""
-      bool isString = member is X10RegularAttribute regular && regular.DataType == DataTypes.Singleton.String;
+      bool isString = member is X10Attribute regular && regular.DataType == DataTypes.Singleton.String;
       string optionalIndicator = member.IsMandatory || isString ? "" : "?";
 
       if (member is Association association) {
@@ -190,12 +190,11 @@ namespace x10.gen.react {
       WriteLine(0, "// Derived Attribute Functions");
 
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
-        string variableName = VariableName(entity, false);
-        MainVariableName = variableName;
+        MainVariableName = VariableName(entity, false);
 
         WriteLine(0, "export function {0}({1}: {2}): {3} {", 
           DerivedAttrFuncName(attribute), 
-          variableName, 
+          MainVariableName, 
           entity.Name,
           GetType(attribute));
 
@@ -204,7 +203,7 @@ namespace x10.gen.react {
           ImportsPlaceholder.ImportAppContext();
         }
 
-        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression, variableName));
+        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression));
         WriteLine(0, "}");
       }
 

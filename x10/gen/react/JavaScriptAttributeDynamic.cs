@@ -19,7 +19,6 @@ namespace x10.gen.react {
 
     public override object CalculateValue(CodeGenerator genericGenerator, Instance instance, out bool isCodeSnippet) {
       ReactCodeGenerator generator = (ReactCodeGenerator)genericGenerator;
-      string variableName = generator.MainVariableName;
       isCodeSnippet = false;
 
       UiAttributeValueAtomic atomicValue = instance.FindAttributeValue(LogicalName) as UiAttributeValueAtomic;
@@ -29,7 +28,7 @@ namespace x10.gen.react {
         if (IsMainDatabindingAttribute) {
           isCodeSnippet = true;
           if (instance.ModelMember == null)
-            return variableName;
+            return generator.MainVariableName;
           else
             return new CodeSnippetGenerator(WritePrimaryBindingAttribute);
         } else
@@ -37,7 +36,7 @@ namespace x10.gen.react {
       } else { // logical attribute WAS found...
         if (atomicValue.Expression != null) {
           isCodeSnippet = true;
-          return generator.ExpressionToString(atomicValue.Expression, variableName);
+          return generator.ExpressionToString(atomicValue.Expression);
         } else
           return GenerateAttributeForValue(atomicValue.Value);
       }
@@ -46,32 +45,18 @@ namespace x10.gen.react {
     // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
     private void WritePrimaryBindingAttribute(ReactCodeGenerator generator, int level, PlatformClassDef platClassDef, Instance instance) {
       PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
-
-      if (instance.ModelMember is X10DerivedAttribute derivedAttribute)
-        WritePrimaryBindingAttributeForDerived(generator, level, dataBind, derivedAttribute);
-      else
-        WritePrimaryBindingAttributeForRegular(generator, level, dataBind, instance);
-    }
-
-    private void WritePrimaryBindingAttributeForDerived(ReactCodeGenerator generator, int level, PlatformAttributeDynamic dataBind, X10DerivedAttribute derivedAttribute) {
-      generator.ImportsPlaceholder.ImportDerivedAttributeFunction(derivedAttribute);
-      string functionName = ReactCodeGenerator.DerivedAttrFuncName(derivedAttribute);
-      generator.WriteLine(level, "{0}={ {1}({2}) }", dataBind.PlatformName, functionName, generator.MainVariableName);
-      generator.WriteLine(level, "onChange={ () => { } }");
-    }
-
-    private void WritePrimaryBindingAttributeForRegular(ReactCodeGenerator generator, int level, PlatformAttributeDynamic dataBind, Instance instance) {
       IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
 
-      generator.DestructuringPlaceholder.WriteLine(path.First().Name + ","); // const {...} = topLevelVar;
-      string pathExpression = string.Join(".", path.Select(x => x.Name));
       bool isReadOnly = path.Any(x => x.IsReadOnly);
 
-      generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, pathExpression);
-
-      if (isReadOnly) // Special case for read-only: dummy onChane prop
-        generator.WriteLine(level, "onChange={ () => { } }");
-      else {
+      if (isReadOnly) {
+        ExpBase expression = CodeGenUtils.PathToExpression(path);
+        string expressionString = generator.ExpressionToString(expression);
+        generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
+        generator.WriteLine(level, "onChange={ () => { } }"); // Special case for read-only: dummy onChane prop
+      } else {
+        string pathExpression = string.Join(".", path.Select(x => x.Name));
+        generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.MainVariableName, pathExpression);
         generator.WriteLine(level, "onChange={ (value) => {");
         Member first = path.First();
         string variableName = ReactCodeGenerator.VariableName(first.Owner, false /* TODO */);

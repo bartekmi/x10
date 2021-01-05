@@ -19,7 +19,6 @@ namespace x10.gen.react {
     }
 
     internal string MainVariableName;
-    internal OutputPlaceholder DestructuringPlaceholder;
 
     private void PreProcessTree(ClassDefX10 classDef) {
       foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild)) 
@@ -80,12 +79,8 @@ namespace x10.gen.react {
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
-      if (model != null) {
+      if (model != null) 
         WriteLine(1, "const { {0}, onChange } = props;", MainVariableName);
-        WriteLine(1, "const {");
-        DestructuringPlaceholder = CreatePlaceholder(2);
-        WriteLine(1, "} = {0};", MainVariableName);
-      }
       WriteLine();
 
       WriteLine(1, "return (");

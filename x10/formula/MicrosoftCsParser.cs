@@ -66,7 +66,8 @@ namespace x10.formula {
         };
       }
 
-      SetFilePosition(element, x10Expression, span ?? expression.GetLocation().SourceSpan);
+      if (element != null)
+        SetFilePosition(element, x10Expression, span ?? expression.GetLocation().SourceSpan);
 
       return x10Expression;
     }

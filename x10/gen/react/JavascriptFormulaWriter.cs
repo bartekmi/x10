@@ -5,6 +5,7 @@ using System.IO;
 using x10.formula;
 using x10.utils;
 using x10.model.metadata;
+using x10.model.definition;
 
 namespace x10.gen.react {
   internal class JavaScriptFormulaWriter : IVisitor {
@@ -32,8 +33,14 @@ namespace x10.gen.react {
 
       if (exp.IsContext)
         _writer.Write("appContext");
-      else 
-        _writer.Write("{0}.{1}", _variableName, exp.Name);
+      else {
+        if (exp.DataType.Member is X10DerivedAttribute derivedAttr) { // Derived Attrs become function calls
+          string functionName = ReactCodeGenerator.DerivedAttrFuncName(derivedAttr);
+          _writer.Write("{0}({1})", functionName, _variableName);
+          _imports.ImportDerivedAttributeFunction(derivedAttr);
+        } else
+          _writer.Write("{0}.{1}", _variableName, exp.Name);
+      }
     }
 
     public void VisitInvocation(ExpInvocation exp) {
@@ -62,38 +69,54 @@ namespace x10.gen.react {
       if (WriteEnum(exp, exp.MemberName))
         return;
 
+      if (WriteDerivedAttribute(exp))
+        return;
+
       exp.Expression.Accept(this);
       _writer.Write("?.");
       _writer.Write(exp.MemberName);
+    }
+
+    private bool WriteDerivedAttribute(ExpMemberAccess exp) {
+      if (exp.DataType.Member is X10DerivedAttribute derivedAttr) {
+        string functionName = ReactCodeGenerator.DerivedAttrFuncName(derivedAttr);
+        WriteFunctionAroundExpression(exp.Expression, functionName);
+        _imports.ImportDerivedAttributeFunction(derivedAttr);
+        return true;
+      }
+
+      return false;
     }
 
     private bool WriteDataTypeMemberAccess(ExpMemberAccess exp) {
       if (!exp.Expression.DataType.IsPrimitive)
         return false;
 
-      string conversionFunction = null;
-      string conversionFunctionCollection = null;
+      string functionName = null;
+      string importPath = null;
 
       DataType dataType = exp.Expression.DataType.DataType;
       if (dataType == DataTypes.Singleton.Date) {
-        conversionFunctionCollection = "react_lib/type_helpers/dateFunctions";
+        importPath = "react_lib/type_helpers/dateFunctions";
         if (exp.MemberName == "year") {
-          conversionFunction = "getYear";
+          functionName = "getYear";
         }
       } 
 
-      if (conversionFunction != null) {
-        _writer.Write(conversionFunction);
-        _writer.Write("(");
-        exp.Expression.Accept(this);
-        _writer.Write(")");
-
-        _imports.Import(conversionFunction, conversionFunctionCollection);
-
+      if (functionName != null) {
+        WriteFunctionAroundExpression(exp.Expression, functionName);
+        _imports.Import(functionName, importPath);
         return true;
       }
 
       return false;
+    }
+
+    private void WriteFunctionAroundExpression(ExpBase expression, string functionName) {
+        _writer.Write(functionName);
+        _writer.Write("(");
+        expression.Accept(this);
+        _writer.Write(")");
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {
