@@ -75,20 +75,22 @@ namespace x10.ui.platform {
         if (attribute is PlatformAttributeStatic staticAttr)
           ValidateStaticAttribute(platform, staticAttr);
         else if (attribute is PlatformAttributeDynamic dynamicAttr)
-          ValidateDynamicAttribute(logical, platform, dynamicAttr);
+          HydrateAndValidateDynamicAttribute(logical, platform, dynamicAttr);
       }
     }
 
     private void ValidateStaticAttribute(PlatformClassDef platform, PlatformAttributeStatic staticAttr) {
       if (string.IsNullOrWhiteSpace(staticAttr.PlatformName) ||
-          staticAttr.Value == null || 
+          staticAttr.Value == null ||
           staticAttr.Value is string s && string.IsNullOrWhiteSpace(s))
         _messages.AddError(null, "Platform Attribute {0} of Platform Component {1} must specify both name and value",
           staticAttr, platform.PlatformName);
     }
 
-    private void ValidateDynamicAttribute(ClassDef logical, PlatformClassDef platform, PlatformAttributeDynamic dynamicAttr) {
+    private void HydrateAndValidateDynamicAttribute(ClassDef logical, PlatformClassDef platform, PlatformAttributeDynamic dynamicAttr) {
       UiAttributeDefinition attrDef = logical.FindAttribute(dynamicAttr.LogicalName);
+      dynamicAttr.LogicalAttribute = attrDef;
+
       if (attrDef == null) {
         if (dynamicAttr.IsMainDatabindingAttribute) {
           // The main data-bind attribute doesn't need to exist as a logical attribute

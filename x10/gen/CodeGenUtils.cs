@@ -6,6 +6,7 @@ using System.Linq;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
+using x10.ui.metadata;
 using x10.ui;
 using x10.formula;
 
@@ -29,6 +30,23 @@ namespace x10.gen {
       FormulaParser parser = new FormulaParser(null, null, null, null);
       string pathAsString = string.Join(".", path.Select(x => x.Name));
       return parser.Parse(null, pathAsString, new X10DataType(path.First().Owner, false));
+    }
+
+    public static bool IsReadOnly(Instance instance) {
+      // First, check if the Models force read-only (if model defines read-only, the member can NEVER be editable)
+      IEnumerable<Member> path = GetBindingPath(instance);
+      if (path.Any(x => x.IsReadOnly))
+        return true;
+
+      // Second, check if this instance or any above it have the Read Only attribute
+      UiAttributeDefinitionAtomic readOnlyAttrDef 
+        = ClassDefNative.Editable.FindAtomicAttribute(ClassDefNative.ATTR_READ_ONLY);
+
+      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(readOnlyAttrDef);
+      if (readOnlyAttr != null)
+        return (bool)readOnlyAttr.Value;
+
+      return false; // By default, we allow editing
     }
   }
 }

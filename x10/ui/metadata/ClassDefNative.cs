@@ -18,23 +18,32 @@ namespace x10.ui.metadata {
 
     // WARNING! WARNING! WARINING! ********* If adding new component, also add to array at bottom ***********
 
-    internal const string ATTR_VISIBLE = "visible";
+    public const string ATTR_VISIBLE = "visible";
+    public const string ATTR_READ_ONLY = "readOnly";
 
     public static ClassDefNative Object = new ClassDefNative() {
       Name = "ClassDefObject",
+      LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+        new UiAttributeDefinitionAtomic() {
+          Name = "id",
+          Description = "Id for any purpose - e.g. debugging",
+          DataType = DataTypes.Singleton.String,
+          Setter = "Id",
+        },
+      }
     };
 
     public static ClassDefNative Visual = new ClassDefNative() {
       Name = "ClassDefVisual",
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = ATTR_VISIBLE,
-              Description = "Is the object visible on the UI?",
-              DataType = DataTypes.Singleton.Boolean,
-              DefaultValue = false,
-            },
-          }
+        new UiAttributeDefinitionAtomic() {
+          Name = ATTR_VISIBLE,
+          Description = "Is the object visible on the UI?",
+          DataType = DataTypes.Singleton.Boolean,
+          DefaultValue = false,
+        },
+      }
     };
 
     public static ClassDefNative VisibilityControl = new ClassDefNative() {
@@ -42,12 +51,12 @@ namespace x10.ui.metadata {
       InheritsFrom = Visual,
       Description = "Automatically inserted by code generation schemes which require separate intermediate component to control visibility",
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionComplex() {
-            Name = "Content",
-            Description = "The content which is made visible or invisible",
-            IsPrimary = true,
-            ComplexAttributeType = ClassDefNative.Visual,
-          },
+        new UiAttributeDefinitionComplex() {
+          Name = "Content",
+          Description = "The content which is made visible or invisible",
+          IsPrimary = true,
+          ComplexAttributeType = ClassDefNative.Visual,
+        },
       }
     };
 
@@ -55,18 +64,19 @@ namespace x10.ui.metadata {
       Name = "ClassDefEditable",
       InheritsFrom = Visual,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "readOnly",
-              DataType = DataTypes.Singleton.Boolean,
-              DefaultValue = false,
-              TakeValueFromModelAttrName = "readOnly",
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "mandatory",
-              DataType = DataTypes.Singleton.Boolean,
-              DefaultValue = true,
-            },
-          }
+        new UiAttributeDefinitionAtomic() {
+          Name = ATTR_READ_ONLY,
+          DataType = DataTypes.Singleton.Boolean,
+          DefaultValue = false,
+          TakeValueFromModelAttrName = "readOnly",
+          IsAttached = true,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "mandatory",
+          DataType = DataTypes.Singleton.Boolean,
+          DefaultValue = true,
+        },
+      }
     };
 
     public static ClassDefNative RawHtml = new ClassDefNative() {
@@ -80,38 +90,38 @@ namespace x10.ui.metadata {
       Description = "Defines a single state variable on a UI Component",
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionAtomic() {
-              Name = "variable",
-              DataType = DataTypes.Singleton.String,
-              IsMandatory = true,
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "dataType",
-              DataType = DataTypes.Singleton.String,
-              IsMandatory = false,
-              Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
-                string typeName = xmlScalar.Value.ToString();
-                allEnums.FindDataTypeByNameWithError(typeName, xmlScalar);
-              }
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "model",
-              DataType = DataTypes.Singleton.String,
-              IsMandatory = false,
-              Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
-                string typeName = xmlScalar.Value.ToString();
-                allEntities.FindEntityByNameWithError(typeName, xmlScalar);
-              }
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "default",
-              DataType = DataTypes.Singleton.String,
-            },
-            new UiAttributeDefinitionAtomic() {
-              Name = "many",
-              DataType = DataTypes.Singleton.Boolean,
-            },
+        new UiAttributeDefinitionAtomic() {
+          Name = "variable",
+          DataType = DataTypes.Singleton.String,
+          IsMandatory = true,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "dataType",
+          DataType = DataTypes.Singleton.String,
+          IsMandatory = false,
+          Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
+            string typeName = xmlScalar.Value.ToString();
+            allEnums.FindDataTypeByNameWithError(typeName, xmlScalar);
           }
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "model",
+          DataType = DataTypes.Singleton.String,
+          IsMandatory = false,
+          Pass1Action = (messages, allEntities, allEnums, xmlScalar, uiComponent) => {
+            string typeName = xmlScalar.Value.ToString();
+            allEntities.FindEntityByNameWithError(typeName, xmlScalar);
+          }
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "default",
+          DataType = DataTypes.Singleton.String,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "many",
+          DataType = DataTypes.Singleton.Boolean,
+        },
+      }
     };
 
     // The fact that I have to create this class is lame!
@@ -154,14 +164,14 @@ namespace x10.ui.metadata {
       Description = "This 'meta' class definition actually specifies what attributes are allowed on a UI Class Def",
       InheritsFrom = Object,
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-            new UiAttributeDefinitionComplex() {
-              Name = STATE_ATTRIBUTE,
-              ComplexAttributeType = State,
-              IsMany = true,
-            },
-          }
+        new UiAttributeDefinitionComplex() {
+          Name = STATE_ATTRIBUTE,
+          ComplexAttributeType = State,
+          IsMany = true,
+        },
+      }
     };
-  
+
     // WARNING! WARNING! WARINING! ********* DO NOT MOVE THIS TO THE TOP!!! ***********
     // As crazy as it sounds, C# initializes static variables in the order in which they appear in the file
     // Add all primordial components to this array.

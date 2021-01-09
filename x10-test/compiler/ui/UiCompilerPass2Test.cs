@@ -1193,10 +1193,10 @@ namespace x10.compiler {
       Assert.Equal(@"<MyComponent model='Building'>
   <Form>
     <Label label='Id'>
-      <id readOnly='True'/>
+      <id ClassDefEditable.readOnly='True'/>
     </Label>
     <Label label='Derived'>
-      <derived ui='MyFunkyIntComponent' readOnly='True'/>
+      <derived ui='MyFunkyIntComponent' ClassDefEditable.readOnly='True'/>
     </Label>
   </Form>
 </MyComponent>

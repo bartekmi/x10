@@ -15,6 +15,12 @@ namespace x10.ui.metadata {
     // row/column to be used by children
     public bool IsAttached { get; set; }
 
+    // Derived
+
+    // For now, this is the same as IsAttached. Separating it out here in case we ever want to make these
+    // properties distinct from each other.
+    public bool IsInheritable {get { return IsAttached;}}
+
     public UiAttributeValueAtomic CreateValueAndAddToOwnerAtomic(IAcceptsUiAttributeValues owner, XmlBase xmlBase) {
       return (UiAttributeValueAtomic)CreateValueAndAddToOwner(owner, xmlBase);
     }

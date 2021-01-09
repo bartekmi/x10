@@ -6,6 +6,7 @@ using System.Linq;
 using x10.formula;
 using x10.ui.platform;
 using x10.ui.composition;
+using x10.ui.metadata;
 using x10.model.definition;
 
 namespace x10.gen.react {
@@ -21,7 +22,10 @@ namespace x10.gen.react {
       ReactCodeGenerator generator = (ReactCodeGenerator)genericGenerator;
       isCodeSnippet = false;
 
-      UiAttributeValueAtomic atomicValue = instance.FindAttributeValue(LogicalName) as UiAttributeValueAtomic;
+      UiAttributeValueAtomic atomicValue = LogicalAttribute == null ?
+        null :
+        instance.FindAttributeValueRespectInheritable((UiAttributeDefinitionAtomic)LogicalAttribute);
+        
       if (atomicValue == null) {
         // If the corresponding logical attribute does not exist, there is still the possibility that this is 
         // the main binding attribute (i.e. we will "bind" this attribute to the data model)
@@ -47,9 +51,7 @@ namespace x10.gen.react {
       PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
       IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
 
-      bool isReadOnly = path.Any(x => x.IsReadOnly);
-
-      if (isReadOnly) {
+      if (CodeGenUtils.IsReadOnly(instance)) {
         ExpBase expression = CodeGenUtils.PathToExpression(path);
         string expressionString = generator.ExpressionToString(expression);
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);

@@ -39,7 +39,7 @@ namespace x10.ui.platform {
     // If present, import the component from this directory.
     public string ImportDir {get;set;}
 
-    // Attributes - both static and dynamic
+    // Attributes - all types
     private IEnumerable<PlatformAttribute> _platformAttributes;
     public IEnumerable<PlatformAttribute> PlatformAttributes { 
       get { return _platformAttributes; }

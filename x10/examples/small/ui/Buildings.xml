@@ -1,5 +1,5 @@
 <Buildings model="Building" many="true" url="/buildings" query="Buildings">
-  <VerticalStackPanel>
+  <VerticalStackPanel ClassDefEditable.readOnly="true">
     <Heading1 text="Buildings"/>
     <HorizontalDivider/>
 

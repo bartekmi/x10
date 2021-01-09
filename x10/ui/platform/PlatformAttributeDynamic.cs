@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using x10.ui.composition;
+using x10.ui.metadata;
 
 
 namespace x10.ui.platform {
@@ -24,6 +24,9 @@ namespace x10.ui.platform {
     // may need to be bi-directional for editable properties.
     // The interpretation of 'Converter' is platform-specific.
     public string Converter { get; set; }
+
+    // Hydrated
+    public UiAttributeDefinition LogicalAttribute {get; internal set;}
 
     public PlatformAttributeDynamic() {}
 

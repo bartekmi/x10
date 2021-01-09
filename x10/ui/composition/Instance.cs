@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.IO;
 
 using x10.utils;
 using x10.parsing;
@@ -20,11 +18,14 @@ namespace x10.ui.composition {
     // and unit test purposes
     public abstract string DebugPrintAs();
 
+    // Instance id for any purpose - e.g. debugging. You can set the id property on any 
+    // UI component and trigger a conditional break-point on that id anywhere in the code
+    public string Id {get; set;}
+
     // The Entity Member which is being displayed/edited by this Instance
     // If null, this is the root child, or one of its consecutive children
     // where no path has been set yet.
     public Member ModelMember { get; set; }
-    // public Member ModelMember { get { return PathComponents == null ? null : PathComponents.LastOrDefault(); } }
 
     // The path components of this Instance. 
     public List<Member> PathComponents { get; set; }
@@ -47,6 +48,21 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; private set; }
     public ClassDef ClassDef { get { return RenderAs; } }
+
+    // Unlike the similar version defined as extension methods on IAcceptsUiAttributeValues,
+    // this method respects the "Inheritable" property of UiAttributeDefinitionAtomic
+    public UiAttributeValueAtomic FindAttributeValueRespectInheritable(UiAttributeDefinitionAtomic definition) {
+      Instance instance = this;
+
+      while (instance != null) {
+        UiAttributeValueAtomic value = instance.AtomicAttributeValues().SingleOrDefault(x => x.Definition == definition);
+        if (value != null || !definition.IsInheritable)
+          return value;
+        instance = instance.ParentInstance;
+      }
+
+      return null;
+    }
 
     // Derived
     public Instance ParentInstance { get { return Owner?.Owner as Instance; } }
