@@ -19,6 +19,12 @@ namespace x10.ui.composition {
       // Do nothing
     }
 
+    // To be used only for ClassDef.DefaultAttachedAttributes
+    public UiAttributeValueAtomic(UiAttributeDefinitionAtomic attrDefinition, object value)
+      : base(attrDefinition, null, null) {
+      Value = value;
+    }
+
     public void Print(TextWriter writer) {
       if (Definition.Name == ParserXml.ELEMENT_NAME)
         return;

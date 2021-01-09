@@ -27,6 +27,10 @@ namespace x10.ui.metadata {
     // with tweaks.
     public IEnumerable<UiAttributeDefinition> LocalAttributeDefinitions;
 
+    // Some logical components define "hard-coded" attached attributes. Classic case is that the standard Table
+    // component is always read-only
+    public IEnumerable<UiAttributeValue> DefaultAttachedAttributes;
+
     // Every x10 UI Component must have a data model. In addition, specilized
     // "native" components might be crafted which also reference X10 data models.
     public Entity ComponentDataModel { get; set; }
@@ -96,6 +100,9 @@ namespace x10.ui.metadata {
       return false;
     }
 
+    public UiAttributeValue FindDefaultAttachedAttribute(UiAttributeDefinition definition) {
+      return DefaultAttachedAttributes?.SingleOrDefault(x => x.Definition == definition);
+    }
 
     public UiAttributeDefinition FindAttribute(string attrName) {
       return AttributeDefinitions.SingleOrDefault(x => x.Name == attrName);

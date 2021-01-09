@@ -79,6 +79,8 @@ namespace x10.ui.metadata {
       }
     };
 
+    public static readonly UiAttributeDefinitionAtomic ATTR_READ_ONLY_OBJ = Editable.FindAtomicAttribute(ATTR_READ_ONLY);
+
     public static ClassDefNative RawHtml = new ClassDefNative() {
       Name = "RawHtml",
       Description = "A placeholder within which you can put raw HTML which will be rendered in the UI. No validation will be performed by the compiler.",

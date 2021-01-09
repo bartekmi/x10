@@ -3,6 +3,7 @@
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.metadata;
+using x10.ui.composition;
 
 namespace x10.ui.libraries {
   public class BaseLibrary {
@@ -482,6 +483,9 @@ namespace x10.ui.libraries {
             DataType = new DataTypeEnum(new string[] {"single", "multiple", "checkBox" }),
             DefaultValue = "single",
           },
+        },
+        DefaultAttachedAttributes = new List<UiAttributeValue>() {
+          new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, true),
         },
       },
       new ClassDefNative() {
