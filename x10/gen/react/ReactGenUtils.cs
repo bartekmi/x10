@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 using x10.formula;
 using x10.utils;
-using x10.parsing;
 using x10.model.metadata;
 using x10.model.definition;
+using x10.model;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -51,6 +51,14 @@ namespace x10.gen.react {
       if (isMany)
         name = NameUtils.Pluralize(name);
       return NameUtils.UncapitalizeFirstLetter(name);
+    }
+
+    internal static string FunctionName(string x10FunctionName) {
+      return NameUtils.UncapitalizeFirstLetter(x10FunctionName);
+    }
+
+    internal static string FunctionName(Function function) {
+      return FunctionName(function.Name);
     }
 
     internal static string DerivedAttrFuncName(X10DerivedAttribute attribute) {

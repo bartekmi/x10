@@ -4,7 +4,8 @@ using x10.model.metadata;
 
 namespace x10.formula {
   public class ExpInvocation : ExpBase {
-    public string FunctionName { get; set; }
+    public string FunctionName { get; set; } // This is set during parsing
+    public Function Function { get; private set; } // This is set here ONLY if the function exists
     public List<ExpBase> Arguments { get; set; }
 
     public ExpInvocation(FormulaParser parser) : base(parser) {
@@ -24,13 +25,13 @@ namespace x10.formula {
       foreach (ExpBase argumentExpression in Arguments)
         argTypes.Add(argumentExpression.DetermineType(rootType));
 
-      Function function = Parser.AllFunctions.FindFunctionErrorIfMultiple(FunctionName, this);
-      if (function == null)
+      Function = Parser.AllFunctions.FindFunctionErrorIfMultiple(FunctionName, this);
+      if (Function == null)
         return X10DataType.ERROR;
 
-      if (argTypes.Count == function.Arguments.Count) {
+      if (argTypes.Count == Function.Arguments.Count) {
         for (int ii = 0; ii < argTypes.Count; ii++) {
-          Argument expectedArg = function.Arguments[ii];
+          Argument expectedArg = Function.Arguments[ii];
           X10DataType actualType = argTypes[ii];
           ExpBase expression = Arguments[ii];
 
@@ -48,9 +49,9 @@ namespace x10.formula {
         }
       } else
         Parser.Errors.AddError(this, "Function '{0}' expects {1} argument(s) but was given {2}",
-          FunctionName, function.Arguments.Count, argTypes.Count);
+          FunctionName, Function.Arguments.Count, argTypes.Count);
 
-      return new X10DataType(function.ReturnType);
+      return new X10DataType(Function.ReturnType);
     }
   }
 }

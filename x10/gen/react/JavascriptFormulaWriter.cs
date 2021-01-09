@@ -44,7 +44,7 @@ namespace x10.gen.react {
     }
 
     public void VisitInvocation(ExpInvocation exp) {
-      _writer.Write(exp.FunctionName);
+      _writer.Write(ReactCodeGenerator.FunctionName(exp.FunctionName));
       _writer.Write("(");
       foreach (ExpBase argument in exp.Arguments) {
         argument.Accept(this);
@@ -52,6 +52,8 @@ namespace x10.gen.react {
           _writer.Write(", ");
       }
       _writer.Write(")");
+
+      _imports.ImportFunction(exp.Function);
     }
 
     public void VisitLiteral(ExpLiteral exp) {

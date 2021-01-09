@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 
 using x10.model.definition;
+using x10.model;
 
 namespace x10.gen.react {
   public class ImportsPlaceholder : CodeGenerator.Output {
@@ -82,6 +83,17 @@ namespace x10.gen.react {
 
     public void ImportType(string type, IAcceptsModelAttributeValues entity) {
       ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension);
+    }
+
+    public void ImportFunction(Function function) {
+      string functionName = ReactCodeGenerator.FunctionName(function);
+
+      _imports.Add(new ImportData() {
+        ImportName = functionName,
+        // TODO: In the yaml function definitions, make it possible to specify location of function
+        Path = "react_lib/functions/" + functionName,
+        IsDefault = true,
+      });
     }
 
     public override void Write(TextWriter writer)  {
