@@ -16,7 +16,6 @@ import TextLink from "latitude/TextLink";
 import enumToLabel from "react_lib/utils/enumToLabel";
 import CellRenderer from "react_lib/table/CellRenderer";
 
-import environment from "../environment";
 import history from "../history";
 import { type PetPolicyEnum, PetPolicyEnumPairs } from "../constants/PetPolicyEnum";
 
@@ -33,7 +32,7 @@ type Building = {
 type Props = {|
   +buildings: $ReadOnlyArray < Building >,
 |};
-function BuildingsPage(props: Props) {
+export default function BuildingsPage(props: Props): React.Node {
   const [sortBy, setSortBy] = React.useState({
     columnId: "name_and_description",
     direction: "asc",
@@ -111,41 +110,3 @@ function BuildingsPage(props: Props) {
     </div>
   );
 }
-
-export default function BuildingsPageWrapper(): React.Node {
-  return (
-    <QueryRenderer
-      environment={environment}
-      query={query}
-      variables={{}}
-      render={({ error, props }) => {
-        if (error) {
-          return <div>{error.message}</div>;
-        } else if (props) {
-          return (
-            <BuildingsPage
-              buildings={props.buildings.nodes}
-            />
-          );
-        }
-        return <div>Loading</div>;
-      }}
-    />
-  );
-}
-
-const query = graphql`
-  query BuildingsPageQuery {
-    buildings {
-      nodes {
-        dbid
-        name
-        description
-        petPolicy
-        physicalAddress {
-          city
-        }
-      }
-    }
-  }
-`;

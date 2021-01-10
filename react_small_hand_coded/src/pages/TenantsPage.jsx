@@ -10,7 +10,7 @@ import TextCell from "latitude/table/TextCell";
 import LinkCell from "latitude/table/LinkCell";
 import Text from "latitude/Text";
 
-import environment from "../environment";
+import environment from "react_lib/relay/environment";
 import history from '../history';
 
 type Tenant = {

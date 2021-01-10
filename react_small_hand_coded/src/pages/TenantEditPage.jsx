@@ -15,7 +15,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 
-import environment from "../environment";
+import environment from "react_lib/relay/environment";
 import {DBID_LOCALLY_CREATED} from "react_lib/constants";
 
 import type { TenantEditPageQueryResponse } from "./__generated__/TenantEditPageQuery.graphql";

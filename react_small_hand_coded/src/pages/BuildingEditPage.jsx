@@ -3,7 +3,7 @@
 import invariant from "invariant";
 import * as React from "react";
 import { v4 as uuid } from 'uuid';
-import { graphql, commitMutation } from "react-relay";
+import { graphql } from "react-relay";
 
 import Group from "latitude/Group"
 import Text from "latitude/Text";
@@ -25,8 +25,7 @@ import FormSection from "react_lib/form/FormSection";
 import FormFooter from "react_lib/form/FormFooter";
 import FormProvider from "react_lib/form/FormProvider";
 import MultiStacker from "react_lib/multi/MultiStacker";
-
-import environment from "environment";
+import basicCommitMutation from "react_lib/relay/basicCommitMutation";
 
 import { type PetPolicyEnum, PetPolicyEnumPairs } from "constants/PetPolicyEnum";
 import { type MailboxTypeEnum, MailboxTypeEnumPairs } from "constants/MailboxTypeEnum";
@@ -186,13 +185,7 @@ function saveBuilding(building: Building) {
     units: building.units,
   };
 
-  return commitMutation(
-    environment,
-    {
-      mutation,
-      variables,
-    }
-  );
+  basicCommitMutation(mutation, variables);
 }
 
 const mutation = graphql`

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { graphql, QueryRenderer } from "react-relay";
 
-import environment from "../environment";
+import EntityQueryRenderer from "react_lib/relay/EntityQueryRenderer";
 
 import BuildingEditPage from "./BuildingEditPage";
 import { type Building, createDefaultBuilding } from "entities/Building";
@@ -27,42 +27,19 @@ type Props = {
   }
 };
 export default function BuildingEditPageInterface(props: Props): React.Node {
-  const stringId = props.match.params.id;
-  if (stringId == null) {
-    return <BuildingEditForm building={createDefaultBuilding()} />
-  }
-
-  const id: number = parseInt(stringId);
-  if (isNaN(id)) {
-    throw new Error("Not a number: " + stringId);
-  }
-
   return (
-    <QueryRenderer
-      environment={environment}
-      query={query}
-      variables={{
-        id
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <div>{error.message}</div>;
-        } else if (props) {
-          return (
-            <BuildingEditForm
-              building={props.building}
-            />
-          );
-        }
-        return <div>Loading</div>;
-      }}
-    />
+      <EntityQueryRenderer
+        match={props.match}
+        createDefaultFunc={createDefaultBuilding}
+        createComponentFunc={(building) => <BuildingEditForm building={building}/>}
+        query={query}
+      />
   );
 }
 
 const query = graphql`
   query BuildingEditPageInterfaceQuery($id: Int!) {
-    building(id: $id) {
+    entity: building(id: $id) {
       id
       dbid
       name
