@@ -7,6 +7,7 @@ using x10.utils;
 using x10.model.metadata;
 using x10.model.definition;
 using x10.model;
+using x10.ui.composition;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -83,7 +84,7 @@ namespace x10.gen.react {
     }
     #endregion
 
-    #region Expression Helpers
+    #region Expression/Binding Helpers
     internal string ExpressionToString(ExpBase expression) {
       if (expression == null)
         return "EXPRESSION MISSING";
@@ -93,6 +94,14 @@ namespace x10.gen.react {
       JavaScriptFormulaWriter formulaWriterVisitor = new JavaScriptFormulaWriter(writer, SourceVariableName, ImportsPlaceholder);
       expression.Accept(formulaWriterVisitor);
       return writer.ToString();
+    }
+
+    internal string GetReadOnlyBindingPath(Instance instance) {
+      IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
+      ExpBase expression = CodeGenUtils.PathToExpression(path);
+      string expressionString = ExpressionToString(expression);
+
+      return expressionString;
     }
     #endregion
 

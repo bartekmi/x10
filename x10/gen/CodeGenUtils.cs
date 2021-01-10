@@ -9,6 +9,7 @@ using x10.ui.composition;
 using x10.ui.metadata;
 using x10.ui;
 using x10.formula;
+using x10.parsing;
 
 namespace x10.gen {
   public static class CodeGenUtils {
@@ -16,6 +17,7 @@ namespace x10.gen {
     // Get the binding path of an instance as a list of members
     public static List<Member> GetBindingPath(Instance instance) {
       List<Member> members = new List<Member>();
+      instance = Unwrap(instance);
 
       foreach (Instance item in UiUtils.ListSelfAndAncestors(instance).Reverse()) {
         if (item.PathComponents == null)
@@ -26,8 +28,16 @@ namespace x10.gen {
       return members;
     }
 
+    // Return <instance>, or its single child, if this instance is a wrapper
+    public static Instance Unwrap(Instance instance) {
+      if (instance.IsWrapper) 
+        instance = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();
+      return instance;
+    }
+
     public static ExpBase PathToExpression(IEnumerable<Member> path) {
-      FormulaParser parser = new FormulaParser(null, null, null, null);
+      MessageBucket messages = new MessageBucket();
+      FormulaParser parser = new FormulaParser(messages, null, new model.AllEnums(messages), null);
       string pathAsString = string.Join(".", path.Select(x => x.Name));
       return parser.Parse(null, pathAsString, new X10DataType(path.First().Owner, false));
     }

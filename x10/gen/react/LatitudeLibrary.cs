@@ -308,23 +308,27 @@ namespace x10.gen.react {
             Function = (generator, instance) => {
               Instance inner = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();      
               Member member = inner.ModelMember;
+
               if (member == null) {
                 return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
                   generator.WriteLine(indent, "render: (data) =>");
-                  
+        
+                  // Don't try to combine this push/pop with the one below. Note that this path returns a func pointer.
                   generator.PushSourceVariableName("data");
                   generator.GenerateComponentRecursively(ReactCodeGenerator.OutputType.React, indent + 1, inner);
                   generator.PopSourceVariableName();
-                  
+        
                   generator.WriteLine(indent, ",");
                 });
+              } else {
+                generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell");
+                
+                generator.PushSourceVariableName("data");
+                string path = generator.GetReadOnlyBindingPath(instance);
+                generator.PopSourceVariableName();
+                
+                return string.Format("(data) => <TextCell value={{ {0} }} />", path);
               }
-
-              generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell");
-
-              return string.Format("(data) => <TextCell value={{ data.{0} }} />",
-                PlatformUtils.ComposePath(instance)
-              );
             },
           },
           new JavaScriptAttributeDynamic() {

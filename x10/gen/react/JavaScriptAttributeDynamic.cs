@@ -49,14 +49,13 @@ namespace x10.gen.react {
     // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
     private void WritePrimaryBindingAttribute(ReactCodeGenerator generator, int level, PlatformClassDef platClassDef, Instance instance) {
       PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
-      IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
 
       if (CodeGenUtils.IsReadOnly(instance)) {
-        ExpBase expression = CodeGenUtils.PathToExpression(path);
-        string expressionString = generator.ExpressionToString(expression);
+        string expressionString = generator.GetReadOnlyBindingPath(instance);
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
         generator.WriteLine(level, "onChange={ () => { } }"); // Special case for read-only: dummy onChane prop
       } else {
+        IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
         string pathExpression = string.Join(".", path.Select(x => x.Name));
         generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.SourceVariableName, pathExpression);
         generator.WriteLine(level, "onChange={ (value) => {");
