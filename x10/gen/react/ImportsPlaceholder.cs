@@ -105,7 +105,7 @@ namespace x10.gen.react {
       _imports.Add(new ImportData() {
         ImportName = functionName,
         // TODO: In the yaml function definitions, make it possible to specify location of function
-        Path = "react_lib/functions/" + functionName,
+        Path = "react_lib/utils/" + functionName,
         IsDefault = true,
       });
     }

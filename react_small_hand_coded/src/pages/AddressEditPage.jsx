@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import Group from "latitude/Group"
 import TextInput from "latitude/TextInput";
 
-import isEmpty from "react_lib/utils/isEmpty";
+import isBlank from "react_lib/utils/isBlank";
 import { DBID_LOCALLY_CREATED } from "react_lib/constants";
 import FormField from "react_lib/form/FormField";
 
@@ -32,7 +32,7 @@ export default function AddressEditPage(props: Props): React.Node {
       <FormField 
         label="Address:" 
         indicateRequired={true}
-        errorMessage={isEmpty(address.address) ? "Address is mandatory" : null}
+        errorMessage={isBlank(address.address) ? "Address is mandatory" : null}
       >
           <TextInput
             value={address.address}
@@ -45,7 +45,7 @@ export default function AddressEditPage(props: Props): React.Node {
       <FormField 
         label="City:" 
         indicateRequired={true}
-        errorMessage={isEmpty(address.city) ? "City is mandatory" : null}
+        errorMessage={isBlank(address.city) ? "City is mandatory" : null}
         toolTip="If this is a rural address, enter the closest city or village"
         maxWidth={350}
       >

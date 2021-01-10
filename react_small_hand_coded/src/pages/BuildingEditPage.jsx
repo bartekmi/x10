@@ -14,7 +14,7 @@ import Label from "latitude/Label";
 import Button from "latitude/button/Button";
 import Checkbox from "latitude/Checkbox";
 
-import isEmpty from "react_lib/utils/isEmpty";
+import isBlank from "react_lib/utils/isBlank";
 import X10_CalendarDateInput from "react_lib/X10_CalendarDateInput";
 import { DBID_LOCALLY_CREATED } from "react_lib/constants";
 import FormField from "react_lib/form/FormField";
@@ -60,7 +60,7 @@ export default function BuildingEditPage(props: Props): React.Node {
           <FormField
             label="Name: "
             indicateRequired={true}
-            errorMessage={isEmpty(name) ? "Name is mandatory" : null}
+            errorMessage={isBlank(name) ? "Name is mandatory" : null}
             maxWidth={350}
           >
             <TextInput
@@ -85,7 +85,7 @@ export default function BuildingEditPage(props: Props): React.Node {
           <FormField
             label="Date of Occupancy: "
             indicateRequired={true}
-            errorMessage={isEmpty(dateOfOccupancy) ? "Date of Occupancy is mandatory" : null}
+            errorMessage={isBlank(dateOfOccupancy) ? "Date of Occupancy is mandatory" : null}
           >
             <X10_CalendarDateInput
               value={dateOfOccupancy}

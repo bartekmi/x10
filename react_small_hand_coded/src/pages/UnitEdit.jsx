@@ -10,7 +10,7 @@ import FloatInput from "latitude/FloatInput";
 import Checkbox from "latitude/Checkbox";
 import SelectInput from "latitude/select/SelectInput";
 
-import isEmpty from "react_lib/utils/isEmpty";
+import isBlank from "react_lib/utils/isBlank";
 import isPositive from "react_lib/utils/isPositive";
 import { DBID_LOCALLY_CREATED } from "react_lib/constants";
 import FormField from "react_lib/form/FormField";
@@ -41,7 +41,7 @@ export default function UnitEdit(props: Props): React.Node {
         label="Number:" 
         indicateRequired={true}
         errorMessageFullContext="Unit Number is mandatory"
-        errorMessage={isEmpty(number) ? "Mandatory" : null}
+        errorMessage={isBlank(number) ? "Mandatory" : null}
       >
         <TextInput
           value={number}
