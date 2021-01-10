@@ -31,7 +31,7 @@ namespace x10 {
     private static MessageBucket _messages = new MessageBucket();
 
     private static readonly GenConfig REACT_SMALL_CONFIG = new GenConfig() {
-      TargetDir = "../react_generated_small/__generated__",
+      TargetDir = "../react_small_generated/__generated__",
       Libraries = new PlatformLibrary[] {LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton())},
       Generator = new ReactCodeGenerator(),
     };
