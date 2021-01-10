@@ -28,12 +28,12 @@ type Props = {
 };
 export default function BuildingEditPageInterface(props: Props): React.Node {
   return (
-      <EntityQueryRenderer
-        match={props.match}
-        createDefaultFunc={createDefaultBuilding}
-        createComponentFunc={(building) => <BuildingEditForm building={building}/>}
-        query={query}
-      />
+    <EntityQueryRenderer
+      match={props.match}
+      createDefaultFunc={createDefaultBuilding}
+      createComponentFunc={(building) => <BuildingEditForm building={building}/>}
+      query={query}
+    />
   );
 }
 

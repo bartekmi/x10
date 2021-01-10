@@ -20,8 +20,8 @@ namespace x10.gen.react {
       GenerateFileHeader();
       GenerateImports(classDef, model);
       GenerateWrapper(classDef, model);
-      GenerateQueryRenderer(classDef);
-      GenerateGraphqlQuery(classDef);
+      GenerateQueryRenderer(classDef, model);
+      GenerateGraphqlQuery(classDef, model);
 
       End();
     }
@@ -68,14 +68,72 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private void GenerateQueryRenderer(ClassDefX10 classDef) {
+    private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
+      WriteLine(0,
+@"type Props = { 
+  +match: { 
+    +params: { 
+      +id: string
+    }
+  }
+}};");
+
+      string classDefName = classDef.Name;
+      string createDefaultFunc = CreateDefaultFuncName(model);
+      string variableName = VariableName(model, false);
+
+      WriteLine(0,
+@"export default function {0}Interface(props: Props): React.Node { 
+  return (
+    <EntityQueryRenderer
+      match={ props.match }
+      createDefaultFunc={ {1} }
+      createComponentFunc={ ({2}) => <{0}Wrapper {2}={ {2} }/> }
+      query={ query }
+    />
+  );
+}}",
+      classDefName,       // Index 0
+      createDefaultFunc,  // Index 1
+      variableName);      // Index 2
+
+      ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer");
+      ImportsPlaceholder.ImportCreateDefaultFunc(model);
 
       WriteLine();
     }
 
-    private void GenerateGraphqlQuery(ClassDefX10 classDef) {
+    private void GenerateGraphqlQuery(ClassDefX10 classDef, Entity model) {
+
+      string classDefName = classDef.Name;
+      string variableName = VariableName(model, false);
+
+      WriteLine(0, "const query = graphql`");
+      WriteLine(1, "query {0}InterfaceQuery($id: Int!) {", classDefName);
+      WriteLine(2, "entity: {0}(id: $id) {", variableName);
+
+      GenerateGraphqlQueryRecursively(2, model);
+
+      // Trailing brace of level 2 was written by recurse function
+      WriteLine(1, "}");
+      WriteLine(0, "`;");
 
       WriteLine();
+    }
+
+    private void GenerateGraphqlQueryRecursively(int level, Entity model) {
+      WriteLine(level + 1, "id");
+      WriteLine(level + 1, "dbid");
+
+      foreach (X10RegularAttribute attribute in model.RegularAttributes) 
+        WriteLine(level + 1, attribute.Name);
+      
+      foreach (Association association in model.Associations) {
+        WriteLine(level + 1, "{0} {", association.Name);
+        GenerateGraphqlQueryRecursively(level + 1, association.ReferencedEntity);
+      }
+
+      WriteLine(level, "}");  // Only the trailing brace is written by this method
     }
   }
 }
