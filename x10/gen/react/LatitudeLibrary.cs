@@ -432,7 +432,13 @@ namespace x10.gen.react {
         PlatformName = "FormSubmitButton",
         ImportDir = "react_lib/form",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("onClick","() => save(editedObject)", true),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "onClick",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              return string.Format("() => save({0})", generator.SourceVariableName);
+            },
+          },
         },
       },
       #endregion
