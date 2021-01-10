@@ -68,6 +68,10 @@ namespace x10.gen.react {
         NameUtils.Capitalize(attribute.Name);
     }
 
+    internal static string CreateDefaultFuncName(Entity model) {
+      return "createDefault" + model.Name;
+    }
+
     internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum) {
       if (literal == null)
         return "null";

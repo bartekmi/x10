@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 
 using x10.model.definition;
+using x10.ui.composition;
 using x10.model;
 
 namespace x10.gen.react {
@@ -59,12 +60,25 @@ namespace x10.gen.react {
       });
     }
 
+    public void ImportDefault(IAcceptsUiAttributeValues entity) {
+      ImportDefault(entity.XmlElement.FileInfo.RelativePathNoExtension);
+    }
+
     public void ImportType(string type, string path) {
       _imports.Add(new ImportData() {
         ImportName = type,
         Path = path,
         IsType = true,
       });
+    }
+
+    public void ImportType(Entity model) {
+      ImportType(model.Name, model.TreeElement.FileInfo.RelativePathNoExtension);
+    }
+
+    public void ImportCreateDefaultFunc(Entity model) {
+      Import(ReactCodeGenerator.CreateDefaultFuncName(model), 
+             model.TreeElement.FileInfo.RelativePathNoExtension);
     }
 
     // Some special cases

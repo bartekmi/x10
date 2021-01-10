@@ -28,11 +28,15 @@ namespace x10.gen.react {
     }
 
     public override void Generate(ClassDefX10 classDef) {
+      GenerateMainUiFile(classDef);
+      GenerateInterface(classDef);  // Done in GenerateReactComponentInterface file (partial class)
+    }
+
+    private void GenerateMainUiFile(ClassDefX10 classDef) {
       PreProcessTree(classDef);
 
       bool isForm = true; // TODO
       Entity model = classDef.ComponentDataModel;
-
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 

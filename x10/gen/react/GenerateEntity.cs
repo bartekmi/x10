@@ -54,7 +54,7 @@ namespace x10.gen.react {
     #region Generate Default Entity
     private void GenerateDefaultEntity(Entity model) {
       WriteLine(0, "// Create Default Function");
-      WriteLine(0, "export function createDefault{0}(): {0} {", model.Name);
+      WriteLine(0, "export function {0}(): {1} {", ReactCodeGenerator.CreateDefaultFuncName(model), model.Name);
       WriteLine(1, "return {");
 
       WriteLine(2, "id: uuid(),");
