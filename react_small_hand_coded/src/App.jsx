@@ -1,18 +1,17 @@
 // @flow
 
 import * as React from "react";
-import { graphql, QueryRenderer } from "react-relay";
 import { Route, Router } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 
-import Link from "latitude/Link";
 import Group from "latitude/Group";
-import Text from "latitude/Text";
-import colors from "latitude/colors";
 import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 
 import 'App.css';
 import { AppContextProvider } from "AppContext";
+
+import Menu from "react_lib/menu/Menu";
+import MenuItem from "react_lib/menu/MenuItem";
 
 import BuildingsPageInterface from "./pages/BuildingsPageInterface";
 import TenantsPage from "./pages/TenantsPage";
@@ -34,34 +33,27 @@ export default function App(): React.Node {
   return (
     <AppContextProvider value={appContext}>
       <div className={css(styles.app)}>
-        <Router history={history}>
+        <Group gap={12}>
+          <Menu>
+            <MenuItem href="/buildings" label="Buildings" />
+            <MenuItem href="/buildings/new" label="New Building" />
+            <MenuItem href="/tenants" label="Tenants" />
+            <MenuItem href="/tenants/new" label="New Tenant" />
+          </Menu>
 
-          <Group>
-            <div className={css(styles.menuItem)}>
-              <Link href="/buildings">Buildings</Link>
-            </div>
-            <div className={css(styles.menuItem)}>
-              <Link href="/buildings/new">New Building</Link>
-            </div>
-            <div className={css(styles.menuItem)}>
-              <Link href="/tenants">Tenants</Link>
-            </div>
-            <div className={css(styles.menuItem)}>
-              <Link href="/tenants/new">New Tenant</Link>
-            </div>
-          </Group>
+          <Router history={history}>
+            <Route exact path="/" component={BuildingsPageInterface} />
 
-          <Route exact path="/" component={BuildingsPageInterface} />
+            <Route exact path="/buildings" component={BuildingsPageInterface} />
+            <Route path="/buildings/edit/:id" component={BuildingEditPageInterface} />
+            <Route exact path="/buildings/new" component={BuildingEditPageInterface} />
 
-          <Route exact path="/buildings" component={BuildingsPageInterface} />
-          <Route path="/buildings/edit/:id" component={BuildingEditPageInterface} />
-          <Route exact path="/buildings/new" component={BuildingEditPageInterface} />
+            <Route exact path="/tenants" component={TenantsPage} />
+            <Route path="/tenants/edit/:id" component={TenantEditPage} />
+            <Route exact path="/tenants/new" component={TenantEditPage} />
 
-          <Route exact path="/tenants" component={TenantsPage} />
-          <Route path="/tenants/edit/:id" component={TenantEditPage} />
-          <Route exact path="/tenants/new" component={TenantEditPage} />
-
-        </Router>
+          </Router>
+        </Group>
       </div>
     </AppContextProvider>
   );
@@ -71,10 +63,5 @@ export default function App(): React.Node {
 const styles = StyleSheet.create({
   app: {
     padding: whitespaceSizeConstants.m,
-  },
-  menuItem: {
-    background: colors.grey20,
-    padding: whitespaceSizeConstants.m,
-    margins: "0px",
   },
 });
