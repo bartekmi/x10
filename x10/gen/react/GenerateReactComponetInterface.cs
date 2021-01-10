@@ -14,14 +14,21 @@ namespace x10.gen.react {
   public partial class ReactCodeGenerator {
 
     // Model is guaranteed to be non-null
-    private void GenerateInterface(ClassDefX10 classDef, Entity model) {
+    private void GenerateInterface(ClassDefX10 classDef, Entity model, bool isForm) {
       Begin(classDef.XmlElement.FileInfo, "Interface.jsx");
 
       GenerateFileHeader();
       GenerateImports(classDef, model);
-      GenerateWrapper(classDef, model);
-      GenerateQueryRenderer(classDef, model);
-      GenerateGraphqlQuery(classDef, model);
+
+      if (isForm) {
+        GenerateFormWrapper(classDef, model);
+        GenerateFormQueryRenderer(classDef, model);
+        GenerateFormGraphqlQuery(classDef, model);
+      } else if (classDef.IsMany) {
+        GenerateMultiQueryRenderer(classDef, model);
+        GenerateMultiGraphqlQuery(classDef, model);
+      }
+
 
       End();
     }
@@ -36,15 +43,14 @@ namespace x10.gen.react {
       ImportsPlaceholder.ImportDefault("environment");
 
       ImportsPlaceholder.ImportDefault(classDef);
-      if (model != null) {
+      if (model != null) 
         ImportsPlaceholder.ImportType(model);
-        ImportsPlaceholder.ImportCreateDefaultFunc(model);
-      }
 
       WriteLine();
     }
 
-    private void GenerateWrapper(ClassDefX10 classDef, Entity model) {
+    #region Form-Related Generation
+    private void GenerateFormWrapper(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
       string modelName = model.Name;
@@ -68,7 +74,7 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
+    private void GenerateFormQueryRenderer(ClassDefX10 classDef, Entity model) {
       WriteLine(0,
 @"type Props = { 
   +match: { 
@@ -103,7 +109,7 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private void GenerateGraphqlQuery(ClassDefX10 classDef, Entity model) {
+    private void GenerateFormGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
       string variableName = VariableName(model, false);
@@ -120,7 +126,50 @@ namespace x10.gen.react {
 
       WriteLine();
     }
+    #endregion
 
+    #region Multi-Related Generation
+    private void GenerateMultiQueryRenderer(ClassDefX10 classDef, Entity model) {
+      string classDefName = classDef.Name;
+      string variableName = VariableName(model, true);
+
+      WriteLine(0,
+@"export default function {0}Interface(props: { }): React.Node { 
+  return (
+    <MultiEntityQueryRenderer
+      createComponentFunc={ ({1}) => <{0} {1}={ {1} }/> }
+      query={ query }
+    />
+  );
+}}",
+      classDefName,       // Index 0
+      variableName);      // Index 1
+
+      ImportsPlaceholder.ImportDefault("react_lib/relay/MultiEntityQueryRenderer");
+
+      WriteLine();
+    }
+
+    private void GenerateMultiGraphqlQuery(ClassDefX10 classDef, Entity model) {
+
+      string classDefName = classDef.Name;
+      string variableName = VariableName(model, false);
+
+      WriteLine(0, "const query = graphql`");
+      WriteLine(1, "query {0}InterfaceQuery($id: Int!) {", classDefName);
+      WriteLine(2, "entity: {0}(id: $id) {", variableName);
+
+      GenerateGraphqlQueryRecursively(2, model);
+
+      // Trailing brace of level 2 was written by recurse function
+      WriteLine(1, "}");
+      WriteLine(0, "`;");
+
+      WriteLine();
+    }
+    #endregion
+
+    #region Utils
     private void GenerateGraphqlQueryRecursively(int level, Entity model) {
       WriteLine(level + 1, "id");
       WriteLine(level + 1, "dbid");
@@ -135,5 +184,6 @@ namespace x10.gen.react {
 
       WriteLine(level, "}");  // Only the trailing brace is written by this method
     }
+    #endregion
   }
 }

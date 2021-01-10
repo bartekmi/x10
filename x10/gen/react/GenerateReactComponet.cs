@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.utils;
-using x10.formula;
 using x10.model.definition;
+using x10.model.metadata;
 using x10.ui;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
+using x10.ui.libraries;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -19,7 +19,7 @@ namespace x10.gen.react {
     }
 
     private void PreProcessTree(ClassDefX10 classDef) {
-      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild)) 
+      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild))
         if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
           Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
           UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
@@ -29,30 +29,32 @@ namespace x10.gen.react {
 
     public override void Generate(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
+      bool isForm = classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
 
-      GenerateMainUiFile(classDef, model);
+      GenerateMainUiFile(classDef, model, isForm);
       if (model != null)
-        GenerateInterface(classDef, model);  // Done in GenerateReactComponentInterface file (partial class)
+        GenerateInterface(classDef, model, isForm);  // Done in GenerateReactComponentInterface file (partial class)
     }
 
-    private void GenerateMainUiFile(ClassDefX10 classDef, Entity model) {
+    private void GenerateMainUiFile(ClassDefX10 classDef, Entity model, bool isForm) {
       PreProcessTree(classDef);
-
-      bool isForm = true; // TODO
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
       GenerateFileHeader();
-      GenerateImports(model, isForm);
-      GenerateComponent(classDef);
+      GenerateImports(model);
+      GenerateComponent(classDef, isForm);
+
+      if (isForm) {
+        GenerateSave(model);
+        GenerateGraphqlMutation(classDef, model);
+      }
 
       End();
     }
 
-    private void GenerateImports(Entity model, bool isForm) {
+    private void GenerateImports(Entity model) {
       WriteLine(0, "import * as React from 'react';");
-      if (isForm)
-        WriteLine(0, "import { graphql, commitMutation } from 'react-relay';");
       WriteLine();
 
       ImportsPlaceholder = new ImportsPlaceholder();
@@ -65,7 +67,7 @@ namespace x10.gen.react {
       }
     }
 
-    private void GenerateComponent(ClassDefX10 classDef) {
+    private void GenerateComponent(ClassDefX10 classDef, bool isForm) {
       Entity model = classDef.ComponentDataModel;
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
@@ -77,14 +79,17 @@ namespace x10.gen.react {
           typeName = string.Format("$ReadOnlyArray<{0}>", typeName);
 
         WriteLine(1, "+{0}: {1},", SourceVariableName, typeName);
-        WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, typeName);
+        if (isForm)
+          WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, typeName);
       }
       WriteLine(0, "|}};");
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
-      if (model != null) 
+      if (isForm)
         WriteLine(1, "const { {0}, onChange } = props;", SourceVariableName);
+      else
+        WriteLine(1, "const { {0} } = props;", SourceVariableName);
       WriteLine();
 
       WriteLine(1, "return (");
@@ -179,6 +184,97 @@ namespace x10.gen.react {
 
     #endregion
 
+    #region Generate Save & Mutation
+    private void GenerateSave(Entity model) {
+      string variableName = VariableName(model, false);
+      string modelName = model.Name;
+
+      WriteLine(0, "function save({0}: {1}) {", variableName, modelName);
+      WriteLine(1, "const variables = {");
+      WriteLine(2, "dbid: {0}.dbid,", variableName);
+
+      foreach (Member member in model.RegularAttributes)
+        if (!(member is X10DerivedAttribute))
+          WriteLine(2, "{0}: {1}.{0},", member.Name, variableName);
+
+      WriteLine(1, "};");
+
+      WriteLine();
+      WriteLine(1, "basicCommitMutation(mutation, variables);");
+      WriteLine(0, "}");
+
+      ImportsPlaceholder.ImportDefault("react_lib/relay/basicCommitMutation");
+
+      WriteLine();
+    }
+
+    private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model) {
+      string variableName = VariableName(model, false);
+      string classDefName = classDef.Name;
+
+      WriteLine(0, "const mutation = graphql`");
+      WriteLine(1, "mutation {0}Mutation(", classDefName);
+      WriteLine(2, "$dbid: Int!");
+
+      foreach (Member member in model.RegularAttributes)
+        if (!(member is X10DerivedAttribute))
+          WriteLine(2, "${0}: {1}", member.Name, GraphqlType(member));
+
+      WriteLine(1, ") {");
+      WriteLine(2, "createOrUpdate{0}(", model.Name);
+      WriteLine(3, "dbid: $dbid");
+
+      foreach (Member member in model.RegularAttributes)
+        if (!(member is X10DerivedAttribute))
+          WriteLine(3, "{0}: ${0}", member.Name);
+
+      WriteLine(2, ")");
+      WriteLine(1, "}");
+      WriteLine(0, "`;");
+
+      ImportsPlaceholder.Import("graphql", "react-relay");
+
+      WriteLine();
+    }
+
+    #region GQL
+    // Eventually, this will probably move to GraphQL utilities
+    private string GraphqlType(Member member) {
+      if (member is X10Attribute attribute) {
+        string typeString = GetAtomicGraphqlType(attribute.DataType);
+        if (member.IsMandatory)
+          typeString += "!";
+        return typeString;
+      } else if (member is Association association) {
+        // Distinction between null and empty list is ill-defined, so only allow empty list
+        if (association.IsMany)
+          return string.Format("[{0}!]!");
+        else {
+          string typeString = association.ReferencedEntity.Name;
+          if (member.IsMandatory)
+            typeString += "!";
+          return typeString;
+        }
+      } else
+        throw new NotImplementedException("Unknown member type: " + member.GetType());
+    }
+
+    private string GetAtomicGraphqlType(DataType dataType) {
+      if (dataType == DataTypes.Singleton.Boolean) return "Boolean";
+      if (dataType == DataTypes.Singleton.Date) return "String";
+      if (dataType == DataTypes.Singleton.Float) return "Float";
+      if (dataType == DataTypes.Singleton.Integer) return "Int";
+      if (dataType == DataTypes.Singleton.String) return "String";
+      if (dataType == DataTypes.Singleton.Timestamp) return "String";
+      if (dataType == DataTypes.Singleton.Money) return "Float";
+      if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
+
+      throw new NotImplementedException("Unknown data type: " + dataType.Name);
+    }
+    #endregion
+
+    #endregion
+
     #region Utilities
     private void CalculateAndWriteAttributes(OutputType outputType, int level, PlatformClassDef platClassDef, Instance instance) {
       foreach (PlatformAttribute attribute in platClassDef.PlatformAttributes) {
@@ -190,7 +286,7 @@ namespace x10.gen.react {
       }
     }
 
-   private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
+    private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
       bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;
       string name = attribute.PlatformName;
 

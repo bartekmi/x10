@@ -8,6 +8,8 @@ using x10.ui.composition;
 namespace x10.ui.libraries {
   public class BaseLibrary {
 
+    public const string CLASS_DEF_FORM = "Form";
+
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
       #region No-Data Formatting Components
       new ClassDefNative() {
@@ -723,7 +725,7 @@ namespace x10.ui.libraries {
 
       #region Form
       new ClassDefNative() {
-        Name = "Form",
+        Name = CLASS_DEF_FORM,
         Description = "A data entry form - can also be used fore read-only viewing. Every child within the form will be provided a <Label> and validation error behavior.",
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
