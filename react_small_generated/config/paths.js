@@ -14,7 +14,7 @@ module.exports = {
   appIndexJs: resolveApp("src/index.jsx"), // Main entry point
 
   appSrc: resolveApp("src"), 
-  appGenerated: resolveApp("__generated__"), 
+  appGenerated: resolveApp("x10_generated"), 
 
   appBuild: resolveApp("build"), // Prod built files end up here
   appBuildDev: resolveApp("dist"), // Dev built files end up here

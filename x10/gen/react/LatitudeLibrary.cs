@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 
 using x10.parsing;
@@ -306,7 +307,7 @@ namespace x10.gen.react {
             PlatformName = "render",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              Instance inner = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();      
+              Instance inner = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();
               Member member = inner.ModelMember;
 
               if (member == null) {
@@ -317,16 +318,16 @@ namespace x10.gen.react {
                   generator.PushSourceVariableName("data");
                   generator.GenerateComponentRecursively(ReactCodeGenerator.OutputType.React, indent + 1, inner);
                   generator.PopSourceVariableName();
-        
+
                   generator.WriteLine(indent, ",");
                 });
               } else {
                 generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell");
-                
+
                 generator.PushSourceVariableName("data");
                 string path = generator.GetReadOnlyBindingPath(instance);
                 generator.PopSourceVariableName();
-                
+
                 return string.Format("(data) => <TextCell value={{ {0} }} />", path);
               }
             },
@@ -440,17 +441,13 @@ namespace x10.gen.react {
       },
       new JavaScriptPlatformClassDef() {
         LogicalName = "SpaContent",
-        PlatformName = "Router",
-        IsNonDefaultImport = true,
-        ImportDir = "react-router-dom",
+        PlatformName = "SpaContent",
+        ImportDir = "react_lib",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeByFunc() {
-            PlatformName = "history",
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "rootComponent",
+            PlatformName = "rootComponent",
             IsCodeSnippet = true,
-            Function = (generator, instance) => {
-              generator.ImportsPlaceholder.ImportDefault("history");
-              return "history";
-            },
           },
         },
         ProgrammaticallyGenerateChildren = (generatorGeneric, indent, PlatformClassDef, instance) => {
@@ -458,22 +455,25 @@ namespace x10.gen.react {
           generator.ImportsPlaceholder.Import("Route", "react-router-dom");
 
           foreach (ClassDefX10 classDef in generator.AllUiDefinitions.All) {
-            if (classDef.Url != null) {
-              generator.ImportsPlaceholder.ImportDefault(classDef);
+            if (classDef.Url == null)
+              continue;
 
-              if (classDef.IsMany)
-                generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
-                  classDef.Url,
-                  classDef.Name);
-              else {
-                generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
-                  classDef.Url,
-                  classDef.Name);
+            string compInterface = classDef.Name + "Interface";
+            string relPath = classDef.XmlElement.FileInfo.RelativeDir;
+            generator.ImportsPlaceholder.ImportDefault(Path.Combine(relPath, compInterface));
 
-                generator.WriteLine(indent, "<Route exact path='{0}/new' component={ {1} } />",
-                  classDef.Url,
-                  classDef.Name);
-              }
+            if (classDef.IsMany)
+              generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
+                classDef.Url,
+                compInterface);
+            else {
+              generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
+                classDef.Url,
+                compInterface);
+
+              generator.WriteLine(indent, "<Route exact path='{0}/new' component={ {1} } />",
+                classDef.Url,
+                compInterface);
             }
           }
         }
@@ -484,7 +484,7 @@ namespace x10.gen.react {
     #region Glue it Together
     private static PlatformLibrary _singleton;
     public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
-      if (_singleton == null) 
+      if (_singleton == null)
         _singleton = CreateLibrary(errors, logicalLibrary);
       return _singleton;
     }

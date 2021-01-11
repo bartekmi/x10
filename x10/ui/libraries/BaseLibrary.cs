@@ -768,6 +768,17 @@ namespace x10.ui.libraries {
         Name = "SpaContent",
         Description = "'Single Page Application' content. This is the root-level placeholder for the entire application, except for common 'skin' like top-level menu and footer. There should only be one of these in an application.",
         InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "rootComponent",
+            Description = "The name of the component to show if there is no path in the url - just the raw domain (i.e. Home Page)",
+            IsMandatory = true,
+            DataType = DataTypes.Singleton.String,
+            Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
+              allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
+            },
+          },
+        },
         // TODO... At some point, we should verify that there is only a single one of these in an App
       },
       #endregion

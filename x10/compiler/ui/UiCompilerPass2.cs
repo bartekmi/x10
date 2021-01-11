@@ -291,9 +291,6 @@ namespace x10.compiler {
       if (instance == null)
         return;
 
-      // Process this instance...
-      InvokePass2Actions(instance);
-
       X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
         ResolveUiComponent(modelReference);
@@ -317,6 +314,9 @@ namespace x10.compiler {
         foreach (Instance childInstance in value.Instances)
           CompileRecursively(childInstance, childDataModel);
       }
+
+      // Invoke Pass2 Actions (e.g. deep validation, etc)
+      InvokePass2Actions(instance);
     }
 
     #region Resolve Path

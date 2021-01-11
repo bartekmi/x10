@@ -33,7 +33,7 @@ export default function App(): React.Node {
   return (
     <AppContextProvider value={appContext}>
       <div className={css(styles.app)}>
-        <Group gap={12}>
+        <Group gap={12} flexDirection="column">
           <Menu>
             <MenuItem href="/buildings" label="Buildings" />
             <MenuItem href="/buildings/new" label="New Building" />

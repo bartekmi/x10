@@ -1,4 +1,4 @@
-<BuildingForm model="Building" url="/building/{$buildingId}" query="GetBuilding(buildingId: $buildingId">
+<BuildingForm model="Building" url="/building" query="GetBuilding(buildingId: $buildingId">
   <Form>
     <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
     <Heading1 text="=ageInYears"/>

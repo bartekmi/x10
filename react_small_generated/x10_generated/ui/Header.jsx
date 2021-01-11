@@ -1,17 +1,17 @@
-// This file was auto-generated on 01/10/2021 23:35:27. Do not modify by hand.
+// This file was auto-generated on 01/11/2021 09:22:34. Do not modify by hand.
 // @flow
 
 import * as React from 'react';
 
-import history from 'history';
 import Group from 'latitude/Group';
 import Menu from 'react_lib/menu/Menu';
 import MenuItem from 'react_lib/menu/MenuItem';
-import { Route, Router } from 'react-router-dom';
-import BuildingForm from 'ui/BuildingForm';
-import Buildings from 'ui/Buildings';
-import TenantForm from 'ui/TenantForm';
-import Tenants from 'ui/Tenants';
+import SpaContent from 'react_lib/SpaContent';
+import { Route } from 'react-router-dom';
+import BuildingFormInterface from 'ui/BuildingFormInterface';
+import BuildingsInterface from 'ui/BuildingsInterface';
+import TenantFormInterface from 'ui/TenantFormInterface';
+import TenantsInterface from 'ui/TenantsInterface';
 
 
 type Props = {|
@@ -41,16 +41,16 @@ export default function Header(props: Props): React.Node {
           href='/tenant/new'
         />
       </Menu>
-      <Router
-        history={ history }
+      <SpaContent
+        rootComponent={BuildingsInterface}
       >
-        <Route exact path='/tenants' component={ Tenants } />
-        <Route exact path='/buildings' component={ Buildings } />
-        <Route exact path='/building/{$buildingId}/edit/:id' component={ BuildingForm } />
-        <Route exact path='/building/{$buildingId}/new' component={ BuildingForm } />
-        <Route exact path='/tenant/{$tenantId}/edit/:id' component={ TenantForm } />
-        <Route exact path='/tenant/{$tenantId}/new' component={ TenantForm } />
-      </Router>
+        <Route exact path='/tenants' component={ TenantsInterface } />
+        <Route exact path='/buildings' component={ BuildingsInterface } />
+        <Route exact path='/building/edit/:id' component={ BuildingFormInterface } />
+        <Route exact path='/building/new' component={ BuildingFormInterface } />
+        <Route exact path='/tenant/edit/:id' component={ TenantFormInterface } />
+        <Route exact path='/tenant/new' component={ TenantFormInterface } />
+      </SpaContent>
     </Group>
   );
 }

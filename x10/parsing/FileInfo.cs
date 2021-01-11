@@ -18,6 +18,8 @@ namespace x10.parsing {
       }
     }
 
+    public string RelativeDir => Path.Combine(RelativeDirComponents);
+
     public string RelativePathNoExtension {
       get {
         int dotIndex = RelativePath.LastIndexOf('.');

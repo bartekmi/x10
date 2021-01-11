@@ -1,4 +1,4 @@
-<TenantForm model="Tenant" url="/tenant/{$tenantId}" query="GetTenant(tenantId: $tenantId">
+<TenantForm model="Tenant" url="/tenant" query="GetTenant(tenantId: $tenantId">
   <Form>
     <FormSection label="Tenant Info">
       <name/>
