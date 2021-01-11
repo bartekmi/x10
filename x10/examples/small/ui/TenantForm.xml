@@ -7,7 +7,7 @@
     </FormSection>
 
     <FormSection path="permanentMailingAddress" label="Permanent Mailing Address">
-      <address/>
+      <theAddress/>
       <city/>
       <stateOrProvince/>
       <zip/>

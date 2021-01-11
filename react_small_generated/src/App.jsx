@@ -15,12 +15,12 @@ import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 
 import { AppContextProvider } from "AppContext";
 
-import BuildingForm from "../__generated__/ui/BuildingForm";
+import Header from "../__generated__/ui/Header";
 
 export default function App(): React.Node {
 
   const appContext = {
-    today: new Date(),
+    today: new Date().toISOString(),
     currentUser: {
       name: "Bartek Muszynski",
       username: "bartekmi",
@@ -29,19 +29,7 @@ export default function App(): React.Node {
 
   return (
     <AppContextProvider value={appContext}>
-    <div className={css(styles.app)}>
-      <Router history={history}>
-
-        <Group>
-          <div className={css(styles.menuItem)}>
-            <Link href="/buildings/new">Buildings</Link>
-          </div>
-        </Group>
-
-        <Route exact path="/buildings/new" component={BuildingForm} />
-        
-      </Router>
-    </div>
+      <Header/>
     </AppContextProvider>
   );
 }

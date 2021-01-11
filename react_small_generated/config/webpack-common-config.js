@@ -17,7 +17,7 @@ module.exports = {
     extensions: [".js", ".jsx"],
     // This is where "import" statements are resolved. 
     // This must be kept in sync with module.name_mapper rules in .flowconfig
-    modules: ["node_modules", "src", "__generated__"],
+    modules: ["node_modules", "src", "x10_generated"],
   },
   module: {
     rules: [

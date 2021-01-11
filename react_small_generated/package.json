@@ -44,9 +44,9 @@
   },
   "scripts": {
     "react-lib": "rsync -avu ../react_lib/ src/react_lib",
-    "build": "yarn copy-react-lib && yarn webpack --config config/webpack-dev-config.js",
-    "start": "yarn copy-react-lib && node config/webpack-dev-server.js",
-    "relay": "relay-compiler --src ./src --schema ./schema.graphql --customScalars.DateTime=String --extensions js jsx",
+    "build": "yarn react-lib && yarn webpack --config config/webpack-dev-config.js",
+    "start": "yarn react-lib && node config/webpack-dev-server.js",
+    "relay": "relay-compiler --src ./src --schema ../schema.graphql --customScalars.DateTime=String --extensions js jsx",
     "flow": "flow",
 
     "clean": "rm -rf build/*",

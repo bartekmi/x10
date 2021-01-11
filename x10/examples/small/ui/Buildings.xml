@@ -19,7 +19,7 @@
             <HelpIcon visible="=!IsBlank(description)" text="=description"/>
           </Row>
         </TableColumn>
-        <physicalAddress.address/>
+        <physicalAddress.theAddress/>
         <physicalAddress.secondAddressLine label="City / Province"/>
         <ageInYears/>
         <petPolicy/>

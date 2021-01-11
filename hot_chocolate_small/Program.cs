@@ -14,7 +14,7 @@ namespace Small {
   public class Program {
     // Use this as part of the path if necessary in future...
     // Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
-    public const string SCHEMA_OUTPUT_FILE = "../react_small_hand_coded/schema.graphql";
+    public const string SCHEMA_OUTPUT_FILE = "../schema.graphql";
 
     public static async Task Main(string[] args) {
       // https://hotchocolategraphql.slack.com/archives/CD9TNKT8T/p1604414586468700

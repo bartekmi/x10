@@ -5,7 +5,7 @@ attributes:
   - name: unitNumber
     dataType: String
 
-  - name: address
+  - name: theAddress
     dataType: String
     mandatory: true
 
@@ -27,7 +27,7 @@ derivedAttributes:
     dataType: String
 # TODO
 #    formula: '=isEmpty(unitNumber) ? address : address + "   Unit " + unitNumber'
-    formula: '=address + "   Unit " + unitNumber'
+    formula: '=theAddress + "   Unit " + unitNumber'
   - name: secondAddressLine
     dataType: String
     formula: =city + ', ' + stateOrProvince

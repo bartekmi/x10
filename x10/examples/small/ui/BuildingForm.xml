@@ -9,7 +9,7 @@
     </FormSection>
 
     <FormSection path="physicalAddress" label="Physical Address">
-      <address/>
+      <theAddress/>
       <city/>
       <stateOrProvince/>
       <zip/>
@@ -18,7 +18,7 @@
     <FormSection label="Mailing Address">
       <mailingAddressSameAsPhysical/>
       <VerticalStackPanel path="mailingAddress">
-        <address label="Address or Post Office (PO) Box"/>
+        <theAddress label="Address or Post Office (PO) Box"/>
         <city/>
         <stateOrProvince/>
         <zip/>
