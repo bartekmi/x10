@@ -136,7 +136,10 @@ namespace x10.gen.react {
       if (platClassDef == null)
         return;
 
-      ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
+      if (platClassDef is JavaScriptPlatformClassDef jsPlatClassDef && jsPlatClassDef.IsNonDefaultImport)
+        ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir);
+      else
+        ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
 
       // Open the React tag
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
@@ -170,13 +173,16 @@ namespace x10.gen.react {
         primaryValue = null;
 
       // Close the XAML element, possibly recursively writing nested content
-      if (primaryValue == null)
+      if (primaryValue == null && platClassDef.ProgrammaticallyGenerateChildren == null)
         WriteLineClose(level, "/>");
       else {
         WriteLineClose(level, ">");
 
-        foreach (Instance childInstance in primaryValue.Instances)
-          GenerateComponentRecursively(OutputType.React, level + 1, childInstance);
+        if (primaryValue != null)
+          foreach (Instance childInstance in primaryValue.Instances)
+            GenerateComponentRecursively(OutputType.React, level + 1, childInstance);
+        else
+          platClassDef.ProgrammaticallyGenerateChildren(this, level + 1, platClassDef, instance);
 
         WriteLine(level, "</{0}>", platClassDef.EffectivePlatformName);
       }

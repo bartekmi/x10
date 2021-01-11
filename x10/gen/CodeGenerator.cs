@@ -23,10 +23,10 @@ namespace x10.gen {
     public abstract void Generate(Entity entity);
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
 
-    protected string RootGenerateDir;
-    protected AllEntities AllEntities;
-    protected AllEnums AllEnums;
-    protected AllUiDefinitions AllUiDefinitions;
+    public string RootGenerateDir;
+    public AllEntities AllEntities;
+    public AllEnums AllEnums;
+    public AllUiDefinitions AllUiDefinitions;
     public MessageBucket Messages;
 
     private IEnumerable<PlatformLibrary> _platformLibraries;

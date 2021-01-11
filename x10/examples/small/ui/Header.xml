@@ -1,12 +1,11 @@
 <Header>
-  <Menu>
-    <MenuItem label="Buildings">
+  <VerticalStackPanel>
+    <Menu>
       <MenuItem label="All Buildings" url="/buildings"/>
       <MenuItem label="Create New Building" url="/building/new"/>
-    </MenuItem>
-    <MenuItem label="Tenants">
       <MenuItem label="All Tenants" url="/tenants"/>
       <MenuItem label="Create New Tenant" url="/tenant/new"/>
-    </MenuItem>
-  </Menu>
+    </Menu>
+    <SpaContent/>
+  </VerticalStackPanel>
 </Header>

@@ -92,7 +92,7 @@ namespace x10.gen.react {
       },
       #endregion
 
-      #region  Atomic Text Display Components
+      #region Atomic Text Display Components
       new PlatformClassDef() {
         LogicalName = "Text",
         PlatformName = "Text",
@@ -344,19 +344,6 @@ namespace x10.gen.react {
       },
       #endregion
 
-      #region Misc
-      new PlatformClassDef() {
-        LogicalName = "HelpIcon",
-        PlatformName = "HelpTooltip",
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "text",
-          },
-        },
-      },
-      # endregion
-
       #region Button / Actions
       new PlatformClassDef() {
         LogicalName = "Button",
@@ -381,25 +368,22 @@ namespace x10.gen.react {
 
       #region Menu
       new PlatformClassDef() {
-      LogicalName = "Menu",
+        LogicalName = "Menu",
         PlatformName = "Menu",
+        ImportDir = "react_lib/menu",
       },
       new PlatformClassDef() {
-      LogicalName = "MenuItem",
+        LogicalName = "MenuItem",
         PlatformName = "MenuItem",
+        ImportDir = "react_lib/menu",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeByFunc() {
-            PlatformName = "Click",
-            Function = (instance) => instance.HasAttributeValue("url") ? "NavigateToUrlInTag" : null
-          },
           new JavaScriptAttributeDynamic() {
-            IsMainDatabindingAttribute = true,
             LogicalName = "label",
-            PlatformName = "Header",
+            PlatformName = "label",
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "url",
-            PlatformName = "Tag",
+            PlatformName = "href",
           },
         },
       },
@@ -442,6 +426,59 @@ namespace x10.gen.react {
         },
       },
       #endregion
+
+      #region Misc
+      new PlatformClassDef() {
+        LogicalName = "HelpIcon",
+        PlatformName = "HelpTooltip",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "text",
+          },
+        },
+      },
+      new JavaScriptPlatformClassDef() {
+        LogicalName = "SpaContent",
+        PlatformName = "Router",
+        IsNonDefaultImport = true,
+        ImportDir = "react-router-dom",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "history",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              generator.ImportsPlaceholder.ImportDefault("history");
+              return "history";
+            },
+          },
+        },
+        ProgrammaticallyGenerateChildren = (generatorGeneric, indent, PlatformClassDef, instance) => {
+          ReactCodeGenerator generator = (ReactCodeGenerator)generatorGeneric;
+          generator.ImportsPlaceholder.Import("Route", "react-router-dom");
+
+          foreach (ClassDefX10 classDef in generator.AllUiDefinitions.All) {
+            if (classDef.Url != null) {
+              generator.ImportsPlaceholder.ImportDefault(classDef);
+
+              if (classDef.IsMany)
+                generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
+                  classDef.Url,
+                  classDef.Name);
+              else {
+                generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
+                  classDef.Url,
+                  classDef.Name);
+
+                generator.WriteLine(indent, "<Route exact path='{0}/new' component={ {1} } />",
+                  classDef.Url,
+                  classDef.Name);
+              }
+            }
+          }
+        }
+      },
+      # endregion
     };
 
     #region Glue it Together

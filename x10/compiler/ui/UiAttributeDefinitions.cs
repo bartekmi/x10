@@ -16,6 +16,7 @@ namespace x10.compiler {
 
     public const string PATH = "path";
     public const string NAME = ParserXml.ELEMENT_NAME;
+    public const string URL = "url";
 
     public static UiAttributeDefinitionAtomic FindAttribute(UiAppliesTo appliesTo, string attributeName) {
       UiAttributeDefinitionAtomic attrDef = All.SingleOrDefault(x => 
@@ -84,7 +85,7 @@ namespace x10.compiler {
         DefaultValue = false,
       },
       new UiAttributeDefinitionAtomic() {
-        Name = "url",
+        Name = URL,
         Description = "For top-level components, this is the top-level string to which the application can jump to show the UI",
         AppliesTo = UiAppliesTo.ClassDef,
         DataType = DataTypes.Singleton.String,

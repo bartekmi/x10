@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using x10.ui.metadata;
+using x10.ui.composition;
+using x10.gen;
 
 namespace x10.ui.platform {
   public class PlatformClassDef {
@@ -37,11 +40,14 @@ namespace x10.ui.platform {
     public string PrimaryAttributeWrapperProperty { get; set; }
 
     // If present, import the component from this directory.
-    public string ImportDir {get;set;}
+    public string ImportDir { get; set; }
+
+    // If present, this code will be called to programmatically generate children 
+    public Action<CodeGenerator, int /* indent */, PlatformClassDef, Instance> ProgrammaticallyGenerateChildren { get; set; }
 
     // Attributes - all types
     private IEnumerable<PlatformAttribute> _platformAttributes;
-    public IEnumerable<PlatformAttribute> PlatformAttributes { 
+    public IEnumerable<PlatformAttribute> PlatformAttributes {
       get { return _platformAttributes; }
       set {
         _platformAttributes = value;

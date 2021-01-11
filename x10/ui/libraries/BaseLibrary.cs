@@ -533,18 +533,6 @@ namespace x10.ui.libraries {
 
       #region Button / Actions
       new ClassDefNative() {
-        Name = "HelpIcon",
-        Description = "A question mark icon that can provide the user with contextual help information.",
-        InheritsFrom = ClassDefNative.Visual,
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "text",
-            Description = "The text of the help info.",
-            DataType = DataTypes.Singleton.String,
-          },
-        },
-      },
-      new ClassDefNative() {
         Name = "Action",
         Description = "Base class for all actions",
         InheritsFrom = ClassDefNative.Object,
@@ -668,11 +656,6 @@ namespace x10.ui.libraries {
         Description = "A button that looks like an HTML hyperlink.",
         InheritsFromName = "Button",
       },
-      new ClassDefNative() {
-        Name = "SpaContent",
-        Description = "'Single Page Application' content. This is the root-level placeholder for the entire application, except for common 'skin' like top-level menu and footer. There should only be one of these in an application.",
-        InheritsFrom = ClassDefNative.Visual,
-      },
       #endregion
 
       #region Menu
@@ -765,6 +748,27 @@ namespace x10.ui.libraries {
             IsMandatory = true,
           },
         },
+      },
+      #endregion
+
+      #region Misc
+      new ClassDefNative() {
+        Name = "HelpIcon",
+        Description = "A question mark icon that can provide the user with contextual help information.",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "text",
+            Description = "The text of the help info.",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
+      },
+      new ClassDefNative() {
+        Name = "SpaContent",
+        Description = "'Single Page Application' content. This is the root-level placeholder for the entire application, except for common 'skin' like top-level menu and footer. There should only be one of these in an application.",
+        InheritsFrom = ClassDefNative.Visual,
+        // TODO... At some point, we should verify that there is only a single one of these in an App
       },
       #endregion
     };
