@@ -1,4 +1,4 @@
-// This file was auto-generated on 01/10/2021 22:40:08. Do not modify by hand.
+// This file was auto-generated on 01/10/2021 23:35:27. Do not modify by hand.
 // @flow
 
 import { createDefaultBuilding, type Building } from 'entities/Building';

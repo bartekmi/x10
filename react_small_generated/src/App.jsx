@@ -15,7 +15,7 @@ import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 
 import { AppContextProvider } from "AppContext";
 
-import Header from "../__generated__/ui/Header";
+import Header from "../x10_generated/ui/Header";
 
 export default function App(): React.Node {
 

@@ -1,4 +1,4 @@
-// This file was auto-generated on 01/10/2021 22:40:08. Do not modify by hand.
+// This file was auto-generated on 01/10/2021 23:35:27. Do not modify by hand.
 // @flow
 
 import * as React from 'react';
@@ -265,13 +265,15 @@ export default function BuildingForm(props: Props): React.Node {
 function save(building: Building) {
   const variables = {
     dbid: building.dbid,
-    moniker: building.moniker,
     name: building.name,
     description: building.description,
     dateOfOccupancy: building.dateOfOccupancy,
     mailboxType: building.mailboxType,
     petPolicy: building.petPolicy,
     mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
+    units: building.units,
+    physicalAddress: building.physicalAddress,
+    mailingAddress: building.mailingAddress,
   };
 
   basicCommitMutation(mutation, variables);
@@ -280,23 +282,27 @@ function save(building: Building) {
 const mutation = graphql`
   mutation BuildingFormMutation(
     $dbid: Int!
-    $moniker: String
     $name: String!
-    $description: String
-    $dateOfOccupancy: String!
+    $description: String!
+    $dateOfOccupancy: DateTime!
     $mailboxType: MailboxTypeEnum!
     $petPolicy: PetPolicyEnum
     $mailingAddressSameAsPhysical: Boolean!
+    $units: [UnitInput!]!
+    $physicalAddress: AddressInput!
+    $mailingAddress: AddressInput
   ) {
     createOrUpdateBuilding(
       dbid: $dbid
-      moniker: $moniker
       name: $name
       description: $description
       dateOfOccupancy: $dateOfOccupancy
       mailboxType: $mailboxType
       petPolicy: $petPolicy
       mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
+      units: $units
+      physicalAddress: $physicalAddress
+      mailingAddress: $mailingAddress
     )
   }
 `;

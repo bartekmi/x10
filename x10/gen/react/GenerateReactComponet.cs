@@ -199,8 +199,8 @@ namespace x10.gen.react {
       WriteLine(1, "const variables = {");
       WriteLine(2, "dbid: {0}.dbid,", variableName);
 
-      foreach (Member member in model.RegularAttributes)
-        if (!(member is X10DerivedAttribute))
+      foreach (Member member in model.Members)
+        if (CanWrite(member))
           WriteLine(2, "{0}: {1}.{0},", member.Name, variableName);
 
       WriteLine(1, "};");
@@ -214,6 +214,12 @@ namespace x10.gen.react {
       WriteLine();
     }
 
+    private bool CanWrite(Member member) {
+      return
+        !member.IsReadOnly &&
+        !(member is X10DerivedAttribute);
+    }
+
     private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model) {
       string variableName = VariableName(model, false);
       string classDefName = classDef.Name;
@@ -222,16 +228,16 @@ namespace x10.gen.react {
       WriteLine(1, "mutation {0}Mutation(", classDefName);
       WriteLine(2, "$dbid: Int!");
 
-      foreach (Member member in model.RegularAttributes)
-        if (!(member is X10DerivedAttribute))
+      foreach (Member member in model.Members)
+        if (CanWrite(member))
           WriteLine(2, "${0}: {1}", member.Name, GraphqlType(member));
 
       WriteLine(1, ") {");
       WriteLine(2, "createOrUpdate{0}(", model.Name);
       WriteLine(3, "dbid: $dbid");
 
-      foreach (Member member in model.RegularAttributes)
-        if (!(member is X10DerivedAttribute))
+      foreach (Member member in model.Members)
+        if (CanWrite(member))
           WriteLine(3, "{0}: ${0}", member.Name);
 
       WriteLine(2, ")");
@@ -248,18 +254,23 @@ namespace x10.gen.react {
     private string GraphqlType(Member member) {
       if (member is X10Attribute attribute) {
         string typeString = GetAtomicGraphqlType(attribute.DataType);
-        if (member.IsMandatory)
+        
+        if (member.IsMandatory ||
+            attribute.DataType == DataTypes.Singleton.String) // Strings are always mandatory to prevent null/empty ambiguity
           typeString += "!";
+
         return typeString;
       } else if (member is Association association) {
+        string refedEntityName = association.ReferencedEntityName;
+
         // Distinction between null and empty list is ill-defined, so only allow empty list
         if (association.IsMany)
-          return string.Format("[{0}!]!");
+          return string.Format("[{0}Input!]!", refedEntityName);
         else {
-          string typeString = association.ReferencedEntity.Name;
+          string inputType = refedEntityName + "Input";
           if (member.IsMandatory)
-            typeString += "!";
-          return typeString;
+            inputType += "!";
+          return inputType;
         }
       } else
         throw new NotImplementedException("Unknown member type: " + member.GetType());
@@ -267,11 +278,11 @@ namespace x10.gen.react {
 
     private string GetAtomicGraphqlType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "Boolean";
-      if (dataType == DataTypes.Singleton.Date) return "String";
+      if (dataType == DataTypes.Singleton.Date) return "DateTime";
       if (dataType == DataTypes.Singleton.Float) return "Float";
       if (dataType == DataTypes.Singleton.Integer) return "Int";
       if (dataType == DataTypes.Singleton.String) return "String";
-      if (dataType == DataTypes.Singleton.Timestamp) return "String";
+      if (dataType == DataTypes.Singleton.Timestamp) return "DateTime";
       if (dataType == DataTypes.Singleton.Money) return "Float";
       if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
 

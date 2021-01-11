@@ -1,4 +1,4 @@
-// This file was auto-generated on 01/10/2021 22:40:08. Do not modify by hand.
+// This file was auto-generated on 01/10/2021 23:35:27. Do not modify by hand.
 // @flow
 
 import * as React from 'react';
@@ -135,6 +135,7 @@ function save(tenant: Tenant) {
     name: tenant.name,
     phone: tenant.phone,
     email: tenant.email,
+    permanentMailingAddress: tenant.permanentMailingAddress,
   };
 
   basicCommitMutation(mutation, variables);
@@ -144,14 +145,16 @@ const mutation = graphql`
   mutation TenantFormMutation(
     $dbid: Int!
     $name: String!
-    $phone: String
+    $phone: String!
     $email: String!
+    $permanentMailingAddress: AddressInput!
   ) {
     createOrUpdateTenant(
       dbid: $dbid
       name: $name
       phone: $phone
       email: $email
+      permanentMailingAddress: $permanentMailingAddress
     )
   }
 `;
