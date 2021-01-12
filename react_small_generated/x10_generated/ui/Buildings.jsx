@@ -58,7 +58,7 @@ export default function Buildings(props: Props): React.Node {
                 </Group>
               ,
               header: 'Name',
-              width: 150,
+              width: 200,
             },
             {
               id: 'The Address',

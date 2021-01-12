@@ -13,7 +13,7 @@
 
       <!-- Columns -->
       <Table.Columns>
-        <TableColumn label="Name" width="150">
+        <TableColumn label="Name" width="200">
           <Row>
             <name/>
             <HelpIcon visible="=!IsBlank(description)" text="=description"/>

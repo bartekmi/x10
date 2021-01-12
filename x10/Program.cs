@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Diagnostics;
 
 using x10.parsing;
 using x10.compiler;
@@ -19,10 +20,17 @@ using x10.gen.wpf;
 
 namespace x10 {
 
+  public class ScriptInfo {
+    public string Script {get;set;}
+    public string Args {get;set;}
+  }
+
   public class GenConfig {
-    public string TargetDir {get;set;}
-    public PlatformLibrary[] Libraries {get;set;}
-    public CodeGenerator Generator {get;set;}
+    public string ProjectDir { get; set; }
+    public string TargetDir { get; set; }
+    public PlatformLibrary[] Libraries { get; set; }
+    public CodeGenerator Generator { get; set; }
+    public ScriptInfo PostGenerationScript { get; set; }
   }
 
   public class Program {
@@ -31,14 +39,20 @@ namespace x10 {
     private static MessageBucket _messages = new MessageBucket();
 
     private static readonly GenConfig REACT_SMALL_CONFIG = new GenConfig() {
-      TargetDir = "../react_small_generated/x10_generated",
-      Libraries = new PlatformLibrary[] {LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton())},
+      ProjectDir = "../react_small_generated",
+      TargetDir = "x10_generated",
+      Libraries = new PlatformLibrary[] { LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton()) },
       Generator = new ReactCodeGenerator(),
+      PostGenerationScript = new ScriptInfo() {
+        Script = "yarn",
+        Args = "relay",
+      }
     };
 
     private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
-      TargetDir = "../wpf_generated_small/__generated__",
-      Libraries = new PlatformLibrary[] {WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton())},
+      ProjectDir = "../wpf_generated_small",
+      TargetDir = "__generated__",
+      Libraries = new PlatformLibrary[] { WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton()) },
       Generator = new WpfCodeGenerator("wpf_generated"),
     };
 
@@ -46,7 +60,7 @@ namespace x10 {
 
       GenConfig config = REACT_SMALL_CONFIG;
       //GenConfig config = WPF_SMALL_CONFIG;
-      
+
       MessageBucket messages = new MessageBucket();
 
       string sourceDir = "examples/small";
@@ -61,7 +75,7 @@ namespace x10 {
       };
 
       DumpMessages(messages);
-      if (messages.Errors.Count() > 0 )
+      if (messages.Errors.Count() > 0)
         throw new Exception("Errors during compilation");
 
       CodeGenerator generator = config.Generator;
@@ -71,14 +85,42 @@ namespace x10 {
 
       messages.Clear();
       generator.Generate(
-        messages, 
-        config.TargetDir,
+        messages,
+        Path.Combine(config.ProjectDir, config.TargetDir),
         allEntities,
         allEnums,
         allUiDefinitions,
         libraries);
 
       DumpMessages(messages);
+
+      ExecutePostBuildScript(config);
+    }
+
+    private static void ExecutePostBuildScript(GenConfig config) {
+      ScriptInfo scriptInfo = config.PostGenerationScript;
+      if (scriptInfo == null) return;
+
+      ProcessStartInfo startInfo = new ProcessStartInfo();
+
+      startInfo.WorkingDirectory = config.ProjectDir;
+      startInfo.FileName = scriptInfo.Script;
+      startInfo.Arguments = scriptInfo.Args;
+      startInfo.RedirectStandardOutput = true;
+      startInfo.RedirectStandardError = true;
+
+      Console.WriteLine(string.Format("Executing: {0} {1}", scriptInfo.Script, scriptInfo.Args));
+      Process process = Process.Start(startInfo);
+
+      ReadAndDumpStream(process.StandardOutput);
+      ReadAndDumpStream(process.StandardError);
+
+      process.WaitForExit();
+    }
+
+    private static void ReadAndDumpStream(StreamReader reader) {
+      string output = reader.ReadToEnd();
+      Console.WriteLine(output);
     }
 
     internal static void CompileEverything(MessageBucket messages, string rootDir,
