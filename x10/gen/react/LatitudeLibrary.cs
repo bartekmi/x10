@@ -353,20 +353,16 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Button",
         PlatformName = "Button",
-        ImportDir = "latitude/button",
+        ImportDir = "react_lib",
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "text",
+            PlatformName = "label",
           },
-          // new PlatformAttributeStatic() {
-          //   PlatformName = "Click",
-          //   Value = "NavigateToUrlInTag",
-          // },
-          // new JavaScriptAttributeDynamic() {
-          //   LogicalName = "url",
-          //   PlatformName = "Tag",
-          // },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "url",
+            PlatformName = "url",
+          },
         },
       },
       #endregion

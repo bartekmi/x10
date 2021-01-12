@@ -5,13 +5,13 @@ import * as React from 'react';
 
 import { addressSecondAddressLine } from 'entities/Address';
 import { buildingAgeInYears } from 'entities/Building';
-import Button from 'latitude/button/Button';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
 import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 import TextInput from 'latitude/TextInput';
+import Button from 'react_lib/Button';
 import Separator from 'react_lib/Separator';
 import isBlank from 'react_lib/utils/isBlank';
 import VisibilityControl from 'react_lib/VisibilityControl';
@@ -90,10 +90,12 @@ export default function Buildings(props: Props): React.Node {
                 render: (data) =>
                   <Group>
                     <Button
-                      text='View'
+                      label='View'
+                      url='/building/{Id}'
                     />
                     <Button
-                      text='Edit'
+                      label='Edit'
+                      url='/building/{Id}'
                     />
                   </Group>
                 ,

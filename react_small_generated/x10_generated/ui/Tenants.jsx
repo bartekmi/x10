@@ -3,11 +3,11 @@
 
 import * as React from 'react';
 
-import Button from 'latitude/button/Button';
 import Group from 'latitude/Group';
 import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
+import Button from 'react_lib/Button';
 import Separator from 'react_lib/Separator';
 
 
@@ -57,10 +57,12 @@ export default function Tenants(props: Props): React.Node {
                 render: (data) =>
                   <Group>
                     <Button
-                      text='View'
+                      label='View'
+                      url='/tenant/{Id}'
                     />
                     <Button
-                      text='Edit'
+                      label='Edit'
+                      url='/tenant/{Id}'
                     />
                   </Group>
                 ,
