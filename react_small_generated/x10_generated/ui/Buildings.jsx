@@ -34,74 +34,76 @@ export default function Buildings(props: Props): React.Node {
         children='Buildings'
       />
       <Separator/>
-      <Table
-        data={ buildings }
-        getUniqueRowId={ row => row.id }
-        columnDefinitions={
-          [
-            {
-              id: 'Name',
-              render: (data) =>
-                <Group>
-                  <TextInput
-                    value={ data.name }
-                    onChange={ () => { } }
-                    readOnly={ true }
-                  />
-                  <VisibilityControl
-                    visible={ !isBlank(data.description) }
-                  >
-                    <HelpTooltip
-                      text={ data.description }
+      <div style={ { height: '500px', wdith: '100%' } }>
+        <Table
+          data={ buildings }
+          getUniqueRowId={ row => row.id }
+          columnDefinitions={
+            [
+              {
+                id: 'Name',
+                render: (data) =>
+                  <Group>
+                    <TextInput
+                      value={ data.name }
+                      onChange={ () => { } }
+                      readOnly={ true }
                     />
-                  </VisibilityControl>
-                </Group>
-              ,
-              header: 'Name',
-              width: 200,
-            },
-            {
-              id: 'The Address',
-              render: (data) => <TextCell value={ data.physicalAddress?.theAddress } />,
-              header: 'The Address',
-              width: 140,
-            },
-            {
-              id: 'City / Province',
-              render: (data) => <TextCell value={ addressSecondAddressLine(data.physicalAddress) } />,
-              header: 'City / Province',
-              width: 140,
-            },
-            {
-              id: 'Age In Years',
-              render: (data) => <TextCell value={ buildingAgeInYears(data) } />,
-              header: 'Age In Years',
-              width: 140,
-            },
-            {
-              id: 'Pet Policy',
-              render: (data) => <TextCell value={ data.petPolicy } />,
-              header: 'Pet Policy',
-              width: 140,
-            },
-            {
-              id: 'Action',
-              render: (data) =>
-                <Group>
-                  <Button
-                    text='View'
-                  />
-                  <Button
-                    text='Edit'
-                  />
-                </Group>
-              ,
-              header: 'Action',
-              width: 140,
-            },
-          ]
-        }
-      />
+                    <VisibilityControl
+                      visible={ !isBlank(data.description) }
+                    >
+                      <HelpTooltip
+                        text={ data.description }
+                      />
+                    </VisibilityControl>
+                  </Group>
+                ,
+                header: 'Name',
+                width: 200,
+              },
+              {
+                id: 'The Address',
+                render: (data) => <TextCell value={ data.physicalAddress?.theAddress } />,
+                header: 'The Address',
+                width: 140,
+              },
+              {
+                id: 'City / Province',
+                render: (data) => <TextCell value={ addressSecondAddressLine(data.physicalAddress) } />,
+                header: 'City / Province',
+                width: 140,
+              },
+              {
+                id: 'Age In Years',
+                render: (data) => <TextCell value={ buildingAgeInYears(data) } />,
+                header: 'Age In Years',
+                width: 140,
+              },
+              {
+                id: 'Pet Policy',
+                render: (data) => <TextCell value={ data.petPolicy } />,
+                header: 'Pet Policy',
+                width: 140,
+              },
+              {
+                id: 'Action',
+                render: (data) =>
+                  <Group>
+                    <Button
+                      text='View'
+                    />
+                    <Button
+                      text='Edit'
+                    />
+                  </Group>
+                ,
+                header: 'Action',
+                width: 140,
+              },
+            ]
+          }
+        />
+      </div>
     </Group>
   );
 }

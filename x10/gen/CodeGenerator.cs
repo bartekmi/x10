@@ -122,6 +122,14 @@ namespace x10.gen {
       _writingLineMaybe = true;
     }
 
+    protected void Write(string text, bool includeLeadingSpace, params object[] args) {
+      text = EscapeSpaceProtectedBraces(text);
+      if (includeLeadingSpace)
+        text = " " + text;
+
+      _outputs.Add(new OutputWrite(text, args));
+    }
+
     private void WritePrivate(int level, string text, params object[] args) {
       if (_writer == null)
         throw new Exception("Your forgot to Begin()");

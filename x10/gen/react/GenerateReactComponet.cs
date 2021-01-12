@@ -18,15 +18,7 @@ namespace x10.gen.react {
       React,
     }
 
-    private void PreProcessTree(ClassDefX10 classDef) {
-      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild))
-        if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
-          Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
-          UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
-          intermediate.AttributeValues.Add(visibleAttribute);
-        }
-    }
-
+    #region Top Level
     public override void Generate(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
       bool isForm = classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
@@ -51,6 +43,15 @@ namespace x10.gen.react {
       }
 
       End();
+    }
+
+    private void PreProcessTree(ClassDefX10 classDef) {
+      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild))
+        if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
+          Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
+          UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
+          intermediate.AttributeValues.Add(visibleAttribute);
+        }
     }
 
     private void GenerateImports(Entity model) {
@@ -100,6 +101,7 @@ namespace x10.gen.react {
 
       PopSourceVariableName();
     }
+    #endregion
 
     #region GenerateJavascriptObjectRecursively
     private void RenderComplexAttrAsJavascript(int level, UiAttributeValueComplex complex) {
@@ -136,12 +138,24 @@ namespace x10.gen.react {
       if (platClassDef == null)
         return;
 
-      if (platClassDef is JavaScriptPlatformClassDef jsPlatClassDef && jsPlatClassDef.IsNonDefaultImport)
-        ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir);
-      else
-        ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
+      GenerateComponentRecursively(outputType, level, instance, platClassDef);
+    }
+
+    internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance, PlatformClassDef platClassDef) {
+      string[] htmlTags = new string[] { "div" };
+
+      if (htmlTags.Contains(platClassDef.PlatformName)) {
+        // Since this is an HTML tag, no need for import
+      } else {
+        if (platClassDef is JavaScriptPlatformClassDef jsPlatClassDef && jsPlatClassDef.IsNonDefaultImport)
+          ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir);
+        else
+          ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
+      }
 
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName); // Open the React tag
+      if (platClassDef.StyleInfo != null)
+        Write(" style={ { {0} } }", true, platClassDef.StyleInfo);
       CalculateAndWriteAttributes(outputType, level + 1, platClassDef, instance);
       WritePrimaryAttributeAsProperty(level + 1, platClassDef, instance);
       WriteNestedContentsAndClosingTag(level, platClassDef, instance);
@@ -171,12 +185,16 @@ namespace x10.gen.react {
       if (platClassDef.PrimaryAttributeWrapperProperty != null)
         primaryValue = null;
 
-      if (primaryValue == null && platClassDef.ProgrammaticallyGenerateChildren == null)
+      if (primaryValue == null &&
+          platClassDef.ProgrammaticallyGenerateChildren == null &&
+          platClassDef.NestedClassDef == null)
         WriteLineClose(level, "/>");
       else {
         WriteLineClose(level, ">");
 
-        if (primaryValue != null)
+        if (platClassDef.NestedClassDef != null)
+          GenerateComponentRecursively(OutputType.React, level + 1, instance, platClassDef.NestedClassDef);
+        else if (primaryValue != null)
           foreach (Instance childInstance in primaryValue.Instances)
             GenerateComponentRecursively(OutputType.React, level + 1, childInstance);
         else
@@ -252,7 +270,7 @@ namespace x10.gen.react {
     private string GraphqlType(Member member) {
       if (member is X10Attribute attribute) {
         string typeString = GetAtomicGraphqlType(attribute.DataType);
-        
+
         if (member.IsMandatory ||
             attribute.DataType == DataTypes.Singleton.String) // Strings are always mandatory to prevent null/empty ambiguity
           typeString += "!";

@@ -28,47 +28,49 @@ export default function Tenants(props: Props): React.Node {
         children='Tenants'
       />
       <Separator/>
-      <Table
-        data={ tenants }
-        getUniqueRowId={ row => row.id }
-        columnDefinitions={
-          [
-            {
-              id: 'Name',
-              render: (data) => <TextCell value={ data.name } />,
-              header: 'Name',
-              width: 140,
-            },
-            {
-              id: 'Phone',
-              render: (data) => <TextCell value={ data.phone } />,
-              header: 'Phone',
-              width: 140,
-            },
-            {
-              id: 'Email',
-              render: (data) => <TextCell value={ data.email } />,
-              header: 'Email',
-              width: 140,
-            },
-            {
-              id: 'Action',
-              render: (data) =>
-                <Group>
-                  <Button
-                    text='View'
-                  />
-                  <Button
-                    text='Edit'
-                  />
-                </Group>
-              ,
-              header: 'Action',
-              width: 140,
-            },
-          ]
-        }
-      />
+      <div style={ { height: '500px', wdith: '100%' } }>
+        <Table
+          data={ tenants }
+          getUniqueRowId={ row => row.id }
+          columnDefinitions={
+            [
+              {
+                id: 'Name',
+                render: (data) => <TextCell value={ data.name } />,
+                header: 'Name',
+                width: 140,
+              },
+              {
+                id: 'Phone',
+                render: (data) => <TextCell value={ data.phone } />,
+                header: 'Phone',
+                width: 140,
+              },
+              {
+                id: 'Email',
+                render: (data) => <TextCell value={ data.email } />,
+                header: 'Email',
+                width: 140,
+              },
+              {
+                id: 'Action',
+                render: (data) =>
+                  <Group>
+                    <Button
+                      text='View'
+                    />
+                    <Button
+                      text='Edit'
+                    />
+                  </Group>
+                ,
+                header: 'Action',
+                width: 140,
+              },
+            ]
+          }
+        />
+      </div>
     </Group>
   );
 }

@@ -284,16 +284,20 @@ namespace x10.gen.react {
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",
-        PlatformName = "Table",
-        ImportDir = "latitude/table",
-        PrimaryAttributeWrapperProperty = "columnDefinitions",
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            IsMainDatabindingAttribute = true,
-            PlatformName = "data",
+        PlatformName = "div",
+        StyleInfo = "height: '500px', wdith: '100%'",
+        NestedClassDef = new PlatformClassDef() {
+          PlatformName = "Table",
+          ImportDir = "latitude/table",
+          PrimaryAttributeWrapperProperty = "columnDefinitions",
+          PlatformAttributes = new List<PlatformAttribute>() {
+            new JavaScriptAttributeDynamic() {
+              IsMainDatabindingAttribute = true,
+              PlatformName = "data",
+            },
+            new PlatformAttributeStatic("getUniqueRowId", "row => row.id", true),
           },
-          new PlatformAttributeStatic("getUniqueRowId", "row => row.id", true),
-        },
+        }
       },
       new PlatformClassDef() {
         LogicalName = "TableColumn",
