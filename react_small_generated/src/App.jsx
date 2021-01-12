@@ -29,7 +29,9 @@ export default function App(): React.Node {
 
   return (
     <AppContextProvider value={appContext}>
-      <Header/>
+      <div className={css(styles.app)}>
+        <Header/>
+      </div>
     </AppContextProvider>
   );
 }
@@ -38,10 +40,5 @@ export default function App(): React.Node {
 const styles = StyleSheet.create({
   app: {
     padding: whitespaceSizeConstants.m,
-  },
-  menuItem: {
-    background: colors.grey20,
-    padding: whitespaceSizeConstants.m,
-    margins: "0px",
   },
 });
