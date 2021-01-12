@@ -19,21 +19,23 @@ export default function TenantsInterface(props: { }): React.Node {
 }
 
 const query = graphql`
-  query TenantsInterfaceQuery($id: Int!) {
-    entity: tenant(id: $id) {
-      id
-      dbid
-      name
-      phone
-      email
-      permanentMailingAddress {
+  query TenantsInterfaceQuery {
+    entities: tenants {
+      nodes {
         id
         dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
+        name
+        phone
+        email
+        permanentMailingAddress {
+          id
+          dbid
+          unitNumber
+          theAddress
+          city
+          stateOrProvince
+          zip
+        }
       }
     }
   }

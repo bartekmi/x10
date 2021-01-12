@@ -19,43 +19,45 @@ export default function BuildingsInterface(props: { }): React.Node {
 }
 
 const query = graphql`
-  query BuildingsInterfaceQuery($id: Int!) {
-    entity: building(id: $id) {
-      id
-      dbid
-      moniker
-      name
-      description
-      dateOfOccupancy
-      mailboxType
-      petPolicy
-      mailingAddressSameAsPhysical
-      units {
+  query BuildingsInterfaceQuery {
+    entities: buildings {
+      nodes {
         id
         dbid
-        number
-        squareFeet
-        numberOfBedrooms
-        numberOfBathrooms
-        hasBalcony
-      }
-      physicalAddress {
-        id
-        dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
-      }
-      mailingAddress {
-        id
-        dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
+        moniker
+        name
+        description
+        dateOfOccupancy
+        mailboxType
+        petPolicy
+        mailingAddressSameAsPhysical
+        units {
+          id
+          dbid
+          number
+          squareFeet
+          numberOfBedrooms
+          numberOfBathrooms
+          hasBalcony
+        }
+        physicalAddress {
+          id
+          dbid
+          unitNumber
+          theAddress
+          city
+          stateOrProvince
+          zip
+        }
+        mailingAddress {
+          id
+          dbid
+          unitNumber
+          theAddress
+          city
+          stateOrProvince
+          zip
+        }
       }
     }
   }

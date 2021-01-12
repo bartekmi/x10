@@ -43,7 +43,7 @@ namespace Small {
     /// </summary>
     /// <param name="id">The id of the tenant.</param>
     /// <param name="repository"></param>
-    /// <returns>The Building.</returns>
+    /// <returns>The Tenant.</returns>
     public Tenant GetTenant(
         int id,
         [Service] ISmallRepository repository) =>

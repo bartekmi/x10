@@ -156,12 +156,14 @@ namespace x10.gen.react {
       string variableName = VariableName(model, false);
 
       WriteLine(0, "const query = graphql`");
-      WriteLine(1, "query {0}InterfaceQuery($id: Int!) {", classDefName);
-      WriteLine(2, "entity: {0}(id: $id) {", variableName);
+      WriteLine(1, "query {0}InterfaceQuery {", classDefName);
+      WriteLine(2, "entities: {0} {", NameUtils.Pluralize(variableName));
+      WriteLine(3, "nodes {");
 
-      GenerateGraphqlQueryRecursively(2, model);
+      GenerateGraphqlQueryRecursively(3, model);
 
-      // Trailing brace of level 2 was written by recurse function
+      // Innermost trailing brace was written by recurse function
+      WriteLine(2, "}");
       WriteLine(1, "}");
       WriteLine(0, "`;");
 
