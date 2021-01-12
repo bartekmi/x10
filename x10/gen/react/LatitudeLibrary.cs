@@ -444,9 +444,12 @@ namespace x10.gen.react {
         PlatformName = "SpaContent",
         ImportDir = "react_lib",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "rootComponent",
+          new JavaScriptAttributeByFunc() {
             PlatformName = "rootComponent",
+            Function = (generator, instance) => {
+              string rootComponent = instance.FindValue("rootComponent").ToString();
+              return rootComponent + "Interface";
+            },
             IsCodeSnippet = true,
           },
         },

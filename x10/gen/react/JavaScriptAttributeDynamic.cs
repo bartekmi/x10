@@ -20,7 +20,7 @@ namespace x10.gen.react {
 
     public override object CalculateValue(CodeGenerator genericGenerator, Instance instance, out bool isCodeSnippet) {
       ReactCodeGenerator generator = (ReactCodeGenerator)genericGenerator;
-      isCodeSnippet = false;
+      isCodeSnippet = IsCodeSnippet;
 
       UiAttributeValueAtomic atomicValue = LogicalAttribute == null ?
         null :

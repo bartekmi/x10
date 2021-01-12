@@ -141,8 +141,7 @@ namespace x10.gen.react {
       else
         ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
 
-      // Open the React tag
-      WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName);
+      WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName); // Open the React tag
       CalculateAndWriteAttributes(outputType, level + 1, platClassDef, instance);
       WritePrimaryAttributeAsProperty(level + 1, platClassDef, instance);
       WriteNestedContentsAndClosingTag(level, platClassDef, instance);
@@ -172,7 +171,6 @@ namespace x10.gen.react {
       if (platClassDef.PrimaryAttributeWrapperProperty != null)
         primaryValue = null;
 
-      // Close the XAML element, possibly recursively writing nested content
       if (primaryValue == null && platClassDef.ProgrammaticallyGenerateChildren == null)
         WriteLineClose(level, "/>");
       else {

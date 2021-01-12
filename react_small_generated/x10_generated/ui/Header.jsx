@@ -42,7 +42,7 @@ export default function Header(props: Props): React.Node {
         />
       </Menu>
       <SpaContent
-        rootComponent='Buildings'
+        rootComponent={ BuildingsInterface }
       >
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />
