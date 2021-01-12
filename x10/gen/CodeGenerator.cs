@@ -46,6 +46,7 @@ namespace x10.gen {
       AllUiDefinitions = allUiDefinitions;
       _platformLibraries = platformLibraries;
 
+      Directory.Delete(rootGenerateDir, true);
 
       foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
         Generate(entity);
