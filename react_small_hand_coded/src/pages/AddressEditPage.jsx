@@ -32,12 +32,12 @@ export default function AddressEditPage(props: Props): React.Node {
       <FormField 
         label="Address:" 
         indicateRequired={true}
-        errorMessage={isBlank(address.address) ? "Address is mandatory" : null}
+        errorMessage={isBlank(address.theAddress) ? "Address is mandatory" : null}
       >
           <TextInput
-            value={address.address}
+            value={address.theAddress}
             onChange={(value) => {
-              onChange({ ...address, address: value })
+              onChange({ ...address, theAddress: value })
             }}
           />
       </FormField>

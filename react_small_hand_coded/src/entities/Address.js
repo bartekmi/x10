@@ -9,7 +9,7 @@ export type Address = {|
   +id: string,
   +dbid: number,
   +unitNumber: string,
-  +address: string,
+  +theAddress: string,
   +city: string,
   +stateOrProvince: string,
   +zip: string,
@@ -22,7 +22,7 @@ export function createDefaultAddress(): Address {
     id: uuid(),
     dbid: DBID_LOCALLY_CREATED,
     unitNumber: '',
-    address: '',
+    theAddress: '',
     city: '',
     stateOrProvince: '',
     zip: '',
@@ -32,7 +32,7 @@ export function createDefaultAddress(): Address {
 
 // Derived Attribute Functions
 export function addressFirstAddressLine (address: Address): ?string {
-  return address.address + '   Unit ' + address.unitNumber;
+  return address.theAddress + '   Unit ' + address.unitNumber;
 }
 export function addressSecondAddressLine (address: Address): ?string {
   return address.city + ', ' + address.stateOrProvince;
