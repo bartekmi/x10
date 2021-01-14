@@ -88,12 +88,7 @@ namespace x10.gen.react {
           return funcName + "()";
         }
       } else if (member is X10RegularAttribute attribute) {
-
-        // This is a bit of a fact because it makes an assumption about the name of the
-        // database attribute defined at the base level of all entities in yaml.
-        // Potential future improvement is to make the string "dbid" a ReactCodeGenerator
-        // property.
-        if (member.Name == "dbid")
+        if (attribute.IsId)
           return "DBID_LOCALLY_CREATED";
 
         object defaultValue = attribute.DefaultValue;
