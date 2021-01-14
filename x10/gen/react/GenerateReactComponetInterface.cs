@@ -174,7 +174,6 @@ namespace x10.gen.react {
     #region Utils
     private void GenerateGraphqlQueryRecursively(int level, Entity model) {
       WriteLine(level + 1, "id");
-      WriteLine(level + 1, "dbid");
 
       foreach (X10RegularAttribute attribute in model.RegularAttributes) 
         WriteLine(level + 1, attribute.Name);

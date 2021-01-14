@@ -33,7 +33,6 @@ namespace x10.gen.react {
       WriteLine(0, "export type {0} = {{|", model.Name);
 
       WriteLine(1, "+id: string,");
-      WriteLine(1, "+dbid: number,");
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -58,7 +57,6 @@ namespace x10.gen.react {
       WriteLine(1, "return {");
 
       WriteLine(2, "id: uuid(),");
-      WriteLine(2, "dbid: DBID_LOCALLY_CREATED,");
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -90,6 +88,14 @@ namespace x10.gen.react {
           return funcName + "()";
         }
       } else if (member is X10RegularAttribute attribute) {
+
+        // This is a bit of a fact because it makes an assumption about the name of the
+        // database attribute defined at the base level of all entities in yaml.
+        // Potential future improvement is to make the string "dbid" a ReactCodeGenerator
+        // property.
+        if (member.Name == "dbid")
+          return "DBID_LOCALLY_CREATED";
+
         object defaultValue = attribute.DefaultValue;
         DataType dataType = attribute.DataType;
 
@@ -201,6 +207,11 @@ namespace x10.gen.react {
     }
 
     private bool IsMandatory(X10Attribute attribute) {
+      // If an attribute is read-only, editing is not an issue, so simply reflect the
+      // "mandatory-ness" of the attribute
+      if (attribute.IsId)
+        return attribute.IsMandatory;
+
       DataType dataType = attribute.DataType;
 
       // The mandatory/optional decision is made based on the usual UI used to represent

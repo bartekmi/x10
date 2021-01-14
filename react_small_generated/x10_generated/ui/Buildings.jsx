@@ -91,11 +91,10 @@ export default function Buildings(props: Props): React.Node {
                   <Group>
                     <Button
                       label='View'
-                      url='/building/{Id}'
                     />
                     <Button
                       label='Edit'
-                      url='/building/{Id}'
+                      url={ '/buildings/edit/' + data.dbid }
                     />
                   </Group>
                 ,

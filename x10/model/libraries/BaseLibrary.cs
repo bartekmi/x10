@@ -229,6 +229,13 @@ Typical use would be if entities are going to be represented on a drop-down.",
         MustBeFormula = true,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
       },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "idAttribute",
+        Description = "Identifies the attribute which serves as the unique identifier for the entity.",
+        AppliesTo = AppliesTo.Attribute,
+        DataType = DataTypes.Singleton.Boolean,
+        Setter = "IsId",
+      },
 
       //============================================================================
       // Associations

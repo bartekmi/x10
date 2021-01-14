@@ -1,4 +1,5 @@
 name: Tenant
+inheritsFrom: Base
 description: Tenant of a Unit
 
 attributes:

@@ -1,4 +1,5 @@
 name: Building
+inheritsFrom: Base
 description: A physical building which contains rental units
 defaultStringRepresentation: =name
 

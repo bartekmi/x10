@@ -1,4 +1,5 @@
 name: Address
+inheritsFrom: Base
 description: A physical or mailing address
 
 attributes:

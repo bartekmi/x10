@@ -1,4 +1,5 @@
 name: Unit
+inheritsFrom: Base
 description: An individual rental unit
 defaultStringRepresentation: =number
 

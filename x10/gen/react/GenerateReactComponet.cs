@@ -213,10 +213,9 @@ namespace x10.gen.react {
 
       WriteLine(0, "function save({0}: {1}) {", variableName, modelName);
       WriteLine(1, "const variables = {");
-      WriteLine(2, "dbid: {0}.dbid,", variableName);
 
       foreach (Member member in model.Members)
-        if (CanWrite(member))
+        if (IncludeInMutation(member))
           WriteLine(2, "{0}: {1}.{0},", member.Name, variableName);
 
       WriteLine(1, "};");
@@ -230,7 +229,10 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private bool CanWrite(Member member) {
+    private bool IncludeInMutation(Member member) {
+      if (member is X10RegularAttribute regular && regular.IsId)
+        return true;
+
       return
         !member.IsReadOnly &&
         !(member is X10DerivedAttribute);
@@ -242,18 +244,16 @@ namespace x10.gen.react {
 
       WriteLine(0, "const mutation = graphql`");
       WriteLine(1, "mutation {0}Mutation(", classDefName);
-      WriteLine(2, "$dbid: Int!");
 
       foreach (Member member in model.Members)
-        if (CanWrite(member))
+        if (IncludeInMutation(member))
           WriteLine(2, "${0}: {1}", member.Name, GraphqlType(member));
 
       WriteLine(1, ") {");
       WriteLine(2, "createOrUpdate{0}(", model.Name);
-      WriteLine(3, "dbid: $dbid");
 
       foreach (Member member in model.Members)
-        if (CanWrite(member))
+        if (IncludeInMutation(member))
           WriteLine(3, "{0}: ${0}", member.Name);
 
       WriteLine(2, ")");
