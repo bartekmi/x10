@@ -1,0 +1,13 @@
+name: Base
+description: Provides attribute(s) common to all entities
+abstract: True
+
+attributes:
+  - name: dbid
+    dataType: Integer
+    description: The database id of all entities - as seen in React
+    mandatory: true
+    readOnly: true
+    idAttribute: true
+
+
