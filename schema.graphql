@@ -80,7 +80,7 @@ type Query {
   building("The id of the building." id: Int!): Building!
   "Gets all buildings.\n\n\n**Returns:**\nAll Buildings."
   buildings(first: Int after: String last: Int before: String where: BuildingFilter order_by: BuildingSort): BuildingConnection
-  "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Building."
+  "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Tenant."
   tenant("The id of the tenant." id: Int!): Tenant!
   "Gets all tenants.\n\n\n**Returns:**\nAll Tenants."
   tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection

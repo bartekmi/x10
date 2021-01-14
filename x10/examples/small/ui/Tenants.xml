@@ -18,8 +18,8 @@
         <email/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" url="/tenant/{Id}"/>
-            <Button label="Edit" url="/tenant/{Id}"/>
+            <Button label="View" /> <!-- url is TODO -->
+            <Button label="Edit" url="='/tenants/edit/' + dbid"/>
           </Row>
         </TableColumn>
       </Table.Columns>

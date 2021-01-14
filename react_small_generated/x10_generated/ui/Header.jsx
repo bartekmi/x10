@@ -30,7 +30,7 @@ export default function Header(props: Props): React.Node {
         />
         <MenuItem
           label='Create New Building'
-          href='/building/new'
+          href='/buildings/new'
         />
         <MenuItem
           label='All Tenants'
@@ -38,7 +38,7 @@ export default function Header(props: Props): React.Node {
         />
         <MenuItem
           label='Create New Tenant'
-          href='/tenant/new'
+          href='/tenants/new'
         />
       </Menu>
       <SpaContent
@@ -46,10 +46,10 @@ export default function Header(props: Props): React.Node {
       >
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />
-        <Route exact path='/building/edit/:id' component={ BuildingFormInterface } />
-        <Route exact path='/building/new' component={ BuildingFormInterface } />
-        <Route exact path='/tenant/edit/:id' component={ TenantFormInterface } />
-        <Route exact path='/tenant/new' component={ TenantFormInterface } />
+        <Route exact path='/buildings/edit/:id' component={ BuildingFormInterface } />
+        <Route exact path='/buildings/new' component={ BuildingFormInterface } />
+        <Route exact path='/tenants/edit/:id' component={ TenantFormInterface } />
+        <Route exact path='/tenants/new' component={ TenantFormInterface } />
       </SpaContent>
     </Group>
   );

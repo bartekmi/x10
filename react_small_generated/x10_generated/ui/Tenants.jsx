@@ -58,11 +58,10 @@ export default function Tenants(props: Props): React.Node {
                   <Group>
                     <Button
                       label='View'
-                      url='/tenant/{Id}'
                     />
                     <Button
                       label='Edit'
-                      url='/tenant/{Id}'
+                      url={ '/tenants/edit/' + data.dbid }
                     />
                   </Group>
                 ,

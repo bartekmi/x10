@@ -2,9 +2,9 @@
   <VerticalStackPanel>
     <Menu>
       <MenuItem label="All Buildings" url="/buildings"/>
-      <MenuItem label="Create New Building" url="/building/new"/>
+      <MenuItem label="Create New Building" url="/buildings/new"/>
       <MenuItem label="All Tenants" url="/tenants"/>
-      <MenuItem label="Create New Tenant" url="/tenant/new"/>
+      <MenuItem label="Create New Tenant" url="/tenants/new"/>
     </Menu>
     <SpaContent rootComponent="Buildings"/>
   </VerticalStackPanel>
