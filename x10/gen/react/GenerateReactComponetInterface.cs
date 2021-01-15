@@ -23,12 +23,12 @@ namespace x10.gen.react {
       if (isForm) {
         GenerateFormWrapper(classDef, model);
         GenerateFormQueryRenderer(classDef, model);
+        GenerateGqlToInternalConvert(model);
         GenerateFormGraphqlQuery(classDef, model);
       } else if (classDef.IsMany) {
         GenerateMultiQueryRenderer(classDef, model);
         GenerateMultiGraphqlQuery(classDef, model);
       }
-
 
       End();
     }
@@ -43,7 +43,7 @@ namespace x10.gen.react {
       ImportsPlaceholder.ImportDefault("environment");
 
       ImportsPlaceholder.ImportDefault(classDef);
-      if (model != null) 
+      if (model != null)
         ImportsPlaceholder.ImportType(model);
 
       WriteLine();
@@ -88,24 +88,46 @@ namespace x10.gen.react {
       string createDefaultFunc = CreateDefaultFuncName(model);
       string variableName = VariableName(model, false);
 
-      WriteLine(0,
-@"export default function {0}Interface(props: Props): React.Node { 
-  return (
-    <EntityQueryRenderer
-      match={ props.match }
-      createDefaultFunc={ {1} }
-      createComponentFunc={ ({2}) => <{0}Wrapper {2}={ {2} }/> }
-      query={ query }
-    />
-  );
-}}",
-      classDefName,       // Index 0
-      createDefaultFunc,  // Index 1
-      variableName);      // Index 2
+      WriteLine(0, "export default function {0}Interface(props: Props): React.Node {", classDefName);
+      WriteLine(1, "return (");
+      WriteLine(2, "<EntityQueryRenderer");
+      WriteLine(3, "match={ props.match }");
+      WriteLine(3, "createDefaultFunc={ {0} }", createDefaultFunc);
+      WriteLine(3, "createComponentFunc={ ({0}) => <{1}Wrapper {0}={ {0} }/> }", variableName, classDefName);
+      WriteLine(3, "gqlToInernalConvertFunc={ gqlToInernalConvert }");
+      WriteLine(3, "query={ query }");
+      WriteLine(2, "/>");
+      WriteLine(1, ");");
+      WriteLine(0, "}");
 
       ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
 
+      WriteLine();
+    }
+
+    private void GenerateGqlToInternalConvert(Entity model) {
+      WriteLine(0, "function gqlToInernalConvert(data: any): {0} {", model.Name);
+      WriteLine(1, "return {");
+      WriteLine(2, "...data,");
+
+      // TODO: Currently, this does not generate recursively, but it should - i.e.
+      // mandatory associations may have non-mandatory child associations.
+      foreach (Association association in model.Associations) {
+        if (association.IsMandatory ||    // No need to generate... always provided
+            association.IsMany)      // At least a blank array will always be provided
+          continue;
+
+        Entity assocModel = association.ReferencedEntity;
+        WriteLine(2, "{0}: data.{0} || {1}(),",
+          association.Name,
+          ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+
+        ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+      }
+
+      WriteLine(1, "};");
+      WriteLine(0, "}");
       WriteLine();
     }
 
@@ -175,9 +197,9 @@ namespace x10.gen.react {
     private void GenerateGraphqlQueryRecursively(int level, Entity model) {
       WriteLine(level + 1, "id");
 
-      foreach (X10RegularAttribute attribute in model.RegularAttributes) 
+      foreach (X10RegularAttribute attribute in model.RegularAttributes)
         WriteLine(level + 1, attribute.Name);
-      
+
       foreach (Association association in model.Associations) {
         WriteLine(level + 1, "{0} {", association.Name);
         GenerateGraphqlQueryRecursively(level + 1, association.ReferencedEntity);
