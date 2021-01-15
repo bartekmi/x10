@@ -2,6 +2,7 @@
   <Form>
     <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
     <Heading1 text="=ageInYears"/>
+    <HorizontalDivider/>
     <FormSection label="Building Info">
       <moniker/>
       <name/>

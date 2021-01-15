@@ -1,7 +1,6 @@
 <Tenants model="Tenant" many="true" url="/tenants" query="Tenants">
   <VerticalStackPanel>
     <Heading1 text="Tenants"/>
-    <HorizontalDivider/>
 
     <Table>
       <!-- Header -->

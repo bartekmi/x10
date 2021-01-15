@@ -11,6 +11,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
+import Separator from 'react_lib/Separator';
 import { graphql } from 'react-relay';
 
 
@@ -27,6 +28,11 @@ export default function TenantForm(props: Props): React.Node {
     <FormProvider
       value={ [] }
     >
+      <Text
+        scale='display'
+        children='New Tenant'
+      />
+      <Separator/>
       <FormSection
         label='Tenant Info'
       >

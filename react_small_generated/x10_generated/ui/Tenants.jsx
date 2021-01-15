@@ -8,7 +8,6 @@ import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 import Button from 'react_lib/Button';
-import Separator from 'react_lib/Separator';
 
 
 import { type Tenant } from 'entities/Tenant';
@@ -27,7 +26,6 @@ export default function Tenants(props: Props): React.Node {
         scale='display'
         children='Tenants'
       />
-      <Separator/>
       <div style={ { height: '500px', wdith: '100%' } }>
         <Table
           data={ tenants }

@@ -17,6 +17,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
+import Separator from 'react_lib/Separator';
 import VisibilityControl from 'react_lib/VisibilityControl';
 import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { graphql } from 'react-relay';
@@ -43,6 +44,7 @@ export default function BuildingForm(props: Props): React.Node {
         scale='display'
         children={ buildingAgeInYears(building) }
       />
+      <Separator/>
       <FormSection
         label='Building Info'
       >
