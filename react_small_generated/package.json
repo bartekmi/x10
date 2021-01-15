@@ -44,6 +44,7 @@
   },
   "scripts": {
     "react-lib": "rsync -avu ../react_lib/ src/react_lib",
+    "react-lib-back": "rsync -avu src/react_lib/ ../react_lib",
     "react-lib-dry-run": "rsync -avu ../react_lib/ src/react_lib",
     "build": "yarn react-lib && yarn webpack --config config/webpack-dev-config.js",
     "start": "yarn react-lib && node config/webpack-dev-server.js",
