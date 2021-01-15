@@ -5,6 +5,7 @@ description: A physical or mailing address
 attributes:
   - name: unitNumber
     dataType: String
+    maxWidth: 120
 
   - name: theAddress
     dataType: String
@@ -13,15 +14,18 @@ attributes:
   - name: city
     dataType: String
     mandatory: true
+    maxWidth: 400
 
   - name: stateOrProvince
     dataType: String
     mandatory: true
+    maxWidth: 250
 
   - name: zip
     dataType: String
     label: Zip or Postal Code
     mandatory: true
+    maxWidth: 150
 
 derivedAttributes:
   - name: firstAddressLine

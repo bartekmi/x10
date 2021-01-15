@@ -84,6 +84,7 @@ export default function TenantForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='City'
+          maxWidth={ 400 }
         >
           <TextInput
             value={ tenant.permanentMailingAddress.city }
@@ -96,6 +97,7 @@ export default function TenantForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='State Or Province'
+          maxWidth={ 250 }
         >
           <TextInput
             value={ tenant.permanentMailingAddress.stateOrProvince }
@@ -108,6 +110,7 @@ export default function TenantForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='Zip or Postal Code'
+          maxWidth={ 150 }
         >
           <TextInput
             value={ tenant.permanentMailingAddress.zip }

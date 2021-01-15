@@ -14,7 +14,7 @@ attributes:
     mandatory: true
     placeholderText: Name of building
     toolTip: A short and memorable name of the Building
-    maxWidth: 300
+    maxWidth: 350
 
   - name: description
     dataType: String

@@ -60,7 +60,7 @@ export default function BuildingForm(props: Props): React.Node {
         <FormField
           toolTip='A short and memorable name of the Building'
           label='Name'
-          maxWidth={ 300 }
+          maxWidth={ 350 }
         >
           <TextInput
             value={ building.name }
@@ -99,6 +99,7 @@ export default function BuildingForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='City'
+          maxWidth={ 400 }
         >
           <TextInput
             value={ building.physicalAddress.city }
@@ -111,6 +112,7 @@ export default function BuildingForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='State Or Province'
+          maxWidth={ 250 }
         >
           <TextInput
             value={ building.physicalAddress.stateOrProvince }
@@ -123,6 +125,7 @@ export default function BuildingForm(props: Props): React.Node {
         </FormField>
         <FormField
           label='Zip or Postal Code'
+          maxWidth={ 150 }
         >
           <TextInput
             value={ building.physicalAddress.zip }
@@ -167,6 +170,7 @@ export default function BuildingForm(props: Props): React.Node {
             </FormField>
             <FormField
               label='City'
+              maxWidth={ 400 }
             >
               <TextInput
                 value={ building.mailingAddress.city }
@@ -179,6 +183,7 @@ export default function BuildingForm(props: Props): React.Node {
             </FormField>
             <FormField
               label='State Or Province'
+              maxWidth={ 250 }
             >
               <TextInput
                 value={ building.mailingAddress.stateOrProvince }
@@ -191,6 +196,7 @@ export default function BuildingForm(props: Props): React.Node {
             </FormField>
             <FormField
               label='Zip or Postal Code'
+              maxWidth={ 150 }
             >
               <TextInput
                 value={ building.mailingAddress.zip }
