@@ -114,7 +114,7 @@ namespace x10.compiler {
       // Some UI Attributes can be derived from Model Attributes (e.g. label, etc).
       // Attempt to do so now.
       if (xmlScalar == null && attrDef.TakeValueFromModelAttr != null)
-        xmlScalar = DeriveAttributeValueFromModel(takeAttributeFromMember, attrDef.TakeValueFromModelAttr);
+        xmlScalar = DeriveAttributeValueFromModel(takeAttributeFromMember, attrDef.TakeValueFromModelAttr, source);
 
       // Mising mandatory attribute
       if (xmlScalar == null && attrDef.DefaultValue == null && attrDef.IsMandatory) {
@@ -147,14 +147,14 @@ namespace x10.compiler {
       return xmlScalar != null;
     }
 
-    private XmlScalar DeriveAttributeValueFromModel(Member takeAttributeFromMember, ModelAttributeDefinition attrDef) {
+    private XmlScalar DeriveAttributeValueFromModel(Member takeAttributeFromMember, ModelAttributeDefinition attrDef, XmlElement source) {
       if (takeAttributeFromMember == null)
         return null;
       object value = takeAttributeFromMember.FindValue(attrDef.Name);
       if (value == null)
         return null;
 
-      return new XmlScalar(value.ToString());
+      return new XmlScalar(source, value.ToString()); // TODO: This is slightly misleading, as any errors reported will not point to Entity YAML file
     }
 
     private void ErrorOnUnknownAttributes(IAcceptsUiAttributeValues recipient, IEnumerable<UiAttributeDefinitionAtomic> validAttributes) {

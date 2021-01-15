@@ -59,7 +59,7 @@ namespace x10.parsing {
       while (reader.Read()) {
         switch (reader.NodeType) {
           case XmlNodeType.Text:
-            XmlScalar scalar = new XmlScalar(reader.Value);
+            XmlScalar scalar = new XmlScalar(current, reader.Value);
             SetLocation(scalar, reader);
             current.SetTextContent(scalar);
 
@@ -103,7 +103,7 @@ namespace x10.parsing {
     // The compiler has an easier time if we treat the name of the Element itself simply
     // as just another Attribute with the special name "Name"
     private void CreateFakeAttributeForElementName(XmlTextReader reader, XmlElement element) {
-      XmlScalar scalar = new XmlScalar(element.Name);
+      XmlScalar scalar = new XmlScalar(element, element.Name);
       SetLocation(scalar, reader);
 
       XmlAttribute nameAttribute = new XmlAttribute(ELEMENT_NAME, scalar);
@@ -115,7 +115,7 @@ namespace x10.parsing {
       for (int ii = 0; ii < reader.AttributeCount; ii++) {
         reader.MoveToAttribute(ii);
 
-        XmlScalar scalar = new XmlScalar(reader.Value);
+        XmlScalar scalar = new XmlScalar(element, reader.Value);
         SetLocation(scalar, reader);
 
         XmlAttribute newAttribute = new XmlAttribute(reader.Name, scalar);

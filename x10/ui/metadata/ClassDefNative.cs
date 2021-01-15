@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
 using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
@@ -19,6 +19,7 @@ namespace x10.ui.metadata {
     // WARNING! WARNING! WARINING! ********* If adding new component, also add to array at bottom ***********
 
     public const string ATTR_VISIBLE = "visible";
+    public const string ATTR_MAX_WIDTH = "maxWidth";
     public const string ATTR_READ_ONLY = "readOnly";
 
     public static ClassDefNative Object = new ClassDefNative() {
@@ -42,6 +43,13 @@ namespace x10.ui.metadata {
           Description = "Is the object visible on the UI?",
           DataType = DataTypes.Singleton.Boolean,
           DefaultValue = false,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = ATTR_MAX_WIDTH,
+          Description = "Maximum width that the object should have in the UI",
+          DataType = DataTypes.Singleton.Integer,
+          DefaultValue = false,
+          TakeValueFromModelAttrName = model.libraries.BaseLibrary.MAX_WIDTH,
         },
       }
     };

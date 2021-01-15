@@ -30,6 +30,7 @@ namespace x10.model.libraries {
     internal const string NAME = "name";
     internal const string LABEL = "label";
     internal const string TOOL_TIP = "toolTip";
+    internal const string MAX_WIDTH = "maxWidth";
     internal const string APPLICABLE_WHEN = "applicableWhen";
     internal const string DEFAULT_STRING_REPRESENTATION = "defaultStringRepresentation";
     internal const string PLACEHOLDER_TEXT = "placeholderText";
@@ -235,6 +236,12 @@ Typical use would be if entities are going to be represented on a drop-down.",
         AppliesTo = AppliesTo.Attribute,
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsId",
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = MAX_WIDTH,
+        Description = "Maximum width that the attribute should take in the UI under normal circumstances",
+        AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
+        DataType = DataTypes.Singleton.Integer,
       },
 
       //============================================================================

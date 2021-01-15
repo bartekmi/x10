@@ -17,7 +17,6 @@ namespace x10.parsing {
 
     public void SetTextContent(XmlScalar scalar) {
       TextContent = scalar;
-      scalar.Parent = this;
     }
 
     public void AddAttribute(XmlAttribute attribute) {

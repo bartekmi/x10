@@ -60,6 +60,7 @@ export default function BuildingForm(props: Props): React.Node {
         <FormField
           toolTip='A short and memorable name of the Building'
           label='Name'
+          maxWidth={ 300 }
         >
           <TextInput
             value={ building.name }

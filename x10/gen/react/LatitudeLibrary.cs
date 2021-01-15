@@ -406,6 +406,10 @@ namespace x10.gen.react {
             LogicalName = "label",
             PlatformName = "label",
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "maxWidth",
+            PlatformName = "maxWidth",
+          },
         },
       },
       new PlatformClassDef() {
