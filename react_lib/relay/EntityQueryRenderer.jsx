@@ -17,9 +17,10 @@ type Props<T> = {|
   +query: any,
   +createDefaultFunc: () => T,
   +createComponentFunc: (T) => React.Node,
+  +gqlToInernalConvertFunc?: (any) => T,
 |};
 export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
-  const {match, createDefaultFunc, query, createComponentFunc} = props;
+  const {match, createDefaultFunc, query, createComponentFunc, gqlToInernalConvertFunc} = props;
   const stringId = props.match.params.id;
   if (stringId == null) {
     const defaultEntity = createDefaultFunc();
@@ -42,7 +43,8 @@ export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
         if (error) {
           return <div>{error.message}</div>;
         } else if (props) {
-          return createComponentFunc(props.entity);
+          const converted = gqlToInernalConvertFunc ? gqlToInernalConvertFunc(props.entity) : props.entity;
+          return createComponentFunc(converted);
         }
         return <Loader loaded={false}/>;
       }}

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text;
+using System.Linq;
 
 using x10.formula;
 using x10.utils;
@@ -106,6 +108,23 @@ namespace x10.gen.react {
       string expressionString = ExpressionToString(expression);
 
       return expressionString;
+    }
+
+    // Though currently not used, this is likely to come in handy.
+    internal string GeneratePathExpression(IEnumerable<Member> membersEnumerable) {
+      Member[] members = membersEnumerable.ToArray();
+      StringBuilder builder = new StringBuilder();
+
+      for (int ii = 0; ii < members.Length; ii++) {
+        if (ii > 0)
+          builder.Append(".");
+        Member member = members[ii];
+        builder.Append(member.Name);
+        if (!member.IsMandatory && ii < members.Length - 1)
+          builder.Append("?");
+      }
+
+      return builder.ToString();
     }
     #endregion
 

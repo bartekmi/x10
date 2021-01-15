@@ -190,9 +190,10 @@ namespace x10.gen.react {
         if (association.IsMany)
           return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
         else
-          // Generate mandatory even if not mandatory. Non-mandatory element cause all kinds of 
-          // problems with typing, not to mention the fact that we would need to create the optional
-          // association object at just the right type during editing
+          // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
+          // are filled with default values when processing the GraphQL results. This ensures
+          // that we have default data if the users tarts to edit such entities which previously
+          // have been hidden.
           return refedEntityName;
       } else if (member is X10Attribute attribute) {
         string optionalIndicator = IsMandatory(attribute) ? "" : "?";

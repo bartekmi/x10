@@ -8,6 +8,7 @@ import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 import { graphql, QueryRenderer } from 'react-relay';
 import BuildingForm from 'ui/BuildingForm';
 
+import { createDefaultAddress } from 'entities/Address';
 
 type BuildingProps = {|
   +building: Building,
@@ -33,9 +34,17 @@ export default function BuildingFormInterface(props: Props): React.Node {
       match={ props.match }
       createDefaultFunc={ createDefaultBuilding }
       createComponentFunc={ (building) => <BuildingFormWrapper building={ building }/> }
+      gqlToInernalConvertFunc={gqlToInernalConvert}
       query={ query }
     />
   );
+}
+
+function gqlToInernalConvert(data: any): Building {
+  return {
+    ...data,
+    mailingAddress: data.mailingAddress || createDefaultAddress(),
+  };
 }
 
 const query = graphql`
