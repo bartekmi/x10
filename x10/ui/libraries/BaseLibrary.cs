@@ -729,6 +729,20 @@ namespace x10.ui.libraries {
         InheritsFrom = ClassDefNative.Visual,
       },
       new ClassDefNative() {
+        Name = "FormRow",
+        Description = "A horizontal row layout with a wide spacing, suitable for use in forms",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            IsPrimary = true,
+            Name = "Children",
+            Description = "The contents/children of the row.",
+            IsMany = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+        },
+      },
+      new ClassDefNative() {
         Name = "FormSection",
         Description = "If your <Form> naturally breaks into section, use this component to provide a consistent layout and heading labels.",
         InheritsFrom = ClassDefNative.Visual,

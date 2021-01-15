@@ -204,7 +204,9 @@ export default function BuildingForm(props: Props): React.Node {
       <FormSection
         label='Other Details'
       >
-        <Group>
+        <Group
+          gap={ 40 }
+        >
           <Label
             value='Date Of Occupancy'
           >
@@ -254,11 +256,9 @@ export default function BuildingForm(props: Props): React.Node {
         <Text
           children='* Required'
         />
-        <Group>
-          <FormSubmitButton
-            onClick={ () => save(building) }
-          />
-        </Group>
+        <FormSubmitButton
+          onClick={ () => save(building) }
+        />
       </Group>
     </FormProvider>
   );

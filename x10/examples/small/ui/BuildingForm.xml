@@ -27,23 +27,21 @@
     </FormSection>
 
     <FormSection label="Other Details">
-      <Row>
+      <FormRow>
         <dateOfOccupancy/>
         <ageInYears/>
-      </Row>
+      </FormRow>
       <mailboxType/>
       <petPolicy/>
     </FormSection>
 
     <RepellingRow>
       <Text>* Required</Text>
-      <Row>
-        <SubmitButton label="Save">
-          <SubmitButton.Action>
-            <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
-          </SubmitButton.Action>
-        </SubmitButton>
-      </Row>
+      <SubmitButton label="Save">
+        <SubmitButton.Action>
+          <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
+        </SubmitButton.Action>
+      </SubmitButton>
     </RepellingRow>
   </Form>
 </BuildingForm>

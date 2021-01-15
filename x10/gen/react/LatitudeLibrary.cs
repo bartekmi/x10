@@ -426,6 +426,13 @@ namespace x10.gen.react {
           },
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "FormRow",
+        PlatformName = "Group",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic("gap", 40),
+        },
+      },
       #endregion
 
       #region Misc

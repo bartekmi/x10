@@ -17,13 +17,11 @@
 
     <RepellingRow>
       <Text>* Required</Text>
-      <Row>
-        <SubmitButton label="Save">
-          <SubmitButton.Action>
-            <Action backEndTarget="/tenants/create" successUrl="/tenants"/>
-          </SubmitButton.Action>
-        </SubmitButton>
-      </Row>
+      <SubmitButton label="Save">
+        <SubmitButton.Action>
+          <Action backEndTarget="/tenants/create" successUrl="/tenants"/>
+        </SubmitButton.Action>
+      </SubmitButton>
     </RepellingRow>
   </Form>
 </TenantForm>

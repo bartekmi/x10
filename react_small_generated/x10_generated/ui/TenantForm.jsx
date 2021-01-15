@@ -125,11 +125,9 @@ export default function TenantForm(props: Props): React.Node {
         <Text
           children='* Required'
         />
-        <Group>
-          <FormSubmitButton
-            onClick={ () => save(tenant) }
-          />
-        </Group>
+        <FormSubmitButton
+          onClick={ () => save(tenant) }
+        />
       </Group>
     </FormProvider>
   );
