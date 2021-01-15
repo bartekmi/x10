@@ -487,18 +487,10 @@ namespace x10.gen.wpf {
     private static PlatformLibrary _singleton;
     public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
       if (_singleton == null)
-        _singleton = CreateLibrary(errors, logicalLibrary);
+        _singleton = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
+          ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
+        };
       return _singleton;
-    }
-
-    private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
-      PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-        ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
-      };
-
-      library.HydrateAndValidate(errors, logicalLibrary);
-
-      return library;
     }
     #endregion
   }

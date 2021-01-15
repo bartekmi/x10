@@ -11,6 +11,7 @@ namespace x10.ui.libraries {
     public const string CLASS_DEF_FORM = "Form";
 
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
+
       #region No-Data Formatting Components
       new ClassDefNative() {
         Name = "Heading1",
@@ -82,12 +83,6 @@ namespace x10.ui.libraries {
             Description = "The text of the label. Normally rendered as bold text.",
             DataType = DataTypes.Singleton.String,
             TakeValueFromModelAttrName = model.libraries.BaseLibrary.LABEL,
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "mandatoryIndicator",
-            Description = "If 'mandatory', an asterisk will be added to the label. If 'optional', the word 'optional' will be added after the label.",
-            DataType = new DataTypeEnum(new string[] {"none", "mandatory", "optional" }),
-            DefaultValue = "none",
           },
           new UiAttributeDefinitionAtomic() {
             Name = "toolTip",
@@ -719,7 +714,7 @@ namespace x10.ui.libraries {
             IsMandatory = true,
             IsMany = true,
             ComplexAttributeType = ClassDefNative.Visual,
-            ModelRefWrapperComponentName = "Label",
+            ModelRefWrapperComponentName = "FormField",
           },
         },
       },
@@ -762,6 +757,19 @@ namespace x10.ui.libraries {
             IsMandatory = true,
           },
         },
+      },
+      new ClassDefNative() {
+        Name = "FormField",
+        Description = "A form field - includes a label plus validation display",
+        InheritsFromName = "Label",
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "mandatoryIndicator",
+            Description = "If 'mandatory', an asterisk will be added to the label. If 'optional', the word 'optional' will be added after the label.",
+            DataType = new DataTypeEnum(new string[] {"none", "mandatory", "optional" }),
+            DefaultValue = "none",
+          },
+        }
       },
       #endregion
 

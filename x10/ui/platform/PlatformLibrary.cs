@@ -8,6 +8,8 @@ using x10.parsing;
 
 namespace x10.ui.platform {
   public class PlatformLibrary {
+    public string Name { get; set; }
+    public string Description { get; set; }
     public string ImportPath { get; set; }
 
     public UiLibrary LogicalLibrary { get; private set; }
@@ -28,11 +30,11 @@ namespace x10.ui.platform {
       return definition;
     }
 
-    public bool HydrateAndValidate(MessageBucket messages, UiLibrary logicalLibrary) {
+    public bool HydrateAndValidate(MessageBucket messages) {
       PlatformLibraryValidator validator = new PlatformLibraryValidator(messages);
 
       int messageCountBefore = messages.Messages.Count;
-      validator.HydrateAndValidate(logicalLibrary, this);
+      validator.HydrateAndValidate(LogicalLibrary, this);
       int messageCountAfter = messages.Messages.Count;
 
       return messageCountBefore == messageCountAfter;

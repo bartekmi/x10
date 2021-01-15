@@ -8,11 +8,11 @@ import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, MailboxTyp
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
-import Label from 'latitude/Label';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
 import TextInput from 'latitude/TextInput';
+import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -48,17 +48,17 @@ export default function BuildingForm(props: Props): React.Node {
       <FormSection
         label='Building Info'
       >
-        <Label
-          value='Moniker'
+        <FormField
+          label='Moniker'
         >
           <TextInput
             value={ building.moniker }
             onChange={ () => { } }
             readOnly={ true }
           />
-        </Label>
-        <Label
-          value='Name'
+        </FormField>
+        <FormField
+          label='Name'
         >
           <TextInput
             value={ building.name }
@@ -66,9 +66,9 @@ export default function BuildingForm(props: Props): React.Node {
               onChange({ ...building, name: value })
             } }
           />
-        </Label>
-        <Label
-          value='Description'
+        </FormField>
+        <FormField
+          label='Description'
         >
           <TextareaInput
             value={ building.description }
@@ -77,13 +77,13 @@ export default function BuildingForm(props: Props): React.Node {
             } }
             rows={ 3 }
           />
-        </Label>
+        </FormField>
       </FormSection>
       <FormSection
         label='Physical Address'
       >
-        <Label
-          value='The Address'
+        <FormField
+          label='The Address'
         >
           <TextInput
             value={ building.physicalAddress.theAddress }
@@ -93,9 +93,9 @@ export default function BuildingForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='City'
+        </FormField>
+        <FormField
+          label='City'
         >
           <TextInput
             value={ building.physicalAddress.city }
@@ -105,9 +105,9 @@ export default function BuildingForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='State Or Province'
+        </FormField>
+        <FormField
+          label='State Or Province'
         >
           <TextInput
             value={ building.physicalAddress.stateOrProvince }
@@ -117,9 +117,9 @@ export default function BuildingForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='Zip or Postal Code'
+        </FormField>
+        <FormField
+          label='Zip or Postal Code'
         >
           <TextInput
             value={ building.physicalAddress.zip }
@@ -129,13 +129,13 @@ export default function BuildingForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
+        </FormField>
       </FormSection>
       <FormSection
         label='Mailing Address'
       >
-        <Label
-          value='Mailing Address is Same as Physical Address'
+        <FormField
+          label='Mailing Address is Same as Physical Address'
         >
           <Checkbox
             checked={ building.mailingAddressSameAsPhysical }
@@ -143,15 +143,15 @@ export default function BuildingForm(props: Props): React.Node {
               onChange({ ...building, mailingAddressSameAsPhysical: value })
             } }
           />
-        </Label>
+        </FormField>
         <VisibilityControl
           visible={ buildingApplicableWhenForMailingAddress(building) }
         >
           <Group
             flexDirection='column'
           >
-            <Label
-              value='Address or Post Office (PO) Box'
+            <FormField
+              label='Address or Post Office (PO) Box'
             >
               <TextInput
                 value={ building.mailingAddress.theAddress }
@@ -161,9 +161,9 @@ export default function BuildingForm(props: Props): React.Node {
                   onChange(newObj);
                 } }
               />
-            </Label>
-            <Label
-              value='City'
+            </FormField>
+            <FormField
+              label='City'
             >
               <TextInput
                 value={ building.mailingAddress.city }
@@ -173,9 +173,9 @@ export default function BuildingForm(props: Props): React.Node {
                   onChange(newObj);
                 } }
               />
-            </Label>
-            <Label
-              value='State Or Province'
+            </FormField>
+            <FormField
+              label='State Or Province'
             >
               <TextInput
                 value={ building.mailingAddress.stateOrProvince }
@@ -185,9 +185,9 @@ export default function BuildingForm(props: Props): React.Node {
                   onChange(newObj);
                 } }
               />
-            </Label>
-            <Label
-              value='Zip or Postal Code'
+            </FormField>
+            <FormField
+              label='Zip or Postal Code'
             >
               <TextInput
                 value={ building.mailingAddress.zip }
@@ -197,7 +197,7 @@ export default function BuildingForm(props: Props): React.Node {
                   onChange(newObj);
                 } }
               />
-            </Label>
+            </FormField>
           </Group>
         </VisibilityControl>
       </FormSection>
@@ -207,8 +207,8 @@ export default function BuildingForm(props: Props): React.Node {
         <Group
           gap={ 40 }
         >
-          <Label
-            value='Date Of Occupancy'
+          <FormField
+            label='Date Of Occupancy'
           >
             <X10_CalendarDateInput
               value={ building.dateOfOccupancy }
@@ -216,19 +216,19 @@ export default function BuildingForm(props: Props): React.Node {
                 onChange({ ...building, dateOfOccupancy: value })
               } }
             />
-          </Label>
-          <Label
-            value='Age In Years'
+          </FormField>
+          <FormField
+            label='Age In Years'
           >
             <FloatInput
               value={ buildingAgeInYears(building) }
               onChange={ () => { } }
               readOnly={ true }
             />
-          </Label>
+          </FormField>
         </Group>
-        <Label
-          value='Mailbox Type'
+        <FormField
+          label='Mailbox Type'
         >
           <SelectInput
             value={ building.mailboxType }
@@ -237,9 +237,9 @@ export default function BuildingForm(props: Props): React.Node {
             } }
             options={ MailboxTypeEnumPairs }
           />
-        </Label>
-        <Label
-          value='Pet Policy'
+        </FormField>
+        <FormField
+          label='Pet Policy'
         >
           <SelectInput
             value={ building.petPolicy }
@@ -248,7 +248,7 @@ export default function BuildingForm(props: Props): React.Node {
             } }
             options={ PetPolicyEnumPairs }
           />
-        </Label>
+        </FormField>
       </FormSection>
       <Group
         justifyContent='space-between'

@@ -21,14 +21,16 @@ using x10.gen.wpf;
 namespace x10 {
 
   public class ScriptInfo {
-    public string Script {get;set;}
-    public string Args {get;set;}
+    public string Script { get; set; }
+    public string Args { get; set; }
   }
 
   public class GenConfig {
+    public string SourceDir { get; set; }
     public string ProjectDir { get; set; }
     public string TargetDir { get; set; }
-    public PlatformLibrary[] Libraries { get; set; }
+    public PlatformLibrary[] PlatformLibraries { get; set; }
+    public UiLibrary[] LogicalLibraries { get; set; }
     public CodeGenerator Generator { get; set; }
     public ScriptInfo PostGenerationScript { get; set; }
   }
@@ -36,12 +38,12 @@ namespace x10 {
   public class Program {
     private const string INTERMEDIATE_FILES_DIR = "temp/x10";
 
-    private static MessageBucket _messages = new MessageBucket();
-
     private static readonly GenConfig REACT_SMALL_CONFIG = new GenConfig() {
+      SourceDir = "examples/small",
       ProjectDir = "../react_small_generated",
       TargetDir = "x10_generated",
-      Libraries = new PlatformLibrary[] { LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton()) },
+      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
       Generator = new ReactCodeGenerator(),
       PostGenerationScript = new ScriptInfo() {
         Script = "yarn",
@@ -49,54 +51,81 @@ namespace x10 {
       }
     };
 
-    private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
-      ProjectDir = "../wpf_generated_small",
-      TargetDir = "__generated__",
-      Libraries = new PlatformLibrary[] { WpfBaseLibrary.Singleton(_messages, BaseLibrary.Singleton()) },
-      Generator = new WpfCodeGenerator("wpf_generated"),
-    };
+    //  Outdated
+    // private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
+    //   ProjectDir = "../wpf_generated_small",
+    //   TargetDir = "__generated__",
+    //   PlatformLibraries = new PlatformLibrary[] { WpfBaseLibrary.Singleton() },
+    //   Generator = new WpfCodeGenerator("wpf_generated"),
+    // };
 
-    public static void Main(string[] args) {
+    public static int Main(string[] args) {
 
       GenConfig config = REACT_SMALL_CONFIG;
-      //GenConfig config = WPF_SMALL_CONFIG;
-
       MessageBucket messages = new MessageBucket();
 
-      string sourceDir = "examples/small";
-      CompileEverything(messages, sourceDir,
+      // Hydrate UiLibraries
+      // TODO: Ideally, this is not needed... Each platform library should know
+      // its dependencies and hydrate them.
+      foreach (UiLibrary library in config.LogicalLibraries) {
+        if (!library.HydrateAndValidate(messages)) {
+          DumpMessages("Logical Library Validation for " + library.Name, messages);
+          return 1;
+        }
+      }
+
+      // Hydrate Platform Libraries
+      messages.Clear();
+      foreach (PlatformLibrary library in config.PlatformLibraries) {
+        if (!library.HydrateAndValidate(messages)) {
+          DumpMessages("Platform Library Validation for " + library.Name, messages);
+          return 1;
+        }
+      }
+
+      // Compile
+      messages.Clear();
+      CompileEverything(messages, config,
         out AllEntities allEntities,
         out AllEnums allEnums,
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
-      PlatformLibrary[] libraries = new PlatformLibrary[] {
-        LatitudeLibrary.Singleton(messages, BaseLibrary.Singleton()),
-      };
-
-      DumpMessages(messages);
+      DumpMessages("Compilation", messages, CompileMessageSeverity.Error);
       if (messages.Errors.Count() > 0)
-        throw new Exception("Errors during compilation");
+        return 1;
 
+      // Generate Code
+      messages.Clear();
       CodeGenerator generator = config.Generator;
       generator.IntermediateFilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
         INTERMEDIATE_FILES_DIR);
 
-      messages.Clear();
       generator.Generate(
         messages,
         Path.Combine(config.ProjectDir, config.TargetDir),
         allEntities,
         allEnums,
         allUiDefinitions,
-        libraries);
+        config.PlatformLibraries);
 
-      DumpMessages(messages);
+      DumpMessages("Code-Generation", messages);
 
+      // Execute Post-Build
       ExecutePostBuildScript(config);
+
+      return 0;
     }
 
+    internal static void CompileEverything(MessageBucket messages, GenConfig config,
+      out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFunctions, out AllUiDefinitions allUiDefinitions) {
+
+      TopLevelCompiler compiler = new TopLevelCompiler(messages, config.LogicalLibraries);
+      compiler.Compile(config.SourceDir, out allEntities, out allEnums, out allFunctions, out allUiDefinitions);
+    }
+
+    #region Post-Build Script
     private static void ExecutePostBuildScript(GenConfig config) {
       ScriptInfo scriptInfo = config.PostGenerationScript;
       if (scriptInfo == null) return;
@@ -122,34 +151,19 @@ namespace x10 {
       string output = reader.ReadToEnd();
       Console.WriteLine(output);
     }
+    #endregion
 
-    internal static void CompileEverything(MessageBucket messages, string rootDir,
-      out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFunctions, out AllUiDefinitions allUiDefinitions) {
-
-      IEnumerable<UiLibrary> libraries = new UiLibrary[] {
-        BaseLibrary.Singleton(),
-        IconLibrary.Singleton(),
-      };
-
-      foreach (UiLibrary library in libraries)
-        if (!library.HydrateAndValidate(messages)) {
-          DumpMessages(messages);
-          if (!messages.IsEmpty)
-            throw new Exception("Problems with library: " + library.Name);
-        }
-
-      TopLevelCompiler compiler = new TopLevelCompiler(messages, libraries);
-      compiler.Compile(rootDir, out allEntities, out allEnums, out allFunctions, out allUiDefinitions);
-
-      DumpMessages(messages, CompileMessageSeverity.Error);
-    }
-
-    public static void DumpMessages(MessageBucket messages, CompileMessageSeverity? severities = null) {
+    #region Utils
+    public static void DumpMessages(string label, MessageBucket messages, CompileMessageSeverity? severities = null) {
+      Console.WriteLine("Messages for: " + label);
       if (messages.IsEmpty)
         Console.WriteLine("No Errors");
       else
         foreach (CompileMessage message in messages.FilteredMessages(severities))
           Console.WriteLine(message.ToString());
+
+      Console.WriteLine();
     }
+    #endregion
   }
 }

@@ -4,9 +4,9 @@
 import * as React from 'react';
 
 import Group from 'latitude/Group';
-import Label from 'latitude/Label';
 import Text from 'latitude/Text';
 import TextInput from 'latitude/TextInput';
+import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -36,8 +36,8 @@ export default function TenantForm(props: Props): React.Node {
       <FormSection
         label='Tenant Info'
       >
-        <Label
-          value='Name'
+        <FormField
+          label='Name'
         >
           <TextInput
             value={ tenant.name }
@@ -45,9 +45,9 @@ export default function TenantForm(props: Props): React.Node {
               onChange({ ...tenant, name: value })
             } }
           />
-        </Label>
-        <Label
-          value='Phone'
+        </FormField>
+        <FormField
+          label='Phone'
         >
           <TextInput
             value={ tenant.phone }
@@ -55,9 +55,9 @@ export default function TenantForm(props: Props): React.Node {
               onChange({ ...tenant, phone: value })
             } }
           />
-        </Label>
-        <Label
-          value='Email'
+        </FormField>
+        <FormField
+          label='Email'
         >
           <TextInput
             value={ tenant.email }
@@ -65,13 +65,13 @@ export default function TenantForm(props: Props): React.Node {
               onChange({ ...tenant, email: value })
             } }
           />
-        </Label>
+        </FormField>
       </FormSection>
       <FormSection
         label='Permanent Mailing Address'
       >
-        <Label
-          value='The Address'
+        <FormField
+          label='The Address'
         >
           <TextInput
             value={ tenant.permanentMailingAddress.theAddress }
@@ -81,9 +81,9 @@ export default function TenantForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='City'
+        </FormField>
+        <FormField
+          label='City'
         >
           <TextInput
             value={ tenant.permanentMailingAddress.city }
@@ -93,9 +93,9 @@ export default function TenantForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='State Or Province'
+        </FormField>
+        <FormField
+          label='State Or Province'
         >
           <TextInput
             value={ tenant.permanentMailingAddress.stateOrProvince }
@@ -105,9 +105,9 @@ export default function TenantForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
-        <Label
-          value='Zip or Postal Code'
+        </FormField>
+        <FormField
+          label='Zip or Postal Code'
         >
           <TextInput
             value={ tenant.permanentMailingAddress.zip }
@@ -117,7 +117,7 @@ export default function TenantForm(props: Props): React.Node {
               onChange(newObj);
             } }
           />
-        </Label>
+        </FormField>
       </FormSection>
       <Group
         justifyContent='space-between'

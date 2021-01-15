@@ -72,25 +72,6 @@ namespace x10.gen.react {
           new PlatformAttributeStatic("children", "•"),
         },
       },
-      new PlatformClassDef() {
-        LogicalName = "Label",
-        PlatformName = "Label",
-        PlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "mandatoryIndicator",
-            PlatformName = "indicateRequired",
-            TranslationFunc = (value) => value?.ToString() == "mandatory",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "toolTip",
-            PlatformName = "helpTooltip",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "value",
-          },
-        },
-      },
       #endregion
 
       #region Atomic Text Display Components
@@ -408,6 +389,26 @@ namespace x10.gen.react {
         },
       },
       new PlatformClassDef() {
+        LogicalName = "FormField",
+        PlatformName = "FormField",
+        ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "mandatoryIndicator",
+            PlatformName = "indicateRequired",
+            TranslationFunc = (value) => value?.ToString() == "mandatory",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "toolTip",
+            PlatformName = "toolTip",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "label",
+            PlatformName = "label",
+          },
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "FormErrorDisplay",
         PlatformName = "FormErrorDisplay",
         ImportDir = "react_lib/form",
@@ -491,22 +492,15 @@ namespace x10.gen.react {
       # endregion
     };
 
-    #region Glue it Together
+    #region Singleton
     private static PlatformLibrary _singleton;
-    public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
+    public static PlatformLibrary Singleton() {
       if (_singleton == null)
-        _singleton = CreateLibrary(errors, logicalLibrary);
+        _singleton = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
+          Name = "Latitude",
+          ImportPath = "latitude",
+        };
       return _singleton;
-    }
-
-    private static PlatformLibrary CreateLibrary(MessageBucket errors, UiLibrary logicalLibrary) {
-      PlatformLibrary library = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-        ImportPath = "latitude",
-      };
-
-      library.HydrateAndValidate(errors, logicalLibrary);
-
-      return library;
     }
     #endregion
   }
