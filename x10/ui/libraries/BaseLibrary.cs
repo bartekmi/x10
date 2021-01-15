@@ -88,6 +88,7 @@ namespace x10.ui.libraries {
             Name = "toolTip",
             Description = "If present, an icon (?) will be placed after the label - the Tool Tip message will be displayed to the user when they hover over the icon",
             DataType = DataTypes.Singleton.String,
+            TakeValueFromModelAttrName = model.libraries.BaseLibrary.TOOL_TIP,
           },
         }
       },

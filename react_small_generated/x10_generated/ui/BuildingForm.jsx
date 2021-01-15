@@ -58,6 +58,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          toolTip='A short and memorable name of the Building'
           label='Name'
         >
           <TextInput
@@ -68,6 +69,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          toolTip='Description for advertising purposes'
           label='Description'
         >
           <TextareaInput
@@ -218,6 +220,7 @@ export default function BuildingForm(props: Props): React.Node {
             />
           </FormField>
           <FormField
+            toolTip='Strongly affects annual propery maintenance costs.'
             label='Age In Years'
           >
             <FloatInput

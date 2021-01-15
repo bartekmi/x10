@@ -43,6 +43,7 @@ derivedAttributes:
   - name: ageInYears
     dataType: Integer
     formula: = __Context__.today.year - dateOfOccupancy.year
+    toolTip: Strongly affects annual propery maintenance costs.
 
 associations:
   - name: units
