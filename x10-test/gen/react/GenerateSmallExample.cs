@@ -29,8 +29,9 @@ namespace x10.gen.react {
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
+      LatitudeLibrary.Singleton().HydrateAndValidate(_messages);
       PlatformLibrary[] libraries = new PlatformLibrary[] {
-        LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton()),
+        LatitudeLibrary.Singleton(),
       };
 
       TestUtils.DumpMessages(_messages, _output);

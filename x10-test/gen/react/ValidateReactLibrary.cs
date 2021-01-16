@@ -17,7 +17,7 @@ namespace x10.gen.react {
 
     [Fact]
     public void Validate() {
-      LatitudeLibrary.Singleton(_messages, BaseLibrary.Singleton());
+      LatitudeLibrary.Singleton().HydrateAndValidate(_messages);
 
       TestUtils.DumpMessages(_messages, _output);
       Assert.True(_messages.IsEmpty);

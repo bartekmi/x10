@@ -13,12 +13,12 @@
       </FormSection>
 
       <FormSection label="Involved Parties">
-        <Label label="What is your role in this trade?" mandatoryIndicator="mandatory">
+        <FormField label="What is your role in this trade?" mandatoryIndicator="mandatory">
           <Row>
             <SelectableButton label="Shipper" selected="=isShipperBooking" onSelect="selectShipperBooking"/>
             <SelectableButton label="Consignee" selected="=isConsigneeBooking" onSelect="selectConsigneeBooking"/>
           </Row>
-        </Label>
+        </FormField>
         <shipper/>
         <consignee/>
         <Checkbox checkboxLabel="Notify party is same as consignee" checked="=notifyPartySameAsConsignee"/>
@@ -63,11 +63,11 @@
 
             <!-- FUTURE: Is there a way to do this in a type-checed way? -->
             <!-- TODO: Activate the formula for 'label' below -->
-            <Label Grid.row="0" Grid.column="0" mandatoryIndicator="mandatory"
+            <FormField Grid.row="0" Grid.column="0" mandatoryIndicator="mandatory"
               label="'Description of the goods ' + requiresChineseProductDescription ? '(English and Chinese)' : null}"
               toolTip="Please enter a short and precise description of this product"
 						/>
-            <Label Grid.row="0" Grid.column="1" mandatoryIndicator="mandatory"
+            <FormField Grid.row="0" Grid.column="1" mandatoryIndicator="mandatory"
               label="6 digit HS Code"
               toolTip="6 digit HS Code is required for carrier booking as commodity identifier"/>
 
