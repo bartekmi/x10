@@ -6,28 +6,24 @@ import Label from "latitude/Label";
 import HelpTooltip from "latitude/HelpTooltip";
 import InputValidationMessage from "latitude/InputValidationMessage";
 
-import {FormContext} from "./FormProvider";
+import { errorMessageForPath } from "./FormProvider";
 
 type Props = {|
   +children: React.Node,
+  +editorFor: string, // Path of field that this field represents. Used for error display.
   +label: string,
   +indicateRequired?: boolean,
-  +errorMessage?: string | null,
-  +errorMessageFullContext?: string,
   +toolTip?: string,
   +maxWidth?: number,
 |};
 export default function FormField(props: Props): React.Node {
-  const errors = React.useContext(FormContext);
-  const {children, label, indicateRequired = false, errorMessage, errorMessageFullContext = null, toolTip, maxWidth} = props;
-
-  if (errorMessage != null) {
-    errors.push(errorMessageFullContext || errorMessage);
-  }
+  const {children, editorFor, label, indicateRequired = false, toolTip, maxWidth} = props;
 
   const style = maxWidth ? {
     maxWidth: maxWidth + "px"
   } : {};
+
+  const errorMessage = errorMessageForPath(editorFor);
 
   return (
     <Label 

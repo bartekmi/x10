@@ -25,6 +25,7 @@ import { graphql } from 'react-relay';
 
 
 import { type Building } from 'entities/Building';
+import { buildingCalculateErrors } from '../entities/Building';
 
 type Props = {|
   +building: Building,
@@ -35,7 +36,7 @@ export default function BuildingForm(props: Props): React.Node {
 
   return (
     <FormProvider
-      value={ [] }
+      value={ {errors: buildingCalculateErrors(building) } }
     >
       <Text
         scale='display'
@@ -59,6 +60,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='name'
           toolTip='A short and memorable name of the Building'
           label='Name'
           maxWidth={ 350 }
@@ -216,6 +218,7 @@ export default function BuildingForm(props: Props): React.Node {
         >
           <FormField
             label='Date Of Occupancy'
+            editorFor='dateOfOccupancy'
           >
             <X10_CalendarDateInput
               value={ building.dateOfOccupancy }

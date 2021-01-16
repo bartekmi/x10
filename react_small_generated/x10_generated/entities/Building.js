@@ -10,6 +10,9 @@ import { createDefaultAddress, type Address } from 'entities/Address';
 import { type Unit } from 'entities/Unit';
 import * as React from 'react';
 import { getYear, dateGreaterThan } from 'react_lib/type_helpers/dateFunctions';
+import isBlank from 'react_lib/utils/isBlank';
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+
 
 // Type Definition
 export type Building = {|
@@ -101,8 +104,17 @@ export function buildingApplicableWhenForMailingAddress(building: Building): boo
 }
 
 // Validations
-export function buildingValidationDateOfOccupancy(building: Building): string | null { 
-  const appContext = React.useContext(AppContext); 
-  const isTriggered = dateGreaterThan(building.dateOfOccupancy, appContext.today); 
-  return isTriggered ? "Occupancy date cannot be in the future" : null;
+export function buildingCalculateErrors(building: Building, prefix?: string): $ReadOnlyArray<FormError> { 
+  const appContext = React.useContext(AppContext);
+  const errors = [];
+
+  if (isBlank(building.name))
+    addError(errors, prefix, "Name is required", ["name"]);
+  if (isBlank(building.dateOfOccupancy))
+    addError(errors, prefix, "Date Of Occupancy is required", ["dateOfOccupancy"]);
+    
+  if (dateGreaterThan(building.dateOfOccupancy, appContext.today))
+    addError(errors, prefix, "Occupancy date cannot be in the future", ["dateOfOccupancy"]);
+
+  return errors;
 }
