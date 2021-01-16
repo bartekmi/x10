@@ -17,8 +17,8 @@
     </FormSection>
 
     <FormSection label="Mailing Address">
-      <mailingAddressSameAsPhysical/>
-      <VerticalStackPanel path="mailingAddress">
+      <Checkbox path="mailingAddressSameAsPhysical" checkboxLabel="Mailing Address Same as Physical Address"/> 
+      <VerticalStackPanel path="mailingAddress" id="break">
         <theAddress label="Address or Post Office (PO) Box"/>
         <city/>
         <stateOrProvince/>

@@ -20,7 +20,8 @@ namespace x10.ui.metadata {
     private ClassDef _defaultComponentForEnums;
 
     // Derived
-    public IEnumerable<ClassDef> All { get { return _definitionsByName.Values; } }
+    public IEnumerable<ClassDef> All => _definitionsByName.Values; 
+    public IEnumerable<string> AllNames => _definitionsByName.Keys;
     #endregion
 
     #region Creating the Library

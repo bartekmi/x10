@@ -38,7 +38,7 @@ namespace x10.formula {
       if (Value is string) {
         EnumValue inferredEnumValue = enumType.FindEnumValue(Value);
         if (inferredEnumValue == null)
-          Parser.Errors.AddError(this, Value.ToString(), enumType.AvailableValuesAsStrings, "Attempted to upgrade '{0}' to Enumerated Type {1}. No such value exists.",
+          Parser.Errors.AddErrorDidYouMean(this, Value.ToString(), enumType.AvailableValuesAsStrings, "Attempted to upgrade '{0}' to Enumerated Type {1}. No such value exists.",
             Value, enumType.Name);
       } else if (Value == null) { 
         // An enum field could legitimately be null

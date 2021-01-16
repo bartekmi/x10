@@ -42,8 +42,8 @@ namespace x10.compiler {
 
       // Check if component exists
       if (!_uiDefinitionsByName.TryGetValue(componentName, out List<ClassDefX10> definitions)) {
-        _messages.AddError(parseElement,
-          string.Format("UI Component '{0}' not found", componentName));
+        IEnumerable<string> allValidNames = _libraries.SelectMany(x => x.AllNames).Concat(_uiDefinitionsByName.Keys);
+        _messages.AddErrorDidYouMean(parseElement, componentName, allValidNames, "UI Component '{0}' not found", componentName);
         return null;
       }
 

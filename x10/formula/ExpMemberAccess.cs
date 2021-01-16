@@ -43,7 +43,7 @@ namespace x10.formula {
           if (enumType.HasEnumValue(MemberName))
             return new X10DataType(enumType);
 
-          Parser.Errors.AddError(this, MemberName, enumType.AvailableValuesAsStrings, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
+          Parser.Errors.AddErrorDidYouMean(this, MemberName, enumType.AvailableValuesAsStrings, "Enum '{0}' does not have value '{1}'", enumType.Name, MemberName);
           return X10DataType.ERROR;
         }
       }

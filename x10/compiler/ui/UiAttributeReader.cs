@@ -165,8 +165,8 @@ namespace x10.compiler {
           continue;
 
         if (!validAttributeNames.Contains(xmlAttribute.Key))
-          _messages.AddError(xmlAttribute, "Unknown attribute '{0}' on Class Definition '{1}'",
-            xmlAttribute.Key, recipient.ClassDef?.Name);
+          _messages.AddErrorDidYouMean(xmlAttribute, xmlAttribute.Key, validAttributeNames,
+            "Unknown attribute '{0}' on Class Definition '{1}'", xmlAttribute.Key, recipient.ClassDef?.Name);
       }
     }
 

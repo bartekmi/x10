@@ -156,7 +156,7 @@ namespace x10.compiler {
           continue;
 
         if (!validAttributeNames.Contains(attrName))
-          _messages.AddError(attribute, attrName, validAttributeNames, "Unknown attribute '{0}' on {1}", attrName, type);
+          _messages.AddErrorDidYouMean(attribute, attrName, validAttributeNames, "Unknown attribute '{0}' on {1}", attrName, type);
       }
     }
   }

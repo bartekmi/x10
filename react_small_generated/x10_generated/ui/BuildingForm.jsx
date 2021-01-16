@@ -141,16 +141,13 @@ export default function BuildingForm(props: Props): React.Node {
       <FormSection
         label='Mailing Address'
       >
-        <FormField
-          label='Mailing Address is Same as Physical Address'
-        >
-          <Checkbox
-            checked={ building.mailingAddressSameAsPhysical }
-            onChange={ (value) => {
-              onChange({ ...building, mailingAddressSameAsPhysical: value })
-            } }
-          />
-        </FormField>
+        <Checkbox
+          checked={ building.mailingAddressSameAsPhysical }
+          onChange={ (value) => {
+            onChange({ ...building, mailingAddressSameAsPhysical: value })
+          } }
+          label='Mailing Address Same as Physical Address'
+        />
         <VisibilityControl
           visible={ buildingApplicableWhenForMailingAddress(building) }
         >
