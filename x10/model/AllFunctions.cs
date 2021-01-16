@@ -22,6 +22,10 @@ namespace x10.model {
     public Argument() {
       AttributeValues = new List<ModelAttributeValue>();
     }
+
+    public override string ToString() {
+      return Name;
+    }
   }
   public class Function : IAcceptsModelAttributeValues {
     public string Name { get; set; }
@@ -36,6 +40,10 @@ namespace x10.model {
     public Function() {
       AttributeValues = new List<ModelAttributeValue>();
       Arguments = new List<Argument>();
+    }
+
+    public override string ToString() {
+      return Name;
     }
   }
   #endregion

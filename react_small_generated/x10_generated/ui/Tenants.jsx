@@ -8,6 +8,7 @@ import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 import Button from 'react_lib/Button';
+import x10toString from 'react_lib/utils/x10toString';
 
 
 import { type Tenant } from 'entities/Tenant';
@@ -59,7 +60,7 @@ export default function Tenants(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/tenants/edit/' + (data.dbid || '') }
+                      url={ '/tenants/edit/' + x10toString(data.dbid) }
                     />
                   </Group>
                 ,

@@ -13,6 +13,7 @@ import Text from 'latitude/Text';
 import TextInput from 'latitude/TextInput';
 import Button from 'react_lib/Button';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 
@@ -92,7 +93,7 @@ export default function Buildings(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/buildings/edit/' + (data.dbid || '') }
+                      url={ '/buildings/edit/' + x10toString(data.dbid) }
                     />
                   </Group>
                 ,

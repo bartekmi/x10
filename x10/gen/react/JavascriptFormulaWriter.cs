@@ -29,9 +29,11 @@ namespace x10.gen.react {
     private void PossiblyWrapWithOrEmpty(ExpBinary binary, ExpBase expression) {
       // Without the || "", Flow complains and UI shows "null"
       if (binary.DataType.IsString && !expression.DataType.IsString) {
-        _writer.Write("(");
+        _writer.Write("{0}(", HelperFunctions.X10_ToString);
         expression.Accept(this);
-        _writer.Write(" || '')");
+        _writer.Write(")");
+
+        _imports.ImportFunction(HelperFunctions.X10_ToString);
       } else
         expression.Accept(this);
     }
