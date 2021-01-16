@@ -21,9 +21,19 @@ namespace x10.gen.react {
     }
 
     public void VisitBinary(ExpBinary exp) {
-      exp.Left.Accept(this);
+      PossiblyWrapWithOrEmpty(exp, exp.Left);
       _writer.Write(" {0} ", exp.Token);
-      exp.Right.Accept(this);
+      PossiblyWrapWithOrEmpty(exp, exp.Right);
+    }
+
+    private void PossiblyWrapWithOrEmpty(ExpBinary binary, ExpBase expression) {
+      // Without the || "", Flow complains and UI shows "null"
+      if (binary.DataType.IsString && !expression.DataType.IsString) {
+        _writer.Write("(");
+        expression.Accept(this);
+        _writer.Write(" || '')");
+      } else
+        expression.Accept(this);
     }
 
     public void VisitIdentifier(ExpIdentifier exp) {

@@ -42,7 +42,7 @@ export default function BuildingForm(props: Props): React.Node {
       />
       <Text
         scale='display'
-        children={ buildingAgeInYears(building) }
+        children={ 'Age in Years: ' + (buildingAgeInYears(building) || '') }
       />
       <Separator/>
       <FormSection

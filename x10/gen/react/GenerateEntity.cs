@@ -171,7 +171,12 @@ namespace x10.gen.react {
           ImportsPlaceholder.ImportAppContext();
         }
 
-        WriteLine(1, "return {0};", ExpressionToString(attribute.Expression));
+        WriteLine(1, "const result = {0};", ExpressionToString(attribute.Expression));
+        if (IsNumeric(attribute.DataType))
+          WriteLine(1, "return isNaN(result) ? null : result;");
+        else
+          WriteLine(1, "return result;");
+
         WriteLine(0, "}");
 
         PopSourceVariableName();
@@ -183,6 +188,12 @@ namespace x10.gen.react {
     #endregion
 
     #region Utilities
+
+    private bool IsNumeric(DataType dataType) {
+      return 
+        dataType == DataTypes.Singleton.Integer ||
+        dataType == DataTypes.Singleton.Float;
+    }
 
     private string GetType(Member member) {
       if (member is Association association) {

@@ -1,7 +1,7 @@
 <BuildingForm model="Building" url="/buildings" query="GetBuilding(buildingId: $buildingId">
   <Form>
     <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
-    <Heading1 text="=ageInYears"/>
+    <Heading1 text='="Age in Years: " + ageInYears'/>
     <HorizontalDivider/>
     <FormSection label="Building Info">
       <moniker/>

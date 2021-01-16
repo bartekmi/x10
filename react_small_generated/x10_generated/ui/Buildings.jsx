@@ -92,7 +92,7 @@ export default function Buildings(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/buildings/edit/' + data.dbid }
+                      url={ '/buildings/edit/' + (data.dbid || '') }
                     />
                   </Group>
                 ,

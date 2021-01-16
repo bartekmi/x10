@@ -34,13 +34,16 @@ export function createDefaultAddress(): Address {
 
 // Derived Attribute Functions
 export function addressFirstAddressLine(address: Address): string {
-  return address.theAddress + '   Unit ' + address.unitNumber;
+  const result = address.theAddress + '   Unit ' + address.unitNumber;
+  return result;
 }
 export function addressSecondAddressLine(address: Address): string {
-  return address.city + ', ' + address.stateOrProvince;
+  const result = address.city + ', ' + address.stateOrProvince;
+  return result;
 }
 export function addressThirdAddressLine(address: Address): string {
-  return address.zip;
+  const result = address.zip;
+  return result;
 }
 
 

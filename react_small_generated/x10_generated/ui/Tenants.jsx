@@ -59,7 +59,7 @@ export default function Tenants(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/tenants/edit/' + data.dbid }
+                      url={ '/tenants/edit/' + (data.dbid || '') }
                     />
                   </Group>
                 ,
