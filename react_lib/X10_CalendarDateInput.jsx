@@ -7,8 +7,8 @@ import CalendarDateInput from "latitude/date/CalendarDateInput";
 import {type CalendarDate} from "latitude/date/CalendarDateType";
 
 type Props = {|
-  value: ?string,
-  onChange: (date: CalendarDate | null) => void,
+  value: ?Date,
+  onChange: (date: Date | null) => void,
 |};
 
 export default function X10_CalendarDateInput(props: Props): React.Node {
@@ -17,25 +17,28 @@ export default function X10_CalendarDateInput(props: Props): React.Node {
   return (
     <div className={css(styles.styling)}>
       <CalendarDateInput
-        value={toCalendarDate(value || null)} // Convert null or undefined to null
-        onChange={onChange}
+        value={dateToCalendarDate(value)} 
+        onChange={value => onChange(calendarDateToDate(value))}
       />
     </div>
   );
 }
 
-function toCalendarDate(dateAndMaybeTime: string | null): CalendarDate | null {
-  if (dateAndMaybeTime == null) {
+function dateToCalendarDate(date: ?Date): CalendarDate | null {
+  if (date == null) {
     return null;
   }
 
-  const index = dateAndMaybeTime.indexOf("T");
-  if (index == -1) {
-    throw "Invalid date/time format: " + dateAndMaybeTime;
+  date.setUTCHours(0, 0, 0, 0);
+  return date.toISOString();
+}
+
+function calendarDateToDate(date: ?CalendarDate): Date | null {
+  if (date == null) {
+    return null;
   }
- 
-  const date = dateAndMaybeTime.substr(0, index);
-  return `${date}T00:00:00Z`;
+
+  return new Date(date);
 }
 
 const styles = StyleSheet.create({

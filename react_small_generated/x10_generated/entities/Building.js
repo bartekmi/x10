@@ -9,7 +9,7 @@ import { AppContext } from 'AppContext';
 import { createDefaultAddress, type Address } from 'entities/Address';
 import { type Unit } from 'entities/Unit';
 import * as React from 'react';
-import { getYear } from 'react_lib/type_helpers/dateFunctions';
+import { getYear, dateGreaterThan } from 'react_lib/type_helpers/dateFunctions';
 
 // Type Definition
 export type Building = {|
@@ -18,7 +18,7 @@ export type Building = {|
   +moniker: string,
   +name: string,
   +description: string,
-  +dateOfOccupancy: ?string,
+  +dateOfOccupancy: ?Date,
   +mailboxType: ?MailboxTypeEnum,
   +petPolicy: ?PetPolicyEnum,
   +mailingAddressSameAsPhysical: boolean,
@@ -100,4 +100,9 @@ export function buildingApplicableWhenForMailingAddress(building: Building): boo
   return result;
 }
 
-
+// Validations
+export function buildingValidationDateOfOccupancy(building: Building): string | null { 
+  const appContext = React.useContext(AppContext); 
+  const isTriggered = dateGreaterThan(building.dateOfOccupancy, appContext.today); 
+  return isTriggered ? "Occupancy date cannot be in the future" : null;
+}

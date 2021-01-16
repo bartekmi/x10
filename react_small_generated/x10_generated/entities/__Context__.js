@@ -8,18 +8,7 @@ import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
 // Type Definition
 export type __Context__ = {|
-  +id: string,
-  +today: ?string,
+  +today: Date,
 |};
-
-
-// Create Default Function
-export function createDefault__Context__(): __Context__ {
-  return {
-    id: uuid(),
-    // $FlowExpectedError Required field, but no default value
-    today: null,
-  };
-}
 
 

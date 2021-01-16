@@ -20,11 +20,7 @@ import Header from "../x10_generated/ui/Header";
 export default function App(): React.Node {
 
   const appContext = {
-    today: new Date().toISOString(),
-    currentUser: {
-      name: "Bartek Muszynski",
-      username: "bartekmi",
-    },
+    today: new Date(),
   };
 
   return (

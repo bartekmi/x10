@@ -6,6 +6,7 @@ import { createDefaultBuilding, type Building } from 'entities/Building';
 import environment from 'environment';
 import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
+import { gqlToDate } from 'react_lib/type_helpers/dateFunctions';
 import { graphql, QueryRenderer } from 'react-relay';
 import BuildingForm from 'ui/BuildingForm';
 
@@ -43,6 +44,7 @@ export default function BuildingFormInterface(props: Props): React.Node {
 function gqlToInernalConvert(data: any): Building {
   return {
     ...data,
+    dateOfOccupancy: gqlToDate(data.dateOfOccupancy),
     mailingAddress: data.mailingAddress || createDefaultAddress(),
   };
 }
