@@ -20,20 +20,6 @@ export type Unit = {|
 |};
 
 
-// Create Default Function
-export function createDefaultUnit(): Unit {
-  return {
-    id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
-    number: '',
-    squareFeet: null,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 'ONE',
-    hasBalcony: false,
-  };
-}
-
-
 // Enums
 export const NumberOfBathroomsEnumPairs = [
   {
@@ -64,6 +50,20 @@ export const NumberOfBathroomsEnumPairs = [
 
 export type NumberOfBathroomsEnum = 'HALF' | 'ONE' | 'ONE_AND_HALF' | 'TWO' | 'THREE' | 'FOUR_PLUS';
 
+
+
+// Create Default Function
+export function createDefaultUnit(): Unit {
+  return {
+    id: uuid(),
+    dbid: DBID_LOCALLY_CREATED,
+    number: '',
+    squareFeet: null,
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 'ONE',
+    hasBalcony: false,
+  };
+}
 
 
 // Validations

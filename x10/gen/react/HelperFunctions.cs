@@ -11,6 +11,9 @@ namespace x10.gen.react {
     internal static readonly Function ToNum = new Function() {
       Name = "toNum",
     };
+    internal static readonly Function ToDate = new Function() {
+      Name = "toDate",
+    };
     internal static readonly Function IsPositive = new Function() {
       Name = "isPositive",
     };

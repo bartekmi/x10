@@ -20,20 +20,6 @@ export type Address = {|
 |};
 
 
-// Create Default Function
-export function createDefaultAddress(): Address {
-  return {
-    id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
-    unitNumber: '',
-    theAddress: '',
-    city: '',
-    stateOrProvince: '',
-    zip: '',
-  };
-}
-
-
 // Derived Attribute Functions
 export function addressFirstAddressLine(address: Address): string {
   const result = address.theAddress + '   Unit ' + address.unitNumber;
@@ -46,6 +32,20 @@ export function addressSecondAddressLine(address: Address): string {
 export function addressThirdAddressLine(address: Address): string {
   const result = address.zip;
   return result;
+}
+
+
+// Create Default Function
+export function createDefaultAddress(): Address {
+  return {
+    id: uuid(),
+    dbid: DBID_LOCALLY_CREATED,
+    unitNumber: '',
+    theAddress: '',
+    city: '',
+    stateOrProvince: '',
+    zip: '',
+  };
 }
 
 

@@ -13,6 +13,7 @@ using x10.ui.metadata;
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
 
+    #region Top Level
     // Model is guaranteed to be non-null
     private void GenerateInterface(ClassDefX10 classDef, Entity model, bool isForm) {
       Begin(classDef.XmlElement.FileInfo, "Interface.jsx");
@@ -48,6 +49,7 @@ namespace x10.gen.react {
 
       WriteLine();
     }
+    #endregion
 
     #region Form-Related Generation
     private void GenerateFormWrapper(ClassDefX10 classDef, Entity model) {
@@ -111,6 +113,7 @@ namespace x10.gen.react {
       WriteLine(1, "return {");
       WriteLine(2, "...data,");
 
+      // Generate default objects for non-mandatory associations
       // TODO: Currently, this does not generate recursively, but it should - i.e.
       // mandatory associations may have non-mandatory child associations.
       foreach (Association association in model.Associations) {
@@ -124,6 +127,13 @@ namespace x10.gen.react {
           ReactCodeGenerator.CreateDefaultFuncName(assocModel));
 
         ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+      }
+
+      foreach (X10RegularAttribute attr in model.RegularAttributes) {
+        if (IsDateType(attr.DataType)) {
+          WriteLine(2, "{0}: {1}(data.{0})", attr.Name, HelperFunctions.ToDate);
+          ImportsPlaceholder.ImportFunction(HelperFunctions.ToDate);
+        }
       }
 
       WriteLine(1, "};");

@@ -10,6 +10,8 @@ using x10.utils;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator : CodeGenerator {
+
+    #region Top Level
     public override void Generate(Entity entity) {
       FileInfo fileInfo = entity.TreeElement.FileInfo;
       bool isContext = entity.IsContext;
@@ -36,6 +38,7 @@ namespace x10.gen.react {
 
       End();
     }
+    #endregion
 
     #region Generate Type Definition
     private void GenerateType(Entity model, bool isContext) {
@@ -351,6 +354,12 @@ namespace x10.gen.react {
       if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
 
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
+    }
+
+    internal static bool IsDateType(DataType dataType) {
+      return
+        dataType == DataTypes.Singleton.Date ||
+        dataType == DataTypes.Singleton.Timestamp;
     }
     #endregion
   }

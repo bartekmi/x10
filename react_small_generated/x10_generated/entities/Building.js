@@ -31,26 +31,6 @@ export type Building = {|
 |};
 
 
-// Create Default Function
-export function createDefaultBuilding(): Building {
-  return {
-    id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
-    moniker: '1',
-    name: '',
-    description: '',
-    // $FlowExpectedError Required field, but no default value
-    dateOfOccupancy: null,
-    mailboxType: 'IN_BUILDING',
-    petPolicy: null,
-    mailingAddressSameAsPhysical: true,
-    units: [],
-    physicalAddress: createDefaultAddress(),
-    mailingAddress: createDefaultAddress(),
-  };
-}
-
-
 // Enums
 export const MailboxTypeEnumPairs = [
   {
@@ -101,6 +81,26 @@ export function buildingAgeInYears(building: Building): ?number {
 export function buildingApplicableWhenForMailingAddress(building: Building): boolean {
   const result = !building.mailingAddressSameAsPhysical;
   return result;
+}
+
+
+// Create Default Function
+export function createDefaultBuilding(): Building {
+  return {
+    id: uuid(),
+    dbid: DBID_LOCALLY_CREATED,
+    moniker: '1',
+    name: '',
+    description: '',
+    // $FlowExpectedError Required field, but no default value
+    dateOfOccupancy: null,
+    mailboxType: 'IN_BUILDING',
+    petPolicy: null,
+    mailingAddressSameAsPhysical: true,
+    units: [],
+    physicalAddress: createDefaultAddress(),
+    mailingAddress: createDefaultAddress(),
+  };
 }
 
 
