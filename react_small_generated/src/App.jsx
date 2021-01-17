@@ -7,10 +7,7 @@ import { graphql, QueryRenderer } from "react-relay";
 import { Route, Router } from "react-router-dom";
 import {StyleSheet, css} from "aphrodite";
 
-import Link from "latitude/Link";
-import Group from "latitude/Group";
-import Text from "latitude/Text";
-import colors from "latitude/colors";
+import ConnectedToaster from "latitude/toast/ConnectedToaster";
 import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 
 import { AppContextProvider } from "AppContext";
@@ -24,11 +21,14 @@ export default function App(): React.Node {
   };
 
   return (
-    <AppContextProvider value={appContext}>
-      <div className={css(styles.app)}>
-        <Header/>
-      </div>
-    </AppContextProvider>
+    <>
+      <ConnectedToaster />
+      <AppContextProvider value={appContext}>
+        <div className={css(styles.app)}>
+          <Header/>
+        </div>
+      </AppContextProvider>
+    </>
   );
 }
 

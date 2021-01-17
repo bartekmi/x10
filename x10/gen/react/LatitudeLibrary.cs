@@ -443,6 +443,10 @@ namespace x10.gen.react {
               return string.Format("() => save({0})", generator.SourceVariableName);
             },
           },
+          // new JavaScriptAttributeDynamic() {
+          //   LogicalName = "successUrl",
+          //   PlatformName = "successUrl",
+          // },
         },
       },
       new PlatformClassDef() {

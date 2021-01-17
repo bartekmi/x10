@@ -1,5 +1,6 @@
 [ignore]
 .*/__tests__/.*
+node_modules/latitude/toast/ToastActions.js
 
 [include]
 
