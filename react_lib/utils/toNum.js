@@ -10,7 +10,7 @@ export default function toNum(value: ?number | ?string /* a date */ ): number {
     return value;
   }
 
-  if (typeof value == "number") {
+  if (typeof value == "string") {
     return new Date(value).getTime(); // Note that getTime() returns NaN if date is invalid
   }
 
