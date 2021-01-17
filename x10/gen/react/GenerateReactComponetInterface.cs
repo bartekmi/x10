@@ -34,8 +34,7 @@ namespace x10.gen.react {
     }
 
     private void GenerateImports(ClassDefX10 classDef, Entity model) {
-      ImportsPlaceholder = new ImportsPlaceholder();
-      AddPlaceholder(ImportsPlaceholder);
+      InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
       ImportsPlaceholder.Import("graphql", "react-relay");

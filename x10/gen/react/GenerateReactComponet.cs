@@ -55,8 +55,7 @@ namespace x10.gen.react {
     }
 
     private void GenerateImports(Entity model) {
-      ImportsPlaceholder = new ImportsPlaceholder();
-      AddPlaceholder(ImportsPlaceholder);
+      InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
       if (model != null) 
