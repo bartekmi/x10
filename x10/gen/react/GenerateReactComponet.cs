@@ -83,9 +83,10 @@ namespace x10.gen.react {
 
       // Component Definition
       WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
-      if (isForm)
-        WriteLine(1, "const { {0}, onChange } = props;", SourceVariableName);
-      else
+      if (isForm) {
+        WriteLine(1, "const { onChange } = props;");
+        GenerateCreateNullableEntities(model);
+      } else
         WriteLine(1, "const { {0} } = props;", SourceVariableName);
       WriteLine();
 
@@ -96,6 +97,32 @@ namespace x10.gen.react {
       WriteLine();
 
       PopSourceVariableName();
+    }
+
+    private void GenerateCreateNullableEntities(Entity model) {
+      IEnumerable<Association> nullableAssociations = model.Associations
+        .Where(x => !(x.IsMandatory || x.IsMany));
+
+      if (nullableAssociations.Count() == 0)
+        WriteLine(1, "const { {0} } = props;", SourceVariableName);
+      else {
+        WriteLine(1, "const { {0}: raw } = props;", SourceVariableName);
+        WriteLine();
+        WriteLine(1, "const {0} = {", SourceVariableName);
+        WriteLine(2, "...raw,");
+
+        // TODO... Not recursive at this time
+        foreach (Association association in nullableAssociations) {
+          Entity assocModel = association.ReferencedEntity;
+          WriteLine(2, "{0}: raw.{0} || {1}(),",
+            association.Name,
+            ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+
+          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+        }
+
+        WriteLine(1, "};");
+      }
     }
     #endregion
 

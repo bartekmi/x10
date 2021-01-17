@@ -20,7 +20,8 @@ type Props = {|
   +onChange: (tenant: Tenant) => void,
 |};
 export default function TenantForm(props: Props): React.Node {
-  const { tenant, onChange } = props;
+  const { onChange } = props;
+  const { tenant } = props;
 
   return (
     <FormProvider
