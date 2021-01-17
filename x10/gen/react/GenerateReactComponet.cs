@@ -55,17 +55,14 @@ namespace x10.gen.react {
     }
 
     private void GenerateImports(Entity model) {
-      WriteLine(0, "import * as React from 'react';");
-      WriteLine();
-
       ImportsPlaceholder = new ImportsPlaceholder();
       AddPlaceholder(ImportsPlaceholder);
-      WriteLine();
 
-      if (model != null) {
-        WriteLine(0, "import { type {0} } from '{1}';", model.Name, ImportPath(model));
-        WriteLine();
-      }
+      ImportsPlaceholder.ImportReact();
+      if (model != null) 
+        ImportsPlaceholder.ImportType(model.Name, model);
+
+      WriteLine();
     }
 
     private void GenerateComponent(ClassDefX10 classDef, bool isForm) {

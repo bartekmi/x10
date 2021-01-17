@@ -20,11 +20,6 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private static string ImportPath(ModelComponent modelComponent) {
-      x10.parsing.FileInfo fileInfo = modelComponent.TreeElement.FileInfo;
-      return AssembleRelativePath(fileInfo, null, true);  // TODO: Single source of truth for capitalization
-    }
-
     #region Import Placeholder
     internal ImportsPlaceholder ImportsPlaceholder;
     internal void InsertImportsPlaceholder() {
