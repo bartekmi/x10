@@ -345,8 +345,8 @@ namespace x10.gen.react {
 
     private string GetAtomicFlowType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "boolean";
-      if (dataType == DataTypes.Singleton.Date) return "Date";
-      if (dataType == DataTypes.Singleton.Timestamp) return "Date";
+      if (dataType == DataTypes.Singleton.Date) return "string";
+      if (dataType == DataTypes.Singleton.Timestamp) return "string";
       if (dataType == DataTypes.Singleton.Float) return "number";
       if (dataType == DataTypes.Singleton.Integer) return "number";
       if (dataType == DataTypes.Singleton.String) return "string";

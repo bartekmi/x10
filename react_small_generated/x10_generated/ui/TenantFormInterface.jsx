@@ -33,16 +33,9 @@ export default function TenantFormInterface(props: Props): React.Node {
       match={ props.match }
       createDefaultFunc={ createDefaultTenant }
       createComponentFunc={ (tenant) => <TenantFormWrapper tenant={ tenant }/> }
-      gqlToInernalConvertFunc={ gqlToInernalConvert }
       query={ query }
     />
   );
-}
-
-function gqlToInernalConvert(data: any): Tenant {
-  return {
-    ...data,
-  };
 }
 
 const query = graphql`

@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 // Type Definition
 export type __Context__ = {|
-  +today: ?Date,
+  +today: ?string,
 |};
 
 

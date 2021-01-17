@@ -14,7 +14,7 @@ import isBlank from 'react_lib/utils/isBlank';
 export type Move = {|
   +id: string,
   +dbid: number,
-  +date: ?Date,
+  +date: ?string,
   +from: Unit,
   +to: Unit,
   +tenant: Tenant,

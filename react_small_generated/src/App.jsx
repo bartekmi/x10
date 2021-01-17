@@ -20,7 +20,7 @@ import Header from "../x10_generated/ui/Header";
 export default function App(): React.Node {
 
   const appContext = {
-    today: new Date(),
+    today: new Date().toISOString(),
   };
 
   return (

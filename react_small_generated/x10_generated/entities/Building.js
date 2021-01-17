@@ -21,7 +21,7 @@ export type Building = {|
   +moniker: string,
   +name: string,
   +description: string,
-  +dateOfOccupancy: ?Date,
+  +dateOfOccupancy: ?string,
   +mailboxType: ?MailboxTypeEnum,
   +petPolicy: ?PetPolicyEnum,
   +mailingAddressSameAsPhysical: boolean,

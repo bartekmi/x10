@@ -1,8 +1,9 @@
 // @flow
 
-export function getYear(date: ?Date): number {
-  if (date == null) {
+export function getYear(dateAsString: ?string): number {
+  if (dateAsString == null) {
     return NaN;
   }
+  const date = new Date(dateAsString);
   return date.getFullYear();
 }
