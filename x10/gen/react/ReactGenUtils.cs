@@ -47,7 +47,7 @@ namespace x10.gen.react {
     #endregion
 
     #region Names of Things and Code Snippet Generation
-    internal static string VariableName(Entity model, bool isMany) {
+    internal static string VariableName(Entity model, bool isMany = false) {
       if (model == null)
         return null;
       string name = model.Name;
@@ -72,6 +72,10 @@ namespace x10.gen.react {
 
     internal static string CreateDefaultFuncName(Entity model) {
       return "createDefault" + model.Name;
+    }
+
+    internal static string CalculateErrorsFuncName(Entity model) {
+      return string.Format("{0}CalculateErrors", NameUtils.UncapitalizeFirstLetter(model.Name));
     }
 
     internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum) {

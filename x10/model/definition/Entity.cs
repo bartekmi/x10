@@ -28,6 +28,7 @@ namespace x10.model.definition {
           InheritsFrom.Members.Concat(LocalMembers);
       }
     }
+    public bool IsContext => Name == ModelValidationUtils.CONTEXT_ENTITY_NAME;
 
     public IEnumerable<X10Attribute> Attributes { get { return Members.OfType<X10Attribute>(); } }
     public IEnumerable<X10RegularAttribute> RegularAttributes { get { return Members.OfType<X10RegularAttribute>(); } }

@@ -4,7 +4,7 @@
 import * as React from 'react';
 
 import { addressSecondAddressLine } from 'entities/Address';
-import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, MailboxTypeEnumPairs, PetPolicyEnumPairs } from 'entities/Building';
+import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs } from 'entities/Building';
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
@@ -25,7 +25,6 @@ import { graphql } from 'react-relay';
 
 
 import { type Building } from 'entities/Building';
-import { buildingCalculateErrors } from '../entities/Building';
 
 type Props = {|
   +building: Building,
@@ -36,7 +35,7 @@ export default function BuildingForm(props: Props): React.Node {
 
   return (
     <FormProvider
-      value={ {errors: buildingCalculateErrors(building) } }
+      value={ { errors: buildingCalculateErrors(building) } }
     >
       <Text
         scale='display'
@@ -51,6 +50,7 @@ export default function BuildingForm(props: Props): React.Node {
         label='Building Info'
       >
         <FormField
+          editorFor='moniker'
           label='Moniker'
         >
           <TextInput
@@ -73,6 +73,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='description'
           toolTip='Description for advertising purposes'
           label='Description'
         >
@@ -89,6 +90,7 @@ export default function BuildingForm(props: Props): React.Node {
         label='Physical Address'
       >
         <FormField
+          editorFor='physicalAddress.theAddress'
           label='The Address'
         >
           <TextInput
@@ -101,6 +103,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='physicalAddress.city'
           label='City'
           maxWidth={ 400 }
         >
@@ -114,6 +117,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='physicalAddress.stateOrProvince'
           label='State Or Province'
           maxWidth={ 250 }
         >
@@ -127,6 +131,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='physicalAddress.zip'
           label='Zip or Postal Code'
           maxWidth={ 150 }
         >
@@ -157,6 +162,7 @@ export default function BuildingForm(props: Props): React.Node {
             flexDirection='column'
           >
             <FormField
+              editorFor='mailingAddress.theAddress'
               label='Address or Post Office (PO) Box'
             >
               <TextInput
@@ -169,6 +175,7 @@ export default function BuildingForm(props: Props): React.Node {
               />
             </FormField>
             <FormField
+              editorFor='mailingAddress.city'
               label='City'
               maxWidth={ 400 }
             >
@@ -182,6 +189,7 @@ export default function BuildingForm(props: Props): React.Node {
               />
             </FormField>
             <FormField
+              editorFor='mailingAddress.stateOrProvince'
               label='State Or Province'
               maxWidth={ 250 }
             >
@@ -195,6 +203,7 @@ export default function BuildingForm(props: Props): React.Node {
               />
             </FormField>
             <FormField
+              editorFor='mailingAddress.zip'
               label='Zip or Postal Code'
               maxWidth={ 150 }
             >
@@ -217,8 +226,8 @@ export default function BuildingForm(props: Props): React.Node {
           gap={ 40 }
         >
           <FormField
-            label='Date Of Occupancy'
             editorFor='dateOfOccupancy'
+            label='Date Of Occupancy'
           >
             <X10_CalendarDateInput
               value={ building.dateOfOccupancy }
@@ -228,6 +237,7 @@ export default function BuildingForm(props: Props): React.Node {
             />
           </FormField>
           <FormField
+            editorFor='ageInYears'
             toolTip='Strongly affects annual propery maintenance costs.'
             label='Age In Years'
           >
@@ -239,6 +249,7 @@ export default function BuildingForm(props: Props): React.Node {
           </FormField>
         </Group>
         <FormField
+          editorFor='mailboxType'
           label='Mailbox Type'
         >
           <SelectInput
@@ -250,6 +261,7 @@ export default function BuildingForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='petPolicy'
           label='Pet Policy'
         >
           <SelectInput

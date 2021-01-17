@@ -7,12 +7,14 @@ import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
 import { createDefaultTenant, type Tenant } from 'entities/Tenant';
 import { createDefaultUnit, type Unit } from 'entities/Unit';
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
 export type Move = {|
   +id: string,
   +dbid: number,
-  +date: ?string,
+  +date: ?Date,
   +from: Unit,
   +to: Unit,
   +tenant: Tenant,
@@ -32,4 +34,14 @@ export function createDefaultMove(): Move {
   };
 }
 
+
+// Validations
+export function moveCalculateErrors(move: Move, prefix?: string): $ReadOnlyArray<FormError> {
+  const errors = [];
+
+  if (isBlank(move.date))
+    addError(errors, prefix, 'Date is required', ['date']);
+
+  return errors;
+}
 

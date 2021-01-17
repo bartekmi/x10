@@ -8,6 +8,9 @@ namespace x10.formula {
     public ExpBase Left { get; set; }
     public ExpBase Right { get; set; }
 
+    // Derived
+    public bool IsComparison => Token == "<" || Token == ">" || Token == "<=" || Token == ">=";
+
     public ExpBinary(FormulaParser parser) : base(parser) { 
       // Do nothing
     }
@@ -55,9 +58,7 @@ namespace x10.formula {
         case "<":
         case ">=":
         case "<=":
-          if (leftType.IsNumeric && rightType.IsNumeric ||
-              leftType.IsComparable && rightType.IsComparable &&
-              leftType.DataType == rightType.DataType)
+          if (leftType.IsComparable && leftType.DataType == rightType.DataType)
             return X10DataType.Boolean;
           return MismatchTypeError(leftType, rightType);
         case "==":

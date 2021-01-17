@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 
+import { tenantCalculateErrors } from 'entities/Tenant';
 import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 import TextInput from 'latitude/TextInput';
@@ -26,7 +27,7 @@ export default function TenantForm(props: Props): React.Node {
 
   return (
     <FormProvider
-      value={ [] }
+      value={ { errors: tenantCalculateErrors(tenant) } }
     >
       <Text
         scale='display'
@@ -37,6 +38,7 @@ export default function TenantForm(props: Props): React.Node {
         label='Tenant Info'
       >
         <FormField
+          editorFor='name'
           label='Name'
         >
           <TextInput
@@ -47,6 +49,7 @@ export default function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='phone'
           label='Phone'
         >
           <TextInput
@@ -57,6 +60,7 @@ export default function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='email'
           label='Email'
         >
           <TextInput
@@ -71,6 +75,7 @@ export default function TenantForm(props: Props): React.Node {
         label='Permanent Mailing Address'
       >
         <FormField
+          editorFor='permanentMailingAddress.theAddress'
           label='The Address'
         >
           <TextInput
@@ -83,6 +88,7 @@ export default function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='permanentMailingAddress.city'
           label='City'
           maxWidth={ 400 }
         >
@@ -96,6 +102,7 @@ export default function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='permanentMailingAddress.stateOrProvince'
           label='State Or Province'
           maxWidth={ 250 }
         >
@@ -109,6 +116,7 @@ export default function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <FormField
+          editorFor='permanentMailingAddress.zip'
           label='Zip or Postal Code'
           maxWidth={ 150 }
         >

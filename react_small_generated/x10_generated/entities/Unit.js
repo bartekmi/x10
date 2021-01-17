@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid';
 
 import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
 export type Unit = {|
@@ -63,4 +65,18 @@ export const NumberOfBathroomsEnumPairs = [
 export type NumberOfBathroomsEnum = 'HALF' | 'ONE' | 'ONE_AND_HALF' | 'TWO' | 'THREE' | 'FOUR_PLUS';
 
 
+
+// Validations
+export function unitCalculateErrors(unit: Unit, prefix?: string): $ReadOnlyArray<FormError> {
+  const errors = [];
+
+  if (isBlank(unit.number))
+    addError(errors, prefix, 'Number is required', ['number']);
+  if (isBlank(unit.numberOfBedrooms))
+    addError(errors, prefix, 'Number Of Bedrooms is required', ['numberOfBedrooms']);
+  if (isBlank(unit.numberOfBathrooms))
+    addError(errors, prefix, 'Number Of Bathrooms is required', ['numberOfBathrooms']);
+
+  return errors;
+}
 

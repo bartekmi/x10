@@ -4,11 +4,14 @@ using System.IO;
 
 using x10.formula;
 using x10.utils;
+using x10.model;
 using x10.model.metadata;
 using x10.model.definition;
 
 namespace x10.gen.react {
   internal class JavaScriptFormulaWriter : IVisitor {
+
+    internal const string CONTEXT_VARIABLE = "appContext";
 
     private TextWriter _writer;
     private string _variableName;
@@ -21,21 +24,27 @@ namespace x10.gen.react {
     }
 
     public void VisitBinary(ExpBinary exp) {
-      PossiblyWrapWithOrEmpty(exp, exp.Left);
+      PossiblyWrap(exp, exp.Left);
       _writer.Write(" {0} ", exp.Token);
-      PossiblyWrapWithOrEmpty(exp, exp.Right);
+      PossiblyWrap(exp, exp.Right);
     }
 
-    private void PossiblyWrapWithOrEmpty(ExpBinary binary, ExpBase expression) {
-      // Without the || "", Flow complains and UI shows "null"
-      if (binary.DataType.IsString && !expression.DataType.IsString) {
-        _writer.Write("{0}(", HelperFunctions.X10_ToString);
+    private void PossiblyWrap(ExpBinary binary, ExpBase expression) {
+      if (binary.DataType.IsString && !expression.DataType.IsString)
+        // Without converting to string, Flow complains and UI shows "null"
+        Wrap(expression, HelperFunctions.X10_ToString);
+      else if (binary.IsComparison && !binary.DataType.IsString)
+        Wrap(expression, HelperFunctions.ToNum);
+      else
         expression.Accept(this);
-        _writer.Write(")");
+    }
 
-        _imports.ImportFunction(HelperFunctions.X10_ToString);
-      } else
-        expression.Accept(this);
+    private void Wrap(ExpBase expression, Function function) {
+      _writer.Write("{0}(", function);
+      expression.Accept(this);
+      _writer.Write(")");
+
+      _imports.ImportFunction(function);
     }
 
     public void VisitIdentifier(ExpIdentifier exp) {
@@ -44,7 +53,7 @@ namespace x10.gen.react {
         return;
 
       if (exp.IsContext)
-        _writer.Write("appContext");
+        _writer.Write(CONTEXT_VARIABLE);
       else {
         if (exp.DataType.Member is X10DerivedAttribute derivedAttr) { // Derived Attrs become function calls
           string functionName = ReactCodeGenerator.DerivedAttrFuncName(derivedAttr);
@@ -115,7 +124,7 @@ namespace x10.gen.react {
         if (exp.MemberName == "year") {
           functionName = "getYear";
         }
-      } 
+      }
 
       if (functionName != null) {
         WriteFunctionAroundExpression(exp.Expression, functionName);
@@ -127,10 +136,10 @@ namespace x10.gen.react {
     }
 
     private void WriteFunctionAroundExpression(ExpBase expression, string functionName) {
-        _writer.Write(functionName);
-        _writer.Write("(");
-        expression.Accept(this);
-        _writer.Write(")");
+      _writer.Write(functionName);
+      _writer.Write("(");
+      expression.Accept(this);
+      _writer.Write(")");
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {

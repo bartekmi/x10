@@ -77,8 +77,11 @@ namespace x10.gen.react {
     }
 
     public void ImportCreateDefaultFunc(Entity model) {
-      Import(ReactCodeGenerator.CreateDefaultFuncName(model), 
-             model.TreeElement.FileInfo.RelativePathNoExtension);
+      Import(ReactCodeGenerator.CreateDefaultFuncName(model), model);
+    }
+
+    public void ImportCalculateErrorsFunc(Entity model) {
+      Import(ReactCodeGenerator.CalculateErrorsFuncName(model), model);
     }
 
     // Some special cases

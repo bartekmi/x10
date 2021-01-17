@@ -6,6 +6,8 @@ import { v4 as uuid } from 'uuid';
 import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
 import { createDefaultAddress, type Address } from 'entities/Address';
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
 export type Tenant = {|
@@ -30,4 +32,16 @@ export function createDefaultTenant(): Tenant {
   };
 }
 
+
+// Validations
+export function tenantCalculateErrors(tenant: Tenant, prefix?: string): $ReadOnlyArray<FormError> {
+  const errors = [];
+
+  if (isBlank(tenant.name))
+    addError(errors, prefix, 'Name is required', ['name']);
+  if (isBlank(tenant.email))
+    addError(errors, prefix, 'Email is required', ['email']);
+
+  return errors;
+}
 

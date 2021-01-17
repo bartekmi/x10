@@ -208,7 +208,7 @@ namespace x10.gen.react {
 
     #region Generate Save & Mutation
     private void GenerateSave(Entity model) {
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
       string modelName = model.Name;
 
       WriteLine(0, "function save({0}: {1}) {", variableName, modelName);
@@ -239,7 +239,7 @@ namespace x10.gen.react {
     }
 
     private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model) {
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
       string classDefName = classDef.Name;
 
       WriteLine(0, "const mutation = graphql`");

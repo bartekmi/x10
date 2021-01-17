@@ -13,12 +13,12 @@ type Props = {|
   +onClick: () => mixed,
 |};
 export default function FormSubmitButton(props: Props): React.Node {
-  const errors = React.useContext(FormContext);
+  const formContext = React.useContext(FormContext);
   const { label = "Save", onClick } = props
 
   return (
     <Button 
-      disabled={errors.length > 0}
+      disabled={formContext.errors.length > 0}
       intent="basic" kind="solid"
       onClick={onClick}
     >

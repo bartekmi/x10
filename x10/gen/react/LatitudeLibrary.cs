@@ -377,7 +377,17 @@ namespace x10.gen.react {
         PlatformName = "FormProvider",
         ImportDir = "react_lib/form",
         PlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("value", "[]", true),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "value",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Entity entity = instance.DataModelEntity;
+              generator.ImportsPlaceholder.ImportCalculateErrorsFunc(entity);
+              return string.Format("{{ errors: {0}({1}) }}", 
+                ReactCodeGenerator.CalculateErrorsFuncName(entity),
+                generator.SourceVariableName);
+            },
+          },
         },
       },
       new PlatformClassDef() {
@@ -393,6 +403,10 @@ namespace x10.gen.react {
         PlatformName = "FormField",
         ImportDir = "react_lib/form",
         PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "editorFor",
+            Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance),
+          },
           new JavaScriptAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
             PlatformName = "indicateRequired",

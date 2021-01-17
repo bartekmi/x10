@@ -3,12 +3,20 @@
 
 import { v4 as uuid } from 'uuid';
 
-import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
-
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
 export type __Context__ = {|
-  +today: Date,
+  +today: ?Date,
 |};
 
+
+// Validations
+export function __Context__CalculateErrors(__Context__: __Context__, prefix?: string): $ReadOnlyArray<FormError> {
+  const errors = [];
+
+
+  return errors;
+}
 

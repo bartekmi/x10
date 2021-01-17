@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid';
 
 import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
+import { addError, type FormError } from 'react_lib/form/FormProvider';
+import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
 export type Address = {|
@@ -46,4 +48,20 @@ export function addressThirdAddressLine(address: Address): string {
   return result;
 }
 
+
+// Validations
+export function addressCalculateErrors(address: Address, prefix?: string): $ReadOnlyArray<FormError> {
+  const errors = [];
+
+  if (isBlank(address.theAddress))
+    addError(errors, prefix, 'The Address is required', ['theAddress']);
+  if (isBlank(address.city))
+    addError(errors, prefix, 'City is required', ['city']);
+  if (isBlank(address.stateOrProvince))
+    addError(errors, prefix, 'State Or Province is required', ['stateOrProvince']);
+  if (isBlank(address.zip))
+    addError(errors, prefix, 'Zip is required', ['zip']);
+
+  return errors;
+}
 

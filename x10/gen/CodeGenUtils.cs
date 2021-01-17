@@ -28,6 +28,10 @@ namespace x10.gen {
       return members;
     }
 
+    public static string GetBindingPathAsString(Instance instance) {
+      return string.Join(".", GetBindingPath(instance).Select(x => x.Name));
+    }
+
     // Return <instance>, or its single child, if this instance is a wrapper
     public static Instance Unwrap(Instance instance) {
       if (instance.IsWrapper) 

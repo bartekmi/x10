@@ -9,10 +9,10 @@ import { AppContext } from 'AppContext';
 import { createDefaultAddress, type Address } from 'entities/Address';
 import { type Unit } from 'entities/Unit';
 import * as React from 'react';
-import { getYear, dateGreaterThan } from 'react_lib/type_helpers/dateFunctions';
-import isBlank from 'react_lib/utils/isBlank';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
-
+import { getYear } from 'react_lib/type_helpers/dateFunctions';
+import isBlank from 'react_lib/utils/isBlank';
+import toNum from 'react_lib/utils/toNum';
 
 // Type Definition
 export type Building = {|
@@ -103,18 +103,22 @@ export function buildingApplicableWhenForMailingAddress(building: Building): boo
   return result;
 }
 
+
 // Validations
-export function buildingCalculateErrors(building: Building, prefix?: string): $ReadOnlyArray<FormError> { 
+export function buildingCalculateErrors(building: Building, prefix?: string): $ReadOnlyArray<FormError> {
   const appContext = React.useContext(AppContext);
   const errors = [];
 
   if (isBlank(building.name))
-    addError(errors, prefix, "Name is required", ["name"]);
+    addError(errors, prefix, 'Name is required', ['name']);
   if (isBlank(building.dateOfOccupancy))
-    addError(errors, prefix, "Date Of Occupancy is required", ["dateOfOccupancy"]);
-    
-  if (dateGreaterThan(building.dateOfOccupancy, appContext.today))
-    addError(errors, prefix, "Occupancy date cannot be in the future", ["dateOfOccupancy"]);
+    addError(errors, prefix, 'Date Of Occupancy is required', ['dateOfOccupancy']);
+  if (isBlank(building.mailboxType))
+    addError(errors, prefix, 'Mailbox Type is required', ['mailboxType']);
+
+  if (toNum(building.dateOfOccupancy) > toNum(appContext?.today))
+    addError(errors, prefix, 'Occupancy date cannot be in the future', ['dateOfOccupancy']);
 
   return errors;
 }
+

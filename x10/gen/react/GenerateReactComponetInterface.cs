@@ -54,7 +54,7 @@ namespace x10.gen.react {
 
       string classDefName = classDef.Name;
       string modelName = model.Name;
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
       string propsName = modelName + "Props";
       string edited = "edited" + modelName;
       string setEdited = "setEdited" + modelName;
@@ -86,7 +86,7 @@ namespace x10.gen.react {
 
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.Node {", classDefName);
       WriteLine(1, "return (");
@@ -115,7 +115,7 @@ namespace x10.gen.react {
       // mandatory associations may have non-mandatory child associations.
       foreach (Association association in model.Associations) {
         if (association.IsMandatory ||    // No need to generate... always provided
-            association.IsMany)      // At least a blank array will always be provided
+            association.IsMany)           // At least a blank array will always be provided
           continue;
 
         Entity assocModel = association.ReferencedEntity;
@@ -134,7 +134,7 @@ namespace x10.gen.react {
     private void GenerateFormGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
 
       WriteLine(0, "const query = graphql`");
       WriteLine(1, "query {0}InterfaceQuery($id: Int!) {", classDefName);
@@ -175,7 +175,7 @@ namespace x10.gen.react {
     private void GenerateMultiGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
-      string variableName = VariableName(model, false);
+      string variableName = VariableName(model);
 
       WriteLine(0, "const query = graphql`");
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);

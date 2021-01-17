@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.utils;
 using x10.parsing;
 using x10.model.definition;
 using x10.ui.metadata;
+using x10.model;
 
 namespace x10.ui.composition {
   // Where as a ClassDef defines (typically) a UI component in terms
@@ -40,6 +40,7 @@ namespace x10.ui.composition {
 
     // All but the root-level Instance are owned by a UiAttributeValueComplex
     public UiAttributeValueComplex Owner { get; set; }
+    public ClassDefX10 OwnerClassDef { get; internal set; }
 
     // If true, this Instance was inserted as a wrapper around an InstanceModelRef
     public bool IsWrapper { get; set; }
@@ -48,6 +49,32 @@ namespace x10.ui.composition {
     public List<UiAttributeValue> AttributeValues { get; private set; }
     public XmlElement XmlElement { get; private set; }
     public ClassDef ClassDef { get { return RenderAs; } }
+
+    // Derived
+    public Instance ParentInstance { get { return Owner?.Owner as Instance; } }
+    public IEnumerable<Instance> ChildInstances 
+      => AttributeValues.OfType<UiAttributeValueComplex>().SelectMany(x => x.Instances);
+    public UiAttributeValue PrimaryValue 
+      => AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); 
+    public Entity DataModelEntity {
+      get {
+        Instance instance = this;
+        while (instance != null) {
+          if (instance.ModelMember != null)
+            return instance.ModelMember.Owner;
+          instance = instance.ParentInstance;
+        }
+
+        return OwnerClassDef?.ComponentDataModel;
+      }
+    }
+
+    // Constructor
+    protected Instance(XmlElement xmlElement, UiAttributeValueComplex owner) {
+      XmlElement = xmlElement;
+      Owner = owner;
+      AttributeValues = new List<UiAttributeValue>();
+    }
 
     // Unlike the similar version defined as extension methods on IAcceptsUiAttributeValues,
     // this method respects the "Inheritable" property of UiAttributeDefinitionAtomic
@@ -71,25 +98,6 @@ namespace x10.ui.composition {
       }
 
       return null;
-    }
-
-    // Derived
-    public Instance ParentInstance { get { return Owner?.Owner as Instance; } }
-    public IEnumerable<Instance> ChildInstances {
-      get {
-        return AttributeValues.OfType<UiAttributeValueComplex>().SelectMany(x => x.Instances);
-      }
-    }
-
-    // Constructor
-    protected Instance(XmlElement xmlElement, UiAttributeValueComplex owner) {
-      XmlElement = xmlElement;
-      Owner = owner;
-      AttributeValues = new List<UiAttributeValue>();
-    }
-
-    public UiAttributeValue PrimaryValue {
-      get { return AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); }
     }
   }
 }

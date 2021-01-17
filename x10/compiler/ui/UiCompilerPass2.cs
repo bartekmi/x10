@@ -55,6 +55,7 @@ namespace x10.compiler {
 
         // Parse the Root Child
         definition.RootChild = ParseInstance(rootXmlChild, null);
+        definition.RootChild.OwnerClassDef = definition; // Link set in both directions
 
         X10DataType rootDataModel = definition.ComponentDataModel == null ?
           X10DataType.NULL :

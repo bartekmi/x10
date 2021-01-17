@@ -5,34 +5,45 @@ using System.Linq;
 using FileInfo = x10.parsing.FileInfo;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.formula;
+using x10.utils;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator : CodeGenerator {
     public override void Generate(Entity entity) {
       FileInfo fileInfo = entity.TreeElement.FileInfo;
+      bool isContext = entity.IsContext;
+
       Begin(fileInfo, ".js");
 
       GenerateFileHeader();
       WriteLine(0, "import { v4 as uuid } from 'uuid';");
       WriteLine();
-      WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
-      WriteLine();
+      if (!isContext) {
+        WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
+        WriteLine();
+      }
       InsertImportsPlaceholder();
 
-      GenerateType(entity);
-      GenerateDefaultEntity(entity);
+      GenerateType(entity, isContext);
       GenerateEnums(entity);
       GenerateDerivedAttributes(entity);
+
+      if (!isContext) {
+        GenerateDefaultEntity(entity);
+        GenerateValidations(entity);
+      }
 
       End();
     }
 
     #region Generate Type Definition
-    private void GenerateType(Entity model) {
+    private void GenerateType(Entity model, bool isContext) {
       WriteLine(0, "// Type Definition");
       WriteLine(0, "export type {0} = {{|", model.Name);
 
-      WriteLine(1, "+id: string,");
+      if (!isContext)
+        WriteLine(1, "+id: string,");
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -158,7 +169,7 @@ namespace x10.gen.react {
       WriteLine(0, "// Derived Attribute Functions");
 
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
-        PushSourceVariableName(VariableName(entity, false));
+        PushSourceVariableName(VariableName(entity));
 
         WriteLine(0, "export function {0}({1}: {2}): {3} {",
           DerivedAttrFuncName(attribute),
@@ -166,12 +177,10 @@ namespace x10.gen.react {
           entity.Name,
           GetType(attribute));
 
-        if (attribute.Expression.UsesContext) {
-          WriteLine(1, "const appContext = React.useContext(AppContext);");
-          ImportsPlaceholder.ImportAppContext();
-        }
+        ExpBase expression = attribute.Expression;
+        WriteAppContextIfNeeded(new ExpBase[] { expression });
 
-        WriteLine(1, "const result = {0};", ExpressionToString(attribute.Expression));
+        WriteLine(1, "const result = {0};", ExpressionToString(expression));
         if (IsNumeric(attribute.DataType))
           WriteLine(1, "return isNaN(result) ? null : result;");
         else
@@ -187,10 +196,100 @@ namespace x10.gen.react {
     }
     #endregion
 
+    #region Generate Validations
+    private void GenerateValidations(Entity entity) {
+      WriteLine(0, "// Validations");
+
+      string varName = VariableName(entity);
+      string entityName = entity.Name;
+
+      ImportsPlaceholder.ImportType("FormError", "react_lib/form/FormProvider");
+      WriteLine(0, "export function {0}({1}: {2}, prefix?: string): $ReadOnlyArray<FormError> { ",
+        CalculateErrorsFuncName(entity),
+        varName,
+        entityName);
+
+      WriteAppContextIfNeeded(entity.Validations.Select(x => x.TriggerExpression));
+      WriteLine(1, "const errors = [];");
+      WriteLine();
+
+      GenerateValidationsMandatory(entity);
+      GenerateValidationsAssociations(entity);
+      GenerateValidationsExplicit(entity);
+
+      WriteLine();
+      WriteLine(1, "return errors;");
+      WriteLine(0, "}");
+      WriteLine();
+    }
+
+    private void GenerateValidationsMandatory(Entity entity) {
+      foreach (X10RegularAttribute attr in entity.RegularAttributes) {
+        string varName = VariableName(entity);
+        string humanName = NameUtils.CamelCaseToHumanReadable(attr.Name);
+        bool canBeEmpty = CanBeEmpty(attr.DataType);
+
+        ImportsPlaceholder.ImportFunction(HelperFunctions.IsBlank);
+        ImportsPlaceholder.Import("addError", "react_lib/form/FormProvider");
+
+        if (!attr.IsReadOnly && canBeEmpty && attr.IsMandatory) {
+          WriteLine(1, "if (isBlank({0}.{1}))", varName, attr.Name);
+          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}']);", humanName, attr.Name);
+        }
+      }
+    }
+
+    private bool CanBeEmpty(DataType dataType) {
+      // List the data-types that can never be empty on a UI
+      if (dataType == DataTypes.Singleton.Boolean) return false;
+      return true;
+    }
+
+    private void GenerateValidationsAssociations(Entity entity) {
+      // TODO: See WpfCodeGeneration:536
+    }
+
+    private void GenerateValidationsExplicit(Entity entity) {
+      if (entity.Validations.Any()) {
+        PushSourceVariableName(VariableName(entity));
+        WriteLine();
+
+        foreach (Validation validation in entity.Validations) {
+
+          ExpBase expression = validation.TriggerExpression;
+          IEnumerable<string> memberNames = FormulaUtils.ListAll(expression)
+            .OfType<ExpIdentifier>()
+            .Where(x => x.DataType?.Member?.Owner == entity)
+            .Select(x => x.DataType.Member.Name);
+
+
+          if (memberNames.Count() == 0) {
+            Messages.AddError(null, "Validation message has no local member references: " + validation.Trigger);
+            continue;
+          }
+
+          WriteLine(1, "if ({0})", ExpressionToString(expression));
+
+          WriteLine(2, "addError(errors, prefix, '{0}', {1});", validation.Message, JS.ToArray(memberNames));
+        }
+
+        PopSourceVariableName();
+      }
+    }
+
+    #endregion
+
     #region Utilities
 
+    private void WriteAppContextIfNeeded(IEnumerable<ExpBase> expressions) {
+      if (expressions.Any(x => x.UsesContext)) {
+        WriteLine(1, "const {0} = React.useContext(AppContext);", JavaScriptFormulaWriter.CONTEXT_VARIABLE);
+        ImportsPlaceholder.ImportAppContext();
+      }
+    }
+
     private bool IsNumeric(DataType dataType) {
-      return 
+      return
         dataType == DataTypes.Singleton.Integer ||
         dataType == DataTypes.Singleton.Float;
     }
@@ -243,11 +342,11 @@ namespace x10.gen.react {
 
     private string GetAtomicFlowType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "boolean";
-      if (dataType == DataTypes.Singleton.Date) return "string";
+      if (dataType == DataTypes.Singleton.Date) return "Date";
+      if (dataType == DataTypes.Singleton.Timestamp) return "Date";
       if (dataType == DataTypes.Singleton.Float) return "number";
       if (dataType == DataTypes.Singleton.Integer) return "number";
       if (dataType == DataTypes.Singleton.String) return "string";
-      if (dataType == DataTypes.Singleton.Timestamp) return "string";
       if (dataType == DataTypes.Singleton.Money) return "number";
       if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
 
