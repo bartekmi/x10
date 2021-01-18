@@ -284,7 +284,11 @@ export default function BuildingForm(props: Props): React.Node {
         />
         <FormSubmitButton
           onClick={ () => save(building) }
-          successUrl="/buildings"
+          action={
+            {
+              successUrl: '/buildings',
+            }
+          }
         />
       </Group>
     </FormProvider>

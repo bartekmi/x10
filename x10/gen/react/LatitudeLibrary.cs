@@ -431,7 +431,7 @@ namespace x10.gen.react {
         PlatformName = "FormErrorDisplay",
         ImportDir = "react_lib/form",
       },
-      new PlatformClassDefWithCodelet() {
+      new PlatformClassDef() {
         LogicalName = "SubmitButton",
         PlatformName = "FormSubmitButton",
         ImportDir = "react_lib/form",
@@ -443,10 +443,21 @@ namespace x10.gen.react {
               return string.Format("() => save({0})", generator.SourceVariableName);
             },
           },
-          // new JavaScriptAttributeDynamic() {
-          //   LogicalName = "successUrl",
-          //   PlatformName = "successUrl",
-          // },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "Action",
+            PlatformName = "action",
+          },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "Action",
+        PlatformName = "",  // Just a JavaScript object
+        ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "successUrl",
+            PlatformName = "successUrl",
+          },
         },
       },
       new PlatformClassDef() {

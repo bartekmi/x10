@@ -53,7 +53,9 @@ namespace x10.gen {
         return true;
 
       // Second, check if this instance or any above it have the Read Only attribute
-      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ);
+      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ) 
+        as UiAttributeValueAtomic;
+        
       if (readOnlyAttr != null)
         return (bool)readOnlyAttr.Value;
 

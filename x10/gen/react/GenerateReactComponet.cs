@@ -58,7 +58,7 @@ namespace x10.gen.react {
       InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
-      if (model != null) 
+      if (model != null)
         ImportsPlaceholder.ImportType(model.Name, model);
 
       WriteLine();
@@ -109,16 +109,16 @@ namespace x10.gen.react {
         WriteLine(1, "const { {0}: raw } = props;", SourceVariableName);
         WriteLine();
         WriteLine(1, "const {0} = {", SourceVariableName);
-        WriteLine(2, "...raw,");
+        WriteLine(2, "...raw,");
 
         // TODO... Not recursive at this time
         foreach (Association association in nullableAssociations) {
-          Entity assocModel = association.ReferencedEntity;
-          WriteLine(2, "{0}: raw.{0} || {1}(),",
-            association.Name,
-            ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+          Entity assocModel = association.ReferencedEntity;
+          WriteLine(2, "{0}: raw.{0} || {1}(),",
+            association.Name,
+            ReactCodeGenerator.CreateDefaultFuncName(assocModel));
 
-          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
         }
 
         WriteLine(1, "};");
@@ -131,22 +131,22 @@ namespace x10.gen.react {
       if (complex.Definition.IsMany) {
         WriteLine(level, "[");
         foreach (Instance instance in complex.Instances)
-          RenderInstanceAsJavaScript(level + 1, instance);
+          RenderInstanceAsJavaScript(level + 1, instance, true);
         WriteLine(level, "]");
       } else {
         Instance instance = complex.Instances.FirstOrDefault();
         if (instance != null)
-          RenderInstanceAsJavaScript(level, instance);
+          RenderInstanceAsJavaScript(level, instance, false);
       }
     }
 
-    private void RenderInstanceAsJavaScript(int level, Instance instance) {
+    private void RenderInstanceAsJavaScript(int level, Instance instance, bool appendComma) {
       PlatformClassDef platClassDef = FindPlatformClassDef(instance);
       if (platClassDef == null) return;
 
       WriteLine(level, "{");
       CalculateAndWriteAttributes(OutputType.JSON, level + 1, platClassDef, instance);
-      WriteLine(level, "},");
+      WriteLine(level, "}{0}", appendComma ? ",": "");
     }
     #endregion
 
@@ -200,7 +200,7 @@ namespace x10.gen.react {
       } else
         throw new NotImplementedException();
 
-      WriteLine(level, "}", propName);
+      WriteLine(level, "}");
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
@@ -337,6 +337,8 @@ namespace x10.gen.react {
         object value = attribute.CalculateValue(this, instance, out bool isCodeSnippet);
         if (value is CodeSnippetGenerator snippetGenerator)
           snippetGenerator.Generate(this, level, platClassDef, instance);
+        else if (value is UiAttributeValueComplex complex)
+          WriteComplexAttribute(level, complex, attribute);
         else
           WriteAttribute(outputType, level, value, attribute, isCodeSnippet);
       }
@@ -358,6 +360,12 @@ namespace x10.gen.react {
           WriteLine(level, "{0}={1}", name, jsValue);
       } else
         WriteLine(level, "{0}: {1},", name, jsValue);
+    }
+
+    private void WriteComplexAttribute(int level, UiAttributeValueComplex value, PlatformAttribute attribute) {
+      WriteLine(level, "{0}={", attribute.PlatformName);
+      RenderComplexAttrAsJavascript(level + 1, value);
+      WriteLine(level, "}");
     }
     #endregion
   }

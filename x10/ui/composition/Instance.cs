@@ -78,21 +78,22 @@ namespace x10.ui.composition {
 
     // Unlike the similar version defined as extension methods on IAcceptsUiAttributeValues,
     // this method respects the "Inheritable" property of UiAttributeDefinitionAtomic
-    public UiAttributeValueAtomic FindAttributeValueRespectInheritable(UiAttributeDefinitionAtomic definition) {
+    public UiAttributeValue FindAttributeValueRespectInheritable(UiAttributeDefinition definition) {
       Instance instance = this;
+      bool isInheritable = definition is UiAttributeDefinitionAtomic atomic && atomic.IsInheritable;
 
       // Traverse the instances, going up the parent chain
       while (instance != null) {
         // Some logical components define "hard-coded" attached attributes. Classic case is that the standard Table
         // component is always read-only
-        UiAttributeValueAtomic value 
+        UiAttributeValue value 
           = instance.RenderAs.FindDefaultAttachedAttribute(definition) as UiAttributeValueAtomic;
 
         // Attempt to find the value in the current instance
         if (value == null)
-          value = instance.AtomicAttributeValues().SingleOrDefault(x => x.Definition == definition);
+          value = instance.AttributeValues.SingleOrDefault(x => x.Definition == definition);
 
-        if (value != null || !definition.IsInheritable)
+        if (value != null || !isInheritable)
           return value;
         instance = instance.ParentInstance;
       }

@@ -136,6 +136,11 @@ export default function TenantForm(props: Props): React.Node {
         />
         <FormSubmitButton
           onClick={ () => save(tenant) }
+          action={
+            {
+              successUrl: '/tenants',
+            }
+          }
         />
       </Group>
     </FormProvider>

@@ -22,11 +22,11 @@ namespace x10.gen.react {
       ReactCodeGenerator generator = (ReactCodeGenerator)genericGenerator;
       isCodeSnippet = IsCodeSnippet;
 
-      UiAttributeValueAtomic atomicValue = LogicalAttribute == null ?
+      UiAttributeValue value = LogicalAttribute == null ?
         null :
-        instance.FindAttributeValueRespectInheritable((UiAttributeDefinitionAtomic)LogicalAttribute);
-        
-      if (atomicValue == null) {
+        instance.FindAttributeValueRespectInheritable(LogicalAttribute);
+
+      if (value == null) {
         // If the corresponding logical attribute does not exist, there is still the possibility that this is 
         // the main binding attribute (i.e. we will "bind" this attribute to the data model)
         if (IsMainDatabindingAttribute) {
@@ -37,13 +37,16 @@ namespace x10.gen.react {
             return new CodeSnippetGenerator(WritePrimaryBindingAttribute);
         } else
           return null;
-      } else { // logical attribute WAS found...
+      } else if (value is UiAttributeValueComplex) {
+        return value;
+      } else if (value is UiAttributeValueAtomic atomicValue) {
         if (atomicValue.Expression != null) {
           isCodeSnippet = true;
           return generator.ExpressionToString(atomicValue.Expression);
         } else
           return GenerateAttributeForValue(atomicValue.Value);
-      }
+      } else
+        throw new NotImplementedException("Neither atomic nor complex");
     }
 
     // Write the primary binding attribute (e.g. Text of TextBox) if not explicitly specified in instance
