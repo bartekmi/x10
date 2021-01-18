@@ -262,6 +262,35 @@ namespace x10.gen.react {
       #endregion
       #endregion
 
+      #region List / MultiStacker
+      new PlatformClassDef() {
+        LogicalName = "List",
+        PlatformName = "MultiStacker",
+        ImportDir = "react_lib/multi",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            PlatformName = "items",
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "itemDisplayFunc",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              return null;
+            },
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "addNewItem",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              generator.ImportsPlaceholder.ImportCreateDefaultFunc(instance.DataModelEntity);
+              return ReactCodeGenerator.CreateDefaultFuncName(instance.DataModelEntity);
+            },
+          },
+        },
+      },
+      #endregion
+
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",

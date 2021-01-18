@@ -58,13 +58,20 @@ namespace x10.ui.composition {
       => AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); 
     public Entity DataModelEntity {
       get {
-        Instance instance = this;
+        Instance instance = Unwrap();
         while (instance != null) {
-          if (instance.ModelMember != null)
-            return instance.ModelMember.Owner;
+          Member member = instance.ModelMember;
+          if (member != null) 
+            if (member is Association association)
+              return association.ReferencedEntity;
+            else
+              return member.Owner;
+
           instance = instance.ParentInstance;
         }
 
+        // If traversing the entire chain returned nothing, use the value from the
+        // top-level ClassDef (i.e. the Component definition)
         return OwnerClassDef?.ComponentDataModel;
       }
     }
@@ -74,6 +81,13 @@ namespace x10.ui.composition {
       XmlElement = xmlElement;
       Owner = owner;
       AttributeValues = new List<UiAttributeValue>();
+    }
+
+    // Return <instance>, or its single child, if this instance is a wrapper
+    public Instance Unwrap() {
+      if (IsWrapper)
+        return (PrimaryValue as UiAttributeValueComplex).Instances.Single();
+      return this;
     }
 
     // Unlike the similar version defined as extension methods on IAcceptsUiAttributeValues,

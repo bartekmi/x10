@@ -15,28 +15,27 @@ namespace x10.gen {
   public static class CodeGenUtils {
 
     // Get the binding path of an instance as a list of members
-    public static List<Member> GetBindingPath(Instance instance) {
+    public static IEnumerable<Member> GetBindingPath(Instance startInstance) {
       List<Member> members = new List<Member>();
-      instance = Unwrap(instance);
+      startInstance = startInstance.Unwrap();
 
-      foreach (Instance item in UiUtils.ListSelfAndAncestors(instance).Reverse()) {
-        if (item.PathComponents == null)
-          continue;
-        members.AddRange(item.PathComponents);
+      foreach (Instance instance in UiUtils.ListSelfAndAncestors(startInstance)) {
+        if (instance.PathComponents != null)
+          // We are building the path backwards, but InstancePathComponents is listed
+          // in forward order, so we must revere it.
+          members.AddRange(instance.PathComponents.ToArray().Reverse());
+
+        // Stop the binding path if parent display a list items
+        if (instance.ParentInstance?.RenderAs?.PrimaryAttributeDef is UiAttributeDefinitionComplex complex &&
+          complex.ReducesManyToOne)
+          break;
       }
 
-      return members;
+      return members.ToArray().Reverse();
     }
 
     public static string GetBindingPathAsString(Instance instance) {
       return string.Join(".", GetBindingPath(instance).Select(x => x.Name));
-    }
-
-    // Return <instance>, or its single child, if this instance is a wrapper
-    public static Instance Unwrap(Instance instance) {
-      if (instance.IsWrapper) 
-        instance = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();
-      return instance;
     }
 
     public static ExpBase PathToExpression(IEnumerable<Member> path) {
@@ -53,9 +52,9 @@ namespace x10.gen {
         return true;
 
       // Second, check if this instance or any above it have the Read Only attribute
-      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ) 
+      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ)
         as UiAttributeValueAtomic;
-        
+
       if (readOnlyAttr != null)
         return (bool)readOnlyAttr.Value;
 

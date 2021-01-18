@@ -3,6 +3,7 @@
 
 import { addressSecondAddressLine, createDefaultAddress } from 'entities/Address';
 import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'entities/Building';
+import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'entities/Unit';
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
@@ -15,6 +16,7 @@ import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import MultiStacker from 'react_lib/multi/MultiStacker';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import x10toString from 'react_lib/utils/x10toString';
@@ -275,6 +277,84 @@ export default function BuildingForm(props: Props): React.Node {
             options={ PetPolicyEnumPairs }
           />
         </FormField>
+      </FormSection>
+      <FormSection
+        label='Units'
+      >
+        <MultiStacker
+          items={ building.units }
+          onChange={ (value) => {
+            onChange({ ...building, units: value })
+          } }
+          addNewItem={ createDefaultUnit }
+        >
+          <Group
+            flexDirection='column'
+          >
+            <Group>
+              <FormField
+                editorFor='number'
+                toolTip='Unit number corresponding to mailing address'
+                label='Number'
+              >
+                <TextInput
+                  value={ building.number }
+                  onChange={ (value) => {
+                    onChange({ ...building, number: value })
+                  } }
+                />
+              </FormField>
+              <FormField
+                editorFor='squareFeet'
+                label='Square Feet'
+              >
+                <FloatInput
+                  value={ building.squareFeet }
+                  onChange={ (value) => {
+                    onChange({ ...building, squareFeet: value })
+                  } }
+                  decimalPrecision={ 0 }
+                />
+              </FormField>
+              <FormField
+                editorFor='hasBalcony'
+                label='Unit has Blacony?'
+              >
+                <Checkbox
+                  checked={ building.hasBalcony }
+                  onChange={ (value) => {
+                    onChange({ ...building, hasBalcony: value })
+                  } }
+                />
+              </FormField>
+            </Group>
+            <Group>
+              <FormField
+                editorFor='numberOfBedrooms'
+                label='Number Of Bedrooms'
+              >
+                <FloatInput
+                  value={ building.numberOfBedrooms }
+                  onChange={ (value) => {
+                    onChange({ ...building, numberOfBedrooms: value })
+                  } }
+                />
+              </FormField>
+              <FormField
+                editorFor='numberOfBathrooms'
+                label='Number Of Bathrooms'
+              >
+                <SelectInput
+                  value={ building.numberOfBathrooms }
+                  onChange={ (value) => {
+                    onChange({ ...building, numberOfBathrooms: value })
+                  } }
+                  options={ NumberOfBathroomsEnumPairs }
+                />
+              </FormField>
+            </Group>
+          </Group>
+        </MultiStacker>
       </FormSection>
       <Group
         justifyContent='space-between'

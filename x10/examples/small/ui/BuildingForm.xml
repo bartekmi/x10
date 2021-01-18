@@ -35,6 +35,22 @@
       <petPolicy/>
     </FormSection>
 
+    <FormSection label="Units">
+      <List path="units" addItemLabel="Add Unit">
+        <VerticalStackPanel>
+          <Row>
+            <number/>
+            <squareFeet/>
+            <hasBalcony label="Unit has Blacony?"/>
+          </Row>
+          <Row>
+            <numberOfBedrooms/>
+            <numberOfBathrooms/>
+          </Row>
+        </VerticalStackPanel>
+      </List>
+    </FormSection>
+
     <RepellingRow>
       <Text>* Required</Text>
       <SubmitButton label="Save">

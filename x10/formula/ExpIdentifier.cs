@@ -54,8 +54,10 @@ namespace x10.formula {
       string otherVarsMessage = otherVars == null ? null : string.Format("not a State variable: [{0}] and ",
         string.Join(", ", otherVars.Keys));
 
-      string message = "Identifier '{0}' is {1}not a Member of type: {2}";
-      Parser.Errors.AddError(this, message, Name, otherVarsMessage, type);
+      Parser.Errors.AddError(this, "Identifier '{0}' is {1}not a Member of type: {2}", 
+        Name,                 // Index 0
+        otherVarsMessage,     // Index 1
+        type);                // Index 2
 
       return X10DataType.ERROR;
     }
