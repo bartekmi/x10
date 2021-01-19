@@ -11,12 +11,13 @@ using x10.ui.metadata;
 using x10.ui.libraries;
 
 namespace x10.gen.react {
-  public partial class ReactCodeGenerator {
 
-    internal enum OutputType {
-      JSON,
-      React,
-    }
+  internal enum OutputType {
+    JSON,
+    React,
+  }
+
+  public partial class ReactCodeGenerator {
 
     #region Top Level
     public override void Generate(ClassDefX10 classDef) {
@@ -127,7 +128,7 @@ namespace x10.gen.react {
     #endregion
 
     #region GenerateJavascriptObjectRecursively
-    private void RenderComplexAttrAsJavascript(int level, UiAttributeValueComplex complex) {
+    internal void RenderComplexAttrAsJavascript(int level, UiAttributeValueComplex complex) {
       if (complex.Definition.IsMany) {
         WriteLine(level, "[");
         foreach (Instance instance in complex.Instances)
@@ -152,19 +153,11 @@ namespace x10.gen.react {
 
     #region GenerateComponentRecursively
 
-    internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance) {
-      if (instance == null)
+    internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance, PlatformClassDef platClassDef = null) {
+      if (instance == null ||
+          (platClassDef = platClassDef ?? FindPlatformClassDef(instance)) == null)
         return;
 
-      // Find the Platform Class Definition
-      PlatformClassDef platClassDef = FindPlatformClassDef(instance);
-      if (platClassDef == null)
-        return;
-
-      GenerateComponentRecursively(outputType, level, instance, platClassDef);
-    }
-
-    internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance, PlatformClassDef platClassDef) {
       string[] htmlTags = new string[] { "div" };
 
       if (htmlTags.Contains(platClassDef.PlatformName)) {
@@ -180,35 +173,14 @@ namespace x10.gen.react {
       if (platClassDef.StyleInfo != null)
         Write(" style={ { {0} } }", true, platClassDef.StyleInfo);
       CalculateAndWriteAttributes(outputType, level + 1, platClassDef, instance);
-      WritePrimaryAttributeAsProperty(level + 1, platClassDef, instance);
       WriteNestedContentsAndClosingTag(level, platClassDef, instance);
-    }
-
-    private void WritePrimaryAttributeAsProperty(int level, PlatformClassDef platClassDef, Instance instance) {
-      // If this is present, write the Primary Attribute as a property rather than as child
-      // components (e.g. columns of a Table)
-      string propName = platClassDef.PrimaryAttributeWrapperProperty;
-      if (propName == null)
-        return;
-
-      UiAttributeValue primaryValue = instance.PrimaryValue;
-
-      WriteLine(level, "{0}={", propName);
-
-      if (primaryValue is UiAttributeValueComplex complexAttr) {
-        RenderComplexAttrAsJavascript(level + 1, complexAttr);
-      } else
-        throw new NotImplementedException();
-
-      WriteLine(level, "}");
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
       UiAttributeValueComplex primaryValue = instance.PrimaryValue as UiAttributeValueComplex;
-      if (platClassDef.PrimaryAttributeWrapperProperty != null)
-        primaryValue = null;
+      bool primaryRenderedAsProp = platClassDef.PlatformAttributes.OfType<JavaScriptAttributePrimaryAsProp>().Any();
 
-      if (primaryValue == null &&
+      if ((primaryValue == null || primaryRenderedAsProp) &&
           platClassDef.ProgrammaticallyGenerateChildren == null &&
           platClassDef.NestedClassDef == null)
         WriteLineClose(level, "/>");

@@ -34,9 +34,7 @@ namespace x10.ui.platform {
     public PlatformClassDef NestedClassDef { get; set; }
 
     // If present, this specifies the name of the wrapper property that the primary content attribute
-    // should be wrapped in. For example, column definitions are the primary attribute of Table in 
-    // the logical model, but when generating code, they may have to be mapped to a specific 'columnDefinitions'
-    // property.
+    // should be wrapped in.
     public string PrimaryAttributeWrapperProperty { get; set; }
 
     // If present, import the component from this directory.

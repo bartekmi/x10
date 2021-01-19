@@ -286,75 +286,76 @@ export default function BuildingForm(props: Props): React.Node {
           onChange={ (value) => {
             onChange({ ...building, units: value })
           } }
+          itemDisplayFunc={ (data, onChange) => (
+            <Group
+              flexDirection='column'
+            >
+              <Group>
+                <FormField
+                  editorFor='number'
+                  toolTip='Unit number corresponding to mailing address'
+                  label='Number'
+                >
+                  <TextInput
+                    value={ data.number }
+                    onChange={ (value) => {
+                      onChange({ ...data, number: value })
+                    } }
+                  />
+                </FormField>
+                <FormField
+                  editorFor='squareFeet'
+                  label='Square Feet'
+                >
+                  <FloatInput
+                    value={ data.squareFeet }
+                    onChange={ (value) => {
+                      onChange({ ...data, squareFeet: value })
+                    } }
+                    decimalPrecision={ 0 }
+                  />
+                </FormField>
+                <FormField
+                  editorFor='hasBalcony'
+                  label='Unit has Blacony?'
+                >
+                  <Checkbox
+                    checked={ data.hasBalcony }
+                    onChange={ (value) => {
+                      onChange({ ...data, hasBalcony: value })
+                    } }
+                  />
+                </FormField>
+              </Group>
+              <Group>
+                <FormField
+                  editorFor='numberOfBedrooms'
+                  label='Number Of Bedrooms'
+                >
+                  <FloatInput
+                    value={ data.numberOfBedrooms }
+                    onChange={ (value) => {
+                      onChange({ ...data, numberOfBedrooms: value })
+                    } }
+                  />
+                </FormField>
+                <FormField
+                  editorFor='numberOfBathrooms'
+                  label='Number Of Bathrooms'
+                >
+                  <SelectInput
+                    value={ data.numberOfBathrooms }
+                    onChange={ (value) => {
+                      onChange({ ...data, numberOfBathrooms: value })
+                    } }
+                    options={ NumberOfBathroomsEnumPairs }
+                  />
+                </FormField>
+              </Group>
+            </Group>
+          ) }
           addNewItem={ createDefaultUnit }
-        >
-          <Group
-            flexDirection='column'
-          >
-            <Group>
-              <FormField
-                editorFor='number'
-                toolTip='Unit number corresponding to mailing address'
-                label='Number'
-              >
-                <TextInput
-                  value={ building.number }
-                  onChange={ (value) => {
-                    onChange({ ...building, number: value })
-                  } }
-                />
-              </FormField>
-              <FormField
-                editorFor='squareFeet'
-                label='Square Feet'
-              >
-                <FloatInput
-                  value={ building.squareFeet }
-                  onChange={ (value) => {
-                    onChange({ ...building, squareFeet: value })
-                  } }
-                  decimalPrecision={ 0 }
-                />
-              </FormField>
-              <FormField
-                editorFor='hasBalcony'
-                label='Unit has Blacony?'
-              >
-                <Checkbox
-                  checked={ building.hasBalcony }
-                  onChange={ (value) => {
-                    onChange({ ...building, hasBalcony: value })
-                  } }
-                />
-              </FormField>
-            </Group>
-            <Group>
-              <FormField
-                editorFor='numberOfBedrooms'
-                label='Number Of Bedrooms'
-              >
-                <FloatInput
-                  value={ building.numberOfBedrooms }
-                  onChange={ (value) => {
-                    onChange({ ...building, numberOfBedrooms: value })
-                  } }
-                />
-              </FormField>
-              <FormField
-                editorFor='numberOfBathrooms'
-                label='Number Of Bathrooms'
-              >
-                <SelectInput
-                  value={ building.numberOfBathrooms }
-                  onChange={ (value) => {
-                    onChange({ ...building, numberOfBathrooms: value })
-                  } }
-                  options={ NumberOfBathroomsEnumPairs }
-                />
-              </FormField>
-            </Group>
-          </Group>
-        </MultiStacker>
+        />
       </FormSection>
       <Group
         justifyContent='space-between'

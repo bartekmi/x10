@@ -1,10 +1,9 @@
 using System;
 
-using x10.gen;
-using x10.gen.react;
 using x10.ui.composition;
+using x10.ui.platform;
 
-namespace x10.ui.platform {
+namespace x10.gen.react {
   // This type of attribute allowed you to define that value of the code-generated
   // attribute via code.
   public class JavaScriptAttributeByFunc : PlatformAttribute {

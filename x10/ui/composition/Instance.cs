@@ -56,6 +56,8 @@ namespace x10.ui.composition {
       => AttributeValues.OfType<UiAttributeValueComplex>().SelectMany(x => x.Instances);
     public UiAttributeValue PrimaryValue 
       => AttributeValues.SingleOrDefault(x => x.Definition.IsPrimary); 
+    public Instance PrimaryValueInstance 
+      => (PrimaryValue as UiAttributeValueComplex)?.Instances.Single();
     public Entity DataModelEntity {
       get {
         Instance instance = Unwrap();

@@ -272,11 +272,17 @@ namespace x10.gen.react {
             IsMainDatabindingAttribute = true,
             PlatformName = "items",
           },
-          new JavaScriptAttributeByFunc() {
-            PlatformName = "itemDisplayFunc",
-            IsCodeSnippet = true,
-            Function = (generator, instance) => {
-              return null;
+          new JavaScriptAttributePrimaryAsProp() {
+            CodeSnippet = (generator, indent, platClassDef, instance) => {
+              Instance inner = instance.PrimaryValueInstance;
+
+              generator.WriteLine(indent, "itemDisplayFunc={ (data, onChange) => (");
+    
+              generator.PushSourceVariableName("data");
+              generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
+              generator.PopSourceVariableName();
+
+              generator.WriteLine(indent, ") }");
             },
           },
           new JavaScriptAttributeByFunc() {
@@ -299,13 +305,20 @@ namespace x10.gen.react {
         NestedClassDef = new PlatformClassDef() {
           PlatformName = "Table",
           ImportDir = "latitude/table",
-          PrimaryAttributeWrapperProperty = "columnDefinitions",
           PlatformAttributes = new List<PlatformAttribute>() {
             new JavaScriptAttributeDynamic() {
               IsMainDatabindingAttribute = true,
               PlatformName = "data",
             },
             new PlatformAttributeStatic("getUniqueRowId", "row => row.id", true),
+            new JavaScriptAttributePrimaryAsProp() {
+              CodeSnippet = (generator, indent, platClassDef, instance) => {
+                UiAttributeValueComplex primaryValue = (UiAttributeValueComplex)instance.PrimaryValue;
+                generator.WriteLine(indent, "columnDefinitions={");
+                generator.RenderComplexAttrAsJavascript(indent + 1, primaryValue);
+                generator.WriteLine(indent, "}");
+              },
+            }
           },
         }
       },
@@ -321,7 +334,7 @@ namespace x10.gen.react {
             PlatformName = "render",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              Instance inner = (instance.PrimaryValue as UiAttributeValueComplex).Instances.Single();
+              Instance inner = instance.PrimaryValueInstance;
               Member member = inner.ModelMember;
 
               if (member == null) {
@@ -330,7 +343,7 @@ namespace x10.gen.react {
         
                   // Don't try to combine this push/pop with the one below. Note that this path returns a func pointer.
                   generator.PushSourceVariableName("data");
-                  generator.GenerateComponentRecursively(ReactCodeGenerator.OutputType.React, indent + 1, inner);
+                  generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
                   generator.PopSourceVariableName();
 
                   generator.WriteLine(indent, ",");
