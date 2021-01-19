@@ -13,13 +13,15 @@ import { string } from "prop-types";
 
 type Props = {|
   +label?: string,
-  +successUrl?: string,
+  +action?: {
+    +successUrl?: string,
+  },
   +onClick: () => mixed,
 |};
 export default function FormSubmitButton(props: Props): React.Node {
   const history = useHistory();
   const formContext = React.useContext(FormContext);
-  const { label = "Save", onClick, successUrl } = props
+  const { label = "Save", onClick, action: {successUrl} = {} } = props
 
   const handleOnClick = () => {
     onClick();
