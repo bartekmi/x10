@@ -97,6 +97,13 @@ namespace x10.compiler {
     }
 
     private static void ExtractDataRecursive(Instance instance, MemberWrapper wrapper) {
+      // Process all formulas from the instance
+      foreach (UiAttributeValueAtomic atomicValue in instance.AtomicAttributeValues())
+        if (atomicValue.Expression != null)
+          foreach (X10Attribute attr in FormulaUtils.ExtractSourceAttributes(atomicValue.Expression))
+            wrapper.FindOrCreate(attr);
+
+      // If the instance descends into nested entities, do so
       if (instance.PathComponents != null)
         wrapper = BuildWrapper(instance.PathComponents, wrapper);
 

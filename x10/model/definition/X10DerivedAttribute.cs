@@ -74,21 +74,7 @@ namespace x10.model.definition {
 
     // Recursively extract source attributes
     public HashSet<X10RegularAttribute> ExtractSourceAttributes() {
-      HashSet<X10RegularAttribute> regAttributes = new HashSet<X10RegularAttribute>();
-      ExtractSourceAttributes(regAttributes, this);
-      return regAttributes;
-    }
-
-    private static void ExtractSourceAttributes(HashSet<X10RegularAttribute> regularAttributes, X10DerivedAttribute derived) {
-      HashSet<X10Attribute> attributes = FormulaUtils.ExtractSourceAttributes(derived.Expression);
-
-      foreach (X10Attribute attribute in attributes)
-        if (attribute is X10RegularAttribute regularAttr)
-          regularAttributes.Add(regularAttr);
-        else if (attribute is X10DerivedAttribute derivedSubAttr) 
-          ExtractSourceAttributes(regularAttributes, derivedSubAttr);
-        else
-          throw new NotImplementedException();
+      return FormulaUtils.ExtractSourceRegularAttributes(Expression);
     }
   }
 }

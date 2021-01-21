@@ -20,9 +20,6 @@ namespace x10.compiler {
 
     // *** Use-cases to test ***
     //
-    // Nested field
-    // Nested derived attribute
-    // Nested indirect derived attribute
     // For all nested cases above - also when limited by "Reduces many to one"
     // Ditto for formulas 
 
@@ -108,6 +105,45 @@ nested {
   <Group>
     <myInteger1/>
     <nested.myNestedDerived/>
+  </Group>
+</MyClassDef>
+";
+
+      string gql = @"
+myInteger1
+nested {
+  myNestedInteger1
+  myNestedInteger2
+}
+";
+
+      RunTest(xml, gql);
+    }
+
+    [Fact]
+    public void DataFromFormula() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Group>
+    <myInteger1 visible='=myInteger2 > 7'/>
+  </Group>
+</MyClassDef>
+";
+
+      string gql = @"
+myInteger1
+myInteger2
+";
+
+      RunTest(xml, gql);
+    }
+
+    [Fact]
+    public void DataFromFormulaNested() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Group>
+    <myInteger1 visible='=nested.myNestedDerived > 7'/>
   </Group>
 </MyClassDef>
 ";

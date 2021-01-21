@@ -50,5 +50,21 @@ namespace x10.formula {
 
       return attributes;
     }
+
+    public static HashSet<X10RegularAttribute> ExtractSourceRegularAttributes(ExpBase root) {
+      HashSet<X10RegularAttribute> regAttrs = new HashSet<X10RegularAttribute>();
+
+      HashSet<X10Attribute> sourceAttrs = ExtractSourceAttributes(root);
+
+      foreach (X10Attribute attribute in sourceAttrs)
+        if (attribute is X10RegularAttribute regular)
+          regAttrs.Add(regular);
+        else if (attribute is X10DerivedAttribute derived) 
+          regAttrs.UnionWith(derived.ExtractSourceAttributes());
+        else
+          throw new NotImplementedException();
+
+      return regAttrs;
+    }
   }
 }
