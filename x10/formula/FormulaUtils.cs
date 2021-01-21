@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using x10.model.definition;
+
 namespace x10.formula {
   public static class FormulaUtils {
     public static bool IsFormula(string valueOrFormula, out string strippedFormula) {
@@ -36,6 +38,17 @@ namespace x10.formula {
 
       foreach (ExpBase child in expression.ChildExpressions())
         ListAllInstances(expressions, child);
+    }
+
+    public static HashSet<X10Attribute> ExtractSourceAttributes(ExpBase root) {
+      HashSet<X10Attribute> attributes = new HashSet<X10Attribute>();
+
+      IEnumerable<ExpBase> subExpressions = FormulaUtils.ListAll(root);
+      foreach (ExpBase expression in subExpressions) 
+        if (expression.DataType.Member is X10Attribute attr)
+          attributes.Add(attr);
+
+      return attributes;
     }
   }
 }

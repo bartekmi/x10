@@ -1,0 +1,114 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+
+using x10.utils;
+using x10.formula;
+using x10.model.definition;
+using x10.ui.composition;
+using x10.ui;
+
+namespace x10.compiler {
+
+  public class MemberWrapper {
+    public Entity RootEntity { get; private set; }
+    public Member Member { get; private set; }
+    public List<MemberWrapper> Children { get; private set; }
+
+    internal MemberWrapper() {
+      Children = new List<MemberWrapper>();
+    }
+
+    internal MemberWrapper(Entity rootEntity) : this() {
+      RootEntity = rootEntity;
+    }
+
+    internal MemberWrapper(Member member) : this() {
+      Member = member;
+    }
+
+    // This would normally be in the "gen" namespace, but keeping it here because
+    // of its usefulness for testing (two birds, one stone)
+    public void PrintGraphQL(TextWriter writer, int indent) {
+      if (RootEntity != null)
+        PrintGraphQL_Children(writer, indent);
+      else if (Member is Association association) {
+        PrintUtils.WriteLineIndented(writer, indent, Member.Name + " {");
+        PrintGraphQL_Children(writer, indent + 1);
+        PrintUtils.WriteLineIndented(writer, indent, "}");
+      } else
+        PrintUtils.WriteLineIndented(writer, indent, Member.Name);
+    }
+
+    private void PrintGraphQL_Children(TextWriter writer, int indent) {
+      foreach (MemberWrapper child in Children.OrderBy(x => x.Member.Name))
+        child.PrintGraphQL(writer, indent);
+    }
+
+    public string PrintGraphQL(int indent) {
+      using (TextWriter writer = new StringWriter()) {
+        PrintGraphQL(writer, indent);
+        return writer.ToString();
+      }
+    }
+
+    // Given a MemberWrapper that corresponds to an Entity, extend the tree by adding
+    // the specified member, if it does not already exist.
+    // Returns:
+    //   - The "this" if only leaves were added (plural in the case of derived attribute)
+    //   - The added or found node if an association was passed in
+    internal MemberWrapper FindOrCreate(Member member) {
+      // Treat derived attributes in a special way - they need to be decomposed
+      // into their source regular attributes
+      if (member is X10DerivedAttribute derived) {
+        foreach (X10RegularAttribute regular in derived.ExtractSourceAttributes())
+          FindOrCreate(regular);
+        return this;
+      }
+
+      MemberWrapper child = Children.SingleOrDefault(x => x.Member == member);
+
+      if (child == null) {
+        child = new MemberWrapper(member);
+        Children.Add(child);
+      }
+
+      return member is Association ? child : this;
+    }
+  }
+
+  // This class can be used to generate a tree structure of all data referenced in a
+  // Class Def. Perfect for generating GraphQL Fragments, for example.
+  // It includes both data referenced via the "path" attribute and also data referenced
+  // by formulas, including recursively looking at Derived Attributes.
+  public static class UiComponentDataCalculator {
+
+    public static MemberWrapper ExtractData(ClassDefX10 classDef) {
+      if (classDef.ComponentDataModel == null)
+        throw new Exception("Must have a component data model");
+      return ExtractData(classDef.RootChild, classDef.ComponentDataModel);
+    }
+
+    public static MemberWrapper ExtractData(Instance root, Entity rootEntity) {
+      MemberWrapper rootWrapper = new MemberWrapper(rootEntity);
+      ExtractDataRecursive(root, rootWrapper);
+      return rootWrapper;
+    }
+
+    private static void ExtractDataRecursive(Instance instance, MemberWrapper wrapper) {
+      if (instance.PathComponents != null)
+        wrapper = BuildWrapper(instance.PathComponents, wrapper);
+
+      foreach (Instance child in instance.ChildInstances)
+        ExtractDataRecursive(child, wrapper);
+    }
+
+    private static MemberWrapper BuildWrapper(List<Member> pathComponents, MemberWrapper wrapper) {
+      foreach (Member member in pathComponents)
+        wrapper = wrapper.FindOrCreate(member);
+
+      return wrapper;
+    }
+  }
+}

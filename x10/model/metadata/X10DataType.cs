@@ -11,7 +11,7 @@ namespace x10.model.metadata {
 
     // May or may not be present. X10DataType stands on its own with just the above
     // properties, but "Member" can provide more context on where the data type
-    // came from. I would not be sad if this was removed at some future point.
+    // came from. 
     public Member Member { get; private set; }
 
     // Derived

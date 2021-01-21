@@ -26,6 +26,10 @@ namespace x10 {
           output.WriteLine(message.ToString());
     }
 
+    public static void DumpErrors(MessageBucket messages, ITestOutputHelper output) {
+      DumpMessages(messages, output, CompileMessageSeverity.Error);
+    }
+
     public static void StopIfErrors(MessageBucket messages, ITestOutputHelper output) {
       if (messages.HasErrors) {
         DumpMessages(messages, output);
