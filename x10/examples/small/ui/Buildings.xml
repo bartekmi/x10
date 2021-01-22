@@ -28,7 +28,7 @@
             1) id should be lower case and validated against model 
             2) edit vs. view - need to solve problem of hierarchical properties and optional url args -->
             <Button label="View" /> <!-- url is TODO -->
-            <Button label="Edit" url="='/buildings/edit/' + dbid"/>
+            <Button label="Edit" url="='/buildings/edit/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>

@@ -75,13 +75,14 @@ namespace x10.gen.react {
       // Props
       WriteLine(0, "type Props = {{|");
       if (model != null) {
-        string typeName = model.Name;
-        if (classDef.IsMany)
-          typeName = string.Format("$ReadOnlyArray<{0}>", typeName);
+        string fragmentName = FragmentName(classDef);
 
-        WriteLine(1, "+{0}: {1},", SourceVariableName, typeName);
+        WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
         if (isForm)
-          WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, typeName);
+          WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
+
+        ImportsPlaceholder.ImportType(fragmentName, 
+          string.Format("./__generated__/{0}.graphql", fragmentName));
       }
       WriteLine(0, "|}};");
 
@@ -213,9 +214,8 @@ namespace x10.gen.react {
 
       WriteLine(0, "export default createFragmentContainer({0}, {", classDef.Name);
       WriteLine(1, "{0}: graphql`", variableName);
-      WriteLine(2, "fragment {0}_{1} on {2} {3}{",
-        classDef.Name,
-        variableName,
+      WriteLine(2, "fragment {0} on {1} {2}{",
+        FragmentName(classDef),
         model.Name,
         classDef.IsMany ? "@relay(plural: true) " : "");
 
@@ -229,6 +229,12 @@ namespace x10.gen.react {
 
       ImportsPlaceholder.Import("createFragmentContainer", "react-relay");
       ImportsPlaceholder.Import("graphql", "react-relay");
+    }
+
+    private string FragmentName(ClassDefX10 classDef) {
+      return string.Format("{0}_{1}",
+        classDef.Name,
+        VariableName(classDef.ComponentDataModel, classDef.IsMany));
     }
 
     public void PrintGraphQL(int indent, MemberWrapper wrapper) {

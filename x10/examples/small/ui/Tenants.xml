@@ -18,7 +18,7 @@
         <TableColumn label="Action">
           <Row>
             <Button label="View" /> <!-- url is TODO -->
-            <Button label="Edit" url="='/tenants/edit/' + dbid"/>
+            <Button label="Edit" url="='/tenants/edit/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>

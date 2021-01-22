@@ -19,7 +19,6 @@ namespace x10.gen.react {
       Begin(fileInfo, ".js");
 
       GenerateFileHeader();
-      WriteLine(0, "import { v4 as uuid } from 'uuid';");
       WriteLine();
       InsertImportsPlaceholder();
 
@@ -40,9 +39,6 @@ namespace x10.gen.react {
     private void GenerateType(Entity model, bool isContext) {
       WriteLine(0, "// Type Definition");
       WriteLine(0, "export type {0} = {{|", model.Name);
-
-      if (!isContext)
-        WriteLine(1, "+id: string,");
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -65,8 +61,6 @@ namespace x10.gen.react {
       WriteLine(0, "// Create Default Function");
       WriteLine(0, "export function {0}(): {1} {", ReactCodeGenerator.CreateDefaultFuncName(model), model.Name);
       WriteLine(1, "return {");
-
-      WriteLine(2, "id: uuid(),");
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -98,6 +92,11 @@ namespace x10.gen.react {
           return funcName + "()";
         }
       } else if (member is X10RegularAttribute attribute) {
+        if (attribute.IsId) {
+          ImportsPlaceholder.Import("v4 as uuid", "uuid");
+          return "uuid()";
+        }
+
         object defaultValue = attribute.DefaultValue;
         DataType dataType = attribute.DataType;
 
@@ -166,23 +165,30 @@ namespace x10.gen.react {
 
       foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
         PushSourceVariableName(VariableName(entity));
-
-        WriteLine(0, "export function {0}({1}: {2}): {3} {",
-          DerivedAttrFuncName(attribute),
-          SourceVariableName,
-          entity.Name,
-          GetType(attribute));
-
         ExpBase expression = attribute.Expression;
-        WriteAppContextIfNeeded(new ExpBase[] { expression });
 
+        // Method signature
+        WriteLine(0, "export function {0}({1}: {",
+          DerivedAttrFuncName(attribute),
+          SourceVariableName);
+
+        foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
+          WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular));
+
+        WriteLine(0, "}): {0} {", GetType(attribute));
+
+        // Method Body
+        WriteAppContextIfNeeded(new ExpBase[] { expression });
         WriteLine(1, "const result = {0};", ExpressionToString(expression));
+
         if (IsNumeric(attribute.DataType))
           WriteLine(1, "return isNaN(result) ? null : result;");
         else
           WriteLine(1, "return result;");
 
+        // Method termination
         WriteLine(0, "}");
+        WriteLine();
 
         PopSourceVariableName();
       }
