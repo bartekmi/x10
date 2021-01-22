@@ -131,6 +131,13 @@ namespace x10.gen {
       _outputs.Add(new OutputWrite(text, args));
     }
 
+    protected void WriteRaw(int level, Action<TextWriter, int> writeFunc) {
+      using (TextWriter writer = new StringWriter()) {
+        writeFunc(writer, level);
+        _outputs.Add(new OutputWrite(writer.ToString()));
+      }
+    }
+
     private void WritePrivate(int level, string text, params object[] args) {
       if (_writer == null)
         throw new Exception("Your forgot to Begin()");

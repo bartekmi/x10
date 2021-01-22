@@ -14,6 +14,7 @@ import Button from 'react_lib/Button';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
+import { createFragmentContainer } from 'react-relay';
 
 
 type Props = {|
@@ -104,4 +105,22 @@ export default function Buildings(props: Props): React.Node {
     </Group>
   );
 }
+
+export default createFragmentContainer(Buildings, {
+  buildings: graphql`
+    fragment Buildings_buildings on Building @relay(plural: true) {
+      dateOfOccupancy
+      dbid
+      description
+      name
+      petPolicy
+      physicalAddress {
+        city
+        stateOrProvince
+        theAddress
+      }
+      today
+    }
+  `,
+});
 

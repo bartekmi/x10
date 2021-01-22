@@ -5,6 +5,7 @@ using System.Linq;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui;
+using x10.compiler;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
@@ -37,6 +38,9 @@ namespace x10.gen.react {
       GenerateFileHeader();
       GenerateImports(model);
       GenerateComponent(classDef, isForm);
+
+      if (model != null)
+        GenerateFragment(classDef, model);
 
       if (isForm) {
         GenerateSave(model);
@@ -201,7 +205,32 @@ namespace x10.gen.react {
 
     #endregion
 
-    #region Generate Save & Mutation
+    #region GenerateFragment
+    private void GenerateFragment(ClassDefX10 classDef, Entity model) {
+      MemberWrapper dataRoot = UiComponentDataCalculator.ExtractData(classDef);
+
+      string variableName = VariableName(model, classDef.IsMany);
+
+      WriteLine(0, "export default createFragmentContainer({0}, {", classDef.Name);
+      WriteLine(1, "{0}: graphql`", variableName);
+      WriteLine(2, "fragment {0}_{1} on {2} {3}{",
+        classDef.Name,
+        variableName,
+        model.Name,
+        classDef.IsMany ? "@relay(plural: true) " : "");
+
+      WriteRaw(3, dataRoot.PrintGraphQL);
+
+      WriteLine(2, "}");
+      WriteLine(1, "`,");
+      WriteLine(0, "});");
+      WriteLine();
+
+      ImportsPlaceholder.Import("createFragmentContainer", "react-relay");
+    }
+    #endregion
+
+    #region Generate Save
     private void GenerateSave(Entity model) {
       string variableName = VariableName(model);
       string modelName = model.Name;
@@ -232,7 +261,9 @@ namespace x10.gen.react {
         !member.IsReadOnly &&
         !(member is X10DerivedAttribute);
     }
+    #endregion
 
+    #region Generate Mutation
     private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model) {
       string variableName = VariableName(model);
       string classDefName = classDef.Name;

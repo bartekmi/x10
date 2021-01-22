@@ -22,7 +22,7 @@ import Separator from 'react_lib/Separator';
 import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
-import { graphql } from 'react-relay';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 
 type Props = {|
@@ -375,6 +375,40 @@ export default function BuildingForm(props: Props): React.Node {
     </FormProvider>
   );
 }
+
+export default createFragmentContainer(BuildingForm, {
+  building: graphql`
+    fragment BuildingForm_building on Building {
+      dateOfOccupancy
+      description
+      mailboxType
+      mailingAddress {
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      mailingAddressSameAsPhysical
+      moniker
+      name
+      petPolicy
+      physicalAddress {
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      today
+      units {
+        hasBalcony
+        number
+        numberOfBathrooms
+        numberOfBedrooms
+        squareFeet
+      }
+    }
+  `,
+});
 
 function save(building: Building) {
   const variables = {

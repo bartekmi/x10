@@ -12,7 +12,7 @@ import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
-import { graphql } from 'react-relay';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 
 type Props = {|
@@ -146,6 +146,22 @@ export default function TenantForm(props: Props): React.Node {
     </FormProvider>
   );
 }
+
+export default createFragmentContainer(TenantForm, {
+  tenant: graphql`
+    fragment TenantForm_tenant on Tenant {
+      email
+      name
+      permanentMailingAddress {
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      phone
+    }
+  `,
+});
 
 function save(tenant: Tenant) {
   const variables = {
