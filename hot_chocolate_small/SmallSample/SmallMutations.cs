@@ -16,8 +16,8 @@ namespace Small {
     /// <summary>
     /// Creates a new Building or updates an existing one, depending on the value of dbid
     /// </summary>
-    public int CreateOrUpdateBuilding(
-        int dbid,
+    public string CreateOrUpdateBuilding(
+        string id,
         string name,
         string? description,
         DateTime dateOfOccupancy,
@@ -41,14 +41,15 @@ namespace Small {
         Units = new List<Unit>(units),
       };
 
-      if (dbid == BLANK_DBID)
-        dbid = repository.AddBuilding(building);
-      else {
-        building.Dbid = dbid;
+      if (IdUtils.IsUuid(id)) {
+        repository.AddBuilding(building);
+        id = building.Id;
+      } else {
+        building.Dbid = IdUtils.FromRelayId(id);
         repository.UpdateBuilding(building);
       }
 
-      return dbid;
+      return id;
     }
     #endregion
 
@@ -56,8 +57,8 @@ namespace Small {
     /// <summary>
     /// Creates a new Tenant or updates an existing one, depending on the value of dbid
     /// </summary>
-    public int CreateOrUpdateTenant(
-        int dbid,
+    public string CreateOrUpdateTenant(
+        string id,
         string name,
         string phone,
         string email,
@@ -71,15 +72,17 @@ namespace Small {
         PermanentMailingAddress = permanentMailingAddress,
       };
 
-      if (dbid == BLANK_DBID)
-        dbid = repository.AddTenant(tenant);
-      else {
-        tenant.Dbid = dbid;
+      if (IdUtils.IsUuid(id)) {
+        repository.AddTenant(tenant);
+        id = tenant.Id;
+      } else {
+        tenant.Dbid = IdUtils.FromRelayId(id);
         repository.UpdateTenant(tenant);
       }
 
-      return dbid;
+      return id;
     }
     #endregion
+
   }
 }

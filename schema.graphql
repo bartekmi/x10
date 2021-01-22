@@ -58,9 +58,9 @@ type Move {
 
 type Mutation {
   "Creates a new Building or updates an existing one, depending on the value of dbid"
-  createOrUpdateBuilding(dbid: Int! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! physicalAddress: AddressInput! mailingAddress: AddressInput units: [UnitInput!]!): Int!
+  createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! physicalAddress: AddressInput! mailingAddress: AddressInput units: [UnitInput!]!): String!
   "Creates a new Tenant or updates an existing one, depending on the value of dbid"
-  createOrUpdateTenant(dbid: Int! name: String! phone: String! email: String! permanentMailingAddress: AddressInput!): Int!
+  createOrUpdateTenant(id: String! name: String! phone: String! email: String! permanentMailingAddress: AddressInput!): String!
 }
 
 "Information about pagination in a connection."

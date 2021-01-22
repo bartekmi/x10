@@ -2,7 +2,7 @@ namespace Small.Entities {
   public class EntityBase {
     public string Id {
       get {
-        return string.Format("{0}/{1}", this.GetType().Name, Dbid);
+        return IdUtils.ToRelayId(this, Dbid);
       }
       set {
         // Do nothing. Needed to make Hot Chocolate happy.
@@ -12,7 +12,7 @@ namespace Small.Entities {
 
     private static int _nextUniqueDbid = 1000;
     public void EnsureUniqueDbid() {
-      if (Dbid == -1)
+      if (Dbid == 0)
         Dbid = _nextUniqueDbid++;
     }
   }
