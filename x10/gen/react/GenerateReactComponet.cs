@@ -87,7 +87,7 @@ namespace x10.gen.react {
       WriteLine(0, "|}};");
 
       // Component Definition
-      WriteLine(0, "export default function {0}(props: Props): React.Node {", classDef.Name);
+      WriteLine(0, "function {0}(props: Props): React.Node {", classDef.Name);
       if (isForm) {
         WriteLine(1, "const { onChange } = props;");
         GenerateCreateNullableEntities(model);

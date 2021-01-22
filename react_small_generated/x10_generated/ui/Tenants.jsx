@@ -15,7 +15,7 @@ import { createFragmentContainer } from 'react-relay';
 type Props = {|
   +tenants: $ReadOnlyArray<Tenant>,
 |};
-export default function Tenants(props: Props): React.Node {
+function Tenants(props: Props): React.Node {
   const { tenants } = props;
 
   return (

@@ -29,7 +29,7 @@ type Props = {|
   +building: Building,
   +onChange: (building: Building) => void,
 |};
-export default function BuildingForm(props: Props): React.Node {
+function BuildingForm(props: Props): React.Node {
   const { onChange } = props;
   const { building: raw } = props;
 
@@ -398,7 +398,6 @@ export default createFragmentContainer(BuildingForm, {
         theAddress
         zip
       }
-      today
       units {
         hasBalcony
         number

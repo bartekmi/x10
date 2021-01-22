@@ -45,6 +45,9 @@ derivedAttributes:
   - name: derivedIndirect
     dataType: Integer
     formula: =derivedSimple + myInteger2
+  - name: ageInYears
+    dataType: Integer
+    formula: = __Context__.today.year - myDate.year
 associations:
   - name: nested
     dataType: NestedEntity
@@ -55,6 +58,7 @@ enums:
   - name: MyEnum
     values: one, two, three
 ";
+
       string nestedYaml = @"
 name: NestedEntity
 attributes:
@@ -68,8 +72,19 @@ derivedAttributes:
     formula: =myNestedInteger1 + myNestedInteger2
 ";
 
+      string context = @"
+name: __Context__
+description: This special entity defines data that is available globally
+
+attributes:
+  - name: today
+    dataType: Date
+    mandatory: true
+    readOnly: true
+";
+
       AllEnums = new AllEnums(_messsages);
-      AllEntities = TestUtils.EntityCompile(_messsages, AllEnums, entityYaml, nestedYaml);
+      AllEntities = TestUtils.EntityCompile(_messsages, AllEnums, entityYaml, nestedYaml, context);
 
       Entity = AllEntities.FindEntityByName("Entity");
       NestedEntity = AllEntities.FindEntityByName("NestedEntity");

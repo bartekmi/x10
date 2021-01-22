@@ -19,7 +19,7 @@ type Props = {|
   +tenant: Tenant,
   +onChange: (tenant: Tenant) => void,
 |};
-export default function TenantForm(props: Props): React.Node {
+function TenantForm(props: Props): React.Node {
   const { onChange } = props;
   const { tenant } = props;
 

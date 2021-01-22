@@ -159,6 +159,24 @@ nested {
       RunTest(xml, gql);
     }
 
+    [Fact]
+    public void IgnoreContextFields() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Group>
+    <Text text='=__Context__.today'/>
+    <ageInYears/>
+  </Group>
+</MyClassDef>
+";
+
+      string gql = @"
+myDate
+";
+
+      RunTest(xml, gql);
+    }
+
     private void RunTest(string xml, string expectedGql) {
       TestBasicUiLibrary basicLib = new TestBasicUiLibrary(_output);
       ClassDefX10 classDef = basicLib.CompileClassDef(xml);

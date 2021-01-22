@@ -20,7 +20,7 @@ import { createFragmentContainer } from 'react-relay';
 type Props = {|
   +buildings: $ReadOnlyArray<Building>,
 |};
-export default function Buildings(props: Props): React.Node {
+function Buildings(props: Props): React.Node {
   const { buildings } = props;
 
   return (
@@ -119,7 +119,6 @@ export default createFragmentContainer(Buildings, {
         stateOrProvince
         theAddress
       }
-      today
     }
   `,
 });
