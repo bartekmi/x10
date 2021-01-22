@@ -37,7 +37,7 @@ namespace x10.gen.react {
 
       GenerateFileHeader();
       GenerateImports(model);
-      GenerateComponent(classDef, isForm);
+      GenerateComponent(classDef, model, isForm);
 
       if (model != null)
         GenerateFragment(classDef, model);
@@ -69,8 +69,7 @@ namespace x10.gen.react {
       WriteLine();
     }
 
-    private void GenerateComponent(ClassDefX10 classDef, bool isForm) {
-      Entity model = classDef.ComponentDataModel;
+    private void GenerateComponent(ClassDefX10 classDef, Entity model, bool isForm) {
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
       // Props
@@ -87,7 +86,10 @@ namespace x10.gen.react {
       WriteLine(0, "|}};");
 
       // Component Definition
-      WriteLine(0, "function {0}(props: Props): React.Node {", classDef.Name);
+      WriteLine(0, "{0}function {1}(props: Props): React.Node {", 
+        model == null ? "export default " : "",
+        classDef.Name);
+
       if (isForm) {
         WriteLine(1, "const { onChange } = props;");
         GenerateCreateNullableEntities(model);
@@ -227,6 +229,7 @@ namespace x10.gen.react {
       WriteLine();
 
       ImportsPlaceholder.Import("createFragmentContainer", "react-relay");
+      ImportsPlaceholder.Import("graphql", "react-relay");
     }
     #endregion
 

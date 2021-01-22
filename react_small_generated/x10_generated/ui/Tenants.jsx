@@ -9,7 +9,7 @@ import Text from 'latitude/Text';
 import * as React from 'react';
 import Button from 'react_lib/Button';
 import x10toString from 'react_lib/utils/x10toString';
-import { createFragmentContainer } from 'react-relay';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 
 type Props = {|

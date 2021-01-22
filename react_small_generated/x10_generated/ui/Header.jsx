@@ -15,7 +15,7 @@ import TenantsInterface from 'ui/TenantsInterface';
 
 type Props = {|
 |};
-function Header(props: Props): React.Node {
+export default function Header(props: Props): React.Node {
   const {  } = props;
 
   return (
