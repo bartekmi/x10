@@ -16,9 +16,11 @@ import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import { type Buildings_buildings } from "./__generated__/Buildings_buildings.graphql";
+
 
 type Props = {|
-  +buildings: $ReadOnlyArray<Building>,
+  +buildings: Buildings_buildings
 |};
 function Buildings(props: Props): React.Node {
   const { buildings } = props;

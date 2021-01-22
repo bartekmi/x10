@@ -209,8 +209,6 @@ namespace x10.gen.react {
 
     #region GenerateFragment
     private void GenerateFragment(ClassDefX10 classDef, Entity model) {
-      MemberWrapper dataRoot = UiComponentDataCalculator.ExtractData(classDef);
-
       string variableName = VariableName(model, classDef.IsMany);
 
       WriteLine(0, "export default createFragmentContainer({0}, {", classDef.Name);
@@ -221,7 +219,8 @@ namespace x10.gen.react {
         model.Name,
         classDef.IsMany ? "@relay(plural: true) " : "");
 
-      WriteRaw(3, dataRoot.PrintGraphQL);
+      MemberWrapper dataRoot = UiComponentDataCalculator.ExtractData(classDef);
+      PrintGraphQL(3, dataRoot);
 
       WriteLine(2, "}");
       WriteLine(1, "`,");
@@ -231,6 +230,24 @@ namespace x10.gen.react {
       ImportsPlaceholder.Import("createFragmentContainer", "react-relay");
       ImportsPlaceholder.Import("graphql", "react-relay");
     }
+
+    public void PrintGraphQL(int indent, MemberWrapper wrapper) {
+      if (wrapper.RootEntity != null)
+        PrintGraphQL_Children(indent, wrapper);
+      else if (wrapper.Member is Association association) {
+        WriteLine(indent, wrapper.Member.Name + " {");
+        PrintGraphQL_Children(indent + 1, wrapper);
+        WriteLine(indent, "}");
+      } else
+        WriteLine(indent, wrapper.Member.Name);
+    }
+
+    private void PrintGraphQL_Children(int indent, MemberWrapper wrapper) {
+      WriteLine(indent, "id");
+      foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
+        PrintGraphQL(indent, child);
+    }
+
     #endregion
 
     #region Generate Save

@@ -28,9 +28,8 @@ namespace x10.compiler {
       Member = member;
     }
 
-    // This would normally be in the "gen" namespace, but keeping it here because
-    // of its usefulness for testing (two birds, one stone)
-    public void PrintGraphQL(TextWriter writer, int indent) {
+    // Useful for testing
+    public void Print(TextWriter writer, int indent) {
       if (RootEntity != null)
         PrintGraphQL_Children(writer, indent);
       else if (Member is Association association) {
@@ -43,12 +42,12 @@ namespace x10.compiler {
 
     private void PrintGraphQL_Children(TextWriter writer, int indent) {
       foreach (MemberWrapper child in Children.OrderBy(x => x.Member.Name))
-        child.PrintGraphQL(writer, indent);
+        child.Print(writer, indent);
     }
 
     public string PrintGraphQL(int indent) {
       using (TextWriter writer = new StringWriter()) {
-        PrintGraphQL(writer, indent);
+        Print(writer, indent);
         return writer.ToString();
       }
     }

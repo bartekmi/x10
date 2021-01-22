@@ -379,10 +379,12 @@ function BuildingForm(props: Props): React.Node {
 export default createFragmentContainer(BuildingForm, {
   building: graphql`
     fragment BuildingForm_building on Building {
+      id
       dateOfOccupancy
       description
       mailboxType
       mailingAddress {
+        id
         city
         stateOrProvince
         theAddress
@@ -393,12 +395,14 @@ export default createFragmentContainer(BuildingForm, {
       name
       petPolicy
       physicalAddress {
+        id
         city
         stateOrProvince
         theAddress
         zip
       }
       units {
+        id
         hasBalcony
         number
         numberOfBathrooms

@@ -150,9 +150,11 @@ function TenantForm(props: Props): React.Node {
 export default createFragmentContainer(TenantForm, {
   tenant: graphql`
     fragment TenantForm_tenant on Tenant {
+      id
       email
       name
       permanentMailingAddress {
+        id
         city
         stateOrProvince
         theAddress

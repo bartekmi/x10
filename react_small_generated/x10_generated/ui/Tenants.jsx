@@ -77,6 +77,7 @@ function Tenants(props: Props): React.Node {
 export default createFragmentContainer(Tenants, {
   tenants: graphql`
     fragment Tenants_tenants on Tenant @relay(plural: true) {
+      id
       dbid
       email
       name
