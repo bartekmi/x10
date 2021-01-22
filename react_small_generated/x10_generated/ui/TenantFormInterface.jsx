@@ -41,20 +41,7 @@ export default function TenantFormInterface(props: Props): React.Node {
 const query = graphql`
   query TenantFormInterfaceQuery($id: Int!) {
     entity: tenant(id: $id) {
-      id
-      dbid
-      name
-      phone
-      email
-      permanentMailingAddress {
-        id
-        dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
-      }
+      ...TenantForm_tenant
     }
   }
 `;

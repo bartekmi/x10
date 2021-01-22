@@ -19,7 +19,7 @@ namespace x10.gen.react {
       Begin(classDef.XmlElement.FileInfo, "Interface.jsx");
 
       GenerateFileHeader();
-      GenerateImports(classDef, model);
+      GenerateImports(classDef);
 
       if (isForm) {
         GenerateFormWrapper(classDef, model);
@@ -33,7 +33,7 @@ namespace x10.gen.react {
       End();
     }
 
-    private void GenerateImports(ClassDefX10 classDef, Entity model) {
+    private void GenerateImports(ClassDefX10 classDef) {
       InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
@@ -42,9 +42,7 @@ namespace x10.gen.react {
       ImportsPlaceholder.ImportDefault("environment");
 
       ImportsPlaceholder.ImportDefault(classDef);
-      if (model != null)
-        ImportsPlaceholder.ImportType(model);
-
+        
       WriteLine();
     }
     #endregion
@@ -72,6 +70,8 @@ namespace x10.gen.react {
       WriteLine(0, "}");
 
       WriteLine();
+
+      ImportsPlaceholder.ImportType(model);
     }
 
     private void GenerateFormQueryRenderer(ClassDefX10 classDef, Entity model) {
@@ -114,9 +114,9 @@ namespace x10.gen.react {
       WriteLine(1, "query {0}InterfaceQuery($id: Int!) {", classDefName);
       WriteLine(2, "entity: {0}(id: $id) {", variableName);
 
-      GenerateGraphqlQueryRecursively(2, model);
+      WriteLine(3, "...{0}_{1}", classDefName, variableName);
 
-      // Trailing brace of level 2 was written by recurse function
+      WriteLine(2, "}");
       WriteLine(1, "}");
       WriteLine(0, "`;");
 
@@ -149,37 +149,21 @@ namespace x10.gen.react {
     private void GenerateMultiGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
-      string variableName = VariableName(model);
+      string variableName = VariableName(model, true);
 
       WriteLine(0, "const query = graphql`");
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);
-      WriteLine(2, "entities: {0} {", NameUtils.Pluralize(variableName));
+      WriteLine(2, "entities: {0} {", variableName);
       WriteLine(3, "nodes {");
 
-      GenerateGraphqlQueryRecursively(3, model);
+      WriteLine(4, "...{0}_{1}", classDefName, variableName);
 
-      // Innermost trailing brace was written by recurse function
+      WriteLine(3, "}");
       WriteLine(2, "}");
       WriteLine(1, "}");
       WriteLine(0, "`;");
 
       WriteLine();
-    }
-    #endregion
-
-    #region Utils
-    private void GenerateGraphqlQueryRecursively(int level, Entity model) {
-      WriteLine(level + 1, "id");
-
-      foreach (X10RegularAttribute attribute in model.RegularAttributes)
-        WriteLine(level + 1, attribute.Name);
-
-      foreach (Association association in model.Associations) {
-        WriteLine(level + 1, "{0} {", association.Name);
-        GenerateGraphqlQueryRecursively(level + 1, association.ReferencedEntity);
-      }
-
-      WriteLine(level, "}");  // Only the trailing brace is written by this method
     }
     #endregion
   }

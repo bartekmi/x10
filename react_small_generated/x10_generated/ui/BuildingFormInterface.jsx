@@ -41,42 +41,7 @@ export default function BuildingFormInterface(props: Props): React.Node {
 const query = graphql`
   query BuildingFormInterfaceQuery($id: Int!) {
     entity: building(id: $id) {
-      id
-      dbid
-      moniker
-      name
-      description
-      dateOfOccupancy
-      mailboxType
-      petPolicy
-      mailingAddressSameAsPhysical
-      units {
-        id
-        dbid
-        number
-        squareFeet
-        numberOfBedrooms
-        numberOfBathrooms
-        hasBalcony
-      }
-      physicalAddress {
-        id
-        dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
-      }
-      mailingAddress {
-        id
-        dbid
-        unitNumber
-        theAddress
-        city
-        stateOrProvince
-        zip
-      }
+      ...BuildingForm_building
     }
   }
 `;
