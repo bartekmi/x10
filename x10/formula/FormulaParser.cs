@@ -35,5 +35,12 @@ namespace x10.formula {
 
       return expression;
     }
+
+    private void SetOwnerRecursive(ExpBase expression) {
+      foreach (ExpBase child in expression.ChildExpressions()) {
+        child.Owner = expression;
+        SetOwnerRecursive(child);
+      }
+    }
   }
 }

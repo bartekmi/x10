@@ -51,6 +51,30 @@ namespace x10.formula {
       return attributes;
     }
 
+    public static IEnumerable<IEnumerable<Member>> ExtractMemberPaths(ExpBase root) {
+      IEnumerable<ExpBase> subExpressions = FormulaUtils.ListAll(root);
+      List<IEnumerable<Member>> paths = new List<IEnumerable<Member>>();
+
+      foreach (ExpBase expression in subExpressions) 
+        if (expression.DataType.Member is X10Attribute attr)
+          paths.Add(ExtractMemberPath(expression));
+
+      return paths;
+    }
+
+    private static IEnumerable<Member> ExtractMemberPath(ExpBase expression) {
+      List<Member> members = new List<Member>();
+      members.Add(expression.DataType.Member);
+
+      while (expression is ExpMemberAccess memberAccess) {
+        expression = memberAccess.Expression;
+        if (expression.DataType.Member != null)
+          members.Insert(0, expression.DataType.Member);
+      }
+
+      return members;
+    }
+
     public static HashSet<X10RegularAttribute> ExtractSourceRegularAttributes(ExpBase root) {
       HashSet<X10RegularAttribute> regAttrs = new HashSet<X10RegularAttribute>();
 

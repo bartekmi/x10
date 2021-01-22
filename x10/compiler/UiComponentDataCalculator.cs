@@ -99,9 +99,10 @@ namespace x10.compiler {
     private static void ExtractDataRecursive(Instance instance, MemberWrapper wrapper) {
       // Process all formulas from the instance
       foreach (UiAttributeValueAtomic atomicValue in instance.AtomicAttributeValues())
-        if (atomicValue.Expression != null)
-          foreach (X10Attribute attr in FormulaUtils.ExtractSourceAttributes(atomicValue.Expression))
-            wrapper.FindOrCreate(attr);
+        if (atomicValue.Expression != null) {
+          foreach (IEnumerable<Member> path in FormulaUtils.ExtractMemberPaths(atomicValue.Expression))
+            BuildWrapper(path, wrapper);
+        }
 
       // If the instance descends into nested entities, do so
       if (instance.PathComponents != null)
@@ -111,7 +112,7 @@ namespace x10.compiler {
         ExtractDataRecursive(child, wrapper);
     }
 
-    private static MemberWrapper BuildWrapper(List<Member> pathComponents, MemberWrapper wrapper) {
+    private static MemberWrapper BuildWrapper(IEnumerable<Member> pathComponents, MemberWrapper wrapper) {
       foreach (Member member in pathComponents)
         wrapper = wrapper.FindOrCreate(member);
 
