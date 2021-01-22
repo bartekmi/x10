@@ -21,10 +21,6 @@ namespace x10.gen.react {
       GenerateFileHeader();
       WriteLine(0, "import { v4 as uuid } from 'uuid';");
       WriteLine();
-      if (!isContext) {
-        WriteLine(0, "import { DBID_LOCALLY_CREATED } from 'react_lib/constants';");
-        WriteLine();
-      }
       InsertImportsPlaceholder();
 
       GenerateType(entity, isContext);
@@ -102,9 +98,6 @@ namespace x10.gen.react {
           return funcName + "()";
         }
       } else if (member is X10RegularAttribute attribute) {
-        if (attribute.IsId)
-          return "DBID_LOCALLY_CREATED";
-
         object defaultValue = attribute.DefaultValue;
         DataType dataType = attribute.DataType;
 

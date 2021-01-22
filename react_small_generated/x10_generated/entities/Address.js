@@ -21,20 +21,25 @@ export type Address = {|
 
 
 // Derived Attribute Functions
-export function addressFirstAddressLine(address: Address): string {
-  invariant(address.theAddress, "Must be set if calling this function");
-  invariant(address.unitNumber, "Must be set if calling this function");
+export function addressFirstAddressLine(address: {
+  +unitNumber: string,
+  +theAddress: string,
+}): string {
   const result = address.theAddress + '   Unit ' + address.unitNumber;
   return result;
 }
-export function addressSecondAddressLine(address: Address): string {
-  invariant(address.city, "Must be set if calling this function");
-  invariant(address.stateOrProvince, "Must be set if calling this function");
+
+export function addressSecondAddressLine(address: {
+  +city: string,
+  +stateOrProvince: string,
+}): string {
   const result = address.city + ', ' + address.stateOrProvince;
   return result;
 }
-export function addressThirdAddressLine(address: Address): string {
-  invariant(address.zip, "Must be set if calling this function");
+
+export function addressThirdAddressLine(address: {
+  +zip: string,
+}): string {
   const result = address.zip;
   return result;
 }
