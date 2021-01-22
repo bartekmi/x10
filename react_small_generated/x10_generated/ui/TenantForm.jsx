@@ -14,10 +14,12 @@ import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import {type TenantForm_tenant } from "./__generated__/TenantForm_tenant.graphql";
+
 
 type Props = {|
-  +tenant: Tenant,
-  +onChange: (tenant: Tenant) => void,
+  +tenant: TenantForm_tenant,
+  +onChange: (tenant: TenantForm_tenant) => void,
 |};
 function TenantForm(props: Props): React.Node {
   const { onChange } = props;
@@ -165,9 +167,8 @@ export default createFragmentContainer(TenantForm, {
   `,
 });
 
-function save(tenant: Tenant) {
+function save(tenant: TenantForm_tenant) {
   const variables = {
-    dbid: tenant.dbid,
     name: tenant.name,
     phone: tenant.phone,
     email: tenant.email,

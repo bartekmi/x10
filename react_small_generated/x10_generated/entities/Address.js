@@ -7,29 +7,34 @@ import { DBID_LOCALLY_CREATED } from 'react_lib/constants';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import invariant from 'latitude/tools/invariant';
 
 // Type Definition
 export type Address = {|
   +id: string,
-  +dbid: number,
-  +unitNumber: string,
-  +theAddress: string,
-  +city: string,
-  +stateOrProvince: string,
-  +zip: string,
+  +unitNumber?: string,
+  +theAddress?: string,
+  +city?: string,
+  +stateOrProvince?: string,
+  +zip?: string,
 |};
 
 
 // Derived Attribute Functions
 export function addressFirstAddressLine(address: Address): string {
+  invariant(address.theAddress, "Must be set if calling this function");
+  invariant(address.unitNumber, "Must be set if calling this function");
   const result = address.theAddress + '   Unit ' + address.unitNumber;
   return result;
 }
 export function addressSecondAddressLine(address: Address): string {
+  invariant(address.city, "Must be set if calling this function");
+  invariant(address.stateOrProvince, "Must be set if calling this function");
   const result = address.city + ', ' + address.stateOrProvince;
   return result;
 }
 export function addressThirdAddressLine(address: Address): string {
+  invariant(address.zip, "Must be set if calling this function");
   const result = address.zip;
   return result;
 }
@@ -39,7 +44,6 @@ export function addressThirdAddressLine(address: Address): string {
 export function createDefaultAddress(): Address {
   return {
     id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
     unitNumber: '',
     theAddress: '',
     city: '',

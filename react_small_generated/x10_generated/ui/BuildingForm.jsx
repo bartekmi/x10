@@ -2,7 +2,7 @@
 // @flow
 
 import { addressSecondAddressLine, createDefaultAddress } from 'entities/Address';
-import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'entities/Building';
+import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs } from 'entities/Building';
 import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'entities/Unit';
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
@@ -24,10 +24,11 @@ import VisibilityControl from 'react_lib/VisibilityControl';
 import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import {type BuildingForm_building } from "./__generated__/BuildingForm_building.graphql";
 
 type Props = {|
-  +building: Building,
-  +onChange: (building: Building) => void,
+  +building: BuildingForm_building,
+  +onChange: (building: BuildingForm_building) => void,
 |};
 function BuildingForm(props: Props): React.Node {
   const { onChange } = props;

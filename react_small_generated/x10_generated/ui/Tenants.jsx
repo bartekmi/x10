@@ -11,6 +11,8 @@ import Button from 'react_lib/Button';
 import x10toString from 'react_lib/utils/x10toString';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import { type Tenants_tenants } from "./__generated__/Tenants_tenants.graphql";
+
 
 type Props = {|
   +tenants: $ReadOnlyArray<Tenant>,

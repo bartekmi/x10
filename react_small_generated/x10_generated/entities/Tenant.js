@@ -10,21 +10,19 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 // Type Definition
-export type Tenant = {|
+export type Tenant = {
   +id: string,
-  +dbid: number,
   +name: string,
   +phone: string,
   +email: string,
   +permanentMailingAddress: Address,
-|};
+};
 
 
 // Create Default Function
 export function createDefaultTenant(): Tenant {
   return {
     id: uuid(),
-    dbid: DBID_LOCALLY_CREATED,
     name: '',
     phone: '',
     email: '',
