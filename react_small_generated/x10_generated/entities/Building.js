@@ -13,7 +13,7 @@ import toNum from 'react_lib/utils/toNum';
 import { v4 as uuid } from 'uuid';
 
 // Type Definition
-export type Building = {|
+export type Building = {
   +id: string,
   +moniker: string,
   +name: string,
@@ -25,7 +25,7 @@ export type Building = {|
   +units: $ReadOnlyArray<Unit>,
   +physicalAddress: Address,
   +mailingAddress: Address,
-|};
+};
 
 
 // Enums
@@ -71,7 +71,6 @@ export type PetPolicyEnum = 'NO_PETS' | 'ALL_PETS_OK' | 'CATS_ONLY' | 'DOGS_ONLY
 
 // Derived Attribute Functions
 export function buildingAgeInYears(building: {
-  +today: ?string,
   +dateOfOccupancy: ?string,
 }): ?number {
   const appContext = React.useContext(AppContext);

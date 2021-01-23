@@ -173,7 +173,8 @@ namespace x10.gen.react {
           SourceVariableName);
 
         foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
-          WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular));
+          if (!regular.Owner.IsContext)
+            WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular));
 
         WriteLine(0, "}): {0} {", GetType(attribute));
 

@@ -24,20 +24,14 @@ import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
-
+import invariant from 'latitude/tools/invariant';
 
 type Props = {|
-  +building: BuildingForm_building,
-  +onChange: (building: BuildingForm_building) => void,
+  +building: Building,
+  +onChange: (building: Building) => void,
 |};
 function BuildingForm(props: Props): React.Node {
-  const { onChange } = props;
-  const { building: raw } = props;
-
-  const building = {
-    ...raw,
-    mailingAddress: raw.mailingAddress || createDefaultAddress(),
-  };
+  const { onChange, building } = props;
 
   return (
     <FormProvider
@@ -172,7 +166,7 @@ function BuildingForm(props: Props): React.Node {
               label='Address or Post Office (PO) Box'
             >
               <TextInput
-                value={ building.mailingAddress.theAddress }
+                value={ building.mailingAddress?.theAddress || ""}
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
                   newObj.mailingAddress.theAddress = value;
@@ -186,7 +180,7 @@ function BuildingForm(props: Props): React.Node {
               maxWidth={ 400 }
             >
               <TextInput
-                value={ building.mailingAddress.city }
+                value={ building.mailingAddress?.city || "" }
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
                   newObj.mailingAddress.city = value;
@@ -200,7 +194,7 @@ function BuildingForm(props: Props): React.Node {
               maxWidth={ 250 }
             >
               <TextInput
-                value={ building.mailingAddress.stateOrProvince }
+                value={ building.mailingAddress?.stateOrProvince || ""}
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
                   newObj.mailingAddress.stateOrProvince = value;
@@ -214,7 +208,7 @@ function BuildingForm(props: Props): React.Node {
               maxWidth={ 150 }
             >
               <TextInput
-                value={ building.mailingAddress.zip }
+                value={ building.mailingAddress?.zip || "" }
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
                   newObj.mailingAddress.zip = value;
@@ -261,6 +255,7 @@ function BuildingForm(props: Props): React.Node {
           <SelectInput
             value={ building.mailboxType }
             onChange={ (value) => {
+              invariant(value, "Will never be null");
               onChange({ ...building, mailboxType: value })
             } }
             options={ MailboxTypeEnumPairs }

@@ -7,6 +7,7 @@ import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 import { graphql, QueryRenderer } from 'react-relay';
 import BuildingForm from 'ui/BuildingForm';
+import { createDefaultAddress, type Address } from 'entities/Address';
 
 
 type BuildingProps = {|
@@ -32,10 +33,17 @@ export default function BuildingFormInterface(props: Props): React.Node {
     <EntityQueryRenderer
       match={ props.match }
       createDefaultFunc={ createDefaultBuilding }
-      createComponentFunc={ (building) => <BuildingFormWrapper building={ building }/> }
+      createComponentFunc={ (building) => <BuildingFormWrapper building={ relayToInternal(building) }/> }
       query={ query }
     />
   );
+}
+
+function relayToInternal(relay: any): Building {
+  return {
+    ...relay,
+    mailingAddress: relay.mailingAddressSameAsPhysical || createDefaultAddress(),
+  };
 }
 
 const query = graphql`

@@ -7,14 +7,14 @@ import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
 
 // Type Definition
-export type Unit = {|
+export type Unit = {
   +id: string,
   +number: string,
   +squareFeet: ?number,
   +numberOfBedrooms: ?number,
   +numberOfBathrooms: ?NumberOfBathroomsEnum,
   +hasBalcony: boolean,
-|};
+};
 
 
 // Enums

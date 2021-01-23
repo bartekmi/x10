@@ -4,8 +4,8 @@
 
 
 // Type Definition
-export type __Context__ = {|
-  +today: ?string,
-|};
+export type __Context__ = {
+  +today?: ?string,
+};
 
 

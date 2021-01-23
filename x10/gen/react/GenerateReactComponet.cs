@@ -27,7 +27,7 @@ namespace x10.gen.react {
 
       GenerateMainUiFile(classDef, model, isForm);
       if (model != null)
-        GenerateInterface(classDef, model, isForm);  // Done in GenerateReactComponentInterface file (partial class)
+        GenerateInterface(classDef, model, isForm);  // See GenerateReactComponentInterface file (partial class)
     }
 
     private void GenerateMainUiFile(ClassDefX10 classDef, Entity model, bool isForm) {
@@ -52,6 +52,7 @@ namespace x10.gen.react {
 
     private void PreProcessTree(ClassDefX10 classDef) {
       foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild))
+        // Any instance which has the "visible" attribute is wrapped with the "VisibilityControl" component
         if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
           Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
           UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
@@ -111,26 +112,26 @@ namespace x10.gen.react {
       IEnumerable<Association> nullableAssociations = model.Associations
         .Where(x => !(x.IsMandatory || x.IsMany));
 
-      if (nullableAssociations.Count() == 0)
+      //if (nullableAssociations.Count() == 0)
         WriteLine(1, "const { {0} } = props;", SourceVariableName);
-      else {
-        WriteLine(1, "const { {0}: raw } = props;", SourceVariableName);
-        WriteLine();
-        WriteLine(1, "const {0} = {", SourceVariableName);
-        WriteLine(2, "...raw,");
+      // else {
+      //   WriteLine(1, "const { {0}: raw } = props;", SourceVariableName);
+      //   WriteLine();
+      //   WriteLine(1, "const {0} = {", SourceVariableName);
+      //   WriteLine(2, "...raw,");
 
         // TODO... Not recursive at this time
-        foreach (Association association in nullableAssociations) {
-          Entity assocModel = association.ReferencedEntity;
-          WriteLine(2, "{0}: raw.{0} || {1}(),",
-            association.Name,
-            ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+        // foreach (Association association in nullableAssociations) {
+        //   Entity assocModel = association.ReferencedEntity;
+        //   WriteLine(2, "{0}: raw.{0} || {1}(),",
+        //     association.Name,
+        //     ReactCodeGenerator.CreateDefaultFuncName(assocModel));
 
-          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
-        }
+        //   ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+        // }
 
-        WriteLine(1, "};");
-      }
+      //   WriteLine(1, "};");
+      // }
     }
     #endregion
 

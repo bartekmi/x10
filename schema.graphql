@@ -15,7 +15,7 @@ type Address {
 
 "A physical structure that contains Units to be occupied by Tenants"
 type Building {
-  moniker: String
+  moniker: String!
   name: String!
   description: String!
   dateOfOccupancy: DateTime
@@ -232,8 +232,8 @@ input BuildingFilter {
   moniker_not_starts_with: String
   moniker_ends_with: String
   moniker_not_ends_with: String
-  moniker_in: [String]
-  moniker_not_in: [String]
+  moniker_in: [String!]
+  moniker_not_in: [String!]
   name: String
   name_not: String
   name_contains: String

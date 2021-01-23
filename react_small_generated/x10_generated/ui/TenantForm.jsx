@@ -148,6 +148,7 @@ function TenantForm(props: Props): React.Node {
   );
 }
 
+// $FlowExpectedError
 export default createFragmentContainer(TenantForm, {
   tenant: graphql`
     fragment TenantForm_tenant on Tenant {

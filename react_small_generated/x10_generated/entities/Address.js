@@ -7,14 +7,14 @@ import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
 
 // Type Definition
-export type Address = {|
+export type Address = {
   +id: string,
   +unitNumber: string,
   +theAddress: string,
   +city: string,
   +stateOrProvince: string,
   +zip: string,
-|};
+};
 
 
 // Derived Attribute Functions

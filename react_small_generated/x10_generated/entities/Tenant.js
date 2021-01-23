@@ -8,13 +8,13 @@ import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
 
 // Type Definition
-export type Tenant = {|
-  +id: string,
-  +name: string,
-  +phone: string,
-  +email: string,
-  +permanentMailingAddress: Address,
-|};
+export type Tenant = {
+  +id?: string,
+  +name?: string,
+  +phone?: string,
+  +email?: string,
+  +permanentMailingAddress?: Address,
+};
 
 
 // Create Default Function

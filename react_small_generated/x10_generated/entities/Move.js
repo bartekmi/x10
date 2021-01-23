@@ -9,13 +9,13 @@ import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
 
 // Type Definition
-export type Move = {|
-  +id: string,
-  +date: ?string,
-  +from: Unit,
-  +to: Unit,
-  +tenant: Tenant,
-|};
+export type Move = {
+  +id?: string,
+  +date?: ?string,
+  +from?: Unit,
+  +to?: Unit,
+  +tenant?: Tenant,
+};
 
 
 // Create Default Function
