@@ -5,7 +5,7 @@
 
 // Type Definition
 export type __Context__ = {
-  +today?: ?string,
+  +today: ?string,
 };
 
 

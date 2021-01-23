@@ -104,6 +104,7 @@ namespace x10.gen.react {
 
     private void WriteFormSignature(ClassDefX10 classDef, Entity model) {
       WriteLine(1, "+{0}: {1},", SourceVariableName, model.Name);
+      WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
       ImportsPlaceholder.ImportType(model);
     }
 
@@ -111,36 +112,9 @@ namespace x10.gen.react {
       string fragmentName = FragmentName(classDef);
 
       WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
-      WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
 
       ImportsPlaceholder.ImportType(fragmentName, 
         string.Format("./__generated__/{0}.graphql", fragmentName));
-    }
-
-    private void GenerateCreateNullableEntities(Entity model) {
-      IEnumerable<Association> nullableAssociations = model.Associations
-        .Where(x => !(x.IsMandatory || x.IsMany));
-
-      //if (nullableAssociations.Count() == 0)
-        WriteLine(1, "const { {0} } = props;", SourceVariableName);
-      // else {
-      //   WriteLine(1, "const { {0}: raw } = props;", SourceVariableName);
-      //   WriteLine();
-      //   WriteLine(1, "const {0} = {", SourceVariableName);
-      //   WriteLine(2, "...raw,");
-
-        // TODO... Not recursive at this time
-        // foreach (Association association in nullableAssociations) {
-        //   Entity assocModel = association.ReferencedEntity;
-        //   WriteLine(2, "{0}: raw.{0} || {1}(),",
-        //     association.Name,
-        //     ReactCodeGenerator.CreateDefaultFuncName(assocModel));
-
-        //   ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
-        // }
-
-      //   WriteLine(1, "};");
-      // }
     }
     #endregion
 
@@ -222,6 +196,7 @@ namespace x10.gen.react {
     private void GenerateFragment(ClassDefX10 classDef, Entity model) {
       string variableName = VariableName(model, classDef.IsMany);
 
+      WriteLine(0, "// $FlowExpectedError");
       WriteLine(0, "export default createFragmentContainer({0}, {", classDef.Name);
       WriteLine(1, "{0}: graphql`", variableName);
       WriteLine(2, "fragment {0} on {1} {2}{",

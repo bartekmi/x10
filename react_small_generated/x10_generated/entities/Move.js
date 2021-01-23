@@ -10,11 +10,11 @@ import { v4 as uuid } from 'uuid';
 
 // Type Definition
 export type Move = {
-  +id?: string,
-  +date?: ?string,
-  +from?: Unit,
-  +to?: Unit,
-  +tenant?: Tenant,
+  +id: string,
+  +date: ?string,
+  +from: Unit,
+  +to: Unit,
+  +tenant: Tenant,
 };
 
 

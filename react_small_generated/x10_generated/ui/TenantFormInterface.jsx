@@ -32,12 +32,17 @@ export default function TenantFormInterface(props: Props): React.Node {
     <EntityQueryRenderer
       match={ props.match }
       createDefaultFunc={ createDefaultTenant }
-      createComponentFunc={ (tenant) => <TenantFormWrapper tenant={ tenant }/> }
+      createComponentFunc={ (tenant) => <TenantFormWrapper tenant={ relayToInternal(tenant) }/> }
       query={ query }
     />
   );
 }
 
+function relayToInternal(relay: any): Tenant {
+  return {
+    ...relay,
+  };
+}
 const query = graphql`
   query TenantFormInterfaceQuery($id: Int!) {
     entity: tenant(id: $id) {

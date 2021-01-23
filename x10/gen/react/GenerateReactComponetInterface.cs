@@ -24,6 +24,7 @@ namespace x10.gen.react {
       if (isForm) {
         GenerateFormWrapper(classDef, model);
         GenerateFormQueryRenderer(classDef, model);
+        GenerateFormRelayToInternal(model);
         GenerateFormGraphqlQuery(classDef, model);
       } else if (classDef.IsMany) {
         GenerateMultiQueryRenderer(classDef, model);
@@ -42,7 +43,7 @@ namespace x10.gen.react {
       ImportsPlaceholder.ImportDefault("environment");
 
       ImportsPlaceholder.ImportDefault(classDef);
-        
+
       WriteLine();
     }
     #endregion
@@ -93,7 +94,7 @@ namespace x10.gen.react {
       WriteLine(2, "<EntityQueryRenderer");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createDefaultFunc={ {0} }", createDefaultFunc);
-      WriteLine(3, "createComponentFunc={ ({0}) => <{1}Wrapper {0}={ {0} }/> }", variableName, classDefName);
+      WriteLine(3, "createComponentFunc={ ({0}) => <{1}Wrapper {0}={ relayToInternal({0}) }/> }", variableName, classDefName);
       WriteLine(3, "query={ query }");
       WriteLine(2, "/>");
       WriteLine(1, ");");
@@ -104,6 +105,30 @@ namespace x10.gen.react {
 
       WriteLine();
     }
+
+
+    private void GenerateFormRelayToInternal(Entity model) {
+      IEnumerable<Association> nullableAssociations = model.Associations
+        .Where(x => !(x.IsMandatory || x.IsMany));
+
+      WriteLine(0, "function relayToInternal(relay: any): {0} {", model.Name);
+      WriteLine(1, "return {");
+      WriteLine(2, "...relay,");
+
+      // TODO... Not recursive at this time
+      foreach (Association association in nullableAssociations) {
+        Entity assocModel = association.ReferencedEntity;
+        WriteLine(2, "{0}: relay.{0} || {1}(),",
+          association.Name,
+          ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+
+        ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+      }
+
+      WriteLine(1, "};");
+      WriteLine(0, "}");
+    }
+
 
     private void GenerateFormGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
