@@ -38,7 +38,7 @@ namespace x10.gen.react {
     #region Generate Type Definition
     private void GenerateType(Entity model, bool isContext) {
       WriteLine(0, "// Type Definition");
-      WriteLine(0, "export type {0} = {{|", model.Name);
+      WriteLine(0, "export type {0} = {", model.Name);
 
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
@@ -50,7 +50,7 @@ namespace x10.gen.react {
             ImportsPlaceholder.ImportType(entity.Name, entity);
           }
         }
-      WriteLine(0, "|}};");
+      WriteLine(0, "};");
       WriteLine();
       WriteLine();
     }

@@ -76,14 +76,10 @@ namespace x10.gen.react {
       // Props
       WriteLine(0, "type Props = {{|");
       if (model != null) {
-        string fragmentName = FragmentName(classDef);
-
-        WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
         if (isForm)
-          WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
-
-        ImportsPlaceholder.ImportType(fragmentName, 
-          string.Format("./__generated__/{0}.graphql", fragmentName));
+          WriteFormSignature(classDef, model);
+        else
+          WriteNonFormSignature(classDef);
       }
       WriteLine(0, "|}};");
 
@@ -92,11 +88,9 @@ namespace x10.gen.react {
         model == null ? "export default " : "",
         classDef.Name);
 
-      if (isForm) {
-        WriteLine(1, "const { onChange } = props;");
-        GenerateCreateNullableEntities(model);
-      } else
-        WriteLine(1, "const { {0} } = props;", SourceVariableName);
+      WriteLine(1, "const { {0}{1} } = props;",
+        SourceVariableName,
+        isForm ? ", onChange" : "");
       WriteLine();
 
       WriteLine(1, "return (");
@@ -106,6 +100,21 @@ namespace x10.gen.react {
       WriteLine();
 
       PopSourceVariableName();
+    }
+
+    private void WriteFormSignature(ClassDefX10 classDef, Entity model) {
+      WriteLine(1, "+{0}: {1},", SourceVariableName, model.Name);
+      ImportsPlaceholder.ImportType(model);
+    }
+
+    private void WriteNonFormSignature(ClassDefX10 classDef) {
+      string fragmentName = FragmentName(classDef);
+
+      WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
+      WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
+
+      ImportsPlaceholder.ImportType(fragmentName, 
+        string.Format("./__generated__/{0}.graphql", fragmentName));
     }
 
     private void GenerateCreateNullableEntities(Entity model) {

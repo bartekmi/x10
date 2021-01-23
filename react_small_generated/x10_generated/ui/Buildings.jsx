@@ -106,6 +106,7 @@ function Buildings(props: Props): React.Node {
   );
 }
 
+// $FlowExpectedError
 export default createFragmentContainer(Buildings, {
   buildings: graphql`
     fragment Buildings_buildings on Building @relay(plural: true) {
