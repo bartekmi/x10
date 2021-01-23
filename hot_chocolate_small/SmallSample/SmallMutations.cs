@@ -14,7 +14,7 @@ namespace Small {
 
     #region Building
     /// <summary>
-    /// Creates a new Building or updates an existing one, depending on the value of dbid
+    /// Creates a new Building or updates an existing one, depending on the value of id
     /// </summary>
     public string CreateOrUpdateBuilding(
         string id,
@@ -53,9 +53,9 @@ namespace Small {
     }
     #endregion
 
-    #region Building
+    #region Tenant
     /// <summary>
-    /// Creates a new Tenant or updates an existing one, depending on the value of dbid
+    /// Creates a new Tenant or updates an existing one, depending on the value of id
     /// </summary>
     public string CreateOrUpdateTenant(
         string id,
@@ -78,6 +78,37 @@ namespace Small {
       } else {
         tenant.Dbid = IdUtils.FromRelayId(id);
         repository.UpdateTenant(tenant);
+      }
+
+      return id;
+    }
+    #endregion
+
+    #region Move
+    /// <summary>
+    /// Creates a new Move or updates an existing one, depending on the value of id
+    /// </summary>
+    public string CreateOrUpdateMove(
+        string id,
+        DateTime date,
+        string fromId,
+        string toId,
+        string tenantId,
+        [Service] ISmallRepository repository) {
+
+      Move move = new Move() {
+        Date = date,
+        From = repository.GetBuilding(IdUtils.FromRelayId(fromId)),
+        To = repository.GetBuilding(IdUtils.FromRelayId(toId)),
+        Tenant = repository.GetTenant(IdUtils.FromRelayId(tenantId)),
+      };
+
+      if (IdUtils.IsUuid(id)) {
+        repository.AddMove(move);
+        id = move.Id;
+      } else {
+        move.Dbid = IdUtils.FromRelayId(id);
+        repository.UpdateMove(move);
       }
 
       return id;

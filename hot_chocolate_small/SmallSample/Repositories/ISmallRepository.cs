@@ -8,6 +8,7 @@ namespace Small.Repositories {
     // Queries
     Building GetBuilding(int id);
     Tenant GetTenant(int id);
+    Move GetMove(int id);
 
     IQueryable<Building> GetBuildings();
     IQueryable<Tenant> GetTenants();
@@ -18,5 +19,7 @@ namespace Small.Repositories {
     void UpdateBuilding(Building building);
     int AddTenant(Tenant tenant);
     void UpdateTenant(Tenant tenant);
+    int AddMove(Move move);
+    void UpdateMove(Move move);
   }
 }

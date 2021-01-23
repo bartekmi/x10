@@ -206,10 +206,41 @@ namespace Small.Repositories {
       return _moves[id];
     }
 
-    private static IEnumerable<Move> CreateMoves() {
+    public int AddMove(Move move) {
+      int newId = EnsureUniqueDbids(move);
+      _moves[newId] = move;
+      return newId;
+    }
+
+    public void UpdateMove(Move move) {
+      EnsureUniqueDbids(move);
+      _moves[move.Dbid] = move;
+    }
+
+    private static int EnsureUniqueDbids(Move move) {
+      move.EnsureUniqueDbid();
+      return move.Dbid;
+    }
+
+    private IEnumerable<Move> CreateMoves() {
       return new List<Move>() {
+        new Move() {
+          Dbid = 1,
+          Date = new DateTime(2021, 1, 31),
+          From = _buildings[1],
+          To = _buildings[2],
+          Tenant = _tenants[1]
+        },
+        new Move() {
+          Dbid = 2,
+          Date = new DateTime(2021, 2, 15),
+          From = _buildings[2],
+          To = _buildings[3],
+          Tenant = _tenants[2]
+        },
       };
     }
+
     #endregion
 
   }

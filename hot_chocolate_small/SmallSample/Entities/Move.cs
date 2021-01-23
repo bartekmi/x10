@@ -7,8 +7,8 @@ namespace Small.Entities {
     public DateTime? Date { get; set; }
 
     // Associations
-    public virtual Unit? From { get; set; }
-    public virtual Unit? To { get; set; }
+    public virtual Building? From { get; set; }   // Should be unit, but more complex
+    public virtual Building? To { get; set; }     // Should be unit, but more complex
     public virtual Tenant? Tenant { get; set; }
   }
 }

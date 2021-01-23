@@ -49,18 +49,38 @@ type BuildingEdge {
 
 type Move {
   date: DateTime
-  from: Unit
-  to: Unit
+  from: Building
+  to: Building
   tenant: Tenant
   id: String!
   dbid: Int!
 }
 
+"A connection to a list of items."
+type MoveConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MoveEdge!]
+  "A flattened list of the nodes."
+  nodes: [Move!]
+}
+
+"An edge in a connection."
+type MoveEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Move!
+}
+
 type Mutation {
-  "Creates a new Building or updates an existing one, depending on the value of dbid"
+  "Creates a new Building or updates an existing one, depending on the value of id"
   createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! physicalAddress: AddressInput! mailingAddress: AddressInput units: [UnitInput!]!): String!
-  "Creates a new Tenant or updates an existing one, depending on the value of dbid"
+  "Creates a new Tenant or updates an existing one, depending on the value of id"
   createOrUpdateTenant(id: String! name: String! phone: String! email: String! permanentMailingAddress: AddressInput!): String!
+  "Creates a new Move or updates an existing one, depending on the value of id"
+  createOrUpdateMove(id: String! date: DateTime! fromId: String! toId: String! tenantId: String!): String!
 }
 
 "Information about pagination in a connection."
@@ -84,6 +104,10 @@ type Query {
   tenant("The id of the tenant." id: String!): Tenant!
   "Gets all tenants.\n\n\n**Returns:**\nAll Tenants."
   tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection
+  "Retrieve a Move by id\n\n\n**Returns:**\nThe Move."
+  move("The id of the move." id: String!): Move!
+  "Gets all moves.\n\n\n**Returns:**\nAll Moves."
+  moves(first: Int after: String last: Int before: String where: MoveFilter order_by: MoveSort): MoveConnection
 }
 
 type Tenant {
@@ -333,6 +357,57 @@ input BuildingSort {
   mailingAddressSameAsPhysical: SortOperationKind
   physicalAddress: AddressSort
   mailingAddress: AddressSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+input MoveFilter {
+  AND: [MoveFilter!]
+  OR: [MoveFilter!]
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime]
+  date_not_in: [DateTime]
+  date_gt: DateTime
+  date_not_gt: DateTime
+  date_gte: DateTime
+  date_not_gte: DateTime
+  date_lt: DateTime
+  date_not_lt: DateTime
+  date_lte: DateTime
+  date_not_lte: DateTime
+  from: BuildingFilter
+  to: BuildingFilter
+  tenant: TenantFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+input MoveSort {
+  date: SortOperationKind
+  from: BuildingSort
+  to: BuildingSort
+  tenant: TenantSort
   id: SortOperationKind
   dbid: SortOperationKind
 }

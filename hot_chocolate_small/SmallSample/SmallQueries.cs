@@ -61,5 +61,30 @@ namespace Small {
         [Service] ISmallRepository repository) =>
         repository.GetTenants();
     #endregion
+
+    #region Move
+    /// <summary>
+    /// Retrieve a Move by id
+    /// </summary>
+    /// <param name="id">The id of the move.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Move.</returns>
+    public Move GetMove(
+        string id,
+        [Service] ISmallRepository repository) =>
+        repository.GetMove(IdUtils.FromRelayId(id));
+
+    /// <summary>
+    /// Gets all moves.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Moves.</returns>
+    [UsePaging]
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Move> GetMoves(
+        [Service] ISmallRepository repository) =>
+        repository.GetMoves();
+    #endregion
   }
 }
