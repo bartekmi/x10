@@ -6,19 +6,8 @@ import environment from 'environment';
 import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 import { graphql, QueryRenderer } from 'react-relay';
-import TenantForm from 'ui/TenantForm';
+import TenantForm, { TenantFormStateful } from 'ui/TenantForm';
 
-
-type TenantProps = {|
-  +tenant: Tenant,
-|};
-function TenantFormWrapper(props: TenantProps): React.Node {
-  const [editedTenant, setEditedTenant] = React.useState(props.tenant);
-  return <TenantForm
-    tenant={ editedTenant }
-    onChange={ setEditedTenant }
-  />
-}
 
 type Props = { 
   +match: { 
@@ -31,20 +20,15 @@ export default function TenantFormInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
       match={ props.match }
-      createDefaultFunc={ createDefaultTenant }
-      createComponentFunc={ (tenant) => <TenantFormWrapper tenant={ relayToInternal(tenant) }/> }
+      createComponentFunc={ (tenant) => <TenantForm tenant={ tenant }/> }
+      createComponentFuncNew={ () => <TenantFormStateful tenant={ createDefaultTenant() }/> }
       query={ query }
     />
   );
 }
 
-function relayToInternal(relay: any): Tenant {
-  return {
-    ...relay,
-  };
-}
 const query = graphql`
-  query TenantFormInterfaceQuery($id: Int!) {
+  query TenantFormInterfaceQuery($id: String!) {
     entity: tenant(id: $id) {
       ...TenantForm_tenant
     }

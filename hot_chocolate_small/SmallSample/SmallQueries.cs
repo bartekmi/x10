@@ -20,9 +20,9 @@ namespace Small {
     /// <param name="repository"></param>
     /// <returns>The Building.</returns>
     public Building GetBuilding(
-        int id,
+        string id,
         [Service] ISmallRepository repository) =>
-        repository.GetBuilding(id);
+        repository.GetBuilding(IdUtils.FromRelayId(id));
 
     /// <summary>
     /// Gets all buildings.
@@ -45,9 +45,9 @@ namespace Small {
     /// <param name="repository"></param>
     /// <returns>The Tenant.</returns>
     public Tenant GetTenant(
-        int id,
+        string id,
         [Service] ISmallRepository repository) =>
-        repository.GetTenant(id);
+        repository.GetTenant(IdUtils.FromRelayId(id));
 
     /// <summary>
     /// Gets all tenants.

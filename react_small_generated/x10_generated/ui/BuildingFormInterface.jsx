@@ -32,8 +32,8 @@ export default function BuildingFormInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
       match={ props.match }
-      createDefaultFunc={ createDefaultBuilding }
       createComponentFunc={ (building) => <BuildingFormWrapper building={ relayToInternal(building) }/> }
+      //createComponentFuncNew={ () => <TenantFormStateful tenant={ createDefaultBuilding() }/> }
       query={ query }
     />
   );
@@ -46,7 +46,7 @@ function relayToInternal(relay: any): Building {
   };
 }
 const query = graphql`
-  query BuildingFormInterfaceQuery($id: Int!) {
+  query BuildingFormInterfaceQuery($id: String!) {
     entity: building(id: $id) {
       ...BuildingForm_building
     }

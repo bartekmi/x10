@@ -127,6 +127,7 @@ namespace x10.gen.react {
 
       WriteLine(1, "};");
       WriteLine(0, "}");
+      WriteLine();
     }
 
 
