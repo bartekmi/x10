@@ -1,0 +1,19 @@
+<MoveForm model="Move" url="/tenants" query="GetMove(tenantId: $tenantId">
+  <Form>
+    <Heading1>New Move</Heading1>
+    <HorizontalDivider/>
+    <date/>
+    <from/>
+    <to/>
+    <tenant/>
+
+    <RepellingRow>
+      <Text>* Required</Text>
+      <SubmitButton label="Save">
+        <SubmitButton.Action>
+          <Action backEndTarget="/moves/create" successUrl="/moves"/>
+        </SubmitButton.Action>
+      </SubmitButton>
+    </RepellingRow>
+  </Form>
+</MoveForm>
