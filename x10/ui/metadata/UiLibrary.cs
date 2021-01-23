@@ -18,6 +18,7 @@ namespace x10.ui.metadata {
     private readonly Dictionary<DataType, ClassDef> _dataTypesToComponent;
     private HashSet<ClassDef> _wrapperComponents;
     private ClassDef _defaultComponentForEnums;
+    private ClassDef _defaultComponentForAssociations;
 
     // Derived
     public IEnumerable<ClassDef> All => _definitionsByName.Values; 
@@ -52,6 +53,15 @@ namespace x10.ui.metadata {
       _defaultComponentForEnums = uiComponent;
     }
 
+    public void SetComponentForAssociations(string componentName) {
+      ClassDef uiComponent = FindComponentByName(componentName);
+      if (uiComponent == null)
+        throw new Exception(string.Format("Attempting to set default component for associations. Component {0} does not exist",
+          componentName));
+
+      _defaultComponentForAssociations = uiComponent;
+    }
+
     public bool HydrateAndValidate(MessageBucket messages) {
       UiLibraryValidator validator = new UiLibraryValidator(messages);
 
@@ -74,7 +84,16 @@ namespace x10.ui.metadata {
       return definition;
     }
 
-    public ClassDef FindUiComponentForDataType(X10Attribute attribute) {
+    public ClassDef FindUiComponentForMember(Member member) {
+      if (member is X10Attribute attribute)
+        return FindUiComponentForDataType(attribute);
+      else if (member is Association association)
+        return _defaultComponentForAssociations;
+      else
+        throw new Exception("Unexpected member type: " + member.GetType().Name);
+    }
+
+    private ClassDef FindUiComponentForDataType(X10Attribute attribute) {
       _dataTypesToComponent.TryGetValue(attribute.DataType, out ClassDef uiComponent);
 
       if (uiComponent == null && attribute.DataType is DataTypeEnum)

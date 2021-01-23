@@ -70,14 +70,16 @@ namespace x10.compiler {
       }
     }
 
-    internal ClassDef FindUiComponentForDataType(X10Attribute attribute, IParseElement parseElement) {
+    internal ClassDef FindUiComponentForMember(Member member, XmlElement xmlElement) {
       foreach (UiLibrary library in _libraries) {
-        ClassDef uiComponent = library.FindUiComponentForDataType(attribute);
+        ClassDef uiComponent = library.FindUiComponentForMember(member);
         if (uiComponent != null)
           return uiComponent;
       }
 
-      _messages.AddError(parseElement, "DataType {0} does not have an associated UI Component.", attribute.DataType.Name);
+      _messages.AddError(xmlElement, "Could not identify UI Component for '{0}.{1}'",
+          member.Owner.Name, member.Name);      
+
       return null;
     }
   }

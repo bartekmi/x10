@@ -969,7 +969,7 @@ namespace x10.compiler {
   <apartments/>
 </Outer>
 ",
-      "Could not identify UI Component for Association 'apartments' of Entity 'Building'",
+      "Could not identify UI Component for 'Building.apartments'",
       3, 4);
 
       Assert.Single(_messages.Messages);

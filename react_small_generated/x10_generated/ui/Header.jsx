@@ -9,6 +9,7 @@ import SpaContent from 'react_lib/SpaContent';
 import { Route } from 'react-router-dom';
 import BuildingFormInterface from 'ui/BuildingFormInterface';
 import BuildingsInterface from 'ui/BuildingsInterface';
+import MoveFormInterface from 'ui/MoveFormInterface';
 import MovesInterface from 'ui/MovesInterface';
 import TenantFormInterface from 'ui/TenantFormInterface';
 import TenantsInterface from 'ui/TenantsInterface';
@@ -48,6 +49,8 @@ export default function Header(props: Props): React.Node {
       <SpaContent
         rootComponent={ BuildingsInterface }
       >
+        <Route exact path='/tenants/edit/:id' component={ MoveFormInterface } />
+        <Route exact path='/tenants/new' component={ MoveFormInterface } />
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/moves' component={ MovesInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />

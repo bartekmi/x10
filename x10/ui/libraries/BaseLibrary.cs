@@ -830,6 +830,7 @@ namespace x10.ui.libraries {
       library.AddDataTypeToComponentAssociation(model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon");
 
       library.SetComponentForEnums("DropDown");
+      library.SetComponentForAssociations("AssociationEditor");
 
       return library;
     }
