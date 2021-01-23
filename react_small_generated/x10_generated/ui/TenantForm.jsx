@@ -19,7 +19,7 @@ type Props = {|
   +tenant: Tenant,
   +onChange: (tenant: Tenant) => void,
 |};
-function TenantFormStateless(props: Props): React.Node {
+function TenantForm(props: Props): React.Node {
   const { tenant, onChange } = props;
 
   return (
@@ -146,12 +146,12 @@ function TenantFormStateless(props: Props): React.Node {
   );
 }
 
-type WrapperProps = {|
+type StatefulProps = {|
   +tenant: Tenant,
 |};
-export function TenantFormStateful(props: WrapperProps): React.Node {
+export function TenantFormStateful(props: StatefulProps): React.Node {
   const [editedTenant, setEditedTenant] = React.useState(props.tenant);
-  return <TenantFormStateless
+  return <TenantForm
     tenant={ editedTenant }
     onChange={ setEditedTenant }
   />
@@ -162,25 +162,6 @@ function relayToInternal(relay: any): Tenant {
     ...relay,
   };
 }
-
-// $FlowExpectedError
-export default createFragmentContainer(TenantFormStateful, {
-  tenant: graphql`
-    fragment TenantForm_tenant on Tenant {
-      id
-      email
-      name
-      permanentMailingAddress {
-        id
-        city
-        stateOrProvince
-        theAddress
-        zip
-      }
-      phone
-    }
-  `,
-});
 
 function save(tenant: Tenant) {
   const variables = {
@@ -211,4 +192,23 @@ const mutation = graphql`
     )
   }
 `;
+
+// $FlowExpectedError
+export default createFragmentContainer(TenantFormStateful, {
+  tenant: graphql`
+    fragment TenantForm_tenant on Tenant {
+      id
+      email
+      name
+      permanentMailingAddress {
+        id
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      phone
+    }
+  `,
+});
 

@@ -15,21 +15,15 @@ type Props<T> = {|
     }
   },
   +query: any,
-  +createDefaultFunc: () => T,
   +createComponentFunc: (T) => React.Node,
+  +createComponentFuncNew: () => React.Node,
   +gqlToInernalConvertFunc?: (any) => T,
 |};
 export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
-  const {match, createDefaultFunc, query, createComponentFunc, gqlToInernalConvertFunc} = props;
-  const stringId = props.match.params.id;
-  if (stringId == null) {
-    const defaultEntity = createDefaultFunc();
-    return createComponentFunc(defaultEntity);
-  }
-
-  const id: number = parseInt(stringId);
-  if (isNaN(id)) {
-    throw new Error("Not a number: " + stringId);
+  const {match, query, createComponentFunc, createComponentFuncNew, gqlToInernalConvertFunc} = props;
+  const id = props.match.params.id;
+  if (id == null) {
+    return createComponentFuncNew();
   }
 
   return (

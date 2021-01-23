@@ -39,13 +39,15 @@ namespace x10.gen.react {
       GenerateImports(model);
       GenerateComponent(classDef, model, isForm);
 
-      if (model != null)
-        GenerateFragment(classDef, model);
-
       if (isForm) {
+        GenerateStatefulWrapper(classDef, model);
+        GenerateFormRelayToInternal(model);
         GenerateSave(model);
         GenerateGraphqlMutation(classDef, model);
       }
+
+      if (model != null)
+        GenerateFragment(classDef, model, isForm);
 
       End();
     }
@@ -69,7 +71,9 @@ namespace x10.gen.react {
 
       WriteLine();
     }
+    #endregion
 
+    #region Generate Component
     private void GenerateComponent(ClassDefX10 classDef, Entity model, bool isForm) {
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
@@ -118,7 +122,7 @@ namespace x10.gen.react {
     }
     #endregion
 
-    #region GenerateJavascriptObjectRecursively
+    #region Generate Javascript Object Recursively
     internal void RenderComplexAttrAsJavascript(int level, UiAttributeValueComplex complex) {
       if (complex.Definition.IsMany) {
         WriteLine(level, "[");
@@ -142,7 +146,7 @@ namespace x10.gen.react {
     }
     #endregion
 
-    #region GenerateComponentRecursively
+    #region Generate Component Recursively
 
     internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance, PlatformClassDef platClassDef = null) {
       if (instance == null ||
@@ -192,12 +196,66 @@ namespace x10.gen.react {
 
     #endregion
 
-    #region GenerateFragment
-    private void GenerateFragment(ClassDefX10 classDef, Entity model) {
+    #region Generate Stateful Wrapper
+    private void GenerateStatefulWrapper(ClassDefX10 classDef, Entity model) {
+
+      string classDefName = classDef.Name;
+      string modelName = model.Name;
+      string variableName = VariableName(model);
+      string edited = "edited" + modelName;
+      string setEdited = "setEdited" + modelName;
+
+      WriteLine(0, "type StatefulProps = {{|");
+      WriteLine(1, "+{0}: {1},", variableName, modelName);
+      WriteLine(0, "|}};");
+
+      WriteLine(0, "export function {0}Stateful(props: StatefulProps): React.Node {", classDefName);
+      WriteLine(1, "const [{0}, {1}] = React.useState(props.{2});", edited, setEdited, variableName);
+      WriteLine(1, "return <{0}", classDefName);
+      WriteLine(2, "{0}={ {1} } ", variableName, edited);
+      WriteLine(2, "onChange={ {0} }", setEdited);
+      WriteLine(1, "/>");
+      WriteLine(0, "}");
+
+      WriteLine();
+
+      ImportsPlaceholder.ImportType(model);
+    }
+    #endregion
+
+    #region Generate Relay To Internal
+    private void GenerateFormRelayToInternal(Entity model) {
+      IEnumerable<Association> nullableAssociations = model.Associations
+        .Where(x => !(x.IsMandatory || x.IsMany));
+
+      WriteLine(0, "function relayToInternal(relay: any): {0} {", model.Name);
+      WriteLine(1, "return {");
+      WriteLine(2, "...relay,");
+
+      // TODO... Not recursive at this time
+      foreach (Association association in nullableAssociations) {
+        Entity assocModel = association.ReferencedEntity;
+        WriteLine(2, "{0}: relay.{0} || {1}(),",
+          association.Name,
+          ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+
+        ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+      }
+
+      WriteLine(1, "};");
+      WriteLine(0, "}");
+      WriteLine();
+    }
+    #endregion
+
+    #region Generate Fragment
+    private void GenerateFragment(ClassDefX10 classDef, Entity model, bool isForm) {
       string variableName = VariableName(model, classDef.IsMany);
 
       WriteLine(0, "// $FlowExpectedError");
-      WriteLine(0, "export default createFragmentContainer({0}, {", classDef.Name);
+      WriteLine(0, "export default createFragmentContainer({0}{1}, {", 
+        classDef.Name,
+        isForm ? "Stateful" : "");
       WriteLine(1, "{0}: graphql`", variableName);
       WriteLine(2, "fragment {0} on {1} {2}{",
         FragmentName(classDef),

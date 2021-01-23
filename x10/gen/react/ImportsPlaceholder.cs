@@ -50,6 +50,10 @@ namespace x10.gen.react {
       Import(functionOrConstant, entity.TreeElement.FileInfo.RelativePathNoExtension);
     }
 
+    public void Import(string functionOrConstant, IAcceptsUiAttributeValues uiObject) {
+      Import(functionOrConstant, uiObject.XmlElement.FileInfo.RelativePathNoExtension);
+    }
+
     public void ImportDefault(string pathNoExtension) {
       string filename = Path.GetFileNameWithoutExtension(pathNoExtension);
 
