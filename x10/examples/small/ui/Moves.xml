@@ -1,0 +1,20 @@
+<Moves model="Move" many="true" url="/moves" query="Moves">
+  <VerticalStackPanel>
+    <Heading1 text="Moves"/>
+
+    <Table>
+      <Table.Columns>
+        <date/>
+        <from.name label="From"/>
+        <to.name label="From"/>
+        <tenant.name label="Tenant"/>
+        <!-- <TableColumn label="Action">
+          <Row>
+            <Button label="View" /> 
+            <Button label="Edit" url="='/moves/edit/' + id"/>
+          </Row>
+        </TableColumn> -->
+      </Table.Columns>
+    </Table>
+  </VerticalStackPanel>
+</Moves>

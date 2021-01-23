@@ -9,10 +9,11 @@ attributes:
 
 associations:
   - name: from
-    dataType: Unit
+    # Should really be unit, but harder to implement
+    dataType: Building
     mandatory: true
   - name: to
-    dataType: Unit
+    dataType: Building
     mandatory: true
   - name: tenant
     dataType: Tenant
