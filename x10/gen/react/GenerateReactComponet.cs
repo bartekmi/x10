@@ -246,7 +246,7 @@ namespace x10.gen.react {
 
           ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
         } else if (!association.Owns)
-          WriteLine(2, "{0}: relay.{0}.id,", association.Name);
+          WriteLine(2, "{0}: relay.{0}?.id,", association.Name);
       }
 
       WriteLine(1, "};");

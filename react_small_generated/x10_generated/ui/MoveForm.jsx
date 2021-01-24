@@ -118,9 +118,9 @@ export function MoveFormStateful(props: StatefulProps): React.Node {
 function relayToInternal(relay: any): Move {
   return {
     ...relay,
-    from: relay.from.id,
-    to: relay.to.id,
-    tenant: relay.tenant.id,
+    from: relay.from?.id,
+    to: relay.to?.id,
+    tenant: relay.tenant?.id,
   };
 }
 
