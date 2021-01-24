@@ -2,7 +2,7 @@
 // @flow
 
 
-import { createDefaultAddress, type Address } from 'entities/Address';
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
@@ -37,6 +37,8 @@ export function tenantCalculateErrors(tenant: Tenant, prefix?: string): $ReadOnl
     addError(errors, prefix, 'Name is required', ['name']);
   if (isBlank(tenant.email))
     addError(errors, prefix, 'Email is required', ['email']);
+
+  errors.push(...addressCalculateErrors(tenant.permanentMailingAddress, 'permanentMailingAddress'));
 
   return errors;
 }

@@ -78,8 +78,8 @@ namespace x10.model.libraries {
       },
       new ModelAttributeDefinitionAtomic() {
         Name = APPLICABLE_WHEN,
-        Description = "A formula for when this Member or Enum Value is applicable. If not applicable, it will be hidden in the UI.",
-        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType |
+        Description = "A formula for when this Member, Enum Value or Validation is applicable. If not applicable, it will be hidden in the UI.",
+        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumValue | 
           AppliesTo.Validation,
         DataType = DataTypes.Singleton.Boolean,
         MustBeFormula = true,

@@ -65,6 +65,12 @@ namespace x10.gen.react {
         NameUtils.Capitalize(attribute.Name);
     }
 
+    internal static string WhenApplicableFuncName(Member member) {
+      return member.ApplicableWhen == null ?
+        null :
+        DerivedAttrFuncName(member.ApplicableWhen);
+    }
+
     internal static string CreateDefaultFuncName(Entity model) {
       return "createDefault" + model.Name;
     }

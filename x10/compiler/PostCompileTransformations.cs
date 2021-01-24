@@ -29,13 +29,16 @@ namespace x10.compiler {
       // APPLICABLE_WHEN
       // Add Derived Attribute to Entity 
       ModelAttributeValue applicableWhen = member.FindAttribute(BaseLibrary.APPLICABLE_WHEN);
-      if (applicableWhen != null)
-        member.Owner.LocalMembers.Add(new X10DerivedAttribute() {
+      if (applicableWhen != null) {
+        X10DerivedAttribute derivedAttr = new X10DerivedAttribute() {
           Name = ApplicableWhenPropertyName(member),
           Expression = applicableWhen.Expression,
           DataType = DataTypes.Singleton.Boolean,
           Owner = member.Owner,
-        });
+        };
+        member.Owner.LocalMembers.Add(derivedAttr);
+        member.ApplicableWhen = derivedAttr;
+      }
     }
 
     private static void PostCompile(Instance instance) {

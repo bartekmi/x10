@@ -11,6 +11,10 @@ namespace x10.model.definition {
     public string UiName { get; internal set; }
     public ClassDef Ui { get; internal set; }
 
+    // If this member has an applicable-when property (See APPLICABLE_WHEN in BaseLibrary),
+    // this property points to the auto-generated derived attribute which defines the condition
+    public X10DerivedAttribute ApplicableWhen {get; internal set; }
+
     // Derived
     public bool IsNonOwnedAssociation => this is Association assoc && !assoc.Owns;
 

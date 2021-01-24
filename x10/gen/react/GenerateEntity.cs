@@ -216,7 +216,7 @@ namespace x10.gen.react {
       WriteLine();
 
       GenerateValidationsMandatory(entity);
-      GenerateValidationsAssociations(entity);
+      GenerateValidationsOwnedAssociations(entity);
       GenerateValidationsExplicit(entity);
 
       WriteLine();
@@ -253,8 +253,29 @@ namespace x10.gen.react {
         throw new NotImplementedException("Unknown member type");
     }
 
-    private void GenerateValidationsAssociations(Entity entity) {
-      // TODO: See WpfCodeGeneration:536
+    private void GenerateValidationsOwnedAssociations(Entity entity) {
+      IEnumerable<Association> ownedAssociations = entity.Associations.Where(x => x.Owns && !x.IsMany);
+      if (ownedAssociations.Any()) {
+        WriteLine();
+        foreach (Association association in ownedAssociations) {
+          string varName = VariableName(entity);
+          bool applicableWhen = GenerateApplicableWhen(association, varName);
+          WriteLine(1 + (applicableWhen ? 1 : 0), "errors.push(...{0}({1}.{2}, '{2}'));", 
+            CalculateErrorsFuncName(association.ReferencedEntity),
+            varName,
+            association.Name);
+          ImportsPlaceholder.ImportCalculateErrorsFunc(association.ReferencedEntity);
+        }
+      }
+    }
+
+    private bool GenerateApplicableWhen(Member member, string varName) {
+      string whenApplicable = WhenApplicableFuncName(member);
+      if (whenApplicable != null) {
+        WriteLine(1, "if ({0}({1}))", whenApplicable, varName);
+        return true;
+      }
+      return false;
     }
 
     private void GenerateValidationsExplicit(Entity entity) {

@@ -3,7 +3,7 @@
 
 
 import { AppContext } from 'AppContext';
-import { createDefaultAddress, type Address } from 'entities/Address';
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
 import { type Unit } from 'entities/Unit';
 import * as React from 'react';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
@@ -117,6 +117,10 @@ export function buildingCalculateErrors(building: Building, prefix?: string): $R
     addError(errors, prefix, 'Date Of Occupancy is required', ['dateOfOccupancy']);
   if (isBlank(building.mailboxType))
     addError(errors, prefix, 'Mailbox Type is required', ['mailboxType']);
+
+  errors.push(...addressCalculateErrors(building.physicalAddress, 'physicalAddress'));
+  if (buildingApplicableWhenForMailingAddress(building))
+    errors.push(...addressCalculateErrors(building.mailingAddress, 'mailingAddress'));
 
   if (toNum(building.dateOfOccupancy) > toNum(appContext?.today))
     addError(errors, prefix, 'Occupancy date cannot be in the future', ['dateOfOccupancy']);
