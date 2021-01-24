@@ -2,9 +2,9 @@
   <VerticalStackPanel>
     <Menu>
       <MenuItem label="All Buildings" url="/buildings"/>
-      <MenuItem label="Create New Building" url="/buildings/new"/>
+      <MenuItem label="New Building" url="/buildings/new"/>
       <MenuItem label="All Tenants" url="/tenants"/>
-      <MenuItem label="Create New Tenant" url="/tenants/new"/>
+      <MenuItem label="New Tenant" url="/tenants/new"/>
       <MenuItem label="All Moves" url="/moves"/>
       <MenuItem label="New Move" url="/moves/new"/>
     </Menu>

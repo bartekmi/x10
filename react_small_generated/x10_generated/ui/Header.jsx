@@ -30,7 +30,7 @@ export default function Header(props: Props): React.Node {
           href='/buildings'
         />
         <MenuItem
-          label='Create New Building'
+          label='New Building'
           href='/buildings/new'
         />
         <MenuItem
@@ -38,7 +38,7 @@ export default function Header(props: Props): React.Node {
           href='/tenants'
         />
         <MenuItem
-          label='Create New Tenant'
+          label='New Tenant'
           href='/tenants/new'
         />
         <MenuItem
