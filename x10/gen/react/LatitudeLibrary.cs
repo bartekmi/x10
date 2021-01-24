@@ -513,6 +513,28 @@ namespace x10.gen.react {
 
       #region Misc
       new PlatformClassDef() {
+        LogicalName = "AssociationEditor",
+        PlatformName = "AssociationEditor",
+        ImportDir = "react_lib/multi",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            PlatformName = "value",
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "query",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "query={ graphql`");
+                generator.WriteLine(indent, "` }");
+              });
+            },
+          },
+        },
+      },
+
+      new PlatformClassDef() {
         LogicalName = "HelpIcon",
         PlatformName = "HelpTooltip",
         PlatformAttributes = new List<PlatformAttribute>() {
@@ -522,6 +544,7 @@ namespace x10.gen.react {
           },
         },
       },
+
       new JavaScriptPlatformClassDef() {
         LogicalName = "SpaContent",
         PlatformName = "SpaContent",

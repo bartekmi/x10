@@ -13,6 +13,10 @@ namespace Small.Entities {
     [GraphQLNonNullType]
     public string? Email { get; set; }
 
+    // Derived
+    [GraphQLNonNullType]
+    public string? ToStringRepresentation => Name;
+
     // Associations
     [GraphQLNonNullType]
     public Address? PermanentMailingAddress { get; set; }

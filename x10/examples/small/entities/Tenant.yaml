@@ -16,3 +16,4 @@ associations:
   - name: permanentMailingAddress
     dataType: Address
     mandatory: true
+    owns: true

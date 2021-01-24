@@ -9,5 +9,3 @@ attributes:
     mandatory: true
     readOnly: true
     idAttribute: true
-
-

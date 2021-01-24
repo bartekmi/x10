@@ -45,6 +45,10 @@ export default function Header(props: Props): React.Node {
           label='All Moves'
           href='/moves'
         />
+        <MenuItem
+          label='New Moves'
+          href='/moves/new'
+        />
       </Menu>
       <SpaContent
         rootComponent={ BuildingsInterface }

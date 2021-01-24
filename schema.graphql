@@ -22,6 +22,7 @@ type Building {
   mailboxType: MailboxTypeEnum!
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
+  toStringRepresentation: String!
   units: [Unit!]!
   physicalAddress: Address!
   mailingAddress: Address
@@ -114,6 +115,7 @@ type Tenant {
   name: String!
   phone: String!
   email: String!
+  toStringRepresentation: String!
   permanentMailingAddress: Address!
   id: String!
   dbid: Int!
@@ -316,6 +318,16 @@ input BuildingFilter {
   petPolicy_not_lte: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean
   mailingAddressSameAsPhysical_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
   units_some: UnitFilter
   units_none: UnitFilter
   units_all: UnitFilter
@@ -355,6 +367,7 @@ input BuildingSort {
   mailboxType: SortOperationKind
   petPolicy: SortOperationKind
   mailingAddressSameAsPhysical: SortOperationKind
+  toStringRepresentation: SortOperationKind
   physicalAddress: AddressSort
   mailingAddress: AddressSort
   id: SortOperationKind
@@ -445,6 +458,16 @@ input TenantFilter {
   email_not_ends_with: String
   email_in: [String!]
   email_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
   permanentMailingAddress: AddressFilter
   id: String
   id_not: String
@@ -474,6 +497,7 @@ input TenantSort {
   name: SortOperationKind
   phone: SortOperationKind
   email: SortOperationKind
+  toStringRepresentation: SortOperationKind
   permanentMailingAddress: AddressSort
   id: SortOperationKind
   dbid: SortOperationKind

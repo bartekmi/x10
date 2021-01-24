@@ -8,12 +8,9 @@
         <from.name label="From"/>
         <to.name label="From"/>
         <tenant.name label="Tenant"/>
-        <!-- <TableColumn label="Action">
-          <Row>
-            <Button label="View" /> 
-            <Button label="Edit" url="='/moves/edit/' + id"/>
-          </Row>
-        </TableColumn> -->
+        <TableColumn label="Action">
+          <Button label="Edit" url="='/moves/edit/' + id"/>
+        </TableColumn>
       </Table.Columns>
     </Table>
   </VerticalStackPanel>

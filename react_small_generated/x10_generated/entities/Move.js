@@ -2,8 +2,8 @@
 // @flow
 
 
-import { createDefaultBuilding, type Building } from 'entities/Building';
-import { createDefaultTenant, type Tenant } from 'entities/Tenant';
+import { createDefaultBuilding } from 'entities/Building';
+import { createDefaultTenant } from 'entities/Tenant';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
@@ -12,9 +12,10 @@ import { v4 as uuid } from 'uuid';
 export type Move = {
   +id: string,
   +date: ?string,
-  +from: Building,
-  +to: Building,
-  +tenant: Tenant,
+  +from: ?string,
+  +to: ?string,
+  +from: ?string,
+  +tenant: ?string,
 };
 
 
@@ -24,9 +25,9 @@ export function createDefaultMove(): Move {
     id: uuid(),
     // $FlowExpectedError Required field, but no default value
     date: null,
-    from: createDefaultBuilding(),
-    to: createDefaultBuilding(),
-    tenant: createDefaultTenant(),
+    from: null,
+    to: null,
+    tenant: null,
   };
 }
 

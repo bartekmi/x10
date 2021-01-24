@@ -6,6 +6,7 @@
       <MenuItem label="All Tenants" url="/tenants"/>
       <MenuItem label="Create New Tenant" url="/tenants/new"/>
       <MenuItem label="All Moves" url="/moves"/>
+      <MenuItem label="New Moves" url="/moves/new"/>
     </Menu>
     <SpaContent rootComponent="Buildings"/>
   </VerticalStackPanel>

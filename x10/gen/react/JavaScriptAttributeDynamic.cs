@@ -6,10 +6,15 @@ using System.Linq;
 using x10.formula;
 using x10.ui.platform;
 using x10.ui.composition;
-using x10.ui.metadata;
 using x10.model.definition;
 
 namespace x10.gen.react {
+  // Use this type of attribute to convert attributes from the logical representation
+  // into the platform-specific representation.
+  // The following situations are taken care of by this attribute type:
+  // 1. Default binding attribute
+  // 2. Pass-through with no modification (both complex and atomic)
+  // 3. Translation of lagical formula into platform-specific formula
   public class JavaScriptAttributeDynamic : PlatformAttributeDynamic {
 
     public JavaScriptAttributeDynamic() { }

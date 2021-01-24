@@ -77,7 +77,11 @@ namespace x10.gen.react {
     }
 
     public void ImportType(Entity model) {
-      ImportType(model.Name, model.TreeElement.FileInfo.RelativePathNoExtension);
+      ImportType(model.Name, model);
+    }
+
+    public void ImportType(string type, IAcceptsModelAttributeValues entity) {
+      ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension);
     }
 
     public void ImportCreateDefaultFunc(Entity model) {
@@ -100,10 +104,6 @@ namespace x10.gen.react {
         Path = "react",
         IsDefault = true,
       });
-    }
-
-    public void ImportType(string type, IAcceptsModelAttributeValues entity) {
-      ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension);
     }
 
     public void ImportFunction(Function function) {

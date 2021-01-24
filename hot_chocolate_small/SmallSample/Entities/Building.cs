@@ -36,6 +36,10 @@ namespace Small.Entities {
     public PetPolicyEnum? PetPolicy { get; set; }
     public bool MailingAddressSameAsPhysical { get; set; }
 
+    // Derived
+    [GraphQLNonNullType]
+    public string? ToStringRepresentation => Name;
+
     // Associations
     [GraphQLNonNullType]
     public List<Unit>? Units { get; set; }

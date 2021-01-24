@@ -43,13 +43,9 @@ namespace x10.gen.react {
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
-        } else {
+        } else
           WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
-          if (member is Association association) {
-            Entity entity = association.ReferencedEntity;
-            ImportsPlaceholder.ImportType(entity.Name, entity);
-          }
-        }
+
       WriteLine(0, "};");
       WriteLine();
       WriteLine();
@@ -299,15 +295,25 @@ namespace x10.gen.react {
 
     private string GetType(Member member) {
       if (member is Association association) {
-        string refedEntityName = association.ReferencedEntity.Name;
-        if (association.IsMany)
-          return string.Format("$ReadOnlyArray<{0}>", refedEntityName);
-        else
-          // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
-          // are filled with default values when processing the GraphQL results. This ensures
-          // that we have default data if the users tarts to edit such entities which previously
-          // have been hidden.
-          return refedEntityName;
+        Entity refedEntity = association.ReferencedEntity;
+
+        if (association.Owns) {
+          ImportsPlaceholder.ImportType(refedEntity);
+
+          if (association.IsMany)
+            return string.Format("$ReadOnlyArray<{0}>", refedEntity.Name);
+          else
+            // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
+            // are filled with default values when processing the GraphQL results. This ensures
+            // that we have default data if the users tarts to edit such entities which previously
+            // have been hidden.
+            return refedEntity.Name;
+        } else {
+          if (association.IsMany)
+            throw new NotImplementedException("Non-owned 'many' association should be blocked during compilation");
+          string optionalIndicator = association.IsMandatory ? "" : "?";
+          return optionalIndicator + "String";   // Relay ID
+        }
       } else if (member is X10Attribute attribute) {
         string optionalIndicator = IsMandatory(attribute) ? "" : "?";
         return optionalIndicator + GetAtomicFlowType(attribute.DataType);

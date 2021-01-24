@@ -8,6 +8,7 @@ import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 import * as React from 'react';
+import Button from 'react_lib/Button';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
@@ -55,6 +56,17 @@ function Moves(props: Props): React.Node {
                 header: 'Tenant',
                 width: 140,
               },
+              {
+                id: 'Action',
+                render: (data) =>
+                  <Button
+                    label='Edit'
+                    url={ '/moves/edit/' + data.id }
+                  />
+                ,
+                header: 'Action',
+                width: 140,
+              },
             ]
           }
         />
@@ -73,6 +85,7 @@ export default createFragmentContainer(Moves, {
         id
         name
       }
+      id
       tenant {
         id
         name
