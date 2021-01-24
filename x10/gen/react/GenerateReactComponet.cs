@@ -231,21 +231,22 @@ namespace x10.gen.react {
 
     #region Generate Relay To Internal
     private void GenerateFormRelayToInternal(Entity model) {
-      IEnumerable<Association> nullableAssociations = model.Associations
-        .Where(x => !(x.IsMandatory || x.IsMany));
-
       WriteLine(0, "function relayToInternal(relay: any): {0} {", model.Name);
       WriteLine(1, "return {");
       WriteLine(2, "...relay,");
 
       // TODO... Not recursive at this time
-      foreach (Association association in nullableAssociations) {
-        Entity assocModel = association.ReferencedEntity;
-        WriteLine(2, "{0}: relay.{0} || {1}(),",
-          association.Name,
-          ReactCodeGenerator.CreateDefaultFuncName(assocModel));
+      foreach (Association association in model.Associations) {
+        bool isNullable = !association.IsMandatory && !association.IsMany;
+        if (isNullable) {
+          Entity assocModel = association.ReferencedEntity;
+          WriteLine(2, "{0}: relay.{0} || {1}(),",
+            association.Name,
+            ReactCodeGenerator.CreateDefaultFuncName(assocModel));
 
-        ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
+        } else if (!association.Owns)
+          WriteLine(2, "{0}: relay.{0}.id,", association.Name);
       }
 
       WriteLine(1, "};");
@@ -354,11 +355,11 @@ namespace x10.gen.react {
       WriteLine(2, "createOrUpdate{0}(", model.Name);
 
       foreach (Member member in model.Members)
-        if (IncludeInMutation(member)) 
-          WriteLine(3, "{0}{1}: ${0}", 
+        if (IncludeInMutation(member))
+          WriteLine(3, "{0}{1}: ${0}",
             member.Name,
             member.IsNonOwnedAssociation ? "Id" : "");
-        
+
 
       WriteLine(2, ")");
       WriteLine(1, "}");
