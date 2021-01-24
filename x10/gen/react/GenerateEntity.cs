@@ -226,25 +226,31 @@ namespace x10.gen.react {
     }
 
     private void GenerateValidationsMandatory(Entity entity) {
-      foreach (X10RegularAttribute attr in entity.RegularAttributes) {
+      foreach (Member member in entity.Members) {
         string varName = VariableName(entity);
-        string humanName = NameUtils.CamelCaseToHumanReadable(attr.Name);
-        bool canBeEmpty = CanBeEmpty(attr.DataType);
+        string humanName = NameUtils.CamelCaseToHumanReadable(member.Name);
+        bool canBeEmpty = CanBeEmpty(member);
 
         ImportsPlaceholder.ImportFunction(HelperFunctions.IsBlank);
         ImportsPlaceholder.Import("addError", "react_lib/form/FormProvider");
 
-        if (!attr.IsReadOnly && canBeEmpty && attr.IsMandatory) {
-          WriteLine(1, "if (isBlank({0}.{1}))", varName, attr.Name);
-          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}']);", humanName, attr.Name);
+        if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
+          WriteLine(1, "if (isBlank({0}.{1}))", varName, member.Name);
+          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}']);", humanName, member.Name);
         }
       }
     }
 
-    private bool CanBeEmpty(DataType dataType) {
-      // List the data-types that can never be empty on a UI
-      if (dataType == DataTypes.Singleton.Boolean) return false;
-      return true;
+    private bool CanBeEmpty(Member member) {
+      if (member is X10Attribute attr) {
+        // List the data-types that can never be empty on a UI
+        DataType dataType = attr.DataType;
+        if (dataType == DataTypes.Singleton.Boolean) return false;
+        return true;
+      } else if (member is Association association) {
+        return !association.Owns;
+      } else
+        throw new NotImplementedException("Unknown member type");
     }
 
     private void GenerateValidationsAssociations(Entity entity) {

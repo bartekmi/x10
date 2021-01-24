@@ -35,6 +35,12 @@ export function moveCalculateErrors(move: Move, prefix?: string): $ReadOnlyArray
 
   if (isBlank(move.date))
     addError(errors, prefix, 'Date is required', ['date']);
+  if (isBlank(move.from))
+    addError(errors, prefix, 'From is required', ['from']);
+  if (isBlank(move.to))
+    addError(errors, prefix, 'To is required', ['to']);
+  if (isBlank(move.tenant))
+    addError(errors, prefix, 'Tenant is required', ['tenant']);
 
   return errors;
 }
