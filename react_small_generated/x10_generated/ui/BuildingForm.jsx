@@ -374,7 +374,8 @@ type StatefulProps = {|
   +building: Building,
 |};
 export function BuildingFormStateful(props: StatefulProps): React.Node {
-  const [editedBuilding, setEditedBuilding] = React.useState(props.building);
+  const building = relayToInternal(props.building);
+  const [editedBuilding, setEditedBuilding] = React.useState(building);
   return <BuildingForm
     building={ editedBuilding }
     onChange={ setEditedBuilding }
