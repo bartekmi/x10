@@ -36,335 +36,339 @@ function BuildingForm(props: Props): React.Node {
     <FormProvider
       value={ { errors: buildingCalculateErrors(building) } }
     >
-      <Text
-        scale='display'
-        children={ 'Editing Building in: ' + addressSecondAddressLine(building.physicalAddress) }
-      />
-      <Text
-        scale='display'
-        children={ 'Age in Years: ' + x10toString(buildingAgeInYears(building)) }
-      />
-      <Separator/>
-      <FormSection
-        label='Building Info'
+      <Group
+        flexDirection='column'
       >
-        <FormField
-          editorFor='moniker'
-          label='Moniker'
-        >
-          <TextInput
-            value={ building.moniker }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
-        </FormField>
-        <FormField
-          editorFor='name'
-          toolTip='A short and memorable name of the Building'
-          label='Name'
-          maxWidth={ 350 }
-        >
-          <TextInput
-            value={ building.name }
-            onChange={ (value) => {
-              onChange({ ...building, name: value })
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='description'
-          toolTip='Description for advertising purposes'
-          label='Description'
-        >
-          <TextareaInput
-            value={ building.description }
-            onChange={ (value) => {
-              onChange({ ...building, description: value })
-            } }
-            rows={ 3 }
-          />
-        </FormField>
-      </FormSection>
-      <FormSection
-        label='Physical Address'
-      >
-        <FormField
-          editorFor='physicalAddress.theAddress'
-          label='The Address'
-        >
-          <TextInput
-            value={ building.physicalAddress.theAddress }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(building));
-              newObj.physicalAddress.theAddress = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='physicalAddress.city'
-          label='City'
-          maxWidth={ 400 }
-        >
-          <TextInput
-            value={ building.physicalAddress.city }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(building));
-              newObj.physicalAddress.city = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='physicalAddress.stateOrProvince'
-          label='State Or Province'
-          maxWidth={ 250 }
-        >
-          <TextInput
-            value={ building.physicalAddress.stateOrProvince }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(building));
-              newObj.physicalAddress.stateOrProvince = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='physicalAddress.zip'
-          label='Zip or Postal Code'
-          maxWidth={ 150 }
-        >
-          <TextInput
-            value={ building.physicalAddress.zip }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(building));
-              newObj.physicalAddress.zip = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-      </FormSection>
-      <FormSection
-        label='Mailing Address'
-      >
-        <Checkbox
-          checked={ building.mailingAddressSameAsPhysical }
-          onChange={ (value) => {
-            onChange({ ...building, mailingAddressSameAsPhysical: value })
-          } }
-          label='Mailing Address Same as Physical Address'
+        <Text
+          scale='display'
+          children={ 'Editing Building in: ' + addressSecondAddressLine(building.physicalAddress) }
         />
-        <VisibilityControl
-          visible={ buildingApplicableWhenForMailingAddress(building) }
-        >
-          <Group
-            flexDirection='column'
-          >
-            <FormField
-              editorFor='mailingAddress.theAddress'
-              label='Address or Post Office (PO) Box'
-            >
-              <TextInput
-                value={ building.mailingAddress.theAddress }
-                onChange={ (value) => {
-                  let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.mailingAddress.theAddress = value;
-                  onChange(newObj);
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mailingAddress.city'
-              label='City'
-              maxWidth={ 400 }
-            >
-              <TextInput
-                value={ building.mailingAddress.city }
-                onChange={ (value) => {
-                  let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.mailingAddress.city = value;
-                  onChange(newObj);
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mailingAddress.stateOrProvince'
-              label='State Or Province'
-              maxWidth={ 250 }
-            >
-              <TextInput
-                value={ building.mailingAddress.stateOrProvince }
-                onChange={ (value) => {
-                  let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.mailingAddress.stateOrProvince = value;
-                  onChange(newObj);
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mailingAddress.zip'
-              label='Zip or Postal Code'
-              maxWidth={ 150 }
-            >
-              <TextInput
-                value={ building.mailingAddress.zip }
-                onChange={ (value) => {
-                  let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.mailingAddress.zip = value;
-                  onChange(newObj);
-                } }
-              />
-            </FormField>
-          </Group>
-        </VisibilityControl>
-      </FormSection>
-      <FormSection
-        label='Other Details'
-      >
-        <Group
-          gap={ 40 }
+        <Text
+          scale='display'
+          children={ 'Age in Years: ' + x10toString(buildingAgeInYears(building)) }
+        />
+        <Separator/>
+        <FormSection
+          label='Building Info'
         >
           <FormField
-            editorFor='dateOfOccupancy'
-            label='Date Of Occupancy'
+            editorFor='moniker'
+            label='Moniker'
           >
-            <X10_CalendarDateInput
-              value={ building.dateOfOccupancy }
-              onChange={ (value) => {
-                onChange({ ...building, dateOfOccupancy: value })
-              } }
-            />
-          </FormField>
-          <FormField
-            editorFor='ageInYears'
-            toolTip='Strongly affects annual propery maintenance costs.'
-            label='Age In Years'
-          >
-            <FloatInput
-              value={ buildingAgeInYears(building) }
+            <TextInput
+              value={ building.moniker }
               onChange={ () => { } }
               readOnly={ true }
             />
           </FormField>
-        </Group>
-        <FormField
-          editorFor='mailboxType'
-          label='Mailbox Type'
+          <FormField
+            editorFor='name'
+            toolTip='A short and memorable name of the Building'
+            label='Name'
+            maxWidth={ 350 }
+          >
+            <TextInput
+              value={ building.name }
+              onChange={ (value) => {
+                onChange({ ...building, name: value })
+              } }
+            />
+          </FormField>
+          <FormField
+            editorFor='description'
+            toolTip='Description for advertising purposes'
+            label='Description'
+          >
+            <TextareaInput
+              value={ building.description }
+              onChange={ (value) => {
+                onChange({ ...building, description: value })
+              } }
+              rows={ 3 }
+            />
+          </FormField>
+        </FormSection>
+        <FormSection
+          label='Physical Address'
         >
-          <SelectInput
-            value={ building.mailboxType }
-            onChange={ (value) => {
-              onChange({ ...building, mailboxType: value })
-            } }
-            options={ MailboxTypeEnumPairs }
-          />
-        </FormField>
-        <FormField
-          editorFor='petPolicy'
-          label='Pet Policy'
+          <FormField
+            editorFor='physicalAddress.theAddress'
+            label='The Address'
+          >
+            <TextInput
+              value={ building.physicalAddress.theAddress }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(building));
+                newObj.physicalAddress.theAddress = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+          <FormField
+            editorFor='physicalAddress.city'
+            label='City'
+            maxWidth={ 400 }
+          >
+            <TextInput
+              value={ building.physicalAddress.city }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(building));
+                newObj.physicalAddress.city = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+          <FormField
+            editorFor='physicalAddress.stateOrProvince'
+            label='State Or Province'
+            maxWidth={ 250 }
+          >
+            <TextInput
+              value={ building.physicalAddress.stateOrProvince }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(building));
+                newObj.physicalAddress.stateOrProvince = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+          <FormField
+            editorFor='physicalAddress.zip'
+            label='Zip or Postal Code'
+            maxWidth={ 150 }
+          >
+            <TextInput
+              value={ building.physicalAddress.zip }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(building));
+                newObj.physicalAddress.zip = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+        </FormSection>
+        <FormSection
+          label='Mailing Address'
         >
-          <SelectInput
-            value={ building.petPolicy }
+          <Checkbox
+            checked={ building.mailingAddressSameAsPhysical }
             onChange={ (value) => {
-              onChange({ ...building, petPolicy: value })
+              onChange({ ...building, mailingAddressSameAsPhysical: value })
             } }
-            options={ PetPolicyEnumPairs }
+            label='Mailing Address Same as Physical Address'
           />
-        </FormField>
-      </FormSection>
-      <FormSection
-        label='Units'
-      >
-        <MultiStacker
-          items={ building.units }
-          onChange={ (value) => {
-            onChange({ ...building, units: value })
-          } }
-          itemDisplayFunc={ (data, onChange) => (
+          <VisibilityControl
+            visible={ buildingApplicableWhenForMailingAddress(building) }
+          >
             <Group
               flexDirection='column'
             >
-              <Group>
-                <FormField
-                  editorFor='number'
-                  toolTip='Unit number corresponding to mailing address'
-                  label='Number'
-                >
-                  <TextInput
-                    value={ data.number }
-                    onChange={ (value) => {
-                      onChange({ ...data, number: value })
-                    } }
-                  />
-                </FormField>
-                <FormField
-                  editorFor='squareFeet'
-                  label='Square Feet'
-                >
-                  <FloatInput
-                    value={ data.squareFeet }
-                    onChange={ (value) => {
-                      onChange({ ...data, squareFeet: value })
-                    } }
-                    decimalPrecision={ 0 }
-                  />
-                </FormField>
-                <FormField
-                  editorFor='hasBalcony'
-                  label='Unit has Blacony?'
-                >
-                  <Checkbox
-                    checked={ data.hasBalcony }
-                    onChange={ (value) => {
-                      onChange({ ...data, hasBalcony: value })
-                    } }
-                  />
-                </FormField>
-              </Group>
-              <Group>
-                <FormField
-                  editorFor='numberOfBedrooms'
-                  label='Number Of Bedrooms'
-                >
-                  <FloatInput
-                    value={ data.numberOfBedrooms }
-                    onChange={ (value) => {
-                      onChange({ ...data, numberOfBedrooms: value })
-                    } }
-                  />
-                </FormField>
-                <FormField
-                  editorFor='numberOfBathrooms'
-                  label='Number Of Bathrooms'
-                >
-                  <SelectInput
-                    value={ data.numberOfBathrooms }
-                    onChange={ (value) => {
-                      onChange({ ...data, numberOfBathrooms: value })
-                    } }
-                    options={ NumberOfBathroomsEnumPairs }
-                  />
-                </FormField>
-              </Group>
+              <FormField
+                editorFor='mailingAddress.theAddress'
+                label='Address or Post Office (PO) Box'
+              >
+                <TextInput
+                  value={ building.mailingAddress.theAddress }
+                  onChange={ (value) => {
+                    let newObj = JSON.parse(JSON.stringify(building));
+                    newObj.mailingAddress.theAddress = value;
+                    onChange(newObj);
+                  } }
+                />
+              </FormField>
+              <FormField
+                editorFor='mailingAddress.city'
+                label='City'
+                maxWidth={ 400 }
+              >
+                <TextInput
+                  value={ building.mailingAddress.city }
+                  onChange={ (value) => {
+                    let newObj = JSON.parse(JSON.stringify(building));
+                    newObj.mailingAddress.city = value;
+                    onChange(newObj);
+                  } }
+                />
+              </FormField>
+              <FormField
+                editorFor='mailingAddress.stateOrProvince'
+                label='State Or Province'
+                maxWidth={ 250 }
+              >
+                <TextInput
+                  value={ building.mailingAddress.stateOrProvince }
+                  onChange={ (value) => {
+                    let newObj = JSON.parse(JSON.stringify(building));
+                    newObj.mailingAddress.stateOrProvince = value;
+                    onChange(newObj);
+                  } }
+                />
+              </FormField>
+              <FormField
+                editorFor='mailingAddress.zip'
+                label='Zip or Postal Code'
+                maxWidth={ 150 }
+              >
+                <TextInput
+                  value={ building.mailingAddress.zip }
+                  onChange={ (value) => {
+                    let newObj = JSON.parse(JSON.stringify(building));
+                    newObj.mailingAddress.zip = value;
+                    onChange(newObj);
+                  } }
+                />
+              </FormField>
             </Group>
-          ) }
-          addNewItem={ createDefaultUnit }
-        />
-      </FormSection>
-      <Group
-        justifyContent='space-between'
-      >
-        <Text
-          children='* Required'
-        />
-        <FormSubmitButton
-          onClick={ () => save(building) }
-          action={
-            {
-              successUrl: '/buildings',
+          </VisibilityControl>
+        </FormSection>
+        <FormSection
+          label='Other Details'
+        >
+          <Group
+            gap={ 40 }
+          >
+            <FormField
+              editorFor='dateOfOccupancy'
+              label='Date Of Occupancy'
+            >
+              <X10_CalendarDateInput
+                value={ building.dateOfOccupancy }
+                onChange={ (value) => {
+                  onChange({ ...building, dateOfOccupancy: value })
+                } }
+              />
+            </FormField>
+            <FormField
+              editorFor='ageInYears'
+              toolTip='Strongly affects annual propery maintenance costs.'
+              label='Age In Years'
+            >
+              <FloatInput
+                value={ buildingAgeInYears(building) }
+                onChange={ () => { } }
+                readOnly={ true }
+              />
+            </FormField>
+          </Group>
+          <FormField
+            editorFor='mailboxType'
+            label='Mailbox Type'
+          >
+            <SelectInput
+              value={ building.mailboxType }
+              onChange={ (value) => {
+                onChange({ ...building, mailboxType: value })
+              } }
+              options={ MailboxTypeEnumPairs }
+            />
+          </FormField>
+          <FormField
+            editorFor='petPolicy'
+            label='Pet Policy'
+          >
+            <SelectInput
+              value={ building.petPolicy }
+              onChange={ (value) => {
+                onChange({ ...building, petPolicy: value })
+              } }
+              options={ PetPolicyEnumPairs }
+            />
+          </FormField>
+        </FormSection>
+        <FormSection
+          label='Units'
+        >
+          <MultiStacker
+            items={ building.units }
+            onChange={ (value) => {
+              onChange({ ...building, units: value })
+            } }
+            itemDisplayFunc={ (data, onChange) => (
+              <Group
+                flexDirection='column'
+              >
+                <Group>
+                  <FormField
+                    editorFor='number'
+                    toolTip='Unit number corresponding to mailing address'
+                    label='Number'
+                  >
+                    <TextInput
+                      value={ data.number }
+                      onChange={ (value) => {
+                        onChange({ ...data, number: value })
+                      } }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='squareFeet'
+                    label='Square Feet'
+                  >
+                    <FloatInput
+                      value={ data.squareFeet }
+                      onChange={ (value) => {
+                        onChange({ ...data, squareFeet: value })
+                      } }
+                      decimalPrecision={ 0 }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='hasBalcony'
+                    label='Unit has Blacony?'
+                  >
+                    <Checkbox
+                      checked={ data.hasBalcony }
+                      onChange={ (value) => {
+                        onChange({ ...data, hasBalcony: value })
+                      } }
+                    />
+                  </FormField>
+                </Group>
+                <Group>
+                  <FormField
+                    editorFor='numberOfBedrooms'
+                    label='Number Of Bedrooms'
+                  >
+                    <FloatInput
+                      value={ data.numberOfBedrooms }
+                      onChange={ (value) => {
+                        onChange({ ...data, numberOfBedrooms: value })
+                      } }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='numberOfBathrooms'
+                    label='Number Of Bathrooms'
+                  >
+                    <SelectInput
+                      value={ data.numberOfBathrooms }
+                      onChange={ (value) => {
+                        onChange({ ...data, numberOfBathrooms: value })
+                      } }
+                      options={ NumberOfBathroomsEnumPairs }
+                    />
+                  </FormField>
+                </Group>
+              </Group>
+            ) }
+            addNewItem={ createDefaultUnit }
+          />
+        </FormSection>
+        <Group
+          justifyContent='space-between'
+        >
+          <Text
+            children='* Required'
+          />
+          <FormSubmitButton
+            onClick={ () => save(building) }
+            action={
+              {
+                successUrl: '/buildings',
+              }
             }
-          }
-        />
+          />
+        </Group>
       </Group>
     </FormProvider>
   );

@@ -1,63 +1,65 @@
 <BuildingForm model="Building" url="/buildings" query="GetBuilding(buildingId: $buildingId">
   <Form>
-    <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
-    <Heading1 text='="Age in Years: " + ageInYears'/>
-    <HorizontalDivider/>
-    <FormSection label="Building Info">
-      <moniker/>
-      <name/>
-      <description/>
-    </FormSection>
+    <VerticalStackPanel>
+      <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
+      <Heading1 text='="Age in Years: " + ageInYears'/>
+      <HorizontalDivider/>
+      <FormSection label="Building Info">
+        <moniker/>
+        <name/>
+        <description/>
+      </FormSection>
 
-    <FormSection path="physicalAddress" label="Physical Address">
-      <theAddress/>
-      <city/>
-      <stateOrProvince/>
-      <zip/>
-    </FormSection>
-
-    <FormSection label="Mailing Address">
-      <Checkbox path="mailingAddressSameAsPhysical" checkboxLabel="Mailing Address Same as Physical Address"/> 
-      <VerticalStackPanel path="mailingAddress" id="break">
-        <theAddress label="Address or Post Office (PO) Box"/>
+      <FormSection path="physicalAddress" label="Physical Address">
+        <theAddress/>
         <city/>
         <stateOrProvince/>
         <zip/>
-      </VerticalStackPanel>
-    </FormSection>
+      </FormSection>
 
-    <FormSection label="Other Details">
-      <FormRow>
-        <dateOfOccupancy/>
-        <ageInYears/>
-      </FormRow>
-      <mailboxType/>
-      <petPolicy/>
-    </FormSection>
-
-    <FormSection label="Units">
-      <List path="units" addItemLabel="Add Unit">
-        <VerticalStackPanel>
-          <Row>
-            <number/>
-            <squareFeet/>
-            <hasBalcony label="Unit has Blacony?"/>
-          </Row>
-          <Row>
-            <numberOfBedrooms/>
-            <numberOfBathrooms/>
-          </Row>
+      <FormSection label="Mailing Address">
+        <Checkbox path="mailingAddressSameAsPhysical" checkboxLabel="Mailing Address Same as Physical Address"/> 
+        <VerticalStackPanel path="mailingAddress" id="break">
+          <theAddress label="Address or Post Office (PO) Box"/>
+          <city/>
+          <stateOrProvince/>
+          <zip/>
         </VerticalStackPanel>
-      </List>
-    </FormSection>
+      </FormSection>
 
-    <RepellingRow>
-      <Text>* Required</Text>
-      <SubmitButton label="Save">
-        <SubmitButton.Action>
-          <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
-        </SubmitButton.Action>
-      </SubmitButton>
-    </RepellingRow>
+      <FormSection label="Other Details">
+        <FormRow>
+          <dateOfOccupancy/>
+          <ageInYears/>
+        </FormRow>
+        <mailboxType/>
+        <petPolicy/>
+      </FormSection>
+
+      <FormSection label="Units">
+        <List path="units" addItemLabel="Add Unit">
+          <VerticalStackPanel>
+            <Row>
+              <number/>
+              <squareFeet/>
+              <hasBalcony label="Unit has Blacony?"/>
+            </Row>
+            <Row>
+              <numberOfBedrooms/>
+              <numberOfBathrooms/>
+            </Row>
+          </VerticalStackPanel>
+        </List>
+      </FormSection>
+
+      <RepellingRow>
+        <Text>* Required</Text>
+        <SubmitButton label="Save">
+          <SubmitButton.Action>
+            <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
+          </SubmitButton.Action>
+        </SubmitButton>
+      </RepellingRow>
+    </VerticalStackPanel>
   </Form>
 </BuildingForm>
