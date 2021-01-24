@@ -53,8 +53,8 @@ export default function Header(props: Props): React.Node {
       <SpaContent
         rootComponent={ BuildingsInterface }
       >
-        <Route exact path='/tenants/edit/:id' component={ MoveFormInterface } />
-        <Route exact path='/tenants/new' component={ MoveFormInterface } />
+        <Route exact path='/moves/edit/:id' component={ MoveFormInterface } />
+        <Route exact path='/moves/new' component={ MoveFormInterface } />
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/moves' component={ MovesInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />

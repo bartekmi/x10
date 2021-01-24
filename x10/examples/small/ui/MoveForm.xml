@@ -1,4 +1,4 @@
-<MoveForm model="Move" url="/tenants" query="GetMove(tenantId: $tenantId">
+<MoveForm model="Move" url="/moves" query="GetMove(tenantId: $tenantId">
   <Form>
     <Heading1>New Move</Heading1>
     <HorizontalDivider/>
