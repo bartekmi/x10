@@ -82,10 +82,13 @@ namespace x10.gen.react {
         if (association.IsMany)
           return "[]";
         else {
-          Entity entity = association.ReferencedEntity;
-          string funcName = "createDefault" + entity.Name;
-          importsPlaceholder.Import(funcName, entity);
-          return funcName + "()";
+          if (association.Owns) {
+            Entity entity = association.ReferencedEntity;
+            string funcName = "createDefault" + entity.Name;
+            importsPlaceholder.Import(funcName, entity);
+            return funcName + "()";
+          } else
+            return "null";
         }
       } else if (member is X10RegularAttribute attribute) {
         if (attribute.IsId) {
@@ -100,7 +103,7 @@ namespace x10.gen.react {
           if (dataType == DataTypes.Singleton.Boolean) return "false";
           if (dataType == DataTypes.Singleton.String) return "''";
         } else
-          return TypedLiteralToString(defaultValue, dataType as DataTypeEnum);
+          return TypedLiteralToString(defaultValue, dataType as DataTypeEnum, false);
       }
 
       return null;
@@ -311,8 +314,8 @@ namespace x10.gen.react {
         } else {
           if (association.IsMany)
             throw new NotImplementedException("Non-owned 'many' association should be blocked during compilation");
-          string optionalIndicator = association.IsMandatory ? "" : "?";
-          return optionalIndicator + "String";   // Relay ID
+          // Always generate optional - even if mandatory, will not be filled in initially
+          return "?string";   // Relay ID
         }
       } else if (member is X10Attribute attribute) {
         string optionalIndicator = IsMandatory(attribute) ? "" : "?";

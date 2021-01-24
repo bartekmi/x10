@@ -13,7 +13,7 @@ type Props = {|
   +id: ?string,  // This should be the relay id of an object
   +query: any,
   +toString: any => string,
-  +onChange: (string | null) => void,
+  +onChange: (?string) => void,
   +isNullable: boolean,
 |};
 export default function AssociationEditor(props: Props): React.Node {

@@ -46,7 +46,7 @@ export default function Header(props: Props): React.Node {
           href='/moves'
         />
         <MenuItem
-          label='New Moves'
+          label='New Move'
           href='/moves/new'
         />
       </Menu>

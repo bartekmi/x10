@@ -13,7 +13,6 @@ import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
-import invariant from 'latitude/tools/invariant';
 
 
 type Props = {|
@@ -50,7 +49,6 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.from }
           onChange={ (value) => {
-            invariant(value, "UI configured not to allow nulls");
             onChange({ ...move, from: value })
           } }
           isNullable={ false }
@@ -65,7 +63,6 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.to }
           onChange={ (value) => {
-            invariant(value, "UI configured not to allow nulls");
             onChange({ ...move, to: value })
           } }
           isNullable={ false }
@@ -80,7 +77,6 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.tenant }
           onChange={ (value) => {
-            invariant(value, "UI configured not to allow nulls");
             onChange({ ...move, tenant: value })
           } }
           isNullable={ false }
@@ -162,22 +158,19 @@ export default createFragmentContainer(MoveFormStateful, {
       date
       from {
         id
-        toStringRepresentation
       }
       tenant {
         id
-        toStringRepresentation
       }
       to {
         id
-        toStringRepresentation
       }
     }
   `,
 });
 
 const buildingsQuery = graphql`
-  query MoveForm_BuildingsQuery {
+  query MoveForm_buildingsQuery {
     entities: buildings {
       nodes {
         id
@@ -188,7 +181,7 @@ const buildingsQuery = graphql`
 `;
 
 const tenantsQuery = graphql`
-  query MoveForm_TenantsQuery {
+  query MoveForm_tenantsQuery {
     entities: tenants {
       nodes {
         id

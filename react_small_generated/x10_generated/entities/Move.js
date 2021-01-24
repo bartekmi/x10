@@ -2,8 +2,6 @@
 // @flow
 
 
-import { createDefaultBuilding } from 'entities/Building';
-import { createDefaultTenant } from 'entities/Tenant';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import { v4 as uuid } from 'uuid';
@@ -14,7 +12,6 @@ export type Move = {
   +date: ?string,
   +from: ?string,
   +to: ?string,
-  +from: ?string,
   +tenant: ?string,
 };
 

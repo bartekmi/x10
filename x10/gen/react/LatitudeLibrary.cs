@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.parsing;
-using x10.gen.wpf.codelet;
 using x10.model.definition;
-
 using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
 using x10.model.metadata;
-
 
 namespace x10.gen.react {
   internal class LatitudeLibrary {
@@ -519,17 +515,27 @@ namespace x10.gen.react {
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
-            PlatformName = "value",
+            PlatformName = "id",
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "isNullable",
+            Function = (generator, instance) => instance.ModelMember.IsMandatory == false,
           },
           new JavaScriptAttributeByFunc() {
             PlatformName = "query",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
-                generator.WriteLine(indent, "query={ graphql`");
-                generator.WriteLine(indent, "` }");
-              });
-            },
+              Entity refedEntity = (instance.ModelMember as Association).ReferencedEntity;
+              string varName = ReactCodeGenerator.VariableName(refedEntity, true);
+              generator.GqlPlaceholder.AddGqlQueryForAssociationEditor(refedEntity);
+              return varName + "Query"; // Must match query name in GqlPlaceholder
+            }
+              
+          },
+          new PlatformAttributeStatic() {
+            PlatformName = "toString",
+            IsCodeSnippet = true,
+            Value = "x => x.toStringRepresentation",
           },
         },
       },

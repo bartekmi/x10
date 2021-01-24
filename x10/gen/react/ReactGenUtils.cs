@@ -73,16 +73,18 @@ namespace x10.gen.react {
       return string.Format("{0}CalculateErrors", NameUtils.UncapitalizeFirstLetter(model.Name));
     }
 
-    internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum) {
+    internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum, bool isCodeSnippet) {
       if (literal == null)
         return "null";
 
       if (asEnum != null)
         return string.Format("'{0}'", ToEnumValueString(literal));
 
-      if (literal is string)
+      if (literal is string str) {
+        if (isCodeSnippet)
+          return str;
         return string.Format("'{0}'", literal);
-      else if (literal is bool)
+      } else if (literal is bool)
         return literal.ToString().ToLower();
       else
         return literal.ToString();

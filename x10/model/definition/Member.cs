@@ -11,6 +11,9 @@ namespace x10.model.definition {
     public string UiName { get; internal set; }
     public ClassDef Ui { get; internal set; }
 
+    // Derived
+    public bool IsNonOwnedAssociation => this is Association assoc && !assoc.Owns;
+
     public override string ToString() {
       return string.Format("{0}.{1}", Owner.Name, Name);
     }

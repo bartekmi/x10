@@ -21,6 +21,8 @@ namespace x10.gen.react {
   public partial class ReactCodeGenerator {
 
     #region Top Level
+    internal GqlPlaceholder GqlPlaceholder;
+
     public override void Generate(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
       bool isForm = classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
@@ -32,6 +34,7 @@ namespace x10.gen.react {
 
     private void GenerateMainUiFile(ClassDefX10 classDef, Entity model, bool isForm) {
       PreProcessTree(classDef);
+      GqlPlaceholder = new GqlPlaceholder(classDef);
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
@@ -48,6 +51,8 @@ namespace x10.gen.react {
 
       if (model != null)
         GenerateFragment(classDef, model, isForm);
+
+      AddPlaceholder(GqlPlaceholder);
 
       End();
     }
@@ -88,7 +93,7 @@ namespace x10.gen.react {
       WriteLine(0, "|}};");
 
       // Component Definition
-      WriteLine(0, "{0}function {1}(props: Props): React.Node {", 
+      WriteLine(0, "{0}function {1}(props: Props): React.Node {",
         model == null ? "export default " : "",
         classDef.Name);
 
@@ -117,7 +122,7 @@ namespace x10.gen.react {
 
       WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
 
-      ImportsPlaceholder.ImportType(fragmentName, 
+      ImportsPlaceholder.ImportType(fragmentName,
         string.Format("./__generated__/{0}.graphql", fragmentName));
     }
     #endregion
@@ -142,7 +147,7 @@ namespace x10.gen.react {
 
       WriteLine(level, "{");
       CalculateAndWriteAttributes(OutputType.JSON, level + 1, platClassDef, instance);
-      WriteLine(level, "}{0}", appendComma ? ",": "");
+      WriteLine(level, "}{0}", appendComma ? "," : "");
     }
     #endregion
 
@@ -253,7 +258,7 @@ namespace x10.gen.react {
       string variableName = VariableName(model, classDef.IsMany);
 
       WriteLine(0, "// $FlowExpectedError");
-      WriteLine(0, "export default createFragmentContainer({0}{1}, {", 
+      WriteLine(0, "export default createFragmentContainer({0}{1}, {",
         classDef.Name,
         isForm ? "Stateful" : "");
       WriteLine(1, "{0}: graphql`", variableName);
@@ -348,8 +353,11 @@ namespace x10.gen.react {
       WriteLine(2, "createOrUpdate{0}(", model.Name);
 
       foreach (Member member in model.Members)
-        if (IncludeInMutation(member))
-          WriteLine(3, "{0}: ${0}", member.Name);
+        if (IncludeInMutation(member)) 
+          WriteLine(3, "{0}{1}: ${0}", 
+            member.Name,
+            member.IsNonOwnedAssociation ? "Id" : "");
+        
 
       WriteLine(2, ")");
       WriteLine(1, "}");
@@ -378,7 +386,7 @@ namespace x10.gen.react {
         if (association.IsMany)
           return string.Format("[{0}Input!]!", refedEntityName);
         else {
-          string inputType = refedEntityName + "Input";
+          string inputType = association.Owns ? refedEntityName + "Input" : "String";
           if (member.IsMandatory)
             inputType += "!";
           return inputType;
@@ -417,19 +425,19 @@ namespace x10.gen.react {
     }
 
     private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
-      bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;
-      string name = attribute.PlatformName;
-
       value = value ?? attribute.DefaultValue;
       if (value == null) return;
-      string jsValue = isCodeSnippet ? value.ToString() : TypedLiteralToString(value, null);
+
+      string name = attribute.PlatformName;
+      bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;
+      string jsValue = TypedLiteralToString(value, null, isCodeSnippet);
 
       if (outputType == OutputType.React) {
-        bool needsBrackets = isCodeSnippet || !(value is string);
-        if (needsBrackets)
-          WriteLine(level, "{0}={ {1} }", name, jsValue);
-        else
+        bool skipBraces = !isCodeSnippet && value is string;
+        if (skipBraces)
           WriteLine(level, "{0}={1}", name, jsValue);
+        else
+          WriteLine(level, "{0}={ {1} }", name, jsValue);
       } else
         WriteLine(level, "{0}: {1},", name, jsValue);
     }
