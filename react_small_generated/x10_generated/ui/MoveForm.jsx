@@ -107,7 +107,8 @@ type StatefulProps = {|
   +move: Move,
 |};
 export function MoveFormStateful(props: StatefulProps): React.Node {
-  const [editedMove, setEditedMove] = React.useState(props.move);
+  const move = relayToInternal(props.move);
+  const [editedMove, setEditedMove] = React.useState(move);
   return <MoveForm
     move={ editedMove }
     onChange={ setEditedMove }

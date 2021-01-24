@@ -150,7 +150,8 @@ type StatefulProps = {|
   +tenant: Tenant,
 |};
 export function TenantFormStateful(props: StatefulProps): React.Node {
-  const [editedTenant, setEditedTenant] = React.useState(props.tenant);
+  const tenant = relayToInternal(props.tenant);
+  const [editedTenant, setEditedTenant] = React.useState(tenant);
   return <TenantForm
     tenant={ editedTenant }
     onChange={ setEditedTenant }

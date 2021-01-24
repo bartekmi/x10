@@ -215,7 +215,8 @@ namespace x10.gen.react {
       WriteLine(0, "|}};");
 
       WriteLine(0, "export function {0}Stateful(props: StatefulProps): React.Node {", classDefName);
-      WriteLine(1, "const [{0}, {1}] = React.useState(props.{2});", edited, setEdited, variableName);
+      WriteLine(1, "const {0} = relayToInternal(props.{0});", variableName);
+      WriteLine(1, "const [{0}, {1}] = React.useState({2});", edited, setEdited, variableName);
       WriteLine(1, "return <{0}", classDefName);
       WriteLine(2, "{0}={ {1} } ", variableName, edited);
       WriteLine(2, "onChange={ {0} }", setEdited);
