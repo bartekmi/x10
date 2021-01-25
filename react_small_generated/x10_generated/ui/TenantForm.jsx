@@ -13,7 +13,7 @@ import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import { createFragmentContainer, graphql } from 'react-relay';
-
+import {formIsEditing} from 'react_lib/form/FormProvider';
 
 type Props = {|
   +tenant: Tenant,
@@ -28,7 +28,7 @@ function TenantForm(props: Props): React.Node {
     >
       <Text
         scale='display'
-        children='isEditing() ? "New Tenant" : "Editing Tenant" + name'
+        children={formIsEditing(tenant) ? "Editing Tenant: " + tenant.name : "New Tenant"}
       />
       <Separator/>
       <FormSection
