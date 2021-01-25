@@ -409,7 +409,34 @@ namespace x10.gen.react {
       },
       #endregion
 
-      #region Form
+      #region Display Form
+      new PlatformClassDef() {
+        LogicalName = "DisplayForm",
+        PlatformName = "DisplayForm",
+        ImportDir = "react_lib/form",
+      },
+      new PlatformClassDef() {
+        LogicalName = "Label",
+        PlatformName = "DisplayField",
+        ImportDir = "react_lib/form",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "toolTip",
+            PlatformName = "toolTip",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "label",
+            PlatformName = "label",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "maxWidth",
+            PlatformName = "maxWidth",
+          },
+        },
+      },
+      #endregion
+
+      #region (Edit) Form
       new PlatformClassDef() {
         LogicalName = "Form",
         PlatformName = "FormProvider",

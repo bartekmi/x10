@@ -1,0 +1,18 @@
+<MoveView model="Move" url="/moves/view">
+  <DisplayForm>
+    <Heading1>Move Details</Heading1>
+    <HorizontalDivider/>
+    <FormSection label="Moving from location...">
+      <BuildingView path="from"/>
+    </FormSection>
+    <FormSection label="Moving to location...">
+      <BuildingView path="to"/>
+    </FormSection>
+    <FormSection label="Tenant details..." path="tenant">
+      <name/>
+      <phone/>
+      <email/>
+      <permanentMailingAddress.theAddress/>
+    </FormSection>
+  </DisplayForm>
+</MoveView>

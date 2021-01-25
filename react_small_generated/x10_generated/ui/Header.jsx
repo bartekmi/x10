@@ -11,6 +11,7 @@ import BuildingFormInterface from 'ui/BuildingFormInterface';
 import BuildingsInterface from 'ui/BuildingsInterface';
 import MoveFormInterface from 'ui/MoveFormInterface';
 import MovesInterface from 'ui/MovesInterface';
+import MoveViewInterface from 'ui/MoveViewInterface';
 import TenantFormInterface from 'ui/TenantFormInterface';
 import TenantsInterface from 'ui/TenantsInterface';
 
@@ -58,6 +59,7 @@ export default function Header(props: Props): React.Node {
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/moves' component={ MovesInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />
+        <Route exact path='/moves/view/:id' component={ MoveViewInterface } />
         <Route exact path='/buildings/edit/:id' component={ BuildingFormInterface } />
         <Route exact path='/buildings/new' component={ BuildingFormInterface } />
         <Route exact path='/tenants/edit/:id' component={ TenantFormInterface } />

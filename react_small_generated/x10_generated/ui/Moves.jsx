@@ -59,10 +59,16 @@ function Moves(props: Props): React.Node {
               {
                 id: 'Action',
                 render: (data) =>
-                  <Button
-                    label='Edit'
-                    url={ '/moves/edit/' + data.id }
-                  />
+                  <Group>
+                    <Button
+                      label='View'
+                      url={ '/moves/view/' + data.id }
+                    />
+                    <Button
+                      label='Edit'
+                      url={ '/moves/edit/' + data.id }
+                    />
+                  </Group>
                 ,
                 header: 'Action',
                 width: 140,

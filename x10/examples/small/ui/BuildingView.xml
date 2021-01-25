@@ -1,0 +1,16 @@
+<BuildingView model="Building">
+  <DisplayForm>
+    <VerticalStackPanel>
+      <Heading1>="Details for Building: " + name</Heading1>
+      <description/>
+      <FormSection label="Other Details">
+        <FormRow>
+          <dateOfOccupancy/>
+          <ageInYears/>
+        </FormRow>
+        <mailboxType/>
+        <petPolicy/>
+      </FormSection>
+    </VerticalStackPanel>
+  </DisplayForm>
+</BuildingView>

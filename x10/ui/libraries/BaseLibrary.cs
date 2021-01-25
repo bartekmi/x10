@@ -702,10 +702,29 @@ namespace x10.ui.libraries {
       },
       #endregion
 
-      #region Form
+      #region Display Form
+      new ClassDefNative() {
+        Name = "DisplayForm",
+        Description = "A data display form. Every child within the form will be provided a <Label>.",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            Name = "Children",
+            Description = "The child components. Often, these may be <FormSection>'s.",
+            IsPrimary = true,
+            IsMandatory = true,
+            IsMany = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+            ModelRefWrapperComponentName = "Label",
+          },
+        },
+      },
+      #endregion
+
+      #region (Edit) Form
       new ClassDefNative() {
         Name = CLASS_DEF_FORM,
-        Description = "A data entry form - can also be used fore read-only viewing. Every child within the form will be provided a <Label> and validation error behavior.",
+        Description = "A data entry form. Every child within the form will be provided a <Label> and validation error behavior.",
         InheritsFrom = ClassDefNative.Visual,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionComplex() {

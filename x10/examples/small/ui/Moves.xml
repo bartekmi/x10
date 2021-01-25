@@ -9,7 +9,10 @@
         <to.name label="From"/>
         <tenant.name label="Tenant"/>
         <TableColumn label="Action">
-          <Button label="Edit" url="='/moves/edit/' + id"/>
+          <Row>
+            <Button label="View" url="='/moves/view/' + id"/>
+            <Button label="Edit" url="='/moves/edit/' + id"/>
+          </Row>
         </TableColumn>
       </Table.Columns>
     </Table>

@@ -154,8 +154,17 @@ namespace x10.gen.react {
     #region Generate Component Recursively
 
     internal void GenerateComponentRecursively(OutputType outputType, int level, Instance instance, PlatformClassDef platClassDef = null) {
-      if (instance == null ||
-          (platClassDef = platClassDef ?? FindPlatformClassDef(instance)) == null)
+      if (instance == null)
+        return;
+
+      if (instance.RenderAs is ClassDefX10 classDefX10) {
+        GenerateComponentReference(level, instance, classDefX10);
+        return;
+      }
+      
+      if (platClassDef == null)
+        platClassDef = FindPlatformClassDef(instance);
+      if (platClassDef == null)
         return;
 
       string[] htmlTags = new string[] { "div" };
@@ -174,6 +183,13 @@ namespace x10.gen.react {
         Write(" style={ { {0} } }", true, platClassDef.StyleInfo);
       CalculateAndWriteAttributes(outputType, level + 1, platClassDef, instance);
       WriteNestedContentsAndClosingTag(level, platClassDef, instance);
+    }
+
+    // At some point, we may consider this NOT a special caes, but, rather, "fabricate" a PlatformClassDef
+    // Do this if you're ever tempted to add more code here that is similar to the code in GenerateComponentRecursively
+    private void GenerateComponentReference(int level, Instance instance, ClassDefX10 classDefX10) {
+      WriteLine(level, "<{0}/>", instance.RenderAs.Name);
+      ImportsPlaceholder.ImportDefault(classDefX10);
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {

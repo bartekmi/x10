@@ -8,7 +8,7 @@ import {whitespaceSizeConstants} from "latitude/styles/whitespace";
 type Props = {|
   +children: React.Node,
 |};
-export default function FormSection(props: Props): React.Node {
+export default function FormFooter(props: Props): React.Node {
   const { children } = props
 
   return (
