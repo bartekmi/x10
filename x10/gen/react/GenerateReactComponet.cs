@@ -9,7 +9,6 @@ using x10.compiler;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
-using x10.ui.libraries;
 
 namespace x10.gen.react {
 
@@ -25,7 +24,7 @@ namespace x10.gen.react {
 
     public override void Generate(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
-      bool isForm = classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
+      bool isForm = IsForm(classDef);
 
       GenerateMainUiFile(classDef, model, isForm);
       if (model != null && classDef.Url != null)

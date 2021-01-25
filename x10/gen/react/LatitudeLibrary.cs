@@ -609,7 +609,7 @@ namespace x10.gen.react {
               generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
                 classDef.Url,
                 compInterface);
-            else {
+            else if (ReactCodeGenerator.IsForm(classDef)) {
               generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
                 classDef.Url,
                 compInterface);
@@ -617,7 +617,10 @@ namespace x10.gen.react {
               generator.WriteLine(indent, "<Route exact path='{0}/new' component={ {1} } />",
                 classDef.Url,
                 compInterface);
-            }
+            } else
+              generator.WriteLine(indent, "<Route exact path='{0}/:id' component={ {1} } />",
+                classDef.Url,
+                compInterface);
           }
         }
       },

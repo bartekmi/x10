@@ -10,6 +10,7 @@ using x10.model.metadata;
 using x10.model.definition;
 using x10.model;
 using x10.ui.composition;
+using x10.ui.libraries;
 
 namespace x10.gen.react {
   public partial class ReactCodeGenerator {
@@ -41,7 +42,7 @@ namespace x10.gen.react {
     }
     #endregion
 
-    #region Names of Things and Code Snippet Generation
+    #region Names of Things
     internal static string VariableName(Entity model, bool isMany = false) {
       if (model == null)
         return null;
@@ -77,23 +78,6 @@ namespace x10.gen.react {
 
     internal static string CalculateErrorsFuncName(Entity model) {
       return string.Format("{0}CalculateErrors", NameUtils.UncapitalizeFirstLetter(model.Name));
-    }
-
-    internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum, bool isCodeSnippet) {
-      if (literal == null)
-        return "null";
-
-      if (asEnum != null)
-        return string.Format("'{0}'", ToEnumValueString(literal));
-
-      if (literal is string str) {
-        if (isCodeSnippet)
-          return str;
-        return string.Format("'{0}'", literal);
-      } else if (literal is bool)
-        return literal.ToString().ToLower();
-      else
-        return literal.ToString();
     }
     #endregion
 
@@ -137,6 +121,7 @@ namespace x10.gen.react {
 
     #region Enum-Related Helpers
 
+
     internal static string EnumToName(DataTypeEnum enumType) {
       return enumType.Name + "Enum";
     }
@@ -150,5 +135,29 @@ namespace x10.gen.react {
     }
 
     #endregion
+
+    #region Misc
+    internal static bool IsForm(ClassDefX10 classDef) {
+      return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;;
+    }
+
+    internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum, bool isCodeSnippet) {
+      if (literal == null)
+        return "null";
+
+      if (asEnum != null)
+        return string.Format("'{0}'", ToEnumValueString(literal));
+
+      if (literal is string str) {
+        if (isCodeSnippet)
+          return str;
+        return string.Format("'{0}'", literal);
+      } else if (literal is bool)
+        return literal.ToString().ToLower();
+      else
+        return literal.ToString();
+    }
+    #endregion
+
   }
 }
