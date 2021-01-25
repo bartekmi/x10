@@ -25,8 +25,8 @@ namespace x10.gen.react {
         GenerateMultiQueryRenderer(classDef, model);
         GenerateMultiGraphqlQuery(classDef, model);
       } else if (model != null) {
-        GenerateFormQueryRenderer(classDef, model);
-        GenerateFormGraphqlQuery(classDef, model);
+        GenerateQueryRenderer(classDef, model);
+        GenerateGraphqlQuery(classDef, model);
       }
 
       End();
@@ -48,7 +48,7 @@ namespace x10.gen.react {
 
     #region Form-Related Generation
 
-    private void GenerateFormQueryRenderer(ClassDefX10 classDef, Entity model) {
+    private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
       WriteLine(0,
 @"type Props = { 
   +match: { 
@@ -61,14 +61,19 @@ namespace x10.gen.react {
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
       string variableName = VariableName(model);
-      string classDefStateful = classDefName + "Stateful";
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.Node {", classDefName);
       WriteLine(1, "return (");
       WriteLine(2, "<EntityQueryRenderer");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
-      WriteLine(3, "createComponentFuncNew={ () => <{0} {1}={ {2}() }/> }", classDefStateful, variableName, createDefaultFunc);
+
+      if (IsForm(classDef)) {
+        string classDefStateful = classDefName + "Stateful";
+        WriteLine(3, "createComponentFuncNew={ () => <{0} {1}={ {2}() }/> }", classDefStateful, variableName, createDefaultFunc);
+        ImportsPlaceholder.Import(classDefStateful, classDef);
+      }
+
       WriteLine(3, "query={ query }");
       WriteLine(2, "/>");
       WriteLine(1, ");");
@@ -76,12 +81,11 @@ namespace x10.gen.react {
 
       ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
-      ImportsPlaceholder.Import(classDefStateful, classDef);
-
+  
       WriteLine();
     }
 
-    private void GenerateFormGraphqlQuery(ClassDefX10 classDef, Entity model) {
+    private void GenerateGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
       string variableName = VariableName(model);

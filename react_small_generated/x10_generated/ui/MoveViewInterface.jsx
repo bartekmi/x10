@@ -6,7 +6,7 @@ import environment from 'environment';
 import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 import { graphql, QueryRenderer } from 'react-relay';
-import MoveView, { MoveViewStateful } from 'ui/MoveView';
+import MoveView from 'ui/MoveView';
 
 
 type Props = { 
@@ -21,7 +21,6 @@ export default function MoveViewInterface(props: Props): React.Node {
     <EntityQueryRenderer
       match={ props.match }
       createComponentFunc={ (move) => <MoveView move={ move }/> }
-      createComponentFuncNew={ () => <MoveViewStateful move={ createDefaultMove() }/> }
       query={ query }
     />
   );
