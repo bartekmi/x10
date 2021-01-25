@@ -7,18 +7,20 @@ import LatitudeCalendarDateInput from "latitude/date/CalendarDateInput";
 import {type CalendarDate} from "latitude/date/CalendarDateType";
 
 type Props = {|
-  value: ?string,
-  onChange: (date: CalendarDate | null) => void,
+  +value: ?string,
+  +onChange: (date: CalendarDate | null) => void,
+  +readOnly?: boolean,
 |};
 
 export default function CalendarDateInput(props: Props): React.Node {
-  const {value, onChange} = props;
+  const {value, onChange, readOnly} = props;
 
   return (
     <div className={css(styles.styling)}>
       <LatitudeCalendarDateInput
         value={toCalendarDate(value || null)} // Convert null or undefined to null
         onChange={onChange}
+        disabled={readOnly}
       />
     </div>
   );
