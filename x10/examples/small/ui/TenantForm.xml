@@ -1,6 +1,6 @@
 <TenantForm model="Tenant" url="/tenants" query="GetTenant(tenantId: $tenantId">
   <Form>
-    <Heading1>New Tenant</Heading1>
+    <Heading1 text='=isEditing() ? "New Tenant" : "Editing Tenant" + name'/>
     <HorizontalDivider/>
     <FormSection label="Tenant Info">
       <name/>

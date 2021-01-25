@@ -88,6 +88,14 @@ namespace x10.gen.wpf {
       exp.Expression.Accept(this);
     }
 
+    public void VisitConditional(ExpConditional exp) {
+      exp.Conditional.Accept(this);
+      _writer.Write("?");
+      exp.WhenTrue.Accept(this);
+      _writer.Write(" : ");
+      exp.WhenFalse.Accept(this);
+    }
+
     public void VisitUnknown(ExpUnknown exp) {
       // This should never happen if the x10 code was compiled cleanly
     }

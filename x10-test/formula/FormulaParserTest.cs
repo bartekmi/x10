@@ -118,19 +118,29 @@ arguments:
       TestExpectedSuccess("1 + 2.7", DataTypes.Singleton.Float);                    // Binary - Literals
       TestExpectedSuccess("a + c", DataTypes.Singleton.Integer);                    // Binary - Identifiers
       TestExpectedSuccess("\"Hello\" + \" World\"", DataTypes.Singleton.String);    // Binary of Strings
+
       TestExpectedSuccess("(1 + a) / b", DataTypes.Singleton.Float);                // Parenthesis
+
       TestExpectedSuccess("MyFunc(myString, a)", DataTypes.Singleton.String);       // Function
+
       TestExpectedSuccess("a * b + c * d / e", DataTypes.Singleton.Float);          // Compound expression
       TestExpectedSuccess("a < 7", DataTypes.Singleton.Boolean);                    // Inequalifty
       TestExpectedSuccess("myBoolean && (a < 7)", DataTypes.Singleton.Boolean);     // Logical expression
       TestExpectedSuccess("nested.attr", DataTypes.Singleton.Date);                 // Member access
       TestExpectedSuccess("myString + \" \" + a", DataTypes.Singleton.String);      // String-add
+
       TestExpectedSuccess("many.count", DataTypes.Singleton.Integer);               // Multiple: Count
       TestExpectedSuccess("many.first", new X10DataType(nested, false));            // Multiple: First
       TestExpectedSuccess("many.last", new X10DataType(nested, false));             // Multiple: Last
+
       TestExpectedSuccess("stateInt > 10", DataTypes.Singleton.Boolean);            // State
+
       TestExpectedSuccess("-a", DataTypes.Singleton.Integer);                       // Unary minus
       TestExpectedSuccess("!myBoolean", DataTypes.Singleton.Boolean);               // Unary negation
+
+      TestExpectedSuccess("a > c ? -7 : 7", DataTypes.Singleton.Integer);           // Conditional
+      TestExpectedSuccess("a > c ? -7 : null", DataTypes.Singleton.Integer);        // Conditional
+      TestExpectedSuccess("a > c ? null : 7", DataTypes.Singleton.Integer);        // Conditional
     }
 
     // Assume an expression A.B.C
@@ -234,6 +244,21 @@ arguments:
     [Fact]
     public void BadManyAttribute() {
       TestExpectedError("many.notCount", "notCount is not a valid property of a collection. The only valid properties are: count, first, last", 5, 13);
+    }
+
+    [Fact]
+    public void ConditionalBadCondition() {
+      TestExpectedError("7 ? 1 : 2", "The portion before the ? must evaluate to a boolean", 0, 9);
+    }
+
+    [Fact]
+    public void ConditionalDoubleNull() {
+      TestExpectedError("a > c ? null : null", "Both sides of the conditional (ternary) expression can't be null", 0, 19);
+    }
+
+    [Fact]
+    public void ConditionalIncompatibleTypes() {
+      TestExpectedError("a > c ? 7 : \"Hello\"", "Type on the left is Integer, but type on the right is String", 0, 19);
     }
     #endregion
 

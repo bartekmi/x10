@@ -11,6 +11,7 @@ namespace x10.formula {
     public void VisitMemberAccess(ExpMemberAccess exp);
     public void VisitParenthesized(ExpParenthesized exp);
     public void VisitUnary(ExpUnary exp);
+    public void VisitConditional(ExpConditional exp); // Ternary expression
     public void VisitUnknown(ExpUnknown exp);
   }
 }

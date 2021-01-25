@@ -28,7 +28,7 @@ function TenantForm(props: Props): React.Node {
     >
       <Text
         scale='display'
-        children='New Tenant'
+        children='isEditing() ? "New Tenant" : "Editing Tenant" + name'
       />
       <Separator/>
       <FormSection
