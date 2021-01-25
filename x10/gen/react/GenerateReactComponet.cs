@@ -28,7 +28,7 @@ namespace x10.gen.react {
       bool isForm = classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
 
       GenerateMainUiFile(classDef, model, isForm);
-      if (model != null)
+      if (model != null && classDef.Url != null)
         GenerateInterface(classDef, model, isForm);  // See GenerateReactComponentInterface file (partial class)
     }
 

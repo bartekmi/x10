@@ -44,48 +44,36 @@ function MoveView(props: Props): React.Node {
           label='Name'
         >
           <TextInput
-            value={ move.tenant.name }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(move));
-              newObj.tenant.name = value;
-              onChange(newObj);
-            } }
+            value={ move.tenant?.name }
+            onChange={ () => { } }
+            readOnly={ true }
           />
         </DisplayField>
         <DisplayField
           label='Phone'
         >
           <TextInput
-            value={ move.tenant.phone }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(move));
-              newObj.tenant.phone = value;
-              onChange(newObj);
-            } }
+            value={ move.tenant?.phone }
+            onChange={ () => { } }
+            readOnly={ true }
           />
         </DisplayField>
         <DisplayField
           label='Email'
         >
           <TextInput
-            value={ move.tenant.email }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(move));
-              newObj.tenant.email = value;
-              onChange(newObj);
-            } }
+            value={ move.tenant?.email }
+            onChange={ () => { } }
+            readOnly={ true }
           />
         </DisplayField>
         <DisplayField
           label='The Address'
         >
           <TextInput
-            value={ move.tenant.permanentMailingAddress.theAddress }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(move));
-              newObj.tenant.permanentMailingAddress.theAddress = value;
-              onChange(newObj);
-            } }
+            value={ move.tenant?.permanentMailingAddress?.theAddress }
+            onChange={ () => { } }
+            readOnly={ true }
           />
         </DisplayField>
       </FormSection>

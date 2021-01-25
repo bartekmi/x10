@@ -718,6 +718,9 @@ namespace x10.ui.libraries {
             ModelRefWrapperComponentName = "Label",
           },
         },
+        DefaultAttachedAttributes = new List<UiAttributeValue>() {
+          new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, true),
+        },
       },
       #endregion
 

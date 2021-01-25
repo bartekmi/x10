@@ -79,6 +79,12 @@ namespace x10.compiler {
 
       return member is Association ? child : this;
     }
+
+    public override string ToString() {
+      return RootEntity == null ?
+        Member.ToString() :
+        RootEntity.Name;
+    }
   }
 
   // This class can be used to generate a tree structure of all data referenced in a

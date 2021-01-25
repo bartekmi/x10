@@ -37,10 +37,9 @@ function BuildingView(props: Props): React.Node {
         >
           <TextareaInput
             value={ building.description }
-            onChange={ (value) => {
-              onChange({ ...building, description: value })
-            } }
+            onChange={ () => { } }
             rows={ 3 }
+            readOnly={ true }
           />
         </DisplayField>
         <FormSection
@@ -54,9 +53,8 @@ function BuildingView(props: Props): React.Node {
             >
               <X10_CalendarDateInput
                 value={ building.dateOfOccupancy }
-                onChange={ (value) => {
-                  onChange({ ...building, dateOfOccupancy: value })
-                } }
+                onChange={ () => { } }
+                readOnly={ true }
               />
             </DisplayField>
             <DisplayField
@@ -75,9 +73,7 @@ function BuildingView(props: Props): React.Node {
           >
             <SelectInput
               value={ building.mailboxType }
-              onChange={ (value) => {
-                onChange({ ...building, mailboxType: value })
-              } }
+              onChange={ () => { } }
               options={ MailboxTypeEnumPairs }
             />
           </DisplayField>
@@ -86,9 +82,7 @@ function BuildingView(props: Props): React.Node {
           >
             <SelectInput
               value={ building.petPolicy }
-              onChange={ (value) => {
-                onChange({ ...building, petPolicy: value })
-              } }
+              onChange={ () => { } }
               options={ PetPolicyEnumPairs }
             />
           </DisplayField>
