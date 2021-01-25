@@ -187,7 +187,12 @@ namespace x10.gen.react {
     // At some point, we may consider this NOT a special caes, but, rather, "fabricate" a PlatformClassDef
     // Do this if you're ever tempted to add more code here that is similar to the code in GenerateComponentRecursively
     private void GenerateComponentReference(int level, Instance instance, ClassDefX10 classDefX10) {
-      WriteLine(level, "<{0}/>", instance.RenderAs.Name);
+      WriteLine(level, "<{0} {1}={ {2}.{3} }/>", 
+        instance.RenderAs.Name,
+        VariableName(instance.RenderAs.ComponentDataModel),
+        SourceVariableName,
+        CodeGenUtils.GetBindingPathAsString(instance));
+
       ImportsPlaceholder.ImportDefault(classDefX10);
     }
 

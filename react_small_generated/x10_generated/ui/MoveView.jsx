@@ -30,12 +30,12 @@ function MoveView(props: Props): React.Node {
       <FormSection
         label='Moving from location...'
       >
-        <BuildingView/>
+        <BuildingView building={ move.from }/>
       </FormSection>
       <FormSection
         label='Moving to location...'
       >
-        <BuildingView/>
+        <BuildingView building={ move.to }/>
       </FormSection>
       <FormSection
         label='Tenant details...'
