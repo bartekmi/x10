@@ -23,9 +23,7 @@ namespace x10.ui.composition {
     public string Id {get; set;}
 
     // The Entity Member which is being displayed/edited by this Instance
-    // If null, this is the root child, or one of its consecutive children
-    // where no path has been set yet.
-    public Member ModelMember { get; set; }
+    public Member ModelMember => PathComponents == null ? null : PathComponents.Last();
 
     // The path components of this Instance. 
     public List<Member> PathComponents { get; set; }

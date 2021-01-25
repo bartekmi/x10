@@ -344,14 +344,8 @@ namespace x10.compiler {
         instance.PathComponents = ExpressionToMemberList(pathExpression);
       }
 
-      if (instance.IsWrapper) {
-        // This child will set it for its parent
-      } else {
-        instance.ModelMember = dataType.Member;
+      if (!instance.IsWrapper) 
         ValidateDataTypeCompatibility(dataType, instance);
-        if (instance.ParentInstance?.IsWrapper == true)
-          instance.ParentInstance.ModelMember = dataType.Member;
-      }
 
       return dataType;
     }
