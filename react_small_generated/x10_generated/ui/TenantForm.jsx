@@ -4,12 +4,12 @@
 import { tenantCalculateErrors, type Tenant } from 'entities/Tenant';
 import Group from 'latitude/Group';
 import Text from 'latitude/Text';
-import TextInput from 'latitude/TextInput';
 import * as React from 'react';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import isExistingObject from 'react_lib/utils/isExistingObject';

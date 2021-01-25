@@ -12,7 +12,7 @@ import * as React from 'react';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
-import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
+import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
@@ -51,7 +51,7 @@ function BuildingView(props: Props): React.Node {
             <DisplayField
               label='Date Of Occupancy'
             >
-              <X10_CalendarDateInput
+              <CalendarDateInput
                 value={ building.dateOfOccupancy }
                 onChange={ () => { } }
                 readOnly={ true }

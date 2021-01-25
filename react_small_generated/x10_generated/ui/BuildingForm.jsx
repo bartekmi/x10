@@ -10,18 +10,18 @@ import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
-import TextInput from 'latitude/TextInput';
 import * as React from 'react';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
+import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
-import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
@@ -231,7 +231,7 @@ function BuildingForm(props: Props): React.Node {
               editorFor='dateOfOccupancy'
               label='Date Of Occupancy'
             >
-              <X10_CalendarDateInput
+              <CalendarDateInput
                 value={ building.dateOfOccupancy }
                 onChange={ (value) => {
                   onChange({ ...building, dateOfOccupancy: value })

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import colors from "latitude/colors";
 import LatitudeButton from "latitude/button/Button";
 import TextLink from "latitude/TextLink";
 

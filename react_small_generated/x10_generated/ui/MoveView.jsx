@@ -4,11 +4,11 @@
 import { type MoveView_move } from './__generated__/MoveView_move.graphql';
 import { type Move } from 'entities/Move';
 import Text from 'latitude/Text';
-import TextInput from 'latitude/TextInput';
 import * as React from 'react';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
+import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import Separator from 'react_lib/Separator';
 import { createFragmentContainer, graphql } from 'react-relay';
 import BuildingView from 'ui/BuildingView';

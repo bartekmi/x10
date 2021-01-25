@@ -8,10 +8,10 @@ import * as React from 'react';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
-import X10_CalendarDateInput from 'react_lib/X10_CalendarDateInput';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
@@ -35,7 +35,7 @@ function MoveForm(props: Props): React.Node {
         editorFor='date'
         label='Date'
       >
-        <X10_CalendarDateInput
+        <CalendarDateInput
           value={ move.date }
           onChange={ (value) => {
             onChange({ ...move, date: value })

@@ -95,6 +95,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "TextEdit",
         PlatformName = "TextInput",
+        ImportDir = "react_lib/latitude_wrappers",
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -172,8 +173,8 @@ namespace x10.gen.react {
       },
       new PlatformClassDef() {
         LogicalName = "DateEditor",
-        PlatformName = "X10_CalendarDateInput",
-        ImportDir = "react_lib",
+        PlatformName = "CalendarDateInput",
+        ImportDir = "react_lib/latitude_wrappers",
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -372,7 +373,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Button",
         PlatformName = "Button",
-        ImportDir = "react_lib",
+        ImportDir = "react_lib/latitude_wrappers",
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "label",

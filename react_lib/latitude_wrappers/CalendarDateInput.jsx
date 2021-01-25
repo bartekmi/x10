@@ -3,7 +3,7 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite";
 
-import CalendarDateInput from "latitude/date/CalendarDateInput";
+import LatitudeCalendarDateInput from "latitude/date/CalendarDateInput";
 import {type CalendarDate} from "latitude/date/CalendarDateType";
 
 type Props = {|
@@ -11,12 +11,12 @@ type Props = {|
   onChange: (date: CalendarDate | null) => void,
 |};
 
-export default function X10_CalendarDateInput(props: Props): React.Node {
+export default function CalendarDateInput(props: Props): React.Node {
   const {value, onChange} = props;
 
   return (
     <div className={css(styles.styling)}>
-      <CalendarDateInput
+      <LatitudeCalendarDateInput
         value={toCalendarDate(value || null)} // Convert null or undefined to null
         onChange={onChange}
       />

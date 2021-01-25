@@ -8,7 +8,7 @@ import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 import * as React from 'react';
-import Button from 'react_lib/Button';
+import Button from 'react_lib/latitude_wrappers/Button';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
