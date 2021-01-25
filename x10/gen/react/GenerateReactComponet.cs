@@ -301,7 +301,7 @@ namespace x10.gen.react {
       ImportsPlaceholder.Import("graphql", "react-relay");
     }
 
-    private string FragmentName(ClassDefX10 classDef) {
+    private static string FragmentName(ClassDefX10 classDef) {
       return string.Format("{0}_{1}",
         classDef.Name,
         VariableName(classDef.ComponentDataModel, classDef.IsMany));
@@ -323,6 +323,9 @@ namespace x10.gen.react {
       foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
         if (child.Member.Name != "id")
           PrintGraphQL(indent, child);
+
+      foreach (ClassDefX10 classDef in wrapper.ComponentReferences)
+        WriteLine(indent, "...{0}", FragmentName(classDef));
     }
 
     #endregion

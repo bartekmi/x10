@@ -16,8 +16,13 @@ namespace x10.compiler {
     public Member Member { get; private set; }
     public List<MemberWrapper> Children { get; private set; }
 
+    // List of references to other components. In the relay world,
+    // this is how we'd know to include fragments
+    public List<ClassDefX10> ComponentReferences { get; private set; }
+
     internal MemberWrapper() {
       Children = new List<MemberWrapper>();
+      ComponentReferences = new List<ClassDefX10>();
     }
 
     internal MemberWrapper(Entity rootEntity) : this() {
@@ -116,6 +121,10 @@ namespace x10.compiler {
       // If the instance descends into nested entities, do so
       if (instance.PathComponents != null)
         wrapper = BuildWrapper(instance.PathComponents, wrapper);
+
+      // If the instance references an X10 component, record this in the wrapper
+      if (instance.RenderAs is ClassDefX10 classDef)
+        wrapper.ComponentReferences.Add(classDef);
 
       foreach (Instance child in instance.ChildInstances)
         ExtractDataRecursive(child, wrapper);

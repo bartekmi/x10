@@ -6,13 +6,12 @@ import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Buil
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
-import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
 import * as React from 'react';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
-import FormSection from 'react_lib/form/FormSection';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
+import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 
@@ -27,47 +26,54 @@ function BuildingView(props: Props): React.Node {
       <Group
         flexDirection='column'
       >
-        <Text
-          scale='display'
-          children={ 'Details for Building: ' + building.name }
-        />
-        <DisplayField
-          toolTip='Description for advertising purposes'
-          label='Description'
+        <Group
+          gap={ 40 }
         >
-          <TextareaInput
-            value={ building.description }
-            onChange={ () => { } }
-            rows={ 3 }
-            readOnly={ true }
-          />
-        </DisplayField>
-        <FormSection
-          label='Other Details'
-        >
-          <Group
-            gap={ 40 }
+          <DisplayField
+            toolTip='A short and memorable name of the Building'
+            label='Name'
+            maxWidth={ 350 }
           >
-            <DisplayField
-              label='Date Of Occupancy'
-            >
-              <CalendarDateInput
-                value={ building.dateOfOccupancy }
-                onChange={ () => { } }
-                readOnly={ true }
-              />
-            </DisplayField>
-            <DisplayField
-              toolTip='Strongly affects annual propery maintenance costs.'
-              label='Age In Years'
-            >
-              <FloatInput
-                value={ buildingAgeInYears(building) }
-                onChange={ () => { } }
-                readOnly={ true }
-              />
-            </DisplayField>
-          </Group>
+            <TextInput
+              value={ building.name }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+          <DisplayField
+            toolTip='Description for advertising purposes'
+            label='Description'
+          >
+            <TextareaInput
+              value={ building.description }
+              onChange={ () => { } }
+              rows={ 3 }
+              readOnly={ true }
+            />
+          </DisplayField>
+        </Group>
+        <Group
+          gap={ 40 }
+        >
+          <DisplayField
+            label='Date Of Occupancy'
+          >
+            <CalendarDateInput
+              value={ building.dateOfOccupancy }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+          <DisplayField
+            toolTip='Strongly affects annual propery maintenance costs.'
+            label='Age In Years'
+          >
+            <FloatInput
+              value={ buildingAgeInYears(building) }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
           <DisplayField
             label='Mailbox Type'
           >
@@ -86,7 +92,7 @@ function BuildingView(props: Props): React.Node {
               options={ PetPolicyEnumPairs }
             />
           </DisplayField>
-        </FormSection>
+        </Group>
       </Group>
     </DisplayForm>
   );

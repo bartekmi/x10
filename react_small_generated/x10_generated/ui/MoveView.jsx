@@ -3,6 +3,7 @@
 
 import { type MoveView_move } from './__generated__/MoveView_move.graphql';
 import { type Move } from 'entities/Move';
+import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 import * as React from 'react';
 import DisplayField from 'react_lib/form/DisplayField';
@@ -40,42 +41,46 @@ function MoveView(props: Props): React.Node {
       <FormSection
         label='Tenant details...'
       >
-        <DisplayField
-          label='Name'
+        <Group
+          gap={ 40 }
         >
-          <TextInput
-            value={ move.tenant?.name }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Phone'
-        >
-          <TextInput
-            value={ move.tenant?.phone }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Email'
-        >
-          <TextInput
-            value={ move.tenant?.email }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
-        </DisplayField>
-        <DisplayField
-          label='The Address'
-        >
-          <TextInput
-            value={ move.tenant?.permanentMailingAddress?.theAddress }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
-        </DisplayField>
+          <DisplayField
+            label='Name'
+          >
+            <TextInput
+              value={ move.tenant?.name }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Phone'
+          >
+            <TextInput
+              value={ move.tenant?.phone }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Email'
+          >
+            <TextInput
+              value={ move.tenant?.email }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+          <DisplayField
+            label='The Address'
+          >
+            <TextInput
+              value={ move.tenant?.permanentMailingAddress?.theAddress }
+              onChange={ () => { } }
+              readOnly={ true }
+            />
+          </DisplayField>
+        </Group>
       </FormSection>
     </DisplayForm>
   );
@@ -88,6 +93,7 @@ export default createFragmentContainer(MoveView, {
       id
       from {
         id
+        ...BuildingView_building
       }
       tenant {
         id
@@ -101,6 +107,7 @@ export default createFragmentContainer(MoveView, {
       }
       to {
         id
+        ...BuildingView_building
       }
     }
   `,
