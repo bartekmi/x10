@@ -30,12 +30,12 @@ function MoveView(props: Props): React.Node {
       <FormSection
         label='Moving from location...'
       >
-        <BuildingView/>
+        <BuildingView building={move.from}/>
       </FormSection>
       <FormSection
         label='Moving to location...'
       >
-        <BuildingView/>
+        <BuildingView building={move.to}/>
       </FormSection>
       <FormSection
         label='Tenant details...'
@@ -88,6 +88,7 @@ export default createFragmentContainer(MoveView, {
       id
       from {
         id
+        ...BuildingView_building
       }
       tenant {
         id
@@ -101,6 +102,7 @@ export default createFragmentContainer(MoveView, {
       }
       to {
         id
+        ...BuildingView_building
       }
     }
   `,

@@ -16,14 +16,16 @@ type Props<T> = {|
   },
   +query: any,
   +createComponentFunc: (T) => React.Node,
-  +createComponentFuncNew: () => React.Node,
+  +createComponentFuncNew?: () => React.Node,
   +gqlToInernalConvertFunc?: (any) => T,
 |};
 export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
   const {match, query, createComponentFunc, createComponentFuncNew, gqlToInernalConvertFunc} = props;
   const id = props.match.params.id;
   if (id == null) {
-    return createComponentFuncNew();
+    if (createComponentFuncNew)
+      return createComponentFuncNew();
+    return <div>Id could not be extracted from Props</div>
   }
 
   return (

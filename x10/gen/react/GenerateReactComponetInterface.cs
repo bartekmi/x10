@@ -21,12 +21,12 @@ namespace x10.gen.react {
       GenerateFileHeader();
       GenerateImports(classDef);
 
-      if (isForm) {
-        GenerateFormQueryRenderer(classDef, model);
-        GenerateFormGraphqlQuery(classDef, model);
-      } else if (classDef.IsMany) {
+      if (classDef.IsMany) {
         GenerateMultiQueryRenderer(classDef, model);
         GenerateMultiGraphqlQuery(classDef, model);
+      } else if (model != null) {
+        GenerateFormQueryRenderer(classDef, model);
+        GenerateFormGraphqlQuery(classDef, model);
       }
 
       End();

@@ -59,8 +59,7 @@ export default function Header(props: Props): React.Node {
         <Route exact path='/tenants' component={ TenantsInterface } />
         <Route exact path='/moves' component={ MovesInterface } />
         <Route exact path='/buildings' component={ BuildingsInterface } />
-        <Route exact path='/moves/view/edit/:id' component={ MoveViewInterface } />
-        <Route exact path='/moves/view/new' component={ MoveViewInterface } />
+        <Route exact path='/moves/view/:id' component={ MoveViewInterface } />
         <Route exact path='/buildings/edit/:id' component={ BuildingFormInterface } />
         <Route exact path='/buildings/new' component={ BuildingFormInterface } />
         <Route exact path='/tenants/edit/:id' component={ TenantFormInterface } />
