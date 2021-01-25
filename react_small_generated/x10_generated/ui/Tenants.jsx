@@ -80,7 +80,6 @@ export default createFragmentContainer(Tenants, {
     fragment Tenants_tenants on Tenant @relay(plural: true) {
       id
       email
-      id
       name
       phone
     }

@@ -3,3 +3,15 @@
   arguments:
     - name: value
       dataType: String
+
+- name: IsNewObject
+  returnDataType: Boolean
+  arguments:
+    - name: id
+      dataType: String
+
+- name: IsExistingObject
+  returnDataType: Boolean
+  arguments:
+    - name: id
+      dataType: String

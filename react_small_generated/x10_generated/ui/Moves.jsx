@@ -85,7 +85,6 @@ export default createFragmentContainer(Moves, {
         id
         name
       }
-      id
       tenant {
         id
         name

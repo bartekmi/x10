@@ -155,7 +155,7 @@ namespace x10.gen.react {
 
     public void VisitConditional(ExpConditional exp) {
       exp.Conditional.Accept(this);
-      _writer.Write("?");
+      _writer.Write(" ? ");
       exp.WhenTrue.Accept(this);
       _writer.Write(" : ");
       exp.WhenFalse.Accept(this);

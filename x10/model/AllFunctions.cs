@@ -50,7 +50,7 @@ namespace x10.model {
 
   public class AllFunctions {
     // The reason the values are a list is to account for problems where multiple 
-    // enums with the same name have been defined 
+    // functions with the same name have been defined 
     private readonly Dictionary<string, List<Function>> _functionsByName 
       = new Dictionary<string, List<Function>>();
     private readonly MessageBucket _messages;
@@ -59,12 +59,12 @@ namespace x10.model {
       _messages = messages;
     }
 
-    public void Add(Function anEnum) {
-      if (!_functionsByName.TryGetValue(anEnum.Name, out List<Function> functions)) {
+    public void Add(Function func) {
+      if (!_functionsByName.TryGetValue(func.Name, out List<Function> functions)) {
         functions = new List<Function>();
-        _functionsByName[anEnum.Name] = functions;
+        _functionsByName[func.Name] = functions;
       }
-      functions.Add(anEnum);
+      functions.Add(func);
     }
 
     public IEnumerable<Function> All { 

@@ -301,7 +301,8 @@ namespace x10.gen.react {
     private void PrintGraphQL_Children(int indent, MemberWrapper wrapper) {
       WriteLine(indent, "id");
       foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
-        PrintGraphQL(indent, child);
+        if (child.Member.Name != "id")
+          PrintGraphQL(indent, child);
     }
 
     #endregion

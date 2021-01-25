@@ -113,7 +113,6 @@ export default createFragmentContainer(Buildings, {
       id
       dateOfOccupancy
       description
-      id
       name
       petPolicy
       physicalAddress {
