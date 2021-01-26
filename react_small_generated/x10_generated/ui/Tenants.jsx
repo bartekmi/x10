@@ -35,6 +35,7 @@ function Tenants(props: Props): React.Node {
         <Table
           data={ tenants }
           getUniqueRowId={ row => row.id }
+          useFullWidth={ true }
           columnDefinitions={
             [
               {

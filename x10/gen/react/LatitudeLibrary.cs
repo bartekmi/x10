@@ -308,6 +308,7 @@ namespace x10.gen.react {
               PlatformName = "data",
             },
             new PlatformAttributeStatic("getUniqueRowId", "row => row.id", true),
+            new PlatformAttributeStatic("useFullWidth", true, true),
             new JavaScriptAttributePrimaryAsProp() {
               CodeSnippet = (generator, indent, platClassDef, instance) => {
                 UiAttributeValueComplex primaryValue = (UiAttributeValueComplex)instance.PrimaryValue;

@@ -40,6 +40,7 @@ function Buildings(props: Props): React.Node {
         <Table
           data={ buildings }
           getUniqueRowId={ row => row.id }
+          useFullWidth={ true }
           columnDefinitions={
             [
               {

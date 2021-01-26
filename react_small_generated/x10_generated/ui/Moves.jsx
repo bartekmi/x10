@@ -35,6 +35,7 @@ function Moves(props: Props): React.Node {
         <Table
           data={ moves }
           getUniqueRowId={ row => row.id }
+          useFullWidth={ true }
           columnDefinitions={
             [
               {
