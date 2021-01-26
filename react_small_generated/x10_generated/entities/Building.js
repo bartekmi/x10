@@ -2,15 +2,18 @@
 // @flow
 
 
-import { AppContext } from 'AppContext';
-import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
-import { type Unit } from 'entities/Unit';
 import * as React from 'react';
+import { v4 as uuid } from 'uuid';
+
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import { getYear } from 'react_lib/type_helpers/dateFunctions';
 import isBlank from 'react_lib/utils/isBlank';
 import toNum from 'react_lib/utils/toNum';
-import { v4 as uuid } from 'uuid';
+
+import { AppContext } from 'AppContext';
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
+import { type Unit } from 'entities/Unit';
+
 
 // Type Definition
 export type Building = {

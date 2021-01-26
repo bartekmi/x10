@@ -346,7 +346,7 @@ namespace x10.gen.react {
                   generator.WriteLine(indent, ",");
                 });
               } else {
-                generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell");
+                generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell", ImportLevel.ThirdParty);
 
                 generator.PushSourceVariableName("data");
                 string path = generator.GetReadOnlyBindingPath(instance);
@@ -595,7 +595,7 @@ namespace x10.gen.react {
         },
         ProgrammaticallyGenerateChildren = (generatorGeneric, indent, PlatformClassDef, instance) => {
           ReactCodeGenerator generator = (ReactCodeGenerator)generatorGeneric;
-          generator.ImportsPlaceholder.Import("Route", "react-router-dom");
+          generator.ImportsPlaceholder.Import("Route", "react-router-dom", ImportLevel.ThirdParty);
 
           foreach (ClassDefX10 classDef in generator.AllUiDefinitions.All) {
             if (classDef.Url == null)
@@ -603,7 +603,7 @@ namespace x10.gen.react {
 
             string compInterface = classDef.Name + "Interface";
             string relPath = classDef.XmlElement.FileInfo.RelativeDir;
-            generator.ImportsPlaceholder.ImportDefault(Path.Combine(relPath, compInterface));
+            generator.ImportsPlaceholder.ImportDefault(Path.Combine(relPath, compInterface), ImportLevel.Project);
 
             if (classDef.IsMany)
               generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",

@@ -36,9 +36,9 @@ namespace x10.gen.react {
       InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
-      ImportsPlaceholder.Import("graphql", "react-relay");
-      ImportsPlaceholder.Import("QueryRenderer", "react-relay");
-      ImportsPlaceholder.ImportDefault("environment");
+      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
+      ImportsPlaceholder.Import("QueryRenderer", "react-relay", ImportLevel.ThirdParty);
+      ImportsPlaceholder.ImportDefault("environment", ImportLevel.Project);
 
       ImportsPlaceholder.ImportDefault(classDef);
 
@@ -79,7 +79,7 @@ namespace x10.gen.react {
       WriteLine(1, ");");
       WriteLine(0, "}");
 
-      ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer");
+      ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer", ImportLevel.ThirdParty);
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
   
       WriteLine();
@@ -121,7 +121,7 @@ namespace x10.gen.react {
       classDefName,       // Index 0
       variableName);      // Index 1
 
-      ImportsPlaceholder.ImportDefault("react_lib/relay/MultiEntityQueryRenderer");
+      ImportsPlaceholder.ImportDefault("react_lib/relay/MultiEntityQueryRenderer", ImportLevel.ThirdParty);
 
       WriteLine();
     }

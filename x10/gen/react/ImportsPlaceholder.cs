@@ -8,6 +8,13 @@ using x10.ui.composition;
 using x10.model;
 
 namespace x10.gen.react {
+
+  public enum ImportLevel {
+    ThirdParty,
+    Project,
+    RelayGenerated,
+  }
+
   public class ImportsPlaceholder : CodeGenerator.Output {
 
     class ImportData {
@@ -15,6 +22,11 @@ namespace x10.gen.react {
       internal string Path;
       internal bool IsType = false;
       internal bool IsDefault = false;
+      internal ImportLevel ImportLevel;
+      internal int ImportSubLevel = 0;
+
+      // Derived
+      internal int CombinedImportLevel => (int)ImportLevel * 1000000 + ImportSubLevel;
 
       public override bool Equals(object obj) {
         ImportData other = (ImportData)obj;
@@ -35,43 +47,47 @@ namespace x10.gen.react {
 
     private List<ImportData> _imports = new List<ImportData>();
 
-    public void Import(string functionOrConstant, string pathNoExtension) {
-      _imports.Add(new ImportData() {
-        ImportName = functionOrConstant,
-        Path = pathNoExtension
-      });
-    }
-
-    public void ImportDerivedAttributeFunction(X10DerivedAttribute derivedAttribute) {
-      Import(ReactCodeGenerator.DerivedAttrFuncName(derivedAttribute), derivedAttribute.Owner);
-    }
-
-    public void Import(string functionOrConstant, IAcceptsModelAttributeValues entity) {
-      Import(functionOrConstant, entity.TreeElement.FileInfo.RelativePathNoExtension);
-    }
-
-    public void Import(string functionOrConstant, IAcceptsUiAttributeValues uiObject) {
-      Import(functionOrConstant, uiObject.XmlElement.FileInfo.RelativePathNoExtension);
-    }
-
-    public void ImportDefault(string pathNoExtension) {
+    #region Import Default
+    public void ImportDefault(string pathNoExtension, ImportLevel level) {
       string filename = Path.GetFileNameWithoutExtension(pathNoExtension);
 
       _imports.Add(new ImportData() {
         ImportName = filename,
         Path = pathNoExtension,
+        ImportLevel = level,
         IsDefault = true,
       });
     }
 
     public void ImportDefault(IAcceptsUiAttributeValues entity) {
-      ImportDefault(entity.XmlElement.FileInfo.RelativePathNoExtension);
+      ImportDefault(entity.XmlElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+    }
+    #endregion
+
+    #region Import (non-default)
+    public void Import(string functionOrConstant, string pathNoExtension, ImportLevel level) {
+      _imports.Add(new ImportData() {
+        ImportName = functionOrConstant,
+        Path = pathNoExtension,
+        ImportLevel = level,
+      });
     }
 
-    public void ImportType(string type, string path) {
+    public void Import(string functionOrConstant, IAcceptsModelAttributeValues entity) {
+      Import(functionOrConstant, entity.TreeElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+    }
+
+    public void Import(string functionOrConstant, IAcceptsUiAttributeValues uiObject) {
+      Import(functionOrConstant, uiObject.XmlElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+    }
+    #endregion
+
+    #region Import Type
+    public void ImportType(string type, string path, ImportLevel level) {
       _imports.Add(new ImportData() {
         ImportName = type,
         Path = path,
+        ImportLevel = level,
         IsType = true,
       });
     }
@@ -81,7 +97,13 @@ namespace x10.gen.react {
     }
 
     public void ImportType(string type, IAcceptsModelAttributeValues entity) {
-      ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension);
+      ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+    }
+    #endregion
+
+    #region Special Imports
+    public void ImportDerivedAttributeFunction(X10DerivedAttribute derivedAttribute) {
+      Import(ReactCodeGenerator.DerivedAttrFuncName(derivedAttribute), derivedAttribute.Owner);
     }
 
     public void ImportCreateDefaultFunc(Entity model) {
@@ -92,33 +114,50 @@ namespace x10.gen.react {
       Import(ReactCodeGenerator.CalculateErrorsFuncName(model), model);
     }
 
-    // Some special cases
     public void ImportAppContext() {
       ImportReact();
-      Import("AppContext", "AppContext");
+      Import("AppContext", "AppContext", ImportLevel.Project);
     }
 
     public void ImportReact() {
       _imports.Add(new ImportData() {
         ImportName = "* as React",
         Path = "react",
+        ImportLevel = ImportLevel.ThirdParty,
         IsDefault = true,
       });
     }
 
     public void ImportFunction(Function function) {
       string functionName = ReactCodeGenerator.FunctionName(function);
-
-      _imports.Add(new ImportData() {
-        ImportName = functionName,
-        // TODO: In the yaml function definitions, make it possible to specify location of function
-        Path = "react_lib/utils/" + functionName,
-        IsDefault = true,
-      });
+      string path = "react_lib/utils/" + functionName;
+      ImportDefault(path, ImportLevel.ThirdParty);
     }
+    #endregion
 
     public override void Write(TextWriter writer)  {
-      IEnumerable<IGrouping<string, ImportData>> orderedImportGroups = _imports
+      foreach (ImportData import in _imports) {
+        if (import.Path.StartsWith("latitude"))
+          import.ImportSubLevel = 1;
+        if (import.Path.StartsWith("react_lib"))
+          import.ImportSubLevel = 2;
+      }
+
+      IEnumerable<IGrouping<int, ImportData>> orderedImportGroups = _imports
+        .Distinct()
+        .GroupBy(x => x.CombinedImportLevel)
+        .OrderBy(x => x.Key);
+
+      foreach (IGrouping<int, ImportData> group in orderedImportGroups) {
+        WriteGroup(writer, group);
+        writer.WriteLine();
+      }
+
+      writer.WriteLine();
+    }
+
+    private static void WriteGroup(TextWriter writer, IEnumerable<ImportData> importSubLevelGroup) {
+      IEnumerable<IGrouping<string, ImportData>> orderedImportGroups = importSubLevelGroup
         .Distinct()
         .GroupBy(x => x.Path)
         .OrderBy(x => x.Key);
@@ -152,7 +191,6 @@ namespace x10.gen.react {
         writer.WriteLine(" from '{0}';", group.Key);
       }
 
-      writer.WriteLine();
     }
   }
 }

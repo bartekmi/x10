@@ -92,7 +92,7 @@ namespace x10.gen.react {
         }
       } else if (member is X10RegularAttribute attribute) {
         if (attribute.IsId) {
-          ImportsPlaceholder.Import("v4 as uuid", "uuid");
+          ImportsPlaceholder.Import("v4 as uuid", "uuid", ImportLevel.ThirdParty);
           return "uuid()";
         }
 
@@ -205,7 +205,7 @@ namespace x10.gen.react {
       string varName = VariableName(entity);
       string entityName = entity.Name;
 
-      ImportsPlaceholder.ImportType("FormError", "react_lib/form/FormProvider");
+      ImportsPlaceholder.ImportType("FormError", "react_lib/form/FormProvider", ImportLevel.ThirdParty);
       WriteLine(0, "export function {0}({1}: {2}, prefix?: string): $ReadOnlyArray<FormError> { ",
         CalculateErrorsFuncName(entity),
         varName,
@@ -232,7 +232,7 @@ namespace x10.gen.react {
         bool canBeEmpty = CanBeEmpty(member);
 
         ImportsPlaceholder.ImportFunction(HelperFunctions.IsBlank);
-        ImportsPlaceholder.Import("addError", "react_lib/form/FormProvider");
+        ImportsPlaceholder.Import("addError", "react_lib/form/FormProvider", ImportLevel.ThirdParty);
 
         if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
           WriteLine(1, "if (isBlank({0}.{1}))", varName, member.Name);

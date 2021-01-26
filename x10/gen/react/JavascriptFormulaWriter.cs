@@ -128,7 +128,7 @@ namespace x10.gen.react {
 
       if (functionName != null) {
         WriteFunctionAroundExpression(exp.Expression, functionName);
-        _imports.Import(functionName, importPath);
+        _imports.Import(functionName, importPath, ImportLevel.ThirdParty);
         return true;
       }
 

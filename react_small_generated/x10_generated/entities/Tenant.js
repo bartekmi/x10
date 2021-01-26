@@ -2,10 +2,13 @@
 // @flow
 
 
-import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
+import { v4 as uuid } from 'uuid';
+
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
-import { v4 as uuid } from 'uuid';
+
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
+
 
 // Type Definition
 export type Tenant = {

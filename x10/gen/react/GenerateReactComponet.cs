@@ -122,7 +122,8 @@ namespace x10.gen.react {
       WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
 
       ImportsPlaceholder.ImportType(fragmentName,
-        string.Format("./__generated__/{0}.graphql", fragmentName));
+        string.Format("./__generated__/{0}.graphql", fragmentName), 
+        ImportLevel.RelayGenerated);
     }
     #endregion
 
@@ -172,9 +173,9 @@ namespace x10.gen.react {
         // Since this is an HTML tag, no need for import
       } else {
         if (platClassDef is JavaScriptPlatformClassDef jsPlatClassDef && jsPlatClassDef.IsNonDefaultImport)
-          ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir);
+          ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir, ImportLevel.ThirdParty);
         else
-          ImportsPlaceholder.ImportDefault(platClassDef.ImportPath);
+          ImportsPlaceholder.ImportDefault(platClassDef.ImportPath, ImportLevel.ThirdParty);
       }
 
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName); // Open the React tag
@@ -297,8 +298,8 @@ namespace x10.gen.react {
       WriteLine(0, "});");
       WriteLine();
 
-      ImportsPlaceholder.Import("createFragmentContainer", "react-relay");
-      ImportsPlaceholder.Import("graphql", "react-relay");
+      ImportsPlaceholder.Import("createFragmentContainer", "react-relay", ImportLevel.ThirdParty);
+      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
     }
 
     private static string FragmentName(ClassDefX10 classDef) {
@@ -348,7 +349,7 @@ namespace x10.gen.react {
       WriteLine(1, "basicCommitMutation(mutation, variables);");
       WriteLine(0, "}");
 
-      ImportsPlaceholder.ImportDefault("react_lib/relay/basicCommitMutation");
+      ImportsPlaceholder.ImportDefault("react_lib/relay/basicCommitMutation", ImportLevel.ThirdParty);
 
       WriteLine();
     }
@@ -389,7 +390,7 @@ namespace x10.gen.react {
       WriteLine(1, "}");
       WriteLine(0, "`;");
 
-      ImportsPlaceholder.Import("graphql", "react-relay");
+      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
 
       WriteLine();
     }
