@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Runtime.InteropServices;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -229,7 +230,24 @@ attributes:
       RunTest("The name 'myAttr' is not unique among all the attributes and association of this Entity (possibly involving the entire inheritance hierarchy).", 4, 11, entity);
     }
 
+    [Fact]
+    public void SetterForExpressionProperty() {
+      Entity entity = CompileSingleEntity(@"
+name: Tmp
+description: Description...
+defaultStringRepresentation: =1 + 2
+");
+
+      Assert.NotNull(entity.StringRepresentation);
+    }
+
     #region Utilities
+
+    private Entity CompileSingleEntity(string yaml) {
+      Entity entity = CompilePass1(yaml);
+      CompilePass2(entity);
+      return entity;
+    }
 
     private Entity CompilePass1(string yaml) {
       return TestUtils.EntityCompilePass1(_messages, _allEnums, yaml);

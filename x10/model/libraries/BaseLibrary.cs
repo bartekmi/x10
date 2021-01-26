@@ -130,6 +130,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
         AppliesTo = AppliesTo.Entity,
         DataType = DataTypes.Singleton.String,
         MustBeFormula = true,
+        Setter = "StringRepresentation",
       },
       new ModelAttributeDefinitionAtomic() {
         Name = "abstract",

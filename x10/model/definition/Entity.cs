@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using x10.ui.metadata;
+using x10.formula;
 
 namespace x10.model.definition {
   public class Entity : ModelComponent{
@@ -19,6 +21,7 @@ namespace x10.model.definition {
     public String InheritsFromName { get; set; }
     public string UiName { get; set; }
     public bool IsAbstract { get; set; }
+    public ExpBase StringRepresentation { get; set; }
 
     // Derived
     public IEnumerable<Member> Members {

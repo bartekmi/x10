@@ -8,7 +8,7 @@ namespace x10.model.definition {
 
   public class Validation : ModelComponent {
     public string Message { get; set; }
-    public string Trigger { get; set; }
+    public ExpBase Trigger { get; set; }
     public Entity Owner { get; set; }
 
     private ExpBase _triggerExpression;

@@ -102,7 +102,7 @@ namespace x10.compiler {
         X10DataType dataType = new X10DataType(entity, false);
 
         foreach (ModelAttributeValue value in entity.AttributeValues)
-          CheckIfFormulaAndParse(parser, null, dataType, value);
+          CheckIfFormulaAndParse(parser, entity, dataType, value);
 
         foreach (Member member in entity.LocalMembers)
           foreach (ModelAttributeValue value in member.AttributeValues)
@@ -110,13 +110,13 @@ namespace x10.compiler {
 
         foreach (Validation validation in entity.Validations)
           foreach (ModelAttributeValue value in validation.AttributeValues)
-            CheckIfFormulaAndParse(parser, null, dataType, value);
+            CheckIfFormulaAndParse(parser, validation, dataType, value);
       }
     }
 
     private void CheckIfFormulaAndParse(
       FormulaParser parser, 
-      Member member, 
+      IAcceptsModelAttributeValues modelObject, 
       X10DataType modelDataType, 
       ModelAttributeValue value
       ) {
@@ -124,7 +124,11 @@ namespace x10.compiler {
       if (value.Definition is ModelAttributeDefinitionAtomic atomicDef) {
         if (value.Formula != null) {
           value.Expression = parser.Parse(value.TreeElement, value.Formula, modelDataType);
-          ValidateReturnedDataType(member, atomicDef, value);
+          if (modelObject is Member member)
+            ValidateReturnedDataType(member, atomicDef, value);
+
+          if (value.Definition.Setter != null && value.Definition.MustBeFormula)
+            AttributeReader.SetValueViaSetter(value.Definition, modelObject, value.Expression);
         } 
       }
     }
