@@ -32,7 +32,7 @@
           <dateOfOccupancy/>
           <ageInYears/>
         </FormRow>
-        <mailboxType/>
+        <mailboxType ui="RadioButtonGroup"/>
         <petPolicy/>
       </FormSection>
 

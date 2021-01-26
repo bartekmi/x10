@@ -232,7 +232,7 @@ namespace x10.ui.libraries {
         AtomicDataModel = DataTypes.Singleton.Timestamp,
       },
       new ClassDefNative() {
-        Name = "DropDown",
+        Name = "EnumSelection",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFrom = ClassDefNative.Editable,
         IsMany = false,
@@ -248,6 +248,20 @@ namespace x10.ui.libraries {
             DefaultValue = "sameAsDefined"
           },
         }
+      },
+      new ClassDefNative() {
+        Name = "DropDown",
+        Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
+        InheritsFromName = "EnumSelection",
+        IsMany = false,
+        AtomicDataModel = new DataTypeEnum(),
+      },
+      new ClassDefNative() {
+        Name = "RadioButtonGroup",
+        Description = "A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'",
+        InheritsFromName = "EnumSelection",
+        IsMany = false,
+        AtomicDataModel = new DataTypeEnum(),
       },
       #endregion
 

@@ -197,15 +197,16 @@ namespace x10.gen.react {
       //  },
       //},
 
+      #region for Enums
       // TODO: There are many subtleties around code-gen for this...
       // Binding to enum (with possible search)
       // Allow vs. not allow empty
       // Ordering (see logical 'order' attribute)
       // Not clear where the code for this belongs, as this is already a large file
       new PlatformClassDef() {
-        LogicalName = "DropDown",
-        PlatformName = "SelectInput",
-        ImportDir = "latitude/select",
+        LogicalName = "EnumSelection",
+        PlatformName = "EnumSelection",
+        IsAbstract = true,
         PlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -230,6 +231,24 @@ namespace x10.gen.react {
           },
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "DropDown",
+        PlatformName = "SelectInput",
+        InheritsFromName = "EnumSelection",
+        ImportDir = "latitude/select",
+        PlatformAttributes = new List<PlatformAttribute>() {
+        }
+      },
+      new PlatformClassDef() {
+        LogicalName = "RadioButtonGroup",
+        PlatformName = "RadioGroup",
+        InheritsFromName = "EnumSelection",
+        ImportDir = "latitude/radio",
+        PlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic("isInline", false),
+        }
+      },
+      #endregion
       #endregion
 
       #region Layout Components
