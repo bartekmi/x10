@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using HotChocolate;
 
-namespace Small.Entities {
+namespace x10.hotchoc.Entities {
   public class Tenant : EntityBase {
 
     // Regular Attributes

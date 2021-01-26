@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Small.Entities;
+using x10.hotchoc.Entities;
 
-namespace Small.Repositories {
+namespace x10.hotchoc.Repositories {
   public class SmallRepository : ISmallRepository {
     private Dictionary<int, Building> _buildings;
     private Dictionary<int, Tenant> _tenants;

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Small.Entities;
+using x10.hotchoc.Entities;
 
-namespace Small.Repositories {
+namespace x10.hotchoc.Repositories {
   public interface ISmallRepository {
     // Queries
     Building GetBuilding(int id);

@@ -1,6 +1,6 @@
 using System;
 
-namespace Small.Entities {
+namespace x10.hotchoc.Entities {
   public class Move : EntityBase {
 
     // Regular Attributes

@@ -7,10 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using HotChocolate;
 using HotChocolate.Execution.Configuration;
 
-using Small.Entities;
-using Small.Repositories;
+using x10.hotchoc.Entities;
+using x10.hotchoc.Repositories;
 
-namespace Small {
+namespace x10.hotchoc {
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940

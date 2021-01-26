@@ -10,7 +10,7 @@ using HotChocolate;
 using HotChocolate.Execution;
 
 
-namespace Small {
+namespace x10.hotchoc {
   public class Program {
     // Use this as part of the path if necessary in future...
     // Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));

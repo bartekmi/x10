@@ -4,10 +4,10 @@ using HotChocolate;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
-using Small.Entities;
-using Small.Repositories;
+using x10.hotchoc.Entities;
+using x10.hotchoc.Repositories;
 
-namespace Small {
+namespace x10.hotchoc {
   [ExtendObjectType(Name = "Query")]
   public class SmallQueries {
 

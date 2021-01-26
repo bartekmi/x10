@@ -1,14 +1,14 @@
 using System.Linq;
 
-using Small.Entities;
+using x10.hotchoc.Entities;
 
-namespace Small {
+namespace x10.hotchoc {
   public static class IdUtils {
     public static bool IsUuid(string id) {
       return id.Length == 36 && id.Count(x => x == '-') >= 4;
     }
 
-    public static string ToRelayId(EntityBase entity, int dbid) {
+    public static string ToRelayId(PrimordialEntityBase entity, int dbid) {
       return string.Format("{0}_{1}", entity.GetType().Name, dbid);
     }
 
