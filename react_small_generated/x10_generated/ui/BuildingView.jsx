@@ -85,6 +85,7 @@ function BuildingView(props: Props): React.Node {
             <SelectInput
               value={ building.mailboxType }
               onChange={ () => { } }
+              disabled={ true }
               options={ MailboxTypeEnumPairs }
             />
           </DisplayField>
@@ -94,6 +95,7 @@ function BuildingView(props: Props): React.Node {
             <SelectInput
               value={ building.petPolicy }
               onChange={ () => { } }
+              disabled={ true }
               options={ PetPolicyEnumPairs }
             />
           </DisplayField>

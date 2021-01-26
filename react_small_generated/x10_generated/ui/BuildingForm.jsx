@@ -7,6 +7,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
+import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
@@ -258,12 +259,13 @@ function BuildingForm(props: Props): React.Node {
             editorFor='mailboxType'
             label='Mailbox Type'
           >
-            <SelectInput
+            <RadioGroup
               value={ building.mailboxType }
               onChange={ (value) => {
                 onChange({ ...building, mailboxType: value })
               } }
               options={ MailboxTypeEnumPairs }
+              isInline={ false }
             />
           </FormField>
           <FormField

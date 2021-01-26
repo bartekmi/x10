@@ -71,7 +71,7 @@ namespace x10.ui.platform {
     }
 
     private void HydrateAndValidateAttributes(ClassDef logical, PlatformClassDef platform) {
-      foreach (PlatformAttribute attribute in platform.PlatformAttributes) {
+      foreach (PlatformAttribute attribute in platform.LocalPlatformAttributes) {
         if (attribute is PlatformAttributeStatic staticAttr)
           ValidateStaticAttribute(platform, staticAttr);
         else if (attribute is PlatformAttributeDynamic dynamicAttr)

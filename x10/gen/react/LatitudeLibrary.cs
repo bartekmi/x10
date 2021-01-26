@@ -21,7 +21,7 @@ namespace x10.gen.react {
         LogicalName = ClassDefNative.VisibilityControl.Name,
         PlatformName = VISIBILITY_CONTROL,
         ImportDir = "react_lib",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = ClassDefNative.ATTR_VISIBLE,
             PlatformName = "visible",
@@ -34,7 +34,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Heading1",
         PlatformName = "Text",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "display"),
           new JavaScriptAttributeDynamic() {
             LogicalName = "text",
@@ -45,14 +45,14 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Heading2",
         PlatformName = "Text",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "headline"),
         },
       },
       new PlatformClassDef() {
         LogicalName = "Heading3",
         PlatformName = "Text",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "title"),
         },
       },
@@ -64,7 +64,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Bullet",
         PlatformName = "Text",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("children", "•"),
         },
       },
@@ -74,7 +74,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Text",
         PlatformName = "Text",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "weight",
             PlatformName = "weight",
@@ -96,7 +96,7 @@ namespace x10.gen.react {
         LogicalName = "TextEdit",
         PlatformName = "TextInput",
         ImportDir = "react_lib/latitude_wrappers",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
@@ -110,7 +110,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "TextArea",
         PlatformName = "TextareaInput",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
@@ -126,7 +126,7 @@ namespace x10.gen.react {
         LogicalName = "IntEdit",
         // TODO: Use something more specific
         PlatformName = "FloatInput",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
@@ -141,7 +141,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "FloatEdit",
         PlatformName = "FloatInput",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
@@ -155,7 +155,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Checkbox",
         PlatformName = "Checkbox",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             LogicalName = "checked",
@@ -175,7 +175,7 @@ namespace x10.gen.react {
         LogicalName = "DateEditor",
         PlatformName = "CalendarDateInput",
         ImportDir = "react_lib/latitude_wrappers",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
@@ -207,10 +207,14 @@ namespace x10.gen.react {
         LogicalName = "EnumSelection",
         PlatformName = "EnumSelection",
         IsAbstract = true,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "disabled",
           },
           new JavaScriptAttributeByFunc() {
             PlatformName = "options",
@@ -223,7 +227,6 @@ namespace x10.gen.react {
               }
 
               string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
-
               generator.ImportsPlaceholder.Import(pairsConstant, dataType);
 
               return pairsConstant;
@@ -236,7 +239,7 @@ namespace x10.gen.react {
         PlatformName = "SelectInput",
         InheritsFromName = "EnumSelection",
         ImportDir = "latitude/select",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
         }
       },
       new PlatformClassDef() {
@@ -244,7 +247,7 @@ namespace x10.gen.react {
         PlatformName = "RadioGroup",
         InheritsFromName = "EnumSelection",
         ImportDir = "latitude/radio",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("isInline", false),
         }
       },
@@ -256,7 +259,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "VerticalStackPanel",
         PlatformName = "Group",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("flexDirection", "column"),
         },
       },
@@ -267,7 +270,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "RepellingRow",
         PlatformName = "Group",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("justifyContent", "space-between"),
         },
       },
@@ -283,7 +286,7 @@ namespace x10.gen.react {
         LogicalName = "List",
         PlatformName = "MultiStacker",
         ImportDir = "react_lib/multi",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "items",
@@ -321,7 +324,7 @@ namespace x10.gen.react {
         NestedClassDef = new PlatformClassDef() {
           PlatformName = "Table",
           ImportDir = "latitude/table",
-          PlatformAttributes = new List<PlatformAttribute>() {
+          LocalPlatformAttributes = new List<PlatformAttribute>() {
             new JavaScriptAttributeDynamic() {
               IsMainDatabindingAttribute = true,
               PlatformName = "data",
@@ -342,7 +345,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "TableColumn",
         PlatformName = "",  // Just a JavaScript object
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "id",
             Function = (instance) => instance.FindValue("label")?.ToString(),
@@ -394,7 +397,7 @@ namespace x10.gen.react {
         LogicalName = "Button",
         PlatformName = "Button",
         ImportDir = "react_lib/latitude_wrappers",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "label",
@@ -417,7 +420,7 @@ namespace x10.gen.react {
         LogicalName = "MenuItem",
         PlatformName = "MenuItem",
         ImportDir = "react_lib/menu",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "label",
@@ -440,7 +443,7 @@ namespace x10.gen.react {
         LogicalName = "Label",
         PlatformName = "DisplayField",
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "toolTip",
             PlatformName = "toolTip",
@@ -462,7 +465,7 @@ namespace x10.gen.react {
         LogicalName = "Form",
         PlatformName = "FormProvider",
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "value",
             IsCodeSnippet = true,
@@ -480,7 +483,7 @@ namespace x10.gen.react {
         LogicalName = "FormSection",
         PlatformName = "FormSection",
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("label", "label"),
         },
       },
@@ -488,7 +491,7 @@ namespace x10.gen.react {
         LogicalName = "FormField",
         PlatformName = "FormField",
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "editorFor",
             Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance),
@@ -521,7 +524,7 @@ namespace x10.gen.react {
         LogicalName = "SubmitButton",
         PlatformName = "FormSubmitButton",
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "onClick",
             IsCodeSnippet = true,
@@ -539,7 +542,7 @@ namespace x10.gen.react {
         LogicalName = "Action",
         PlatformName = "",  // Just a JavaScript object
         ImportDir = "react_lib/form",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "successUrl",
             PlatformName = "successUrl",
@@ -549,7 +552,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "FormRow",
         PlatformName = "Group",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("gap", 40),
         },
       },
@@ -560,7 +563,7 @@ namespace x10.gen.react {
         LogicalName = "AssociationEditor",
         PlatformName = "AssociationEditor",
         ImportDir = "react_lib/multi",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "id",
@@ -591,7 +594,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "HelpIcon",
         PlatformName = "HelpTooltip",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "text",
             PlatformName = "text",
@@ -603,7 +606,7 @@ namespace x10.gen.react {
         LogicalName = "SpaContent",
         PlatformName = "SpaContent",
         ImportDir = "react_lib",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "rootComponent",
             Function = (generator, instance) => {

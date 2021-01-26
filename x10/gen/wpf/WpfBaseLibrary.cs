@@ -19,7 +19,7 @@ namespace x10.gen.wpf {
     readonly static PlatformClassDef Visual = new PlatformClassDef() {
       LogicalName = "ClassDefVisual",
       IsAbstract = true,
-      PlatformAttributes = new List<PlatformAttribute>() {
+      LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             LogicalName = "visible",
             PlatformName = "Visibility",
@@ -61,7 +61,7 @@ namespace x10.gen.wpf {
         LogicalName = "Bullet",
         PlatformName = "TextBlock",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Text",
             Value = "•",
@@ -72,7 +72,7 @@ namespace x10.gen.wpf {
         LogicalName = "Label",
         PlatformName = "lib:EditElementWrapper",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
             PlatformName = "IsMandatory",
@@ -99,7 +99,7 @@ namespace x10.gen.wpf {
         LogicalName = "Text",
         PlatformName = "TextBlock",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             LogicalName = "weight",
             PlatformName = "FontWeight",
@@ -127,7 +127,7 @@ namespace x10.gen.wpf {
         LogicalName = "TextEdit",
         PlatformName = "TextBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "Text",
@@ -142,7 +142,7 @@ namespace x10.gen.wpf {
         LogicalName = "TextArea",
         PlatformName = "TextBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "Text",
@@ -170,7 +170,7 @@ namespace x10.gen.wpf {
         // TODO: Use something more specific
         PlatformName = "TextBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "Text",
@@ -186,7 +186,7 @@ namespace x10.gen.wpf {
         // TODO: Use something more specific
         PlatformName = "TextBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "Text",
@@ -201,7 +201,7 @@ namespace x10.gen.wpf {
         LogicalName = "Checkbox",
         PlatformName = "CheckBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             LogicalName = "checked",
@@ -217,7 +217,7 @@ namespace x10.gen.wpf {
         LogicalName = "BooleanViaButtons",
         PlatformName = "lib:BooleanViaButtons",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "Selected",
@@ -228,7 +228,7 @@ namespace x10.gen.wpf {
         LogicalName = "DateEditor",
         PlatformName = "DatePicker",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "SelectedDate",
@@ -260,7 +260,7 @@ namespace x10.gen.wpf {
         LogicalName = "DropDown",
         PlatformName = "ComboBox",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "SelectedValue",
@@ -296,7 +296,7 @@ namespace x10.gen.wpf {
         LogicalName = "Row",
         PlatformName = "StackPanel",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Orientation",
             Value = "Horizontal",
@@ -327,7 +327,7 @@ namespace x10.gen.wpf {
         PlatformName = "DataGrid",
         InheritsFrom = Visual,
         PrimaryAttributeWrapperProperty = "Columns",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "AutoGenerateColumns",
             Value = "False",
@@ -345,7 +345,7 @@ namespace x10.gen.wpf {
       new PlatformClassDef() {
         LogicalName = "TableColumn",
         PlatformName = "DataGridTemplateColumn",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             LogicalName = "label",
             PlatformName = "Header",
@@ -365,7 +365,7 @@ namespace x10.gen.wpf {
         LogicalName = "HelpIcon",
         PlatformName = "TextBlock",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Text",
             Value = "(?)",
@@ -384,7 +384,7 @@ namespace x10.gen.wpf {
         LogicalName = "Button",
         PlatformName = "Button",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic() {
             PlatformName = "Click",
             Value = "NavigateToUrlInTag",
@@ -402,7 +402,7 @@ namespace x10.gen.wpf {
       new PlatformClassDefWithCodelet() {
         LogicalName = "SubmitButton",
         InheritsFromName = "Button",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "Click",
             // TODO: Need a more robust way to get unique element name for code-gen purposes
@@ -423,7 +423,7 @@ namespace x10.gen.wpf {
       LogicalName = "SelectableButton",
         PlatformName = "ToggleButton",
         InheritsFromName = "Button",
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new WpfAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             LogicalName = "selected",
@@ -451,7 +451,7 @@ namespace x10.gen.wpf {
       LogicalName = "MenuItem",
         PlatformName = "MenuItem",
         InheritsFrom = Visual,
-        PlatformAttributes = new List<PlatformAttribute>() {
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "Click",
             Function = (instance) => instance.HasAttributeValue("url") ? "NavigateToUrlInTag" : null

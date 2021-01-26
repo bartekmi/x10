@@ -44,11 +44,11 @@ namespace x10.ui.platform {
     public Action<CodeGenerator, int /* indent */, PlatformClassDef, Instance> ProgrammaticallyGenerateChildren { get; set; }
 
     // Attributes - all types
-    private IEnumerable<PlatformAttribute> _platformAttributes;
-    public IEnumerable<PlatformAttribute> PlatformAttributes {
-      get { return _platformAttributes; }
+    private IEnumerable<PlatformAttribute> _localPlatformAttributes;
+    public IEnumerable<PlatformAttribute> LocalPlatformAttributes {
+      get { return _localPlatformAttributes; }
       set {
-        _platformAttributes = value;
+        _localPlatformAttributes = value;
         foreach (PlatformAttribute attribute in value)
           attribute.Owner = this;
       }
@@ -56,6 +56,13 @@ namespace x10.ui.platform {
 
 
     // Derived
+    public IEnumerable<PlatformAttribute> PlatformAttributes {
+      get {
+        return InheritsFrom == null ?
+          LocalPlatformAttributes :
+          InheritsFrom.PlatformAttributes.Concat(LocalPlatformAttributes);
+      }
+    }
     public IEnumerable<PlatformAttributeStatic> StaticPlatformAttributes {
       get { return PlatformAttributes.OfType<PlatformAttributeStatic>(); }
     }
@@ -83,7 +90,7 @@ namespace x10.ui.platform {
     public PlatformClassDef InheritsFrom { get; set; }
 
     public PlatformClassDef() {
-      PlatformAttributes = new List<PlatformAttribute>();
+      LocalPlatformAttributes = new List<PlatformAttribute>();
     }
 
     internal PlatformAttributeDynamic FindDyamicAttribute(string logicalAttrName) {
