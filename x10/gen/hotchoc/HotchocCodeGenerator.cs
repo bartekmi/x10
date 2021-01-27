@@ -270,7 +270,7 @@ namespace x10.hotchoc {{
 
       // Instantiate entity
       WriteLine(3, "{0} {1} = new {0}() {", entityName, varName);
-      
+
       foreach (Member member in writableMembers) 
         WriteLine(4, "{0} = {1}{2},", 
           PropName(member), 
@@ -376,7 +376,10 @@ namespace x10.hotchoc {{
         string.Format("\"{0}: \" + Dbid", entity.Name) :
         ExpressionToString(entity.StringRepresentation);
 
-      WriteLine(2, "public string? ToStringRepresentation => {0};", formula);
+      WriteLine(2, "public string? ToStringRepresentation {", formula);
+      WriteLine(3, "get { return {0}; }", formula);
+      WriteLine(3, "set { /* Needed to make Hot Chocolate happy */ }");
+      WriteLine(2, "}");
 
       WriteLine();
     }

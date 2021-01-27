@@ -32,7 +32,10 @@ namespace x10.hotchoc.Entities {
 
     // To String Representation
     [GraphQLNonNullType]
-    public string? ToStringRepresentation => Number;
+    public string? ToStringRepresentation {
+      get { return Number; }
+      set { /* Needed to make Hot Chocolate happy */ }
+    }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();

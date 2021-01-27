@@ -18,7 +18,10 @@ namespace x10.hotchoc.Entities {
 
     // To String Representation
     [GraphQLNonNullType]
-    public string? ToStringRepresentation => "Tenant: " + Dbid;
+    public string? ToStringRepresentation {
+      get { return "Tenant: " + Dbid; }
+      set { /* Needed to make Hot Chocolate happy */ }
+    }
 
     // Associations
     [GraphQLNonNullType]

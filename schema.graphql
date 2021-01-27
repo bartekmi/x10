@@ -3,22 +3,42 @@ schema {
   mutation: Mutation
 }
 
+"A physical or mailing address"
 type Address {
   unitNumber: String!
   theAddress: String!
   city: String!
   stateOrProvince: String!
   zip: String!
+  toStringRepresentation: String!
   id: String!
   dbid: Int!
 }
 
-"A physical structure that contains Units to be occupied by Tenants"
+"A connection to a list of items."
+type AddressConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [AddressEdge!]
+  "A flattened list of the nodes."
+  nodes: [Address!]
+}
+
+"An edge in a connection."
+type AddressEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Address!
+}
+
+"A physical building which contains rental units"
 type Building {
   moniker: String!
   name: String!
   description: String!
-  dateOfOccupancy: DateTime
+  dateOfOccupancy: DateTime!
   mailboxType: MailboxTypeEnum!
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
@@ -48,11 +68,13 @@ type BuildingEdge {
   node: Building!
 }
 
+"Somewhat contrived move event from one apartment to another"
 type Move {
-  date: DateTime
-  from: Building
-  to: Building
-  tenant: Tenant
+  date: DateTime!
+  toStringRepresentation: String!
+  from: Building!
+  to: Building!
+  tenant: Tenant!
   id: String!
   dbid: Int!
 }
@@ -77,11 +99,15 @@ type MoveEdge {
 
 type Mutation {
   "Creates a new Building or updates an existing one, depending on the value of id"
-  createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! physicalAddress: AddressInput! mailingAddress: AddressInput units: [UnitInput!]!): String!
-  "Creates a new Tenant or updates an existing one, depending on the value of id"
-  createOrUpdateTenant(id: String! name: String! phone: String! email: String! permanentMailingAddress: AddressInput!): String!
+  createOrUpdateBuilding(id: String! name: String description: String! dateOfOccupancy: DateTime mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum! mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
   "Creates a new Move or updates an existing one, depending on the value of id"
-  createOrUpdateMove(id: String! date: DateTime! fromId: String! toId: String! tenantId: String!): String!
+  createOrUpdateMove(id: String! date: DateTime from: BuildingInput! to: BuildingInput! tenant: TenantInput!): String!
+  "Creates a new Tenant or updates an existing one, depending on the value of id"
+  createOrUpdateTenant(id: String! name: String phone: String! email: String permanentMailingAddress: AddressInput!): String!
+  "Creates a new Address or updates an existing one, depending on the value of id"
+  createOrUpdateAddress(id: String! unitNumber: String! theAddress: String city: String stateOrProvince: String zip: String): String!
+  "Creates a new Unit or updates an existing one, depending on the value of id"
+  createOrUpdateUnit(id: String! number: String squareFeet: Float! numberOfBedrooms: Int numberOfBathrooms: NumberOfBathroomsEnum hasBalcony: Boolean!): String!
 }
 
 "Information about pagination in a connection."
@@ -98,19 +124,28 @@ type PageInfo {
 
 type Query {
   "Retrieve a Building by id\n\n\n**Returns:**\nThe Building."
-  building("The id of the building." id: String!): Building!
-  "Gets all buildings.\n\n\n**Returns:**\nAll Buildings."
+  building("The id of the Building." id: String!): Building!
+  "Gets all Buildings.\n\n\n**Returns:**\nAll Buildings."
   buildings(first: Int after: String last: Int before: String where: BuildingFilter order_by: BuildingSort): BuildingConnection
-  "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Tenant."
-  tenant("The id of the tenant." id: String!): Tenant!
-  "Gets all tenants.\n\n\n**Returns:**\nAll Tenants."
-  tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection
   "Retrieve a Move by id\n\n\n**Returns:**\nThe Move."
-  move("The id of the move." id: String!): Move!
-  "Gets all moves.\n\n\n**Returns:**\nAll Moves."
+  move("The id of the Move." id: String!): Move!
+  "Gets all Moves.\n\n\n**Returns:**\nAll Moves."
   moves(first: Int after: String last: Int before: String where: MoveFilter order_by: MoveSort): MoveConnection
+  "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Tenant."
+  tenant("The id of the Tenant." id: String!): Tenant!
+  "Gets all Tenants.\n\n\n**Returns:**\nAll Tenants."
+  tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection
+  "Retrieve a Address by id\n\n\n**Returns:**\nThe Address."
+  address("The id of the Address." id: String!): Address!
+  "Gets all Addresses.\n\n\n**Returns:**\nAll Addresses."
+  addresses(first: Int after: String last: Int before: String where: AddressFilter order_by: AddressSort): AddressConnection
+  "Retrieve a Unit by id\n\n\n**Returns:**\nThe Unit."
+  unit("The id of the Unit." id: String!): Unit!
+  "Gets all Units.\n\n\n**Returns:**\nAll Units."
+  units(first: Int after: String last: Int before: String where: UnitFilter order_by: UnitSort): UnitConnection
 }
 
+"Tenant of a Unit"
 type Tenant {
   name: String!
   phone: String!
@@ -139,16 +174,37 @@ type TenantEdge {
   node: Tenant!
 }
 
+"An individual rental unit"
 type Unit {
   number: String!
   squareFeet: Float
   numberOfBedrooms: Int!
   numberOfBathrooms: NumberOfBathroomsEnum!
   hasBalcony: Boolean!
+  toStringRepresentation: String!
   id: String!
   dbid: Int!
 }
 
+"A connection to a list of items."
+type UnitConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [UnitEdge!]
+  "A flattened list of the nodes."
+  nodes: [Unit!]
+}
+
+"An edge in a connection."
+type UnitEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Unit!
+}
+
+"A physical or mailing address"
 input AddressFilter {
   AND: [AddressFilter!]
   OR: [AddressFilter!]
@@ -202,6 +258,16 @@ input AddressFilter {
   zip_not_ends_with: String
   zip_in: [String!]
   zip_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
   id: String
   id_not: String
   id_contains: String
@@ -226,27 +292,31 @@ input AddressFilter {
   dbid_not_lte: Int
 }
 
+"A physical or mailing address"
 input AddressInput {
   unitNumber: String!
   theAddress: String!
   city: String!
   stateOrProvince: String!
   zip: String!
+  toStringRepresentation: String!
   id: String!
   dbid: Int!
 }
 
+"A physical or mailing address"
 input AddressSort {
   unitNumber: SortOperationKind
   theAddress: SortOperationKind
   city: SortOperationKind
   stateOrProvince: SortOperationKind
   zip: SortOperationKind
+  toStringRepresentation: SortOperationKind
   id: SortOperationKind
   dbid: SortOperationKind
 }
 
-"A physical structure that contains Units to be occupied by Tenants"
+"A physical building which contains rental units"
 input BuildingFilter {
   AND: [BuildingFilter!]
   OR: [BuildingFilter!]
@@ -282,8 +352,8 @@ input BuildingFilter {
   description_not_in: [String!]
   dateOfOccupancy: DateTime
   dateOfOccupancy_not: DateTime
-  dateOfOccupancy_in: [DateTime]
-  dateOfOccupancy_not_in: [DateTime]
+  dateOfOccupancy_in: [DateTime!]
+  dateOfOccupancy_not_in: [DateTime!]
   dateOfOccupancy_gt: DateTime
   dateOfOccupancy_not_gt: DateTime
   dateOfOccupancy_gte: DateTime
@@ -358,7 +428,24 @@ input BuildingFilter {
   dbid_not_lte: Int
 }
 
-"A physical structure that contains Units to be occupied by Tenants"
+"A physical building which contains rental units"
+input BuildingInput {
+  moniker: String!
+  name: String!
+  description: String!
+  dateOfOccupancy: DateTime!
+  mailboxType: MailboxTypeEnum!
+  petPolicy: PetPolicyEnum
+  mailingAddressSameAsPhysical: Boolean!
+  toStringRepresentation: String!
+  units: [UnitInput!]!
+  physicalAddress: AddressInput!
+  mailingAddress: AddressInput
+  id: String!
+  dbid: Int!
+}
+
+"A physical building which contains rental units"
 input BuildingSort {
   moniker: SortOperationKind
   name: SortOperationKind
@@ -374,13 +461,14 @@ input BuildingSort {
   dbid: SortOperationKind
 }
 
+"Somewhat contrived move event from one apartment to another"
 input MoveFilter {
   AND: [MoveFilter!]
   OR: [MoveFilter!]
   date: DateTime
   date_not: DateTime
-  date_in: [DateTime]
-  date_not_in: [DateTime]
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
   date_gt: DateTime
   date_not_gt: DateTime
   date_gte: DateTime
@@ -389,6 +477,16 @@ input MoveFilter {
   date_not_lt: DateTime
   date_lte: DateTime
   date_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
   from: BuildingFilter
   to: BuildingFilter
   tenant: TenantFilter
@@ -416,8 +514,10 @@ input MoveFilter {
   dbid_not_lte: Int
 }
 
+"Somewhat contrived move event from one apartment to another"
 input MoveSort {
   date: SortOperationKind
+  toStringRepresentation: SortOperationKind
   from: BuildingSort
   to: BuildingSort
   tenant: TenantSort
@@ -425,6 +525,7 @@ input MoveSort {
   dbid: SortOperationKind
 }
 
+"Tenant of a Unit"
 input TenantFilter {
   AND: [TenantFilter!]
   OR: [TenantFilter!]
@@ -493,6 +594,18 @@ input TenantFilter {
   dbid_not_lte: Int
 }
 
+"Tenant of a Unit"
+input TenantInput {
+  name: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  permanentMailingAddress: AddressInput!
+  id: String!
+  dbid: Int!
+}
+
+"Tenant of a Unit"
 input TenantSort {
   name: SortOperationKind
   phone: SortOperationKind
@@ -503,6 +616,7 @@ input TenantSort {
   dbid: SortOperationKind
 }
 
+"An individual rental unit"
 input UnitFilter {
   AND: [UnitFilter!]
   OR: [UnitFilter!]
@@ -554,6 +668,16 @@ input UnitFilter {
   numberOfBathrooms_not_lte: NumberOfBathroomsEnum
   hasBalcony: Boolean
   hasBalcony_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
   id: String
   id_not: String
   id_contains: String
@@ -578,14 +702,28 @@ input UnitFilter {
   dbid_not_lte: Int
 }
 
+"An individual rental unit"
 input UnitInput {
   number: String!
   squareFeet: Float
   numberOfBedrooms: Int!
   numberOfBathrooms: NumberOfBathroomsEnum!
   hasBalcony: Boolean!
+  toStringRepresentation: String!
   id: String!
   dbid: Int!
+}
+
+"An individual rental unit"
+input UnitSort {
+  number: SortOperationKind
+  squareFeet: SortOperationKind
+  numberOfBedrooms: SortOperationKind
+  numberOfBathrooms: SortOperationKind
+  hasBalcony: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
 }
 
 enum MailboxTypeEnum {
