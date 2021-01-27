@@ -33,6 +33,8 @@ namespace x10.gen.wpf {
       _defaultNamespace = defaultNamespace;
     }
 
+    public override void GenerateCoomon() { }
+
     #region Generate XAML, XAML.cs, VM (View Model), Custom VM
 
     public override void Generate(ClassDefX10 classDef) {

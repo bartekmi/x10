@@ -18,7 +18,9 @@ namespace x10.gen {
   public abstract class CodeGenerator {
 
     public string IntermediateFilePath { get; set; }
+    public bool GenerateAbstractEntities {get; set;}
 
+    public abstract void GenerateCoomon();
     public abstract void Generate(ClassDefX10 classDef);
     public abstract void Generate(Entity entity);
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
@@ -49,7 +51,9 @@ namespace x10.gen {
       if (Directory.Exists(rootGenerateDir))
         Directory.Delete(rootGenerateDir, true);
 
-      foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract))
+      GenerateCoomon();
+
+      foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract || GenerateAbstractEntities))
         Generate(entity);
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
@@ -89,11 +93,15 @@ namespace x10.gen {
 
     protected void Begin(FileInfo fileInfo, string extension, bool capitalize = true) {
       string relativePath = AssembleRelativePath(fileInfo, extension, capitalize);
-      string absolutePath = Path.Combine(RootGenerateDir, relativePath);
-      Begin(absolutePath);
+      Begin(relativePath);
     }
 
-    protected void Begin(string absolutePath) {
+    protected void Begin(string relativePath) {
+      string absolutePath = Path.Combine(RootGenerateDir, relativePath);
+      BeginAbsolute(absolutePath);
+    }
+
+    private void BeginAbsolute(string absolutePath) {
       if (_writer != null)
         throw new Exception("Someone before me did not End() after Being()");
       _writer = CreateIntermediateDirs(absolutePath);

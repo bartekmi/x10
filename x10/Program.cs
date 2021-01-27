@@ -14,7 +14,7 @@ using x10.ui.metadata;
 
 using x10.gen;
 using x10.gen.react;
-using x10.gen.wpf;
+using x10.gen.hotchoc;
 
 [assembly: InternalsVisibleTo("x10-test")]
 
@@ -51,6 +51,17 @@ namespace x10 {
       }
     };
 
+    private static readonly GenConfig HOTCHOC_SMALL_CONFIG = new GenConfig() {
+      SourceDir = "examples/small",
+      ProjectDir = "../hot_chocolate_small",
+      TargetDir = "SmallSample",
+      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+      Generator = new HotchocCodeGenerator() {
+        GenerateAbstractEntities = true,
+      },
+    };
+
     //  Outdated
     // private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
     //   ProjectDir = "../wpf_generated_small",
@@ -61,7 +72,7 @@ namespace x10 {
 
     public static int Main(string[] args) {
 
-      GenConfig config = REACT_SMALL_CONFIG;
+      GenConfig config = HOTCHOC_SMALL_CONFIG;
       MessageBucket messages = new MessageBucket();
 
       // Hydrate UiLibraries

@@ -1,6 +1,6 @@
 name: Base
 description: Provides attribute(s) common to all entities
-abstract: True
+abstract: true
 
 attributes:
   - name: id

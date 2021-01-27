@@ -27,7 +27,7 @@ namespace x10.hotchoc {
         Address physicalAddress,
         Address? mailingAddress,
         IEnumerable<Unit> units,
-        [Service] ISmallRepository repository) {
+        [Service] IRepository repository) {
 
       Building building = new Building() {
         Name = name,
@@ -41,15 +41,8 @@ namespace x10.hotchoc {
         Units = new List<Unit>(units),
       };
 
-      if (IdUtils.IsUuid(id)) {
-        repository.AddBuilding(building);
-        id = building.Id;
-      } else {
-        building.Dbid = IdUtils.FromRelayId(id);
-        repository.UpdateBuilding(building);
-      }
-
-      return id;
+      int dbid = repository.AddOrUpdateBuilding(IdUtils.FromRelayId(id), building);
+      return IdUtils.ToRelayId<Building>(dbid);
     }
     #endregion
 
@@ -63,7 +56,7 @@ namespace x10.hotchoc {
         string phone,
         string email,
         Address permanentMailingAddress,
-        [Service] ISmallRepository repository) {
+        [Service] IRepository repository) {
 
       Tenant tenant = new Tenant() {
         Name = name,
@@ -94,7 +87,7 @@ namespace x10.hotchoc {
         string fromId,
         string toId,
         string tenantId,
-        [Service] ISmallRepository repository) {
+        [Service] IRepository repository) {
 
       Move move = new Move() {
         Date = date,

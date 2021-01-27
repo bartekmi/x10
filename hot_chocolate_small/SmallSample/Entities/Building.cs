@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using HotChocolate;
 
 namespace x10.hotchoc.Entities {
-
+  // Enums
   public enum MailboxTypeEnum {
     InBuilding,
     Community,
@@ -18,25 +18,27 @@ namespace x10.hotchoc.Entities {
     DogsOnly,
   }
 
+
   /// <summary>
-  /// A physical structure that contains Units to be occupied by Tenants
+  /// A physical building which contains rental units
   /// </summary>
-  public class Building : EntityBase {
+  public class Building : Base {
     // Regular Attributes
     [GraphQLNonNullType]
-    public string? Moniker { get { return "Bldg-" + Dbid; } }
+    public string? Moniker { get; set; }
     [GraphQLNonNullType]
     public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? Description { get; set; }
+    [GraphQLNonNullType]
     public DateTime? DateOfOccupancy { get; set; }
     [GraphQLNonNullType]
     public MailboxTypeEnum? MailboxType { get; set; }
-    // We'll leave this one nullable just for fun-sies.
     public PetPolicyEnum? PetPolicy { get; set; }
+    [GraphQLNonNullType]
     public bool MailingAddressSameAsPhysical { get; set; }
 
-    // Derived
+    // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation => Name;
 
@@ -46,5 +48,7 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public Address? PhysicalAddress { get; set; }
     public Address? MailingAddress { get; set; }
+
   }
 }
+

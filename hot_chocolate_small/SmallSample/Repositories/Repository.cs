@@ -26,6 +26,10 @@ namespace x10.hotchoc.Repositories {
       return _buildings[id];
     }
 
+    public int AddOrUpdateBuilding(int? dbid, Building building) {
+      return RepositoryUtils.AddOrUpdate(dbid, building, _buildings, EnsureUniqueDbids);
+    }
+
     public int AddBuilding(Building building) {
       int newId = EnsureUniqueDbids(building);
       _buildings[newId] = building;

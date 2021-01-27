@@ -1,7 +1,13 @@
+using System;
+using System.Collections.Generic;
+
 using HotChocolate;
 
 namespace x10.hotchoc.Entities {
-  public class Address : EntityBase {
+  /// <summary>
+  /// A physical or mailing address
+  /// </summary>
+  public class Address : Base {
     // Regular Attributes
     [GraphQLNonNullType]
     public string? UnitNumber { get; set; }
@@ -14,6 +20,10 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public string? Zip { get; set; }
 
-    // Associations
+    // To String Representation
+    [GraphQLNonNullType]
+    public string? ToStringRepresentation => "Address: " + Dbid;
+
   }
 }
+

@@ -19,7 +19,145 @@ namespace x10.gen.hotchoc {
   public class HotchocCodeGenerator : CodeGenerator {
     public override void Generate(ClassDefX10 classDef) { }
 
+    #region Generate Common
+    public override void GenerateCoomon() {
+      GenerateRepositoryInterface();
+      GenerateRepository();
+      GenerateQueries();
+      GenerateMutations();
+    }
+
+    #region Generate Repository - Interface
+    private void GenerateRepositoryInterface() {
+      Begin("Repositories/IRepository.cs");
+
+      GenerateRepositoryHeader();
+      WriteLine(1, "public interface IRepository {");
+
+      GenerateRepositoryInterfaceQueries();
+      GenerateRepositoryInterfaceMutations();
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
+    }
+
+    private void GenerateRepositoryHeader() {
+      WriteLine(0, "using System.Collections.Generic;");
+      WriteLine(0, "using System.Linq;");
+      WriteLine();
+      WriteLine(0, "using x10.hotchoc.Entities;");
+      WriteLine();
+      WriteLine(0, "namespace x10.hotchoc.Repositories {");
+    }
+
+    private IEnumerable<Entity> ConcreteEntities() {
+      return AllEntities.All.Where(x => !x.IsAbstract && !x.IsContext);
+    }
+
+    private void GenerateRepositoryInterfaceQueries() {
+      WriteLine(2, "// Queries");
+
+      foreach (Entity entity in ConcreteEntities())
+        WriteLine(2, "{0} Get{0}(int id);", entity.Name);
+      WriteLine();
+
+      foreach (Entity entity in ConcreteEntities())
+        WriteLine(2, "IQueryable<{0}> Get{1}();", entity.Name, NameUtils.Pluralize(entity.Name));
+      WriteLine();
+    }
+
+    private void GenerateRepositoryInterfaceMutations() {
+      WriteLine(2, "// Mutations");
+
+      foreach (Entity entity in ConcreteEntities()) {
+        string varName = NameUtils.UncapitalizeFirstLetter(entity.Name);
+        WriteLine(2, "int Add{0}({0} {1});", entity.Name, varName);
+        WriteLine(2, "void Update{0}({0} {1});", entity.Name, varName);
+      }
+    }
+    #endregion
+
+    private void GenerateRepository() {
+      Begin("Repositories/Repository.cs");
+
+      GenerateRepositoryHeader();
+      WriteLine(1, "public class Repository : IRepository {");
+
+      GenerateRepositoryDictionaries();
+      GenerateRepositoryConstructor();
+      GenerateRepositoryImplementations();
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
+    }
+
+    private void GenerateRepositoryDictionaries() {
+      foreach (Entity entity in ConcreteEntities())
+        WriteLine(2, "private Dictionary<int, {0}> _{1} = new Dictionary<int, {0}>();", 
+          entity.Name,
+          NameUtils.UncapitalizeFirstLetter(NameUtils.Pluralize(entity.Name)));
+
+      WriteLine();
+    }
+
+
+    private void GenerateRepositoryConstructor() {
+      WriteLine(2, "public Repository() {");
+
+      WriteLine(3, "// Do nothing");
+          
+      WriteLine(2, "}");
+      WriteLine();
+    }
+
+    private void GenerateRepositoryImplementations() {
+      foreach (Entity entity in ConcreteEntities()) {
+        string entityName = entity.Name;
+        string pluralUpper = NameUtils.Pluralize(entityName);
+        string pluralLower = NameUtils.UncapitalizeFirstLetter(pluralUpper);
+
+        WriteLine(2, "#region {0}", pluralUpper);
+
+        // Get multiple
+        WriteLine(2, "public IQueryable<{0}> Get{1}() => _{2}.Values.AsQueryable();",
+          entityName, pluralUpper, pluralLower);
+        WriteLine();
+
+        // Get single
+        WriteLine(2, "public {0} Get{0}(int id) { return _{1}[id]; }", entityName, pluralLower);
+        WriteLine();
+
+        // Add
+        WriteLine(2, "public int AddBuilding(Building building) {");
+        WriteLine(3, "");
+        WriteLine(3, "");
+        WriteLine(3, "");
+        WriteLine(2, "}");
+
+        // Update
+
+        WriteLine(2, "#endregion");
+      }
+    }
+
+    private void GenerateQueries() {
+
+    }
+
+    private void GenerateMutations() {
+
+    }
+    #endregion
+
+    #region Generate Entity
     public override void Generate(Entity entity) {
+      if (entity.IsContext)
+        return;
+
       Begin(entity.TreeElement.FileInfo, ".cs");
 
       WriteLine(0, "using System;");
@@ -33,29 +171,36 @@ namespace x10.gen.hotchoc {
       GenerateMainEntity(entity);
 
       WriteLine(0, "}");
+      WriteLine();
 
       End();
     }
 
+    #region Generate Enums
     private void GenerateEnums(Entity entity) {
       IEnumerable<DataTypeEnum> enums = FindLocalEnums(entity);
       if (enums.Count() == 0)
         return;
 
-      WriteLine(0, "// Enums");
+      WriteLine(1, "// Enums");
 
-      foreach (DataTypeEnum theEnum in enums) 
+      foreach (DataTypeEnum theEnum in enums)
         GenerateEnum(1, theEnum);
 
       WriteLine();
     }
+    #endregion
 
     #region Generate Main Entity
+
     private void GenerateMainEntity(Entity entity) {
       WriteLine(1, "/// <summary>");
       WriteLine(1, "/// {0}", entity.Description);
       WriteLine(1, "/// </summary>");
-      WriteLine(1, "public class {0} : EntityBase {", entity.Name);
+      WriteLine(1, "public {0}class {1} : {2} {",
+        entity.IsAbstract ? "abstract " : "",
+        entity.Name,
+        entity.InheritsFromName == null ? "PrimordialEntityBase" : entity.InheritsFrom.Name);
 
       GenerateRegularAttributes(entity);
       GenerateToStringRepresentation(entity);
@@ -65,11 +210,17 @@ namespace x10.gen.hotchoc {
     }
 
     private void GenerateRegularAttributes(Entity entity) {
+      IEnumerable<X10RegularAttribute> attributes = entity.RegularAttributes
+        .Where(x => !x.IsId);
+      if (attributes.Count() == 0)
+        return;
+
       WriteLine(2, "// Regular Attributes");
 
-      foreach (X10RegularAttribute attribute in entity.RegularAttributes) {
-        WriteLine(2, "[GraphQLNonNullType]");
-        WriteLine(2, "public {0} {1} { get; set; } }", 
+      foreach (X10RegularAttribute attribute in attributes) {
+        if (NonNull(attribute))
+          WriteLine(2, "[GraphQLNonNullType]");
+        WriteLine(2, "public {0} {1} { get; set; }",
           DataType(attribute),
           PropName(attribute));
       }
@@ -78,37 +229,45 @@ namespace x10.gen.hotchoc {
     }
 
     private void GenerateToStringRepresentation(Entity entity) {
+      if (entity.IsAbstract)
+        return;
+
       WriteLine(2, "// To String Representation");
       WriteLine(2, "[GraphQLNonNullType]");
-      
+
       string formula = entity.StringRepresentation == null ?
-        string.Format("\"{0}: \" + Dbid", entity.Name) : 
+        string.Format("\"{0}: \" + Dbid", entity.Name) :
         ExpressionToString(entity.StringRepresentation);
 
-      WriteLine(2, "public string? ToStringRepresentation => {0}", formula);
+      WriteLine(2, "public string? ToStringRepresentation => {0};", formula);
 
       WriteLine();
     }
 
     private void GenerateAssociations(Entity entity) {
+      IEnumerable<Association> associations = entity.Associations;
+      if (associations.Count() == 0)
+        return;
+
       WriteLine(2, "// Associations");
 
-      foreach (Association association in entity.Associations) {
+      foreach (Association association in associations) {
         Entity refedEntity = association.ReferencedEntity;
         string propName = PropName(association);
 
         if (association.IsMany) {
           WriteLine(2, "[GraphQLNonNullType]");
-          WriteLine(2, "public List<{0}>? {1} { get; set; } }", refedEntity.Name, propName);
+          WriteLine(2, "public List<{0}>? {1} { get; set; }", refedEntity.Name, propName);
         } else {
-          if (association.IsMany)
+          if (association.IsMandatory)
             WriteLine(2, "[GraphQLNonNullType]");
-          WriteLine(2, "public {0}? {1} { get; set; } }", refedEntity.Name, propName);
+          WriteLine(2, "public {0}? {1} { get; set; }", refedEntity.Name, propName);
         }
       }
 
       WriteLine();
     }
+    #endregion
     #endregion
 
     #region Generate Enum Files
@@ -128,6 +287,15 @@ namespace x10.gen.hotchoc {
     #region Utils
     private static string PropName(Member member) {
       return NameUtils.CapitalizeFirstLetter(member.Name);
+    }
+
+    private static bool NonNull(X10Attribute attribute) {
+      DataType dataType = attribute.DataType;
+      if (dataType == DataTypes.Singleton.String ||
+          dataType == DataTypes.Singleton.Boolean)
+        return true;
+
+      return attribute.IsMandatory;
     }
 
     private static string DataType(X10Attribute attribute) {
@@ -163,13 +331,8 @@ namespace x10.gen.hotchoc {
     public void GenerateEnum(int level, DataTypeEnum theEnum) {
       WriteLine(level, "public enum {0} {", WpfGenUtils.EnumToName(theEnum));
 
-      foreach (EnumValue enumValue in theEnum.EnumValues) {
-        if (enumValue.Label != null)
-          WriteLine(level + 1, "[Label(\"{0}\")]", enumValue.Label);
-        if (enumValue.IconName != null)
-          WriteLine(level + 1, "[Icon(\"{0}\")]", enumValue.IconName);
+      foreach (EnumValue enumValue in theEnum.EnumValues)
         WriteLine(level + 1, "{0},", enumValue.ValueUpperCased);
-      }
 
       WriteLine(level, "}");
       WriteLine();
