@@ -21,6 +21,13 @@ namespace x10.hotchoc {
       return FromRelayId(relayId, out string dummy);
     }
 
+    public static int FromRelayIdMandatory(string relayId) {
+      int? dbid = FromRelayId(relayId, out string dummy);
+      if (dbid == null)
+        throw new Exception("Could not convert from Relay Id: " + relayId);
+      return dbid.Value;
+    }
+
     public static int? FromRelayId(string relayId, out string entityName) {
       if (IsUuid(relayId)) {
         entityName = "";

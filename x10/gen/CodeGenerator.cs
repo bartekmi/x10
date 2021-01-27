@@ -18,7 +18,7 @@ namespace x10.gen {
   public abstract class CodeGenerator {
 
     public string IntermediateFilePath { get; set; }
-    public bool GenerateAbstractEntities {get; set;}
+    public bool GenerateAbstractEntities { get; set; }
 
     public abstract void GenerateCoomon();
     public abstract void Generate(ClassDefX10 classDef);
@@ -139,11 +139,9 @@ namespace x10.gen {
       _outputs.Add(new OutputWrite(text, args));
     }
 
-    protected void WriteRaw(int level, Action<TextWriter, int> writeFunc) {
-      using (TextWriter writer = new StringWriter()) {
-        writeFunc(writer, level);
-        _outputs.Add(new OutputWrite(writer.ToString()));
-      }
+    protected void WriteRaw(string format, params object[] args) {
+      string text = string.Format(format, args);
+      _outputs.Add(new OutputWrite(text));
     }
 
     private void WritePrivate(int level, string text, params object[] args) {
@@ -278,7 +276,7 @@ namespace x10.gen {
       string relativePath = classDef.XmlElement.FileInfo.RelativePath;
       string absolutePath = Path.Combine(IntermediateFilePath, relativePath);
 
-      using (TextWriter writer = CreateIntermediateDirs(absolutePath)) 
+      using (TextWriter writer = CreateIntermediateDirs(absolutePath))
         classDef.Print(writer, 0, new PrintConfig() {
           PrintModelMember = true,
         });

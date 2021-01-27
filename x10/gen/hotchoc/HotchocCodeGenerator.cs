@@ -52,10 +52,6 @@ namespace x10.gen.hotchoc {
       WriteLine(0, "namespace x10.hotchoc.Repositories {");
     }
 
-    private IEnumerable<Entity> ConcreteEntities() {
-      return AllEntities.All.Where(x => !x.IsAbstract && !x.IsContext);
-    }
-
     private void GenerateRepositoryInterfaceQueries() {
       WriteLine(2, "// Queries");
 
@@ -78,6 +74,7 @@ namespace x10.gen.hotchoc {
     }
     #endregion
 
+    #region Generate Repository - Implementation
     private void GenerateRepository() {
       Begin("Repositories/Repository.cs");
 
@@ -138,14 +135,158 @@ namespace x10.gen.hotchoc {
         WriteLine();
       }
     }
+    #endregion
 
+    #region Generate Queries
     private void GenerateQueries() {
+      Begin("Queries.cs");
 
+      GenerateQueriesHeader();
+
+      foreach (Entity entity in ConcreteEntities()) {
+        WriteLine(2, "#region {0}", entity.Name);
+        GenerateGetOne(entity);
+        GenerateGetAll(entity);
+        WriteLine(2, "#endregion");
+        WriteLine();
+      }
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
     }
 
+    private void GenerateQueriesHeader() {
+      WriteRaw(
+@"using System.Collections.Generic;
+
+using HotChocolate;
+using HotChocolate.Types;
+using HotChocolate.Types.Relay;
+
+using x10.hotchoc.Entities;
+using x10.hotchoc.Repositories;
+
+namespace x10.hotchoc {{
+  [ExtendObjectType(Name = ""Query"")]
+  public class Queries {{
+
+");
+    }
+
+    private void GenerateGetOne(Entity entity) {
+      WriteRaw(
+@"    /// <summary>
+    /// Retrieve a {0} by id
+    /// </summary>
+    /// <param name=""id"">The id of the {0}.</param>
+    /// <param name=""repository""></param>
+    /// <returns>The {0}.</returns>
+    public {0} Get{0}(
+        string id,
+        [Service] IRepository repository) =>
+          repository.Get{0}(IdUtils.FromRelayIdMandatory(id));
+
+", entity.Name);
+    }
+
+    private void GenerateGetAll(Entity entity) {
+      WriteRaw(
+@"    /// <summary>
+    /// Gets all {0}.
+    /// </summary>
+    /// <param name=""repository""></param>
+    /// <returns>All {0}.</returns>
+    [UsePaging]
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<{1}> Get{0}(
+        [Service] IRepository repository) =>
+          repository.Get{0}();
+",
+      NameUtils.Pluralize(entity.Name),
+      entity.Name);
+    }
+    #endregion
+
+    #region Generation Mutations
     private void GenerateMutations() {
+      Begin("Mutations.cs");
 
+      GenerateMutationsHeader();
+
+      foreach (Entity entity in ConcreteEntities()) {
+        WriteLine(2, "#region {0}", entity.Name);
+        GenerateCreateOrUpdate(entity);
+        WriteLine(2, "#endregion");
+        WriteLine();
+      }
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
     }
+
+    private void GenerateMutationsHeader() {
+      WriteRaw(
+@"using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using HotChocolate;
+using HotChocolate.Types;
+
+using x10.hotchoc.Entities;
+using x10.hotchoc.Repositories;
+
+namespace x10.hotchoc {{
+  [ExtendObjectType(Name = ""Mutation"")]
+  public class Mutations {{
+
+");
+    }
+
+    private void GenerateCreateOrUpdate(Entity entity) {
+      string entityName = entity.Name;
+      string varName = NameUtils.UncapitalizeFirstLetter(entityName);
+      IEnumerable<Member> writableMembers = entity.Members.Where(x => !x.IsReadOnly);
+
+      WriteRaw(
+@"    /// <summary>
+    /// Creates a new {0} or updates an existing one, depending on the value of id
+    /// </summary>
+    public string CreateOrUpdate{0}(
+", entityName);
+
+      // Method parameters
+      WriteLine(4, "string id,");
+      foreach (Member member in writableMembers) 
+        WriteLine(4, "{0} {1},", GetDataType(member), member.Name);
+
+      WriteLine(4, "[Service] IRepository repository) {");
+      WriteLine();
+
+      // Instantiate entity
+      WriteLine(3, "{0} {1} = new {0}() {", entityName, varName);
+      
+      foreach (Member member in writableMembers) 
+        WriteLine(4, "{0} = {1}{2},", 
+          PropName(member), 
+          member.Name,
+          member is Association assoc && assoc.IsMany ? ".ToList()" : "");
+
+      WriteLine(3, "};");
+      WriteLine();
+
+      // Method body and return
+      WriteLine(3, "int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId(id), {1});",
+        entityName, varName);
+      WriteLine(3, "return IdUtils.ToRelayId<{0}>(dbid);", entityName);
+      WriteLine(2, "}");
+    }
+    #endregion
     #endregion
 
     #region Generate Entity
@@ -217,7 +358,7 @@ namespace x10.gen.hotchoc {
         if (NonNull(attribute))
           WriteLine(2, "[GraphQLNonNullType]");
         WriteLine(2, "public {0} {1} { get; set; }",
-          DataType(attribute),
+          DataType(attribute.DataType, false),
           PropName(attribute));
       }
 
@@ -300,6 +441,11 @@ namespace x10.gen.hotchoc {
     #endregion
 
     #region Utils
+
+    private IEnumerable<Entity> ConcreteEntities() {
+      return AllEntities.All.Where(x => !x.IsAbstract && !x.IsContext);
+    }
+
     private static string PropName(Member member) {
       return NameUtils.CapitalizeFirstLetter(member.Name);
     }
@@ -313,19 +459,40 @@ namespace x10.gen.hotchoc {
       return attribute.IsMandatory;
     }
 
-    private static string DataType(X10Attribute attribute) {
-      DataType dataType = attribute.DataType;
+    private static string GetDataType(Member member) {
+      if (member is X10Attribute attribute)
+        return DataType(attribute.DataType, !attribute.IsMandatory);
+      else if (member is Association association) {
+        Entity refedEntity = association.ReferencedEntity;
+        if (association.IsMany)
+          return string.Format("IEnumerable<{0}>", refedEntity.Name);
+        else
+          return refedEntity.Name + NullableMarker(association.IsMandatory);
+      } else
+        throw new NotImplementedException("Neither attribute nor association");
+    }
 
+    private static string NullableMarker(bool isMandatory) {
+      return isMandatory ? "" : "?";
+    }
+
+    private static string DataType(DataType dataType, bool isMandatory) {
+      // Booleans are never optional
       if (dataType == DataTypes.Singleton.Boolean) return "bool";
-      if (dataType == DataTypes.Singleton.Date) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Float) return "double?";
-      if (dataType == DataTypes.Singleton.Integer) return "int?";
-      if (dataType == DataTypes.Singleton.String) return "string?";
-      if (dataType == DataTypes.Singleton.Timestamp) return "DateTime?";
-      if (dataType == DataTypes.Singleton.Money) return "double?";
-      if (dataType is DataTypeEnum enumType) return EnumToName(enumType) + "?";
 
-      throw new Exception("Unknown data type: " + dataType.Name);
+      string type = null;
+      if (dataType == DataTypes.Singleton.Date) type = "DateTime";
+      if (dataType == DataTypes.Singleton.Float) type = "double";
+      if (dataType == DataTypes.Singleton.Integer) type = "int";
+      if (dataType == DataTypes.Singleton.String) type = "string";
+      if (dataType == DataTypes.Singleton.Timestamp) type = "DateTime";
+      if (dataType == DataTypes.Singleton.Money) type = "double";
+      if (dataType is DataTypeEnum enumType) type = EnumToName(enumType);
+
+      if (type == null)
+        throw new Exception("Unknown data type: " + dataType.Name);
+
+      return type + NullableMarker(isMandatory);
     }
 
     private static string EnumToName(DataTypeEnum enumType) {
