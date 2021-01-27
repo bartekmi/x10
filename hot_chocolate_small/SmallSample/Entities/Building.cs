@@ -49,6 +49,12 @@ namespace x10.hotchoc.Entities {
     public Address? PhysicalAddress { get; set; }
     public Address? MailingAddress { get; set; }
 
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+      PhysicalAddress?.EnsureUniqueDbid();
+      MailingAddress?.EnsureUniqueDbid();
+      Units?.ForEach(x => x.EnsureUniqueDbid());
+    }
   }
 }
 

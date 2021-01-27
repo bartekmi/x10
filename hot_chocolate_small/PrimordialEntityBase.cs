@@ -11,7 +11,7 @@ namespace x10.hotchoc {
     public int Dbid { get; set; }
 
     private static int _nextUniqueDbid = 1000;
-    public void EnsureUniqueDbid() {
+    public virtual void EnsureUniqueDbid() {
       if (Dbid == 0)
         Dbid = _nextUniqueDbid++;
     }

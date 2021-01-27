@@ -73,8 +73,7 @@ namespace x10.gen.hotchoc {
 
       foreach (Entity entity in ConcreteEntities()) {
         string varName = NameUtils.UncapitalizeFirstLetter(entity.Name);
-        WriteLine(2, "int Add{0}({0} {1});", entity.Name, varName);
-        WriteLine(2, "void Update{0}({0} {1});", entity.Name, varName);
+        WriteLine(2, "int AddOrUpdate{0}(int? dbid, {0} {1});", entity.Name, varName);
       }
     }
     #endregion
@@ -117,6 +116,7 @@ namespace x10.gen.hotchoc {
     private void GenerateRepositoryImplementations() {
       foreach (Entity entity in ConcreteEntities()) {
         string entityName = entity.Name;
+        string varName = NameUtils.UncapitalizeFirstLetter(entityName);
         string pluralUpper = NameUtils.Pluralize(entityName);
         string pluralLower = NameUtils.UncapitalizeFirstLetter(pluralUpper);
 
@@ -131,18 +131,31 @@ namespace x10.gen.hotchoc {
         WriteLine(2, "public {0} Get{0}(int id) { return _{1}[id]; }", entityName, pluralLower);
         WriteLine();
 
-        // Add
-        WriteLine(2, "public int AddBuilding(Building building) {");
-        WriteLine(3, "");
-        WriteLine(3, "");
-        WriteLine(3, "");
+        // Add or Update
+        WriteLine(2, "public int AddBuilding({0} {1}) {", entityName, varName);
+        WriteLine(3, "return RepositoryUtils.AddOrUpdate(dbid, {0}, _{1}, EnsureUniqueDbids);",
+          varName, pluralLower);
         WriteLine(2, "}");
+        WriteLine();
 
-        // Update
+        GenerateEnsureUniqueDbids(entity);
 
         WriteLine(2, "#endregion");
       }
     }
+
+    private void GenerateEnsureUniqueDbids(Entity entity) {
+        string entityName = entity.Name;
+        string varName = NameUtils.UncapitalizeFirstLetter(entityName);
+
+        WriteLine(2, "public int EnsureUniqueDbids({0} {1}) {", entityName, varName);
+
+
+
+        WriteLine(2, "}");
+    }
+
+    
 
     private void GenerateQueries() {
 

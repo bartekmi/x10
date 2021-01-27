@@ -6,12 +6,12 @@ using System.Linq;
 using x10.hotchoc.Entities;
 
 namespace x10.hotchoc.Repositories {
-  public class SmallRepository : ISmallRepository {
+  public class Repository : IRepository {
     private Dictionary<int, Building> _buildings;
     private Dictionary<int, Tenant> _tenants;
     private Dictionary<int, Move> _moves;
 
-    public SmallRepository() {
+    public Repository() {
       _buildings = CreateBuildings().ToDictionary(t => t.Dbid);
       _tenants = CreateTenants().ToDictionary(t => t.Dbid);
       _moves = CreateMoves().ToDictionary(t => t.Dbid);
@@ -27,32 +27,7 @@ namespace x10.hotchoc.Repositories {
     }
 
     public int AddOrUpdateBuilding(int? dbid, Building building) {
-      return RepositoryUtils.AddOrUpdate(dbid, building, _buildings, EnsureUniqueDbids);
-    }
-
-    public int AddBuilding(Building building) {
-      int newId = EnsureUniqueDbids(building);
-      _buildings[newId] = building;
-
-      Console.WriteLine(building);
-
-      return newId;
-    }
-
-    public void UpdateBuilding(Building building) {
-      EnsureUniqueDbids(building);
-      _buildings[building.Dbid] = building;
-    }
-
-    private static int EnsureUniqueDbids(Building building) {
-      building.EnsureUniqueDbid();
-      building.PhysicalAddress.EnsureUniqueDbid();
-      building.MailingAddress?.EnsureUniqueDbid();
-      if (building.Units != null)
-        foreach (Unit unit in building.Units)
-          unit.EnsureUniqueDbid();
-
-      return building.Dbid;
+      return RepositoryUtils.AddOrUpdate(dbid, building, _buildings);
     }
 
     private static IEnumerable<Building> CreateBuildings() {

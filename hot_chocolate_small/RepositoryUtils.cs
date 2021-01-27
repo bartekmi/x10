@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace x10.hotchoc {
   public static class RepositoryUtils {
-    public static int AddOrUpdate<T>(int? dbid, T entity, Dictionary<int, T> entities, Func<T, int> ensureUniqueDbids) where T : PrimordialEntityBase {
+    public static int AddOrUpdate<T>(int? dbid, T entity, Dictionary<int, T> entities) where T : PrimordialEntityBase {
       if (dbid != null)
         entity.Dbid = dbid.Value;
-      dbid = ensureUniqueDbids(entity);
+      entity.EnsureUniqueDbid();
 
-      entities[dbid.Value] = entity;
-      return dbid.Value;
+      entities[entity.Dbid] = entity;
+      return entity.Dbid;
     }
   }
 }
