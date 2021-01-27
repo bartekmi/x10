@@ -24,6 +24,9 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public string? ToStringRepresentation => "Address: " + Dbid;
 
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+    }
   }
 }
 

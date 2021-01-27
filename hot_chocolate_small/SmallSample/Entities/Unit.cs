@@ -34,6 +34,9 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public string? ToStringRepresentation => Number;
 
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+    }
   }
 }
 

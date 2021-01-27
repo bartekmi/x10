@@ -51,9 +51,9 @@ namespace x10.hotchoc.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+      Units?.ForEach(x => x.EnsureUniqueDbid());
       PhysicalAddress?.EnsureUniqueDbid();
       MailingAddress?.EnsureUniqueDbid();
-      Units?.ForEach(x => x.EnsureUniqueDbid());
     }
   }
 }

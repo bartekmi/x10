@@ -24,6 +24,9 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public Tenant? Tenant { get; set; }
 
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+    }
   }
 }
 

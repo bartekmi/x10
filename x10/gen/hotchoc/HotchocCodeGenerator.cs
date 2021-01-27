@@ -96,7 +96,7 @@ namespace x10.gen.hotchoc {
 
     private void GenerateRepositoryDictionaries() {
       foreach (Entity entity in ConcreteEntities())
-        WriteLine(2, "private Dictionary<int, {0}> _{1} = new Dictionary<int, {0}>();", 
+        WriteLine(2, "private Dictionary<int, {0}> _{1} = new Dictionary<int, {0}>();",
           entity.Name,
           NameUtils.UncapitalizeFirstLetter(NameUtils.Pluralize(entity.Name)));
 
@@ -108,7 +108,7 @@ namespace x10.gen.hotchoc {
       WriteLine(2, "public Repository() {");
 
       WriteLine(3, "// Do nothing");
-          
+
       WriteLine(2, "}");
       WriteLine();
     }
@@ -125,37 +125,19 @@ namespace x10.gen.hotchoc {
         // Get multiple
         WriteLine(2, "public IQueryable<{0}> Get{1}() => _{2}.Values.AsQueryable();",
           entityName, pluralUpper, pluralLower);
-        WriteLine();
 
         // Get single
         WriteLine(2, "public {0} Get{0}(int id) { return _{1}[id]; }", entityName, pluralLower);
-        WriteLine();
 
         // Add or Update
-        WriteLine(2, "public int AddBuilding({0} {1}) {", entityName, varName);
-        WriteLine(3, "return RepositoryUtils.AddOrUpdate(dbid, {0}, _{1}, EnsureUniqueDbids);",
-          varName, pluralLower);
+        WriteLine(2, "public int AddOrUpdate{0}(int? dbid, {0} {1}) {", entityName, varName);
+        WriteLine(3, "return RepositoryUtils.AddOrUpdate(dbid, {0}, _{1});", varName, pluralLower);
         WriteLine(2, "}");
-        WriteLine();
-
-        GenerateEnsureUniqueDbids(entity);
 
         WriteLine(2, "#endregion");
+        WriteLine();
       }
     }
-
-    private void GenerateEnsureUniqueDbids(Entity entity) {
-        string entityName = entity.Name;
-        string varName = NameUtils.UncapitalizeFirstLetter(entityName);
-
-        WriteLine(2, "public int EnsureUniqueDbids({0} {1}) {", entityName, varName);
-
-
-
-        WriteLine(2, "}");
-    }
-
-    
 
     private void GenerateQueries() {
 
@@ -218,6 +200,7 @@ namespace x10.gen.hotchoc {
       GenerateRegularAttributes(entity);
       GenerateToStringRepresentation(entity);
       GenerateAssociations(entity);
+      GenerateEnsureUniqueDbid(entity);
 
       WriteLine(1, "}");
     }
@@ -279,6 +262,25 @@ namespace x10.gen.hotchoc {
       }
 
       WriteLine();
+    }
+
+    private void GenerateEnsureUniqueDbid(Entity entity) {
+      string entityName = entity.Name;
+      string varName = NameUtils.UncapitalizeFirstLetter(entityName);
+
+      WriteLine(2, "public override void EnsureUniqueDbid() {");
+      WriteLine(3, "base.EnsureUniqueDbid();");
+
+      foreach (Association association in entity.Associations.Where(x => x.Owns)) {
+        string propName = PropName(association);
+
+        if (association.IsMany)
+          WriteLine(3, "{0}?.ForEach(x => x.EnsureUniqueDbid());", propName);
+        else
+          WriteLine(3, "{0}?.EnsureUniqueDbid();", propName);
+      }
+
+      WriteLine(2, "}");
     }
     #endregion
     #endregion

@@ -8,6 +8,9 @@ namespace x10.hotchoc.Entities {
   /// Provides attribute(s) common to all entities
   /// </summary>
   public abstract class Base : PrimordialEntityBase {
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+    }
   }
 }
 

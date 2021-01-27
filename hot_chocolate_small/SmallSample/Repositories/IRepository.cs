@@ -20,14 +20,9 @@ namespace x10.hotchoc.Repositories {
 
     // Mutations
     int AddOrUpdateBuilding(int? dbid, Building building);
-
-    int AddMove(Move move);
-    void UpdateMove(Move move);
-    int AddTenant(Tenant tenant);
-    void UpdateTenant(Tenant tenant);
-    int AddAddress(Address address);
-    void UpdateAddress(Address address);
-    int AddUnit(Unit unit);
-    void UpdateUnit(Unit unit);
+    int AddOrUpdateMove(int? dbid, Move move);
+    int AddOrUpdateTenant(int? dbid, Tenant tenant);
+    int AddOrUpdateAddress(int? dbid, Address address);
+    int AddOrUpdateUnit(int? dbid, Unit unit);
   }
 }

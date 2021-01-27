@@ -15,7 +15,7 @@ namespace x10.hotchoc {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
-      services.AddSingleton<ISmallRepository, SmallRepository>();
+      services.AddSingleton<IRepository, Repository>();
 
       services.AddCors();
 
@@ -30,8 +30,8 @@ namespace x10.hotchoc {
         // The two roots - queries and mutations
         .AddQueryType(d => d.Name("Query"))
         .AddMutationType(d => d.Name("Mutation"))
-        .AddType<SmallQueries>()
-        .AddType<SmallMutations>()
+        .AddType<Queries>()
+        .AddType<Mutations>()
 
         // Application types
         .AddType<Address>()

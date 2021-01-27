@@ -24,6 +24,10 @@ namespace x10.hotchoc.Entities {
     [GraphQLNonNullType]
     public Address? PermanentMailingAddress { get; set; }
 
+    public override void EnsureUniqueDbid() {
+      base.EnsureUniqueDbid();
+      PermanentMailingAddress?.EnsureUniqueDbid();
+    }
   }
 }
 
