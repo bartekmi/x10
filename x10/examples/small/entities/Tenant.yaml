@@ -1,16 +1,20 @@
 name: Tenant
 inheritsFrom: Base
 description: Tenant of a Unit
+datagen_quantity: 100
 
 attributes:
   - name: name
     dataType: String
     mandatory: true
+    datagen_pattern: <first_name> <last_name>
   - name: phone
     dataType: String
+    datagen_pattern: DDD-DDDD-DDD
   - name: email
     dataType: String
     mandatory: true
+    datagen_pattern: <first_name>@gmail.com
 
 associations:
   - name: permanentMailingAddress

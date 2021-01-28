@@ -2,6 +2,7 @@ name: Building
 inheritsFrom: Base
 description: A physical building which contains rental units
 defaultStringRepresentation: =name
+datagen_quantity: 25
 
 attributes:
   - name: moniker
@@ -15,15 +16,18 @@ attributes:
     placeholderText: Name of building
     toolTip: A short and memorable name of the Building
     maxWidth: 350
+    datagen_pattern: <adjective> <nound> (Building | Apartments | Suites)
 
   - name: description
     dataType: String
     toolTip: Description for advertising purposes
     ui: TextArea
+    datagen_random_text: 10 to 50 words
 
   - name: dateOfOccupancy
     dataType: Date
     mandatory: true
+    datagen_min: Jan 1, 1970
 
   - name: mailboxType
     dataType: MailboxType

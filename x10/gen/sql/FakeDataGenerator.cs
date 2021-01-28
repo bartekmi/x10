@@ -12,46 +12,50 @@ using x10.ui.composition;
 using x10.parsing;
 
 namespace x10.gen.sql {
+
+  #region Helper Clases
+  public class Row {
+    public int Id;
+    public Entity Entity;
+    public List<MemberAndValue> Values = new List<MemberAndValue>();
+
+    public object[] ValueForSql { get; internal set; }
+  }
+
+  public class EntityInfo {
+    public Entity Entity;
+    public List<Row> Rows = new List<Row>();
+
+    internal int NextId = 1;
+    internal DataGenerationContext Context;
+
+    internal int? RandomExistingId(Random random, Association association) {
+      if (Rows.Count == 0)
+        return null;
+      return random.Next(1, NextId);
+    }
+  }
+  #endregion
+
   public class FakeDataGenerator {
 
     private static readonly int? TEST_REDUCED_NUMBER_OF_ROWS = null;
 
-    #region Helper Clases
-    private class Row {
-      internal int Id;
-      internal Entity Entity;
-      internal List<MemberAndValue> Values = new List<MemberAndValue>();
+    #region Members, Top Level, Constructor
+    public readonly Dictionary<Entity, EntityInfo> EntityInfos;
 
-      public object[] ValueForSql { get; internal set; }
-    }
 
-    private class EntityInfo {
-      internal int NextId = 1;
-      internal List<Row> Rows = new List<Row>();
-      internal DataGenerationContext Context;
-      internal Entity Entity;
-
-      internal int? RandomExistingId(Random random, Association association) {
-        if (Rows.Count == 0)
-          return null;
-        return random.Next(1, NextId);
-      }
-    }
-    #endregion
-
-    #region Private Variables, Top Level, Constructor
     private static readonly SqlRange DEFAULT_ASSOCIATION_RANGE = SqlRange.Parse("0..3");
 
     private readonly MessageBucket _messages;
     private readonly Random _random;
-    private readonly Dictionary<Entity, EntityInfo> _entityInfo;
     private readonly HashSet<Entity> _unprocessedRootEntities;
     private readonly AtomicDataGenerator _atomicDataGenerator;
     private readonly DataGenLanguageParser _parser;
     private readonly DeclaredColumnsCalculator _declaredColumnCalculator;
     private readonly List<Entity> _sortedEntities;
 
-    public FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random) {
+    public FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random, string dataFilesRoot) {
       _messages = messages;
       _random = random;
       _atomicDataGenerator = new AtomicDataGenerator(messages);
@@ -63,8 +67,8 @@ namespace x10.gen.sql {
       IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
       _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
 
-      _entityInfo = entities.ToDictionary(x => x, (x) => new EntityInfo() {
-        Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x),
+      EntityInfos = entities.ToDictionary(x => x, (x) => new EntityInfo() {
+        Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x, dataFilesRoot),
         Entity = x,
       });
 
@@ -80,24 +84,25 @@ namespace x10.gen.sql {
       sorted.Reverse();   // Reverse so as to generate starting from no FK dependencies
       return sorted;
     }
+    #endregion
 
-    public void Generate(string filename) {
+    #region SQL-Specific
+    public void GenerateSql(string filename) {
       using (TextWriter writer = new StreamWriter(filename))
-        GeneratePrivate(writer);
+        GenerateSqlPrivate(writer);
     }
 
-    public string GenerateIntoString() {
+    public string GenerateSqlIntoString() {
       using (TextWriter writer = new StringWriter()) {
-        GeneratePrivate(writer);
+        GenerateSqlPrivate(writer);
         return writer.ToString();
       }
     }
 
-    public void GeneratePrivate(TextWriter writer) {
-      Generate();
-      DumpData(writer);
+    public void GenerateSqlPrivate(TextWriter writer) {
+      GenerateData();
+      DumpSql(writer);
     }
-    #endregion
 
     #region Write to File
 
@@ -107,9 +112,9 @@ namespace x10.gen.sql {
     // (1, val1, val2, ...),
     // ...
     // (N, val1, val2, ...);
-    private void DumpData(TextWriter writer) {
+    private void DumpSql(TextWriter writer) {
       IEnumerable<EntityInfo> infos = _sortedEntities
-        .Select(x => _entityInfo[x])
+        .Select(x => EntityInfos[x])
         .Where(x => x.Rows.Count > 0);
 
       foreach (EntityInfo entityInfo in infos) {
@@ -160,10 +165,11 @@ namespace x10.gen.sql {
         return value.ToString();
     }
     #endregion
+    #endregion
 
     #region Data Creation
 
-    private void Generate() {
+    public void GenerateData() {
       while (_unprocessedRootEntities.Count > 0) {          // Until no more root-level entities
         Entity entity = _unprocessedRootEntities.First();
         GenerateForEntity(entity);
@@ -200,13 +206,16 @@ namespace x10.gen.sql {
         IEnumerable<MemberAndOwner> reverses = _declaredColumnCalculator.GetReverseAssociations(entity);
         IEnumerable<MemberAndOwner> parentAssociations = reverses.Where(x => x.ActualOwner == parent.Entity);
 
+        // This is a serious limitation in my implementation. It does not handle the simple case where an entity has two addresses,
+        // e.g. a physical address and a mailing address, etc. Not viable for a real system, but has significant implications
+        // for how I structured the SQL generation.
         if (parentAssociations.Count() != 1)
           throw new Exception(string.Format("Entity {0} referenced by Entity {1} must have exactly one association of that type, but has {2}",
             entity.Name, parent.Entity.Name, parentAssociations.Count()));
         linkToParent = parentAssociations.Single();
       }
 
-      DataGenerationContext context = _entityInfo[entity].Context;
+      DataGenerationContext context = EntityInfos[entity].Context;
       DataFileRow externalRow = context.GetRandomExternalFileRow();
       IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
@@ -219,10 +228,10 @@ namespace x10.gen.sql {
             row.Values.Add(CreateForwardAssociationValue(member.Association));
             break;
           case ColumnType.ReverseAssociation:
-              row.Values.Add(new MemberAndValue() {
-                Member = member.Association,
-                Value = member == linkToParent ? parent.Id : (int?)null,
-              });
+            row.Values.Add(new MemberAndValue() {
+              Member = member.Association,
+              Value = member == linkToParent ? parent.Id : (int?)null,
+            });
             break;
           default:
             throw new Exception("Unexpected member and association type: " + member.Type);
@@ -235,7 +244,7 @@ namespace x10.gen.sql {
       Entity entity = association.ReferencedEntity;
       GenerateForEntity(entity);
 
-      object value = _entityInfo[entity].RandomExistingId(_random, association);
+      object value = EntityInfos[entity].RandomExistingId(_random, association);
       if (association.IsMandatory && value == null)
         throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
           association, entity.Name, DataGenLibrary.QUANTITY));
@@ -250,7 +259,7 @@ namespace x10.gen.sql {
     #region Utilities
 
     private Row CreateAndStoreRow(Entity entity) {
-      EntityInfo info = _entityInfo[entity];
+      EntityInfo info = EntityInfos[entity];
       Row row = new Row() {
         Entity = entity,
         Id = info.NextId++,

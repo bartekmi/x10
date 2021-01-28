@@ -12,13 +12,23 @@ namespace x10.gen.sql {
   internal class DataGenerationContext {
     internal List<ExternalDataFile> ExternalDataFiles = new List<ExternalDataFile>();
     private Random _random;
-    private readonly StaticDictionaries _staticDictionaries = new StaticDictionaries();
+    private StaticDictionaries _staticDictionaries;
+    private string _dataFilesRoot;
 
-    internal const string DATA_FILES_ROOT = @".";  // Copied by build process
+    private const string DEFAULT_DATA_FILES_ROOT = @".";  // Copied by build process
 
-    internal static DataGenerationContext CreateContext(MessageBucket messages, DataGenLanguageParser parser, Random random, Entity entity) {
+    internal static DataGenerationContext CreateContext(
+        MessageBucket messages, 
+        DataGenLanguageParser parser, 
+        Random random, 
+        Entity entity, 
+        string dataFilesRoot) {
+
+      dataFilesRoot = dataFilesRoot ?? DEFAULT_DATA_FILES_ROOT;
+
       DataGenerationContext context = new DataGenerationContext() {
         _random = random,
+        _staticDictionaries = new StaticDictionaries(dataFilesRoot),
       };
 
       ModelAttributeValue sourcesValue = entity.FindAttribute(DataGenLibrary.SOURCES);
@@ -28,6 +38,8 @@ namespace x10.gen.sql {
         try {
           NodeProbabilities sourcesNode = parser.Parse(sources)
             .Children.OfType<NodeProbabilities>().SingleOrDefault();
+          if (sourcesNode == null) 
+            throw new Exception("Error parsing sources: " + sources);
 
           foreach (Node source in sourcesNode.Children) {
             string[] fileAndAlias = source.OnlyChildText.Split("AS");
@@ -42,7 +54,7 @@ namespace x10.gen.sql {
               Probability = source.Probability,
               Alias = alias,
             };
-            dataFile.Parse(DATA_FILES_ROOT);
+            dataFile.Parse(dataFilesRoot);
             context.ExternalDataFiles.Add(dataFile);
           }
         } catch (Exception e) {
@@ -65,11 +77,16 @@ namespace x10.gen.sql {
     }
 
     class StaticDictionaries {
+      private string _dataFilesRoot;
       private readonly Dictionary<string, string[]> _dictionaries = new Dictionary<string, string[]>();
+
+      internal StaticDictionaries(string dataFilesRoot) {
+        _dataFilesRoot = dataFilesRoot;
+      }
 
       internal string GetRandomEntry(Random random, string dictionaryName) {
         if (!_dictionaries.TryGetValue(dictionaryName, out string[] entries)) {
-          string path = Path.Combine(DataGenerationContext.DATA_FILES_ROOT, dictionaryName + ".csv");
+          string path = Path.Combine(_dataFilesRoot, dictionaryName + ".csv");
           entries = File.ReadAllLines(path);
           _dictionaries[dictionaryName] = entries;
         }

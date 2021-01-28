@@ -8,7 +8,7 @@ using YamlDotNet.Core.Tokens;
 
 namespace x10.gen.sql.primitives {
   // Parses strings like:
-  // Some text ( 50% => <adjective> | 50% => <noun> *LLDD.DD* (80% => Hello | 20% => World)) more text
+  // Some text ( 50% => <adjective> | 50% => <noun> ~LLDD.DD~ (80% => Hello | 20% => World)) more text
 
   // (The intention is to generate data like...)
   // Some text red more text
@@ -24,7 +24,7 @@ namespace x10.gen.sql.primitives {
   //      (Concat @ 50%)
   //        (Text @ <>) "noun"
   //        (Text) " "
-  //        (Text @ **) "DD.DD"
+  //        (Text @ ~~) "DD.DD"
   //        (Text) " "
   //        (Probabilities): 
   //          (Concat @ 80%)

@@ -24,4 +24,7 @@
     <PackageReference Include="HotChocolate.Types.Sorting" Version="11.0.2"/>
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="11.0.2"/>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\x10\x10.csproj" />
+  </ItemGroup>
 </Project>

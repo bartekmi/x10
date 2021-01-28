@@ -449,7 +449,7 @@ namespace x10.hotchoc {{
       return AllEntities.All.Where(x => !x.IsAbstract && !x.IsContext);
     }
 
-    private static string PropName(Member member) {
+    public static string PropName(Member member) {
       return NameUtils.CapitalizeFirstLetter(member.Name);
     }
 

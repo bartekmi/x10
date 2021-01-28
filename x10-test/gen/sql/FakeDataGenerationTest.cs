@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -9,7 +8,6 @@ using Xunit.Abstractions;
 using x10.parsing;
 using x10.model;
 using x10.ui.libraries;
-using x10.ui.metadata;
 using x10.compiler;
 using x10.model.definition;
 
@@ -38,7 +36,7 @@ namespace x10.gen.sql {
 
       MessageBucket genMessages = new MessageBucket();
       FakeDataGenerator generator = new FakeDataGenerator(genMessages, entities, new Random(0));
-      generator.Generate(OUTPUT_FILE);
+      generator.GenerateSql(OUTPUT_FILE);
       TestUtils.DumpMessages(genMessages, _output, CompileMessageSeverity.Error);
 
       Assert.False(genMessages.HasErrors);
@@ -377,7 +375,7 @@ attributes:
       List<Entity> entities = compiler.CompileFromYamlStrings(yamls);
 
       FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
-      string sql = generator.GenerateIntoString();
+      string sql = generator.GenerateSqlIntoString();
       _output.WriteLine(sql);
 
       TestUtils.DumpMessages(_messages, _output);
@@ -394,7 +392,7 @@ attributes:
       Assert.False(_messages.HasErrors);
 
       FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
-      generator.GenerateIntoString();
+      generator.GenerateSqlIntoString();
       TestUtils.DumpMessages(_messages, _output);
 
       CompileMessage message = _messages.Messages.FirstOrDefault(x => x.Message == expectedErrorMessage);

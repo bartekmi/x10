@@ -9,9 +9,12 @@ attributes:
     mandatory: true
     placeholderText: Unit number
     toolTip: Unit number corresponding to mailing address
+    datagen_pattern: ~D~
 
   - name: squareFeet
     dataType: Float
+    datagen_min: 400
+    datagen_max: 2500
 
   - name: numberOfBedrooms
     dataType: Integer

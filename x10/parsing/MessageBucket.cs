@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,5 +84,12 @@ namespace x10.parsing {
     public void Add(CompileMessage message) {
       Messages.Add(message);
     }
+
+    #region Output
+    public void DumpErrors() {
+      foreach (CompileMessage message in Errors)
+        Console.WriteLine(message);
+    }
+    #endregion
   }
 }

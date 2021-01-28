@@ -1,31 +1,39 @@
 name: Address
 inheritsFrom: Base
 description: A physical or mailing address
+datagen_sources: (us_cities.csv AS city)
+
 
 attributes:
   - name: unitNumber
     dataType: String
     maxWidth: 120
+    datagen_pattern: ~D~
 
   - name: theAddress
     dataType: String
     mandatory: true
+    datagen_pattern: ~DDD~ (West | East | North | South) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
 
   - name: city
     dataType: String
     mandatory: true
     maxWidth: 400
+    datagen_from_source: city => city
+
 
   - name: stateOrProvince
     dataType: String
     mandatory: true
     maxWidth: 250
+    datagen_from_source: city => state_name
 
   - name: zip
     dataType: String
     label: Zip or Postal Code
     mandatory: true
     maxWidth: 150
+    datagen_from_source: city => zips
 
 derivedAttributes:
   - name: firstAddressLine

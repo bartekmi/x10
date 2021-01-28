@@ -48,7 +48,7 @@ namespace x10.gen.sql {
     private static bool Ignore(Entity entity) {
       return entity.FindBoolean(DataGenLibrary.NO_SQL_SCHEMA, false) ||
         entity.IsAbstract ||
-        entity.Name == ModelValidationUtils.CONTEXT_ENTITY_NAME;
+        entity.IsContext;
     }
 
     internal IEnumerable<MemberAndOwner> GetDeclaredColumns(Entity entity) {
