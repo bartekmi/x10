@@ -35,7 +35,7 @@ namespace x10.gen.sql {
       Assert.False(_messages.HasErrors);
 
       MessageBucket genMessages = new MessageBucket();
-      FakeDataGenerator generator = new FakeDataGenerator(genMessages, entities, new Random(0));
+      FakeDataGenerator generator = new FakeDataGenerator(genMessages, entities, new Random(0), null);
       generator.GenerateSql(OUTPUT_FILE);
       TestUtils.DumpMessages(genMessages, _output, CompileMessageSeverity.Error);
 
@@ -374,7 +374,7 @@ attributes:
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.CompileFromYamlStrings(yamls);
 
-      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
+      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0), null);
       string sql = generator.GenerateSqlIntoString();
       _output.WriteLine(sql);
 
@@ -391,7 +391,7 @@ attributes:
       TestUtils.DumpMessages(_messages, _output);
       Assert.False(_messages.HasErrors);
 
-      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0));
+      FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0), null);
       generator.GenerateSqlIntoString();
       TestUtils.DumpMessages(_messages, _output);
 
