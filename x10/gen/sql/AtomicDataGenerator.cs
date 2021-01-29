@@ -61,14 +61,17 @@ namespace x10.gen.sql {
       } else if (x10Attr.DataType == DataTypes.Singleton.Boolean) {
         value = random.Next(2) == 0;
       } else if (x10Attr.DataType == DataTypes.Singleton.Date) {
-        // For date, min/max is offset from today's date
-        int min = objMin is int _min ? _min : DEFAULT_DATE_OFFSET_DAYS_MIN;
-        int max = objMax is int _max ? _max : DEFAULT_DATE_OFFSET_DAYS_MAX;
-
-        int offsetDays = random.Next(min, max + 1);
-        value = DateTime.Today.AddDays(offsetDays);
+        if (objMin is DateTime min && objMax is DateTime max) {
+          TimeSpan span = max - min;
+          int offsetDays = random.Next(span.Days + 1);
+          value = min + TimeSpan.FromDays(offsetDays);
+        } else {
+          int offsetDays = random.Next(DEFAULT_DATE_OFFSET_DAYS_MIN, DEFAULT_DATE_OFFSET_DAYS_MAX + 1);
+          value = DateTime.Today.AddDays(offsetDays);
+        }
       } else if (x10Attr.DataType == DataTypes.Singleton.Timestamp) {
         // For date, min/max is offset from today's date
+        // TODO... This is wrong! min/max will never be double - they are constrained to be same type as field
         double min = objMin is double _min ? _min : DEFAULT_TIMESTAMP_OFFSET_DAYS_MIN;
         double max = objMax is double _max ? _max : DEFAULT_TIMESTAMP_OFFSET_DAYS_MAX;
 

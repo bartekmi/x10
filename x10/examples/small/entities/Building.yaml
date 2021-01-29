@@ -29,6 +29,7 @@ attributes:
     dataType: Date
     mandatory: true
     datagen_min: Jan 1, 1970
+    datagen_max: Jan 27, 2021
 
   - name: mailboxType
     dataType: MailboxType
