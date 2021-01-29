@@ -55,11 +55,32 @@ namespace x10.hotchoc {
       }
     }
 
+    private PrimordialEntityBase CreateAndPopulate(Entity entity, Row row) {
+      Type type = FindType(entity);
+
+      PrimordialEntityBase? instance = (PrimordialEntityBase?)Activator.CreateInstance(type);
+      if (instance == null)
+        throw new Exception("Could not instantiate " + type.Name);
+
+      PopulateEntity(instance, row);
+      return instance;
+    }
+
     private void PopulateEntity(PrimordialEntityBase instance, Row row) {
       instance.Dbid = row.Id;
 
+      PopulateEmptyLists(instance);
       PopulateEntityAttributes(instance, row);
       PopulateEntityOwnedAssociations(instance, row);
+    }
+
+    private void PopulateEmptyLists(PrimordialEntityBase instance) {
+      foreach (PropertyInfo prop in instance.GetType().GetProperties()) {
+        if (prop.PropertyType.Name == "List`1") {
+          Type type = prop.PropertyType.GenericTypeArguments[0];
+          prop.SetValue(instance, CreateGenericList(type));
+        }
+      }
     }
 
     private void PopulateEntityAttributes(PrimordialEntityBase instance, Row row) {
@@ -101,11 +122,9 @@ namespace x10.hotchoc {
       }
     }
 
+    #region Utilities
     private static IList ConvertToSpecificList(List<PrimordialEntityBase> original, Type type) {
-      var listType = typeof(List<>);
-      var typedListType = listType.MakeGenericType(type);
-
-      IList? typedList = (IList?)Activator.CreateInstance(typedListType);
+      IList typedList = CreateGenericList(type);
       if (typedList == null)
         throw new Exception("Could not create typed list");
 
@@ -115,16 +134,13 @@ namespace x10.hotchoc {
       return typedList;
     }
 
-    #region Utilities
-    private PrimordialEntityBase CreateAndPopulate(Entity entity, Row row) {
-      Type type = FindType(entity);
-
-      PrimordialEntityBase? instance = (PrimordialEntityBase?)Activator.CreateInstance(type);
-      if (instance == null)
-        throw new Exception("Could not instantiate " + type.Name);
-
-      PopulateEntity(instance, row);
-      return instance;
+    private static IList CreateGenericList(Type type) {
+      var listType = typeof(List<>);
+      var typedListType = listType.MakeGenericType(type);
+      IList? list = (IList?)Activator.CreateInstance(typedListType);
+      if (list == null)
+        throw new Exception("Could not create list");
+      return list;
     }
 
     private Type FindType(Entity entity) {
