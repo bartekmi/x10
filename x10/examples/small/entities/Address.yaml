@@ -19,21 +19,21 @@ attributes:
     dataType: String
     mandatory: true
     maxWidth: 400
-    datagen_from_source: city => city
+    datagen_from_source: ( city => city )
 
 
   - name: stateOrProvince
     dataType: String
     mandatory: true
     maxWidth: 250
-    datagen_from_source: city => state_name
+    datagen_from_source: ( city => state_name )
 
   - name: zip
     dataType: String
     label: Zip or Postal Code
     mandatory: true
     maxWidth: 150
-    datagen_from_source: city => zips
+    datagen_from_source: ( city => zips )
 
 derivedAttributes:
   - name: firstAddressLine

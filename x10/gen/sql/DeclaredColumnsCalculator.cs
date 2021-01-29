@@ -52,7 +52,7 @@ namespace x10.gen.sql {
     }
 
     internal IEnumerable<MemberAndOwner> GetDeclaredColumns(Entity entity) {
-      return entity.Attributes.Select(x => new MemberAndOwner(ColumnType.Attribute, x))   // All attributes
+      return entity.RegularAttributes.Select(x => new MemberAndOwner(ColumnType.Attribute, x))   // All attributes
         .Concat(GetForwardAssociations(entity))                                           // Forward assoc's
         .Concat(GetReverseAssociations(entity));                                          // Reverse assoc's
     }

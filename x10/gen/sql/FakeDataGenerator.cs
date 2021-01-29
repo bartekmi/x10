@@ -15,9 +15,21 @@ namespace x10.gen.sql {
 
   #region Helper Clases
   public class Row {
-    public int Id;
-    public Entity Entity;
+    public int Id {get; internal set;}
+    public Entity Entity {get; internal set;}
     public List<MemberAndValue> Values = new List<MemberAndValue>();
+    public Dictionary<Association, List<Row>> ChildAssociations { get; private set; }
+
+    internal void AddChildAssociation(Association association, Row row) {
+      if (ChildAssociations == null)
+        ChildAssociations = new Dictionary<Association, List<Row>>();
+        
+      if (!ChildAssociations.TryGetValue(association, out List<Row> rows)) {
+        rows = new List<Row>();
+        ChildAssociations[association] = rows;
+      }
+      rows.Add(row);
+    }
 
     public object[] ValueForSql { get; internal set; }
   }
@@ -39,7 +51,8 @@ namespace x10.gen.sql {
 
   public class FakeDataGenerator {
 
-    private static readonly int? TEST_REDUCED_NUMBER_OF_ROWS = null;
+    public int? TestingReducedNumberOfRows { get; set; }
+    public bool AllowMultipleReverseAssociationsToSameEntity { get; set; }
 
     #region Members, Top Level, Constructor
     public readonly Dictionary<Entity, EntityInfo> EntityInfos;
@@ -184,57 +197,64 @@ namespace x10.gen.sql {
       // Generate all rows
       int count = GetCount(entity);
       for (int ii = 0; ii < count; ii++)
-        GenerateRow(entity, null);
+        GenerateRow(entity, null, null);
     }
 
-    private void GenerateRow(Entity entity, Row parent) {
-      Row row = GenerateSingleRow(entity, parent);
+    private void GenerateRow(Entity entity, Row parentRow, Association parentAssociation) {
+      Row row = GenerateSingleRow(entity, parentRow, parentAssociation);
 
       // Generate rows for owned associations
       foreach (Association association in entity.Associations.Where(x => x.Owns)) {
         int count = GetCount(association);
         for (int ii = 0; ii < count; ii++)
-          GenerateRow(association.ReferencedEntity, row);
+          GenerateRow(association.ReferencedEntity, row, association);
       }
     }
 
-    private Row GenerateSingleRow(Entity entity, Row parent) {
+    private Row GenerateSingleRow(Entity entity, Row parentRow, Association parentAssociation) {
       Row row = CreateAndStoreRow(entity);
 
-      MemberAndOwner linkToParent = null;
-      if (parent != null) {
+      MemberAndOwner parentAssociationMO = null;
+      if (parentRow != null) {
         IEnumerable<MemberAndOwner> reverses = _declaredColumnCalculator.GetReverseAssociations(entity);
-        IEnumerable<MemberAndOwner> parentAssociations = reverses.Where(x => x.ActualOwner == parent.Entity);
 
-        // This is a serious limitation in my implementation. It does not handle the simple case where an entity has two addresses,
-        // e.g. a physical address and a mailing address, etc. Not viable for a real system, but has significant implications
-        // for how I structured the SQL generation.
-        if (parentAssociations.Count() != 1)
-          throw new Exception(string.Format("Entity {0} referenced by Entity {1} must have exactly one association of that type, but has {2}",
-            entity.Name, parent.Entity.Name, parentAssociations.Count()));
-        linkToParent = parentAssociations.Single();
+        if (AllowMultipleReverseAssociationsToSameEntity) {
+          parentAssociationMO = reverses.Single(x => x.Member == parentAssociation);
+          parentRow.AddChildAssociation(parentAssociation, row);
+        } else {
+          IEnumerable<MemberAndOwner> parentAssociations = reverses.Where(x => x.ActualOwner == parentRow.Entity);
+
+          // This is a serious limitation in my implementation. It does not handle the simple case where an entity has two addresses,
+          // e.g. a physical address and a mailing address, etc. Not viable for a real system, but has significant implications
+          // for how I structured the SQL generation.
+          if (parentAssociations.Count() != 1)
+            throw new Exception(string.Format("Entity {0} referenced by Entity {1} must have exactly one association of that type, but has {2}",
+              entity.Name, parentRow.Entity.Name, parentAssociations.Count()));
+          parentAssociationMO = parentAssociations.Single();
+        }
       }
 
       DataGenerationContext context = EntityInfos[entity].Context;
       DataFileRow externalRow = context.GetRandomExternalFileRow();
       IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
-      foreach (MemberAndOwner member in allColumns)
-        switch (member.Type) {
+      foreach (MemberAndOwner memberAndOwner in allColumns)
+        switch (memberAndOwner.Type) {
           case ColumnType.Attribute:
-            row.Values.Add(_atomicDataGenerator.Generate(_random, context, member.Attribute, externalRow));
+            row.Values.Add(_atomicDataGenerator.Generate(_random, context, memberAndOwner.Attribute, externalRow));
             break;
           case ColumnType.ForwardAssociation:
-            row.Values.Add(CreateForwardAssociationValue(member.Association));
+            row.Values.Add(CreateForwardAssociationValue(memberAndOwner.Association));
             break;
           case ColumnType.ReverseAssociation:
-            row.Values.Add(new MemberAndValue() {
-              Member = member.Association,
-              Value = member == linkToParent ? parent.Id : (int?)null,
-            });
+            if (!AllowMultipleReverseAssociationsToSameEntity)
+              row.Values.Add(new MemberAndValue() {
+                Member = memberAndOwner.Association,
+                Value = memberAndOwner == parentAssociationMO ? parentRow.Id : (int?)null,
+              });
             break;
           default:
-            throw new Exception("Unexpected member and association type: " + member.Type);
+            throw new Exception("Unexpected member and association type: " + memberAndOwner.Type);
         }
 
       return row;
@@ -279,7 +299,7 @@ namespace x10.gen.sql {
     private int GetCount(Entity entity) {
       if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity))
         return 0;
-      return TEST_REDUCED_NUMBER_OF_ROWS ?? quantity;
+      return TestingReducedNumberOfRows ?? quantity;
     }
     #endregion
   }

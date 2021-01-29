@@ -11,6 +11,9 @@ namespace x10.model.definition {
     public DataType DataType { get; set; }
     public bool IsId {get;set;}
 
+    // Derived
+    public bool IsEnum => DataType is DataTypeEnum;
+
     public override X10DataType GetX10DataType() {
       return new X10DataType(DataType);
     }

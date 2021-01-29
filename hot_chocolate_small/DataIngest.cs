@@ -3,14 +3,14 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
+using x10.utils;
+using x10.parsing;
 using x10.gen.sql;
 using x10.gen.sql.primitives;
 using x10.gen.hotchoc;
-using x10.parsing;
 using x10.model;
-using x10.ui.libraries;
-using x10.compiler;
 using x10.model.definition;
+using x10.compiler;
 
 using x10.hotchoc.Repositories;
 
@@ -28,7 +28,9 @@ namespace x10.hotchoc {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(messages, new AllEnums(messages), new AllFunctions(messages));
       List<Entity> entities = compiler.Compile(x10ProjectDir);
 
-      FakeDataGenerator generator = new FakeDataGenerator(messages, entities, new Random(0), "../data");
+      FakeDataGenerator generator = new FakeDataGenerator(messages, entities, new Random(0), "../data") {
+        AllowMultipleReverseAssociationsToSameEntity = true,
+      };
       generator.GenerateData();
       return generator;
     }
@@ -58,13 +60,34 @@ namespace x10.hotchoc {
       instance.Dbid = row.Id;
 
       foreach (MemberAndValue field in row.Values) {
-        string propName = HotchocCodeGenerator.PropName(field.Member);
+        Member member = field.Member;
+
+        string propName = HotchocCodeGenerator.PropName(member);
         PropertyInfo? prop = instance.GetType().GetProperty(propName);
         if (prop == null)
-          throw new Exception(string.Format("Property does not exist: '{0}'", field.Member));
+          throw new Exception(string.Format("Property does not exist: '{0}'", member));
 
-        prop.SetValue(instance, row.Values);
+        object? value = field.Value;
+        if (member is X10RegularAttribute attr && attr.IsEnum)
+          value = ToEnum(prop, value);
+
+        prop.SetValue(instance, value);
       }
+    }
+
+    private static object? ToEnum(PropertyInfo property, object value) {
+      if (value == null)
+        return null;
+
+      Type type = property.PropertyType;
+      Type? underlyingType = Nullable.GetUnderlyingType(type);
+      if (underlyingType != null)
+        type = underlyingType;
+        
+      if (Enum.TryParse(type, NameUtils.Capitalize(value.ToString()), out object? enumValue))
+        return enumValue;
+
+      return null;
     }
   }
 }
