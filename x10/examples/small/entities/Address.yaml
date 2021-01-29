@@ -13,7 +13,8 @@ attributes:
   - name: theAddress
     dataType: String
     mandatory: true
-    datagen_pattern: ~DDD~ (West | East | North | South) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (West | East | North | South) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+    datagen_capitalization: wordCaps
 
   - name: city
     dataType: String

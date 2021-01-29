@@ -66,7 +66,7 @@ attributes:
   - name: percentagePattern
     dataType: String
     datagen_pattern: (50% => <adjective> <noun> | 50% => <noun>)
-    datagen_capitalize: true
+    datagen_capitalization: wordCaps
 ";
 
       string expected =

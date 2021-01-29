@@ -24,7 +24,7 @@ namespace x10.gen.sql {
     internal const string MAX = "datagen_max";
     internal const string RANDOM_TEXT = "datagen_random_text";
     internal const string NO_SQL_SCHEMA = "datagen_no_sql_schema";
-    internal const string CAPITALIZE = "datagen_capitalize";
+    internal const string CAPITALIZATION = "datagen_capitalization";
 
     private static readonly DataType RANGE_DATA_TYPE = new DataType() {
       Name = "SqlRange",
@@ -99,10 +99,10 @@ namespace x10.gen.sql {
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
-        Name = CAPITALIZE,
-        Description = @"If true, each word in any generated text will be capitalized",
+        Name = CAPITALIZATION,
+        Description = @"Controls capitalization of generated text",
         AppliesTo = AppliesTo.Attribute,
-        DataType = DataTypes.Singleton.Boolean,
+        DataType = new DataTypeEnum(new string[] {"allCaps", "allDown", "wordCaps" }),
       },
 
       // Association Level

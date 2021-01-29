@@ -98,7 +98,7 @@ namespace x10.gen.sql {
 
       string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE, out ModelAttributeValue fromSourceValue);
       string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN, out ModelAttributeValue patternValue);
-      bool capitalize = x10Attr.FindValue<bool>(DataGenLibrary.CAPITALIZE);
+      string capitalization = x10Attr.FindValue<string>(DataGenLibrary.CAPITALIZATION);
 
       string text = null;
 
@@ -115,8 +115,12 @@ namespace x10.gen.sql {
           _messages.AddError(patternValue.TreeElement, e.Message);
         }
 
-      if (capitalize)
+      if (capitalization == "wordCaps")
         text = NameUtils.Capitalize(text);
+      else if (capitalization == "allCaps")
+        text = text?.ToUpper();
+      if (capitalization == "allDown")
+        text = text?.ToLower();
 
       return text;
     }
@@ -180,11 +184,14 @@ namespace x10.gen.sql {
         char txC = c;
 
         switch (c) {
+          case 'N':
+            txC = (char)(random.Next(9) + '1'); // Non-zero digit
+            break;
           case 'D':
-            txC = (char)(random.Next(10) + '0');
+            txC = (char)(random.Next(10) + '0');  // Digit
             break;
           case 'L':
-            txC = (char)(random.Next(26) + 'A');
+            txC = (char)(random.Next(26) + 'A');  // Letter
             break;
         }
 
