@@ -38,6 +38,7 @@ attributes:
 
   - name: petPolicy
     dataType: PetPolicy
+    datagen_pattern: (60% => noPets | 10% => allPetsOk | 10% => catsOnly | 10% => dogsOnly | 10% => )
 
   - name: mailingAddressSameAsPhysical
     dataType: Boolean
