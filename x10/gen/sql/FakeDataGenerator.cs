@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 
 using x10.gen.sql.primitives;
-using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.utils;

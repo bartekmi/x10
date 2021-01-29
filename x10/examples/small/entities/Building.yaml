@@ -17,7 +17,8 @@ attributes:
     toolTip: A short and memorable name of the Building
     maxWidth: 350
     datagen_pattern: <adjective> <noun> (Building | Apartments | Suites)
-
+    datagen_capitalize: true
+    
   - name: description
     dataType: String
     toolTip: Description for advertising purposes
