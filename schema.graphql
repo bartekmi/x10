@@ -99,7 +99,7 @@ type MoveEdge {
 
 type Mutation {
   "Creates a new Building or updates an existing one, depending on the value of id"
-  createOrUpdateBuilding(id: String! name: String description: String! dateOfOccupancy: DateTime mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum! mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
+  createOrUpdateBuilding(id: String! name: String description: String! dateOfOccupancy: DateTime mailboxType: MailboxTypeEnum petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
   "Creates a new Move or updates an existing one, depending on the value of id"
   createOrUpdateMove(id: String! date: DateTime from: BuildingInput! to: BuildingInput! tenant: TenantInput!): String!
   "Creates a new Tenant or updates an existing one, depending on the value of id"

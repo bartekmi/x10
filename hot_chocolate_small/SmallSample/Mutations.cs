@@ -18,11 +18,11 @@ namespace x10.hotchoc {
     /// </summary>
     public string CreateOrUpdateBuilding(
         string id,
-        string? name,
-        string description,
-        DateTime? dateOfOccupancy,
-        MailboxTypeEnum? mailboxType,
-        PetPolicyEnum petPolicy,
+        string name,
+        string? description,
+        DateTime dateOfOccupancy,
+        MailboxTypeEnum mailboxType,
+        PetPolicyEnum? petPolicy,
         bool mailingAddressSameAsPhysical,
         IEnumerable<Unit> units,
         Address physicalAddress,
@@ -52,7 +52,7 @@ namespace x10.hotchoc {
     /// </summary>
     public string CreateOrUpdateMove(
         string id,
-        DateTime? date,
+        DateTime date,
         Building from,
         Building to,
         Tenant tenant,
@@ -76,9 +76,9 @@ namespace x10.hotchoc {
     /// </summary>
     public string CreateOrUpdateTenant(
         string id,
-        string? name,
-        string phone,
-        string? email,
+        string name,
+        string? phone,
+        string email,
         Address permanentMailingAddress,
         [Service] IRepository repository) {
 
@@ -100,11 +100,11 @@ namespace x10.hotchoc {
     /// </summary>
     public string CreateOrUpdateAddress(
         string id,
-        string unitNumber,
-        string? theAddress,
-        string? city,
-        string? stateOrProvince,
-        string? zip,
+        string? unitNumber,
+        string theAddress,
+        string city,
+        string stateOrProvince,
+        string zip,
         [Service] IRepository repository) {
 
       Address address = new Address() {
@@ -126,10 +126,10 @@ namespace x10.hotchoc {
     /// </summary>
     public string CreateOrUpdateUnit(
         string id,
-        string? number,
-        double squareFeet,
-        int? numberOfBedrooms,
-        NumberOfBathroomsEnum? numberOfBathrooms,
+        string number,
+        double? squareFeet,
+        int numberOfBedrooms,
+        NumberOfBathroomsEnum numberOfBathrooms,
         bool hasBalcony,
         [Service] IRepository repository) {
 

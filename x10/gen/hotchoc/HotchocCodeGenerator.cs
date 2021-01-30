@@ -477,7 +477,7 @@ namespace x10.hotchoc {{
 
     private static string GetDataType(Member member) {
       if (member is X10Attribute attribute)
-        return DataType(attribute.DataType, !attribute.IsMandatory);
+        return DataType(attribute.DataType, attribute.IsMandatory);
       else if (member is Association association) {
         Entity refedEntity = association.ReferencedEntity;
         if (association.IsMany)

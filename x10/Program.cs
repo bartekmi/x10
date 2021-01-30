@@ -72,7 +72,7 @@ namespace x10 {
 
     public static int Main(string[] args) {
 
-      GenConfig config = HOTCHOC_SMALL_CONFIG;
+      GenConfig config = REACT_SMALL_CONFIG;
       MessageBucket messages = new MessageBucket();
 
       // Hydrate UiLibraries
