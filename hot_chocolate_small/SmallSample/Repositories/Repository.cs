@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,14 +12,12 @@ namespace x10.hotchoc.Repositories {
     private Dictionary<int, Address> _addresses = new Dictionary<int, Address>();
     private Dictionary<int, Unit> _units = new Dictionary<int, Unit>();
 
-    public Repository(string x10ProjectDir) {
-      DataIngest.GenerateTestData(x10ProjectDir, this);
-    }
-
     internal void Add(int id, PrimordialEntityBase instance) {
       if (instance is Building building) _buildings[id] = building;
-      if (instance is Tenant tenant) _tenants[id] = tenant;
       if (instance is Move move) _moves[id] = move;
+      if (instance is Tenant tenant) _tenants[id] = tenant;
+      if (instance is Address address) _addresses[id] = address;
+      if (instance is Unit unit) _units[id] = unit;
     }
 
     #region Buildings

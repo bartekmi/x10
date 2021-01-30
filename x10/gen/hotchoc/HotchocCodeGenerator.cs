@@ -44,6 +44,7 @@ namespace x10.gen.hotchoc {
     }
 
     private void GenerateRepositoryHeader() {
+      WriteLine(0, "using System;");
       WriteLine(0, "using System.Collections.Generic;");
       WriteLine(0, "using System.Linq;");
       WriteLine();
@@ -86,7 +87,7 @@ namespace x10.gen.hotchoc {
       WriteLine(1, "public class Repository : IRepository {");
 
       GenerateRepositoryDictionaries();
-      GenerateRepositoryConstructor();
+      GenerateRepositoryAddMethod();
       GenerateRepositoryImplementations();
 
       WriteLine(1, "}");
@@ -104,11 +105,18 @@ namespace x10.gen.hotchoc {
       WriteLine();
     }
 
+    private void GenerateRepositoryAddMethod() {
+      WriteLine(2, "internal void Add(int id, PrimordialEntityBase instance) {");
 
-    private void GenerateRepositoryConstructor() {
-      WriteLine(2, "public Repository() {");
+      foreach (Entity entity in ConcreteEntities()) {
+        string entityName = entity.Name;
+        string varName = NameUtils.UncapitalizeFirstLetter(entityName);
+        string pluralUpper = NameUtils.Pluralize(entityName);
+        string pluralLower = NameUtils.UncapitalizeFirstLetter(pluralUpper);
 
-      WriteLine(3, "// Do nothing");
+        WriteLine(3, "if (instance is {0} {1}) _{2}[id] = {1};",
+          entityName, varName, pluralLower);
+      }
 
       WriteLine(2, "}");
       WriteLine();

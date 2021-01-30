@@ -15,12 +15,18 @@ namespace x10.hotchoc {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
-      services.AddSingleton<IRepository>(new Repository(Program.X10_PROJECT_DIR));
+      services.AddSingleton<IRepository>(CreateRepository());
 
       services.AddCors();
 
       BuildSchema(services)
         .AddApolloTracing();
+    }
+
+    private Repository CreateRepository() {
+      Repository repository = new Repository();
+      DataIngest.GenerateTestData(Program.X10_PROJECT_DIR, repository);
+      return repository;
     }
 
     internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {

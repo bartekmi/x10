@@ -2,6 +2,7 @@ name: Tenant
 inheritsFrom: Base
 description: Tenant of a Unit
 datagen_quantity: 100
+defaultStringRepresentation: =name
 
 attributes:
   - name: name
