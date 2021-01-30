@@ -52,11 +52,15 @@ namespace x10.gen.hotchoc {
       WriteLine(0, "namespace x10.hotchoc.Repositories {");
     }
 
+    public static string GetterName(Entity entity) {
+      return "Get" + entity.Name;
+    }
+
     private void GenerateRepositoryInterfaceQueries() {
       WriteLine(2, "// Queries");
 
       foreach (Entity entity in ConcreteEntities())
-        WriteLine(2, "{0} Get{0}(int id);", entity.Name);
+        WriteLine(2, "{0} {1}(int id);", entity.Name, GetterName(entity));
       WriteLine();
 
       foreach (Entity entity in ConcreteEntities())
@@ -116,6 +120,7 @@ namespace x10.gen.hotchoc {
         string varName = NameUtils.UncapitalizeFirstLetter(entityName);
         string pluralUpper = NameUtils.Pluralize(entityName);
         string pluralLower = NameUtils.UncapitalizeFirstLetter(pluralUpper);
+        string getterName = GetterName(entity);
 
         WriteLine(2, "#region {0}", pluralUpper);
 
@@ -124,7 +129,7 @@ namespace x10.gen.hotchoc {
           entityName, pluralUpper, pluralLower);
 
         // Get single
-        WriteLine(2, "public {0} Get{0}(int id) { return _{1}[id]; }", entityName, pluralLower);
+        WriteLine(2, "public {0} {1}(int id) { return _{2}[id]; }", entityName, getterName, pluralLower);
 
         // Add or Update
         WriteLine(2, "public int AddOrUpdate{0}(int? dbid, {0} {1}) {", entityName, varName);

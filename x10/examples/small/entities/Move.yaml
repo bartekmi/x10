@@ -1,7 +1,7 @@
 name: Move
 inheritsFrom: Base
 description: Somewhat contrived move event from one apartment to another
-# datagen_quantity: 5
+datagen_quantity: 5
 
 attributes:
   - name: date

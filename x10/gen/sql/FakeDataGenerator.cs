@@ -19,6 +19,11 @@ namespace x10.gen.sql {
     public List<MemberAndValue> Values = new List<MemberAndValue>();
     public Dictionary<Association, List<Row>> ChildAssociations { get; private set; }
 
+    public object ValueFor(Member member) {
+      MemberAndValue memberAndValue = Values.Single(x => x.Member == member);
+      return memberAndValue.Value;
+    }
+
     internal void AddChildAssociation(Association association, Row row) {
       if (ChildAssociations == null)
         ChildAssociations = new Dictionary<Association, List<Row>>();
@@ -263,7 +268,7 @@ namespace x10.gen.sql {
       Entity entity = association.ReferencedEntity;
       GenerateForEntity(entity);
 
-      object value = EntityInfos[entity].RandomExistingId(_random, association);
+      int? value = EntityInfos[entity].RandomExistingId(_random, association);
       if (association.IsMandatory && value == null)
         throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
           association, entity.Name, DataGenLibrary.QUANTITY));
