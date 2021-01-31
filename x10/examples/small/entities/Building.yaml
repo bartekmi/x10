@@ -16,7 +16,7 @@ attributes:
     placeholderText: Name of building
     toolTip: A short and memorable name of the Building
     maxWidth: 350
-    datagen_pattern: <adjective> <noun> (Building | Apartments | Suites)
+    datagen_pattern: ( 70% => <adjective> <noun> (Building | Apartments | Suites) | 30% => The <noun> )
     datagen_capitalization: wordCaps
     
   - name: description
