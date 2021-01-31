@@ -26,6 +26,7 @@ namespace x10 {
   }
 
   public class GenConfig {
+    public string CommandLine { get; set; }
     public string SourceDir { get; set; }
     public string ProjectDir { get; set; }
     public string TargetDir { get; set; }
@@ -38,7 +39,9 @@ namespace x10 {
   public class Program {
     private const string INTERMEDIATE_FILES_DIR = "temp/x10";
 
-    private static readonly GenConfig REACT_SMALL_CONFIG = new GenConfig() {
+    private static readonly GenConfig[] CONFIGS = new GenConfig[] {
+      new GenConfig() {
+      CommandLine = "react",
       SourceDir = "examples/small",
       ProjectDir = "../react_small_generated",
       TargetDir = "x10_generated",
@@ -46,33 +49,33 @@ namespace x10 {
       PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
       Generator = new ReactCodeGenerator(),
       PostGenerationScript = new ScriptInfo() {
-        Script = "yarn",
-        Args = "relay",
-      }
-    };
+          Script = "yarn",
+          Args = "relay",
+        }
+      },
 
-    private static readonly GenConfig HOTCHOC_SMALL_CONFIG = new GenConfig() {
-      SourceDir = "examples/small",
-      ProjectDir = "../hot_chocolate_small",
-      TargetDir = "SmallSample",
-      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-      Generator = new HotchocCodeGenerator() {
-        GenerateAbstractEntities = true,
+      new GenConfig() {
+        CommandLine = "hot",
+        SourceDir = "examples/small",
+        ProjectDir = "../hot_chocolate_small",
+        TargetDir = "SmallSample",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new HotchocCodeGenerator() {
+          GenerateAbstractEntities = true,
+        },
       },
     };
 
-    //  Outdated
-    // private static readonly GenConfig WPF_SMALL_CONFIG = new GenConfig() {
-    //   ProjectDir = "../wpf_generated_small",
-    //   TargetDir = "__generated__",
-    //   PlatformLibraries = new PlatformLibrary[] { WpfBaseLibrary.Singleton() },
-    //   Generator = new WpfCodeGenerator("wpf_generated"),
-    // };
-
     public static int Main(string[] args) {
 
-      GenConfig config = REACT_SMALL_CONFIG;
+      if (args.Length != 1) 
+        PrintUsageAndExit();
+
+      GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == args[0]);
+      if (config == null)
+        PrintUsageAndExit();
+
       MessageBucket messages = new MessageBucket();
 
       // Hydrate UiLibraries
@@ -165,6 +168,12 @@ namespace x10 {
     #endregion
 
     #region Utils
+    private static void PrintUsageAndExit() {
+      Console.WriteLine("Usage: dotnet run -- <{0}>",
+        string.Join(" | ", CONFIGS.Select(x => x.CommandLine)));
+      Environment.Exit(1);
+    }
+
     public static void DumpMessages(string label, MessageBucket messages, CompileMessageSeverity? severities = null) {
       Console.WriteLine("Messages for: " + label);
       if (messages.IsEmpty)
