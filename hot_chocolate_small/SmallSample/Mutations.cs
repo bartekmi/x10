@@ -53,16 +53,16 @@ namespace x10.hotchoc {
     public string CreateOrUpdateMove(
         string id,
         DateTime date,
-        Building from,
-        Building to,
-        Tenant tenant,
+        string fromId,
+        string toId,
+        string tenantId,
         [Service] IRepository repository) {
 
       Move move = new Move() {
         Date = date,
-        From = from,
-        To = to,
-        Tenant = tenant,
+        From = repository.GetBuilding(IdUtils.FromRelayIdMandatory(fromId)),
+        To = repository.GetBuilding(IdUtils.FromRelayIdMandatory(toId)),
+        Tenant = repository.GetTenant(IdUtils.FromRelayIdMandatory(tenantId)),
       };
 
       int dbid = repository.AddOrUpdateMove(IdUtils.FromRelayId(id), move);

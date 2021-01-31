@@ -275,8 +275,8 @@ namespace x10.hotchoc {{
 
       // Method parameters
       WriteLine(4, "string id,");
-      foreach (Member member in writableMembers) 
-        WriteLine(4, "{0} {1},", GetDataType(member), member.Name);
+      foreach (Member member in writableMembers)
+        WriteLine(4, "{0} {1}{2},", GetDataType(member), member.Name, member.IsNonOwnedAssociation ? "Id" : "");
 
       WriteLine(4, "[Service] IRepository repository) {");
       WriteLine();
@@ -284,11 +284,18 @@ namespace x10.hotchoc {{
       // Instantiate entity
       WriteLine(3, "{0} {1} = new {0}() {", entityName, varName);
 
-      foreach (Member member in writableMembers) 
-        WriteLine(4, "{0} = {1}{2},", 
-          PropName(member), 
-          member.Name,
-          member is Association assoc && assoc.IsMany ? ".ToList()" : "");
+      foreach (Member member in writableMembers)
+        if (member.IsNonOwnedAssociation) {
+          Entity refedEntity = ((Association)member).ReferencedEntity;
+          WriteLine(4, "{0} = repository.Get{1}(IdUtils.FromRelayIdMandatory({2}Id)),",
+            PropName(member),
+            refedEntity.Name,
+            member.Name);
+        } else
+          WriteLine(4, "{0} = {1}{2},",
+            PropName(member),
+            member.Name,
+            member is Association assoc && assoc.IsMany ? ".ToList()" : "");
 
       WriteLine(3, "};");
       WriteLine();
@@ -298,6 +305,22 @@ namespace x10.hotchoc {{
         entityName, varName);
       WriteLine(3, "return IdUtils.ToRelayId<{0}>(dbid);", entityName);
       WriteLine(2, "}");
+    }
+
+    private static string GetDataType(Member member) {
+      if (member is X10Attribute attribute)
+        return DataType(attribute.DataType, attribute.IsMandatory);
+      else if (member is Association association) {
+        Entity refedEntity = association.ReferencedEntity;
+        if (association.IsMany)
+          return string.Format("IEnumerable<{0}>", refedEntity.Name);
+        else
+          if (association.Owns)
+          return refedEntity.Name + NullableMarker(association.IsMandatory);
+        else
+          return "string" + NullableMarker(association.IsMandatory);
+      } else
+        throw new NotImplementedException("Neither attribute nor association");
     }
     #endregion
     #endregion
@@ -473,19 +496,6 @@ namespace x10.hotchoc {{
         return true;
 
       return attribute.IsMandatory;
-    }
-
-    private static string GetDataType(Member member) {
-      if (member is X10Attribute attribute)
-        return DataType(attribute.DataType, attribute.IsMandatory);
-      else if (member is Association association) {
-        Entity refedEntity = association.ReferencedEntity;
-        if (association.IsMany)
-          return string.Format("IEnumerable<{0}>", refedEntity.Name);
-        else
-          return refedEntity.Name + NullableMarker(association.IsMandatory);
-      } else
-        throw new NotImplementedException("Neither attribute nor association");
     }
 
     private static string NullableMarker(bool isMandatory) {
