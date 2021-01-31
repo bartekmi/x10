@@ -23,9 +23,7 @@ export default function BuildingsInterface(props: { }): React.Node {
 const query = graphql`
   query BuildingsInterfaceQuery {
     entities: buildings {
-      nodes {
-        ...Buildings_buildings
-      }
+      ...Buildings_buildings
     }
   }
 `;

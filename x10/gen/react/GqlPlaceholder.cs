@@ -27,10 +27,8 @@ namespace x10.gen.react {
         writer.WriteLine("const {0}Query = graphql`", varName);
         writer.WriteLine("  query {0}_{1}Query {{", _classDef.Name, varName);
         writer.WriteLine("    entities: {0} {{", varName);
-        writer.WriteLine("      nodes {");
-        writer.WriteLine("        id");
-        writer.WriteLine("        toStringRepresentation");
-        writer.WriteLine("      }");
+        writer.WriteLine("      id");
+        writer.WriteLine("      toStringRepresentation");
         writer.WriteLine("    }");
         writer.WriteLine("  }");
         writer.WriteLine("`;");

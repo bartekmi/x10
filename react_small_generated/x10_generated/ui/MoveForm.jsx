@@ -180,10 +180,8 @@ export default createFragmentContainer(MoveFormStateful, {
 const buildingsQuery = graphql`
   query MoveForm_buildingsQuery {
     entities: buildings {
-      nodes {
-        id
-        toStringRepresentation
-      }
+      id
+      toStringRepresentation
     }
   }
 `;
@@ -191,10 +189,8 @@ const buildingsQuery = graphql`
 const tenantsQuery = graphql`
   query MoveForm_tenantsQuery {
     entities: tenants {
-      nodes {
-        id
-        toStringRepresentation
-      }
+      id
+      toStringRepresentation
     }
   }
 `;

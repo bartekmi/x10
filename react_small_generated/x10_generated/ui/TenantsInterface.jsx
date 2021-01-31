@@ -23,9 +23,7 @@ export default function TenantsInterface(props: { }): React.Node {
 const query = graphql`
   query TenantsInterfaceQuery {
     entities: tenants {
-      nodes {
-        ...Tenants_tenants
-      }
+      ...Tenants_tenants
     }
   }
 `;

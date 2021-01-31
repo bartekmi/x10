@@ -15,24 +15,6 @@ type Address {
   dbid: Int!
 }
 
-"A connection to a list of items."
-type AddressConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [AddressEdge!]
-  "A flattened list of the nodes."
-  nodes: [Address!]
-}
-
-"An edge in a connection."
-type AddressEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Address!
-}
-
 "A physical building which contains rental units"
 type Building {
   moniker: String!
@@ -50,24 +32,6 @@ type Building {
   dbid: Int!
 }
 
-"A connection to a list of items."
-type BuildingConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [BuildingEdge!]
-  "A flattened list of the nodes."
-  nodes: [Building!]
-}
-
-"An edge in a connection."
-type BuildingEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Building!
-}
-
 "Somewhat contrived move event from one apartment to another"
 type Move {
   date: DateTime!
@@ -77,24 +41,6 @@ type Move {
   tenant: Tenant!
   id: String!
   dbid: Int!
-}
-
-"A connection to a list of items."
-type MoveConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [MoveEdge!]
-  "A flattened list of the nodes."
-  nodes: [Move!]
-}
-
-"An edge in a connection."
-type MoveEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Move!
 }
 
 type Mutation {
@@ -110,39 +56,27 @@ type Mutation {
   createOrUpdateUnit(id: String! number: String! squareFeet: Float numberOfBedrooms: Int! numberOfBathrooms: NumberOfBathroomsEnum! hasBalcony: Boolean!): String!
 }
 
-"Information about pagination in a connection."
-type PageInfo {
-  "Indicates whether more edges exist following the set defined by the clients arguments."
-  hasNextPage: Boolean!
-  "Indicates whether more edges exist prior the set defined by the clients arguments."
-  hasPreviousPage: Boolean!
-  "When paginating backwards, the cursor to continue."
-  startCursor: String
-  "When paginating forwards, the cursor to continue."
-  endCursor: String
-}
-
 type Query {
   "Retrieve a Building by id\n\n\n**Returns:**\nThe Building."
   building("The id of the Building." id: String!): Building!
   "Gets all Buildings.\n\n\n**Returns:**\nAll Buildings."
-  buildings(first: Int after: String last: Int before: String where: BuildingFilter order_by: BuildingSort): BuildingConnection
+  buildings(where: BuildingFilter order_by: BuildingSort): [Building!]!
   "Retrieve a Move by id\n\n\n**Returns:**\nThe Move."
   move("The id of the Move." id: String!): Move!
   "Gets all Moves.\n\n\n**Returns:**\nAll Moves."
-  moves(first: Int after: String last: Int before: String where: MoveFilter order_by: MoveSort): MoveConnection
+  moves(where: MoveFilter order_by: MoveSort): [Move!]!
   "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Tenant."
   tenant("The id of the Tenant." id: String!): Tenant!
   "Gets all Tenants.\n\n\n**Returns:**\nAll Tenants."
-  tenants(first: Int after: String last: Int before: String where: TenantFilter order_by: TenantSort): TenantConnection
+  tenants(where: TenantFilter order_by: TenantSort): [Tenant!]!
   "Retrieve a Address by id\n\n\n**Returns:**\nThe Address."
   address("The id of the Address." id: String!): Address!
   "Gets all Addresses.\n\n\n**Returns:**\nAll Addresses."
-  addresses(first: Int after: String last: Int before: String where: AddressFilter order_by: AddressSort): AddressConnection
+  addresses(where: AddressFilter order_by: AddressSort): [Address!]!
   "Retrieve a Unit by id\n\n\n**Returns:**\nThe Unit."
   unit("The id of the Unit." id: String!): Unit!
   "Gets all Units.\n\n\n**Returns:**\nAll Units."
-  units(first: Int after: String last: Int before: String where: UnitFilter order_by: UnitSort): UnitConnection
+  units(where: UnitFilter order_by: UnitSort): [Unit!]!
 }
 
 "Tenant of a Unit"
@@ -156,24 +90,6 @@ type Tenant {
   dbid: Int!
 }
 
-"A connection to a list of items."
-type TenantConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [TenantEdge!]
-  "A flattened list of the nodes."
-  nodes: [Tenant!]
-}
-
-"An edge in a connection."
-type TenantEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Tenant!
-}
-
 "An individual rental unit"
 type Unit {
   number: String!
@@ -184,24 +100,6 @@ type Unit {
   toStringRepresentation: String!
   id: String!
   dbid: Int!
-}
-
-"A connection to a list of items."
-type UnitConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [UnitEdge!]
-  "A flattened list of the nodes."
-  nodes: [Unit!]
-}
-
-"An edge in a connection."
-type UnitEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Unit!
 }
 
 "A physical or mailing address"

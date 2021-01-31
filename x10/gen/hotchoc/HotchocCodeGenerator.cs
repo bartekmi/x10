@@ -211,7 +211,6 @@ namespace x10.hotchoc {{
     /// </summary>
     /// <param name=""repository""></param>
     /// <returns>All {0}.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<{1}> Get{0}(

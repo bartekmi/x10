@@ -28,7 +28,6 @@ namespace x10.hotchoc {
     /// </summary>
     /// <param name="repository"></param>
     /// <returns>All Buildings.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<Building> GetBuildings(
@@ -53,7 +52,6 @@ namespace x10.hotchoc {
     /// </summary>
     /// <param name="repository"></param>
     /// <returns>All Moves.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<Move> GetMoves(
@@ -78,7 +76,6 @@ namespace x10.hotchoc {
     /// </summary>
     /// <param name="repository"></param>
     /// <returns>All Tenants.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<Tenant> GetTenants(
@@ -103,7 +100,6 @@ namespace x10.hotchoc {
     /// </summary>
     /// <param name="repository"></param>
     /// <returns>All Addresses.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<Address> GetAddresses(
@@ -128,7 +124,6 @@ namespace x10.hotchoc {
     /// </summary>
     /// <param name="repository"></param>
     /// <returns>All Units.</returns>
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public IEnumerable<Unit> GetUnits(

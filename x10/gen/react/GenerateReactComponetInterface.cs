@@ -134,11 +134,9 @@ namespace x10.gen.react {
       WriteLine(0, "const query = graphql`");
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);
       WriteLine(2, "entities: {0} {", variableName);
-      WriteLine(3, "nodes {");
 
-      WriteLine(4, "...{0}_{1}", classDefName, variableName);
+      WriteLine(3, "...{0}_{1}", classDefName, variableName);
 
-      WriteLine(3, "}");
       WriteLine(2, "}");
       WriteLine(1, "}");
       WriteLine(0, "`;");

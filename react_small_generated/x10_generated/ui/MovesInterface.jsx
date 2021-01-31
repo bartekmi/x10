@@ -23,9 +23,7 @@ export default function MovesInterface(props: { }): React.Node {
 const query = graphql`
   query MovesInterfaceQuery {
     entities: moves {
-      nodes {
-        ...Moves_moves
-      }
+      ...Moves_moves
     }
   }
 `;
