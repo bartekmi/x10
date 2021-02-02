@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
+using NLipsum.Core;
+
+using x10.utils;
+using x10.parsing;
 using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.model.metadata;
-using x10.parsing;
-using x10.utils;
 
 namespace x10.gen.sql {
   internal class AtomicDataGenerator {
@@ -99,24 +101,25 @@ namespace x10.gen.sql {
     #region Generate For String
     private string GenerateForString(Random random, DataGenerationContext context, X10Attribute x10Attr, DataFileRow externalRow) {
 
-      string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE, out ModelAttributeValue fromSourceValue);
-      string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN, out ModelAttributeValue patternValue);
+      ModelAttributeValue attrValue = null;
+      string fromSource = x10Attr.FindValue<string>(DataGenLibrary.FROM_SOURCE, out attrValue);
+      string pattern = x10Attr.FindValue<string>(DataGenLibrary.PATTERN, out attrValue);
+      string randomTextSpecs = x10Attr.FindValue<string>(DataGenLibrary.RANDOM_TEXT, out attrValue);
+
       string capitalization = x10Attr.FindValue<string>(DataGenLibrary.CAPITALIZATION);
 
       string text = null;
 
-      if (fromSource != null)
-        try {
+      try {
+        if (fromSource != null)
           text = GenerateFromSource(externalRow, fromSource);
-        } catch (Exception e) {
-          _messages.AddError(fromSourceValue.TreeElement, e.Message);
-        }
-      else if (pattern != null)
-        try {
+        else if (pattern != null)
           text = GenerateFromPattern(random, context, pattern);
-        } catch (Exception e) {
-          _messages.AddError(patternValue.TreeElement, e.Message);
-        }
+        else if (randomTextSpecs != null)
+          text = GenerateRandomText(random, randomTextSpecs);
+      } catch (Exception e) {
+        _messages.AddError(attrValue.TreeElement, e.Message);
+      }
 
       if (capitalization == "wordCaps")
         text = NameUtils.Capitalize(text);
@@ -221,6 +224,47 @@ namespace x10.gen.sql {
         return NameUtils.StripQuotes(field);
 
       return externalRow.GetValue(field);
+    }
+    #endregion
+    
+    #region Generate Random Text
+    private string GenerateRandomText(Random random, string randomTextSpecs) {
+      string message = "The format must be something like '30..50 <words|sentences|paragraphs>'";
+
+      string[] pieces = randomTextSpecs.Split(' ');
+      if (pieces.Length != 2)
+        throw new Exception(message);
+
+      SqlRange range = SqlRange.Parse(pieces[0]);
+      if (range == null)
+        throw new Exception(message);
+
+
+      Features? features = EnumUtils.Parse<Features>(pieces[1]);
+      if (features == null)
+        throw new Exception(message);
+
+      LipsumGenerator generator = new LipsumGenerator();
+      int count = range.GetRandom(random);
+      string text = null;
+
+      switch (features.Value) {
+        case Features.Words:
+          string[] words = generator.GenerateWords(count);
+          text = string.Join(" ", words);
+          break;
+        case Features.Sentences:
+          string[] sentences = generator.GenerateSentences(count, Sentence.Medium);
+          text = string.Join(" ", sentences);
+          break;
+        case Features.Paragraphs:
+          string[] paragraphs = generator.GenerateParagraphs(count, Paragraph.Short);
+          text = string.Join("\r\n\r\n", paragraphs);
+          text += ".";
+          break;
+      }
+
+      return text;
     }
     #endregion
     #endregion

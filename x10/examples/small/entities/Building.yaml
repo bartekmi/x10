@@ -23,7 +23,7 @@ attributes:
     dataType: String
     toolTip: Description for advertising purposes
     ui: TextArea
-    datagen_random_text: 10 to 50 words
+    datagen_random_text: 1..2 sentences
 
   - name: dateOfOccupancy
     dataType: Date

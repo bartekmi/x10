@@ -94,7 +94,7 @@ namespace x10.gen.sql {
       },
       new ModelAttributeDefinitionAtomic() {
         Name = RANDOM_TEXT,
-        Description = @"Generate random text based on the pattern: 'X to Y words' - e.g. '5 to 30 words'",
+        Description = @"Generate random text based on the pattern: 'x..y <words|sentences|paragraphs>' - e.g. '5..30 words'",
         AppliesTo = AppliesTo.Attribute,
         DataType = DataTypes.Singleton.String,
       },
