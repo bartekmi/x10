@@ -116,6 +116,7 @@ namespace x10.gen.sql {
     internal MemberAndOwner(ColumnType type, Member member, Entity owner = null) {
       Type = type;
       Member = member;
+      // "Actual Owner" may be different than member.Owner due to inheritance.
       ActualOwner = owner ?? member.Owner;
     }
 
