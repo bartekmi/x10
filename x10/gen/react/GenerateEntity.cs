@@ -342,7 +342,7 @@ namespace x10.gen.react {
             return refedEntity.Name;
         } else {
           if (association.IsMany)
-            throw new NotImplementedException("Non-owned 'many' association should be blocked during compilation");
+            return "$ReadOnlyArray<string>";
           // Always generate optional - even if mandatory, will not be filled in initially
           return "?string";   // Relay ID
         }
