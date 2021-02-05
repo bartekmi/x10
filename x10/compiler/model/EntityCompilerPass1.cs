@@ -51,7 +51,7 @@ namespace x10.compiler {
           X10Attribute x10Attribute = new X10RegularAttribute();
           x10Attribute.TreeElement = attribute;
           entity.AddMember(x10Attribute);
-          _attrReader.ReadAttributes(attribute, AppliesTo.Attribute, x10Attribute);
+          _attrReader.ReadAttributes(attribute, AppliesTo.RegularAttribute, x10Attribute);
         }
       }
     }

@@ -4,14 +4,44 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    // Code Generation - Small Example
+    {
+      "name": "Gen Small - Hot Choc",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "args": ["smallhot"],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
+    {
+      "name": "Gen Small - React",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "args": ["smallreact"],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
 
+    // Code Generation - Client Page
     {
-      "name": "Gen - Hot Choc",
+      "name": "Gen CP - Hot Choc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
       "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
-      "args": ["hot"],
+      "args": ["cphot"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
       "stopAtEntry": false,
@@ -20,12 +50,12 @@
       }
     },
     {
-      "name": "Gen - React",
+      "name": "Gen CP - React",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
       "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
-      "args": ["react"],
+      "args": ["cpreact"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
       "stopAtEntry": false,
@@ -33,8 +63,10 @@
         // "engineLogging": true
       }
     },
+
+    // Run the Hot Chocolate GraphQL Server
     {
-      "name": "Hot Choc",
+      "name": "Hot Choc Server",
       "type":"coreclr",
       "request":"launch",
       "preLaunchTask": "build_hot_chocolate",

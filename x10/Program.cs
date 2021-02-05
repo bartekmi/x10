@@ -41,7 +41,7 @@ namespace x10 {
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
-      CommandLine = "react",
+      CommandLine = "smallreact",
       SourceDir = "examples/small",
       ProjectDir = "../react_small_generated",
       TargetDir = "x10_generated",
@@ -55,10 +55,36 @@ namespace x10 {
       },
 
       new GenConfig() {
-        CommandLine = "hot",
+      CommandLine = "cpreact",
+      SourceDir = "examples/client_page",
+      ProjectDir = "../react_small_generated",
+      TargetDir = "x10_generated/client_page",
+      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+      Generator = new ReactCodeGenerator(),
+      PostGenerationScript = new ScriptInfo() {
+          Script = "yarn",
+          Args = "relay",
+        }
+      },
+
+      new GenConfig() {
+        CommandLine = "smallhot",
         SourceDir = "examples/small",
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "SmallSample",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new HotchocCodeGenerator() {
+          GenerateAbstractEntities = true,
+        },
+      },
+
+      new GenConfig() {
+        CommandLine = "cphot",
+        SourceDir = "examples/client_page",
+        ProjectDir = "../hot_chocolate_small",
+        TargetDir = "ClientPage",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
         Generator = new HotchocCodeGenerator() {

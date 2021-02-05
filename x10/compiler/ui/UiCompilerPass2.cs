@@ -468,7 +468,7 @@ namespace x10.compiler {
       X10DataType expectedReturnType = new X10DataType(value.DefinitionAtomic.DataType);
 
       // Since anything can be converted to String, don't worry about type checking
-      if (expectedReturnType.IsString)
+      if (expectedReturnType.IsString || expectedReturnType.IsError)
         return;
 
       if (!returnedDataType.Equals(expectedReturnType))

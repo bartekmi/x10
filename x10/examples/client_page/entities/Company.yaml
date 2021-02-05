@@ -8,11 +8,6 @@ attributes:
     dataType: String
 
 associations:
-  - name: client
-    dataType: Client
-    mandatory: true
-    owns: true
-
   - name: primaryEntity
     dataType: CompanyEntity
     mandatory: true

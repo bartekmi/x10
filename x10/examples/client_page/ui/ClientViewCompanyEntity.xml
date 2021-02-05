@@ -1,0 +1,46 @@
+<ClientViewCompanyEntity model="CompanyEntity">
+  <Expander>
+    <!-- Header -->
+    <Expander.Header>
+      <RepellingRow>
+        <Row>
+          <VerticalStackPanel>
+            <Row>
+              <legalName/>
+              <isPrimary ui="BooleanBanner" label="Primary Entity"/>
+            </Row>
+            <companyType/>
+          </VerticalStackPanel>
+          <Row>
+            <Button>Documents</Button>
+          </Row>
+        </Row>
+        <Row>
+          <Button>Documents</Button>
+          <Button>Edit</Button>
+        </Row>
+      </RepellingRow>
+    </Expander.Header>
+
+    <!-- Body -->
+    <Expander.Body>
+      <VerticalStackPanel>
+        <Row>
+          <coreId/>
+          <Label label="Mailing Address">
+            <Address path="mailingAddress"/>
+          </Label>
+          <Label label="Physical Address">
+            <Address path="physicalAddress"/>
+          </Label>
+        </Row>
+        <RepellingRow>
+          <Row>
+            <Checkbox path="isPrimary" checkboxLabel="Primary Entity" readOnly="=isPrimary"/>
+            <HelpIcon text="You can change the primary entity by selecting..." visible="=isPrimary"/>
+          </Row>
+        </RepellingRow>
+      </VerticalStackPanel>
+    </Expander.Body>
+  </Expander>
+</ClientViewCompanyEntity>

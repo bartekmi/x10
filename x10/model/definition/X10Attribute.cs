@@ -15,6 +15,8 @@ namespace x10.model.definition {
     public bool IsEnum => DataType is DataTypeEnum;
 
     public override X10DataType GetX10DataType() {
+      if (DataType == null)   // E.g. was not specified in the yaml
+        return X10DataType.ERROR;
       return new X10DataType(DataType);
     }
   }

@@ -3,6 +3,9 @@ inheritsFrom: Base
 description: More information about a company that we do business with as a client (we sell them stuff)
 
 attributes:
+  - name: salesforceAccountRef
+    dataType: String
+
   - name: referredBy
     dataType: String
     datagen_pattern: <first_name> <last_name>
@@ -36,6 +39,20 @@ attributes:
     dataType: Integer
     mandatory: true
     readOnly: true
+
+associations:
+# Note that this is reversed. Doing this as an expedient way to get around the problem
+# that we currently don't surrport reverse associations.
+  - name: company
+    dataType: Company
+    mandatory: true
+    owns: true
+
+  - name: primaryContact
+    dataType: Contact
+    mandatory: true
+    owns: true
+
 
 enums:
   - name: ClientStatus

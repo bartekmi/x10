@@ -51,7 +51,7 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = "description",
         Description = "The description of the model. Used for documentary purposes and int GUI builder tools.",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute |
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute |
           AppliesTo.EnumType | AppliesTo.Function | AppliesTo.FunctionArgument | AppliesTo.Validation,
         ErrorSeverityIfMissing = CompileMessageSeverity.Warning,
         MessageIfMissing = "Providing a description is strongly encouraged - the description is used in auto-generated documentation and is key to understanding the overall Data Model",
@@ -61,7 +61,7 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = "ui",
         Description = "The default UI element to render this type of item",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute | AppliesTo.EnumType,
         DataType = DataTypes.Singleton.String,
         Setter = "UiName",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
@@ -72,14 +72,14 @@ namespace x10.model.libraries {
       new ModelAttributeDefinitionAtomic() {
         Name = TOOL_TIP,
         Description = "The default UI Tool Tipe for this type of item",
-        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | 
+        AppliesTo = AppliesTo.Entity | AppliesTo.Association | AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute | 
           AppliesTo.EnumType | AppliesTo.Validation,
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = APPLICABLE_WHEN,
         Description = "A formula for when this Member, Enum Value or Validation is applicable. If not applicable, it will be hidden in the UI.",
-        AppliesTo = AppliesTo.Association | AppliesTo.Attribute | AppliesTo.DerivedAttribute | AppliesTo.EnumValue | 
+        AppliesTo = AppliesTo.Association | AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute | AppliesTo.EnumValue | 
           AppliesTo.Validation,
         DataType = DataTypes.Singleton.Boolean,
         MustBeFormula = true,
@@ -146,14 +146,14 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = NAME,
         Description = "The name of the attribute or association. Must be lower-case. This is the tag used everywhere else to refer to it",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association | AppliesTo.DerivedAttribute,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.Association | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "Name",
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           string name = scalarNode.Value.ToString();
           switch (appliesTo) {
-            case AppliesTo.Attribute:
+            case AppliesTo.RegularAttribute:
             case AppliesTo.DerivedAttribute:
               ModelValidationUtils.ValidateAttributeName(name, scalarNode, messages);
               break;
@@ -168,7 +168,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = "mandatory",
         Description = "Specifies whether an Attribute or Association is required. This will affect form validation and UI generation",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.Association,
         DefaultIfMissing = false,
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsMandatory",
@@ -176,7 +176,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = READ_ONLY,
         Description = "If true, this field can never be directly edited by a user. Determines what kind of UI is generated",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.Association,
         DefaultIfMissing = false,
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsReadOnly",
@@ -187,13 +187,13 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = PLACEHOLDER_TEXT,
         Description = "Placeholder text for UI components (e.g. the text that go into TextBoxe's before the user enters anything)",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.Association,
         DataType = DataTypes.Singleton.String,
       },
       new ModelAttributeDefinitionAtomic() {
         Name = DEFAULT,
         Description = "Default value for the attribute or association. This is significant when the user creates new entities of this type.",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.Association,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.Association,
         DataTypeMustBeSameAsAttribute = true,
       },
       new ModelAttributeDefinitionAtomic() {
@@ -214,7 +214,7 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = "dataType",
         Description = "The data type of this attribute",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute,
         ErrorSeverityIfMissing = CompileMessageSeverity.Error,
         DataType = DataTypes.Singleton.String,
         Setter = "DataTypeName",
@@ -234,14 +234,14 @@ Typical use would be if entities are going to be represented on a drop-down.",
       new ModelAttributeDefinitionAtomic() {
         Name = "idAttribute",
         Description = "Identifies the attribute which serves as the unique identifier for the entity.",
-        AppliesTo = AppliesTo.Attribute,
+        AppliesTo = AppliesTo.RegularAttribute,
         DataType = DataTypes.Singleton.Boolean,
         Setter = "IsId",
       },
       new ModelAttributeDefinitionAtomic() {
         Name = MAX_WIDTH,
         Description = "Maximum width that the attribute should take in the UI under normal circumstances",
-        AppliesTo = AppliesTo.Attribute | AppliesTo.DerivedAttribute,
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute,
         DataType = DataTypes.Singleton.Integer,
       },
 

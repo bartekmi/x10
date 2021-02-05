@@ -12,7 +12,7 @@ namespace x10.model.metadata {
   public enum AppliesTo {
     Entity = 1,
     Association = 2,
-    Attribute = 4,
+    RegularAttribute = 4,
     DerivedAttribute = 8,
     EnumType = 16,
     EnumValue = 32,
@@ -20,7 +20,7 @@ namespace x10.model.metadata {
     FunctionArgument = 128,
     Validation = 256,
 
-    Member = Association | Attribute | DerivedAttribute,
+    Member = Association | RegularAttribute | DerivedAttribute,
   }
 
   internal static class AppliesToHelper {
@@ -40,7 +40,7 @@ namespace x10.model.metadata {
       switch (singleAppliedTo) {
         case AppliesTo.Association:
           return typeof(Association);
-        case AppliesTo.Attribute:
+        case AppliesTo.RegularAttribute:
           return typeof(X10RegularAttribute);
         case AppliesTo.DerivedAttribute:
           return typeof(X10DerivedAttribute);

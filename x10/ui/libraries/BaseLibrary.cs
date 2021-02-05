@@ -137,6 +137,18 @@ namespace x10.ui.libraries {
           },
         }
       },
+      new ClassDefNative() {
+        Name = "BooleanBanner",
+        InheritsFrom = ClassDefNative.Visual,
+        IsMany = false,
+        AtomicDataModel = DataTypes.Singleton.Boolean,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "label",
+            DataType = DataTypes.Singleton.String,
+          },
+        }
+      },
       #endregion
 
       #region Edit Components
@@ -296,6 +308,24 @@ namespace x10.ui.libraries {
             Name = "Children",
             Description = "The contents/children of the panel.",
             IsMany = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "Expander",
+        Description = "A component with a header section and an 'Expander' button that toggles to show more detail",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            Name = "Header",
+            Description = "The contents of the header.",
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+          new UiAttributeDefinitionComplex() {
+            IsPrimary = true,
+            Name = "Body",
+            Description = "The contents of the body when expanded.",
             ComplexAttributeType = ClassDefNative.Visual,
           },
         }
@@ -607,6 +637,7 @@ namespace x10.ui.libraries {
             Name = "label",
             Description = "Label of the button",
             IsMandatory = true,
+            IsPrimary = true,
             DataType = DataTypes.Singleton.String,
           },
           new UiAttributeDefinitionAtomic() {

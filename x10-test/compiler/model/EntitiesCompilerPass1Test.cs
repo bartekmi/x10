@@ -101,11 +101,28 @@ attributes:
     }
 
     [Fact]
-    public void MissingAttribute() {
+    public void MissingAttributeWarning() {
       RunTest(@"
 name: Tmp
 ",
         "The attribute 'description' is missing from Entity", 2, 1);
+    }
+
+    [Fact]
+    public void MissingAttributeError() {
+      RunTest(@"
+name: Tmp
+description: Desc
+attributes:
+  - name: attr
+    description: Desc
+    dataType: Integer
+derivedAttributes:
+  - name: derived
+    description: Desc
+    formula: =attr + 1
+",
+        "The attribute 'dataType' is missing from DerivedAttribute", 9, 5);
     }
 
     [Fact]

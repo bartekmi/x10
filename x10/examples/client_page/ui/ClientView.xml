@@ -1,0 +1,55 @@
+<ClientView model="Client" url="/clients/view">
+  <DisplayForm>
+    <RepellingRow>
+      <Text weight="bold" text="=company.primaryEntity.legalName"/>
+      <Button>Edit</Button>
+    </RepellingRow>
+
+    <HorizontalDivider/>
+
+    <RepellingRow>
+      <Label label="Primary Contact">
+        <VerticalStackPanel>
+          <primaryContact.name/>
+          <primaryContact.email/>
+          <primaryContact.phone/>
+        </VerticalStackPanel>
+      </Label>
+      <Label label="Saleforce Account Ref:">
+        <VerticalStackPanel>
+          <salesforceAccountRef/>
+          <Button>Force Outbound Salesforce Sync</Button>
+        </VerticalStackPanel>
+      </Label>
+      <referredBy/>
+    </RepellingRow>
+
+    <RepellingRow>
+      <status/>
+      <segment/>
+      <purchasingBehavior/>
+      <company.website/>
+      <VerticalStackPanel>
+        <Button>Solicit RFQ</Button>
+        <Button>Edit NSA Lanes</Button>
+        <Button>App Features</Button>
+      </VerticalStackPanel>
+    </RepellingRow>
+
+    <RepellingRow>
+      <primaryShipmentRole/>
+      <Label label="Shipment History" toolTip="Count of invoiced shipments...">
+        <Row>
+          <Text text="=shipmentsAsClient + ' as Client'"/>
+          <Text text="=shipmentsAsShipper + ' as Shipper'"/>
+          <Text text="=shipmentsAsConsignee + ' as Consignee'"/>
+        </Row>
+      </Label>
+    </RepellingRow>
+
+    <List path="company.entities" addItemLabel="Add Entity">
+      <ClientViewCompanyEntity/>
+    </List>
+
+  </DisplayForm>
+</ClientView>

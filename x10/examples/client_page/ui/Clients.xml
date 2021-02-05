@@ -1,0 +1,19 @@
+<Clients model="Client" many="true" url="/clients">
+  <VerticalStackPanel>
+    <Heading1 text="Clients"/>
+
+    <Table>
+      <Table.Columns>
+        <company.primaryEntity.legalName/>
+        <status/>
+        <segment/>
+        <primaryShipmentRole/>
+        <TableColumn label="Action">
+          <Row>
+            <Button label="View" url="='/clients/view/' + id"/>
+          </Row>
+        </TableColumn>
+      </Table.Columns>
+    </Table>
+  </VerticalStackPanel>
+</Clients>
