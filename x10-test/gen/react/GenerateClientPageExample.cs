@@ -11,18 +11,18 @@ using x10.ui.platform;
 using x10.ui.libraries;
 
 namespace x10.gen.react {
-  public class GenerateSmallExample {
+  public class GenerateClientPageExample {
 
     private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
 
-    public GenerateSmallExample(ITestOutputHelper output) {
+    public GenerateClientPageExample(ITestOutputHelper output) {
       _output = output;
     }
 
     [Fact]
     public void Generate() {
-      string sourceDir = "../../../../x10/examples/small";
+      string sourceDir = "../../../../x10/examples/client_page";
       LargeDemoTest.CompileEverything(_output, _messages, sourceDir,
         out AllEntities allEntities,
         out AllEnums allEnums,
@@ -37,7 +37,7 @@ namespace x10.gen.react {
       TestUtils.DumpMessages(_messages, _output);
       Assert.Empty(_messages.Errors);
 
-      string targetDir = "../../../__generated__/react_small_generated";
+      string targetDir = "../../../__generated__/client_page";
       ReactCodeGenerator generator = new ReactCodeGenerator();
 
       _messages.Clear();

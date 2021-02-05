@@ -1,0 +1,14 @@
+name: VatNumber
+inheritsFrom: Base
+description: VAT Number 
+
+attributes:
+  - name: number
+    dataType: String
+    mandatory: true
+
+associations:
+  - name: countryRegion
+    dataType: Country
+    mandatory: true
+    owns: false

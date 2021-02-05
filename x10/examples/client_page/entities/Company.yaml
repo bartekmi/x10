@@ -1,0 +1,32 @@
+name: Company
+inheritsFrom: Base
+description: An entity we do business with - mostly an umbrellay for <CompanyEntity>'s
+datagen_quantity: 25
+
+attributes:
+  - name: website
+    dataType: String
+
+associations:
+  - name: client
+    dataType: Client
+    mandatory: true
+    owns: true
+
+  - name: primaryEntity
+    dataType: CompanyEntity
+    mandatory: true
+    owns: false
+  - name: entities
+    dataType: CompanyEntity
+    many: true
+    owns: true
+    
+  - name: primaryContact
+    dataType: User
+    mandatory: true
+    owns: false
+  - name: users
+    dataType: User
+    many: true
+    owns: true

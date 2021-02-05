@@ -1,0 +1,22 @@
+name: CtpatReview
+inheritsFrom: Base
+description: Status of the current CTPAT review
+
+attributes:
+  - name: complianceScreenRequired
+    dataType: Boolean
+    mandatory: true
+    toolTip: CTPAT Screening is required for all entities which serve as a Consignee on Flexport shipments
+  - name: status
+    dataType: CtpatReviewStatus
+    mandatory: true
+  - name: expiresAt
+    dataType: Date
+  - name: complianceContactEmail
+    dataType: String
+    mandatory: true
+
+enums:
+  - name: CtpatReviewStatus
+    values: compliant, gracePeriod, nonCompliant, provisional
+

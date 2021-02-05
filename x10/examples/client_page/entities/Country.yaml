@@ -1,0 +1,19 @@
+name: Country
+inheritsFrom: Base
+description: Represents a Country
+defaultStringRepresentation: =name
+
+attributes:
+  - name: code
+    dataType: String
+    mandatory: true
+  - name: name
+    dataType: String
+    mandatory: true    
+
+associations:
+  - name: subRegions
+    dataType: StateOrProvince
+    owns: true
+    many: true
+  

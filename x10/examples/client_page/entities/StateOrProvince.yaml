@@ -1,0 +1,9 @@
+name: StateOrProvince
+inheritsFrom: Base
+description: State, province or similar division within a country
+defaultStringRepresentation: =name
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true

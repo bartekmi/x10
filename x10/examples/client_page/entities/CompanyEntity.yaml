@@ -1,0 +1,132 @@
+name: CompanyEntity
+inheritsFrom: Base
+description: A legal entity - typically a corporation - which belongs to a <Company>
+
+attributes:
+  - name: legalName
+    dataType: String
+    mandatory: true
+
+  - name: coreId
+    dataType: Integer
+    readOnly: true
+
+  - name: companyType
+    dataType: CompanyEntityType
+    mandatory: true
+
+  - name: isPrimary
+    dataType: Boolean
+    mandatory: true
+
+  - name: dgDisclaimerAgreed
+    dataType: Boolean
+    mandatory: true
+
+  - name: mailingAddressIsPhysicalAddress
+    dataType: Boolean
+    mandatory: true
+    default: true
+
+  - name: brBlCompanyName
+    dataType: String
+    label: Company Name
+
+  - name: isArchived
+    dataType: Boolean
+    mandatory: true
+
+# BR/BL
+  - name: brBlRegistrationNumber
+    dataType: String
+    label: Registration Number
+
+  - name: brBlAddress
+    dataType: String
+    label: Address
+
+  - name: brBlLegalRepChinese
+    dataType: String
+    label: Legal Representative Full Name (Chinese)
+
+  - name: brBlLegalRepPinyin
+    dataType: String
+    label: Legal Representative Full Name (Pinyin)
+
+# Tax Information
+  - name: usFccNumber
+    dataType: String
+  - name: eoriNumber
+    dataType: String
+    label: EORI Number (EU Countries)
+  - name: usciNumber
+    dataType: String
+    label: USCI Number (China)
+
+# Identifiers
+  - name: agentIataCode
+    dataType: String
+    label: Agent IATA Code
+  - name: hkRaNumber
+    dataType: String
+    label: HK RA Number
+  
+# Billing
+  - name: vendorCategory
+    dataType: VendorCategory
+
+associations:
+  - name: mailingAddress
+    dataType: Address
+    mandatory: true
+    owns: true
+
+  - name: physicalAddress
+    dataType: Address
+    owns: true
+    applicableWhen: =!mailingAddressIsPhysicalAddress
+
+  - name: vatNumbers
+    dataType: VatNumber
+    owns: true
+    many: true
+
+  - name: netsuiteVendorId
+    dataType: NetsuiteVendor
+    owns: false
+
+  - name: invoicedBy
+    dataType: Company
+    owns: false
+    many: true
+
+# Must be chosen from subset above - how to represent?
+  - name: invoicedByDefault
+    dataType: Company
+    owns: false
+
+  - name: invoiceCurrencies
+    dataType: Currency
+    owns: false
+    many: true
+
+# Must be chosen from subset above - how to represent?
+  - name: invoiceCurrencyDefault
+    dataType: Currency
+    label: Default Invoice Currency
+    owns: false
+
+
+enums:
+  - name: CompanyEntityType
+    values: corporation, individual, limitedLiabilityCompany, limitedLiabilityPartnership, nonResidentCorporation, partnership, soleProprietorship, unknown, unlimitedLiabilityCorporation
+  - name: VendorCategory
+    values: 
+      - value: unassigned
+      - value: freightUnapproved
+        label: Freight - Unapproved
+      - value: freightApproved
+        label: Freight - Approved
+      - value: arrivalNotice
+      - value: arrivalNoticeTerms
+      - value: passthroughApproved

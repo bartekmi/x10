@@ -1,0 +1,9 @@
+name: NetsuiteVendor
+inheritsFrom: Base
+description: A reference to an entity in Netsuite
+defaultStringRepresentation: =name
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true

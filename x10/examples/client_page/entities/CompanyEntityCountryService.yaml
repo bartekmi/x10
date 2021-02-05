@@ -1,0 +1,17 @@
+name: CompanyEntityCountryService
+inheritsFrom: Base
+description: A country and an indication wherther either of import/export services are required
+
+attributes:
+  - name: importCustoms
+    dataType: Boolean
+    mandatory: true
+  - name: exportCustoms
+    dataType: Boolean
+    mandatory: true
+
+associations:
+  - name: country
+    dataType: Country
+    mandatory: true
+  

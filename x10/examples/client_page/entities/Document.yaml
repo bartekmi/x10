@@ -1,0 +1,26 @@
+name: Document
+inheritsFrom: Base
+description: Metadata about a document
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+  - name: fileName
+    dataType: String
+    mandatory: true
+
+  - name: uploadedTimestamp
+    dataType: Timestamp
+    readOnly: true
+
+associations:
+  - name: uploadedBy
+    dataType: User
+    owns: false
+    readOnly: true
+
+enums:
+  - name: DocumentType
+    values: businessLicense, businessRegistration, powerOfAttorney, etc
+

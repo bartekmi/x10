@@ -1,0 +1,12 @@
+name: Currency
+inheritsFrom: Base
+description: Type of money/currency
+defaultStringRepresentation: =symbol + " " + name
+
+attributes:
+  - name: symbol
+    dataType: String
+    mandatory: true
+  - name: name
+    dataType: String
+    mandatory: true

@@ -1,0 +1,43 @@
+name: Address
+inheritsFrom: Base
+description: A physical or mailing address
+datagen_sources: (us_cities.csv AS city)
+
+
+attributes:
+  - name: theAddress
+    dataType: String
+    mandatory: true
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+    datagen_capitalization: wordCaps
+
+  - name: theAddress2
+    dataType: String
+
+  - name: city
+    label: City / Town
+    dataType: String
+    mandatory: true
+    maxWidth: 400
+    datagen_from_source: ( city => city )
+
+  - name: postalCode
+    dataType: String
+    label: Zip or Postal Code
+    maxWidth: 150
+    datagen_from_source: ( city => zips )
+
+  - name: verified
+    dataType: Boolean
+    mandatory: true
+
+derivedAttributes:
+
+associations:
+  - name: country
+    dataType: Country
+    mandatory: true
+
+  - name: stateOrProvince
+    dataType: StateOrProvince
+    mandatory: true
