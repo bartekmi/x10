@@ -32,8 +32,7 @@ namespace x10.hotchoc {
     private static readonly HotChocConfig[] CONFIGS = new HotChocConfig[] {
       new HotChocConfig() {
         CommandLine = "small",
-        // ProjectName = "SmallSample",
-        ProjectName = "schema",
+        ProjectName = "SmallSample",
         MetadataDir = "../x10/examples/small",
         Types = new Type[] {
           typeof(Queries),
