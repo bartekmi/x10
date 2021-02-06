@@ -11,6 +11,9 @@ using x10.model.definition;
 
 namespace x10.model.metadata {
   public class DataTypeEnum : DataType, IAcceptsModelAttributeValues {
+
+    public static readonly DataTypeEnum DATA_TYPE_ENUM_ANY = new DataTypeEnum();
+
     public List<EnumValue> EnumValues { get; private set; }
     public string UiName { get; set; }
     public bool IsDefinedInEnumsFile { get; set; }

@@ -294,6 +294,12 @@ namespace x10.compiler {
       if (instance == null)
         return;
 
+      // Invoke Pass2 Actions (e.g. deep validation, etc)
+      // If you ever come across a use-case where this needs to be at the end of this method, create two
+      // versions: of the UiAttributeDefinition auxilliary function Pass2ActionPre and Pass2ActionPost.
+      // At the very least, the "ui" property requires this to be first.
+      InvokePass2Actions(instance);
+
       X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
         ResolveUiComponent(modelReference);
@@ -317,9 +323,6 @@ namespace x10.compiler {
         foreach (Instance childInstance in value.Instances)
           CompileRecursively(childInstance, childDataModel);
       }
-
-      // Invoke Pass2 Actions (e.g. deep validation, etc)
-      InvokePass2Actions(instance);
     }
 
     #region Resolve Path
@@ -389,11 +392,16 @@ namespace x10.compiler {
       // Ensure correct atomic type delivered (if applicable)
       if (dataType.Member is X10Attribute x10attribute) {
         DataType dataTypeProvided = x10attribute.DataType;
-        if (renderAs.DataModelType == DataModelType.Scalar)
-          if (renderAs.AtomicDataModel != dataTypeProvided)
+        if (renderAs.DataModelType == DataModelType.Scalar) {
+          bool typesEquivalent = 
+            renderAs.AtomicDataModel == dataTypeProvided ||
+            renderAs.AtomicDataModel == DataTypeEnum.DATA_TYPE_ENUM_ANY && dataTypeProvided is DataTypeEnum;
+
+          if (!typesEquivalent)
             _messages.AddError(instance.XmlElement,
               "The component {0} expects {1}, but the path is delivering {2}",
               renderAs.Name, renderAs.AtomicDataModel.Name, dataTypeProvided.Name);
+        }
       }
 
       // Validate the compatibility of the resolved data model and the receiving component:

@@ -273,7 +273,7 @@ namespace x10.ui.libraries {
         Description = "A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
         IsMany = false,
-        AtomicDataModel = new DataTypeEnum(),
+        AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
       },
       #endregion
 
