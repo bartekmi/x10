@@ -13,18 +13,12 @@ namespace x10.hotchoc {
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
       //services.AddSingleton<IRepository>(CreateRepository());
-      services.AddSingleton(Program.Config.RepositoryInterface, CreateRepository());
+      services.AddSingleton(Program.Config.RepositoryInterface, Program.Config.Repository);
 
       services.AddCors();
 
       BuildSchema(services)
         .AddApolloTracing();
-    }
-
-    private RepositoryBase CreateRepository() {
-      RepositoryBase repository = Program.Config.Repository;
-      DataIngest.GenerateTestData(Program.Config.MetadataDir, repository);
-      return repository;
     }
 
     internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {

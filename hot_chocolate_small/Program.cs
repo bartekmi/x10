@@ -47,6 +47,8 @@ namespace x10.hotchoc {
     public static async Task Main(string[] args) {
       Config = ExtractConfig(args);
 
+      DataIngest.GenerateTestData(Config);
+
       // https://hotchocolategraphql.slack.com/archives/CD9TNKT8T/p1604414586468700
       ISchema schema = await Startup.BuildSchema(new ServiceCollection()).BuildSchemaAsync();
       File.WriteAllText(Config.SchemaOutputFile, schema.ToString());

@@ -83,9 +83,10 @@ namespace x10.gen.hotchoc {
       Begin("Repositories/Repository.cs");
 
       GenerateRepositoryHeader();
-      WriteLine(1, "public class Repository : IRepository {");
+      WriteLine(1, "public class Repository : RepositoryBase, IRepository {");
 
       GenerateRepositoryDictionaries();
+      GenerateRepositoryTypes();
       GenerateRepositoryAddMethod();
       GenerateRepositoryImplementations();
 
@@ -104,8 +105,22 @@ namespace x10.gen.hotchoc {
       WriteLine();
     }
 
+    private void GenerateRepositoryTypes() {
+      WriteLine(2, "public override IEnumerable<Type> Types() {");
+      WriteLine(3, "return new Type[] {");
+      WriteLine(4, "typeof(Queries),");
+      WriteLine(4, "typeof(Mutations),");
+
+      foreach (Entity entity in ConcreteEntities())
+        WriteLine(4, "typeof({0}),", entity.Name);
+
+      WriteLine(3, "};");
+      WriteLine(2, "}");
+      WriteLine();
+    }
+
     private void GenerateRepositoryAddMethod() {
-      WriteLine(2, "internal void Add(int id, PrimordialEntityBase instance) {");
+      WriteLine(2, "public override void Add(int id, PrimordialEntityBase instance) {");
 
       foreach (Entity entity in ConcreteEntities()) {
         string entityName = entity.Name;

@@ -21,10 +21,13 @@ namespace x10.hotchoc {
   // Repository. Only useful for simple testing.
   public class DataIngest {
     private MessageBucket _messages; // Instantiated in Generate()
+    private string _packageName;
 
-    public static void GenerateTestData(string x10ProjectDir, RepositoryBase repository) {
-      DataIngest ingest = new DataIngest();
-      ingest.Generate(x10ProjectDir, repository);
+    public static void GenerateTestData(HotChocConfig config) {
+      DataIngest ingest = new DataIngest() {
+        _packageName = config.ProjectName,
+      };
+      ingest.Generate(config.MetadataDir, config.Repository);
     }
 
     public void Generate(string x10ProjectDir, RepositoryBase repository) {
@@ -190,7 +193,7 @@ namespace x10.hotchoc {
 
     private Type FindType(Entity entity) {
       Assembly assembly = Assembly.GetExecutingAssembly();
-      string className = "x10.hotchoc.Entities." + entity.Name;
+      string className = string.Format("x10.hotchoc.{0}.Entities.{1}", _packageName, entity.Name);
       Type? type = assembly.GetType(className);
       if (type == null)
         throw new Exception(string.Format("Could not find type '{0}' in Assembly '{1}'", className, assembly));

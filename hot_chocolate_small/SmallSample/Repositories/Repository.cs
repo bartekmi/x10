@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.hotchoc;
 using x10.hotchoc.SmallSample.Entities;
 
 namespace x10.hotchoc.SmallSample.Repositories {
@@ -15,13 +14,13 @@ namespace x10.hotchoc.SmallSample.Repositories {
 
     public override IEnumerable<Type> Types() {
       return new Type[] {
-          typeof(Queries),
-          typeof(Mutations),
-          typeof(Address),
-          typeof(Tenant),
-          typeof(Unit),
-          typeof(Building),
-          typeof(Move)
+        typeof(Queries),
+        typeof(Mutations),
+        typeof(Building),
+        typeof(Move),
+        typeof(Tenant),
+        typeof(Address),
+        typeof(Unit),
       };
     }
 
