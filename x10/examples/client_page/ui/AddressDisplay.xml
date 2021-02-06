@@ -1,0 +1,15 @@
+<AddressDisplay model="Address">
+  <VerticalStackPanel>
+    <theAddress/>
+    <theAddress2/>
+    <city/>
+    <postalCode/>
+    <country.name/>
+    <Button>Verify</Button>
+    <Row>
+      <Button>Make Location</Button>
+      <HelpIcon text="Create a location with this address..."/>
+    </Row>
+
+  </VerticalStackPanel>
+</AddressDisplay>
