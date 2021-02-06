@@ -2,17 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.hotchoc.Entities;
+using x10.hotchoc;
+using x10.hotchoc.SmallSample.Entities;
 
-namespace x10.hotchoc.Repositories {
-  public class Repository : IRepository {
+namespace x10.hotchoc.SmallSample.Repositories {
+  public class Repository : RepositoryBase, IRepository {
     private Dictionary<int, Building> _buildings = new Dictionary<int, Building>();
     private Dictionary<int, Move> _moves = new Dictionary<int, Move>();
     private Dictionary<int, Tenant> _tenants = new Dictionary<int, Tenant>();
     private Dictionary<int, Address> _addresses = new Dictionary<int, Address>();
     private Dictionary<int, Unit> _units = new Dictionary<int, Unit>();
 
-    internal void Add(int id, PrimordialEntityBase instance) {
+    public override IEnumerable<Type> Types() {
+      return new Type[] {
+          typeof(Queries),
+          typeof(Mutations),
+          typeof(Address),
+          typeof(Tenant),
+          typeof(Unit),
+          typeof(Building),
+          typeof(Move)
+      };
+    }
+
+    public override void Add(int id, PrimordialEntityBase instance) {
       if (instance is Building building) _buildings[id] = building;
       if (instance is Move move) _moves[id] = move;
       if (instance is Tenant tenant) _tenants[id] = tenant;

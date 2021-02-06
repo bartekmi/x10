@@ -5,10 +5,10 @@ using System.Linq;
 using HotChocolate;
 using HotChocolate.Types;
 
-using x10.hotchoc.Entities;
-using x10.hotchoc.Repositories;
+using x10.hotchoc.SmallSample.Entities;
+using x10.hotchoc.SmallSample.Repositories;
 
-namespace x10.hotchoc {
+namespace x10.hotchoc.SmallSample {
   [ExtendObjectType(Name = "Mutation")]
   public class Mutations {
 

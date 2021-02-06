@@ -81,6 +81,7 @@ namespace x10 {
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
+          PackageName = "SmallSample",
         },
       },
 
@@ -93,6 +94,7 @@ namespace x10 {
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
+          PackageName = "ClientPage",
         },
       },
     };

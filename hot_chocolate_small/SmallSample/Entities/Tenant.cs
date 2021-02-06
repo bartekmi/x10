@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
-namespace x10.hotchoc.Entities {
+namespace x10.hotchoc.SmallSample.Entities {
   /// <summary>
   /// Tenant of a Unit
   /// </summary>

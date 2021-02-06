@@ -4,19 +4,18 @@ using System.IO;
 using System.Linq;
 
 using FileInfo = x10.parsing.FileInfo;
-using x10.compiler;
 using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
 using x10.utils;
-using x10.ui.platform;
-using x10.parsing;
 using x10.formula;
 using x10.gen.wpf;
 
 namespace x10.gen.hotchoc {
   public class HotchocCodeGenerator : CodeGenerator {
+    public string PackageName { get; set; }
+
     public override void Generate(ClassDefX10 classDef) { }
 
     #region Generate Common
@@ -48,9 +47,9 @@ namespace x10.gen.hotchoc {
       WriteLine(0, "using System.Collections.Generic;");
       WriteLine(0, "using System.Linq;");
       WriteLine();
-      WriteLine(0, "using x10.hotchoc.Entities;");
+      WriteLine(0, "using x10.hotchoc.{0}.Entities;", PackageName);
       WriteLine();
-      WriteLine(0, "namespace x10.hotchoc.Repositories {");
+      WriteLine(0, "namespace x10.hotchoc.{0}.Repositories {", PackageName);
     }
 
     public static string GetterName(Entity entity) {
@@ -178,14 +177,14 @@ using HotChocolate;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
-using x10.hotchoc.Entities;
-using x10.hotchoc.Repositories;
+using x10.hotchoc.{0}.Entities;
+using x10.hotchoc.{0}.Repositories;
 
-namespace x10.hotchoc {{
+namespace x10.hotchoc.{0} {{
   [ExtendObjectType(Name = ""Query"")]
   public class Queries {{
 
-");
+", PackageName);
     }
 
     private void GenerateGetOne(Entity entity) {
@@ -250,14 +249,14 @@ using System.Linq;
 using HotChocolate;
 using HotChocolate.Types;
 
-using x10.hotchoc.Entities;
-using x10.hotchoc.Repositories;
+using x10.hotchoc.{0}.Entities;
+using x10.hotchoc.{0}.Repositories;
 
-namespace x10.hotchoc {{
+namespace x10.hotchoc.{0} {{
   [ExtendObjectType(Name = ""Mutation"")]
   public class Mutations {{
 
-");
+", PackageName);
     }
 
     private void GenerateCreateOrUpdate(Entity entity) {
@@ -336,7 +335,7 @@ namespace x10.hotchoc {{
       WriteLine();
       WriteLine(0, "using HotChocolate;");
       WriteLine();
-      WriteLine(0, "namespace x10.hotchoc.Entities {");
+      WriteLine(0, "namespace x10.hotchoc.{0}.Entities {", PackageName);
 
       GenerateEnums(entity);
       GenerateMainEntity(entity);

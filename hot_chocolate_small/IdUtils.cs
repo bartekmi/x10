@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 
-using x10.hotchoc.Entities;
-
 namespace x10.hotchoc {
   public static class IdUtils {
     public static bool IsUuid(string id) {

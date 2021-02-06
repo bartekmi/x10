@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.hotchoc.Entities;
+using x10.hotchoc.SmallSample.Entities;
 
-namespace x10.hotchoc.Repositories {
+namespace x10.hotchoc.SmallSample.Repositories {
   public interface IRepository {
     // Queries
     Building GetBuilding(int id);

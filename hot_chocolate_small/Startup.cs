@@ -7,15 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using HotChocolate;
 using HotChocolate.Execution.Configuration;
 
-using x10.hotchoc.Entities;
-using x10.hotchoc.Repositories;
-
 namespace x10.hotchoc {
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
-      services.AddSingleton<IRepository>(CreateRepository());
+      //services.AddSingleton<IRepository>(CreateRepository());
+      services.AddSingleton(Program.Config.RepositoryInterface, CreateRepository());
 
       services.AddCors();
 
@@ -23,8 +21,8 @@ namespace x10.hotchoc {
         .AddApolloTracing();
     }
 
-    private Repository CreateRepository() {
-      Repository repository = new Repository();
+    private RepositoryBase CreateRepository() {
+      RepositoryBase repository = Program.Config.Repository;
       DataIngest.GenerateTestData(Program.Config.MetadataDir, repository);
       return repository;
     }
@@ -35,7 +33,7 @@ namespace x10.hotchoc {
         .AddQueryType(d => d.Name("Query"))
         .AddMutationType(d => d.Name("Mutation"));
 
-      foreach (Type type in Program.Config.Types)
+      foreach (Type type in Program.Config.Repository.Types())
         builder.AddType(type);
 
       return builder;

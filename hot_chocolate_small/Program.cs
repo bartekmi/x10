@@ -12,16 +12,14 @@ using Microsoft.Extensions.DependencyInjection;
 using HotChocolate;
 using HotChocolate.Execution;
 
-using x10.hotchoc.Entities;
-
-
 namespace x10.hotchoc {
 
   public class HotChocConfig {
     public string CommandLine { get; set; }
     public string ProjectName { get; set; }
     public string MetadataDir { get; set; }
-    public IEnumerable<Type> Types { get; set; }
+    public Type RepositoryInterface { get; set; }
+    public RepositoryBase Repository {get;set;}
 
     // Derived
     public string SchemaOutputFile => string.Format("../{0}.graphql", ProjectName);
@@ -34,15 +32,8 @@ namespace x10.hotchoc {
         CommandLine = "small",
         ProjectName = "SmallSample",
         MetadataDir = "../x10/examples/small",
-        Types = new Type[] {
-          typeof(Queries),
-          typeof(Mutations),
-          typeof(Address),
-          typeof(Tenant),
-          typeof(Unit),
-          typeof(Building),
-          typeof(Move)
-        }
+        RepositoryInterface = typeof(SmallSample.Repositories.IRepository),
+        Repository = new SmallSample.Repositories.Repository(),
       },
       new HotChocConfig() {
         CommandLine = "cp",
