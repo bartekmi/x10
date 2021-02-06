@@ -13,8 +13,9 @@ namespace x10.gen.react {
   // into the platform-specific representation.
   // The following situations are taken care of by this attribute type:
   // 1. Default binding attribute
-  // 2. Pass-through with no modification (both complex and atomic)
-  // 3. Translation of lagical formula into platform-specific formula
+  // 2. Pass-through with no modification (both complex and atomic). Complex Attribute
+  //    will be rendered as a JavaScript list or object
+  // 3. Translation of logical formula into platform-specific formula
   public class JavaScriptAttributeDynamic : PlatformAttributeDynamic {
 
     public JavaScriptAttributeDynamic() { }

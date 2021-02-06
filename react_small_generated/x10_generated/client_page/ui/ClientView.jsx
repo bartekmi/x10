@@ -186,6 +186,9 @@ function ClientView(props: Props): React.Node {
       <MultiStacker
         items={ client.company?.entities }
         onChange={ () => { } }
+        itemDisplayFunc={ (data, onChange) => (
+          <ClientViewCompanyEntity companyEntity={ data. }/>
+        ) }
         addNewItem={ createDefaultCompanyEntity }
       />
     </DisplayForm>

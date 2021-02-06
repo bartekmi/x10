@@ -279,8 +279,19 @@ namespace x10.gen.react {
         PlatformName = "Expander",
         ImportDir = "react_lib",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic("Header", "header"),
-          new JavaScriptAttributeDynamic("Body", "body"),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "headerFunc",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              UiAttributeValueComplex headerAttr = instance.FindAttributeValue("Header") as UiAttributeValueComplex;
+              Instance headerInstance = headerAttr.Instances.Single();
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "headerFunc={ () => (");
+                generator.GenerateComponentRecursively(OutputType.React, indent + 1, headerInstance);
+                generator.WriteLine(indent, ") }");
+              });
+            },
+          },
         },
       },
       #endregion

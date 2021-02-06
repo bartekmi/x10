@@ -8,13 +8,15 @@ import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
-import Text from 'latitude/Text';
+import SelectInput from 'latitude/select/SelectInput';
 
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
+import Button from 'react_lib/latitude_wrappers/Button';
+import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
-import { companyEntityApplicableWhenForPhysicalAddress, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import Address from 'client_page/ui/Address';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
@@ -29,9 +31,46 @@ function ClientViewCompanyEntity(props: Props): React.Node {
 
   return (
     <Expander
-      headerFunc={() => (
-        <Text>Hello</Text>
-      )}
+      headerFunc={ () => (
+        <Group
+          justifyContent='space-between'
+        >
+          <Group>
+            <Group
+              flexDirection='column'
+            >
+              <Group>
+                <TextInput
+                  value={ companyEntity.legalName }
+                  onChange={ (value) => {
+                    onChange({ ...companyEntity, legalName: value })
+                  } }
+                />
+              </Group>
+              <SelectInput
+                value={ companyEntity.companyType }
+                onChange={ (value) => {
+                  onChange({ ...companyEntity, companyType: value })
+                } }
+                options={ CompanyEntityTypeEnumPairs }
+              />
+            </Group>
+            <Group>
+              <Button
+                label='Documents'
+              />
+            </Group>
+          </Group>
+          <Group>
+            <Button
+              label='Documents'
+            />
+            <Button
+              label='Edit'
+            />
+          </Group>
+        </Group>
+      ) }
     >
       <Group
         flexDirection='column'
