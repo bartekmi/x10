@@ -8,6 +8,7 @@ import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
+import Text from 'latitude/Text';
 
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
@@ -28,16 +29,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
 
   return (
     <Expander
-      header={
-        {
-          justifyContent: 'space-between',
-        }
-      }
-      body={
-        {
-          flexDirection: 'column',
-        }
-      }
+      headerFunc={() => (
+        <Text>Hello</Text>
+      )}
     >
       <Group
         flexDirection='column'
