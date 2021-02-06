@@ -25,26 +25,20 @@ namespace x10.hotchoc {
 
     private Repository CreateRepository() {
       Repository repository = new Repository();
-      DataIngest.GenerateTestData(Program.X10_PROJECT_DIR, repository);
+      DataIngest.GenerateTestData(Program.Config.MetadataDir, repository);
       return repository;
     }
 
     internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {
-      return services
+      var builder = services
         .AddGraphQLServer()
-
-        // The two roots - queries and mutations
         .AddQueryType(d => d.Name("Query"))
-        .AddMutationType(d => d.Name("Mutation"))
-        .AddType<Queries>()
-        .AddType<Mutations>()
+        .AddMutationType(d => d.Name("Mutation"));
 
-        // Application types
-        .AddType<Address>()
-        .AddType<Tenant>()
-        .AddType<Unit>()
-        .AddType<Building>()
-        .AddType<Move>();
+      foreach (Type type in Program.Config.Types)
+        builder.AddType(type);
+
+      return builder;
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -54,11 +48,10 @@ namespace x10.hotchoc {
           policy.AllowAnyMethod();
           policy.SetIsOriginAllowed(origin => true); // allow any origin
           policy.AllowCredentials();
-        })        
+        })
         .UseRouting()
-        .UseEndpoints(endpoints =>
-        {
-            endpoints.MapGraphQL();
+        .UseEndpoints(endpoints => {
+          endpoints.MapGraphQL();
         });
     }
   }

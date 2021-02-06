@@ -98,14 +98,7 @@ namespace x10 {
     };
 
     public static int Main(string[] args) {
-
-      if (args.Length != 1) 
-        PrintUsageAndExit();
-
-      GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == args[0]);
-      if (config == null)
-        PrintUsageAndExit();
-
+      GenConfig config = ExtractConfig(args);
       MessageBucket messages = new MessageBucket();
 
       // Hydrate UiLibraries
@@ -198,6 +191,18 @@ namespace x10 {
     #endregion
 
     #region Utils
+
+    private static GenConfig ExtractConfig(string[] args) {
+      if (args.Length != 1) 
+        PrintUsageAndExit();
+
+      GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == args[0]);
+      if (config == null)
+        PrintUsageAndExit();
+
+      return config;
+    }
+
     private static void PrintUsageAndExit() {
       Console.WriteLine("Usage: dotnet run -- <{0}>",
         string.Join(" | ", CONFIGS.Select(x => x.CommandLine)));
