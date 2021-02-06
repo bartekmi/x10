@@ -13,8 +13,8 @@ import FormSection from 'react_lib/form/FormSection';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import Separator from 'react_lib/Separator';
 
-import { type Move } from 'entities/Move';
-import BuildingView from 'ui/BuildingView';
+import { type Move } from 'small/entities/Move';
+import BuildingView from 'small/ui/BuildingView';
 
 import { type MoveView_move } from './__generated__/MoveView_move.graphql';
 

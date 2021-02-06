@@ -15,7 +15,7 @@ import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 
-import { moveCalculateErrors, type Move } from 'entities/Move';
+import { moveCalculateErrors, type Move } from 'small/entities/Move';
 
 
 
@@ -41,9 +41,7 @@ function MoveForm(props: Props): React.Node {
       >
         <CalendarDateInput
           value={ move.date }
-          onChange={ (value) => {
-            onChange({ ...move, date: value })
-          } }
+          onChange={ () => { } }
         />
       </FormField>
       <FormField
@@ -52,9 +50,7 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.from }
-          onChange={ (value) => {
-            onChange({ ...move, from: value })
-          } }
+          onChange={ () => { } }
           isNullable={ false }
           query={ buildingsQuery }
           toString={ x => x.toStringRepresentation }
@@ -66,9 +62,7 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.to }
-          onChange={ (value) => {
-            onChange({ ...move, to: value })
-          } }
+          onChange={ () => { } }
           isNullable={ false }
           query={ buildingsQuery }
           toString={ x => x.toStringRepresentation }
@@ -80,9 +74,7 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.tenant }
-          onChange={ (value) => {
-            onChange({ ...move, tenant: value })
-          } }
+          onChange={ () => { } }
           isNullable={ false }
           query={ tenantsQuery }
           toString={ x => x.toStringRepresentation }

@@ -11,8 +11,8 @@ import isBlank from 'react_lib/utils/isBlank';
 import toNum from 'react_lib/utils/toNum';
 
 import { AppContext } from 'AppContext';
-import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
-import { type Unit } from 'entities/Unit';
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'small/entities/Address';
+import { type Unit } from 'small/entities/Unit';
 
 
 // Type Definition

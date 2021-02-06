@@ -24,9 +24,9 @@ import Separator from 'react_lib/Separator';
 import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
-import { addressSecondAddressLine, createDefaultAddress } from 'entities/Address';
-import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'entities/Building';
-import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'entities/Unit';
+import { addressSecondAddressLine, createDefaultAddress } from 'small/entities/Address';
+import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
+import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'small/entities/Unit';
 
 
 
@@ -74,9 +74,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <TextInput
               value={ building.name }
-              onChange={ (value) => {
-                onChange({ ...building, name: value })
-              } }
+              onChange={ () => { } }
             />
           </FormField>
           <FormField
@@ -86,9 +84,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <TextareaInput
               value={ building.description }
-              onChange={ (value) => {
-                onChange({ ...building, description: value })
-              } }
+              onChange={ () => { } }
               rows={ 3 }
             />
           </FormField>
@@ -101,12 +97,8 @@ function BuildingForm(props: Props): React.Node {
             label='The Address'
           >
             <TextInput
-              value={ building.physicalAddress.theAddress }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.physicalAddress.theAddress = value;
-                onChange(newObj);
-              } }
+              value={ building.physicalAddress?.theAddress }
+              onChange={ () => { } }
             />
           </FormField>
           <FormField
@@ -115,12 +107,8 @@ function BuildingForm(props: Props): React.Node {
             maxWidth={ 400 }
           >
             <TextInput
-              value={ building.physicalAddress.city }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.physicalAddress.city = value;
-                onChange(newObj);
-              } }
+              value={ building.physicalAddress?.city }
+              onChange={ () => { } }
             />
           </FormField>
           <FormField
@@ -129,12 +117,8 @@ function BuildingForm(props: Props): React.Node {
             maxWidth={ 250 }
           >
             <TextInput
-              value={ building.physicalAddress.stateOrProvince }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.physicalAddress.stateOrProvince = value;
-                onChange(newObj);
-              } }
+              value={ building.physicalAddress?.stateOrProvince }
+              onChange={ () => { } }
             />
           </FormField>
           <FormField
@@ -143,12 +127,8 @@ function BuildingForm(props: Props): React.Node {
             maxWidth={ 150 }
           >
             <TextInput
-              value={ building.physicalAddress.zip }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.physicalAddress.zip = value;
-                onChange(newObj);
-              } }
+              value={ building.physicalAddress?.zip }
+              onChange={ () => { } }
             />
           </FormField>
         </FormSection>
@@ -157,9 +137,7 @@ function BuildingForm(props: Props): React.Node {
         >
           <Checkbox
             checked={ building.mailingAddressSameAsPhysical }
-            onChange={ (value) => {
-              onChange({ ...building, mailingAddressSameAsPhysical: value })
-            } }
+            onChange={ () => { } }
             label='Mailing Address Same as Physical Address'
           />
           <VisibilityControl
@@ -173,12 +151,8 @@ function BuildingForm(props: Props): React.Node {
                 label='Address or Post Office (PO) Box'
               >
                 <TextInput
-                  value={ building.mailingAddress.theAddress }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.mailingAddress.theAddress = value;
-                    onChange(newObj);
-                  } }
+                  value={ building.mailingAddress?.theAddress }
+                  onChange={ () => { } }
                 />
               </FormField>
               <FormField
@@ -187,12 +161,8 @@ function BuildingForm(props: Props): React.Node {
                 maxWidth={ 400 }
               >
                 <TextInput
-                  value={ building.mailingAddress.city }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.mailingAddress.city = value;
-                    onChange(newObj);
-                  } }
+                  value={ building.mailingAddress?.city }
+                  onChange={ () => { } }
                 />
               </FormField>
               <FormField
@@ -201,12 +171,8 @@ function BuildingForm(props: Props): React.Node {
                 maxWidth={ 250 }
               >
                 <TextInput
-                  value={ building.mailingAddress.stateOrProvince }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.mailingAddress.stateOrProvince = value;
-                    onChange(newObj);
-                  } }
+                  value={ building.mailingAddress?.stateOrProvince }
+                  onChange={ () => { } }
                 />
               </FormField>
               <FormField
@@ -215,12 +181,8 @@ function BuildingForm(props: Props): React.Node {
                 maxWidth={ 150 }
               >
                 <TextInput
-                  value={ building.mailingAddress.zip }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.mailingAddress.zip = value;
-                    onChange(newObj);
-                  } }
+                  value={ building.mailingAddress?.zip }
+                  onChange={ () => { } }
                 />
               </FormField>
             </Group>
@@ -238,9 +200,7 @@ function BuildingForm(props: Props): React.Node {
             >
               <CalendarDateInput
                 value={ building.dateOfOccupancy }
-                onChange={ (value) => {
-                  onChange({ ...building, dateOfOccupancy: value })
-                } }
+                onChange={ () => { } }
               />
             </FormField>
             <FormField
@@ -261,9 +221,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <RadioGroup
               value={ building.mailboxType }
-              onChange={ (value) => {
-                onChange({ ...building, mailboxType: value })
-              } }
+              onChange={ () => { } }
               options={ MailboxTypeEnumPairs }
               isInline={ false }
             />
@@ -274,9 +232,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <SelectInput
               value={ building.petPolicy }
-              onChange={ (value) => {
-                onChange({ ...building, petPolicy: value })
-              } }
+              onChange={ () => { } }
               options={ PetPolicyEnumPairs }
             />
           </FormField>
@@ -286,9 +242,7 @@ function BuildingForm(props: Props): React.Node {
         >
           <MultiStacker
             items={ building.units }
-            onChange={ (value) => {
-              onChange({ ...building, units: value })
-            } }
+            onChange={ () => { } }
             itemDisplayFunc={ (data, onChange) => (
               <Group
                 flexDirection='column'
@@ -301,9 +255,7 @@ function BuildingForm(props: Props): React.Node {
                   >
                     <TextInput
                       value={ data.number }
-                      onChange={ (value) => {
-                        onChange({ ...data, number: value })
-                      } }
+                      onChange={ () => { } }
                     />
                   </FormField>
                   <FormField
@@ -312,9 +264,7 @@ function BuildingForm(props: Props): React.Node {
                   >
                     <FloatInput
                       value={ data.squareFeet }
-                      onChange={ (value) => {
-                        onChange({ ...data, squareFeet: value })
-                      } }
+                      onChange={ () => { } }
                       decimalPrecision={ 0 }
                     />
                   </FormField>
@@ -324,9 +274,7 @@ function BuildingForm(props: Props): React.Node {
                   >
                     <Checkbox
                       checked={ data.hasBalcony }
-                      onChange={ (value) => {
-                        onChange({ ...data, hasBalcony: value })
-                      } }
+                      onChange={ () => { } }
                     />
                   </FormField>
                 </Group>
@@ -337,9 +285,7 @@ function BuildingForm(props: Props): React.Node {
                   >
                     <FloatInput
                       value={ data.numberOfBedrooms }
-                      onChange={ (value) => {
-                        onChange({ ...data, numberOfBedrooms: value })
-                      } }
+                      onChange={ () => { } }
                     />
                   </FormField>
                   <FormField
@@ -348,9 +294,7 @@ function BuildingForm(props: Props): React.Node {
                   >
                     <SelectInput
                       value={ data.numberOfBathrooms }
-                      onChange={ (value) => {
-                        onChange({ ...data, numberOfBathrooms: value })
-                      } }
+                      onChange={ () => { } }
                       options={ NumberOfBathroomsEnumPairs }
                     />
                   </FormField>

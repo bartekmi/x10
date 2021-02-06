@@ -15,8 +15,8 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import isBlank from 'react_lib/utils/isBlank';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
-import { addressSecondAddressLine } from 'entities/Address';
-import { buildingAgeInYears, type Building } from 'entities/Building';
+import { addressSecondAddressLine } from 'small/entities/Address';
+import { buildingAgeInYears, type Building } from 'small/entities/Building';
 
 import { type Buildings_buildings } from './__generated__/Buildings_buildings.graphql';
 

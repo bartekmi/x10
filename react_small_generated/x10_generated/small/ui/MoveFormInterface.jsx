@@ -6,9 +6,9 @@ import { graphql, QueryRenderer } from 'react-relay';
 
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 
-import { createDefaultMove } from 'entities/Move';
 import environment from 'environment';
-import MoveForm, { MoveFormStateful } from 'ui/MoveForm';
+import { createDefaultMove } from 'small/entities/Move';
+import MoveForm, { MoveFormStateful } from 'small/ui/MoveForm';
 
 
 

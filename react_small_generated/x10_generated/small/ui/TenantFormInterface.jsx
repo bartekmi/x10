@@ -6,9 +6,9 @@ import { graphql, QueryRenderer } from 'react-relay';
 
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 
-import { createDefaultMove } from 'entities/Move';
 import environment from 'environment';
-import MoveView from 'ui/MoveView';
+import { createDefaultTenant } from 'small/entities/Tenant';
+import TenantForm, { TenantFormStateful } from 'small/ui/TenantForm';
 
 
 
@@ -19,20 +19,21 @@ type Props = {
     }
   }
 };
-export default function MoveViewInterface(props: Props): React.Node {
+export default function TenantFormInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
       match={ props.match }
-      createComponentFunc={ (move) => <MoveView move={ move }/> }
+      createComponentFunc={ (tenant) => <TenantForm tenant={ tenant }/> }
+      createComponentFuncNew={ () => <TenantFormStateful tenant={ createDefaultTenant() }/> }
       query={ query }
     />
   );
 }
 
 const query = graphql`
-  query MoveViewInterfaceQuery($id: String!) {
-    entity: move(id: $id) {
-      ...MoveView_move
+  query TenantFormInterfaceQuery($id: String!) {
+    entity: tenant(id: $id) {
+      ...TenantForm_tenant
     }
   }
 `;

@@ -44,13 +44,15 @@ namespace x10 {
       CommandLine = "smallreact",
       SourceDir = "examples/small",
       ProjectDir = "../react_small_generated",
-      TargetDir = "x10_generated",
+      TargetDir = "x10_generated/small",
       LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
       PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-      Generator = new ReactCodeGenerator(),
+      Generator = new ReactCodeGenerator() {
+        GeneratedCodeSubdir = "small",
+      },
       PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
-          Args = "relay",
+          Args = "relay-small",
         }
       },
 
@@ -66,7 +68,7 @@ namespace x10 {
       },
       PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
-          Args = "relay",
+          Args = "relay-cp",
         }
       },
 

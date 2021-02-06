@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
-import { addressCalculateErrors, createDefaultAddress, type Address } from 'entities/Address';
+import { addressCalculateErrors, createDefaultAddress, type Address } from 'small/entities/Address';
 
 
 // Type Definition

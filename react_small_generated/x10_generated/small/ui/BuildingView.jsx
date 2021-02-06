@@ -14,7 +14,7 @@ import DisplayForm from 'react_lib/form/DisplayForm';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 
-import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'entities/Building';
+import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
 
 import { type BuildingView_building } from './__generated__/BuildingView_building.graphql';
 

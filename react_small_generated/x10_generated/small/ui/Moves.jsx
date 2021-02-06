@@ -11,7 +11,7 @@ import Text from 'latitude/Text';
 
 import Button from 'react_lib/latitude_wrappers/Button';
 
-import { type Move } from 'entities/Move';
+import { type Move } from 'small/entities/Move';
 
 import { type Moves_moves } from './__generated__/Moves_moves.graphql';
 

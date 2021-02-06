@@ -7,7 +7,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import MultiEntityQueryRenderer from 'react_lib/relay/MultiEntityQueryRenderer';
 
 import environment from 'environment';
-import Buildings from 'ui/Buildings';
+import Buildings from 'small/ui/Buildings';
 
 
 

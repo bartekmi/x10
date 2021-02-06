@@ -11,7 +11,7 @@ import Text from 'latitude/Text';
 
 import Button from 'react_lib/latitude_wrappers/Button';
 
-import { type Tenant } from 'entities/Tenant';
+import { type Tenant } from 'small/entities/Tenant';
 
 import { type Tenants_tenants } from './__generated__/Tenants_tenants.graphql';
 

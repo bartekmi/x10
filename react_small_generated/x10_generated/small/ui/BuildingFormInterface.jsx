@@ -6,9 +6,9 @@ import { graphql, QueryRenderer } from 'react-relay';
 
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 
-import { createDefaultBuilding } from 'entities/Building';
 import environment from 'environment';
-import BuildingForm, { BuildingFormStateful } from 'ui/BuildingForm';
+import { createDefaultBuilding } from 'small/entities/Building';
+import BuildingForm, { BuildingFormStateful } from 'small/ui/BuildingForm';
 
 
 

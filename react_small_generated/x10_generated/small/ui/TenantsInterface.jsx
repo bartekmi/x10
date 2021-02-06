@@ -7,23 +7,23 @@ import { graphql, QueryRenderer } from 'react-relay';
 import MultiEntityQueryRenderer from 'react_lib/relay/MultiEntityQueryRenderer';
 
 import environment from 'environment';
-import Moves from 'ui/Moves';
+import Tenants from 'small/ui/Tenants';
 
 
 
-export default function MovesInterface(props: { }): React.Node { 
+export default function TenantsInterface(props: { }): React.Node { 
   return (
     <MultiEntityQueryRenderer
-      createComponentFunc={ (moves) => <Moves moves={ moves }/> }
+      createComponentFunc={ (tenants) => <Tenants tenants={ tenants }/> }
       query={ query }
     />
   );
 }
 
 const query = graphql`
-  query MovesInterfaceQuery {
-    entities: moves {
-      ...Moves_moves
+  query TenantsInterfaceQuery {
+    entities: tenants {
+      ...Tenants_tenants
     }
   }
 `;
