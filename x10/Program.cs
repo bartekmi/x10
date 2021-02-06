@@ -61,7 +61,9 @@ namespace x10 {
       TargetDir = "x10_generated/client_page",
       LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
       PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-      Generator = new ReactCodeGenerator(),
+      Generator = new ReactCodeGenerator() {
+        GeneratedCodeSubdir = "client_page",
+      },
       PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
           Args = "relay",

@@ -274,6 +274,15 @@ namespace x10.gen.react {
           new PlatformAttributeStatic("justifyContent", "space-between"),
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "Expander",
+        PlatformName = "Expander",
+        ImportDir = "react_lib",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("Header", "header"),
+          new JavaScriptAttributeDynamic("Body", "body"),
+        },
+      },
       #endregion
 
       #region 2-Dimensional

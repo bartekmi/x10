@@ -3,6 +3,7 @@ using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 
+using x10.parsing;
 using x10.model.definition;
 using x10.ui.composition;
 using x10.model;
@@ -17,6 +18,7 @@ namespace x10.gen.react {
 
   public class ImportsPlaceholder : CodeGenerator.Output {
 
+    #region Help Classes and Top Level
     class ImportData {
       internal string ImportName;
       internal string Path;
@@ -46,6 +48,14 @@ namespace x10.gen.react {
     }
 
     private List<ImportData> _imports = new List<ImportData>();
+    private string _generatedCodeSubdir;
+
+    // generatedCodeSubdir is the directory into which code is generated RELATIVE TO "x10_generated".
+    // We will pre-pend this to all paths accessing generated components
+    public ImportsPlaceholder(string generatedCodeSubdir) {
+      _generatedCodeSubdir = generatedCodeSubdir;
+    }
+    #endregion
 
     #region Import Default
     public void ImportDefault(string pathNoExtension, ImportLevel level) {
@@ -59,8 +69,9 @@ namespace x10.gen.react {
       });
     }
 
-    public void ImportDefault(IAcceptsUiAttributeValues entity) {
-      ImportDefault(entity.XmlElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+    public void ImportDefault(IAcceptsUiAttributeValues uiObject) {
+      string path = ToPathNoExtension(uiObject.XmlElement);
+      ImportDefault(path, ImportLevel.Project);
     }
     #endregion
 
@@ -74,11 +85,13 @@ namespace x10.gen.react {
     }
 
     public void Import(string functionOrConstant, IAcceptsModelAttributeValues entity) {
-      Import(functionOrConstant, entity.TreeElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+      string path = ToPathNoExtension(entity.TreeElement);
+      Import(functionOrConstant, path, ImportLevel.Project);
     }
 
     public void Import(string functionOrConstant, IAcceptsUiAttributeValues uiObject) {
-      Import(functionOrConstant, uiObject.XmlElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+      string path = ToPathNoExtension(uiObject.XmlElement);
+      Import(functionOrConstant, path, ImportLevel.Project);
     }
     #endregion
 
@@ -97,7 +110,8 @@ namespace x10.gen.react {
     }
 
     public void ImportType(string type, IAcceptsModelAttributeValues entity) {
-      ImportType(type, entity.TreeElement.FileInfo.RelativePathNoExtension, ImportLevel.Project);
+      string path = ToPathNoExtension(entity.TreeElement);
+      ImportType(type, path, ImportLevel.Project);
     }
     #endregion
 
@@ -135,6 +149,7 @@ namespace x10.gen.react {
     }
     #endregion
 
+    #region Write Implementation
     public override void Write(TextWriter writer)  {
       foreach (ImportData import in _imports) {
         if (import.Path.StartsWith("latitude"))
@@ -190,7 +205,17 @@ namespace x10.gen.react {
 
         writer.WriteLine(" from '{0}';", group.Key);
       }
-
     }
+    #endregion
+
+    #region Utils
+
+    private string ToPathNoExtension(IParseElement parseElement) {
+      string pathNoExtension = parseElement.FileInfo.RelativePathNoExtension;
+      if (_generatedCodeSubdir == null)
+        return pathNoExtension;
+      return Path.Combine(_generatedCodeSubdir, pathNoExtension);
+    }
+    #endregion
   }
 }

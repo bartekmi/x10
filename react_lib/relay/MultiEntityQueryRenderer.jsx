@@ -25,7 +25,7 @@ export default function MultiEntityQueryRenderer<T>(props: Props<T>): React.Node
         if (error) {
           return <div>{error.message}</div>;
         } else if (props) {
-          return createComponentFunc(props.entities.nodes);
+          return createComponentFunc(props.entities);
         }
         return <Loader loaded={false}/>;
       }}

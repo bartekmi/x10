@@ -29,7 +29,7 @@ export default function AssociationEditor(props: Props): React.Node {
         if (error) {
           return <div>{error.message}</div>;
         } else if (props) {
-          const data = props.entities.nodes;
+          const data = props.entities;
           return (
             <SearchableSelectInput
               value={id || null}
