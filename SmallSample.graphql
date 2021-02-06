@@ -11,7 +11,7 @@ type Address {
   stateOrProvince: String!
   zip: String!
   toStringRepresentation: String!
-  id: String!
+  id: String
   dbid: Int!
 }
 
@@ -28,7 +28,7 @@ type Building {
   units: [Unit!]!
   physicalAddress: Address!
   mailingAddress: Address
-  id: String!
+  id: String
   dbid: Int!
 }
 
@@ -39,44 +39,44 @@ type Move {
   from: Building!
   to: Building!
   tenant: Tenant!
-  id: String!
+  id: String
   dbid: Int!
 }
 
 type Mutation {
   "Creates a new Building or updates an existing one, depending on the value of id"
-  createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum! petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
+  createOrUpdateBuilding(id: String name: String description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum! petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! units: [UnitInput] physicalAddress: AddressInput mailingAddress: AddressInput): String
   "Creates a new Move or updates an existing one, depending on the value of id"
-  createOrUpdateMove(id: String! date: DateTime! fromId: String! toId: String! tenantId: String!): String!
+  createOrUpdateMove(id: String date: DateTime! fromId: String toId: String tenantId: String): String
   "Creates a new Tenant or updates an existing one, depending on the value of id"
-  createOrUpdateTenant(id: String! name: String! phone: String email: String! permanentMailingAddress: AddressInput!): String!
+  createOrUpdateTenant(id: String name: String phone: String email: String permanentMailingAddress: AddressInput): String
   "Creates a new Address or updates an existing one, depending on the value of id"
-  createOrUpdateAddress(id: String! unitNumber: String theAddress: String! city: String! stateOrProvince: String! zip: String!): String!
+  createOrUpdateAddress(id: String unitNumber: String theAddress: String city: String stateOrProvince: String zip: String): String
   "Creates a new Unit or updates an existing one, depending on the value of id"
-  createOrUpdateUnit(id: String! number: String! squareFeet: Float numberOfBedrooms: Int! numberOfBathrooms: NumberOfBathroomsEnum! hasBalcony: Boolean!): String!
+  createOrUpdateUnit(id: String number: String squareFeet: Float numberOfBedrooms: Int! numberOfBathrooms: NumberOfBathroomsEnum! hasBalcony: Boolean!): String
 }
 
 type Query {
   "Retrieve a Building by id\n\n\n**Returns:**\nThe Building."
-  building("The id of the Building." id: String!): Building!
+  building("The id of the Building." id: String): Building
   "Gets all Buildings.\n\n\n**Returns:**\nAll Buildings."
-  buildings(where: BuildingFilter order_by: BuildingSort): [Building!]!
+  buildings(where: BuildingFilter order_by: BuildingSort): [Building]
   "Retrieve a Move by id\n\n\n**Returns:**\nThe Move."
-  move("The id of the Move." id: String!): Move!
+  move("The id of the Move." id: String): Move
   "Gets all Moves.\n\n\n**Returns:**\nAll Moves."
-  moves(where: MoveFilter order_by: MoveSort): [Move!]!
+  moves(where: MoveFilter order_by: MoveSort): [Move]
   "Retrieve a Tenant by id\n\n\n**Returns:**\nThe Tenant."
-  tenant("The id of the Tenant." id: String!): Tenant!
+  tenant("The id of the Tenant." id: String): Tenant
   "Gets all Tenants.\n\n\n**Returns:**\nAll Tenants."
-  tenants(where: TenantFilter order_by: TenantSort): [Tenant!]!
+  tenants(where: TenantFilter order_by: TenantSort): [Tenant]
   "Retrieve a Address by id\n\n\n**Returns:**\nThe Address."
-  address("The id of the Address." id: String!): Address!
+  address("The id of the Address." id: String): Address
   "Gets all Addresses.\n\n\n**Returns:**\nAll Addresses."
-  addresses(where: AddressFilter order_by: AddressSort): [Address!]!
+  addresses(where: AddressFilter order_by: AddressSort): [Address]
   "Retrieve a Unit by id\n\n\n**Returns:**\nThe Unit."
-  unit("The id of the Unit." id: String!): Unit!
+  unit("The id of the Unit." id: String): Unit
   "Gets all Units.\n\n\n**Returns:**\nAll Units."
-  units(where: UnitFilter order_by: UnitSort): [Unit!]!
+  units(where: UnitFilter order_by: UnitSort): [Unit]
 }
 
 "Tenant of a Unit"
@@ -86,7 +86,7 @@ type Tenant {
   email: String!
   toStringRepresentation: String!
   permanentMailingAddress: Address!
-  id: String!
+  id: String
   dbid: Int!
 }
 
@@ -98,7 +98,7 @@ type Unit {
   numberOfBathrooms: NumberOfBathroomsEnum!
   hasBalcony: Boolean!
   toStringRepresentation: String!
-  id: String!
+  id: String
   dbid: Int!
 }
 
@@ -174,8 +174,8 @@ input AddressFilter {
   id_not_starts_with: String
   id_ends_with: String
   id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
+  id_in: [String]
+  id_not_in: [String]
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -198,7 +198,7 @@ input AddressInput {
   stateOrProvince: String!
   zip: String!
   toStringRepresentation: String!
-  id: String!
+  id: String
   dbid: Int!
 }
 
@@ -310,8 +310,8 @@ input BuildingFilter {
   id_not_starts_with: String
   id_ends_with: String
   id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
+  id_in: [String]
+  id_not_in: [String]
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -379,8 +379,8 @@ input MoveFilter {
   id_not_starts_with: String
   id_ends_with: String
   id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
+  id_in: [String]
+  id_not_in: [String]
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -459,8 +459,8 @@ input TenantFilter {
   id_not_starts_with: String
   id_ends_with: String
   id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
+  id_in: [String]
+  id_not_in: [String]
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -556,8 +556,8 @@ input UnitFilter {
   id_not_starts_with: String
   id_ends_with: String
   id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
+  id_in: [String]
+  id_not_in: [String]
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -580,7 +580,7 @@ input UnitInput {
   numberOfBathrooms: NumberOfBathroomsEnum!
   hasBalcony: Boolean!
   toStringRepresentation: String!
-  id: String!
+  id: String
   dbid: Int!
 }
 
