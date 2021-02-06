@@ -17,7 +17,7 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
-import Address from 'client_page/ui/Address';
+import AddressDisplay from 'client_page/ui/AddressDisplay';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
 
@@ -42,16 +42,12 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               <Group>
                 <TextInput
                   value={ companyEntity.legalName }
-                  onChange={ (value) => {
-                    onChange({ ...companyEntity, legalName: value })
-                  } }
+                  onChange={ () => { } }
                 />
               </Group>
               <SelectInput
                 value={ companyEntity.companyType }
-                onChange={ (value) => {
-                  onChange({ ...companyEntity, companyType: value })
-                } }
+                onChange={ () => { } }
                 options={ CompanyEntityTypeEnumPairs }
               />
             </Group>
@@ -84,7 +80,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           <DisplayField
             label='Mailing Address'
           >
-            <Address address={ companyEntity.mailingAddress }/>
+            <AddressDisplay address={ companyEntity.mailingAddress }/>
           </DisplayField>
           <DisplayField
             label='Physical Address'
@@ -92,7 +88,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
             <VisibilityControl
               visible={ companyEntityApplicableWhenForPhysicalAddress(companyEntity) }
             >
-              <Address address={ companyEntity.physicalAddress }/>
+              <AddressDisplay address={ companyEntity.physicalAddress }/>
             </VisibilityControl>
           </DisplayField>
         </Group>
@@ -133,12 +129,12 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
       legalName
       mailingAddress {
         id
-        ...Address_address
+        ...AddressDisplay_address
       }
       mailingAddressIsPhysicalAddress
       physicalAddress {
         id
-        ...Address_address
+        ...AddressDisplay_address
       }
     }
   `,

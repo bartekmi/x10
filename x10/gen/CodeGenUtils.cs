@@ -58,7 +58,7 @@ namespace x10.gen {
       if (readOnlyAttr != null)
         return (bool)readOnlyAttr.Value;
 
-      return false; // By default, we allow editing
+      return true; // By default, we do NOT allow editing
     }
   }
 }

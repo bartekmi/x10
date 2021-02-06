@@ -28,10 +28,10 @@
         <Row>
           <coreId/>
           <Label label="Mailing Address">
-            <Address path="mailingAddress"/>
+            <AddressDisplay path="mailingAddress"/>
           </Label>
           <Label label="Physical Address">
-            <Address path="physicalAddress"/>
+            <AddressDisplay path="physicalAddress"/>
           </Label>
         </Row>
         <RepellingRow>
