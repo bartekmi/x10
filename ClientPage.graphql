@@ -1,0 +1,1724 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"A physical or mailing address"
+type Address {
+  theAddress: String!
+  theAddress2: String!
+  city: String!
+  postalCode: String!
+  verified: Boolean!
+  toStringRepresentation: String!
+  country: Country!
+  stateOrProvince: StateOrProvince!
+  id: String!
+  dbid: Int!
+}
+
+"More information about a company that we do business with as a client (we sell them stuff)"
+type Client {
+  salesforceAccountRef: String!
+  referredBy: String!
+  status: ClientStatusEnum!
+  segment: ClientSegmentEnum!
+  purchasingBehavior: ClientPurchasingBehaviorEnum
+  primaryShipmentRole: ClientPrimaryShipmentRoleEnum!
+  shipmentsAsClient: Int!
+  shipmentsAsShipper: Int!
+  shipmentsAsConsignee: Int!
+  toStringRepresentation: String!
+  company: Company!
+  primaryContact: Contact!
+  id: String!
+  dbid: Int!
+}
+
+type Company {
+  website: String!
+  toStringRepresentation: String!
+  primaryEntity: CompanyEntity!
+  entities: [CompanyEntity!]!
+  primaryContact: Contact!
+  users: [User!]!
+  id: String!
+  dbid: Int!
+}
+
+type CompanyEntity {
+  legalName: String!
+  coreId: Int
+  companyType: CompanyEntityTypeEnum!
+  isPrimary: Boolean!
+  dgDisclaimerAgreed: Boolean!
+  mailingAddressIsPhysicalAddress: Boolean!
+  brBlCompanyName: String!
+  isArchived: Boolean!
+  brBlRegistrationNumber: String!
+  brBlAddress: String!
+  brBlLegalRepChinese: String!
+  brBlLegalRepPinyin: String!
+  usFccNumber: String!
+  eoriNumber: String!
+  usciNumber: String!
+  agentIataCode: String!
+  hkRaNumber: String!
+  vendorCategory: VendorCategoryEnum
+  toStringRepresentation: String!
+  mailingAddress: Address!
+  physicalAddress: Address
+  vatNumbers: [VatNumber!]!
+  netsuiteVendorId: NetsuiteVendor
+  invoiceCurrencyDefault: Currency
+  id: String!
+  dbid: Int!
+}
+
+"A country and an indication wherther either of import\/export services are required"
+type CompanyEntityCountryService {
+  importCustoms: Boolean!
+  exportCustoms: Boolean!
+  toStringRepresentation: String!
+  country: Country!
+  id: String!
+  dbid: Int!
+}
+
+"Basic contact info"
+type Contact {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"Represents a Country"
+type Country {
+  code: String!
+  name: String!
+  toStringRepresentation: String!
+  subRegions: [StateOrProvince!]!
+  id: String!
+  dbid: Int!
+}
+
+"Status of the current CTPAT review"
+type CtpatReview {
+  complianceScreenRequired: Boolean!
+  status: CtpatReviewStatusEnum!
+  expiresAt: DateTime
+  complianceContactEmail: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"Type of money\/currency"
+type Currency {
+  symbol: String!
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"Metadata about a document"
+type Document {
+  name: String!
+  fileName: String!
+  uploadedTimestamp: DateTime
+  toStringRepresentation: String!
+  uploadedBy: User
+  id: String!
+  dbid: Int!
+}
+
+type Mutation {
+  "Creates a new NetsuiteVendor or updates an existing one, depending on the value of id"
+  createOrUpdateNetsuiteVendor(id: String! name: String!): String!
+  "Creates a new Company or updates an existing one, depending on the value of id"
+  createOrUpdateCompany(id: String! website: String primaryEntity: CompanyEntityInput! entities: [CompanyEntityInput!]! primaryContact: ContactInput! users: [UserInput!]!): String!
+  "Creates a new StateOrProvince or updates an existing one, depending on the value of id"
+  createOrUpdateStateOrProvince(id: String! name: String!): String!
+  "Creates a new CtpatReview or updates an existing one, depending on the value of id"
+  createOrUpdateCtpatReview(id: String! complianceScreenRequired: Boolean! status: CtpatReviewStatusEnum! expiresAt: DateTime complianceContactEmail: String!): String!
+  "Creates a new CompanyEntity or updates an existing one, depending on the value of id"
+  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String invoiceCurrencyDefaultId: String): String!
+  "Creates a new Currency or updates an existing one, depending on the value of id"
+  createOrUpdateCurrency(id: String! symbol: String! name: String!): String!
+  "Creates a new Address or updates an existing one, depending on the value of id"
+  createOrUpdateAddress(id: String! theAddress: String! theAddress2: String city: String! postalCode: String verified: Boolean! countryId: String! stateOrProvinceId: String!): String!
+  "Creates a new User or updates an existing one, depending on the value of id"
+  createOrUpdateUser(id: String! firstName: String! lastName: String! phone: String email: String!): String!
+  "Creates a new Document or updates an existing one, depending on the value of id"
+  createOrUpdateDocument(id: String! name: String! fileName: String!): String!
+  "Creates a new Client or updates an existing one, depending on the value of id"
+  createOrUpdateClient(id: String! salesforceAccountRef: String referredBy: String status: ClientStatusEnum! segment: ClientSegmentEnum! purchasingBehavior: ClientPurchasingBehaviorEnum primaryShipmentRole: ClientPrimaryShipmentRoleEnum! company: CompanyInput! primaryContact: ContactInput!): String!
+  "Creates a new VatNumber or updates an existing one, depending on the value of id"
+  createOrUpdateVatNumber(id: String! number: String! countryRegionId: String!): String!
+  "Creates a new Country or updates an existing one, depending on the value of id"
+  createOrUpdateCountry(id: String! code: String! name: String! subRegions: [StateOrProvinceInput!]!): String!
+  "Creates a new Contact or updates an existing one, depending on the value of id"
+  createOrUpdateContact(id: String! firstName: String! lastName: String! phone: String email: String!): String!
+  "Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of id"
+  createOrUpdateCompanyEntityCountryService(id: String! importCustoms: Boolean! exportCustoms: Boolean! countryId: String!): String!
+}
+
+"A reference to an entity in Netsuite"
+type NetsuiteVendor {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+type Query {
+  "Retrieve a NetsuiteVendor by id\n\n\n**Returns:**\nThe NetsuiteVendor."
+  netsuiteVendor("The id of the NetsuiteVendor." id: String!): NetsuiteVendor!
+  "Gets all NetsuiteVendors.\n\n\n**Returns:**\nAll NetsuiteVendors."
+  netsuiteVendors(where: NetsuiteVendorFilter order_by: NetsuiteVendorSort): [NetsuiteVendor!]!
+  "Retrieve a Company by id\n\n\n**Returns:**\nThe Company."
+  company("The id of the Company." id: String!): Company!
+  "Gets all Companies.\n\n\n**Returns:**\nAll Companies."
+  companies(where: CompanyFilter order_by: CompanySort): [Company!]!
+  "Retrieve a StateOrProvince by id\n\n\n**Returns:**\nThe StateOrProvince."
+  stateOrProvince("The id of the StateOrProvince." id: String!): StateOrProvince!
+  "Gets all StateOrProvinces.\n\n\n**Returns:**\nAll StateOrProvinces."
+  stateOrProvinces(where: StateOrProvinceFilter order_by: StateOrProvinceSort): [StateOrProvince!]!
+  "Retrieve a CtpatReview by id\n\n\n**Returns:**\nThe CtpatReview."
+  ctpatReview("The id of the CtpatReview." id: String!): CtpatReview!
+  "Gets all CtpatReviews.\n\n\n**Returns:**\nAll CtpatReviews."
+  ctpatReviews(where: CtpatReviewFilter order_by: CtpatReviewSort): [CtpatReview!]!
+  "Retrieve a CompanyEntity by id\n\n\n**Returns:**\nThe CompanyEntity."
+  companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
+  "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
+  companyEntities(where: CompanyEntityFilter order_by: CompanyEntitySort): [CompanyEntity!]!
+  "Retrieve a Currency by id\n\n\n**Returns:**\nThe Currency."
+  currency("The id of the Currency." id: String!): Currency!
+  "Gets all Currencies.\n\n\n**Returns:**\nAll Currencies."
+  currencies(where: CurrencyFilter order_by: CurrencySort): [Currency!]!
+  "Retrieve a Address by id\n\n\n**Returns:**\nThe Address."
+  address("The id of the Address." id: String!): Address!
+  "Gets all Addresses.\n\n\n**Returns:**\nAll Addresses."
+  addresses(where: AddressFilter order_by: AddressSort): [Address!]!
+  "Retrieve a User by id\n\n\n**Returns:**\nThe User."
+  user("The id of the User." id: String!): User!
+  "Gets all Users.\n\n\n**Returns:**\nAll Users."
+  users(where: UserFilter order_by: UserSort): [User!]!
+  "Retrieve a Document by id\n\n\n**Returns:**\nThe Document."
+  document("The id of the Document." id: String!): Document!
+  "Gets all Documents.\n\n\n**Returns:**\nAll Documents."
+  documents(where: DocumentFilter order_by: DocumentSort): [Document!]!
+  "Retrieve a Client by id\n\n\n**Returns:**\nThe Client."
+  client("The id of the Client." id: String!): Client!
+  "Gets all Clients.\n\n\n**Returns:**\nAll Clients."
+  clients(where: ClientFilter order_by: ClientSort): [Client!]!
+  "Retrieve a VatNumber by id\n\n\n**Returns:**\nThe VatNumber."
+  vatNumber("The id of the VatNumber." id: String!): VatNumber!
+  "Gets all VatNumbers.\n\n\n**Returns:**\nAll VatNumbers."
+  vatNumbers(where: VatNumberFilter order_by: VatNumberSort): [VatNumber!]!
+  "Retrieve a Country by id\n\n\n**Returns:**\nThe Country."
+  country("The id of the Country." id: String!): Country!
+  "Gets all Countries.\n\n\n**Returns:**\nAll Countries."
+  countries(where: CountryFilter order_by: CountrySort): [Country!]!
+  "Retrieve a Contact by id\n\n\n**Returns:**\nThe Contact."
+  contact("The id of the Contact." id: String!): Contact!
+  "Gets all Contacts.\n\n\n**Returns:**\nAll Contacts."
+  contacts(where: ContactFilter order_by: ContactSort): [Contact!]!
+  "Retrieve a CompanyEntityCountryService by id\n\n\n**Returns:**\nThe CompanyEntityCountryService."
+  companyEntityCountryService("The id of the CompanyEntityCountryService." id: String!): CompanyEntityCountryService!
+  "Gets all CompanyEntityCountryServices.\n\n\n**Returns:**\nAll CompanyEntityCountryServices."
+  companyEntityCountryServices(where: CompanyEntityCountryServiceFilter order_by: CompanyEntityCountryServiceSort): [CompanyEntityCountryService!]!
+}
+
+"State, province or similar division within a country"
+type StateOrProvince {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"A user account within our system"
+type User {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"VAT Number"
+type VatNumber {
+  number: String!
+  toStringRepresentation: String!
+  countryRegion: Country!
+  id: String!
+  dbid: Int!
+}
+
+"A physical or mailing address"
+input AddressFilter {
+  AND: [AddressFilter!]
+  OR: [AddressFilter!]
+  theAddress: String
+  theAddress_not: String
+  theAddress_contains: String
+  theAddress_not_contains: String
+  theAddress_starts_with: String
+  theAddress_not_starts_with: String
+  theAddress_ends_with: String
+  theAddress_not_ends_with: String
+  theAddress_in: [String!]
+  theAddress_not_in: [String!]
+  theAddress2: String
+  theAddress2_not: String
+  theAddress2_contains: String
+  theAddress2_not_contains: String
+  theAddress2_starts_with: String
+  theAddress2_not_starts_with: String
+  theAddress2_ends_with: String
+  theAddress2_not_ends_with: String
+  theAddress2_in: [String!]
+  theAddress2_not_in: [String!]
+  city: String
+  city_not: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  city_in: [String!]
+  city_not_in: [String!]
+  postalCode: String
+  postalCode_not: String
+  postalCode_contains: String
+  postalCode_not_contains: String
+  postalCode_starts_with: String
+  postalCode_not_starts_with: String
+  postalCode_ends_with: String
+  postalCode_not_ends_with: String
+  postalCode_in: [String!]
+  postalCode_not_in: [String!]
+  verified: Boolean
+  verified_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  country: CountryFilter
+  stateOrProvince: StateOrProvinceFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"A physical or mailing address"
+input AddressInput {
+  theAddress: String!
+  theAddress2: String!
+  city: String!
+  postalCode: String!
+  verified: Boolean!
+  toStringRepresentation: String!
+  country: CountryInput!
+  stateOrProvince: StateOrProvinceInput!
+  id: String!
+  dbid: Int!
+}
+
+"A physical or mailing address"
+input AddressSort {
+  theAddress: SortOperationKind
+  theAddress2: SortOperationKind
+  city: SortOperationKind
+  postalCode: SortOperationKind
+  verified: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  country: CountrySort
+  stateOrProvince: StateOrProvinceSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"More information about a company that we do business with as a client (we sell them stuff)"
+input ClientFilter {
+  AND: [ClientFilter!]
+  OR: [ClientFilter!]
+  salesforceAccountRef: String
+  salesforceAccountRef_not: String
+  salesforceAccountRef_contains: String
+  salesforceAccountRef_not_contains: String
+  salesforceAccountRef_starts_with: String
+  salesforceAccountRef_not_starts_with: String
+  salesforceAccountRef_ends_with: String
+  salesforceAccountRef_not_ends_with: String
+  salesforceAccountRef_in: [String!]
+  salesforceAccountRef_not_in: [String!]
+  referredBy: String
+  referredBy_not: String
+  referredBy_contains: String
+  referredBy_not_contains: String
+  referredBy_starts_with: String
+  referredBy_not_starts_with: String
+  referredBy_ends_with: String
+  referredBy_not_ends_with: String
+  referredBy_in: [String!]
+  referredBy_not_in: [String!]
+  status: ClientStatusEnum
+  status_not: ClientStatusEnum
+  status_in: [ClientStatusEnum!]
+  status_not_in: [ClientStatusEnum!]
+  status_gt: ClientStatusEnum
+  status_not_gt: ClientStatusEnum
+  status_gte: ClientStatusEnum
+  status_not_gte: ClientStatusEnum
+  status_lt: ClientStatusEnum
+  status_not_lt: ClientStatusEnum
+  status_lte: ClientStatusEnum
+  status_not_lte: ClientStatusEnum
+  segment: ClientSegmentEnum
+  segment_not: ClientSegmentEnum
+  segment_in: [ClientSegmentEnum!]
+  segment_not_in: [ClientSegmentEnum!]
+  segment_gt: ClientSegmentEnum
+  segment_not_gt: ClientSegmentEnum
+  segment_gte: ClientSegmentEnum
+  segment_not_gte: ClientSegmentEnum
+  segment_lt: ClientSegmentEnum
+  segment_not_lt: ClientSegmentEnum
+  segment_lte: ClientSegmentEnum
+  segment_not_lte: ClientSegmentEnum
+  purchasingBehavior: ClientPurchasingBehaviorEnum
+  purchasingBehavior_not: ClientPurchasingBehaviorEnum
+  purchasingBehavior_in: [ClientPurchasingBehaviorEnum]
+  purchasingBehavior_not_in: [ClientPurchasingBehaviorEnum]
+  purchasingBehavior_gt: ClientPurchasingBehaviorEnum
+  purchasingBehavior_not_gt: ClientPurchasingBehaviorEnum
+  purchasingBehavior_gte: ClientPurchasingBehaviorEnum
+  purchasingBehavior_not_gte: ClientPurchasingBehaviorEnum
+  purchasingBehavior_lt: ClientPurchasingBehaviorEnum
+  purchasingBehavior_not_lt: ClientPurchasingBehaviorEnum
+  purchasingBehavior_lte: ClientPurchasingBehaviorEnum
+  purchasingBehavior_not_lte: ClientPurchasingBehaviorEnum
+  primaryShipmentRole: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_not: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_in: [ClientPrimaryShipmentRoleEnum!]
+  primaryShipmentRole_not_in: [ClientPrimaryShipmentRoleEnum!]
+  primaryShipmentRole_gt: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_not_gt: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_gte: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_not_gte: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_lt: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_not_lt: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_lte: ClientPrimaryShipmentRoleEnum
+  primaryShipmentRole_not_lte: ClientPrimaryShipmentRoleEnum
+  shipmentsAsClient: Int
+  shipmentsAsClient_not: Int
+  shipmentsAsClient_in: [Int!]
+  shipmentsAsClient_not_in: [Int!]
+  shipmentsAsClient_gt: Int
+  shipmentsAsClient_not_gt: Int
+  shipmentsAsClient_gte: Int
+  shipmentsAsClient_not_gte: Int
+  shipmentsAsClient_lt: Int
+  shipmentsAsClient_not_lt: Int
+  shipmentsAsClient_lte: Int
+  shipmentsAsClient_not_lte: Int
+  shipmentsAsShipper: Int
+  shipmentsAsShipper_not: Int
+  shipmentsAsShipper_in: [Int!]
+  shipmentsAsShipper_not_in: [Int!]
+  shipmentsAsShipper_gt: Int
+  shipmentsAsShipper_not_gt: Int
+  shipmentsAsShipper_gte: Int
+  shipmentsAsShipper_not_gte: Int
+  shipmentsAsShipper_lt: Int
+  shipmentsAsShipper_not_lt: Int
+  shipmentsAsShipper_lte: Int
+  shipmentsAsShipper_not_lte: Int
+  shipmentsAsConsignee: Int
+  shipmentsAsConsignee_not: Int
+  shipmentsAsConsignee_in: [Int!]
+  shipmentsAsConsignee_not_in: [Int!]
+  shipmentsAsConsignee_gt: Int
+  shipmentsAsConsignee_not_gt: Int
+  shipmentsAsConsignee_gte: Int
+  shipmentsAsConsignee_not_gte: Int
+  shipmentsAsConsignee_lt: Int
+  shipmentsAsConsignee_not_lt: Int
+  shipmentsAsConsignee_lte: Int
+  shipmentsAsConsignee_not_lte: Int
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  company: CompanyFilter
+  primaryContact: ContactFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"More information about a company that we do business with as a client (we sell them stuff)"
+input ClientSort {
+  salesforceAccountRef: SortOperationKind
+  referredBy: SortOperationKind
+  status: SortOperationKind
+  segment: SortOperationKind
+  purchasingBehavior: SortOperationKind
+  primaryShipmentRole: SortOperationKind
+  shipmentsAsClient: SortOperationKind
+  shipmentsAsShipper: SortOperationKind
+  shipmentsAsConsignee: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  company: CompanySort
+  primaryContact: ContactSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"A country and an indication wherther either of import\/export services are required"
+input CompanyEntityCountryServiceFilter {
+  AND: [CompanyEntityCountryServiceFilter!]
+  OR: [CompanyEntityCountryServiceFilter!]
+  importCustoms: Boolean
+  importCustoms_not: Boolean
+  exportCustoms: Boolean
+  exportCustoms_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  country: CountryFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"A country and an indication wherther either of import\/export services are required"
+input CompanyEntityCountryServiceSort {
+  importCustoms: SortOperationKind
+  exportCustoms: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  country: CountrySort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+input CompanyEntityFilter {
+  AND: [CompanyEntityFilter!]
+  OR: [CompanyEntityFilter!]
+  legalName: String
+  legalName_not: String
+  legalName_contains: String
+  legalName_not_contains: String
+  legalName_starts_with: String
+  legalName_not_starts_with: String
+  legalName_ends_with: String
+  legalName_not_ends_with: String
+  legalName_in: [String!]
+  legalName_not_in: [String!]
+  coreId: Int
+  coreId_not: Int
+  coreId_in: [Int]
+  coreId_not_in: [Int]
+  coreId_gt: Int
+  coreId_not_gt: Int
+  coreId_gte: Int
+  coreId_not_gte: Int
+  coreId_lt: Int
+  coreId_not_lt: Int
+  coreId_lte: Int
+  coreId_not_lte: Int
+  companyType: CompanyEntityTypeEnum
+  companyType_not: CompanyEntityTypeEnum
+  companyType_in: [CompanyEntityTypeEnum!]
+  companyType_not_in: [CompanyEntityTypeEnum!]
+  companyType_gt: CompanyEntityTypeEnum
+  companyType_not_gt: CompanyEntityTypeEnum
+  companyType_gte: CompanyEntityTypeEnum
+  companyType_not_gte: CompanyEntityTypeEnum
+  companyType_lt: CompanyEntityTypeEnum
+  companyType_not_lt: CompanyEntityTypeEnum
+  companyType_lte: CompanyEntityTypeEnum
+  companyType_not_lte: CompanyEntityTypeEnum
+  isPrimary: Boolean
+  isPrimary_not: Boolean
+  dgDisclaimerAgreed: Boolean
+  dgDisclaimerAgreed_not: Boolean
+  mailingAddressIsPhysicalAddress: Boolean
+  mailingAddressIsPhysicalAddress_not: Boolean
+  brBlCompanyName: String
+  brBlCompanyName_not: String
+  brBlCompanyName_contains: String
+  brBlCompanyName_not_contains: String
+  brBlCompanyName_starts_with: String
+  brBlCompanyName_not_starts_with: String
+  brBlCompanyName_ends_with: String
+  brBlCompanyName_not_ends_with: String
+  brBlCompanyName_in: [String!]
+  brBlCompanyName_not_in: [String!]
+  isArchived: Boolean
+  isArchived_not: Boolean
+  brBlRegistrationNumber: String
+  brBlRegistrationNumber_not: String
+  brBlRegistrationNumber_contains: String
+  brBlRegistrationNumber_not_contains: String
+  brBlRegistrationNumber_starts_with: String
+  brBlRegistrationNumber_not_starts_with: String
+  brBlRegistrationNumber_ends_with: String
+  brBlRegistrationNumber_not_ends_with: String
+  brBlRegistrationNumber_in: [String!]
+  brBlRegistrationNumber_not_in: [String!]
+  brBlAddress: String
+  brBlAddress_not: String
+  brBlAddress_contains: String
+  brBlAddress_not_contains: String
+  brBlAddress_starts_with: String
+  brBlAddress_not_starts_with: String
+  brBlAddress_ends_with: String
+  brBlAddress_not_ends_with: String
+  brBlAddress_in: [String!]
+  brBlAddress_not_in: [String!]
+  brBlLegalRepChinese: String
+  brBlLegalRepChinese_not: String
+  brBlLegalRepChinese_contains: String
+  brBlLegalRepChinese_not_contains: String
+  brBlLegalRepChinese_starts_with: String
+  brBlLegalRepChinese_not_starts_with: String
+  brBlLegalRepChinese_ends_with: String
+  brBlLegalRepChinese_not_ends_with: String
+  brBlLegalRepChinese_in: [String!]
+  brBlLegalRepChinese_not_in: [String!]
+  brBlLegalRepPinyin: String
+  brBlLegalRepPinyin_not: String
+  brBlLegalRepPinyin_contains: String
+  brBlLegalRepPinyin_not_contains: String
+  brBlLegalRepPinyin_starts_with: String
+  brBlLegalRepPinyin_not_starts_with: String
+  brBlLegalRepPinyin_ends_with: String
+  brBlLegalRepPinyin_not_ends_with: String
+  brBlLegalRepPinyin_in: [String!]
+  brBlLegalRepPinyin_not_in: [String!]
+  usFccNumber: String
+  usFccNumber_not: String
+  usFccNumber_contains: String
+  usFccNumber_not_contains: String
+  usFccNumber_starts_with: String
+  usFccNumber_not_starts_with: String
+  usFccNumber_ends_with: String
+  usFccNumber_not_ends_with: String
+  usFccNumber_in: [String!]
+  usFccNumber_not_in: [String!]
+  eoriNumber: String
+  eoriNumber_not: String
+  eoriNumber_contains: String
+  eoriNumber_not_contains: String
+  eoriNumber_starts_with: String
+  eoriNumber_not_starts_with: String
+  eoriNumber_ends_with: String
+  eoriNumber_not_ends_with: String
+  eoriNumber_in: [String!]
+  eoriNumber_not_in: [String!]
+  usciNumber: String
+  usciNumber_not: String
+  usciNumber_contains: String
+  usciNumber_not_contains: String
+  usciNumber_starts_with: String
+  usciNumber_not_starts_with: String
+  usciNumber_ends_with: String
+  usciNumber_not_ends_with: String
+  usciNumber_in: [String!]
+  usciNumber_not_in: [String!]
+  agentIataCode: String
+  agentIataCode_not: String
+  agentIataCode_contains: String
+  agentIataCode_not_contains: String
+  agentIataCode_starts_with: String
+  agentIataCode_not_starts_with: String
+  agentIataCode_ends_with: String
+  agentIataCode_not_ends_with: String
+  agentIataCode_in: [String!]
+  agentIataCode_not_in: [String!]
+  hkRaNumber: String
+  hkRaNumber_not: String
+  hkRaNumber_contains: String
+  hkRaNumber_not_contains: String
+  hkRaNumber_starts_with: String
+  hkRaNumber_not_starts_with: String
+  hkRaNumber_ends_with: String
+  hkRaNumber_not_ends_with: String
+  hkRaNumber_in: [String!]
+  hkRaNumber_not_in: [String!]
+  vendorCategory: VendorCategoryEnum
+  vendorCategory_not: VendorCategoryEnum
+  vendorCategory_in: [VendorCategoryEnum]
+  vendorCategory_not_in: [VendorCategoryEnum]
+  vendorCategory_gt: VendorCategoryEnum
+  vendorCategory_not_gt: VendorCategoryEnum
+  vendorCategory_gte: VendorCategoryEnum
+  vendorCategory_not_gte: VendorCategoryEnum
+  vendorCategory_lt: VendorCategoryEnum
+  vendorCategory_not_lt: VendorCategoryEnum
+  vendorCategory_lte: VendorCategoryEnum
+  vendorCategory_not_lte: VendorCategoryEnum
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  mailingAddress: AddressFilter
+  physicalAddress: AddressFilter
+  vatNumbers_some: VatNumberFilter
+  vatNumbers_none: VatNumberFilter
+  vatNumbers_all: VatNumberFilter
+  vatNumbers_any: Boolean
+  netsuiteVendorId: NetsuiteVendorFilter
+  invoiceCurrencyDefault: CurrencyFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+input CompanyEntityInput {
+  legalName: String!
+  coreId: Int
+  companyType: CompanyEntityTypeEnum!
+  isPrimary: Boolean!
+  dgDisclaimerAgreed: Boolean!
+  mailingAddressIsPhysicalAddress: Boolean!
+  brBlCompanyName: String!
+  isArchived: Boolean!
+  brBlRegistrationNumber: String!
+  brBlAddress: String!
+  brBlLegalRepChinese: String!
+  brBlLegalRepPinyin: String!
+  usFccNumber: String!
+  eoriNumber: String!
+  usciNumber: String!
+  agentIataCode: String!
+  hkRaNumber: String!
+  vendorCategory: VendorCategoryEnum
+  toStringRepresentation: String!
+  mailingAddress: AddressInput!
+  physicalAddress: AddressInput
+  vatNumbers: [VatNumberInput!]!
+  netsuiteVendorId: NetsuiteVendorInput
+  invoiceCurrencyDefault: CurrencyInput
+  id: String!
+  dbid: Int!
+}
+
+input CompanyEntitySort {
+  legalName: SortOperationKind
+  coreId: SortOperationKind
+  companyType: SortOperationKind
+  isPrimary: SortOperationKind
+  dgDisclaimerAgreed: SortOperationKind
+  mailingAddressIsPhysicalAddress: SortOperationKind
+  brBlCompanyName: SortOperationKind
+  isArchived: SortOperationKind
+  brBlRegistrationNumber: SortOperationKind
+  brBlAddress: SortOperationKind
+  brBlLegalRepChinese: SortOperationKind
+  brBlLegalRepPinyin: SortOperationKind
+  usFccNumber: SortOperationKind
+  eoriNumber: SortOperationKind
+  usciNumber: SortOperationKind
+  agentIataCode: SortOperationKind
+  hkRaNumber: SortOperationKind
+  vendorCategory: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  mailingAddress: AddressSort
+  physicalAddress: AddressSort
+  netsuiteVendorId: NetsuiteVendorSort
+  invoiceCurrencyDefault: CurrencySort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+input CompanyFilter {
+  AND: [CompanyFilter!]
+  OR: [CompanyFilter!]
+  website: String
+  website_not: String
+  website_contains: String
+  website_not_contains: String
+  website_starts_with: String
+  website_not_starts_with: String
+  website_ends_with: String
+  website_not_ends_with: String
+  website_in: [String!]
+  website_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  primaryEntity: CompanyEntityFilter
+  entities_some: CompanyEntityFilter
+  entities_none: CompanyEntityFilter
+  entities_all: CompanyEntityFilter
+  entities_any: Boolean
+  primaryContact: ContactFilter
+  users_some: UserFilter
+  users_none: UserFilter
+  users_all: UserFilter
+  users_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+input CompanyInput {
+  website: String!
+  toStringRepresentation: String!
+  primaryEntity: CompanyEntityInput!
+  entities: [CompanyEntityInput!]!
+  primaryContact: ContactInput!
+  users: [UserInput!]!
+  id: String!
+  dbid: Int!
+}
+
+input CompanySort {
+  website: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  primaryEntity: CompanyEntitySort
+  primaryContact: ContactSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Basic contact info"
+input ContactFilter {
+  AND: [ContactFilter!]
+  OR: [ContactFilter!]
+  firstName: String
+  firstName_not: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  lastName: String
+  lastName_not: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  phone: String
+  phone_not: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  email: String
+  email_not: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  email_in: [String!]
+  email_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Basic contact info"
+input ContactInput {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"Basic contact info"
+input ContactSort {
+  firstName: SortOperationKind
+  lastName: SortOperationKind
+  phone: SortOperationKind
+  email: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Represents a Country"
+input CountryFilter {
+  AND: [CountryFilter!]
+  OR: [CountryFilter!]
+  code: String
+  code_not: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  code_in: [String!]
+  code_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  subRegions_some: StateOrProvinceFilter
+  subRegions_none: StateOrProvinceFilter
+  subRegions_all: StateOrProvinceFilter
+  subRegions_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Represents a Country"
+input CountryInput {
+  code: String!
+  name: String!
+  toStringRepresentation: String!
+  subRegions: [StateOrProvinceInput!]!
+  id: String!
+  dbid: Int!
+}
+
+"Represents a Country"
+input CountrySort {
+  code: SortOperationKind
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Status of the current CTPAT review"
+input CtpatReviewFilter {
+  AND: [CtpatReviewFilter!]
+  OR: [CtpatReviewFilter!]
+  complianceScreenRequired: Boolean
+  complianceScreenRequired_not: Boolean
+  status: CtpatReviewStatusEnum
+  status_not: CtpatReviewStatusEnum
+  status_in: [CtpatReviewStatusEnum!]
+  status_not_in: [CtpatReviewStatusEnum!]
+  status_gt: CtpatReviewStatusEnum
+  status_not_gt: CtpatReviewStatusEnum
+  status_gte: CtpatReviewStatusEnum
+  status_not_gte: CtpatReviewStatusEnum
+  status_lt: CtpatReviewStatusEnum
+  status_not_lt: CtpatReviewStatusEnum
+  status_lte: CtpatReviewStatusEnum
+  status_not_lte: CtpatReviewStatusEnum
+  expiresAt: DateTime
+  expiresAt_not: DateTime
+  expiresAt_in: [DateTime]
+  expiresAt_not_in: [DateTime]
+  expiresAt_gt: DateTime
+  expiresAt_not_gt: DateTime
+  expiresAt_gte: DateTime
+  expiresAt_not_gte: DateTime
+  expiresAt_lt: DateTime
+  expiresAt_not_lt: DateTime
+  expiresAt_lte: DateTime
+  expiresAt_not_lte: DateTime
+  complianceContactEmail: String
+  complianceContactEmail_not: String
+  complianceContactEmail_contains: String
+  complianceContactEmail_not_contains: String
+  complianceContactEmail_starts_with: String
+  complianceContactEmail_not_starts_with: String
+  complianceContactEmail_ends_with: String
+  complianceContactEmail_not_ends_with: String
+  complianceContactEmail_in: [String!]
+  complianceContactEmail_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Status of the current CTPAT review"
+input CtpatReviewSort {
+  complianceScreenRequired: SortOperationKind
+  status: SortOperationKind
+  expiresAt: SortOperationKind
+  complianceContactEmail: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Type of money\/currency"
+input CurrencyFilter {
+  AND: [CurrencyFilter!]
+  OR: [CurrencyFilter!]
+  symbol: String
+  symbol_not: String
+  symbol_contains: String
+  symbol_not_contains: String
+  symbol_starts_with: String
+  symbol_not_starts_with: String
+  symbol_ends_with: String
+  symbol_not_ends_with: String
+  symbol_in: [String!]
+  symbol_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Type of money\/currency"
+input CurrencyInput {
+  symbol: String!
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"Type of money\/currency"
+input CurrencySort {
+  symbol: SortOperationKind
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Metadata about a document"
+input DocumentFilter {
+  AND: [DocumentFilter!]
+  OR: [DocumentFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  fileName: String
+  fileName_not: String
+  fileName_contains: String
+  fileName_not_contains: String
+  fileName_starts_with: String
+  fileName_not_starts_with: String
+  fileName_ends_with: String
+  fileName_not_ends_with: String
+  fileName_in: [String!]
+  fileName_not_in: [String!]
+  uploadedTimestamp: DateTime
+  uploadedTimestamp_not: DateTime
+  uploadedTimestamp_in: [DateTime]
+  uploadedTimestamp_not_in: [DateTime]
+  uploadedTimestamp_gt: DateTime
+  uploadedTimestamp_not_gt: DateTime
+  uploadedTimestamp_gte: DateTime
+  uploadedTimestamp_not_gte: DateTime
+  uploadedTimestamp_lt: DateTime
+  uploadedTimestamp_not_lt: DateTime
+  uploadedTimestamp_lte: DateTime
+  uploadedTimestamp_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  uploadedBy: UserFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Metadata about a document"
+input DocumentSort {
+  name: SortOperationKind
+  fileName: SortOperationKind
+  uploadedTimestamp: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  uploadedBy: UserSort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"A reference to an entity in Netsuite"
+input NetsuiteVendorFilter {
+  AND: [NetsuiteVendorFilter!]
+  OR: [NetsuiteVendorFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"A reference to an entity in Netsuite"
+input NetsuiteVendorInput {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"A reference to an entity in Netsuite"
+input NetsuiteVendorSort {
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"State, province or similar division within a country"
+input StateOrProvinceFilter {
+  AND: [StateOrProvinceFilter!]
+  OR: [StateOrProvinceFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"State, province or similar division within a country"
+input StateOrProvinceInput {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"State, province or similar division within a country"
+input StateOrProvinceSort {
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"A user account within our system"
+input UserFilter {
+  AND: [UserFilter!]
+  OR: [UserFilter!]
+  firstName: String
+  firstName_not: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  lastName: String
+  lastName_not: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  phone: String
+  phone_not: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  email: String
+  email_not: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  email_in: [String!]
+  email_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"A user account within our system"
+input UserInput {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  id: String!
+  dbid: Int!
+}
+
+"A user account within our system"
+input UserSort {
+  firstName: SortOperationKind
+  lastName: SortOperationKind
+  phone: SortOperationKind
+  email: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"VAT Number"
+input VatNumberFilter {
+  AND: [VatNumberFilter!]
+  OR: [VatNumberFilter!]
+  number: String
+  number_not: String
+  number_contains: String
+  number_not_contains: String
+  number_starts_with: String
+  number_not_starts_with: String
+  number_ends_with: String
+  number_not_ends_with: String
+  number_in: [String!]
+  number_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  countryRegion: CountryFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"VAT Number"
+input VatNumberInput {
+  number: String!
+  toStringRepresentation: String!
+  countryRegion: CountryInput!
+  id: String!
+  dbid: Int!
+}
+
+"VAT Number"
+input VatNumberSort {
+  number: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  countryRegion: CountrySort
+  id: SortOperationKind
+  dbid: SortOperationKind
+}
+
+enum ClientPrimaryShipmentRoleEnum {
+  UNKNOWN
+  SHIPPER
+  CONSIGNEE
+}
+
+enum ClientPurchasingBehaviorEnum {
+  PRICE
+  VALUE
+}
+
+enum ClientSegmentEnum {
+  EMERGING
+  SMB
+  MID_MARKET
+  NOT_QUALIFIED
+  UNKNOWN
+  ENTERPRISE
+}
+
+enum ClientStatusEnum {
+  LEAD
+  TEST
+  DEMO
+  ACTIVE
+  CHURNED
+  DEACTIVATED
+}
+
+enum CompanyEntityTypeEnum {
+  CORPORATION
+  INDIVIDUAL
+  LIMITED_LIABILITY_COMPANY
+  LIMITED_LIABILITY_PARTNERSHIP
+  NON_RESIDENT_CORPORATION
+  PARTNERSHIP
+  SOLE_PROPRIETORSHIP
+  UNKNOWN
+  UNLIMITED_LIABILITY_CORPORATION
+}
+
+enum CtpatReviewStatusEnum {
+  COMPLIANT
+  GRACE_PERIOD
+  NON_COMPLIANT
+  PROVISIONAL
+}
+
+enum SortOperationKind {
+  ASC
+  DESC
+}
+
+enum VendorCategoryEnum {
+  UNASSIGNED
+  FREIGHT_UNAPPROVED
+  FREIGHT_APPROVED
+  ARRIVAL_NOTICE
+  ARRIVAL_NOTICE_TERMS
+  PASSTHROUGH_APPROVED
+}
+
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer("If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String "Deferred when true." if: Boolean) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The @deprecated directive is used within the type system definition language to indicate deprecated portions of a GraphQL service’s schema,such as deprecated fields on a type or deprecated enum values."
+directive @deprecated("Deprecations include a reason for why it is deprecated, which is formatted using Markdown syntax (as specified by CommonMark)." reason: String = "No longer supported") on FIELD_DEFINITION | ENUM_VALUE
+
+"Directs the executor to include this field or fragment only when the `if` argument is true."
+directive @include("Included when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Directs the executor to skip this field or fragment when the `if` argument is true."
+directive @skip("Skipped when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")

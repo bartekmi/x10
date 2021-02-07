@@ -7,7 +7,8 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
-import { type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { companyEntityCalculateErrors, createDefaultCompanyEntity, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { contactCalculateErrors, createDefaultContact, type Contact } from 'client_page/entities/Contact';
 import { type User } from 'client_page/entities/User';
 
 
@@ -15,9 +16,9 @@ import { type User } from 'client_page/entities/User';
 export type Company = {
   +id: string,
   +website: string,
-  +primaryEntity: ?string,
+  +primaryEntity: CompanyEntity,
   +entities: $ReadOnlyArray<CompanyEntity>,
-  +primaryContact: ?string,
+  +primaryContact: Contact,
   +users: $ReadOnlyArray<User>,
 };
 
@@ -27,9 +28,9 @@ export function createDefaultCompany(): Company {
   return {
     id: uuid(),
     website: '',
-    primaryEntity: null,
+    primaryEntity: createDefaultCompanyEntity(),
     entities: [],
-    primaryContact: null,
+    primaryContact: createDefaultContact(),
     users: [],
   };
 }
@@ -39,10 +40,9 @@ export function createDefaultCompany(): Company {
 export function companyCalculateErrors(company: Company, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
 
-  if (isBlank(company.primaryEntity))
-    addError(errors, prefix, 'Primary Entity is required', ['primaryEntity']);
-  if (isBlank(company.primaryContact))
-    addError(errors, prefix, 'Primary Contact is required', ['primaryContact']);
+
+  errors.push(...companyEntityCalculateErrors(company.primaryEntity, 'primaryEntity'));
+  errors.push(...contactCalculateErrors(company.primaryContact, 'primaryContact'));
 
   return errors;
 }

@@ -36,9 +36,6 @@ export type CompanyEntity = {
   +physicalAddress: Address,
   +vatNumbers: $ReadOnlyArray<VatNumber>,
   +netsuiteVendorId: ?string,
-  +invoicedBy: $ReadOnlyArray<string>,
-  +invoicedByDefault: ?string,
-  +invoiceCurrencies: $ReadOnlyArray<string>,
   +invoiceCurrencyDefault: ?string,
 };
 
@@ -153,9 +150,6 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     physicalAddress: createDefaultAddress(),
     vatNumbers: [],
     netsuiteVendorId: null,
-    invoicedBy: [],
-    invoicedByDefault: null,
-    invoiceCurrencies: [],
     invoiceCurrencyDefault: null,
   };
 }
