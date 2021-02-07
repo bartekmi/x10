@@ -38,7 +38,9 @@ namespace x10.hotchoc {
       new HotChocConfig() {
         CommandLine = "cp",
         ProjectName = "ClientPage",
-        MetadataDir = "../x10/examples/client_app",
+        MetadataDir = "../x10/examples/client_page",
+        RepositoryInterface = typeof(ClientPage.Repositories.IRepository),
+        Repository = new ClientPage.Repositories.Repository(),
       },
     };
 

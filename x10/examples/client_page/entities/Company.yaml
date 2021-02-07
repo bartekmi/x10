@@ -8,19 +8,22 @@ attributes:
     dataType: String
 
 associations:
+# primaryEntity is NOT "owned" - in the sense of being independent from the content of "entities".
+# I think this may be best handled with the idea of "derived association".
+# Currently, setting "owns" to false causes issues in data generation.
   - name: primaryEntity
     dataType: CompanyEntity
     mandatory: true
-    owns: false
+    owns: true
   - name: entities
     dataType: CompanyEntity
     many: true
     owns: true
     
   - name: primaryContact
-    dataType: User
+    dataType: Contact
     mandatory: true
-    owns: false
+    owns: true
   - name: users
     dataType: User
     many: true

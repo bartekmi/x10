@@ -14,8 +14,8 @@ namespace x10.gen.sql {
 
   #region Helper Clases
   public class Row {
-    public int Id {get; internal set;}
-    public Entity Entity {get; internal set;}
+    public int Id { get; internal set; }
+    public Entity Entity { get; internal set; }
     public List<MemberAndValue> Values = new List<MemberAndValue>();
     public Dictionary<Association, List<Row>> ChildAssociations { get; private set; }
 
@@ -27,7 +27,7 @@ namespace x10.gen.sql {
     internal void AddChildAssociation(Association association, Row row) {
       if (ChildAssociations == null)
         ChildAssociations = new Dictionary<Association, List<Row>>();
-        
+
       if (!ChildAssociations.TryGetValue(association, out List<Row> rows)) {
         rows = new List<Row>();
         ChildAssociations[association] = rows;
@@ -58,37 +58,43 @@ namespace x10.gen.sql {
     public int? TestingReducedNumberOfRows { get; set; }
     public bool AllowMultipleReverseAssociationsToSameEntity { get; set; }
 
-    #region Members, Top Level, Constructor
-    public readonly Dictionary<Entity, EntityInfo> EntityInfos;
+    #region Members, Top Level, Constructor, Initialization
+    public Dictionary<Entity, EntityInfo> EntityInfos;
 
 
     private static readonly SqlRange DEFAULT_ASSOCIATION_RANGE = SqlRange.Parse("0..3");
 
     private readonly MessageBucket _messages;
     private readonly Random _random;
-    private readonly HashSet<Entity> _unprocessedRootEntities;
     private readonly AtomicDataGenerator _atomicDataGenerator;
     private readonly DataGenLanguageParser _parser;
-    private readonly DeclaredColumnsCalculator _declaredColumnCalculator;
-    private readonly List<Entity> _sortedEntities;
+    private readonly string _dataFilesRoot;
+    private readonly IEnumerable<Entity> _entities;
+    private DeclaredColumnsCalculator _declaredColumnCalculator;
+    private List<Entity> _sortedEntities;
+    private HashSet<Entity> _unprocessedRootEntities;
 
     public FakeDataGenerator(MessageBucket messages, IEnumerable<Entity> entities, Random random, string dataFilesRoot) {
       _messages = messages;
       _random = random;
+      _entities = entities;
+      _dataFilesRoot = dataFilesRoot;
       _atomicDataGenerator = new AtomicDataGenerator(messages);
       _parser = new DataGenLanguageParser(messages);
-      _declaredColumnCalculator = new DeclaredColumnsCalculator(entities);
+    }
 
-      entities = _declaredColumnCalculator.GetRealEntities();
+    private void Initialize() {
+      _declaredColumnCalculator = new DeclaredColumnsCalculator(_entities, AllowMultipleReverseAssociationsToSameEntity);
+      IEnumerable<Entity> entities = _declaredColumnCalculator.GetRealEntities();
 
       IEnumerable<Entity> rootLevelEntities = entities.Where(x => GetCount(x) > 0);
-      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
 
       EntityInfos = entities.ToDictionary(x => x, (x) => new EntityInfo() {
-        Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x, dataFilesRoot),
+        Context = DataGenerationContext.CreateContext(_messages, _parser, _random, x, _dataFilesRoot),
         Entity = x,
       });
 
+      _unprocessedRootEntities = new HashSet<Entity>(rootLevelEntities);
       _sortedEntities = GetSortedEntities(entities);  // Will blow up if circular ref's found
     }
 
@@ -187,6 +193,7 @@ namespace x10.gen.sql {
     #region Data Creation
 
     public void GenerateData() {
+      Initialize();
       while (_unprocessedRootEntities.Count > 0) {          // Until no more root-level entities
         Entity entity = _unprocessedRootEntities.First();
         GenerateForEntity(entity);
@@ -222,10 +229,9 @@ namespace x10.gen.sql {
       if (parentRow != null) {
         IEnumerable<MemberAndOwner> reverses = _declaredColumnCalculator.GetReverseAssociations(entity);
 
-        if (AllowMultipleReverseAssociationsToSameEntity) {
-          parentAssociationMO = reverses.Single(x => x.Member == parentAssociation);
+        if (AllowMultipleReverseAssociationsToSameEntity)
           parentRow.AddChildAssociation(parentAssociation, row);
-        } else {
+        else {
           IEnumerable<MemberAndOwner> parentAssociations = reverses.Where(x => x.ActualOwner == parentRow.Entity);
 
           // This is a serious limitation in my implementation. It does not handle the simple case where an entity has two addresses,
@@ -243,28 +249,40 @@ namespace x10.gen.sql {
       IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
       foreach (MemberAndOwner memberAndOwner in allColumns)
-        switch (memberAndOwner.Type) {
-          case ColumnType.Attribute:
-            row.Values.Add(_atomicDataGenerator.Generate(_random, context, memberAndOwner.Attribute, externalRow));
-            break;
-          case ColumnType.ForwardAssociation:
-            row.Values.Add(CreateForwardAssociationValue(memberAndOwner.Association));
-            break;
-          case ColumnType.ReverseAssociation:
-            if (!AllowMultipleReverseAssociationsToSameEntity)
+        if (AllowMultipleReverseAssociationsToSameEntity) {
+          X10Attribute attribute = memberAndOwner.Attribute;
+          Association assoc = memberAndOwner.Association;
+          if (attribute != null)
+            row.Values.Add(_atomicDataGenerator.Generate(_random, context, attribute, externalRow));
+          else if (assoc?.Owns == true) {
+            // Do nothing
+          } else if (assoc?.Owns == false) {
+              row.Values.Add(CreateNonOwnedAssociationValue(assoc));
+          } else
+            throw new Exception("Member is unexpected: " + memberAndOwner.Member);
+        } else {
+          switch (memberAndOwner.Type) {
+            case ColumnType.Attribute:
+              row.Values.Add(_atomicDataGenerator.Generate(_random, context, memberAndOwner.Attribute, externalRow));
+              break;
+            case ColumnType.ForwardAssociation:
+              row.Values.Add(CreateNonOwnedAssociationValue(memberAndOwner.Association));
+              break;
+            case ColumnType.ReverseAssociation:
               row.Values.Add(new MemberAndValue() {
                 Member = memberAndOwner.Association,
                 Value = memberAndOwner == parentAssociationMO ? parentRow.Id : (int?)null,
               });
-            break;
-          default:
-            throw new Exception("Unexpected member and association type: " + memberAndOwner.Type);
+              break;
+            default:
+              throw new Exception("Unexpected member and association type: " + memberAndOwner.Type);
+          }
         }
 
       return row;
     }
 
-    private MemberAndValue CreateForwardAssociationValue(Association association) {
+    private MemberAndValue CreateNonOwnedAssociationValue(Association association) {
       Entity entity = association.ReferencedEntity;
       GenerateForEntity(entity);
 
@@ -301,8 +319,13 @@ namespace x10.gen.sql {
     }
 
     private int GetCount(Entity entity) {
-      if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity))
+      if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity)) {
+        DataGenerationContext context = EntityInfos[entity].Context;
+        if (context.ExternalDataFiles.Count == 1)
+          return context.ExternalDataFiles.Single().Count;
         return 0;
+      }
+        
       return TestingReducedNumberOfRows ?? quantity;
     }
     #endregion

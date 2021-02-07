@@ -27,7 +27,7 @@ namespace x10.gen.sql {
 
     public static void Generate(IEnumerable<Entity> entities, TextWriter writer) {
 
-      DeclaredColumnsCalculator reverse = new DeclaredColumnsCalculator(entities);
+      DeclaredColumnsCalculator reverse = new DeclaredColumnsCalculator(entities, false);
       entities = reverse.GetRealEntities();
 
       // Generate Tables

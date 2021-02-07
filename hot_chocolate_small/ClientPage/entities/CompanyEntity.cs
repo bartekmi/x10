@@ -81,11 +81,6 @@ namespace x10.hotchoc.ClientPage.Entities {
     [GraphQLNonNullType]
     public List<VatNumber>? VatNumbers { get; set; }
     public NetsuiteVendor? NetsuiteVendorId { get; set; }
-    [GraphQLNonNullType]
-    public List<Company>? InvoicedBy { get; set; }
-    public Company? InvoicedByDefault { get; set; }
-    [GraphQLNonNullType]
-    public List<Currency>? InvoiceCurrencies { get; set; }
     public Currency? InvoiceCurrencyDefault { get; set; }
 
     public override void EnsureUniqueDbid() {

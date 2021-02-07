@@ -37,17 +37,17 @@ namespace x10.hotchoc.ClientPage {
     public string CreateOrUpdateCompany(
         string id,
         string? website,
-        string primaryEntityId,
+        CompanyEntity primaryEntity,
         IEnumerable<CompanyEntity> entities,
-        string primaryContactId,
+        Contact primaryContact,
         IEnumerable<User> users,
         [Service] IRepository repository) {
 
       Company company = new Company() {
         Website = website,
-        PrimaryEntity = repository.GetCompanyEntity(IdUtils.FromRelayIdMandatory(primaryEntityId)),
+        PrimaryEntity = primaryEntity,
         Entities = entities.ToList(),
-        PrimaryContact = repository.GetUser(IdUtils.FromRelayIdMandatory(primaryContactId)),
+        PrimaryContact = primaryContact,
         Users = users.ToList(),
       };
 
@@ -125,9 +125,6 @@ namespace x10.hotchoc.ClientPage {
         Address? physicalAddress,
         IEnumerable<VatNumber> vatNumbers,
         string? netsuiteVendorIdId,
-        IEnumerable<Company> invoicedById,
-        string? invoicedByDefaultId,
-        IEnumerable<Currency> invoiceCurrenciesId,
         string? invoiceCurrencyDefaultId,
         [Service] IRepository repository) {
 
@@ -153,9 +150,6 @@ namespace x10.hotchoc.ClientPage {
         PhysicalAddress = physicalAddress,
         VatNumbers = vatNumbers.ToList(),
         NetsuiteVendorId = repository.GetNetsuiteVendor(IdUtils.FromRelayIdMandatory(netsuiteVendorIdId)),
-        InvoicedBy = repository.GetCompany(IdUtils.FromRelayIdMandatory(invoicedById)),
-        InvoicedByDefault = repository.GetCompany(IdUtils.FromRelayIdMandatory(invoicedByDefaultId)),
-        InvoiceCurrencies = repository.GetCurrency(IdUtils.FromRelayIdMandatory(invoiceCurrenciesId)),
         InvoiceCurrencyDefault = repository.GetCurrency(IdUtils.FromRelayIdMandatory(invoiceCurrencyDefaultId)),
       };
 

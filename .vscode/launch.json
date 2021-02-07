@@ -66,12 +66,26 @@
 
     // Run the Hot Chocolate GraphQL Server
     {
-      "name": "Hot Choc Server",
+      "name": "Hot Choc Small",
       "type":"coreclr",
       "request":"launch",
       "preLaunchTask": "build_hot_chocolate",
       "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
-      "args": [],
+      "args": ["small"],
+      "cwd": "${workspaceFolder}/hot_chocolate_small",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }      
+    },
+    {
+      "name": "Hot Choc CP",
+      "type":"coreclr",
+      "request":"launch",
+      "preLaunchTask": "build_hot_chocolate",
+      "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
+      "args": ["cp"],
       "cwd": "${workspaceFolder}/hot_chocolate_small",
       "console": "internalConsole",
       "stopAtEntry": false,

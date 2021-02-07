@@ -8,6 +8,7 @@ using x10.model.definition;
 namespace x10.gen.sql {
   internal class DeclaredColumnsCalculator {
 
+    private bool _useForwardRefsForOwnedAssociations;
     private Dictionary<Entity, List<MemberAndOwner>> _reverseAssociations;
     private IEnumerable<Entity> _realEntities;
 
@@ -28,8 +29,10 @@ namespace x10.gen.sql {
       }
     }
 
-    internal DeclaredColumnsCalculator(IEnumerable<Entity> entities) {
+    internal DeclaredColumnsCalculator(IEnumerable<Entity> entities, bool useForwardRefsForOwnedAssociations) {
+      _useForwardRefsForOwnedAssociations = useForwardRefsForOwnedAssociations;
       _realEntities = entities.Where(x => !Ignore(x));
+
       List<MemberAndOwner> reverseOwners = new List<MemberAndOwner>();
 
       foreach (Entity entity in _realEntities)
@@ -75,8 +78,8 @@ namespace x10.gen.sql {
     // have a choice, since the Foreign Key (FK) could point in either direction.
     // We choose the simpler (though potentially less performant) options where ALL owned
     // associations point from child to parent.
-    internal static bool IsReverse(Association association) {
-      return association.Owns;
+    internal bool IsReverse(Association association) {
+      return !_useForwardRefsForOwnedAssociations && association.Owns;
     }
 
     // TODO: This is a bit of a hack until we introduce derived associations
@@ -110,8 +113,8 @@ namespace x10.gen.sql {
     internal Entity ActualOwner { get; private set; }
 
     // Derived
-    internal Association Association { get { return (Association)Member; } }
-    internal X10Attribute Attribute { get { return (X10Attribute)Member; } }
+    internal Association Association { get { return Member as Association; } }
+    internal X10Attribute Attribute { get { return Member as X10Attribute; } }
 
     internal MemberAndOwner(ColumnType type, Member member, Entity owner = null) {
       Type = type;

@@ -95,20 +95,24 @@ associations:
     dataType: NetsuiteVendor
     owns: false
 
-  - name: invoicedBy
-    dataType: Company
-    owns: false
-    many: true
+# Do we implement full-on many-to-many associations (has_and_belongs_to_many in ActiveRecord) or
+# do we just create an intermediate mini-entity with only a single non-owned association?
+  # - name: invoicedBy
+  #   dataType: CompanyEntity
+  #   owns: false
+  #   many: true
 
 # Must be chosen from subset above - how to represent?
-  - name: invoicedByDefault
-    dataType: Company
-    owns: false
+# Also, this introduces a circular dependency, which is a problem for datga generation - deal with this later.
+  # - name: invoicedByDefault
+  #   dataType: CompanyEntity
+  #   owns: false
 
-  - name: invoiceCurrencies
-    dataType: Currency
-    owns: false
-    many: true
+# Ditto
+  # - name: invoiceCurrencies
+  #   dataType: Currency
+  #   owns: false
+  #   many: true
 
 # Must be chosen from subset above - how to represent?
   - name: invoiceCurrencyDefault
