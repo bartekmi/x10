@@ -10,13 +10,13 @@ import Menu from 'react_lib/menu/Menu';
 import MenuItem from 'react_lib/menu/MenuItem';
 import SpaContent from 'react_lib/SpaContent';
 
-import BuildingFormInterface from 'ui/BuildingFormInterface';
-import BuildingsInterface from 'ui/BuildingsInterface';
-import MoveFormInterface from 'ui/MoveFormInterface';
-import MovesInterface from 'ui/MovesInterface';
-import MoveViewInterface from 'ui/MoveViewInterface';
-import TenantFormInterface from 'ui/TenantFormInterface';
-import TenantsInterface from 'ui/TenantsInterface';
+import BuildingFormInterface from 'small/ui/BuildingFormInterface';
+import BuildingsInterface from 'small/ui/BuildingsInterface';
+import MoveFormInterface from 'small/ui/MoveFormInterface';
+import MovesInterface from 'small/ui/MovesInterface';
+import MoveViewInterface from 'small/ui/MoveViewInterface';
+import TenantFormInterface from 'small/ui/TenantFormInterface';
+import TenantsInterface from 'small/ui/TenantsInterface';
 
 
 

@@ -69,8 +69,11 @@ namespace x10.gen.react {
       });
     }
 
-    public void ImportDefault(IAcceptsUiAttributeValues uiObject) {
+    public void ImportDefault(IAcceptsUiAttributeValues uiObject, string appendToName = null) {
       string path = ToPathNoExtension(uiObject.XmlElement);
+      if (appendToName != null)
+        path += appendToName;
+        
       ImportDefault(path, ImportLevel.Project);
     }
     #endregion

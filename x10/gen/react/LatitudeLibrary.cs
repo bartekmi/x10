@@ -645,8 +645,7 @@ namespace x10.gen.react {
               continue;
 
             string compInterface = classDef.Name + "Interface";
-            string relPath = classDef.XmlElement.FileInfo.RelativeDir;
-            generator.ImportsPlaceholder.ImportDefault(Path.Combine(relPath, compInterface), ImportLevel.Project);
+            generator.ImportsPlaceholder.ImportDefault(classDef, "Interface");
 
             if (classDef.IsMany)
               generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
