@@ -15,36 +15,50 @@ using HotChocolate.Execution;
 namespace x10.hotchoc {
 
   public class HotChocConfig {
-    public string CommandLine { get; set; }
-    public string ProjectName { get; set; }
-    public string MetadataDir { get; set; }
-    public Type RepositoryInterface { get; set; }
-    public RepositoryBase Repository {get;set;}
+    public string CommandLine { get; private set; }
+    public string ProjectName { get; private set; }
+    public string MetadataDir { get; private set; }
+    public Type RepositoryInterface { get; private set; }
+    public RepositoryBase Repository { get; private set; }
 
     // Derived
     public string SchemaOutputFile => string.Format("../{0}.graphql", ProjectName);
+
+    internal HotChocConfig(
+     string commandLine,
+     string projectName,
+     string metadataDir,
+     Type repositoryInterface,
+     RepositoryBase repository
+    ) {
+      CommandLine = commandLine;
+      ProjectName = projectName;
+      MetadataDir = metadataDir;
+      RepositoryInterface = repositoryInterface;
+      Repository = repository;
+    }
   }
 
   public class Program {
 
     private static readonly HotChocConfig[] CONFIGS = new HotChocConfig[] {
-      new HotChocConfig() {
-        CommandLine = "small",
-        ProjectName = "SmallSample",
-        MetadataDir = "../x10/examples/small",
-        RepositoryInterface = typeof(SmallSample.Repositories.IRepository),
-        Repository = new SmallSample.Repositories.Repository(),
-      },
-      new HotChocConfig() {
-        CommandLine = "cp",
-        ProjectName = "ClientPage",
-        MetadataDir = "../x10/examples/client_page",
-        RepositoryInterface = typeof(ClientPage.Repositories.IRepository),
-        Repository = new ClientPage.Repositories.Repository(),
-      },
+      new HotChocConfig(
+        commandLine: "small",
+        projectName: "SmallSample",
+        metadataDir: "../x10/examples/small",
+        repositoryInterface: typeof(SmallSample.Repositories.IRepository),
+        repository: new SmallSample.Repositories.Repository()
+      ),
+      new HotChocConfig(
+        commandLine: "cp",
+        projectName: "ClientPage",
+        metadataDir: "../x10/examples/client_page",
+        repositoryInterface: typeof(ClientPage.Repositories.IRepository),
+        repository: new ClientPage.Repositories.Repository()
+      ),
     };
 
-    internal static HotChocConfig Config;
+    internal static HotChocConfig Config = null!;
 
     public static async Task Main(string[] args) {
       Config = ExtractConfig(args);
@@ -72,7 +86,7 @@ namespace x10.hotchoc {
       if (config == null)
         PrintUsageAndExit();
 
-      return config;
+      return config!;
     }
 
     private static void PrintUsageAndExit() {

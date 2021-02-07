@@ -28,7 +28,7 @@ namespace x10.hotchoc.ClientPage.Entities {
 
 
   /// <summary>
-  /// A legal entity - typically a corporation - which belongs to a <Company>
+  /// A legal entity - typically a corporation - which belongs to a [Company]
   /// </summary>
   public class CompanyEntity : Base {
     // Regular Attributes

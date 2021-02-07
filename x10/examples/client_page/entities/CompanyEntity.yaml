@@ -1,6 +1,6 @@
 name: CompanyEntity
 inheritsFrom: Base
-description: A legal entity - typically a corporation - which belongs to a <Company>
+description: A legal entity - typically a corporation - which belongs to a [Company]
 
 attributes:
   - name: legalName

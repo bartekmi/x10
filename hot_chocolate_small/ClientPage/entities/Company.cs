@@ -5,7 +5,7 @@ using HotChocolate;
 
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
-  /// An entity we do business with - mostly an umbrellay for <CompanyEntity>'s
+  /// An entity we do business with - mostly an umbrellay for [CompanyEntity]'s
   /// </summary>
   public class Company : Base {
     // Regular Attributes

@@ -1,6 +1,6 @@
 name: Company
 inheritsFrom: Base
-description: An entity we do business with - mostly an umbrellay for <CompanyEntity>'s
+description: An entity we do business with - mostly an umbrellay for [CompanyEntity]'s
 datagen_quantity: 25
 
 attributes:
