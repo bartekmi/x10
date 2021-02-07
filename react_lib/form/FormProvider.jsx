@@ -2,7 +2,6 @@
 
 import stringOrFalse from "latitude/tools/stringOrFalse";
 import * as React from "react";
-import { buildingCalculateErrors } from "../../../x10_generated/entities/Building";
 
 export type FormError = {|
   +error: string,

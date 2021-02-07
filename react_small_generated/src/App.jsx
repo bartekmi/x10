@@ -5,31 +5,59 @@
 import * as React from "react";
 import { graphql, QueryRenderer } from "react-relay";
 import { Route, Router } from "react-router-dom";
-import {StyleSheet, css} from "aphrodite";
+import { StyleSheet, css } from "aphrodite";
 
 import ConnectedToaster from "latitude/toast/ConnectedToaster";
-import {whitespaceSizeConstants} from "latitude/styles/whitespace";
+import Group from "latitude/Group";
+import Button from "latitude/button/Button";
+import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 
-import { AppContextProvider } from "AppContext";
+import { SmallAppContextProvider } from "SmallAppContext";
 
-import Header from "../x10_generated/ui/Header";
+import SmallHeader from "../x10_generated/small/ui/Header";
+import ClientPageHeader from "../x10_generated/client_page/ui/Header";
 
 export default function App(): React.Node {
+  const [app, setApp] = React.useState(null);
 
   const appContext = {
     today: new Date().toISOString(),
   };
 
-  return (
-    <>
-      <ConnectedToaster />
-      <AppContextProvider value={appContext}>
-        <div className={css(styles.app)}>
-          <Header/>
-        </div>
-      </AppContextProvider>
-    </>
-  );
+  if (app == null) {
+    return (
+      <Group>
+        <Button onClick={setApp("small")}>Small App</Button>
+        <Button onClick={setApp("client_page")}>Client Page App</Button>
+      </Group>
+    );
+  }
+
+  else if (app == "small") {
+    return (
+      <>
+        <ConnectedToaster />
+        <SmallAppContextProvider value={appContext}>
+          <div className={css(styles.app)}>
+            <SmallHeader />
+          </div>
+        </SmallAppContextProvider>
+      </>
+    );
+  }
+
+  else if (app == "client_page") {
+    return (
+      <>
+        <ConnectedToaster />
+          <div className={css(styles.app)}>
+            <ClientPageHeader />
+          </div>
+      </>
+    );
+  }
+
+  throw "Unknown app!!!";
 }
 
 

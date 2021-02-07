@@ -1,0 +1,8 @@
+<Header>
+  <VerticalStackPanel>
+    <Menu>
+      <MenuItem label="All Clients" url="/clients"/>
+    </Menu>
+    <SpaContent rootComponent="Clients"/>
+  </VerticalStackPanel>
+</Header>
