@@ -49,6 +49,7 @@ namespace x10 {
       PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
       Generator = new ReactCodeGenerator() {
         GeneratedCodeSubdir = "small",
+        AppContextImport = "SmallAppContext",
       },
       PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
@@ -65,6 +66,7 @@ namespace x10 {
       PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
       Generator = new ReactCodeGenerator() {
         GeneratedCodeSubdir = "client_page",
+        AppContextImport = "ClientPageAppContext",
       },
       PostGenerationScript = new ScriptInfo() {
           Script = "yarn",

@@ -24,8 +24,9 @@ namespace x10.gen.react {
     #region Import Placeholder
     internal ImportsPlaceholder ImportsPlaceholder;
     internal string GeneratedCodeSubdir;
+    internal string AppContextImport;
     internal void InsertImportsPlaceholder() {
-      ImportsPlaceholder = new ImportsPlaceholder(GeneratedCodeSubdir);
+      ImportsPlaceholder = new ImportsPlaceholder(GeneratedCodeSubdir, AppContextImport);
       AddPlaceholder(ImportsPlaceholder);
     }
     #endregion

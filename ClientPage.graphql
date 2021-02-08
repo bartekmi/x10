@@ -35,6 +35,7 @@ type Client {
   dbid: Int!
 }
 
+"An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
 type Company {
   website: String!
   toStringRepresentation: String!
@@ -46,6 +47,7 @@ type Company {
   dbid: Int!
 }
 
+"A legal entity - typically a corporation - which belongs to a [Company]"
 type CompanyEntity {
   legalName: String!
   coreId: Int
@@ -588,6 +590,7 @@ input CompanyEntityCountryServiceSort {
   dbid: SortOperationKind
 }
 
+"A legal entity - typically a corporation - which belongs to a [Company]"
 input CompanyEntityFilter {
   AND: [CompanyEntityFilter!]
   OR: [CompanyEntityFilter!]
@@ -787,6 +790,7 @@ input CompanyEntityFilter {
   dbid_not_lte: Int
 }
 
+"A legal entity - typically a corporation - which belongs to a [Company]"
 input CompanyEntityInput {
   legalName: String!
   coreId: Int
@@ -816,6 +820,7 @@ input CompanyEntityInput {
   dbid: Int!
 }
 
+"A legal entity - typically a corporation - which belongs to a [Company]"
 input CompanyEntitySort {
   legalName: SortOperationKind
   coreId: SortOperationKind
@@ -844,6 +849,7 @@ input CompanyEntitySort {
   dbid: SortOperationKind
 }
 
+"An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
 input CompanyFilter {
   AND: [CompanyFilter!]
   OR: [CompanyFilter!]
@@ -901,6 +907,7 @@ input CompanyFilter {
   dbid_not_lte: Int
 }
 
+"An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
 input CompanyInput {
   website: String!
   toStringRepresentation: String!
@@ -912,6 +919,7 @@ input CompanyInput {
   dbid: Int!
 }
 
+"An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
 input CompanySort {
   website: SortOperationKind
   toStringRepresentation: SortOperationKind

@@ -49,11 +49,13 @@ namespace x10.gen.react {
 
     private List<ImportData> _imports = new List<ImportData>();
     private string _generatedCodeSubdir;
+    private string _appContextImport;
 
     // generatedCodeSubdir is the directory into which code is generated RELATIVE TO "x10_generated".
     // We will pre-pend this to all paths accessing generated components
-    public ImportsPlaceholder(string generatedCodeSubdir) {
+    public ImportsPlaceholder(string generatedCodeSubdir, string appContextImport) {
       _generatedCodeSubdir = generatedCodeSubdir;
+      _appContextImport = appContextImport;
     }
     #endregion
 
@@ -133,7 +135,7 @@ namespace x10.gen.react {
 
     public void ImportAppContext() {
       ImportReact();
-      Import("AppContext", "AppContext", ImportLevel.Project);
+      Import("AppContext", _appContextImport, ImportLevel.Project);
     }
 
     public void ImportReact() {
