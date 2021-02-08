@@ -33,7 +33,7 @@ namespace x10.gen.react {
       public override bool Equals(object obj) {
         ImportData other = (ImportData)obj;
 
-        return 
+        return
           other.ImportName == ImportName &&
           other.Path == Path &&
           other.IsType == IsType &&
@@ -41,7 +41,7 @@ namespace x10.gen.react {
       }
 
       public override int GetHashCode() {
-        return 
+        return
           ImportName.GetHashCode() +
           Path.GetHashCode();
       }
@@ -75,7 +75,7 @@ namespace x10.gen.react {
       string path = ToPathNoExtension(uiObject.XmlElement);
       if (appendToName != null)
         path += appendToName;
-        
+
       ImportDefault(path, ImportLevel.Project);
     }
     #endregion
@@ -149,13 +149,19 @@ namespace x10.gen.react {
 
     public void ImportFunction(Function function) {
       string functionName = ReactCodeGenerator.FunctionName(function);
-      string path = "react_lib/utils/" + functionName;
-      ImportDefault(path, ImportLevel.ThirdParty);
+
+      if (function.ImportDir == null) {
+        string path = "react_lib/utils/" + functionName;
+        ImportDefault(path, ImportLevel.ThirdParty);
+      } else {
+        string path = Path.Combine(function.ImportDir, functionName);
+        ImportDefault(path, ImportLevel.Project);
+      }
     }
     #endregion
 
     #region Write Implementation
-    public override void Write(TextWriter writer)  {
+    public override void Write(TextWriter writer) {
       foreach (ImportData import in _imports) {
         if (import.Path.StartsWith("latitude"))
           import.ImportSubLevel = 1;
@@ -184,7 +190,7 @@ namespace x10.gen.react {
 
       foreach (IGrouping<string, ImportData> group in orderedImportGroups) {
         ImportData defaultImport = group.SingleOrDefault(x => x.IsDefault);
-        IEnumerable<ImportData> nonDefaultImports= group.Where(x => !x.IsDefault);
+        IEnumerable<ImportData> nonDefaultImports = group.Where(x => !x.IsDefault);
         bool hasNonDefaults = nonDefaultImports.Count() > 0;
 
         writer.Write("import ");

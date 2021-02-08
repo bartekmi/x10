@@ -203,6 +203,11 @@ namespace x10.ui.libraries {
             Description = "Text placed to the right of the checkbox",
             DataType = DataTypes.Singleton.String,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "onChange",
+            Description = "Function to invoke when state is changed",
+            DataType = DataTypes.Singleton.Boolean,
+          },
         },
       },
       new ClassDefNative() {

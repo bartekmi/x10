@@ -36,7 +36,8 @@
         </Row>
         <RepellingRow>
           <Row>
-            <Checkbox path="isPrimary" checkboxLabel="Primary Entity" readOnly="=isPrimary"/>
+            <Checkbox path="isPrimary" checkboxLabel="Primary Entity" readOnly="=isPrimary"
+              checked="=isPrimary" onChange="=SetCompanyEntityAsPrimary(id)"/>
             <HelpIcon text="You can change the primary entity by selecting..." visible="=isPrimary"/>
           </Row>
         </RepellingRow>

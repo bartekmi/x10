@@ -169,6 +169,10 @@ namespace x10.gen.react {
             LogicalName = "readOnly",
             PlatformName = "disabled",
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "onChange",
+            PlatformName = "onChange",
+          },
         },
       },
       new PlatformClassDef() {

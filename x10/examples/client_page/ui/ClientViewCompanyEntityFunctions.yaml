@@ -1,0 +1,6 @@
+﻿- name: SetCompanyEntityAsPrimary
+  returnDataType: Boolean
+  importDir: client_page
+  arguments:
+    - name: id
+      dataType: String

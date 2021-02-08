@@ -17,6 +17,7 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
@@ -98,11 +99,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           <Group>
             <Checkbox
               checked={ companyEntity.isPrimary }
-              onChange={ (value) => {
-                onChange({ ...companyEntity, isPrimary: value })
-              } }
               label='Primary Entity'
               disabled={ companyEntity.isPrimary }
+              onChange={ setCompanyEntityAsPrimary(companyEntity.id) }
             />
             <VisibilityControl
               visible={ companyEntity.isPrimary }

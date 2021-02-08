@@ -30,6 +30,7 @@ namespace x10.model {
   public class Function : IAcceptsModelAttributeValues {
     public string Name { get; set; }
     public string Description { get; set; }
+    public string ImportDir { get; set; }
     public DataType ReturnType { get; set; }
     public List<Argument> Arguments { get; set; }
 
@@ -51,7 +52,7 @@ namespace x10.model {
   public class AllFunctions {
     // The reason the values are a list is to account for problems where multiple 
     // functions with the same name have been defined 
-    private readonly Dictionary<string, List<Function>> _functionsByName 
+    private readonly Dictionary<string, List<Function>> _functionsByName
       = new Dictionary<string, List<Function>>();
     private readonly MessageBucket _messages;
 
@@ -67,8 +68,8 @@ namespace x10.model {
       functions.Add(func);
     }
 
-    public IEnumerable<Function> All { 
-      get { return _functionsByName.Values.SelectMany(x => x);  } 
+    public IEnumerable<Function> All {
+      get { return _functionsByName.Values.SelectMany(x => x); }
     }
 
     internal Function FindFunctionErrorIfMultiple(string name, IParseElement parseElement) {

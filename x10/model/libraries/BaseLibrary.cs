@@ -381,6 +381,13 @@ Typical use would be if entities are going to be represented on a drop-down.",
           func.ReturnType = allEnums.FindDataTypeByNameWithError(dataTypeName, attributeValue.TreeElement);
         },
       },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "importDir",
+        Description = "Optional import directory for the function",
+        AppliesTo = AppliesTo.Function,
+        DataType = DataTypes.Singleton.String,
+        Setter = "ImportDir",
+      },
 
       new ModelAttributeDefinitionAtomic() {
         Name = "name",

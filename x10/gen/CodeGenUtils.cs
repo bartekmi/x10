@@ -45,6 +45,8 @@ namespace x10.gen {
       return parser.Parse(null, pathAsString, new X10DataType(path.First().Owner, false));
     }
 
+    // TODO: Currently, this method has no way to indicate that the readOnly attribute
+    // is a formula (e.g. Checkbox in ClientViewCompanyEntity.xml)
     public static bool IsReadOnly(Instance instance) {
       // First, check if the Models force read-only (if model defines read-only, the member can NEVER be editable)
       IEnumerable<Member> path = GetBindingPath(instance);
