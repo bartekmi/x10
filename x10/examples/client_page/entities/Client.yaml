@@ -1,14 +1,16 @@
 name: Client
 inheritsFrom: Base
 description: More information about a company that we do business with as a client (we sell them stuff)
+datagen_quantity: 25
 
 attributes:
   - name: salesforceAccountRef
     dataType: String
+    datagen_pattern: ~00LNNNNNNNLNNNLLL~
 
   - name: referredBy
     dataType: String
-    datagen_pattern: <first_name> <last_name>
+    datagen_pattern: (60% => | 40% => <first_name> <last_name>)
 
   - name: status
     dataType: ClientStatus
@@ -29,16 +31,22 @@ attributes:
     dataType: Integer
     mandatory: true
     readOnly: true
+    datagen_min: 0
+    datagen_max: 30
 
   - name: shipmentsAsShipper
     dataType: Integer
     mandatory: true
     readOnly: true
+    datagen_min: 0
+    datagen_max: 30
 
   - name: shipmentsAsConsignee
     dataType: Integer
     mandatory: true
     readOnly: true
+    datagen_min: 0
+    datagen_max: 30
 
 associations:
 # Note that this is reversed. Doing this as an expedient way to get around the problem

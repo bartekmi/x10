@@ -1,11 +1,11 @@
 name: Company
 inheritsFrom: Base
 description: An entity we do business with - mostly an umbrella for [CompanyEntity]'s
-datagen_quantity: 25
 
 attributes:
   - name: website
     dataType: String
+    datagen_pattern: (30% => | 70% => www.<adjective><noun>.com)
 
 associations:
 # primaryEntity is NOT "owned" - in the sense of being independent from the content of "entities".

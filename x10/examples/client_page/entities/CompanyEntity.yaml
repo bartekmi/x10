@@ -6,10 +6,14 @@ attributes:
   - name: legalName
     dataType: String
     mandatory: true
+    datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
+    datagen_capitalization: wordCaps
 
   - name: coreId
     dataType: Integer
     readOnly: true
+    datagen_min: 1
+    datagen_max: 50000
 
   - name: companyType
     dataType: CompanyEntityType

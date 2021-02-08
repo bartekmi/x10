@@ -42,6 +42,10 @@ namespace x10.hotchoc {
     private FakeDataGenerator GenerateData(string x10ProjectDir) {
       EntitiesAndEnumsCompiler compiler = new EntitiesAndEnumsCompiler(_messages, new AllEnums(_messages), new AllFunctions(_messages));
       List<Entity> entities = compiler.Compile(x10ProjectDir);
+      if (_messages.HasErrors) {
+        _messages.DumpErrors();
+        Environment.Exit(1);
+      }
 
       FakeDataGenerator generator = new FakeDataGenerator(_messages, entities, new Random(0), "../data") {
         AllowMultipleReverseAssociationsToSameEntity = true,
