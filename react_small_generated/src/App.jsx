@@ -12,7 +12,7 @@ import Group from "latitude/Group";
 import Button from "latitude/button/Button";
 import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 
-import { SmallAppContextProvider } from "SmallAppContext";
+import { AppContextProvider as SmallAppContextProvider } from "SmallAppContext";
 
 import SmallHeader from "../x10_generated/small/ui/Header";
 import ClientPageHeader from "../x10_generated/client_page/ui/Header";
