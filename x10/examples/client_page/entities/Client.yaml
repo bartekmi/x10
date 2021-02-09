@@ -1,7 +1,7 @@
 name: Client
 inheritsFrom: Base
 description: More information about a company that we do business with as a client (we sell them stuff)
-datagen_quantity: 25
+datagen_quantity: 1
 
 attributes:
   - name: salesforceAccountRef

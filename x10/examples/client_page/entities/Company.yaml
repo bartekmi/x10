@@ -13,12 +13,13 @@ associations:
 # Currently, setting "owns" to false causes issues in data generation.
   - name: primaryEntity
     dataType: CompanyEntity
-    mandatory: true
+    mandatory: false
     owns: true
   - name: entities
     dataType: CompanyEntity
     many: true
     owns: true
+    datagen_quantity: 1
     
   - name: primaryContact
     dataType: Contact
@@ -28,3 +29,4 @@ associations:
     dataType: User
     many: true
     owns: true
+    datagen_quantity: 1..3
