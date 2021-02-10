@@ -13,7 +13,6 @@ namespace x10.gen.sql {
     internal List<ExternalDataFile> ExternalDataFiles = new List<ExternalDataFile>();
     private Random _random;
     private StaticDictionaries _staticDictionaries;
-    private string _dataFilesRoot;
 
     private const string DEFAULT_DATA_FILES_ROOT = @".";  // Copied by build process
 
