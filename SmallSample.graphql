@@ -12,6 +12,7 @@ type Address {
   zip: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -29,6 +30,7 @@ type Building {
   physicalAddress: Address!
   mailingAddress: Address
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -40,6 +42,7 @@ type Move {
   to: Building!
   tenant: Tenant!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -87,6 +90,7 @@ type Tenant {
   toStringRepresentation: String!
   permanentMailingAddress: Address!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -99,6 +103,7 @@ type Unit {
   hasBalcony: Boolean!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -176,6 +181,18 @@ input AddressFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -199,6 +216,7 @@ input AddressInput {
   zip: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -211,6 +229,7 @@ input AddressSort {
   zip: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -312,6 +331,18 @@ input BuildingFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -339,6 +370,7 @@ input BuildingSort {
   physicalAddress: AddressSort
   mailingAddress: AddressSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -381,6 +413,18 @@ input MoveFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -403,6 +447,7 @@ input MoveSort {
   to: BuildingSort
   tenant: TenantSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -461,6 +506,18 @@ input TenantFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -483,6 +540,7 @@ input TenantSort {
   toStringRepresentation: SortOperationKind
   permanentMailingAddress: AddressSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -558,6 +616,18 @@ input UnitFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -581,6 +651,7 @@ input UnitInput {
   hasBalcony: Boolean!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -593,6 +664,7 @@ input UnitSort {
   hasBalcony: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 

@@ -27,8 +27,8 @@ export default function App(): React.Node {
   if (app == null) {
     return (
       <Group>
-        <Button onClick={setApp("small")}>Small App</Button>
-        <Button onClick={setApp("client_page")}>Client Page App</Button>
+        <Button onClick={() => setApp("small")}>Small App</Button>
+        <Button onClick={() => setApp("client_page")}>Client Page App</Button>
       </Group>
     );
   }
@@ -50,9 +50,9 @@ export default function App(): React.Node {
     return (
       <>
         <ConnectedToaster />
-          <div className={css(styles.app)}>
-            <ClientPageHeader />
-          </div>
+        <div className={css(styles.app)}>
+          <ClientPageHeader />
+        </div>
       </>
     );
   }
