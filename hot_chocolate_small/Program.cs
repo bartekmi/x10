@@ -4,6 +4,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -17,10 +19,12 @@ namespace x10.hotchoc {
   public class HotChocConfig {
     public string CommandLine { get; private set; }
     public string ProjectName { get; private set; }
-    public string? IntermediateOutputDir { get; private set; }
     public string MetadataDir { get; private set; }
     public Type RepositoryInterface { get; private set; }
     public RepositoryBase Repository { get; private set; }
+
+    public string? IntermediateOutputDir { get; internal set; }
+    public Action? PostInitializeAction { get; internal set; }
 
     // Derived
     public string SchemaOutputFile => string.Format("../{0}.graphql", ProjectName);
@@ -28,14 +32,12 @@ namespace x10.hotchoc {
     internal HotChocConfig(
      string commandLine,
      string projectName,
-     string? intermediateOutputDir,
      string metadataDir,
      Type repositoryInterface,
      RepositoryBase repository
     ) {
       CommandLine = commandLine;
       ProjectName = projectName;
-      IntermediateOutputDir = intermediateOutputDir;
       MetadataDir = metadataDir;
       RepositoryInterface = repositoryInterface;
       Repository = repository;
@@ -48,19 +50,26 @@ namespace x10.hotchoc {
       new HotChocConfig(
         commandLine: "small",
         projectName: "SmallSample",
-        intermediateOutputDir: "/Users/bmuszynski/temp/small",
         metadataDir: "../x10/examples/small",
         repositoryInterface: typeof(SmallSample.Repositories.IRepository),
         repository: new SmallSample.Repositories.Repository()
-      ),
+      ) {
+        IntermediateOutputDir = "/Users/bmuszynski/temp/small",
+      },
       new HotChocConfig(
         commandLine: "cp",
         projectName: "ClientPage",
-        intermediateOutputDir: "/Users/bmuszynski/temp/client_page",
         metadataDir: "../x10/examples/client_page",
         repositoryInterface: typeof(ClientPage.Repositories.IRepository),
         repository: new ClientPage.Repositories.Repository()
-      ),
+      ) {
+        IntermediateOutputDir = "/Users/bmuszynski/temp/client_page",
+        PostInitializeAction = () => {
+          var repository = (x10.hotchoc.ClientPage.Repositories.Repository)Config.Repository;
+          string json = JsonConvert.SerializeObject(repository.GetClients(), Formatting.Indented);
+          Console.WriteLine(json);
+        }
+      },
     };
 
     internal static HotChocConfig Config = null!;
@@ -69,6 +78,8 @@ namespace x10.hotchoc {
       Config = ExtractConfig(args);
 
       DataIngest.GenerateTestData(Config);
+      if (Config.PostInitializeAction != null)
+        Config.PostInitializeAction();
 
       // https://hotchocolategraphql.slack.com/archives/CD9TNKT8T/p1604414586468700
       ISchema schema = await Startup.BuildSchema(new ServiceCollection()).BuildSchemaAsync();

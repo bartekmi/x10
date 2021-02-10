@@ -1,8 +1,11 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
+using Newtonsoft.Json;
 
 using x10.utils;
 using x10.parsing;
@@ -35,12 +38,16 @@ namespace x10.hotchoc {
     public void Generate(string x10ProjectDir, RepositoryBase repository) {
       _messages = new MessageBucket();
 
+      // Generate
       FakeDataGenerator generator = GenerateData(x10ProjectDir);
+
+      // Print 
       if (_intermediateOutputDir != null) {
-        FakeDataPrinter printer = new FakeDataPrinter(_intermediateOutputDir);
+        FakeDataPrinter printer = new FakeDataPrinter(Path.Combine(_intermediateOutputDir, "generated"));
         printer.Print(generator);
       }
 
+      // Convert and Populate
       PopulateData(generator, repository);
 
       _messages.DumpErrors();

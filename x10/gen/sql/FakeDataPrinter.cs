@@ -20,7 +20,8 @@ namespace x10.gen.sql {
     }
 
     public void PrintEntityInfo(EntityInfo entityInfo) {
-      if (entityInfo.Rows.Count == 0)
+      IEnumerable<Row> rows = entityInfo.Rows.Where(x => !x.IsOwned);
+      if (rows.Count() == 0)
         return;
 
       if (!Directory.Exists(_outputDir))
@@ -29,7 +30,7 @@ namespace x10.gen.sql {
       string path = Path.Combine(_outputDir, entityInfo.Entity.Name + ".json");
       using TextWriter writer = new StreamWriter(path);
 
-      PrintRows(0, writer, entityInfo.Rows, false);
+      PrintRows(0, writer, rows, false);
     }
 
     private void PrintRows(int level, TextWriter writer, IEnumerable<Row> rows, bool appendComma) {

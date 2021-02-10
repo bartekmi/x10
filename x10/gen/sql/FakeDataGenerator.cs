@@ -199,7 +199,7 @@ namespace x10.gen.sql {
     }
 
     private Row GenerateSingleRow(Entity entity, Row parentRow, Association parentAssociation) {
-      Row row = CreateAndStoreRow(entity);
+      Row row = CreateAndStoreRow(entity, parentAssociation);
 
       MemberAndOwner parentAssociationMO = null;
       if (parentRow != null) {
@@ -276,11 +276,12 @@ namespace x10.gen.sql {
 
     #region Utilities
 
-    private Row CreateAndStoreRow(Entity entity) {
+    private Row CreateAndStoreRow(Entity entity, Association parentAssociation) {
       EntityInfo info = EntityInfos[entity];
       Row row = new Row() {
         Entity = entity,
         Id = info.NextId++,
+        OwnedByAssociation = parentAssociation,
       };
       info.Rows.Add(row);
       return row;

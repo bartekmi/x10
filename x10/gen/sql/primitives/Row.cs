@@ -8,8 +8,12 @@ namespace x10.gen.sql.primitives {
   public class Row {
     public int Id { get; internal set; }
     public Entity Entity { get; internal set; }
+    public Association OwnedByAssociation { get; internal set; }
     public List<MemberAndValue> Values = new List<MemberAndValue>();
     public Dictionary<Association, List<Row>> ChildAssociations { get; private set; }
+
+    // Derived
+    public bool IsOwned => OwnedByAssociation != null;
 
     public object ValueFor(Member member) {
       MemberAndValue memberAndValue = Values.Single(x => x.Member == member);
