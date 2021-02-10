@@ -22,10 +22,12 @@ namespace x10.hotchoc {
   public class DataIngest {
     private MessageBucket _messages = null!; // Instantiated in Generate()
     private string _packageName = null!;
+    private string? _intermediateOutputDir;
 
     public static void GenerateTestData(HotChocConfig config) {
       DataIngest ingest = new DataIngest() {
         _packageName = config.ProjectName,
+        _intermediateOutputDir = config.IntermediateOutputDir,
       };
       ingest.Generate(config.MetadataDir, config.Repository);
     }
@@ -34,6 +36,11 @@ namespace x10.hotchoc {
       _messages = new MessageBucket();
 
       FakeDataGenerator generator = GenerateData(x10ProjectDir);
+      if (_intermediateOutputDir != null) {
+        FakeDataPrinter printer = new FakeDataPrinter(_intermediateOutputDir);
+        printer.Print(generator);
+      }
+
       PopulateData(generator, repository);
 
       _messages.DumpErrors();

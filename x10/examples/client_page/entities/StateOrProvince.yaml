@@ -7,3 +7,4 @@ attributes:
   - name: name
     dataType: String
     mandatory: true
+    datagen_pattern: <noun>

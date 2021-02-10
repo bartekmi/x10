@@ -17,6 +17,7 @@ namespace x10.hotchoc {
   public class HotChocConfig {
     public string CommandLine { get; private set; }
     public string ProjectName { get; private set; }
+    public string? IntermediateOutputDir { get; private set; }
     public string MetadataDir { get; private set; }
     public Type RepositoryInterface { get; private set; }
     public RepositoryBase Repository { get; private set; }
@@ -27,12 +28,14 @@ namespace x10.hotchoc {
     internal HotChocConfig(
      string commandLine,
      string projectName,
+     string? intermediateOutputDir,
      string metadataDir,
      Type repositoryInterface,
      RepositoryBase repository
     ) {
       CommandLine = commandLine;
       ProjectName = projectName;
+      IntermediateOutputDir = intermediateOutputDir;
       MetadataDir = metadataDir;
       RepositoryInterface = repositoryInterface;
       Repository = repository;
@@ -45,6 +48,7 @@ namespace x10.hotchoc {
       new HotChocConfig(
         commandLine: "small",
         projectName: "SmallSample",
+        intermediateOutputDir: "/Users/bmuszynski/temp/small",
         metadataDir: "../x10/examples/small",
         repositoryInterface: typeof(SmallSample.Repositories.IRepository),
         repository: new SmallSample.Repositories.Repository()
@@ -52,6 +56,7 @@ namespace x10.hotchoc {
       new HotChocConfig(
         commandLine: "cp",
         projectName: "ClientPage",
+        intermediateOutputDir: "/Users/bmuszynski/temp/client_page",
         metadataDir: "../x10/examples/client_page",
         repositoryInterface: typeof(ClientPage.Repositories.IRepository),
         repository: new ClientPage.Repositories.Repository()
