@@ -20,7 +20,7 @@ namespace x10.gen.sql {
     }
 
     public void PrintEntityInfo(EntityInfo entityInfo) {
-      IEnumerable<Row> rows = entityInfo.Rows.Where(x => !x.IsOwned);
+      IEnumerable<Row> rows = entityInfo.NonOwnedRows;
       if (rows.Count() == 0)
         return;
 

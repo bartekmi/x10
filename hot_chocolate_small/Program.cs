@@ -67,7 +67,7 @@ namespace x10.hotchoc {
         PostInitializeAction = () => {
           var repository = (x10.hotchoc.ClientPage.Repositories.Repository)Config.Repository;
           string json = JsonConvert.SerializeObject(repository.GetClients(), Formatting.Indented);
-          Console.WriteLine(json);
+          File.WriteAllText(System.IO.Path.Combine(Config.IntermediateOutputDir, "hotchoc", "clients.json"), json);
         }
       },
     };

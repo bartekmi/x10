@@ -8,6 +8,10 @@ namespace x10.hotchoc {
         // Do nothing. Needed to make Hot Chocolate happy.
       }
     }
+    public int Hashcode {
+      get { return GetHashCode(); }
+      set {/* Do nothing */}
+    }
     public int Dbid { get; set; }
 
     private static int _nextUniqueDbid = 1000;

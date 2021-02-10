@@ -21,6 +21,9 @@ namespace x10.gen.sql {
     internal int NextId = 1;
     internal DataGenerationContext Context;
 
+    // Derived
+    public IEnumerable<Row> NonOwnedRows => Rows.Where(x => !x.IsOwned);
+
     internal int? RandomExistingId(Random random, Association association) {
       if (Rows.Count == 0)
         return null;

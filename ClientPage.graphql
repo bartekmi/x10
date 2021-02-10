@@ -14,6 +14,7 @@ type Address {
   country: Country!
   stateOrProvince: StateOrProvince!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -32,6 +33,7 @@ type Client {
   company: Company!
   primaryContact: Contact!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -44,6 +46,7 @@ type Company {
   primaryContact: Contact!
   users: [User!]!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -74,6 +77,7 @@ type CompanyEntity {
   netsuiteVendorId: NetsuiteVendor
   invoiceCurrencyDefault: Currency
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -84,6 +88,7 @@ type CompanyEntityCountryService {
   toStringRepresentation: String!
   country: Country!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -95,6 +100,7 @@ type Contact {
   email: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -105,6 +111,7 @@ type Country {
   toStringRepresentation: String!
   subRegions: [StateOrProvince!]!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -116,6 +123,7 @@ type CtpatReview {
   complianceContactEmail: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -125,6 +133,7 @@ type Currency {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -136,6 +145,7 @@ type Document {
   toStringRepresentation: String!
   uploadedBy: User
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -175,6 +185,7 @@ type NetsuiteVendor {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -242,6 +253,7 @@ type StateOrProvince {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -253,6 +265,7 @@ type User {
   email: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -262,6 +275,7 @@ type VatNumber {
   toStringRepresentation: String!
   countryRegion: Country!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -333,6 +347,18 @@ input AddressFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -358,6 +384,7 @@ input AddressInput {
   country: CountryInput!
   stateOrProvince: StateOrProvinceInput!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -372,6 +399,7 @@ input AddressSort {
   country: CountrySort
   stateOrProvince: StateOrProvinceSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -505,6 +533,18 @@ input ClientFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -534,6 +574,7 @@ input ClientSort {
   company: CompanySort
   primaryContact: ContactSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -566,6 +607,18 @@ input CompanyEntityCountryServiceFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -587,6 +640,7 @@ input CompanyEntityCountryServiceSort {
   toStringRepresentation: SortOperationKind
   country: CountrySort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -776,6 +830,18 @@ input CompanyEntityFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -817,6 +883,7 @@ input CompanyEntityInput {
   netsuiteVendorId: NetsuiteVendorInput
   invoiceCurrencyDefault: CurrencyInput
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -846,6 +913,7 @@ input CompanyEntitySort {
   netsuiteVendorId: NetsuiteVendorSort
   invoiceCurrencyDefault: CurrencySort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -893,6 +961,18 @@ input CompanyFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -916,6 +996,7 @@ input CompanyInput {
   primaryContact: ContactInput!
   users: [UserInput!]!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -926,6 +1007,7 @@ input CompanySort {
   primaryEntity: CompanyEntitySort
   primaryContact: ContactSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -993,6 +1075,18 @@ input ContactFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1015,6 +1109,7 @@ input ContactInput {
   email: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1026,6 +1121,7 @@ input ContactSort {
   email: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1077,6 +1173,18 @@ input CountryFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1098,6 +1206,7 @@ input CountryInput {
   toStringRepresentation: String!
   subRegions: [StateOrProvinceInput!]!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1107,6 +1216,7 @@ input CountrySort {
   name: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1170,6 +1280,18 @@ input CtpatReviewFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1192,6 +1314,7 @@ input CtpatReviewSort {
   complianceContactEmail: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1239,6 +1362,18 @@ input CurrencyFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1259,6 +1394,7 @@ input CurrencyInput {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1268,6 +1404,7 @@ input CurrencySort {
   name: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1328,6 +1465,18 @@ input DocumentFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1350,6 +1499,7 @@ input DocumentSort {
   toStringRepresentation: SortOperationKind
   uploadedBy: UserSort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1387,6 +1537,18 @@ input NetsuiteVendorFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1406,6 +1568,7 @@ input NetsuiteVendorInput {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1414,6 +1577,7 @@ input NetsuiteVendorSort {
   name: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1451,6 +1615,18 @@ input StateOrProvinceFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1470,6 +1646,7 @@ input StateOrProvinceInput {
   name: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1478,6 +1655,7 @@ input StateOrProvinceSort {
   name: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1545,6 +1723,18 @@ input UserFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1567,6 +1757,7 @@ input UserInput {
   email: String!
   toStringRepresentation: String!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1578,6 +1769,7 @@ input UserSort {
   email: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 
@@ -1616,6 +1808,18 @@ input VatNumberFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
   dbid: Int
   dbid_not: Int
   dbid_in: [Int!]
@@ -1636,6 +1840,7 @@ input VatNumberInput {
   toStringRepresentation: String!
   countryRegion: CountryInput!
   id: String!
+  hashcode: Int!
   dbid: Int!
 }
 
@@ -1645,6 +1850,7 @@ input VatNumberSort {
   toStringRepresentation: SortOperationKind
   countryRegion: CountrySort
   id: SortOperationKind
+  hashcode: SortOperationKind
   dbid: SortOperationKind
 }
 

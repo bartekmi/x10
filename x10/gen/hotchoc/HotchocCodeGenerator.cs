@@ -121,6 +121,8 @@ namespace x10.gen.hotchoc {
 
     private void GenerateRepositoryAddMethod() {
       WriteLine(2, "public override void Add(int id, PrimordialEntityBase instance) {");
+      WriteLine(3, "instance.Dbid = id;");
+      WriteLine();
 
       foreach (Entity entity in ConcreteEntities()) {
         string entityName = entity.Name;

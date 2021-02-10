@@ -13,7 +13,7 @@ associations:
 # Currently, setting "owns" to false causes issues in data generation.
   - name: primaryEntity
     dataType: CompanyEntity
-    mandatory: false
+    mandatory: true
     owns: true
   - name: entities
     dataType: CompanyEntity
