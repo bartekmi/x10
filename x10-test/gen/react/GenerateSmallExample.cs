@@ -38,7 +38,9 @@ namespace x10.gen.react {
       Assert.Empty(_messages.Errors);
 
       string targetDir = "../../../__generated__/react_small_generated";
-      ReactCodeGenerator generator = new ReactCodeGenerator();
+      ReactCodeGenerator generator = new ReactCodeGenerator() {
+        AppContextImport = "SmallAppContext",
+      };
 
       _messages.Clear();
       generator.Generate(
