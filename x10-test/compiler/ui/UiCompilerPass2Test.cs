@@ -35,6 +35,18 @@ namespace x10.compiler {
           }
         },
         new ClassDefNative() {
+          Name = "MyIntDisplay",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionAtomic() {
+              Name = "value",
+              DataType = DataTypes.Singleton.Integer,
+              IsPrimary = true,
+              // Not mandatory because data can come from binding
+            },
+          }
+        },
+        new ClassDefNative() {
           Name = "MyFunkyIntComponent",
           AtomicDataModel = DataTypes.Singleton.Integer,
           IsMany = false,
@@ -111,7 +123,10 @@ namespace x10.compiler {
               ComplexAttributeType = ClassDefNative.Visual,
               ModelRefWrapperComponentName = "Label",
             },
-          }
+          },
+          DefaultAttachedAttributes = new List<UiAttributeValue>() {
+            new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, false),
+          },
         },
       new ClassDefNative() {
         Name = "Label",
@@ -254,7 +269,7 @@ namespace x10.compiler {
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadWrite);
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadWrite);
       
-      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent", UseMode.ReadOnly);
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyIntDisplay", UseMode.ReadOnly);
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
       
@@ -958,7 +973,7 @@ namespace x10.compiler {
       string result = Print(definition, new PrintConfig() { AlwaysPrintRenderAs = true });
       Assert.Equal(@"<Outer description='My description...' model='Building'>
   <VerticalGroup>
-    <apartmentCount renderAs='MyBasicIntComponent'/>
+    <apartmentCount renderAs='MyIntDisplay'/>
     <apartmentCount ui='MyFunkyIntComponent' renderAs='MyFunkyIntComponent'/>
     <ageInYears renderAs='MyAverageIntComponent'/>
     <ageInYears ui='MyFunkyIntComponent' renderAs='MyFunkyIntComponent'/>
