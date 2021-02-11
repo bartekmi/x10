@@ -901,13 +901,21 @@ namespace x10.ui.libraries {
         Name = "Base Library",
       };
 
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatEdit");
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit");
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor");
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor");
-      library.AddDataTypeToComponentAssociation(model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon");
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatEdit", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor", UseMode.ReadWrite);
+      
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatEdit", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor", UseMode.ReadOnly);
+      
+      library.AddDataTypeToComponentAssociation(model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon", UseMode.ReadOnly);
 
       library.SetComponentForEnums("DropDown");
       library.SetComponentForAssociations("AssociationEditor");

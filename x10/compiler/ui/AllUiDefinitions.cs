@@ -70,9 +70,9 @@ namespace x10.compiler {
       }
     }
 
-    internal ClassDef FindUiComponentForMember(Member member, XmlElement xmlElement) {
+    internal ClassDef FindUiComponentForMember(Member member, XmlElement xmlElement, UseMode mode) {
       foreach (UiLibrary library in _libraries) {
-        ClassDef uiComponent = library.FindUiComponentForMember(member);
+        ClassDef uiComponent = library.FindUiComponentForMember(member, mode);
         if (uiComponent != null)
           return uiComponent;
       }

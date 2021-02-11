@@ -10,7 +10,7 @@ using x10.ui.composition;
 using x10.model.metadata;
 using x10.formula;
 
-namespace x10.compiler {
+namespace x10.compiler.ui {
 
   public class UiCompilerPass2 {
 
@@ -302,7 +302,8 @@ namespace x10.compiler {
 
       X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
-        ResolveUiComponent(modelReference);
+        UseMode mode = UiCompilerUtils.IsReadOnly(instance) ? UseMode.ReadOnly : UseMode.ReadWrite;
+        ResolveUiComponent(modelReference, mode);
         Instance wrapper = instance.ParentInstance?.IsWrapper == true ? instance.ParentInstance : null;
         _attrReader.ReadAttributesForInstance(instance, wrapper, PASS_2_1_MODEL_REF_ATTRIBUTES);
       } else if (instance is InstanceClassDefUse) {
@@ -435,7 +436,7 @@ namespace x10.compiler {
     // 1. The reference itself may dicatate a component
     // 2. The Member may dictate a component
     // 3. Finally, the DataType MUST dictate a component
-    private void ResolveUiComponent(InstanceModelRef modelReference) {
+    private void ResolveUiComponent(InstanceModelRef modelReference, UseMode mode) {
       // If this has been set, it comes from the Pass2 action in UiAttributeDefinitions
       if (modelReference.RenderAs != null)
         return;
@@ -445,7 +446,7 @@ namespace x10.compiler {
         return;
 
       modelReference.RenderAs = member.Ui ??
-        _allUiDefinitions.FindUiComponentForMember(member, modelReference.XmlElement);
+        _allUiDefinitions.FindUiComponentForMember(member, modelReference.XmlElement, mode);
     }
 
     private void ValidateRenderAsType(Instance instance) {

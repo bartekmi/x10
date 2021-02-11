@@ -9,19 +9,26 @@ using x10.model.definition;
 using System.IO;
 
 namespace x10.ui.metadata {
+
+  public enum UseMode {
+    ReadOnly,
+    ReadWrite,
+  }
+
   public class UiLibrary {
     #region Properties
     public string Name { get; set; }
     public string Description { get; set; }
 
     private readonly Dictionary<string, ClassDef> _definitionsByName;
-    private readonly Dictionary<DataType, ClassDef> _dataTypesToComponent;
+    private readonly Dictionary<DataType, ClassDef> _dataTypesToComponentRW;
+    private readonly Dictionary<DataType, ClassDef> _dataTypesToComponentRO;
     private HashSet<ClassDef> _wrapperComponents;
     private ClassDef _defaultComponentForEnums;
     private ClassDef _defaultComponentForAssociations;
 
     // Derived
-    public IEnumerable<ClassDef> All => _definitionsByName.Values; 
+    public IEnumerable<ClassDef> All => _definitionsByName.Values;
     public IEnumerable<string> AllNames => _definitionsByName.Keys;
     #endregion
 
@@ -29,18 +36,24 @@ namespace x10.ui.metadata {
     // Constructor
     public UiLibrary(IEnumerable<ClassDef> definitions) {
       _definitionsByName = definitions.ToDictionary(x => x.Name);
-      _dataTypesToComponent = new Dictionary<DataType, ClassDef>();
+      _dataTypesToComponentRW = new Dictionary<DataType, ClassDef>();
+      _dataTypesToComponentRO = new Dictionary<DataType, ClassDef>();
     }
 
     // TODO: This may likely need other fields in the future, in particular: readOnly and isMandatory,
     // as this may effect the type of component we want to use.
-    public void AddDataTypeToComponentAssociation(DataType dataType, string componentName) {
+    public void AddDataTypeToComponentAssociation(DataType dataType, string componentName, UseMode mode) {
       ClassDef uiComponent = FindComponentByName(componentName);
       if (uiComponent == null)
         throw new Exception(string.Format("Attempting to set default component for data type {0}. Component {1} does not exist",
           dataType.Name, componentName));
 
-      _dataTypesToComponent[dataType] = uiComponent;
+      switch (mode) {
+        case UseMode.ReadOnly: _dataTypesToComponentRO[dataType] = uiComponent; break;
+        case UseMode.ReadWrite: _dataTypesToComponentRW[dataType] = uiComponent; break;
+        default:
+          throw new NotImplementedException("Unexpected mode: " + mode);
+      }
     }
 
     // TODO: Ditto here
@@ -84,17 +97,28 @@ namespace x10.ui.metadata {
       return definition;
     }
 
-    public ClassDef FindUiComponentForMember(Member member) {
+    public ClassDef FindUiComponentForMember(Member member, UseMode mode) {
       if (member is X10Attribute attribute)
-        return FindUiComponentForDataType(attribute);
+        return FindUiComponentForDataType(attribute, mode);
       else if (member is Association association)
         return _defaultComponentForAssociations;
       else
         throw new Exception("Unexpected member type: " + member.GetType().Name);
     }
 
-    private ClassDef FindUiComponentForDataType(X10Attribute attribute) {
-      _dataTypesToComponent.TryGetValue(attribute.DataType, out ClassDef uiComponent);
+    private ClassDef FindUiComponentForDataType(X10Attribute attribute, UseMode mode) {
+      ClassDef uiComponent = null;
+
+      switch (mode ) {
+        case UseMode.ReadOnly: 
+          _dataTypesToComponentRO.TryGetValue(attribute.DataType, out uiComponent);
+          break;
+        case UseMode.ReadWrite: 
+          _dataTypesToComponentRW.TryGetValue(attribute.DataType, out uiComponent);
+          break;
+        default:
+          throw new NotImplementedException("Unexpected mode: " + mode);
+      }
 
       if (uiComponent == null && attribute.DataType is DataTypeEnum)
         uiComponent = _defaultComponentForEnums;
@@ -139,8 +163,8 @@ namespace x10.ui.metadata {
     }
 
     private void GenerateMarkdownForAttribute(TextWriter writer, UiAttributeDefinition attrDef) {
-      writer.WriteLine("### Attribute '{0}'{1}", attrDef.Name, 
-        attrDef.IsPrimary ? " (Primary)": null);
+      writer.WriteLine("### Attribute '{0}'{1}", attrDef.Name,
+        attrDef.IsPrimary ? " (Primary)" : null);
       writer.WriteLine();
       writer.WriteLine(attrDef.Description);
       writer.WriteLine();

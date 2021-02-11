@@ -9,8 +9,13 @@ using x10.model.definition;
 using x10.ui.composition;
 using x10.ui;
 
+// The UiComponentDataCalculator class can be used to generate a tree structure of all 
+// data referenced in a Class Def. Perfect for generating GraphQL Fragments, for example.
+// It includes both data referenced via the "path" attribute and also data referenced
+// by formulas, including recursively looking at Derived Attributes.
 namespace x10.compiler {
 
+  #region Helper Classes
   public class MemberWrapper {
     public Entity RootEntity { get; private set; }
     public Member Member { get; private set; }
@@ -91,11 +96,8 @@ namespace x10.compiler {
         RootEntity.Name;
     }
   }
+  #endregion
 
-  // This class can be used to generate a tree structure of all data referenced in a
-  // Class Def. Perfect for generating GraphQL Fragments, for example.
-  // It includes both data referenced via the "path" attribute and also data referenced
-  // by formulas, including recursively looking at Derived Attributes.
   public static class UiComponentDataCalculator {
 
     public static MemberWrapper ExtractData(ClassDefX10 classDef) {

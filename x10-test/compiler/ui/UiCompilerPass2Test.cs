@@ -250,9 +250,14 @@ namespace x10.compiler {
         Name = "Test Library",
       };
 
-      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent");
-      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
-      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent", UseMode.ReadWrite);
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadWrite);
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadWrite);
+      
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "MyBasicIntComponent", UseMode.ReadOnly);
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
+      _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
+      
       _library.SetComponentForEnums("DropDown");
 
       if (_library.HydrateAndValidate(_messages)) {

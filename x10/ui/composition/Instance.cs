@@ -101,7 +101,7 @@ namespace x10.ui.composition {
         // Some logical components define "hard-coded" attached attributes. Classic case is that the standard Table
         // component is always read-only
         UiAttributeValue value 
-          = instance.RenderAs.FindDefaultAttachedAttribute(definition) as UiAttributeValueAtomic;
+          = instance.RenderAs?.FindDefaultAttachedAttribute(definition) as UiAttributeValueAtomic;
 
         // Attempt to find the value in the current instance
         if (value == null)

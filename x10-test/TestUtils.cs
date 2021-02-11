@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 using x10.parsing;
 using x10.model.definition;
 using x10.model;
+using x10.compiler.ui;
 using x10.compiler;
 using x10.ui.composition;
 using x10.ui.metadata;

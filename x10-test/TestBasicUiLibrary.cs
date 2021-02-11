@@ -87,9 +87,14 @@ namespace x10 {
         Name = "Test Library",
       };
 
-      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "IntegerEdit");
-      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit");
-      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox");
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "IntegerEdit", UseMode.ReadWrite);
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadWrite);
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadWrite);
+
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "IntegerEdit", UseMode.ReadOnly);
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
+      UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
+
       UiLibrary.SetComponentForEnums("DropDown");
 
       if (UiLibrary.HydrateAndValidate(_messages)) {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using x10.parsing;
 using x10.model;
 using x10.model.definition;
 using x10.ui.composition;
-using System.Linq;
 using x10.ui.metadata;
+using x10.compiler.ui;
 
 namespace x10.compiler {
   public class TopLevelCompiler {

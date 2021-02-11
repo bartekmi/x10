@@ -1,11 +1,10 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-using x10.formula;
 using x10.ui.platform;
 using x10.ui.composition;
+using x10.compiler.ui;
 using x10.model.definition;
 
 namespace x10.gen.react {
@@ -59,12 +58,12 @@ namespace x10.gen.react {
     private void WritePrimaryBindingAttribute(ReactCodeGenerator generator, int level, PlatformClassDef platClassDef, Instance instance) {
       PlatformAttributeDynamic dataBind = platClassDef.DataBindAttribute;
 
-      if (CodeGenUtils.IsReadOnly(instance)) {
+      if (UiCompilerUtils.IsReadOnly(instance)) {
         string expressionString = generator.GetReadOnlyBindingPath(instance);
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
         generator.WriteLine(level, "onChange={ () => { } }"); // Special case for read-only: dummy onChane prop
       } else {
-        IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
+        IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
         string pathExpression = string.Join(".", path.Select(x => x.Name));
         generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.SourceVariableName, pathExpression);
         generator.WriteLine(level, "onChange={ (value) => {");

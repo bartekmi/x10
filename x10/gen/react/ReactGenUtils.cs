@@ -9,6 +9,7 @@ using x10.utils;
 using x10.model.metadata;
 using x10.model.definition;
 using x10.model;
+using x10.compiler.ui;
 using x10.ui.composition;
 using x10.ui.libraries;
 
@@ -96,7 +97,7 @@ namespace x10.gen.react {
     }
 
     internal string GetReadOnlyBindingPath(Instance instance) {
-      IEnumerable<Member> path = CodeGenUtils.GetBindingPath(instance);
+      IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
       ExpBase expression = CodeGenUtils.PathToExpression(path);
       string expressionString = ExpressionToString(expression);
 
