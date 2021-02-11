@@ -18,22 +18,27 @@ import SmallHeader from "../x10_generated/small/ui/Header";
 import ClientPageHeader from "../x10_generated/client_page/ui/Header";
 
 export default function App(): React.Node {
-  const [app, setApp] = React.useState(null);
+  // const [app, setApp] = React.useState(null);
+  const app = "small";
 
   const appContext = {
     today: new Date().toISOString(),
   };
 
-  if (app == null) {
-    return (
-      <Group>
-        <Button onClick={() => setApp("small")}>Small App</Button>
-        <Button onClick={() => setApp("client_page")}>Client Page App</Button>
-      </Group>
-    );
-  }
+  // There is an issue where, apparently, we cannot use state ABOVE the router.
+  // As soon as the user navigates - e.g. to edit a building, etc - we lose the state and this
+  // "uber-app selector" goes back to "choose the app" mode.
 
-  else if (app == "small") {
+  // if (app == null) {
+  //   return (
+  //     <Group>
+  //       <Button onClick={() => setApp("small")}>Small App</Button>
+  //       <Button onClick={() => setApp("client_page")}>Client Page App</Button>
+  //     </Group>
+  //   );
+  // }
+
+  if (app == "small") {
     return (
       <>
         <ConnectedToaster />
