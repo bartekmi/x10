@@ -457,7 +457,9 @@ namespace x10.gen.react {
 
     private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
       value = value ?? attribute.DefaultValue;
-      if (value == null) return;
+      if (value == null ||                                      // No data, no attribute
+          value.Equals(attribute.AttributeUnnecessaryWhen))     // Attribute would be unnecessary
+        return;
 
       string name = attribute.PlatformName;
       bool isCodeSnippet = isCodeSnippetOverride ?? attribute.IsCodeSnippet;

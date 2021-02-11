@@ -22,6 +22,10 @@ namespace x10.ui.platform {
     // it will be returned
     public object DefaultValue { get; set; }
 
+    // If present, if the value is Equal() to this, don't bother generating an attribute
+    // This is to prevent things like "readOnly={ false }" which just pollute the code
+    public object AttributeUnnecessaryWhen {get;set;}
+
     public PlatformClassDef Owner { get; set; }
 
     public override string ToString() {

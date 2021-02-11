@@ -104,6 +104,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
           },
         },
       },
@@ -119,6 +120,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
           },
         },
       },
@@ -134,6 +136,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
           },
           new PlatformAttributeStatic("decimalPrecision", 0),
         },
@@ -149,6 +152,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
           },
         },
       },
@@ -168,6 +172,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "disabled",
+            AttributeUnnecessaryWhen = false,
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "onChange",
@@ -187,6 +192,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
           },
         },
       },
@@ -219,6 +225,7 @@ namespace x10.gen.react {
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "disabled",
+            AttributeUnnecessaryWhen = false,
           },
           new JavaScriptAttributeByFunc() {
             PlatformName = "options",

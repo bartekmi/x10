@@ -45,7 +45,9 @@ function TenantForm(props: Props): React.Node {
         >
           <TextInput
             value={ tenant.name }
-            onChange={ () => { } }
+            onChange={ (value) => {
+              onChange({ ...tenant, name: value })
+            } }
           />
         </FormField>
         <FormField
@@ -54,7 +56,9 @@ function TenantForm(props: Props): React.Node {
         >
           <TextInput
             value={ tenant.phone }
-            onChange={ () => { } }
+            onChange={ (value) => {
+              onChange({ ...tenant, phone: value })
+            } }
           />
         </FormField>
         <FormField
@@ -63,7 +67,9 @@ function TenantForm(props: Props): React.Node {
         >
           <TextInput
             value={ tenant.email }
-            onChange={ () => { } }
+            onChange={ (value) => {
+              onChange({ ...tenant, email: value })
+            } }
           />
         </FormField>
       </FormSection>
@@ -75,8 +81,12 @@ function TenantForm(props: Props): React.Node {
           label='The Address'
         >
           <TextInput
-            value={ tenant.permanentMailingAddress?.theAddress }
-            onChange={ () => { } }
+            value={ tenant.permanentMailingAddress.theAddress }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(tenant));
+              newObj.permanentMailingAddress.theAddress = value;
+              onChange(newObj);
+            } }
           />
         </FormField>
         <FormField
@@ -85,8 +95,12 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 400 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress?.city }
-            onChange={ () => { } }
+            value={ tenant.permanentMailingAddress.city }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(tenant));
+              newObj.permanentMailingAddress.city = value;
+              onChange(newObj);
+            } }
           />
         </FormField>
         <FormField
@@ -95,8 +109,12 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 250 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress?.stateOrProvince }
-            onChange={ () => { } }
+            value={ tenant.permanentMailingAddress.stateOrProvince }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(tenant));
+              newObj.permanentMailingAddress.stateOrProvince = value;
+              onChange(newObj);
+            } }
           />
         </FormField>
         <FormField
@@ -105,8 +123,12 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 150 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress?.zip }
-            onChange={ () => { } }
+            value={ tenant.permanentMailingAddress.zip }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(tenant));
+              newObj.permanentMailingAddress.zip = value;
+              onChange(newObj);
+            } }
           />
         </FormField>
       </FormSection>

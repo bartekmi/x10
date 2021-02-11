@@ -41,7 +41,9 @@ function MoveForm(props: Props): React.Node {
       >
         <CalendarDateInput
           value={ move.date }
-          onChange={ () => { } }
+          onChange={ (value) => {
+            onChange({ ...move, date: value })
+          } }
         />
       </FormField>
       <FormField
@@ -50,7 +52,9 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.from }
-          onChange={ () => { } }
+          onChange={ (value) => {
+            onChange({ ...move, from: value })
+          } }
           isNullable={ false }
           query={ buildingsQuery }
           toString={ x => x.toStringRepresentation }
@@ -62,7 +66,9 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.to }
-          onChange={ () => { } }
+          onChange={ (value) => {
+            onChange({ ...move, to: value })
+          } }
           isNullable={ false }
           query={ buildingsQuery }
           toString={ x => x.toStringRepresentation }
@@ -74,7 +80,9 @@ function MoveForm(props: Props): React.Node {
       >
         <AssociationEditor
           id={ move.tenant }
-          onChange={ () => { } }
+          onChange={ (value) => {
+            onChange({ ...move, tenant: value })
+          } }
           isNullable={ false }
           query={ tenantsQuery }
           toString={ x => x.toStringRepresentation }

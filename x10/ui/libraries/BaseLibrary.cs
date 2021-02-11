@@ -790,6 +790,9 @@ namespace x10.ui.libraries {
             ModelRefWrapperComponentName = "FormField",
           },
         },
+        DefaultAttachedAttributes = new List<UiAttributeValue>() {
+          new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, false),
+        },
       },
       new ClassDefNative() {
         Name = "FormErrorDisplay",
