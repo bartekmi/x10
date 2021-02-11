@@ -13,7 +13,7 @@ export default function Button(props: Props): React.Node {
   const {label, url} = props;
   return (
     url == null ?
-      <LatitudeButton>{label}</LatitudeButton> :
+      <LatitudeButton kind="solid" intent="basic">{label}</LatitudeButton> :
       <TextLink href={url}>{label}</TextLink>
   );
 }

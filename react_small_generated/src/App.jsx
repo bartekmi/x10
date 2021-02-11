@@ -19,7 +19,7 @@ import ClientPageHeader from "../x10_generated/client_page/ui/Header";
 
 export default function App(): React.Node {
   // const [app, setApp] = React.useState(null);
-  const app = "small";
+  const app = "client_page";
 
   const appContext = {
     today: new Date().toISOString(),
