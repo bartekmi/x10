@@ -52,11 +52,6 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 options={ CompanyEntityTypeEnumPairs }
               />
             </Group>
-            <Group>
-              <Button
-                label='Documents'
-              />
-            </Group>
           </Group>
           <Group>
             <Button

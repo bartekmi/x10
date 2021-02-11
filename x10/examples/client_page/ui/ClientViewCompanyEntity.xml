@@ -11,9 +11,6 @@
             </Row>
             <companyType/>
           </VerticalStackPanel>
-          <Row>
-            <Button>Documents</Button>
-          </Row>
         </Row>
         <Row>
           <Button>Documents</Button>
