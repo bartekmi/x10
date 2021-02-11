@@ -277,6 +277,9 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Row",
         PlatformName = "Group",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("gap", "gap"),
+        },
       },
       new PlatformClassDef() {
         LogicalName = "RepellingRow",

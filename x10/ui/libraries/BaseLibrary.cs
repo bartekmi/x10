@@ -350,6 +350,11 @@ namespace x10.ui.libraries {
             IsMany = true,
             ComplexAttributeType = ClassDefNative.Visual,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "gap",
+            Description = "If present, specifies gap between items in pixels.",
+            DataType = DataTypes.Singleton.Integer,
+          },
         }
       },
       new ClassDefNative() {

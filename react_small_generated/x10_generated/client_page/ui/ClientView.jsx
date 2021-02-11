@@ -14,7 +14,6 @@ import Button from 'react_lib/latitude_wrappers/Button';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
-import x10toString from 'react_lib/utils/x10toString';
 
 import { ClientPrimaryShipmentRoleEnumPairs, ClientPurchasingBehaviorEnumPairs, ClientSegmentEnumPairs, ClientStatusEnumPairs, type Client } from 'client_page/entities/Client';
 import { createDefaultCompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -154,7 +153,7 @@ function ClientView(props: Props): React.Node {
         </Group>
       </Group>
       <Group
-        justifyContent='space-between'
+        gap={ 100 }
       >
         <DisplayField
           label='Primary Shipment Role'
@@ -170,16 +169,36 @@ function ClientView(props: Props): React.Node {
           toolTip='Count of invoiced shipments...'
           label='Shipment History'
         >
-          <Group>
-            <Text
-              children={ x10toString(client.shipmentsAsClient) + ' as Client' }
-            />
-            <Text
-              children={ x10toString(client.shipmentsAsShipper) + ' as Shipper' }
-            />
-            <Text
-              children={ x10toString(client.shipmentsAsConsignee) + ' as Consignee' }
-            />
+          <Group
+            gap={ 20 }
+          >
+            <Group>
+              <Text
+                weight='bold'
+                children={ client.shipmentsAsClient }
+              />
+              <Text
+                children='as Client'
+              />
+            </Group>
+            <Group>
+              <Text
+                weight='bold'
+                children={ client.shipmentsAsShipper }
+              />
+              <Text
+                children='as Shipper'
+              />
+            </Group>
+            <Group>
+              <Text
+                weight='bold'
+                children={ client.shipmentsAsConsignee }
+              />
+              <Text
+                children='as Consignee'
+              />
+            </Group>
           </Group>
         </DisplayField>
       </Group>

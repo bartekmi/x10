@@ -36,16 +36,25 @@
       </VerticalStackPanel>
     </RepellingRow>
 
-    <RepellingRow>
+    <Row gap="100">
       <primaryShipmentRole/>
       <Label label="Shipment History" toolTip="Count of invoiced shipments...">
-        <Row>
-          <Text text="=shipmentsAsClient + ' as Client'"/>
-          <Text text="=shipmentsAsShipper + ' as Shipper'"/>
-          <Text text="=shipmentsAsConsignee + ' as Consignee'"/>
+        <Row gap="20">
+          <Row>
+            <Text text="=shipmentsAsClient" weight="bold"/>
+            <Text>as Client</Text>
+          </Row>
+          <Row>
+            <Text text="=shipmentsAsShipper" weight="bold"/>
+            <Text>as Shipper</Text>
+          </Row>
+          <Row>
+            <Text text="=shipmentsAsConsignee" weight="bold"/>
+            <Text>as Consignee</Text>
+          </Row>
         </Row>
       </Label>
-    </RepellingRow>
+    </Row>
 
     <List path="company.entities" addItemLabel="Add Entity">
       <ClientViewCompanyEntity/>
