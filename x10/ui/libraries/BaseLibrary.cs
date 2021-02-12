@@ -183,6 +183,26 @@ namespace x10.ui.libraries {
           },
         }
       },
+      new ClassDefNative() {
+        Name = "EnumDisplay",
+        Description = "Display for a choice from a fixed list of choices - a.k.a. 'Enumeration'",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = new DataTypeEnum(),
+      },
+      new ClassDefNative() {
+        Name = "BooleanBanner",
+        Description = "If the bound value is true, show the 'label' text in a box",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Boolean,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "label",
+            DataType = DataTypes.Singleton.String,
+          },
+          // TODO: Add optional icon
+          // TODO: Add optional color
+        }
+      },
 
       // Specialized Components
       new ClassDefNative() {
@@ -198,17 +218,6 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "icon",
             DataType = x10.model.libraries.BaseLibrary.ICON_DATA_TYPE,
-          },
-        }
-      },
-      new ClassDefNative() {
-        Name = "BooleanBanner",
-        InheritsFrom = ClassDefNative.Visual,
-        AtomicDataModel = DataTypes.Singleton.Boolean,
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "label",
-            DataType = DataTypes.Singleton.String,
           },
         }
       },
@@ -968,7 +977,9 @@ namespace x10.ui.libraries {
       
       library.AddDataTypeToComponentAssociation(x10.model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon", UseMode.ReadOnly);
 
-      library.SetComponentForEnums("DropDown");
+      library.SetComponentForEnums("DropDown", UseMode.ReadWrite);
+      library.SetComponentForEnums("EnumDisplay", UseMode.ReadOnly);
+
       library.SetComponentForAssociations("AssociationEditor");
 
       return library;

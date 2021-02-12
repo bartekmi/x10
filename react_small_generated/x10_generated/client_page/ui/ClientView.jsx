@@ -5,9 +5,9 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 
+import EnumDisplay from 'react_lib/display/EnumDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
@@ -91,27 +91,24 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Status'
         >
-          <SelectInput
+          <EnumDisplay
             value={ client.status }
-            disabled={ true }
             options={ ClientStatusEnumPairs }
           />
         </DisplayField>
         <DisplayField
           label='Segment'
         >
-          <SelectInput
+          <EnumDisplay
             value={ client.segment }
-            disabled={ true }
             options={ ClientSegmentEnumPairs }
           />
         </DisplayField>
         <DisplayField
           label='Purchasing Behavior'
         >
-          <SelectInput
+          <EnumDisplay
             value={ client.purchasingBehavior }
-            disabled={ true }
             options={ ClientPurchasingBehaviorEnumPairs }
           />
         </DisplayField>
@@ -142,9 +139,8 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Primary Shipment Role'
         >
-          <SelectInput
+          <EnumDisplay
             value={ client.primaryShipmentRole }
-            disabled={ true }
             options={ ClientPrimaryShipmentRoleEnumPairs }
           />
         </DisplayField>

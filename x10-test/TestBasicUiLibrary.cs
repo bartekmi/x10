@@ -95,7 +95,7 @@ namespace x10 {
       UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
       UiLibrary.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
 
-      UiLibrary.SetComponentForEnums("DropDown");
+      UiLibrary.SetComponentForEnums("DropDown", UseMode.ReadWrite);
 
       if (UiLibrary.HydrateAndValidate(_messages)) {
         TestUtils.DumpMessages(_messages, _output);

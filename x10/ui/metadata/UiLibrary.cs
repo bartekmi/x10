@@ -21,10 +21,14 @@ namespace x10.ui.metadata {
     public string Description { get; set; }
 
     private readonly Dictionary<string, ClassDef> _definitionsByName;
+    private HashSet<ClassDef> _wrapperComponents;
+
     private readonly Dictionary<DataType, ClassDef> _dataTypesToComponentRW;
     private readonly Dictionary<DataType, ClassDef> _dataTypesToComponentRO;
-    private HashSet<ClassDef> _wrapperComponents;
-    private ClassDef _defaultComponentForEnums;
+
+    private ClassDef _defaultComponentForEnumsRW;
+    private ClassDef _defaultComponentForEnumsRO;
+
     private ClassDef _defaultComponentForAssociations;
 
     // Derived
@@ -57,13 +61,18 @@ namespace x10.ui.metadata {
     }
 
     // TODO: Ditto here
-    public void SetComponentForEnums(string componentName) {
+    public void SetComponentForEnums(string componentName, UseMode mode) {
       ClassDef uiComponent = FindComponentByName(componentName);
       if (uiComponent == null)
-        throw new Exception(string.Format("Attempting to set default component for enums. Component {0} does not exist",
-          componentName));
+        throw new Exception(string.Format("Attempting to set default component for enums. Component {0} does not exist. Mode: {1}",
+          componentName, mode));
 
-      _defaultComponentForEnums = uiComponent;
+      switch (mode) {
+        case UseMode.ReadOnly: _defaultComponentForEnumsRO = uiComponent; break;
+        case UseMode.ReadWrite: _defaultComponentForEnumsRW = uiComponent; break;
+        default:
+          throw new NotImplementedException("Unexpected mode: " + mode);
+      }
     }
 
     public void SetComponentForAssociations(string componentName) {
@@ -112,16 +121,17 @@ namespace x10.ui.metadata {
       switch (mode ) {
         case UseMode.ReadOnly: 
           _dataTypesToComponentRO.TryGetValue(attribute.DataType, out uiComponent);
+          if (uiComponent == null && attribute.DataType is DataTypeEnum)
+            uiComponent = _defaultComponentForEnumsRO;
           break;
         case UseMode.ReadWrite: 
           _dataTypesToComponentRW.TryGetValue(attribute.DataType, out uiComponent);
+          if (uiComponent == null && attribute.DataType is DataTypeEnum)
+            uiComponent = _defaultComponentForEnumsRW;
           break;
         default:
           throw new NotImplementedException("Unexpected mode: " + mode);
       }
-
-      if (uiComponent == null && attribute.DataType is DataTypeEnum)
-        uiComponent = _defaultComponentForEnums;
 
       return uiComponent;
     }

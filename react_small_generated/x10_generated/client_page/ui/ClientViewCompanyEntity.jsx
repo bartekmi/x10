@@ -7,9 +7,11 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
-import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 
+import BooleanBanner from 'react_lib/display/BooleanBanner';
+import EnumDisplay from 'react_lib/display/EnumDisplay';
+import FloatDisplay from 'react_lib/display/FloatDisplay';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import Button from 'react_lib/latitude_wrappers/Button';
@@ -43,8 +45,12 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 <Text
                   children={ companyEntity.legalName }
                 />
+                <BooleanBanner
+                  value={ companyEntity.isPrimary }
+                  label='Primary Entity'
+                />
               </Group>
-              <SelectInput
+              <EnumDisplay
                 value={ companyEntity.companyType }
                 options={ CompanyEntityTypeEnumPairs }
               />
@@ -65,6 +71,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         flexDirection='column'
       >
         <Group>
+          <FloatDisplay
+            value={ companyEntity.coreId }
+          />
           <DisplayField
             label='Mailing Address'
           >

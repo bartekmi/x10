@@ -70,10 +70,11 @@ namespace x10.gen.react {
       },
       #endregion
 
-      #region Atomic Text Display Components
+      #region Atomic Display Components
       new PlatformClassDef() {
-        LogicalName = "Text",
-        PlatformName = "Text",
+        LogicalName = "TextualDisplay",
+        PlatformName = "TextualDisplay",
+        IsAbstract = true,
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             LogicalName = "weight",
@@ -83,11 +84,73 @@ namespace x10.gen.react {
               new EnumConversion("bold", "bold"),
             },
           },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "Text",
+        PlatformName = "Text",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             LogicalName = "text",
             PlatformName = "children",
           },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "FloatDisplay",
+        PlatformName = "FloatDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "EnumDisplay",
+        PlatformName = "EnumDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            PlatformName = "value",
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "options",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              DataTypeEnum dataType = (instance.ModelMember as X10Attribute)?.DataType as DataTypeEnum;
+              if (dataType == null) {
+                generator.Messages.AddError(instance.XmlElement, "Expected data type to be an enum");
+                return null;
+              }
+
+              string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
+              generator.ImportsPlaceholder.Import(pairsConstant, dataType);
+
+              return pairsConstant;
+            },
+          },
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "BooleanBanner",
+        PlatformName = "BooleanBanner",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+          new JavaScriptAttributeDynamic("label", "label"),
         },
       },
       #endregion

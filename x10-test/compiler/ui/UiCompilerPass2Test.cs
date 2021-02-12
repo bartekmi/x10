@@ -273,7 +273,7 @@ namespace x10.compiler {
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
       _library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
       
-      _library.SetComponentForEnums("DropDown");
+      _library.SetComponentForEnums("DropDown", UseMode.ReadWrite);
 
       if (_library.HydrateAndValidate(_messages)) {
         TestUtils.DumpMessages(_messages, _output);
