@@ -279,6 +279,7 @@ namespace x10.gen {
       using (TextWriter writer = CreateIntermediateDirs(absolutePath))
         classDef.Print(writer, 0, new PrintConfig() {
           PrintModelMember = true,
+          AlwaysPrintRenderAs = true,
         });
     }
     #endregion

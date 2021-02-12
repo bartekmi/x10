@@ -13,11 +13,11 @@ type TItem = {
 };
 
 type Props<T: TItem> = {|
-  +items: $ReadOnlyArray<T>,
+  +items: $ReadOnlyArray < T >,
   +itemDisplayFunc: (data: T, onChange: (data: T) => void) => React.Node,
-  +onChange: (newItems: Array<T>) => void,
-  +addNewItem: () => T,
-  +addItemLabel?: string,
+    +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
+    +addNewItem: () => T,
+      +addItemLabel ?: string,
 |};
 
 export default function MultiStacker<T: TItem>({
@@ -27,7 +27,7 @@ export default function MultiStacker<T: TItem>({
   addNewItem,
   addItemLabel = "Add",
 }: Props<T>): React.Node {
-  const showDeleteIcon = items.length > 1;
+  const showDeleteIcon = items.length > 1
 
   return (
     <Group gap={20} flexDirection="column">
@@ -36,11 +36,13 @@ export default function MultiStacker<T: TItem>({
           {itemDisplayFunc(
             item,
             (newItem) => {
-              const newArray = items.map(x => x.id === newItem.id ? newItem : x);
-              onChange(newArray);
+              if (onChange) {
+                const newArray = items.map(x => x.id === newItem.id ? newItem : x);
+                onChange(newArray);
+              }
             },
           )}
-          {showDeleteIcon ? (
+          {showDeleteIcon && onChange ? (
             <IconButton
               iconName="trash"
               type="button"
@@ -51,17 +53,19 @@ export default function MultiStacker<T: TItem>({
           ) : null}
         </Group>
       ))}
-      <Button
-        intent="basic"
-        kind="bare"
-        onClick={() =>
-          onChange([
-            ...items,
-            addNewItem(), // Add a new one at end
-          ])
-        }
-        label={addItemLabel}
-      />
+      {onChange ? (
+        <Button
+          intent="basic"
+          kind="bare"
+          onClick={() =>
+            onChange([
+              ...items,
+              addNewItem(), // Add a new one at end
+            ])
+          }
+          label={addItemLabel}
+        />
+      ) : null}
     </Group>
   );
 }

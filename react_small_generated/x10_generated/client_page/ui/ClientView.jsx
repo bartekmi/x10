@@ -11,7 +11,6 @@ import Text from 'latitude/Text';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 
@@ -53,20 +52,14 @@ function ClientView(props: Props): React.Node {
           <Group
             flexDirection='column'
           >
-            <TextInput
-              value={ contactName(client.primaryContact) }
-              onChange={ () => { } }
-              readOnly={ true }
+            <Text
+              children={ contactName(client.primaryContact) }
             />
-            <TextInput
-              value={ client.primaryContact?.email }
-              onChange={ () => { } }
-              readOnly={ true }
+            <Text
+              children={ client.primaryContact?.email }
             />
-            <TextInput
-              value={ client.primaryContact?.phone }
-              onChange={ () => { } }
-              readOnly={ true }
+            <Text
+              children={ client.primaryContact?.phone }
             />
           </Group>
         </DisplayField>
@@ -76,10 +69,8 @@ function ClientView(props: Props): React.Node {
           <Group
             flexDirection='column'
           >
-            <TextInput
-              value={ client.salesforceAccountRef }
-              onChange={ () => { } }
-              readOnly={ true }
+            <Text
+              children={ client.salesforceAccountRef }
             />
             <Button
               label='Force Outbound Salesforce Sync'
@@ -89,10 +80,8 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Referred By'
         >
-          <TextInput
-            value={ client.referredBy }
-            onChange={ () => { } }
-            readOnly={ true }
+          <Text
+            children={ client.referredBy }
           />
         </DisplayField>
       </Group>
@@ -104,7 +93,6 @@ function ClientView(props: Props): React.Node {
         >
           <SelectInput
             value={ client.status }
-            onChange={ () => { } }
             disabled={ true }
             options={ ClientStatusEnumPairs }
           />
@@ -114,7 +102,6 @@ function ClientView(props: Props): React.Node {
         >
           <SelectInput
             value={ client.segment }
-            onChange={ () => { } }
             disabled={ true }
             options={ ClientSegmentEnumPairs }
           />
@@ -124,7 +111,6 @@ function ClientView(props: Props): React.Node {
         >
           <SelectInput
             value={ client.purchasingBehavior }
-            onChange={ () => { } }
             disabled={ true }
             options={ ClientPurchasingBehaviorEnumPairs }
           />
@@ -132,10 +118,8 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Website'
         >
-          <TextInput
-            value={ client.company?.website }
-            onChange={ () => { } }
-            readOnly={ true }
+          <Text
+            children={ client.company?.website }
           />
         </DisplayField>
         <Group
@@ -160,7 +144,6 @@ function ClientView(props: Props): React.Node {
         >
           <SelectInput
             value={ client.primaryShipmentRole }
-            onChange={ () => { } }
             disabled={ true }
             options={ ClientPrimaryShipmentRoleEnumPairs }
           />
@@ -204,7 +187,6 @@ function ClientView(props: Props): React.Node {
       </Group>
       <MultiStacker
         items={ client.company?.entities }
-        onChange={ () => { } }
         itemDisplayFunc={ (data, onChange) => (
           <ClientViewCompanyEntity companyEntity={ data }/>
         ) }

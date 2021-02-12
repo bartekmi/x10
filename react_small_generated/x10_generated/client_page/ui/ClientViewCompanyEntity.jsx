@@ -5,15 +5,14 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Checkbox from 'latitude/Checkbox';
-import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
 import SelectInput from 'latitude/select/SelectInput';
+import Text from 'latitude/Text';
 
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import Button from 'react_lib/latitude_wrappers/Button';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -41,14 +40,12 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               flexDirection='column'
             >
               <Group>
-                <TextInput
-                  value={ companyEntity.legalName }
-                  onChange={ () => { } }
+                <Text
+                  children={ companyEntity.legalName }
                 />
               </Group>
               <SelectInput
                 value={ companyEntity.companyType }
-                onChange={ () => { } }
                 options={ CompanyEntityTypeEnumPairs }
               />
             </Group>
@@ -68,11 +65,6 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         flexDirection='column'
       >
         <Group>
-          <FloatInput
-            value={ companyEntity.coreId }
-            onChange={ () => { } }
-            readOnly={ true }
-          />
           <DisplayField
             label='Mailing Address'
           >

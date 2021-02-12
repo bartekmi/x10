@@ -61,7 +61,6 @@ namespace x10.gen.react {
       if (UiCompilerUtils.IsReadOnly(instance)) {
         string expressionString = generator.GetReadOnlyBindingPath(instance);
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
-        generator.WriteLine(level, "onChange={ () => { } }"); // Special case for read-only: dummy onChane prop
       } else {
         IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
         string pathExpression = string.Join(".", path.Select(x => x.Name));

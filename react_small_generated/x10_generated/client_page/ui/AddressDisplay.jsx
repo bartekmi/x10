@@ -6,9 +6,9 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
+import Text from 'latitude/Text';
 
 import Button from 'react_lib/latitude_wrappers/Button';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 
 import { type Address } from 'client_page/entities/Address';
 
@@ -26,25 +26,20 @@ function AddressDisplay(props: Props): React.Node {
     <Group
       flexDirection='column'
     >
-      <TextInput
-        value={ address.theAddress }
-        onChange={ () => { } }
+      <Text
+        children={ address.theAddress }
       />
-      <TextInput
-        value={ address.theAddress2 }
-        onChange={ () => { } }
+      <Text
+        children={ address.theAddress2 }
       />
-      <TextInput
-        value={ address.city }
-        onChange={ () => { } }
+      <Text
+        children={ address.city }
       />
-      <TextInput
-        value={ address.postalCode }
-        onChange={ () => { } }
+      <Text
+        children={ address.postalCode }
       />
-      <TextInput
-        value={ address.country?.name }
-        onChange={ () => { } }
+      <Text
+        children={ address.country?.name }
       />
       <Button
         label='Verify'

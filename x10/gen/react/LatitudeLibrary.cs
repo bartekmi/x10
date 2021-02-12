@@ -84,6 +84,7 @@ namespace x10.gen.react {
             },
           },
           new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
             LogicalName = "text",
             PlatformName = "children",
           },
