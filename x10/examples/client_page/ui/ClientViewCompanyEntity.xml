@@ -9,7 +9,7 @@
               <legalName/>
               <companyType/>
             </VerticalStackPanel>
-            <isPrimary ui="BooleanBanner" label="Primary Entity"/>
+            <isPrimary ui="BooleanBanner" label="Primary Entity" icon="star"/>
           </Row>
         </Row>
         <Row>

@@ -199,7 +199,10 @@ namespace x10.ui.libraries {
             Name = "label",
             DataType = DataTypes.Singleton.String,
           },
-          // TODO: Add optional icon
+          new UiAttributeDefinitionAtomic() {
+            Name = "icon",
+            DataType = x10.model.libraries.BaseLibrary.ICON_DATA_TYPE,
+          },
           // TODO: Add optional color
         }
       },

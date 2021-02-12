@@ -9,26 +9,27 @@ namespace x10.ui.libraries {
   public class IconLibrary {
 
     private static readonly string[] iconNames = new string[] {
-      "dollar-sign",
-      "draft",
-      "square-with-bubble",
-      "ticket",
-      "boat",
       "airplane",
-      "truck",
+      "airport",
+      "boat",
+      "callout",
+      "credit-card",
+      "dollar-sign",
+      "dont",
+      "draft",
+      "factory",
+      "human",
       "lightning",
       "port",
-      "airport",
-      "factory",
-      "quotation-mark",
       "question-mark",
-      "callout",
-      "thumbs-up",
-      "dont",
-      "upload",
+      "quotation-mark",
+      "square-with-bubble",
+      "star",
       "task",
-      "human",
-      "credit-card",
+      "thumbs-up",
+      "ticket",
+      "truck",
+      "upload",
     };
 
     private readonly static List<ClassDef> _classDefs = new List<ClassDef>() {
@@ -45,7 +46,7 @@ namespace x10.ui.libraries {
 
       // Inject icon names into the existing type... The idea is that the actual 
       // icons may be project-specific
-      model.libraries.BaseLibrary.ICON_DATA_TYPE.EnumValueValues = iconNames;
+      x10.model.libraries.BaseLibrary.ICON_DATA_TYPE.EnumValueValues = iconNames;
 
       return _singleton;
     }

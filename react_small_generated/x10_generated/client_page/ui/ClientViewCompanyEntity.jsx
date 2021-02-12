@@ -54,6 +54,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               <BooleanBanner
                 value={ companyEntity.isPrimary }
                 label='Primary Entity'
+                icon='star'
               />
             </Group>
           </Group>

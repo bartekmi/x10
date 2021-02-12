@@ -160,6 +160,7 @@ namespace x10.gen.react {
             PlatformName = "value",
           },
           new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("icon", "icon"),
         },
       },
       #endregion
