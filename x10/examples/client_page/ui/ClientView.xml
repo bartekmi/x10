@@ -29,7 +29,7 @@
       <segment/>
       <purchasingBehavior/>
       <company.website/>
-      <VerticalStackPanel>
+      <VerticalStackPanel align="right">
         <Button>Solicit RFQ</Button>
         <Button>Edit NSA Lanes</Button>
         <Button>App Features</Button>

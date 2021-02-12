@@ -124,6 +124,7 @@ function ClientView(props: Props): React.Node {
         </DisplayField>
         <Group
           flexDirection='column'
+          alignItems='flex-end'
         >
           <Button
             label='Solicit RFQ'

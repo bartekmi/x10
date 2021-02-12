@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using x10.ui.metadata;
@@ -39,8 +40,14 @@ namespace x10.ui.platform {
     public object GenerateAttributeForValue(object value) {
       if (TranslationFunc != null)
         return TranslationFunc(value);
-      else
-        return value;
+
+      if (EnumConversions != null) {
+        EnumConversion conversion = EnumConversions.SingleOrDefault(x => x.From.Equals(value));
+        if (conversion != null)
+          value = conversion.To;
+      }
+
+      return value;
     }
   }
 }

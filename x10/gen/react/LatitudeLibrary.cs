@@ -346,6 +346,15 @@ namespace x10.gen.react {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("flexDirection", "column"),
           new JavaScriptAttributeDynamic("gap", "gap"),
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "align",
+            PlatformName = "alignItems",
+            EnumConversions = new List<EnumConversion>() {
+              new EnumConversion("left", null),
+              new EnumConversion("center", "center"),
+              new EnumConversion("right", "flex-end"),
+            },
+          },
         },
       },
       new PlatformClassDef() {

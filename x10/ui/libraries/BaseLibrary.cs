@@ -380,6 +380,14 @@ namespace x10.ui.libraries {
             Description = "If present, specifies gap between items in pixels.",
             DataType = DataTypes.Singleton.Integer,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "align",
+            Description = "Controls the horizontal alignment of the items in the Panel",
+            DataType = new DataTypeEnum() {
+              Name = "HorizontalAlignment",
+              EnumValueValues = new string[] { "left", "center", "right" },
+            },
+          },
         }
       },
       new ClassDefNative() {
