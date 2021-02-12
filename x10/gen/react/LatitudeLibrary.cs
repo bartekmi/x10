@@ -47,6 +47,10 @@ namespace x10.gen.react {
         PlatformName = "Text",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "headline"),
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "children",
+          },
         },
       },
       new PlatformClassDef() {
@@ -54,6 +58,10 @@ namespace x10.gen.react {
         PlatformName = "Text",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "title"),
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "children",
+          },
         },
       },
       new PlatformClassDef() {

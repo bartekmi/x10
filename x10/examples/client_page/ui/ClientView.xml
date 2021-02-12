@@ -56,6 +56,9 @@
       </Label>
     </Row>
 
+    <HorizontalDivider/>
+    <Heading3>COMPANY ENTITIES</Heading3>
+
     <List path="company.entities" addItemLabel="Add Entity">
       <ClientViewCompanyEntity/>
     </List>

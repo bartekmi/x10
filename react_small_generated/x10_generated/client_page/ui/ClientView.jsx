@@ -5,6 +5,7 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
+import Text from 'latitude/Text';
 
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
@@ -183,6 +184,11 @@ function ClientView(props: Props): React.Node {
           </Group>
         </DisplayField>
       </Group>
+      <Separator/>
+      <Text
+        scale='title'
+        children='COMPANY ENTITIES'
+      />
       <MultiStacker
         items={ client.company?.entities }
         itemDisplayFunc={ (data, onChange) => (
