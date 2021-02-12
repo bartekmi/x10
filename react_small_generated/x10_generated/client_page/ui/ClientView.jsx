@@ -136,7 +136,7 @@ function ClientView(props: Props): React.Node {
         </Group>
       </Group>
       <Group
-        gap={ 100 }
+        gap={ 80 }
       >
         <DisplayField
           label='Primary Shipment Role'

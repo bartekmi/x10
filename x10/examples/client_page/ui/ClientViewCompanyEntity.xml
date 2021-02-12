@@ -22,8 +22,10 @@
     <!-- Body -->
     <Expander.Body>
       <VerticalStackPanel>
-        <Row>
-          <coreId/>
+        <Row gap="80">
+          <Label label="Core Id">
+            <coreId/>
+          </Label>
           <Label label="Mailing Address">
             <AddressDisplay path="mailingAddress"/>
           </Label>

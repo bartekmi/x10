@@ -70,10 +70,16 @@ function ClientViewCompanyEntity(props: Props): React.Node {
       <Group
         flexDirection='column'
       >
-        <Group>
-          <FloatDisplay
-            value={ companyEntity.coreId }
-          />
+        <Group
+          gap={ 80 }
+        >
+          <DisplayField
+            label='Core Id'
+          >
+            <FloatDisplay
+              value={ companyEntity.coreId }
+            />
+          </DisplayField>
           <DisplayField
             label='Mailing Address'
           >

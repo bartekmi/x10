@@ -36,7 +36,7 @@
       </VerticalStackPanel>
     </RepellingRow>
 
-    <Row gap="100">
+    <Row gap="80">
       <primaryShipmentRole/>
       <Label label="Shipment History" toolTip="Count of invoiced shipments...">
         <Row gap="20">
