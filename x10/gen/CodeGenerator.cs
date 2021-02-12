@@ -20,7 +20,7 @@ namespace x10.gen {
     public string IntermediateFilePath { get; set; }
     public bool GenerateAbstractEntities { get; set; }
 
-    public abstract void GenerateCoomon();
+    public abstract void GenerateCommon();
     public abstract void Generate(ClassDefX10 classDef);
     public abstract void Generate(Entity entity);
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
@@ -51,7 +51,7 @@ namespace x10.gen {
       if (Directory.Exists(rootGenerateDir))
         Directory.Delete(rootGenerateDir, true);
 
-      GenerateCoomon();
+      GenerateCommon();
 
       foreach (Entity entity in AllEntities.All.Where(x => !x.IsAbstract || GenerateAbstractEntities))
         Generate(entity);

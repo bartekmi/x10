@@ -19,7 +19,7 @@ namespace x10.gen.hotchoc {
     public override void Generate(ClassDefX10 classDef) { }
 
     #region Generate Common
-    public override void GenerateCoomon() {
+    public override void GenerateCommon() {
       GenerateRepositoryInterface();
       GenerateRepository();
       GenerateQueries();

@@ -12,7 +12,7 @@ namespace x10.gen.react {
   public partial class ReactCodeGenerator : CodeGenerator {
 
     #region Top Level
-    public override void GenerateCoomon() { }
+    public override void GenerateCommon() { }
 
     public override void Generate(Entity entity) {
       FileInfo fileInfo = entity.TreeElement.FileInfo;

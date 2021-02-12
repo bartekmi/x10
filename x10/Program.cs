@@ -41,34 +41,34 @@ namespace x10 {
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
-      CommandLine = "smallreact",
-      SourceDir = "examples/small",
-      ProjectDir = "../react_small_generated",
-      TargetDir = "x10_generated/small",
-      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-      Generator = new ReactCodeGenerator() {
-        GeneratedCodeSubdir = "small",
-        AppContextImport = "SmallAppContext",
-      },
-      PostGenerationScript = new ScriptInfo() {
+        CommandLine = "smallreact",
+        SourceDir = "examples/small",
+        ProjectDir = "../react_small_generated",
+        TargetDir = "x10_generated/small",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "small",
+          AppContextImport = "SmallAppContext",
+        },
+        PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
           Args = "relay-small",
         }
       },
 
       new GenConfig() {
-      CommandLine = "cpreact",
-      SourceDir = "examples/client_page",
-      ProjectDir = "../react_small_generated",
-      TargetDir = "x10_generated/client_page",
-      LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-      PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-      Generator = new ReactCodeGenerator() {
-        GeneratedCodeSubdir = "client_page",
-        AppContextImport = "ClientPageAppContext",
-      },
-      PostGenerationScript = new ScriptInfo() {
+        CommandLine = "cpreact",
+        SourceDir = "examples/client_page",
+        ProjectDir = "../react_small_generated",
+        TargetDir = "x10_generated/client_page",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "client_page",
+          AppContextImport = "ClientPageAppContext",
+        },
+        PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
           Args = "relay-cp",
         }
