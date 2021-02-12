@@ -26,7 +26,7 @@ export default function BooleanBanner(props: Props): React.Node {
 
 const styles = StyleSheet.create({
   border: {
-    border: `3px solid ${colors.green30}`,
+    border: `3px solid ${colors.grey30}`,
     padding: whitespaceSizeConstants.xs,
     margins: "0px",
   },
