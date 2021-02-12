@@ -51,6 +51,7 @@ function ClientView(props: Props): React.Node {
         >
           <Group
             flexDirection='column'
+            gap={ 0 }
           >
             <Text
               children={ contactName(client.primaryContact) }
@@ -68,6 +69,7 @@ function ClientView(props: Props): React.Node {
         >
           <Group
             flexDirection='column'
+            gap={ 0 }
           >
             <Text
               children={ client.salesforceAccountRef }

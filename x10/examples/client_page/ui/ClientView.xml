@@ -9,14 +9,14 @@
 
     <RepellingRow>
       <Label label="Primary Contact">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <primaryContact.name/>
           <primaryContact.email/>
           <primaryContact.phone/>
         </VerticalStackPanel>
       </Label>
       <Label label="Saleforce Account Ref:">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <salesforceAccountRef/>
           <Button>Force Outbound Salesforce Sync</Button>
         </VerticalStackPanel>

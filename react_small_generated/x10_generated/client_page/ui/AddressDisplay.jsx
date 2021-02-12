@@ -25,6 +25,7 @@ function AddressDisplay(props: Props): React.Node {
   return (
     <Group
       flexDirection='column'
+      gap={ 0 }
     >
       <Text
         children={ address.theAddress }
@@ -41,16 +42,20 @@ function AddressDisplay(props: Props): React.Node {
       <Text
         children={ address.country?.name }
       />
-      <Button
-        label='Verify'
-      />
-      <Group>
+      <Group
+        flexDirection='column'
+      >
         <Button
-          label='Make Location'
+          label='Verify'
         />
-        <HelpTooltip
-          text='Create a location with this address...'
-        />
+        <Group>
+          <Button
+            label='Make Location'
+          />
+          <HelpTooltip
+            text='Create a location with this address...'
+          />
+        </Group>
       </Group>
     </Group>
   );

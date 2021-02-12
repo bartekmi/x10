@@ -336,6 +336,7 @@ namespace x10.gen.react {
         PlatformName = "Group",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("flexDirection", "column"),
+          new JavaScriptAttributeDynamic("gap", "gap"),
         },
       },
       new PlatformClassDef() {
