@@ -96,18 +96,10 @@ namespace x10.ui.libraries {
 
       #region Atomic Display Components
       new ClassDefNative() {
-        Name = "Text",
-        Description = "Display text on the User Interface.",
+        Name = "TextualDisplay",
+        Description = "Base class for all components which display text",
         InheritsFrom = ClassDefNative.Visual,
-        IsMany = false,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "text",
-            Description = "The text to display",
-            DataType = DataTypes.Singleton.String,
-            IsPrimary = true,
-            IsMandatory = true,
-          },
           new UiAttributeDefinitionAtomic() {
             Name = "weight",
             Description = "You can optionally make the text bold using this attribute",
@@ -120,15 +112,87 @@ namespace x10.ui.libraries {
         }
       },
       new ClassDefNative() {
+        Name = "Text",
+        Description = "Display text on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "text",
+            Description = "The text to display",
+            DataType = DataTypes.Singleton.String,
+            IsPrimary = true,
+            // Not mandatory - it may come from binding. 
+            // TODO: Ideally, we should make it mandatory, but also indicate that this is the binding attribute
+            // and acto accordingly - i.e. only raise error if Text is used in a non-binding context
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "IntDisplay",
+        Description = "Display an Integer on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Integer,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display",
+            DataType = DataTypes.Singleton.Integer,
+            IsPrimary = true,
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "FloatDisplay",
+        Description = "Display a Float on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Float,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display",
+            DataType = DataTypes.Singleton.Float,
+            IsPrimary = true,
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "DateDisplay",
+        Description = "Display an Date on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Date,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display",
+            DataType = DataTypes.Singleton.Date,
+            IsPrimary = true,
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "TimestampDisplay",
+        Description = "Display an Timestamp on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Timestamp,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display",
+            DataType = DataTypes.Singleton.Timestamp,
+            IsPrimary = true,
+          },
+        }
+      },
+
+      // Specialized Components
+      new ClassDefNative() {
         Name = "Pill",
         Description = "Like the <Text> component, but the text will be displayed within a colored oval background. Useful for displaying small but important information - e.g. number of returned results",
         InheritsFromName = "Text",
-        IsMany = false,
       },
       new ClassDefNative() {
         Name = "Icon",
         InheritsFrom = ClassDefNative.Visual,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.String,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -140,7 +204,6 @@ namespace x10.ui.libraries {
       new ClassDefNative() {
         Name = "BooleanBanner",
         InheritsFrom = ClassDefNative.Visual,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -158,36 +221,31 @@ namespace x10.ui.libraries {
         Name = "TextEdit",
         Description = "One-line editor for text",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.String,
       },
       new ClassDefNative() {
         Name = "TextArea",
         Description = "Multi-line editor for text. Suitable for longer descriptions.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.String,
       },
       new ClassDefNative() {
         Name = "IntEdit",
         Description = "Editor for an Integer. Proper validation is built-in.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Integer,
       },
       new ClassDefNative() {
         Name = "FloatEdit",
         Description = "Editor for a Floating-point number. Proper validation is built-in.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
-        AtomicDataModel = DataTypes.Singleton.Integer,
+        AtomicDataModel = DataTypes.Singleton.Float,
       },
       new ClassDefNative() {
         Name = "Checkbox",
         // Note: there is a conscious decision here not to allow tri-state, as this can be ambiguous from a user's perspective
         Description = "Editor for a Boolean value. Only two states are possible - checked and unchecked.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -214,7 +272,6 @@ namespace x10.ui.libraries {
         Name = "BooleanViaButtons",
         Description = "Editor for A Boolean value using two labelled buttons.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Boolean,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -238,21 +295,18 @@ namespace x10.ui.libraries {
         Name = "DateEditor",
         Description = "Editor for a date.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Date,
       },
       new ClassDefNative() {
         Name = "TimestampEditor",
         Description = "Editor for Date and Time (i.e. 'Timestamp')",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = DataTypes.Singleton.Timestamp,
       },
       new ClassDefNative() {
         Name = "EnumSelection",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         AtomicDataModel = new DataTypeEnum(),
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
@@ -270,14 +324,12 @@ namespace x10.ui.libraries {
         Name = "DropDown",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
-        IsMany = false,
         AtomicDataModel = new DataTypeEnum(),
       },
       new ClassDefNative() {
         Name = "RadioButtonGroup",
         Description = "A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
-        IsMany = false,
         AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
       },
       #endregion
@@ -287,7 +339,6 @@ namespace x10.ui.libraries {
         Name = "AssociationEditor",
         Description = "A drop-down style editor for selecting an associated entity. E.g. an editor for 'Appointment' in a clinic might have a drop-down to select the Doctor.",
         InheritsFrom = ClassDefNative.Editable,
-        IsMany = false,
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
             Name = "createForm",
@@ -908,14 +959,14 @@ namespace x10.ui.libraries {
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor", UseMode.ReadWrite);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor", UseMode.ReadWrite);
       
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatEdit", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "Text", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatDisplay", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntDisplay", UseMode.ReadOnly);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateDisplay", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampDisplay", UseMode.ReadOnly);
       
-      library.AddDataTypeToComponentAssociation(model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(x10.model.libraries.BaseLibrary.ICON_DATA_TYPE, "Icon", UseMode.ReadOnly);
 
       library.SetComponentForEnums("DropDown");
       library.SetComponentForAssociations("AssociationEditor");
