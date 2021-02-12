@@ -8,7 +8,7 @@ type Props = {|
   +value: ?number,
   +weight?: "bold",
 |};
-export default function TextInput(props: Props): React.Node {
+export default function FloatDisplay(props: Props): React.Node {
   const {value, weight} = props;
 
   // TODO: Format to precision

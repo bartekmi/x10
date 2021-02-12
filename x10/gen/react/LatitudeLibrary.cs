@@ -88,13 +88,14 @@ namespace x10.gen.react {
       },
       new PlatformClassDef() {
         LogicalName = "Text",
-        PlatformName = "Text",
+        PlatformName = "TextDisplay",
+        ImportDir = "react_lib/display",
         InheritsFromName = "TextualDisplay",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             LogicalName = "text",
-            PlatformName = "children",
+            PlatformName = "value",
           },
         },
       },

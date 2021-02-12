@@ -5,9 +5,9 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Text from 'latitude/Text';
 
 import EnumDisplay from 'react_lib/display/EnumDisplay';
+import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
@@ -34,9 +34,9 @@ function ClientView(props: Props): React.Node {
       <Group
         justifyContent='space-between'
       >
-        <Text
+        <TextDisplay
           weight='bold'
-          children={ client.company?.primaryEntity?.legalName }
+          value={ client.company?.primaryEntity?.legalName }
         />
         <Button
           label='Edit'
@@ -53,14 +53,14 @@ function ClientView(props: Props): React.Node {
             flexDirection='column'
             gap={ 0 }
           >
-            <Text
-              children={ contactName(client.primaryContact) }
+            <TextDisplay
+              value={ contactName(client.primaryContact) }
             />
-            <Text
-              children={ client.primaryContact?.email }
+            <TextDisplay
+              value={ client.primaryContact?.email }
             />
-            <Text
-              children={ client.primaryContact?.phone }
+            <TextDisplay
+              value={ client.primaryContact?.phone }
             />
           </Group>
         </DisplayField>
@@ -71,8 +71,8 @@ function ClientView(props: Props): React.Node {
             flexDirection='column'
             gap={ 0 }
           >
-            <Text
-              children={ client.salesforceAccountRef }
+            <TextDisplay
+              value={ client.salesforceAccountRef }
             />
             <Button
               label='Force Outbound Salesforce Sync'
@@ -82,8 +82,8 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Referred By'
         >
-          <Text
-            children={ client.referredBy }
+          <TextDisplay
+            value={ client.referredBy }
           />
         </DisplayField>
       </Group>
@@ -117,8 +117,8 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Website'
         >
-          <Text
-            children={ client.company?.website }
+          <TextDisplay
+            value={ client.company?.website }
           />
         </DisplayField>
         <Group
@@ -154,30 +154,30 @@ function ClientView(props: Props): React.Node {
             gap={ 28 }
           >
             <Group>
-              <Text
+              <TextDisplay
                 weight='bold'
-                children={ client.shipmentsAsClient }
+                value={ client.shipmentsAsClient }
               />
-              <Text
-                children='as Client'
+              <TextDisplay
+                value='as Client'
               />
             </Group>
             <Group>
-              <Text
+              <TextDisplay
                 weight='bold'
-                children={ client.shipmentsAsShipper }
+                value={ client.shipmentsAsShipper }
               />
-              <Text
-                children='as Shipper'
+              <TextDisplay
+                value='as Shipper'
               />
             </Group>
             <Group>
-              <Text
+              <TextDisplay
                 weight='bold'
-                children={ client.shipmentsAsConsignee }
+                value={ client.shipmentsAsConsignee }
               />
-              <Text
-                children='as Consignee'
+              <TextDisplay
+                value='as Consignee'
               />
             </Group>
           </Group>
