@@ -4,13 +4,13 @@
     <Expander.Header>
       <RepellingRow>
         <Row>
-          <VerticalStackPanel>
-            <Row>
+          <Row>
+            <VerticalStackPanel gap="0">
               <legalName/>
-              <isPrimary ui="BooleanBanner" label="Primary Entity"/>
-            </Row>
-            <companyType/>
-          </VerticalStackPanel>
+              <companyType/>
+            </VerticalStackPanel>
+            <isPrimary ui="BooleanBanner" label="Primary Entity"/>
+          </Row>
         </Row>
         <Row>
           <Button>Documents</Button>

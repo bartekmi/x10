@@ -19,7 +19,7 @@ associations:
     dataType: CompanyEntity
     many: true
     owns: true
-    datagen_quantity: 1
+    datagen_quantity: 1..3
     
   - name: primaryContact
     dataType: Contact

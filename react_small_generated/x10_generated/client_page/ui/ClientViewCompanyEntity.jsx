@@ -38,21 +38,22 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           justifyContent='space-between'
         >
           <Group>
-            <Group
-              flexDirection='column'
-            >
-              <Group>
+            <Group>
+              <Group
+                flexDirection='column'
+                gap={ 0 }
+              >
                 <TextDisplay
                   value={ companyEntity.legalName }
                 />
-                <BooleanBanner
-                  value={ companyEntity.isPrimary }
-                  label='Primary Entity'
+                <EnumDisplay
+                  value={ companyEntity.companyType }
+                  options={ CompanyEntityTypeEnumPairs }
                 />
               </Group>
-              <EnumDisplay
-                value={ companyEntity.companyType }
-                options={ CompanyEntityTypeEnumPairs }
+              <BooleanBanner
+                value={ companyEntity.isPrimary }
+                label='Primary Entity'
               />
             </Group>
           </Group>
