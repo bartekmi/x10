@@ -151,7 +151,7 @@ function ClientView(props: Props): React.Node {
           label='Shipment History'
         >
           <Group
-            gap={ 20 }
+            gap={ 28 }
           >
             <Group>
               <Text

@@ -69,6 +69,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
     >
       <Group
         flexDirection='column'
+        gap={ 20 }
       >
         <Group
           gap={ 80 }

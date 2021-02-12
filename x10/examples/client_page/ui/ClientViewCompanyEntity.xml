@@ -21,7 +21,7 @@
 
     <!-- Body -->
     <Expander.Body>
-      <VerticalStackPanel>
+      <VerticalStackPanel gap="20">
         <Row gap="80">
           <Label label="Core Id">
             <coreId/>

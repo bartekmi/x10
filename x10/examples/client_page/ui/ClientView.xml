@@ -39,7 +39,7 @@
     <Row gap="80">
       <primaryShipmentRole/>
       <Label label="Shipment History" toolTip="Count of invoiced shipments...">
-        <Row gap="20">
+        <Row gap="28">
           <Row>
             <Text text="=shipmentsAsClient" weight="bold"/>
             <Text>as Client</Text>
