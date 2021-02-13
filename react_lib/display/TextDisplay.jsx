@@ -5,7 +5,7 @@ import * as React from "react";
 import Text from "latitude/Text";
 
 type Props = {|
-  +value: ?string,
+  +value: ?string | ?number,
   +weight?: "bold",
   // If needed, add bool prop to control behavior when blank (see comment below)
 |};
