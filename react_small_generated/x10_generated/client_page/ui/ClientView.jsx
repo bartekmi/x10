@@ -37,7 +37,7 @@ function ClientView(props: Props): React.Node {
       >
         <TextDisplay
           weight='bold'
-          value={ client.company?.primaryEntity?.legalName }
+          value={ client?.company?.primaryEntity?.legalName }
         />
         <Button
           label='Edit'
@@ -55,13 +55,13 @@ function ClientView(props: Props): React.Node {
             gap={ 0 }
           >
             <TextDisplay
-              value={ contactName(client.primaryContact) }
+              value={ contactName(client?.primaryContact) }
             />
             <TextDisplay
-              value={ client.primaryContact?.email }
+              value={ client?.primaryContact?.email }
             />
             <TextDisplay
-              value={ client.primaryContact?.phone }
+              value={ client?.primaryContact?.phone }
             />
           </Group>
         </DisplayField>
@@ -73,7 +73,7 @@ function ClientView(props: Props): React.Node {
             gap={ 0 }
           >
             <TextDisplay
-              value={ client.salesforceAccountRef }
+              value={ client?.salesforceAccountRef }
             />
             <Button
               label='Force Outbound Salesforce Sync'
@@ -84,7 +84,7 @@ function ClientView(props: Props): React.Node {
           label='Referred By'
         >
           <TextDisplay
-            value={ client.referredBy }
+            value={ client?.referredBy }
           />
         </DisplayField>
       </Group>
@@ -95,7 +95,7 @@ function ClientView(props: Props): React.Node {
           label='Status'
         >
           <EnumDisplay
-            value={ client.status }
+            value={ client?.status }
             options={ ClientStatusEnumPairs }
           />
         </DisplayField>
@@ -103,7 +103,7 @@ function ClientView(props: Props): React.Node {
           label='Segment'
         >
           <EnumDisplay
-            value={ client.segment }
+            value={ client?.segment }
             options={ ClientSegmentEnumPairs }
           />
         </DisplayField>
@@ -111,7 +111,7 @@ function ClientView(props: Props): React.Node {
           label='Purchasing Behavior'
         >
           <EnumDisplay
-            value={ client.purchasingBehavior }
+            value={ client?.purchasingBehavior }
             options={ ClientPurchasingBehaviorEnumPairs }
           />
         </DisplayField>
@@ -119,7 +119,7 @@ function ClientView(props: Props): React.Node {
           label='Website'
         >
           <TextDisplay
-            value={ client.company?.website }
+            value={ client?.company?.website }
           />
         </DisplayField>
         <Group
@@ -144,7 +144,7 @@ function ClientView(props: Props): React.Node {
           label='Primary Shipment Role'
         >
           <EnumDisplay
-            value={ client.primaryShipmentRole }
+            value={ client?.primaryShipmentRole }
             options={ ClientPrimaryShipmentRoleEnumPairs }
           />
         </DisplayField>
@@ -158,7 +158,7 @@ function ClientView(props: Props): React.Node {
             <Group>
               <TextDisplay
                 weight='bold'
-                value={ client.shipmentsAsClient }
+                value={ client?.shipmentsAsClient }
               />
               <TextDisplay
                 value='as Client'
@@ -167,7 +167,7 @@ function ClientView(props: Props): React.Node {
             <Group>
               <TextDisplay
                 weight='bold'
-                value={ client.shipmentsAsShipper }
+                value={ client?.shipmentsAsShipper }
               />
               <TextDisplay
                 value='as Shipper'
@@ -176,7 +176,7 @@ function ClientView(props: Props): React.Node {
             <Group>
               <TextDisplay
                 weight='bold'
-                value={ client.shipmentsAsConsignee }
+                value={ client?.shipmentsAsConsignee }
               />
               <TextDisplay
                 value='as Consignee'
@@ -191,7 +191,7 @@ function ClientView(props: Props): React.Node {
         children='COMPANY ENTITIES'
       />
       <MultiStacker
-        items={ client.company?.entities }
+        items={ client?.company?.entities }
         itemDisplayFunc={ (data, onChange) => (
           <ClientViewCompanyEntity companyEntity={ data }/>
         ) }

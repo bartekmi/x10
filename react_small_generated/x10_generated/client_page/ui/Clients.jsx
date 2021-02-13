@@ -40,25 +40,25 @@ function Clients(props: Props): React.Node {
             [
               {
                 id: 'Legal Name',
-                render: (data) => <TextCell value={ data.company?.primaryEntity?.legalName } />,
+                render: (data) => <TextCell value={ data?.company?.primaryEntity?.legalName } />,
                 header: 'Legal Name',
                 width: 140,
               },
               {
                 id: 'Status',
-                render: (data) => <TextCell value={ data.status } />,
+                render: (data) => <TextCell value={ data?.status } />,
                 header: 'Status',
                 width: 140,
               },
               {
                 id: 'Segment',
-                render: (data) => <TextCell value={ data.segment } />,
+                render: (data) => <TextCell value={ data?.segment } />,
                 header: 'Segment',
                 width: 140,
               },
               {
                 id: 'Primary Shipment Role',
-                render: (data) => <TextCell value={ data.primaryShipmentRole } />,
+                render: (data) => <TextCell value={ data?.primaryShipmentRole } />,
                 header: 'Primary Shipment Role',
                 width: 140,
               },
@@ -68,7 +68,7 @@ function Clients(props: Props): React.Node {
                   <Group>
                     <Button
                       label='View'
-                      url={ '/clients/view/' + data.id }
+                      url={ '/clients/view/' + data?.id }
                     />
                   </Group>
                 ,

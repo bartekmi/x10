@@ -46,15 +46,15 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 gap={ 0 }
               >
                 <TextDisplay
-                  value={ companyEntity.legalName }
+                  value={ companyEntity?.legalName }
                 />
                 <EnumDisplay
-                  value={ companyEntity.companyType }
+                  value={ companyEntity?.companyType }
                   options={ CompanyEntityTypeEnumPairs }
                 />
               </Group>
               <BooleanBanner
-                value={ companyEntity.isPrimary }
+                value={ companyEntity?.isPrimary }
                 label='Primary Entity'
                 icon='star'
               />
@@ -89,7 +89,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
             label='Core Id'
           >
             <FloatDisplay
-              value={ companyEntity.coreId }
+              value={ companyEntity?.coreId }
             />
           </DisplayField>
           <DisplayField
@@ -112,13 +112,13 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         >
           <Group>
             <Checkbox
-              checked={ companyEntity.isPrimary }
+              checked={ companyEntity?.isPrimary }
               label='Primary Entity'
-              disabled={ companyEntity.isPrimary }
-              onChange={ setCompanyEntityAsPrimary(companyEntity.id) }
+              disabled={ companyEntity?.isPrimary }
+              onChange={ setCompanyEntityAsPrimary(companyEntity?.id) }
             />
             <VisibilityControl
-              visible={ companyEntity.isPrimary }
+              visible={ companyEntity?.isPrimary }
             >
               <HelpTooltip
                 text='You can change the primary entity by selecting...'

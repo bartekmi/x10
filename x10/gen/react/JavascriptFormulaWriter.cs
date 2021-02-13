@@ -60,7 +60,7 @@ namespace x10.gen.react {
           _writer.Write("{0}({1})", functionName, _variableName);
           _imports.ImportDerivedAttributeFunction(derivedAttr);
         } else
-          _writer.Write("{0}.{1}", _variableName, exp.Name);
+          _writer.Write("{0}?.{1}", _variableName, exp.Name);
       }
     }
 

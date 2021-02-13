@@ -28,19 +28,19 @@ function AddressDisplay(props: Props): React.Node {
       gap={ 0 }
     >
       <TextDisplay
-        value={ address.theAddress }
+        value={ address?.theAddress }
       />
       <TextDisplay
-        value={ address.theAddress2 }
+        value={ address?.theAddress2 }
       />
       <TextDisplay
-        value={ address.city }
+        value={ address?.city }
       />
       <TextDisplay
-        value={ address.postalCode }
+        value={ address?.postalCode }
       />
       <TextDisplay
-        value={ address.country?.name }
+        value={ address?.country?.name }
       />
       <Group
         flexDirection='column'

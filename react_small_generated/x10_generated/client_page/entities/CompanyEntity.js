@@ -119,7 +119,7 @@ export type VendorCategoryEnum = 'UNASSIGNED' | 'FREIGHT_UNAPPROVED' | 'FREIGHT_
 export function companyEntityApplicableWhenForPhysicalAddress(companyEntity: {
   +mailingAddressIsPhysicalAddress: boolean,
 }): boolean {
-  const result = !companyEntity.mailingAddressIsPhysicalAddress;
+  const result = !companyEntity?.mailingAddressIsPhysicalAddress;
   return result;
 }
 

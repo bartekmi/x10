@@ -23,7 +23,7 @@ export function contactName(contact: {
   +firstName: string,
   +lastName: string,
 }): string {
-  const result = contact.firstName + ' ' + contact.lastName;
+  const result = contact?.firstName + ' ' + contact?.lastName;
   return result;
 }
 
