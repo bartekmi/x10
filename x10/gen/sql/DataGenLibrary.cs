@@ -25,6 +25,7 @@ namespace x10.gen.sql {
     internal const string RANDOM_TEXT = "datagen_random_text";
     internal const string NO_SQL_SCHEMA = "datagen_no_sql_schema";
     internal const string CAPITALIZATION = "datagen_capitalization";
+    internal const string PROBABILITY = "datagen_probability";
 
     private static readonly DataType RANGE_DATA_TYPE = new DataType() {
       Name = "SqlRange",
@@ -111,6 +112,22 @@ namespace x10.gen.sql {
         Description = @"The number of rows of data to generate for this owned association. Either an exact quantity like '5' or a range like 0..2",
         AppliesTo = AppliesTo.Association,
         DataType = RANGE_DATA_TYPE,
+      },
+      // TODO: In the future, generalize this for all optional values
+      new ModelAttributeDefinitionAtomic() {
+        Name = PROBABILITY,
+        Description = @"For single, non-mandatory associations, if present, determines the probability that a child entity will be generated. Must be between 0.0 and 1.0 inclusive.",
+        AppliesTo = AppliesTo.Association,
+        DataType = DataTypes.Singleton.Float,
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          double probability = double.Parse(scalarNode.Value.ToString());
+          if (probability < 0.0 || probability > 1.0)
+            messages.AddError(scalarNode, "Probability most be between 0.0 and 1.0 inclusive.");
+
+          if (modelComponent is Association assoc)
+            if (assoc.IsMandatory || assoc.IsMandatory || !assoc.Owns)
+              messages.AddError(scalarNode, "Probability can only be applied to Single, Non-Mandatory, Owned Associations.");
+        }
       },
     };
 

@@ -294,8 +294,14 @@ namespace x10.gen.sql {
       if (association.IsMany) {
         SqlRange range = association.FindValue<SqlRange>(DataGenLibrary.QUANTITY) ?? DEFAULT_ASSOCIATION_RANGE;
         return range.GetRandom(_random);
-      } else
-        return 1;   // TODO: Consider probability if not mandatory
+      } else {
+        object probabilityObj = association.FindValue(DataGenLibrary.PROBABILITY);
+        if (association.IsMandatory || probabilityObj == null)
+          return 1;
+
+        double probability = (double)probabilityObj;
+        return _random.NextDouble() < probability ? 1 : 0;
+      }
     }
 
     private int GetCount(Entity entity) {

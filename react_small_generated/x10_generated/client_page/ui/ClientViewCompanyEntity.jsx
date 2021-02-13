@@ -40,7 +40,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           justifyContent='space-between'
         >
           <Group>
-            <Group>
+            <Group
+              gap={ 20 }
+            >
               <Group
                 flexDirection='column'
                 gap={ 0 }
@@ -58,13 +60,17 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 label='Primary Entity'
                 icon='star'
               />
-              <DisplayField
-                label='C-TPAT STATUS'
+              <VisibilityControl
+                visible={ companyEntity?.ctpatReview != null }
               >
-                <Status
-                  intent={ ctpatReviewStatusToIntent(companyEntity?.ctpatReview?.status) }
-                />
-              </DisplayField>
+                <DisplayField
+                  label='C-TPAT STATUS'
+                >
+                  <Status
+                    intent={ ctpatReviewStatusToIntent(companyEntity?.ctpatReview?.status) }
+                  />
+                </DisplayField>
+              </VisibilityControl>
             </Group>
           </Group>
           <Group>
