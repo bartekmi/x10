@@ -608,7 +608,7 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "selectionStyle",
             Description = "The way in which table selection is shown",
-            DataType = new DataTypeEnum(new string[] {"single", "multiple", "checkBox" }),
+            DataType = new DataTypeEnum("TableSelectionStyle", new string[] {"single", "multiple", "checkBox" }),
             DefaultValue = "single",
           },
         },
@@ -923,7 +923,7 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "mandatoryIndicator",
             Description = "If 'mandatory', an asterisk will be added to the label. If 'optional', the word 'optional' will be added after the label.",
-            DataType = new DataTypeEnum(new string[] {"none", "mandatory", "optional" }),
+            DataType = new DataTypeEnum("FormFieldMandatoryIndicator", new string[] {"none", "mandatory", "optional" }),
             DefaultValue = "none",
           },
         }

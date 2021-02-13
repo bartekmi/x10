@@ -125,6 +125,7 @@ namespace x10.hotchoc.ClientPage {
         Address? physicalAddress,
         IEnumerable<VatNumber> vatNumbers,
         string? netsuiteVendorIdId,
+        CtpatReview? ctpatReview,
         string? invoiceCurrencyDefaultId,
         [Service] IRepository repository) {
 
@@ -150,6 +151,7 @@ namespace x10.hotchoc.ClientPage {
         PhysicalAddress = physicalAddress,
         VatNumbers = vatNumbers.ToList(),
         NetsuiteVendorId = repository.GetNetsuiteVendor(IdUtils.FromRelayIdMandatory(netsuiteVendorIdId)),
+        CtpatReview = ctpatReview,
         InvoiceCurrencyDefault = repository.GetCurrency(IdUtils.FromRelayIdMandatory(invoiceCurrencyDefaultId)),
       };
 

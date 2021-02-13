@@ -1,6 +1,14 @@
 ﻿- name: SetCompanyEntityAsPrimary
-  returnDataType: Boolean
   importDir: client_page
+  returnDataType: Boolean
   arguments:
     - name: id
       dataType: String
+
+- name: CtpatReviewStatusToIntent
+  importDir: client_page
+  returnDataType: StatusIntent
+  arguments:
+    - name: ctpatReviewStatus
+      dataType: CtpatReviewStatus
+

@@ -7,6 +7,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
+import Status from 'latitude/Status';
 
 import BooleanBanner from 'react_lib/display/BooleanBanner';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
@@ -17,6 +18,7 @@ import DisplayField from 'react_lib/form/DisplayField';
 import Button from 'react_lib/latitude_wrappers/Button';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
+import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
@@ -56,6 +58,13 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 label='Primary Entity'
                 icon='star'
               />
+              <DisplayField
+                label='C-TPAT STATUS'
+              >
+                <Status
+                  intent={ ctpatReviewStatusToIntent(companyEntity?.ctpatReview?.status) }
+                />
+              </DisplayField>
             </Group>
           </Group>
           <Group>
@@ -129,6 +138,10 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
       id
       companyType
       coreId
+      ctpatReview {
+        id
+        status
+      }
       isPrimary
       legalName
       mailingAddress {

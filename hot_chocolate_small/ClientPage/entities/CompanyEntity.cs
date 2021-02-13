@@ -81,6 +81,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     [GraphQLNonNullType]
     public List<VatNumber>? VatNumbers { get; set; }
     public NetsuiteVendor? NetsuiteVendorId { get; set; }
+    public CtpatReview? CtpatReview { get; set; }
     public Currency? InvoiceCurrencyDefault { get; set; }
 
     public override void EnsureUniqueDbid() {
@@ -88,6 +89,7 @@ namespace x10.hotchoc.ClientPage.Entities {
       MailingAddress?.EnsureUniqueDbid();
       PhysicalAddress?.EnsureUniqueDbid();
       VatNumbers?.ForEach(x => x.EnsureUniqueDbid());
+      CtpatReview?.EnsureUniqueDbid();
     }
   }
 }

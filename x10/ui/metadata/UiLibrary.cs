@@ -42,10 +42,15 @@ namespace x10.ui.metadata {
       _definitionsByName = definitions.ToDictionary(x => x.Name);
       _dataTypesToComponentRW = new Dictionary<DataType, ClassDef>();
       _dataTypesToComponentRO = new Dictionary<DataType, ClassDef>();
+
+      // Add enums from libraries
+      foreach (ClassDef classDef in definitions)
+        foreach (UiAttributeDefinition attrDef in classDef.LocalAttributeDefinitions)
+          if (attrDef is UiAttributeDefinitionAtomic atomic)
+            if (atomic.DataType is DataTypeEnum)
+              DataTypes.Singleton.AddDataType(atomic.DataType);
     }
 
-    // TODO: This may likely need other fields in the future, in particular: readOnly and isMandatory,
-    // as this may effect the type of component we want to use.
     public void AddDataTypeToComponentAssociation(DataType dataType, string componentName, UseMode mode) {
       ClassDef uiComponent = FindComponentByName(componentName);
       if (uiComponent == null)
@@ -60,7 +65,6 @@ namespace x10.ui.metadata {
       }
     }
 
-    // TODO: Ditto here
     public void SetComponentForEnums(string componentName, UseMode mode) {
       ClassDef uiComponent = FindComponentByName(componentName);
       if (uiComponent == null)
@@ -118,13 +122,13 @@ namespace x10.ui.metadata {
     private ClassDef FindUiComponentForDataType(X10Attribute attribute, UseMode mode) {
       ClassDef uiComponent = null;
 
-      switch (mode ) {
-        case UseMode.ReadOnly: 
+      switch (mode) {
+        case UseMode.ReadOnly:
           _dataTypesToComponentRO.TryGetValue(attribute.DataType, out uiComponent);
           if (uiComponent == null && attribute.DataType is DataTypeEnum)
             uiComponent = _defaultComponentForEnumsRO;
           break;
-        case UseMode.ReadWrite: 
+        case UseMode.ReadWrite:
           _dataTypesToComponentRW.TryGetValue(attribute.DataType, out uiComponent);
           if (uiComponent == null && attribute.DataType is DataTypeEnum)
             uiComponent = _defaultComponentForEnumsRW;

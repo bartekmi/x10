@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using HotChocolate;
 using HotChocolate.Execution;
 
+using x10.ui.libraries;
+
 namespace x10.hotchoc {
 
   public class HotChocConfig {
@@ -25,6 +27,7 @@ namespace x10.hotchoc {
 
     public string? IntermediateOutputDir { get; internal set; }
     public Action? PostInitializeAction { get; internal set; }
+    public Action? PreInitializeAction { get; internal set; }
 
     // Derived
     public string SchemaOutputFile => string.Format("../{0}.graphql", ProjectName);
@@ -64,6 +67,18 @@ namespace x10.hotchoc {
         repository: new ClientPage.Repositories.Repository()
       ) {
         IntermediateOutputDir = "/Users/bmuszynski/temp/client_page",
+        PreInitializeAction = () => {
+          // This is lame (Tech Debt), but there is the following dependency:
+          // DataIngest uses EntityAndEnumCompiler (EEC), EEC loads Functions, Functions have a dependency on
+          // a data-type defined in FlexportSpecialLibrary = BOOM!
+          // The following lines force a load of the data-type defined in the UI libraries.
+          //
+          // One solution to this would be to pass in a flag to EEC to tell it NOT to compile functions under the
+          // "ui" directory, but this instantly makes the "ui" directory "special" - the type of obscure rule
+          // that future generations of developers would curse me for.      
+          BaseLibrary.Singleton();
+          FlexportSpecialLibrary.Singleton();
+        },
         PostInitializeAction = () => {
           var repository = (x10.hotchoc.ClientPage.Repositories.Repository)Config.Repository;
           string json = JsonConvert.SerializeObject(repository.GetClients(), Formatting.Indented);
@@ -77,7 +92,11 @@ namespace x10.hotchoc {
     public static async Task Main(string[] args) {
       Config = ExtractConfig(args);
 
+      if (Config.PreInitializeAction != null)
+        Config.PreInitializeAction();
+
       DataIngest.GenerateTestData(Config);
+
       if (Config.PostInitializeAction != null)
         Config.PostInitializeAction();
 

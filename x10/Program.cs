@@ -62,8 +62,8 @@ namespace x10 {
         SourceDir = "examples/client_page",
         ProjectDir = "../react_small_generated",
         TargetDir = "x10_generated/client_page",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton(), FlexportSpecialLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton(), LatitudeFlexportSpecialLibrary.Singleton() },
         Generator = new ReactCodeGenerator() {
           GeneratedCodeSubdir = "client_page",
           AppContextImport = "ClientPageAppContext",
@@ -92,8 +92,8 @@ namespace x10 {
         SourceDir = "examples/client_page",
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "ClientPage",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton(), FlexportSpecialLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { },
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "ClientPage",
@@ -106,8 +106,6 @@ namespace x10 {
       MessageBucket messages = new MessageBucket();
 
       // Hydrate UiLibraries
-      // TODO: Ideally, this is not needed... Each platform library should know
-      // its dependencies and hydrate them.
       foreach (UiLibrary library in config.LogicalLibraries) {
         if (!library.HydrateAndValidate(messages)) {
           DumpMessages("Logical Library Validation for " + library.Name, messages);

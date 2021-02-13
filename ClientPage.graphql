@@ -75,6 +75,7 @@ type CompanyEntity {
   physicalAddress: Address
   vatNumbers: [VatNumber!]!
   netsuiteVendorId: NetsuiteVendor
+  ctpatReview: CtpatReview
   invoiceCurrencyDefault: Currency
   id: String!
   hashcode: Int!
@@ -159,7 +160,7 @@ type Mutation {
   "Creates a new CtpatReview or updates an existing one, depending on the value of id"
   createOrUpdateCtpatReview(id: String! complianceScreenRequired: Boolean! status: CtpatReviewStatusEnum! expiresAt: DateTime complianceContactEmail: String!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of id"
-  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String invoiceCurrencyDefaultId: String): String!
+  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput invoiceCurrencyDefaultId: String): String!
   "Creates a new Currency or updates an existing one, depending on the value of id"
   createOrUpdateCurrency(id: String! symbol: String! name: String!): String!
   "Creates a new Address or updates an existing one, depending on the value of id"
@@ -819,6 +820,7 @@ input CompanyEntityFilter {
   vatNumbers_all: VatNumberFilter
   vatNumbers_any: Boolean
   netsuiteVendorId: NetsuiteVendorFilter
+  ctpatReview: CtpatReviewFilter
   invoiceCurrencyDefault: CurrencyFilter
   id: String
   id_not: String
@@ -881,6 +883,7 @@ input CompanyEntityInput {
   physicalAddress: AddressInput
   vatNumbers: [VatNumberInput!]!
   netsuiteVendorId: NetsuiteVendorInput
+  ctpatReview: CtpatReviewInput
   invoiceCurrencyDefault: CurrencyInput
   id: String!
   hashcode: Int!
@@ -911,6 +914,7 @@ input CompanyEntitySort {
   mailingAddress: AddressSort
   physicalAddress: AddressSort
   netsuiteVendorId: NetsuiteVendorSort
+  ctpatReview: CtpatReviewSort
   invoiceCurrencyDefault: CurrencySort
   id: SortOperationKind
   hashcode: SortOperationKind
@@ -1304,6 +1308,18 @@ input CtpatReviewFilter {
   dbid_not_lt: Int
   dbid_lte: Int
   dbid_not_lte: Int
+}
+
+"Status of the current CTPAT review"
+input CtpatReviewInput {
+  complianceScreenRequired: Boolean!
+  status: CtpatReviewStatusEnum!
+  expiresAt: DateTime
+  complianceContactEmail: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+  dbid: Int!
 }
 
 "Status of the current CTPAT review"

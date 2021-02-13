@@ -102,7 +102,7 @@ namespace x10.gen.sql {
         Name = CAPITALIZATION,
         Description = @"Controls capitalization of generated text",
         AppliesTo = AppliesTo.RegularAttribute,
-        DataType = new DataTypeEnum(new string[] {"allCaps", "allDown", "wordCaps" }),
+        DataType = new DataTypeEnum("DataGenCapitalization", new string[] {"allCaps", "allDown", "wordCaps" }),
       },
 
       // Association Level

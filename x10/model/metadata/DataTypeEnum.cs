@@ -15,7 +15,6 @@ namespace x10.model.metadata {
     public static readonly DataTypeEnum DATA_TYPE_ENUM_ANY = new DataTypeEnum();
 
     public List<EnumValue> EnumValues { get; private set; }
-    public string UiName { get; set; }
     public bool IsDefinedInEnumsFile { get; set; }
 
     // IAcceptsModelAttributeValues
@@ -31,7 +30,8 @@ namespace x10.model.metadata {
       ParseFunction = (text) => ParseEnum(text);
     }
 
-    public DataTypeEnum(IEnumerable<object> enumValues) : this() {
+    public DataTypeEnum(string enumName, IEnumerable<object> enumValues) : this() {
+      Name = enumName;
       EnumValueValues = enumValues;
     }
 

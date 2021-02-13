@@ -8,6 +8,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'client_page/entities/Address';
+import { createDefaultCtpatReview, ctpatReviewCalculateErrors, type CtpatReview } from 'client_page/entities/CtpatReview';
 import { type VatNumber } from 'client_page/entities/VatNumber';
 
 
@@ -36,6 +37,7 @@ export type CompanyEntity = {
   +physicalAddress: Address,
   +vatNumbers: $ReadOnlyArray<VatNumber>,
   +netsuiteVendorId: ?string,
+  +ctpatReview: CtpatReview,
   +invoiceCurrencyDefault: ?string,
 };
 
@@ -150,6 +152,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     physicalAddress: createDefaultAddress(),
     vatNumbers: [],
     netsuiteVendorId: null,
+    ctpatReview: createDefaultCtpatReview(),
     invoiceCurrencyDefault: null,
   };
 }
@@ -167,6 +170,7 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
   errors.push(...addressCalculateErrors(companyEntity.mailingAddress, 'mailingAddress'));
   if (companyEntityApplicableWhenForPhysicalAddress(companyEntity))
     errors.push(...addressCalculateErrors(companyEntity.physicalAddress, 'physicalAddress'));
+  errors.push(...ctpatReviewCalculateErrors(companyEntity.ctpatReview, 'ctpatReview'));
 
   return errors;
 }

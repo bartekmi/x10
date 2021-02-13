@@ -10,6 +10,9 @@
               <companyType/>
             </VerticalStackPanel>
             <isPrimary ui="BooleanBanner" label="Primary Entity" icon="star"/>
+            <Label label="C-TPAT STATUS">
+              <Status intent="=CtpatReviewStatusToIntent(ctpatReview.status)"/>
+            </Label>
           </Row>
         </Row>
         <Row>

@@ -51,6 +51,8 @@ namespace x10.formula {
         Parser.Errors.AddError(this, "Function '{0}' expects {1} argument(s) but was given {2}",
           FunctionName, Function.Arguments.Count, argTypes.Count);
 
+      if (Function.ReturnType == null)
+        return X10DataType.ERROR;
       return new X10DataType(Function.ReturnType);
     }
   }
