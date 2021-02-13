@@ -19,14 +19,14 @@ export default function Expander(props: Props): React.Node {
   return (
     <div className={css(styles.border)}>
       <Group flexDirection="column">
-        <Group>
+        <div style={{display: "flex"}}>
           <IconButton 
             kind="bare" 
             iconName={expanded ? "downOpen" : "rightOpen"} 
             type="button" 
             onClick={() => setExpanded(!expanded)} />
           {headerFunc()}
-        </Group>
+        </div>
         {expanded ? children : null}
       </Group>
     </div>

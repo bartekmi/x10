@@ -32,7 +32,7 @@ export default function MultiStacker<T: TItem>({
   return (
     <Group gap={20} flexDirection="column">
       {items.map(item => (
-        <Group key={item.id} alignItems="center">
+        <Group key={item.id} alignItems="center" fillChildren={true}>
           {itemDisplayFunc(
             item,
             (newItem) => {
