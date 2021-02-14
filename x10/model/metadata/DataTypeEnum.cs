@@ -15,6 +15,8 @@ namespace x10.model.metadata {
     public static readonly DataTypeEnum DATA_TYPE_ENUM_ANY = new DataTypeEnum();
 
     public List<EnumValue> EnumValues { get; private set; }
+    // The default UI Tool Tipe for this type of item. Not yet implemented.
+    public string UiName { get; set; }
     public bool IsDefinedInEnumsFile { get; set; }
 
     // IAcceptsModelAttributeValues

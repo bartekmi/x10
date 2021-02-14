@@ -9,6 +9,7 @@ using x10.compiler;
 using x10.model;
 using x10.ui.platform;
 using x10.ui.libraries;
+using x10.ui.metadata;
 
 namespace x10.gen.react {
   public class GenerateClientPageExample {
@@ -29,10 +30,12 @@ namespace x10.gen.react {
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
-      LatitudeLibrary.Singleton().HydrateAndValidate(_messages);
       PlatformLibrary[] libraries = new PlatformLibrary[] {
         LatitudeLibrary.Singleton(),
+        LatitudeFlexportSpecialLibrary.Singleton(),
       };
+      foreach (PlatformLibrary library in libraries)
+        library.HydrateAndValidate(_messages);
 
       TestUtils.DumpMessages(_messages, _output);
       Assert.Empty(_messages.Errors);

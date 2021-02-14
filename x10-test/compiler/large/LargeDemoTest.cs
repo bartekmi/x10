@@ -53,6 +53,7 @@ namespace x10.compiler {
         BaseLibrary.Singleton(),
         IconLibrary.Singleton(),
         LargeDemoLibrary.Singleton(),
+        FlexportSpecialLibrary.Singleton(),
       };
 
       foreach (UiLibrary library in libraries)
