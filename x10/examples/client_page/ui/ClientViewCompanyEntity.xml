@@ -16,13 +16,12 @@
           </Row>
         </Row>
         <Row>
-          <Button label="Documents">
-            <Button.Action>
-              <OpenDialogAction title="Company Entity Documents">
-                <ClientViewDocuments/>
-              </OpenDialogAction>
-            </Button.Action>
-          </Button>
+          <Dialog title="Company Entity Documents">
+            <Dialog.OpenButton>
+              <Button label="Documents"/>
+            </Dialog.OpenButton>
+            <ClientViewDocuments/>
+          </Dialog>
           <Button>Edit</Button>
         </Row>
       </RepellingRow>

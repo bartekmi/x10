@@ -701,30 +701,6 @@ namespace x10.ui.libraries {
         },
       },
       new ClassDefNative() {
-        Name = "OpenDialogAction",
-        Description = "This action opens a dialog",
-        InheritsFromName = "Action",
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "title",
-            Description = "The title of the dialog",
-            IsMandatory = true,
-            DataType = DataTypes.Singleton.String,
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "dialogText",
-            Description = "Text explaining what the user is about to do",
-            DataType = DataTypes.Singleton.String,
-          },
-          new UiAttributeDefinitionComplex() {
-            Name = "DialogContent",
-            Description = "The UI content of the dialog",
-            IsPrimary = true,
-            ComplexAttributeType = ClassDefNative.Visual,
-          },
-        },
-      },
-      new ClassDefNative() {
         Name = "UploadAction",
         Description = "Dialog action to upload a file",
         InheritsFromName = "ActionWithDialog",
@@ -954,6 +930,30 @@ namespace x10.ui.libraries {
       #endregion
 
       #region Misc
+      new ClassDefNative() {
+        Name = "Dialog",
+        Description = "This action opens a dialog",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "title",
+            Description = "The title of the dialog",
+            IsMandatory = true,
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionComplex() {
+            Name = "OpenButton",
+            Description = "Defines the button which opens the dialog.",
+            ComplexAttributeTypeName = "Button",
+          },
+          new UiAttributeDefinitionComplex() {
+            Name = "Content",
+            IsPrimary = true,
+            Description = "The Content of the Dialog.",
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+        },
+      },
       new ClassDefNative() {
         Name = "HelpIcon",
         Description = "A question mark icon that can provide the user with contextual help information.",

@@ -9,6 +9,7 @@ import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
 import Status from 'latitude/Status';
 
+import Dialog from 'react_lib/modal/Dialog';
 import BooleanBanner from 'react_lib/display/BooleanBanner';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
@@ -22,6 +23,7 @@ import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
+import ClientViewDocuments from 'client_page/ui/ClientViewDocuments';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
 
@@ -74,9 +76,12 @@ function ClientViewCompanyEntity(props: Props): React.Node {
             </Group>
           </Group>
           <Group>
-            <Button
-              label='Documents'
-            />
+            <Dialog
+              title='Company Entity Documents'
+              openButton={<Button label='Documents'/>}
+            >
+              <ClientViewDocuments companyEntity={ companyEntity }/>
+            </Dialog>
             <Button
               label='Edit'
             />

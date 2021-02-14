@@ -678,6 +678,27 @@ namespace x10.gen.react {
 
       #region Misc
       new PlatformClassDef() {
+        LogicalName = "Dialog",
+        PlatformName = "Dialog",
+        ImportDir = "react_lib/dialog",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("title", "title"),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "openButton",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              UiAttributeValueComplex headerAttr = instance.FindAttributeValue("OpenButton") as UiAttributeValueComplex;
+              Instance buttonInstance = headerAttr.Instances.Single();
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "openButton={");
+                generator.GenerateComponentRecursively(OutputType.React, indent + 1, buttonInstance);
+                generator.WriteLine(indent, "}");
+              });
+            },
+          },
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "AssociationEditor",
         PlatformName = "AssociationEditor",
         ImportDir = "react_lib/multi",

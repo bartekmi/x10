@@ -7,13 +7,14 @@ import TextLink from "latitude/TextLink";
 
 type Props = {|
   +label: string,
+  +onClick?: () => mixed,
   +url?: string,
 |};
 export default function Button(props: Props): React.Node {
-  const {label, url} = props;
+  const {label, onClick, url} = props;
   return (
     url == null ?
-      <LatitudeButton kind="solid" intent="basic" size="s">{label}</LatitudeButton> :
+      <LatitudeButton onClick={onClick} kind="solid" intent="basic" size="s">{label}</LatitudeButton> :
       <TextLink href={url}>{label}</TextLink>
   );
 }
