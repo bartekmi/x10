@@ -104,6 +104,12 @@ associations:
     owns: true
     datagen_probability: 0.5
 
+  - name: documents
+    dataType: Document
+    owns: true
+    many: true
+    datagen_quantity: 0..2
+
 # Do we implement full-on many-to-many associations (has_and_belongs_to_many in ActiveRecord) or
 # do we just create an intermediate mini-entity with only a single non-owned association?
   # - name: invoicedBy

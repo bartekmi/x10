@@ -32,6 +32,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     }
 
     // Associations
+    [GraphQLNonNullType]
     public User? UploadedBy { get; set; }
 
     public override void EnsureUniqueDbid() {

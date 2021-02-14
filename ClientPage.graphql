@@ -76,6 +76,7 @@ type CompanyEntity {
   vatNumbers: [VatNumber!]!
   netsuiteVendorId: NetsuiteVendor
   ctpatReview: CtpatReview
+  documents: [Document!]!
   invoiceCurrencyDefault: Currency
   id: String!
   hashcode: Int!
@@ -144,7 +145,7 @@ type Document {
   fileName: String!
   uploadedTimestamp: DateTime
   toStringRepresentation: String!
-  uploadedBy: User
+  uploadedBy: User!
   id: String!
   hashcode: Int!
   dbid: Int!
@@ -160,7 +161,7 @@ type Mutation {
   "Creates a new CtpatReview or updates an existing one, depending on the value of id"
   createOrUpdateCtpatReview(id: String! complianceScreenRequired: Boolean! status: CtpatReviewStatusEnum! expiresAt: DateTime complianceContactEmail: String!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of id"
-  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput invoiceCurrencyDefaultId: String): String!
+  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput documents: [DocumentInput!]! invoiceCurrencyDefaultId: String): String!
   "Creates a new Currency or updates an existing one, depending on the value of id"
   createOrUpdateCurrency(id: String! symbol: String! name: String!): String!
   "Creates a new Address or updates an existing one, depending on the value of id"
@@ -821,6 +822,10 @@ input CompanyEntityFilter {
   vatNumbers_any: Boolean
   netsuiteVendorId: NetsuiteVendorFilter
   ctpatReview: CtpatReviewFilter
+  documents_some: DocumentFilter
+  documents_none: DocumentFilter
+  documents_all: DocumentFilter
+  documents_any: Boolean
   invoiceCurrencyDefault: CurrencyFilter
   id: String
   id_not: String
@@ -884,6 +889,7 @@ input CompanyEntityInput {
   vatNumbers: [VatNumberInput!]!
   netsuiteVendorId: NetsuiteVendorInput
   ctpatReview: CtpatReviewInput
+  documents: [DocumentInput!]!
   invoiceCurrencyDefault: CurrencyInput
   id: String!
   hashcode: Int!
@@ -1505,6 +1511,18 @@ input DocumentFilter {
   dbid_not_lt: Int
   dbid_lte: Int
   dbid_not_lte: Int
+}
+
+"Metadata about a document"
+input DocumentInput {
+  name: String!
+  fileName: String!
+  uploadedTimestamp: DateTime
+  toStringRepresentation: String!
+  uploadedBy: UserInput!
+  id: String!
+  hashcode: Int!
+  dbid: Int!
 }
 
 "Metadata about a document"

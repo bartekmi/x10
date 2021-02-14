@@ -6,18 +6,24 @@ attributes:
   - name: name
     dataType: String
     mandatory: true
+    datagen_pattern: <adjective> <noun>
+
   - name: fileName
     dataType: String
     mandatory: true
+    datagen_pattern: ~LLLDDDD-LLDD~(50% => .jpg | 50% => .pdf)
 
   - name: uploadedTimestamp
     dataType: Timestamp
     readOnly: true
+    datagen_min: Jan 1, 2020
+    datagen_max: Feb 13, 2021
 
 associations:
   - name: uploadedBy
     dataType: User
     owns: false
+    mandatory: true
     readOnly: true
 
 enums:

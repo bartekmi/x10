@@ -267,8 +267,8 @@ namespace x10.gen.sql {
 
       int? value = EntityInfos[entity].RandomExistingId(_random, association);
       if (association.IsMandatory && value == null)
-        throw new Exception(string.Format("Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
-          association, entity.Name, DataGenLibrary.QUANTITY));
+        _messages.AddError(association.TreeElement, "Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
+          association, entity.Name, DataGenLibrary.QUANTITY);
 
       return new MemberAndValue() {
         Member = association,
