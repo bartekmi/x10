@@ -12,8 +12,9 @@ using x10.model;
 using x10.compiler.ui;
 using x10.ui.composition;
 using x10.ui.libraries;
+using x10.gen.react.placeholder;
 
-namespace x10.gen.react {
+namespace x10.gen.react.generate {
   public partial class ReactCodeGenerator {
 
     private void GenerateFileHeader() {

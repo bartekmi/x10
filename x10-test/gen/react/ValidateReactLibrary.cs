@@ -1,9 +1,8 @@
-﻿using x10.parsing;
-using x10.ui.libraries;
-using x10.ui.platform;
-
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
+
+using x10.parsing;
+using x10.gen.react.library;
 
 namespace x10.gen.react {
   public class ValidateReactLibrary {

@@ -6,8 +6,9 @@ using x10.ui.platform;
 using x10.ui.composition;
 using x10.compiler.ui;
 using x10.model.definition;
+using x10.gen.react.generate;
 
-namespace x10.gen.react {
+namespace x10.gen.react.attribute {
   // Use this type of attribute to convert attributes from the logical representation
   // into the platform-specific representation.
   // The following situations are taken care of by this attribute type:

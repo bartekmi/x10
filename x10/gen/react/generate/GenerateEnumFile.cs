@@ -17,7 +17,7 @@ using x10.ui.platform;
 using x10.ui;
 using x10.ui.metadata;
 
-namespace x10.gen.react {
+namespace x10.gen.react.generate {
   public partial class ReactCodeGenerator : CodeGenerator {
 
     public override void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums) {

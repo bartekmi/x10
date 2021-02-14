@@ -6,6 +6,7 @@ using x10.model.definition;
 using x10.ui.composition;
 using x10.utils;
 using x10.ui.platform;
+using x10.gen.react.generate;
 
 namespace x10.gen.react {
   internal class CodeSnippetGenerator {

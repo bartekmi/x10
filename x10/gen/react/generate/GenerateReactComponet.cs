@@ -9,8 +9,10 @@ using x10.compiler;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
+using x10.gen.react.placeholder;
+using x10.gen.react.attribute;
 
-namespace x10.gen.react {
+namespace x10.gen.react.generate {
 
   internal enum OutputType {
     JSON,

@@ -8,8 +8,11 @@ using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
 using x10.model.metadata;
+using x10.gen.react.attribute;
+using x10.gen.react.generate;
+using x10.gen.react.placeholder;
 
-namespace x10.gen.react {
+namespace x10.gen.react.library {
   internal class LatitudeLibrary {
 
     internal const string VISIBILITY_CONTROL = "VisibilityControl";

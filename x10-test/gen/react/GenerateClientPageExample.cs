@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -8,8 +7,8 @@ using x10.parsing;
 using x10.compiler;
 using x10.model;
 using x10.ui.platform;
-using x10.ui.libraries;
-using x10.ui.metadata;
+using x10.gen.react.library;
+using x10.gen.react.generate;
 
 namespace x10.gen.react {
   public class GenerateClientPageExample {

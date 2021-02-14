@@ -9,8 +9,9 @@ using x10.ui;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
+using x10.gen.react.placeholder;
 
-namespace x10.gen.react {
+namespace x10.gen.react.generate {
   public partial class ReactCodeGenerator {
 
     #region Top Level

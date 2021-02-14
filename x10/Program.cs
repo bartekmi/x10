@@ -13,7 +13,8 @@ using x10.ui.libraries;
 using x10.ui.metadata;
 
 using x10.gen;
-using x10.gen.react;
+using x10.gen.react.library;
+using x10.gen.react.generate;
 using x10.gen.hotchoc;
 
 [assembly: InternalsVisibleTo("x10-test")]

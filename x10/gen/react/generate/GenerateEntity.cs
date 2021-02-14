@@ -7,8 +7,9 @@ using x10.model.definition;
 using x10.model.metadata;
 using x10.formula;
 using x10.utils;
+using x10.gen.react.placeholder;
 
-namespace x10.gen.react {
+namespace x10.gen.react.generate {
   public partial class ReactCodeGenerator : CodeGenerator {
 
     #region Top Level

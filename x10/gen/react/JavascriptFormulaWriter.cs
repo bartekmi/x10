@@ -7,6 +7,8 @@ using x10.utils;
 using x10.model;
 using x10.model.metadata;
 using x10.model.definition;
+using x10.gen.react.placeholder;
+using x10.gen.react.generate;
 
 namespace x10.gen.react {
   internal class JavaScriptFormulaWriter : IVisitor {

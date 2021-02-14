@@ -7,8 +7,9 @@ using x10.parsing;
 using x10.model.definition;
 using x10.ui.composition;
 using x10.model;
+using x10.gen.react.generate;
 
-namespace x10.gen.react {
+namespace x10.gen.react.placeholder {
 
   public enum ImportLevel {
     ThirdParty,

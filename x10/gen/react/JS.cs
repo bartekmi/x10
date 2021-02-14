@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using x10.model;
+using x10.gen.react.placeholder;
 
 namespace x10.gen.react {
   internal static class JS {

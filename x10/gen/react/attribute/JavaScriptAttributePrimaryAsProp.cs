@@ -2,8 +2,10 @@ using System;
 
 using x10.ui.composition;
 using x10.ui.platform;
+using x10.gen.react;
+using x10.gen.react.generate;
 
-namespace x10.gen.react {
+namespace x10.gen.react.attribute {
   public class JavaScriptAttributePrimaryAsProp : PlatformAttribute {
 
     public Action<ReactCodeGenerator, int, PlatformClassDef, Instance> CodeSnippet { get; set; }

@@ -1,15 +1,10 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
-using x10.model.definition;
 using x10.ui.libraries;
-using x10.ui.metadata;
 using x10.ui.platform;
-using x10.ui.composition;
-using x10.model.metadata;
+using x10.gen.react.attribute;
 
-namespace x10.gen.react {
+namespace x10.gen.react.library {
   internal class LatitudeFlexportSpecialLibrary {
 
     private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
