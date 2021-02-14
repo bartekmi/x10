@@ -680,7 +680,7 @@ namespace x10.gen.react {
       new PlatformClassDef() {
         LogicalName = "Dialog",
         PlatformName = "Dialog",
-        ImportDir = "react_lib/dialog",
+        ImportDir = "react_lib/modal",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("title", "title"),
           new JavaScriptAttributeByFunc() {

@@ -9,7 +9,6 @@ import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
 import Status from 'latitude/Status';
 
-import Dialog from 'react_lib/modal/Dialog';
 import BooleanBanner from 'react_lib/display/BooleanBanner';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
@@ -17,6 +16,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Dialog from 'react_lib/modal/Dialog';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
@@ -78,7 +78,11 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           <Group>
             <Dialog
               title='Company Entity Documents'
-              openButton={<Button label='Documents'/>}
+              openButton={
+                <Button
+                  label='Documents'
+                />
+              }
             >
               <ClientViewDocuments companyEntity={ companyEntity }/>
             </Dialog>
