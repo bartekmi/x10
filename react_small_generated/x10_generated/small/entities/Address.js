@@ -24,7 +24,7 @@ export function addressFirstAddressLine(address: {
   +theAddress: string,
   +unitNumber: string,
 }): string {
-  const result = address.theAddress + '   Unit ' + address.unitNumber;
+  const result = address?.theAddress + '   Unit ' + address?.unitNumber;
   return result;
 }
 
@@ -32,14 +32,14 @@ export function addressSecondAddressLine(address: {
   +city: string,
   +stateOrProvince: string,
 }): string {
-  const result = address.city + ', ' + address.stateOrProvince;
+  const result = address?.city + ', ' + address?.stateOrProvince;
   return result;
 }
 
 export function addressThirdAddressLine(address: {
   +zip: string,
 }): string {
-  const result = address.zip;
+  const result = address?.zip;
   return result;
 }
 

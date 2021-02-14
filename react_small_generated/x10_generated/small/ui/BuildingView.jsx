@@ -4,15 +4,15 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
-import SelectInput from 'latitude/select/SelectInput';
 import TextareaInput from 'latitude/TextareaInput';
 
+import DateDisplay from 'react_lib/display/DateDisplay';
+import EnumDisplay from 'react_lib/display/EnumDisplay';
+import FloatDisplay from 'react_lib/display/FloatDisplay';
+import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
-import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 
 import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
 
@@ -39,10 +39,8 @@ function BuildingView(props: Props): React.Node {
             label='Name'
             maxWidth={ 350 }
           >
-            <TextInput
-              value={ building.name }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ building?.name }
             />
           </DisplayField>
           <DisplayField
@@ -50,10 +48,10 @@ function BuildingView(props: Props): React.Node {
             label='Description'
           >
             <TextareaInput
-              value={ building.description }
-              onChange={ () => { } }
+              value={ building?.description }
               rows={ 3 }
               readOnly={ true }
+              onChange={ () => { } }
             />
           </DisplayField>
         </Group>
@@ -63,39 +61,31 @@ function BuildingView(props: Props): React.Node {
           <DisplayField
             label='Date Of Occupancy'
           >
-            <CalendarDateInput
-              value={ building.dateOfOccupancy }
-              onChange={ () => { } }
-              readOnly={ true }
+            <DateDisplay
+              value={ building?.dateOfOccupancy }
             />
           </DisplayField>
           <DisplayField
             toolTip='Strongly affects annual propery maintenance costs.'
             label='Age In Years'
           >
-            <FloatInput
+            <FloatDisplay
               value={ buildingAgeInYears(building) }
-              onChange={ () => { } }
-              readOnly={ true }
             />
           </DisplayField>
           <DisplayField
             label='Mailbox Type'
           >
-            <SelectInput
-              value={ building.mailboxType }
-              onChange={ () => { } }
-              disabled={ true }
+            <EnumDisplay
+              value={ building?.mailboxType }
               options={ MailboxTypeEnumPairs }
             />
           </DisplayField>
           <DisplayField
             label='Pet Policy'
           >
-            <SelectInput
-              value={ building.petPolicy }
-              onChange={ () => { } }
-              disabled={ true }
+            <EnumDisplay
+              value={ building?.petPolicy }
               options={ PetPolicyEnumPairs }
             />
           </DisplayField>

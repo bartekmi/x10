@@ -40,19 +40,19 @@ function Tenants(props: Props): React.Node {
             [
               {
                 id: 'Name',
-                render: (data) => <TextCell value={ data.name } />,
+                render: (data) => <TextCell value={ data?.name } />,
                 header: 'Name',
                 width: 140,
               },
               {
                 id: 'Phone',
-                render: (data) => <TextCell value={ data.phone } />,
+                render: (data) => <TextCell value={ data?.phone } />,
                 header: 'Phone',
                 width: 140,
               },
               {
                 id: 'Email',
-                render: (data) => <TextCell value={ data.email } />,
+                render: (data) => <TextCell value={ data?.email } />,
                 header: 'Email',
                 width: 140,
               },
@@ -65,7 +65,7 @@ function Tenants(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/tenants/edit/' + data.id }
+                      url={ '/tenants/edit/' + data?.id }
                     />
                   </Group>
                 ,

@@ -2,6 +2,7 @@ name: Address
 inheritsFrom: Base
 description: A physical or mailing address
 datagen_sources: (us_cities.csv AS city)
+datagen_quantity: 0
 
 
 attributes:

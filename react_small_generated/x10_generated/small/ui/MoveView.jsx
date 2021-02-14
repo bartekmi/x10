@@ -7,10 +7,10 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import Separator from 'react_lib/Separator';
 
 import { type Move } from 'small/entities/Move';
@@ -52,37 +52,29 @@ function MoveView(props: Props): React.Node {
           <DisplayField
             label='Name'
           >
-            <TextInput
-              value={ move.tenant?.name }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ move?.tenant?.name }
             />
           </DisplayField>
           <DisplayField
             label='Phone'
           >
-            <TextInput
-              value={ move.tenant?.phone }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ move?.tenant?.phone }
             />
           </DisplayField>
           <DisplayField
             label='Email'
           >
-            <TextInput
-              value={ move.tenant?.email }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ move?.tenant?.email }
             />
           </DisplayField>
           <DisplayField
             label='The Address'
           >
-            <TextInput
-              value={ move.tenant?.permanentMailingAddress?.theAddress }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ move?.tenant?.permanentMailingAddress?.theAddress }
             />
           </DisplayField>
         </Group>

@@ -40,25 +40,25 @@ function Moves(props: Props): React.Node {
             [
               {
                 id: 'Date',
-                render: (data) => <TextCell value={ data.date } />,
+                render: (data) => <TextCell value={ data?.date } />,
                 header: 'Date',
                 width: 140,
               },
               {
                 id: 'From',
-                render: (data) => <TextCell value={ data.from?.name } />,
+                render: (data) => <TextCell value={ data?.from?.name } />,
                 header: 'From',
                 width: 140,
               },
               {
                 id: 'From',
-                render: (data) => <TextCell value={ data.to?.name } />,
+                render: (data) => <TextCell value={ data?.to?.name } />,
                 header: 'From',
                 width: 140,
               },
               {
                 id: 'Tenant',
-                render: (data) => <TextCell value={ data.tenant?.name } />,
+                render: (data) => <TextCell value={ data?.tenant?.name } />,
                 header: 'Tenant',
                 width: 140,
               },
@@ -68,11 +68,11 @@ function Moves(props: Props): React.Node {
                   <Group>
                     <Button
                       label='View'
-                      url={ '/moves/view/' + data.id }
+                      url={ '/moves/view/' + data?.id }
                     />
                     <Button
                       label='Edit'
-                      url={ '/moves/edit/' + data.id }
+                      url={ '/moves/edit/' + data?.id }
                     />
                   </Group>
                 ,

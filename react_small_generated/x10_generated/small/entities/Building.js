@@ -77,14 +77,14 @@ export function buildingAgeInYears(building: {
   +dateOfOccupancy: ?string,
 }): ?number {
   const appContext = React.useContext(AppContext);
-  const result = getYear(appContext?.today) - getYear(building.dateOfOccupancy);
+  const result = getYear(appContext?.today) - getYear(building?.dateOfOccupancy);
   return isNaN(result) ? null : result;
 }
 
 export function buildingApplicableWhenForMailingAddress(building: {
   +mailingAddressSameAsPhysical: boolean,
 }): boolean {
-  const result = !building.mailingAddressSameAsPhysical;
+  const result = !building?.mailingAddressSameAsPhysical;
   return result;
 }
 
@@ -125,7 +125,7 @@ export function buildingCalculateErrors(building: Building, prefix?: string): $R
   if (buildingApplicableWhenForMailingAddress(building))
     errors.push(...addressCalculateErrors(building.mailingAddress, 'mailingAddress'));
 
-  if (toNum(building.dateOfOccupancy) > toNum(appContext?.today))
+  if (toNum(building?.dateOfOccupancy) > toNum(appContext?.today))
     addError(errors, prefix, 'Occupancy date cannot be in the future', ['dateOfOccupancy']);
 
   return errors;

@@ -7,6 +7,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
@@ -33,7 +34,7 @@ function TenantForm(props: Props): React.Node {
     >
       <Text
         scale='display'
-        children={ isExistingObject(tenant.id) ? 'Editing Tenant: ' + tenant.name : 'New Tenant' }
+        children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + tenant?.name : 'New Tenant' }
       />
       <Separator/>
       <FormSection
@@ -135,8 +136,8 @@ function TenantForm(props: Props): React.Node {
       <Group
         justifyContent='space-between'
       >
-        <Text
-          children='* Required'
+        <TextDisplay
+          value='* Required'
         />
         <FormSubmitButton
           onClick={ () => save(tenant) }

@@ -12,6 +12,8 @@ import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
 
+import FloatDisplay from 'react_lib/display/FloatDisplay';
+import TextDisplay from 'react_lib/display/TextDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
@@ -46,7 +48,7 @@ function BuildingForm(props: Props): React.Node {
       >
         <Text
           scale='display'
-          children={ 'Editing Building in: ' + addressSecondAddressLine(building.physicalAddress) }
+          children={ 'Editing Building in: ' + addressSecondAddressLine(building?.physicalAddress) }
         />
         <Text
           scale='display'
@@ -60,10 +62,8 @@ function BuildingForm(props: Props): React.Node {
             editorFor='moniker'
             label='Moniker'
           >
-            <TextInput
-              value={ building.moniker }
-              onChange={ () => { } }
-              readOnly={ true }
+            <TextDisplay
+              value={ building?.moniker }
             />
           </FormField>
           <FormField
@@ -248,10 +248,8 @@ function BuildingForm(props: Props): React.Node {
               toolTip='Strongly affects annual propery maintenance costs.'
               label='Age In Years'
             >
-              <FloatInput
+              <FloatDisplay
                 value={ buildingAgeInYears(building) }
-                onChange={ () => { } }
-                readOnly={ true }
               />
             </FormField>
           </Group>
@@ -363,8 +361,8 @@ function BuildingForm(props: Props): React.Node {
         <Group
           justifyContent='space-between'
         >
-          <Text
-            children='* Required'
+          <TextDisplay
+            value='* Required'
           />
           <FormSubmitButton
             onClick={ () => save(building) }

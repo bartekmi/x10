@@ -10,8 +10,8 @@ import Table from 'latitude/table/Table';
 import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import isBlank from 'react_lib/utils/isBlank';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
@@ -47,16 +47,14 @@ function Buildings(props: Props): React.Node {
                 id: 'Name',
                 render: (data) =>
                   <Group>
-                    <TextInput
-                      value={ data.name }
-                      onChange={ () => { } }
-                      readOnly={ true }
+                    <TextDisplay
+                      value={ data?.name }
                     />
                     <VisibilityControl
-                      visible={ !isBlank(data.description) }
+                      visible={ !isBlank(data?.description) }
                     >
                       <HelpTooltip
-                        text={ data.description }
+                        text={ data?.description }
                       />
                     </VisibilityControl>
                   </Group>
@@ -66,13 +64,13 @@ function Buildings(props: Props): React.Node {
               },
               {
                 id: 'The Address',
-                render: (data) => <TextCell value={ data.physicalAddress?.theAddress } />,
+                render: (data) => <TextCell value={ data?.physicalAddress?.theAddress } />,
                 header: 'The Address',
                 width: 140,
               },
               {
                 id: 'City / Province',
-                render: (data) => <TextCell value={ addressSecondAddressLine(data.physicalAddress) } />,
+                render: (data) => <TextCell value={ addressSecondAddressLine(data?.physicalAddress) } />,
                 header: 'City / Province',
                 width: 140,
               },
@@ -84,7 +82,7 @@ function Buildings(props: Props): React.Node {
               },
               {
                 id: 'Pet Policy',
-                render: (data) => <TextCell value={ data.petPolicy } />,
+                render: (data) => <TextCell value={ data?.petPolicy } />,
                 header: 'Pet Policy',
                 width: 140,
               },
@@ -97,7 +95,7 @@ function Buildings(props: Props): React.Node {
                     />
                     <Button
                       label='Edit'
-                      url={ '/buildings/edit/' + data.id }
+                      url={ '/buildings/edit/' + data?.id }
                     />
                   </Group>
                 ,

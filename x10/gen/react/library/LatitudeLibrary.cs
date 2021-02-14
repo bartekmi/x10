@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using x10.compiler.ui;
 using x10.model.definition;
 using x10.ui.libraries;
 using x10.ui.metadata;
@@ -137,6 +138,19 @@ namespace x10.gen.react.library {
         },
       },
       new PlatformClassDef() {
+        LogicalName = "DateDisplay",
+        PlatformName = "DateDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "EnumDisplay",
         PlatformName = "EnumDisplay",
         ImportDir = "react_lib/display",
@@ -211,6 +225,14 @@ namespace x10.gen.react.library {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
             AttributeUnnecessaryWhen = false,
+          },
+          // Must explicitly write "onChange={() => { } }" when read-only since TextareaInput requires it
+          // When writeable, this is handled by JavaScriptAttributeDynamic
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "onChange",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => 
+              UiCompilerUtils.IsReadOnly(instance) ? "() => { }" : null,
           },
         },
       },
