@@ -121,6 +121,19 @@ namespace x10.gen.react {
         },
       },
       new PlatformClassDef() {
+        LogicalName = "TimestampDisplay",
+        PlatformName = "TimestampDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "EnumDisplay",
         PlatformName = "EnumDisplay",
         ImportDir = "react_lib/display",
