@@ -27,6 +27,7 @@ namespace x10 {
   }
 
   public class GenConfig {
+    public string Name { get; set; }
     public string CommandLine { get; set; }
     public string SourceDir { get; set; }
     public string ProjectDir { get; set; }
@@ -42,6 +43,7 @@ namespace x10 {
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
+        Name = "Small Project - React Generation",
         CommandLine = "smallreact",
         SourceDir = "examples/small",
         ProjectDir = "../react_small_generated",
@@ -59,6 +61,7 @@ namespace x10 {
       },
 
       new GenConfig() {
+        Name = "Client Page Project - React Generation",
         CommandLine = "cpreact",
         SourceDir = "examples/client_page",
         ProjectDir = "../react_small_generated",
@@ -76,6 +79,7 @@ namespace x10 {
       },
 
       new GenConfig() {
+        Name = "Small Project - Hot Chocolate Generation",
         CommandLine = "smallhot",
         SourceDir = "examples/small",
         ProjectDir = "../hot_chocolate_small",
@@ -89,6 +93,7 @@ namespace x10 {
       },
 
       new GenConfig() {
+        Name = "Client Page Project - Hot Chocolate Generation",
         CommandLine = "cphot",
         SourceDir = "examples/client_page",
         ProjectDir = "../hot_chocolate_small",
@@ -103,41 +108,38 @@ namespace x10 {
     };
 
     public static int Main(string[] args) {
-      GenConfig config = ExtractConfig(args);
-      MessageBucket messages = new MessageBucket();
+      IEnumerable<GenConfig> configs = ExtractConfigs(args);
 
-      // Hydrate UiLibraries
-      foreach (UiLibrary library in config.LogicalLibraries) {
-        if (!library.HydrateAndValidate(messages)) {
-          DumpMessages("Logical Library Validation for " + library.Name, messages);
-          return 1;
-        }
+      foreach (GenConfig config in configs) {
+        Console.WriteLine("********************************************* Generating and Compiling: " + config.Name);
+        CompileAndGenerate(config);
       }
 
-      // Hydrate Platform Libraries
-      messages.Clear();
-      foreach (PlatformLibrary library in config.PlatformLibraries) {
-        if (!library.HydrateAndValidate(messages)) {
-          DumpMessages("Platform Library Validation for " + library.Name, messages);
-          return 1;
-        }
-      }
+      return 0;
+    }
+
+    private static void CompileAndGenerate(GenConfig config) {
+      HydrateUiLibraries(config.LogicalLibraries);
+      HydratePlatformLibraries(config.PlatformLibraries);
 
       // Compile
-      messages.Clear();
-      CompileEverything(messages, config,
+      CompileEverything(config,
         out AllEntities allEntities,
         out AllEnums allEnums,
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
-      DumpMessages("Compilation", messages, CompileMessageSeverity.Error);
-      if (messages.Errors.Count() > 0)
-        return 1;
-
       // Generate Code
-      messages.Clear();
+      GenerateCode(config, allEntities, allEnums, allUiDefinitions);
+
+      // Execute Post-Build
+      ExecutePostBuildScript(config);
+    }
+
+    private static void GenerateCode(GenConfig config, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions) {
+      MessageBucket messages = new MessageBucket();
       CodeGenerator generator = config.Generator;
+
       generator.IntermediateFilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
         INTERMEDIATE_FILES_DIR);
@@ -151,18 +153,38 @@ namespace x10 {
         config.PlatformLibraries);
 
       DumpMessages("Code-Generation", messages);
-
-      // Execute Post-Build
-      ExecutePostBuildScript(config);
-
-      return 0;
     }
 
-    internal static void CompileEverything(MessageBucket messages, GenConfig config,
+    private static void HydrateUiLibraries(IEnumerable<UiLibrary> libraries) {
+      MessageBucket messages = new MessageBucket();
+      foreach (UiLibrary library in libraries)
+        if (!library.HydrateAndValidate(messages)) {
+          DumpMessages("Logical Library Validation for " + library.Name, messages);
+          Environment.Exit(1);
+        }
+    }
+
+    private static void HydratePlatformLibraries(IEnumerable<PlatformLibrary> libraries) {
+      MessageBucket messages = new MessageBucket();
+      foreach (PlatformLibrary library in libraries)
+        if (!library.HydrateAndValidate(messages)) {
+          DumpMessages("Platform Library Validation for " + library.Name, messages);
+          Environment.Exit(1);
+        }
+    }
+
+    internal static void CompileEverything(GenConfig config,
       out AllEntities allEntities, out AllEnums allEnums, out AllFunctions allFunctions, out AllUiDefinitions allUiDefinitions) {
+
+      MessageBucket messages = new MessageBucket();
 
       TopLevelCompiler compiler = new TopLevelCompiler(messages, config.LogicalLibraries);
       compiler.Compile(config.SourceDir, out allEntities, out allEnums, out allFunctions, out allUiDefinitions);
+
+      if (messages.Errors.Count() > 0) {
+        DumpMessages("Compilation", messages, CompileMessageSeverity.Error);
+        Environment.Exit(1);
+      }
     }
 
     #region Post-Build Script
@@ -195,15 +217,22 @@ namespace x10 {
 
     #region Utils
 
-    private static GenConfig ExtractConfig(string[] args) {
-      if (args.Length != 1) 
+    private static IEnumerable<GenConfig> ExtractConfigs(string[] args) {
+      if (args.Length == 0)
         PrintUsageAndExit();
 
-      GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == args[0]);
-      if (config == null)
-        PrintUsageAndExit();
+      if (args.Length == 1 && args[0] == "all")
+        return CONFIGS;
 
-      return config;
+      List<GenConfig> configs = new List<GenConfig>();
+      foreach (string arg in args) {
+        GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == arg);
+        if (config == null)
+          PrintUsageAndExit();
+        configs.Add(config);
+      }
+
+      return configs;
     }
 
     private static void PrintUsageAndExit() {
