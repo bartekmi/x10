@@ -5,11 +5,12 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Table from 'latitude/table/Table';
-import TextCell from 'latitude/table/TextCell';
+import Text from 'latitude/Text';
 
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import TimestampDisplay from 'react_lib/display/TimestampDisplay';
+import Table from 'react_lib/table/Table';
 
 import { type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { DocumentTypeEnumPairs } from 'client_page/entities/Document';
@@ -26,50 +27,48 @@ function ClientViewDocuments(props: Props): React.Node {
   const { companyEntity } = props;
 
   return (
-    <div style={ { height: '500px', wdith: '100%' } }>
       <Table
         data={ companyEntity?.documents }
-        getUniqueRowId={ row => row.id }
-        useFullWidth={ true }
-        columnDefinitions={
+        // getUniqueRowId={ row => row.id }
+        columns={
           [
             {
               id: 'Name',
-              render: (data) =>
-                <Group
-                  flexDirection='column'
-                >
+              accessor: (data) => data,
+              Cell: ({value}) => 
+                <Group flexDirection='column' gap={0}>
                   <EnumDisplay
-                    value={ data?.documentType }
+                    value={ value?.documentType }
                     options={ DocumentTypeEnumPairs }
                   />
                   <TextDisplay
-                    value={ data?.fileName }
+                    value={ value?.fileName }
                   />
                   <TextDisplay
-                    value={ data?.name }
+                    value={ value?.name }
                   />
                 </Group>
               ,
-              header: 'Name',
+              Header: 'Name',
               width: 140,
             },
             {
               id: 'Uploaded By',
-              render: (data) => <TextCell value={ userName(data?.uploadedBy) } />,
-              header: 'Uploaded By',
+              accessor: (data) => userName(data?.uploadedBy),
+              Cell: ({value}) => <TextDisplay value={value}/>,
+              Header: 'Uploaded By',
               width: 140,
             },
             {
               id: 'Uploaded',
-              render: (data) => <TextCell value={ data?.uploadedTimestamp } />,
-              header: 'Uploaded',
+              accessor: (data) => data?.uploadedTimestamp,
+              Cell: ({value}) => <TimestampDisplay value={value}/>,
+              Header: 'Uploaded',
               width: 140,
             },
           ]
         }
       />
-    </div>
   );
 }
 
