@@ -244,11 +244,13 @@ namespace x10.hotchoc.ClientPage {
         string id,
         string name,
         string fileName,
+        DocumentTypeEnum documentType,
         [Service] IRepository repository) {
 
       Document document = new Document() {
         Name = name,
         FileName = fileName,
+        DocumentType = documentType,
       };
 
       int dbid = repository.AddOrUpdateDocument(IdUtils.FromRelayId(id), document);

@@ -159,6 +159,7 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
         id
         ...AddressDisplay_address
       }
+      ...ClientViewDocuments_companyEntity
     }
   `,
 });

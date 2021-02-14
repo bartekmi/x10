@@ -13,6 +13,7 @@ export type Document = {
   +id: string,
   +name: string,
   +fileName: string,
+  +documentType: ?DocumentTypeEnum,
   +uploadedTimestamp: ?string,
   +uploadedBy: ?string,
 };
@@ -48,6 +49,8 @@ export function createDefaultDocument(): Document {
     id: uuid(),
     name: '',
     fileName: '',
+    // $FlowExpectedError Required field, but no default value
+    documentType: null,
     uploadedTimestamp: null,
     uploadedBy: null,
   };
@@ -62,6 +65,8 @@ export function documentCalculateErrors(document: Document, prefix?: string): $R
     addError(errors, prefix, 'Name is required', ['name']);
   if (isBlank(document.fileName))
     addError(errors, prefix, 'File Name is required', ['fileName']);
+  if (isBlank(document.documentType))
+    addError(errors, prefix, 'Document Type is required', ['documentType']);
 
   return errors;
 }

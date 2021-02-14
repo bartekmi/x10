@@ -13,6 +13,10 @@ attributes:
     mandatory: true
     datagen_pattern: ~LLLDDDD-LLDD~(50% => .jpg | 50% => .pdf)
 
+  - name: documentType
+    dataType: DocumentType
+    mandatory: true
+
   - name: uploadedTimestamp
     dataType: Timestamp
     readOnly: true

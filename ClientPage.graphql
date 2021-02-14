@@ -143,6 +143,7 @@ type Currency {
 type Document {
   name: String!
   fileName: String!
+  documentType: DocumentTypeEnum!
   uploadedTimestamp: DateTime
   toStringRepresentation: String!
   uploadedBy: User!
@@ -169,7 +170,7 @@ type Mutation {
   "Creates a new User or updates an existing one, depending on the value of id"
   createOrUpdateUser(id: String! firstName: String! lastName: String! phone: String email: String!): String!
   "Creates a new Document or updates an existing one, depending on the value of id"
-  createOrUpdateDocument(id: String! name: String! fileName: String!): String!
+  createOrUpdateDocument(id: String! name: String! fileName: String! documentType: DocumentTypeEnum!): String!
   "Creates a new Client or updates an existing one, depending on the value of id"
   createOrUpdateClient(id: String! salesforceAccountRef: String referredBy: String status: ClientStatusEnum! segment: ClientSegmentEnum! purchasingBehavior: ClientPurchasingBehaviorEnum primaryShipmentRole: ClientPrimaryShipmentRoleEnum! company: CompanyInput! primaryContact: ContactInput!): String!
   "Creates a new VatNumber or updates an existing one, depending on the value of id"
@@ -1454,6 +1455,18 @@ input DocumentFilter {
   fileName_not_ends_with: String
   fileName_in: [String!]
   fileName_not_in: [String!]
+  documentType: DocumentTypeEnum
+  documentType_not: DocumentTypeEnum
+  documentType_in: [DocumentTypeEnum!]
+  documentType_not_in: [DocumentTypeEnum!]
+  documentType_gt: DocumentTypeEnum
+  documentType_not_gt: DocumentTypeEnum
+  documentType_gte: DocumentTypeEnum
+  documentType_not_gte: DocumentTypeEnum
+  documentType_lt: DocumentTypeEnum
+  documentType_not_lt: DocumentTypeEnum
+  documentType_lte: DocumentTypeEnum
+  documentType_not_lte: DocumentTypeEnum
   uploadedTimestamp: DateTime
   uploadedTimestamp_not: DateTime
   uploadedTimestamp_in: [DateTime]
@@ -1517,6 +1530,7 @@ input DocumentFilter {
 input DocumentInput {
   name: String!
   fileName: String!
+  documentType: DocumentTypeEnum!
   uploadedTimestamp: DateTime
   toStringRepresentation: String!
   uploadedBy: UserInput!
@@ -1529,6 +1543,7 @@ input DocumentInput {
 input DocumentSort {
   name: SortOperationKind
   fileName: SortOperationKind
+  documentType: SortOperationKind
   uploadedTimestamp: SortOperationKind
   toStringRepresentation: SortOperationKind
   uploadedBy: UserSort
@@ -1934,6 +1949,13 @@ enum CtpatReviewStatusEnum {
   GRACE_PERIOD
   NON_COMPLIANT
   PROVISIONAL
+}
+
+enum DocumentTypeEnum {
+  BUSINESS_LICENSE
+  BUSINESS_REGISTRATION
+  POWER_OF_ATTORNEY
+  ETC
 }
 
 enum SortOperationKind {

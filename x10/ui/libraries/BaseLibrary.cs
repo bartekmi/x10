@@ -666,7 +666,6 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "backEndTarget",
             Description = "Name of back-end end-point to invoke when the action is executed.",
-            IsMandatory = true,
             DataType = DataTypes.Singleton.String,
           },
           new UiAttributeDefinitionAtomic() {
@@ -699,6 +698,30 @@ namespace x10.ui.libraries {
             DefaultValue = false,
           },
           // TODO: Add optional confirm and cancel text
+        },
+      },
+      new ClassDefNative() {
+        Name = "OpenDialogAction",
+        Description = "This action opens a dialog",
+        InheritsFromName = "Action",
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "title",
+            Description = "The title of the dialog",
+            IsMandatory = true,
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "dialogText",
+            Description = "Text explaining what the user is about to do",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionComplex() {
+            Name = "DialogContent",
+            Description = "The UI content of the dialog",
+            IsPrimary = true,
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
         },
       },
       new ClassDefNative() {

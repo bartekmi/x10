@@ -1,0 +1,15 @@
+<ClientViewDocuments model="CompanyEntity">
+  <Table path="documents">
+    <Table.Columns>
+      <TableColumn label="Name">
+        <VerticalStackPanel>
+          <documentType/>
+          <fileName/>
+          <name/>
+        </VerticalStackPanel>
+      </TableColumn>
+      <uploadedBy.name/>
+      <uploadedTimestamp/>
+    </Table.Columns>
+  </Table>
+</ClientViewDocuments>

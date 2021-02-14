@@ -18,6 +18,17 @@ export type User = {
 };
 
 
+// Derived Attribute Functions
+export function userName(user: {
+  +firstName: string,
+  +lastName: string,
+}): string {
+  const result = user?.firstName + ' ' + user?.lastName;
+  return result;
+}
+
+
+
 // Create Default Function
 export function createDefaultUser(): User {
   return {

@@ -22,6 +22,8 @@ namespace x10.hotchoc.ClientPage.Entities {
     public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? FileName { get; set; }
+    [GraphQLNonNullType]
+    public DocumentTypeEnum? DocumentType { get; set; }
     public DateTime? UploadedTimestamp { get; set; }
 
     // To String Representation

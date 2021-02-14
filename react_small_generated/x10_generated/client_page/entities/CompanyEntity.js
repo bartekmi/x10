@@ -9,6 +9,7 @@ import isBlank from 'react_lib/utils/isBlank';
 
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'client_page/entities/Address';
 import { createDefaultCtpatReview, ctpatReviewCalculateErrors, type CtpatReview } from 'client_page/entities/CtpatReview';
+import { type Document } from 'client_page/entities/Document';
 import { type VatNumber } from 'client_page/entities/VatNumber';
 
 
@@ -38,6 +39,7 @@ export type CompanyEntity = {
   +vatNumbers: $ReadOnlyArray<VatNumber>,
   +netsuiteVendorId: ?string,
   +ctpatReview: CtpatReview,
+  +documents: $ReadOnlyArray<Document>,
   +invoiceCurrencyDefault: ?string,
 };
 
@@ -153,6 +155,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     vatNumbers: [],
     netsuiteVendorId: null,
     ctpatReview: createDefaultCtpatReview(),
+    documents: [],
     invoiceCurrencyDefault: null,
   };
 }
