@@ -55,15 +55,15 @@ function ClientViewDocuments(props: Props): React.Node {
               width: 140,
             },
             {
-              id: 'Name',
+              id: 'Uploaded By',
               render: (data) => <TextCell value={ userName(data?.uploadedBy) } />,
-              header: 'Name',
+              header: 'Uploaded By',
               width: 140,
             },
             {
-              id: 'Uploaded Timestamp',
+              id: 'Uploaded',
               render: (data) => <TextCell value={ data?.uploadedTimestamp } />,
-              header: 'Uploaded Timestamp',
+              header: 'Uploaded',
               width: 140,
             },
           ]

@@ -8,7 +8,7 @@
           <name/>
         </VerticalStackPanel>
       </TableColumn>
-      <uploadedBy.name/>
+      <uploadedBy.name label="Uploaded By"/>
       <uploadedTimestamp/>
     </Table.Columns>
   </Table>

@@ -20,6 +20,7 @@ attributes:
   - name: uploadedTimestamp
     dataType: Timestamp
     readOnly: true
+    label: Uploaded
     datagen_min: Jan 1, 2020
     datagen_max: Feb 13, 2021
 
