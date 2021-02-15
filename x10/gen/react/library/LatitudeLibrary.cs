@@ -528,7 +528,6 @@ namespace x10.gen.react.library {
               return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
                 generator.WriteLine(indent, "Cell: ({ value }) =>");
       
-                // Don't try to combine this push/pop with the one below. Note that this path returns a func pointer.
                 generator.PushSourceVariableName("value", inner is InstanceModelRef);
                 generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
                 generator.PopSourceVariableName();

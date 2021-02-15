@@ -17,8 +17,11 @@ import { type VatNumber } from 'client_page/entities/VatNumber';
 export type CompanyEntity = {
   +id: string,
   +legalName: string,
+  +doingBusinessAs: string,
   +coreId: ?number,
   +companyType: ?CompanyEntityTypeEnum,
+  +stateOfBusinessRegistration: string,
+  +usTaxId: string,
   +isPrimary: boolean,
   +dgDisclaimerAgreed: boolean,
   +mailingAddressIsPhysicalAddress: boolean,
@@ -40,6 +43,7 @@ export type CompanyEntity = {
   +netsuiteVendorId: ?string,
   +ctpatReview: CtpatReview,
   +documents: $ReadOnlyArray<Document>,
+  +countryOfBusinessRegistration: ?string,
   +invoiceCurrencyDefault: ?string,
 };
 
@@ -132,9 +136,12 @@ export function createDefaultCompanyEntity(): CompanyEntity {
   return {
     id: uuid(),
     legalName: '',
+    doingBusinessAs: '',
     coreId: null,
     // $FlowExpectedError Required field, but no default value
     companyType: null,
+    stateOfBusinessRegistration: '',
+    usTaxId: '',
     isPrimary: false,
     dgDisclaimerAgreed: false,
     mailingAddressIsPhysicalAddress: true,
@@ -156,6 +163,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     netsuiteVendorId: null,
     ctpatReview: createDefaultCtpatReview(),
     documents: [],
+    countryOfBusinessRegistration: null,
     invoiceCurrencyDefault: null,
   };
 }

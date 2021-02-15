@@ -6,17 +6,18 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
-import Table from 'latitude/table/Table';
-import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 
+import EnumDisplay from 'react_lib/display/EnumDisplay';
+import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Table from 'react_lib/table/Table';
 import isBlank from 'react_lib/utils/isBlank';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { addressSecondAddressLine } from 'small/entities/Address';
-import { buildingAgeInYears, type Building } from 'small/entities/Building';
+import { buildingAgeInYears, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
 
 import { type Buildings_buildings } from './__generated__/Buildings_buildings.graphql';
 
@@ -36,76 +37,95 @@ function Buildings(props: Props): React.Node {
         scale='display'
         children='Buildings'
       />
-      <div style={ { height: '500px', wdith: '100%' } }>
-        <Table
-          data={ buildings }
-          getUniqueRowId={ row => row.id }
-          useFullWidth={ true }
-          columnDefinitions={
-            [
-              {
-                id: 'Name',
-                render: (data) =>
-                  <Group>
-                    <TextDisplay
-                      value={ data?.name }
+      <Table
+        data={ buildings }
+        columns={
+          [
+            {
+              id: 'Name',
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Group>
+                  <TextDisplay
+                    value={ value?.name }
+                  />
+                  <VisibilityControl
+                    visible={ !isBlank(value?.description) }
+                  >
+                    <HelpTooltip
+                      text={ value?.description }
                     />
-                    <VisibilityControl
-                      visible={ !isBlank(data?.description) }
-                    >
-                      <HelpTooltip
-                        text={ data?.description }
-                      />
-                    </VisibilityControl>
-                  </Group>
-                ,
-                header: 'Name',
-                width: 200,
-              },
-              {
-                id: 'The Address',
-                render: (data) => <TextCell value={ data?.physicalAddress?.theAddress } />,
-                header: 'The Address',
-                width: 140,
-              },
-              {
-                id: 'City / Province',
-                render: (data) => <TextCell value={ addressSecondAddressLine(data?.physicalAddress) } />,
-                header: 'City / Province',
-                width: 140,
-              },
-              {
-                id: 'Age In Years',
-                render: (data) => <TextCell value={ buildingAgeInYears(data) } />,
-                header: 'Age In Years',
-                width: 140,
-              },
-              {
-                id: 'Pet Policy',
-                render: (data) => <TextCell value={ data?.petPolicy } />,
-                header: 'Pet Policy',
-                width: 140,
-              },
-              {
-                id: 'Action',
-                render: (data) =>
-                  <Group>
-                    <Button
-                      label='View'
-                    />
-                    <Button
-                      label='Edit'
-                      url={ '/buildings/edit/' + data?.id }
-                    />
-                  </Group>
-                ,
-                header: 'Action',
-                width: 140,
-              },
-            ]
-          }
-        />
-      </div>
+                  </VisibilityControl>
+                </Group>
+              ,
+              Header: 'Name',
+              width: 200,
+            },
+            {
+              id: 'The Address',
+              accessor: (data) => data?.physicalAddress?.theAddress,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'The Address',
+              width: 140,
+            },
+            {
+              id: 'City / Province',
+              accessor: (data) => addressSecondAddressLine(data?.physicalAddress),
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'City / Province',
+              width: 140,
+            },
+            {
+              id: 'Age In Years',
+              accessor: (data) => buildingAgeInYears(data),
+              Cell: ({ value }) =>
+                <FloatDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Age In Years',
+              width: 140,
+            },
+            {
+              id: 'Pet Policy',
+              accessor: (data) => data?.petPolicy,
+              Cell: ({ value }) =>
+                <EnumDisplay
+                  value={ value }
+                  options={ PetPolicyEnumPairs }
+                />
+              ,
+              Header: 'Pet Policy',
+              width: 140,
+            },
+            {
+              id: 'Action',
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Group>
+                  <Button
+                    label='View'
+                  />
+                  <Button
+                    label='Edit'
+                    url={ '/buildings/edit/' + value?.id }
+                  />
+                </Group>
+              ,
+              Header: 'Action',
+              width: 140,
+            },
+          ]
+        }
+      />
     </Group>
   );
 }

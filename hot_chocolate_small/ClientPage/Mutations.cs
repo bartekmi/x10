@@ -105,7 +105,10 @@ namespace x10.hotchoc.ClientPage {
     public string CreateOrUpdateCompanyEntity(
         string id,
         string legalName,
+        string? doingBusinessAs,
         CompanyEntityTypeEnum companyType,
+        string? stateOfBusinessRegistration,
+        string? usTaxId,
         bool isPrimary,
         bool dgDisclaimerAgreed,
         bool mailingAddressIsPhysicalAddress,
@@ -127,12 +130,16 @@ namespace x10.hotchoc.ClientPage {
         string? netsuiteVendorIdId,
         CtpatReview? ctpatReview,
         IEnumerable<Document> documents,
+        string? countryOfBusinessRegistrationId,
         string? invoiceCurrencyDefaultId,
         [Service] IRepository repository) {
 
       CompanyEntity companyEntity = new CompanyEntity() {
         LegalName = legalName,
+        DoingBusinessAs = doingBusinessAs,
         CompanyType = companyType,
+        StateOfBusinessRegistration = stateOfBusinessRegistration,
+        UsTaxId = usTaxId,
         IsPrimary = isPrimary,
         DgDisclaimerAgreed = dgDisclaimerAgreed,
         MailingAddressIsPhysicalAddress = mailingAddressIsPhysicalAddress,
@@ -154,6 +161,7 @@ namespace x10.hotchoc.ClientPage {
         NetsuiteVendorId = repository.GetNetsuiteVendor(IdUtils.FromRelayIdMandatory(netsuiteVendorIdId)),
         CtpatReview = ctpatReview,
         Documents = documents.ToList(),
+        CountryOfBusinessRegistration = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryOfBusinessRegistrationId)),
         InvoiceCurrencyDefault = repository.GetCurrency(IdUtils.FromRelayIdMandatory(invoiceCurrencyDefaultId)),
       };
 

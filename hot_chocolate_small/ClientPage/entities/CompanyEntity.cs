@@ -34,9 +34,15 @@ namespace x10.hotchoc.ClientPage.Entities {
     // Regular Attributes
     [GraphQLNonNullType]
     public string? LegalName { get; set; }
+    [GraphQLNonNullType]
+    public string? DoingBusinessAs { get; set; }
     public int? CoreId { get; set; }
     [GraphQLNonNullType]
     public CompanyEntityTypeEnum? CompanyType { get; set; }
+    [GraphQLNonNullType]
+    public string? StateOfBusinessRegistration { get; set; }
+    [GraphQLNonNullType]
+    public string? UsTaxId { get; set; }
     [GraphQLNonNullType]
     public bool IsPrimary { get; set; }
     [GraphQLNonNullType]
@@ -84,6 +90,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     public CtpatReview? CtpatReview { get; set; }
     [GraphQLNonNullType]
     public List<Document>? Documents { get; set; }
+    public Country? CountryOfBusinessRegistration { get; set; }
     public Currency? InvoiceCurrencyDefault { get; set; }
 
     public override void EnsureUniqueDbid() {

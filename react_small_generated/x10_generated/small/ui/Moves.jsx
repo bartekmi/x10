@@ -5,11 +5,12 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Table from 'latitude/table/Table';
-import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 
+import DateDisplay from 'react_lib/display/DateDisplay';
+import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Table from 'react_lib/table/Table';
 
 import { type Move } from 'small/entities/Move';
 
@@ -31,58 +32,75 @@ function Moves(props: Props): React.Node {
         scale='display'
         children='Moves'
       />
-      <div style={ { height: '500px', wdith: '100%' } }>
-        <Table
-          data={ moves }
-          getUniqueRowId={ row => row.id }
-          useFullWidth={ true }
-          columnDefinitions={
-            [
-              {
-                id: 'Date',
-                render: (data) => <TextCell value={ data?.date } />,
-                header: 'Date',
-                width: 140,
-              },
-              {
-                id: 'From',
-                render: (data) => <TextCell value={ data?.from?.name } />,
-                header: 'From',
-                width: 140,
-              },
-              {
-                id: 'From',
-                render: (data) => <TextCell value={ data?.to?.name } />,
-                header: 'From',
-                width: 140,
-              },
-              {
-                id: 'Tenant',
-                render: (data) => <TextCell value={ data?.tenant?.name } />,
-                header: 'Tenant',
-                width: 140,
-              },
-              {
-                id: 'Action',
-                render: (data) =>
-                  <Group>
-                    <Button
-                      label='View'
-                      url={ '/moves/view/' + data?.id }
-                    />
-                    <Button
-                      label='Edit'
-                      url={ '/moves/edit/' + data?.id }
-                    />
-                  </Group>
-                ,
-                header: 'Action',
-                width: 140,
-              },
-            ]
-          }
-        />
-      </div>
+      <Table
+        data={ moves }
+        columns={
+          [
+            {
+              id: 'Date',
+              accessor: (data) => data?.date,
+              Cell: ({ value }) =>
+                <DateDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Date',
+              width: 140,
+            },
+            {
+              id: 'From',
+              accessor: (data) => data?.from?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'From',
+              width: 140,
+            },
+            {
+              id: 'From',
+              accessor: (data) => data?.to?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'From',
+              width: 140,
+            },
+            {
+              id: 'Tenant',
+              accessor: (data) => data?.tenant?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Tenant',
+              width: 140,
+            },
+            {
+              id: 'Action',
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Group>
+                  <Button
+                    label='View'
+                    url={ '/moves/view/' + value?.id }
+                  />
+                  <Button
+                    label='Edit'
+                    url={ '/moves/edit/' + value?.id }
+                  />
+                </Group>
+              ,
+              Header: 'Action',
+              width: 140,
+            },
+          ]
+        }
+      />
     </Group>
   );
 }

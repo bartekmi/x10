@@ -1,0 +1,11 @@
+<CompanyEntityForm model="CompanyEntity">
+  <Form>
+    <legalName/>
+    <doingBusinessAs/>
+    <companyType/>
+    <countryOfBusinessRegistration/>
+    <stateOfBusinessRegistration/>
+    <usTaxId/>
+    <SubmitButton label="Save"/>
+  </Form>
+</CompanyEntityForm>

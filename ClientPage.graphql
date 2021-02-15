@@ -53,8 +53,11 @@ type Company {
 "A legal entity - typically a corporation - which belongs to a [Company]"
 type CompanyEntity {
   legalName: String!
+  doingBusinessAs: String!
   coreId: Int
   companyType: CompanyEntityTypeEnum!
+  stateOfBusinessRegistration: String!
+  usTaxId: String!
   isPrimary: Boolean!
   dgDisclaimerAgreed: Boolean!
   mailingAddressIsPhysicalAddress: Boolean!
@@ -77,6 +80,7 @@ type CompanyEntity {
   netsuiteVendorId: NetsuiteVendor
   ctpatReview: CtpatReview
   documents: [Document!]!
+  countryOfBusinessRegistration: Country
   invoiceCurrencyDefault: Currency
   id: String!
   hashcode: Int!
@@ -162,7 +166,7 @@ type Mutation {
   "Creates a new CtpatReview or updates an existing one, depending on the value of id"
   createOrUpdateCtpatReview(id: String! complianceScreenRequired: Boolean! status: CtpatReviewStatusEnum! expiresAt: DateTime complianceContactEmail: String!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of id"
-  createOrUpdateCompanyEntity(id: String! legalName: String! companyType: CompanyEntityTypeEnum! isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput documents: [DocumentInput!]! invoiceCurrencyDefaultId: String): String!
+  createOrUpdateCompanyEntity(id: String! legalName: String! doingBusinessAs: String companyType: CompanyEntityTypeEnum! stateOfBusinessRegistration: String usTaxId: String isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput documents: [DocumentInput!]! countryOfBusinessRegistrationId: String invoiceCurrencyDefaultId: String): String!
   "Creates a new Currency or updates an existing one, depending on the value of id"
   createOrUpdateCurrency(id: String! symbol: String! name: String!): String!
   "Creates a new Address or updates an existing one, depending on the value of id"
@@ -661,6 +665,16 @@ input CompanyEntityFilter {
   legalName_not_ends_with: String
   legalName_in: [String!]
   legalName_not_in: [String!]
+  doingBusinessAs: String
+  doingBusinessAs_not: String
+  doingBusinessAs_contains: String
+  doingBusinessAs_not_contains: String
+  doingBusinessAs_starts_with: String
+  doingBusinessAs_not_starts_with: String
+  doingBusinessAs_ends_with: String
+  doingBusinessAs_not_ends_with: String
+  doingBusinessAs_in: [String!]
+  doingBusinessAs_not_in: [String!]
   coreId: Int
   coreId_not: Int
   coreId_in: [Int]
@@ -685,6 +699,26 @@ input CompanyEntityFilter {
   companyType_not_lt: CompanyEntityTypeEnum
   companyType_lte: CompanyEntityTypeEnum
   companyType_not_lte: CompanyEntityTypeEnum
+  stateOfBusinessRegistration: String
+  stateOfBusinessRegistration_not: String
+  stateOfBusinessRegistration_contains: String
+  stateOfBusinessRegistration_not_contains: String
+  stateOfBusinessRegistration_starts_with: String
+  stateOfBusinessRegistration_not_starts_with: String
+  stateOfBusinessRegistration_ends_with: String
+  stateOfBusinessRegistration_not_ends_with: String
+  stateOfBusinessRegistration_in: [String!]
+  stateOfBusinessRegistration_not_in: [String!]
+  usTaxId: String
+  usTaxId_not: String
+  usTaxId_contains: String
+  usTaxId_not_contains: String
+  usTaxId_starts_with: String
+  usTaxId_not_starts_with: String
+  usTaxId_ends_with: String
+  usTaxId_not_ends_with: String
+  usTaxId_in: [String!]
+  usTaxId_not_in: [String!]
   isPrimary: Boolean
   isPrimary_not: Boolean
   dgDisclaimerAgreed: Boolean
@@ -827,6 +861,7 @@ input CompanyEntityFilter {
   documents_none: DocumentFilter
   documents_all: DocumentFilter
   documents_any: Boolean
+  countryOfBusinessRegistration: CountryFilter
   invoiceCurrencyDefault: CurrencyFilter
   id: String
   id_not: String
@@ -867,8 +902,11 @@ input CompanyEntityFilter {
 "A legal entity - typically a corporation - which belongs to a [Company]"
 input CompanyEntityInput {
   legalName: String!
+  doingBusinessAs: String!
   coreId: Int
   companyType: CompanyEntityTypeEnum!
+  stateOfBusinessRegistration: String!
+  usTaxId: String!
   isPrimary: Boolean!
   dgDisclaimerAgreed: Boolean!
   mailingAddressIsPhysicalAddress: Boolean!
@@ -891,6 +929,7 @@ input CompanyEntityInput {
   netsuiteVendorId: NetsuiteVendorInput
   ctpatReview: CtpatReviewInput
   documents: [DocumentInput!]!
+  countryOfBusinessRegistration: CountryInput
   invoiceCurrencyDefault: CurrencyInput
   id: String!
   hashcode: Int!
@@ -900,8 +939,11 @@ input CompanyEntityInput {
 "A legal entity - typically a corporation - which belongs to a [Company]"
 input CompanyEntitySort {
   legalName: SortOperationKind
+  doingBusinessAs: SortOperationKind
   coreId: SortOperationKind
   companyType: SortOperationKind
+  stateOfBusinessRegistration: SortOperationKind
+  usTaxId: SortOperationKind
   isPrimary: SortOperationKind
   dgDisclaimerAgreed: SortOperationKind
   mailingAddressIsPhysicalAddress: SortOperationKind
@@ -922,6 +964,7 @@ input CompanyEntitySort {
   physicalAddress: AddressSort
   netsuiteVendorId: NetsuiteVendorSort
   ctpatReview: CtpatReviewSort
+  countryOfBusinessRegistration: CountrySort
   invoiceCurrencyDefault: CurrencySort
   id: SortOperationKind
   hashcode: SortOperationKind

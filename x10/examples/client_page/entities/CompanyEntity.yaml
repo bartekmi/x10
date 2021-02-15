@@ -9,6 +9,11 @@ attributes:
     datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
     datagen_capitalization: wordCaps
 
+  - name: doingBusinessAs
+    dataType: String
+    datagen_pattern: (70% => | 30% => <adjective> <noun> (Inc | Company | Ltd))
+    datagen_capitalization: wordCaps
+
   - name: coreId
     dataType: Integer
     readOnly: true
@@ -18,6 +23,16 @@ attributes:
   - name: companyType
     dataType: CompanyEntityType
     mandatory: true
+    label: Type of Business
+
+  - name: stateOfBusinessRegistration
+    dataType: String
+    label: State / Region of Business Registration
+
+  - name: usTaxId
+    dataType: String
+    label: US Tax Id
+    toolTip: Tax Id can be one of the following...
 
   - name: isPrimary
     dataType: Boolean
@@ -109,6 +124,11 @@ associations:
     owns: true
     many: true
     datagen_quantity: 0..2
+
+  - name: countryOfBusinessRegistration
+    dataType: Country
+    owns: false
+    label: Country / Region of Business Registration
 
 # Do we implement full-on many-to-many associations (has_and_belongs_to_many in ActiveRecord) or
 # do we just create an intermediate mini-entity with only a single non-owned association?

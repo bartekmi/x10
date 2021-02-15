@@ -5,11 +5,11 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Table from 'latitude/table/Table';
-import TextCell from 'latitude/table/TextCell';
 import Text from 'latitude/Text';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Table from 'react_lib/table/Table';
 
 import { type Tenant } from 'small/entities/Tenant';
 
@@ -31,51 +31,63 @@ function Tenants(props: Props): React.Node {
         scale='display'
         children='Tenants'
       />
-      <div style={ { height: '500px', wdith: '100%' } }>
-        <Table
-          data={ tenants }
-          getUniqueRowId={ row => row.id }
-          useFullWidth={ true }
-          columnDefinitions={
-            [
-              {
-                id: 'Name',
-                render: (data) => <TextCell value={ data?.name } />,
-                header: 'Name',
-                width: 140,
-              },
-              {
-                id: 'Phone',
-                render: (data) => <TextCell value={ data?.phone } />,
-                header: 'Phone',
-                width: 140,
-              },
-              {
-                id: 'Email',
-                render: (data) => <TextCell value={ data?.email } />,
-                header: 'Email',
-                width: 140,
-              },
-              {
-                id: 'Action',
-                render: (data) =>
-                  <Group>
-                    <Button
-                      label='View'
-                    />
-                    <Button
-                      label='Edit'
-                      url={ '/tenants/edit/' + data?.id }
-                    />
-                  </Group>
-                ,
-                header: 'Action',
-                width: 140,
-              },
-            ]
-          }
-        />
-      </div>
+      <Table
+        data={ tenants }
+        columns={
+          [
+            {
+              id: 'Name',
+              accessor: (data) => data?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Name',
+              width: 140,
+            },
+            {
+              id: 'Phone',
+              accessor: (data) => data?.phone,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Phone',
+              width: 140,
+            },
+            {
+              id: 'Email',
+              accessor: (data) => data?.email,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Email',
+              width: 140,
+            },
+            {
+              id: 'Action',
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Group>
+                  <Button
+                    label='View'
+                  />
+                  <Button
+                    label='Edit'
+                    url={ '/tenants/edit/' + value?.id }
+                  />
+                </Group>
+              ,
+              Header: 'Action',
+              width: 140,
+            },
+          ]
+        }
+      />
     </Group>
   );
 }
