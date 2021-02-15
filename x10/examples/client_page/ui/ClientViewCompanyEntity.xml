@@ -22,7 +22,12 @@
             </Dialog.OpenButton>
             <ClientViewDocuments/>
           </Dialog>
-          <Button>Edit</Button>
+          <Dialog title="Edit Company Entity">
+            <Dialog.OpenButton>
+              <Button label="Edit"/>
+            </Dialog.OpenButton>
+            <CompanyEntityForm/>
+          </Dialog>
         </Row>
       </RepellingRow>
     </Expander.Header>
