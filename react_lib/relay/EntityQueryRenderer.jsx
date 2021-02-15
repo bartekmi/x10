@@ -9,7 +9,8 @@ import Loader from "latitude/Loader";
 import environment from "./environment";
 
 type Props<T> = {|
-  +match?: {
+  +id?: string,       // When invoked from another Component
+  +match?: {          // When invoked via Route
     +params: {
       +id: string
     }
@@ -19,9 +20,9 @@ type Props<T> = {|
   +createComponentFuncNew?: () => React.Node,
 |};
 export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
-  const {match, query, createComponentFunc, createComponentFuncNew} = props;
-  const id = props.match?.params?.id;
-  if (id == null) {
+  const {id, match, query, createComponentFunc, createComponentFuncNew} = props;
+  const extractedId = id || props.match?.params?.id;
+  if (extractedId == null) {
     if (createComponentFuncNew)
       return createComponentFuncNew();
     return <div>Id could not be extracted from Props</div>
@@ -32,7 +33,7 @@ export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
       environment={environment}
       query={query}
       variables={{
-        id
+        id: extractedId
       }}
       render={({ error, props }) => {
         if (error) {

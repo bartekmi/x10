@@ -8,11 +8,13 @@ attributes:
   - name: theAddress
     dataType: String
     mandatory: true
+    label: Address
     datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
     datagen_capitalization: wordCaps
 
   - name: theAddress2
     dataType: String
+    label: Address 2
 
   - name: city
     label: City / Town

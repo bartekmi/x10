@@ -6,6 +6,22 @@
     <countryOfBusinessRegistration/>
     <stateOfBusinessRegistration/>
     <usTaxId/>
+
+    <VerticalStackPanel path="mailingAddress">
+      <Text>Mailing Address</Text>
+      <HorizontalDivider/>
+      <theAddress/>
+      <theAddress2/>
+      <Row>
+        <country label="Country/Region"/>
+        <stateOrProvince/>
+      </Row>
+      <Row>
+        <city label="City/Town"/>
+        <postalCode/>
+      </Row>
+    </VerticalStackPanel>
+
     <SubmitButton label="Save"/>
   </Form>
 </CompanyEntityForm>

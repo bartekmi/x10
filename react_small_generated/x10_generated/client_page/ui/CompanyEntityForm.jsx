@@ -4,14 +4,17 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
+import Separator from 'react_lib/Separator';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -104,6 +107,104 @@ function CompanyEntityForm(props: Props): React.Node {
           } }
         />
       </FormField>
+      <Group
+        flexDirection='column'
+      >
+        <TextDisplay
+          value='Mailing Address'
+        />
+        <Separator/>
+        <FormField
+          editorFor='mailingAddress.theAddress'
+          label='Address'
+        >
+          <TextInput
+            value={ companyEntity.mailingAddress.theAddress }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(companyEntity));
+              newObj.mailingAddress.theAddress = value;
+              onChange(newObj);
+            } }
+          />
+        </FormField>
+        <FormField
+          editorFor='mailingAddress.theAddress2'
+          label='Address 2'
+        >
+          <TextInput
+            value={ companyEntity.mailingAddress.theAddress2 }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(companyEntity));
+              newObj.mailingAddress.theAddress2 = value;
+              onChange(newObj);
+            } }
+          />
+        </FormField>
+        <Group>
+          <FormField
+            editorFor='mailingAddress.country'
+            label='Country/Region'
+          >
+            <AssociationEditor
+              id={ companyEntity.mailingAddress.country }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                newObj.mailingAddress.country = value;
+                onChange(newObj);
+              } }
+              isNullable={ false }
+              query={ countriesQuery }
+              toString={ x => x.toStringRepresentation }
+            />
+          </FormField>
+          <FormField
+            editorFor='mailingAddress.stateOrProvince'
+            label='State Or Province'
+          >
+            <AssociationEditor
+              id={ companyEntity.mailingAddress.stateOrProvince }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                newObj.mailingAddress.stateOrProvince = value;
+                onChange(newObj);
+              } }
+              isNullable={ false }
+              query={ stateOrProvincesQuery }
+              toString={ x => x.toStringRepresentation }
+            />
+          </FormField>
+        </Group>
+        <Group>
+          <FormField
+            editorFor='mailingAddress.city'
+            label='City/Town'
+            maxWidth={ 400 }
+          >
+            <TextInput
+              value={ companyEntity.mailingAddress.city }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                newObj.mailingAddress.city = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+          <FormField
+            editorFor='mailingAddress.postalCode'
+            label='Zip or Postal Code'
+            maxWidth={ 150 }
+          >
+            <TextInput
+              value={ companyEntity.mailingAddress.postalCode }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                newObj.mailingAddress.postalCode = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+        </Group>
+      </Group>
       <FormSubmitButton
         onClick={ () => save(companyEntity) }
       />
@@ -247,6 +348,19 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
       }
       doingBusinessAs
       legalName
+      mailingAddress {
+        id
+        city
+        country {
+          id
+        }
+        postalCode
+        stateOrProvince {
+          id
+        }
+        theAddress
+        theAddress2
+      }
       stateOfBusinessRegistration
       usTaxId
     }
@@ -256,6 +370,15 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
 const countriesQuery = graphql`
   query CompanyEntityForm_countriesQuery {
     entities: countries {
+      id
+      toStringRepresentation
+    }
+  }
+`;
+
+const stateOrProvincesQuery = graphql`
+  query CompanyEntityForm_stateOrProvincesQuery {
+    entities: stateOrProvinces {
       id
       toStringRepresentation
     }

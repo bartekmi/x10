@@ -95,7 +95,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 />
               }
             >
-              <CompanyEntityFormInterface match={ {params: { id: companyEntity.id } } }/>
+              <CompanyEntityFormInterface id={companyEntity.id}/>
             </Dialog>
           </Group>
         </Group>
