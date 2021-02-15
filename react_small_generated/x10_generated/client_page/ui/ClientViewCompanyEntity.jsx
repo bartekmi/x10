@@ -24,7 +24,7 @@ import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPai
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
 import ClientViewDocuments from 'client_page/ui/ClientViewDocuments';
-import CompanyEntityForm from 'client_page/ui/CompanyEntityForm';
+import CompanyEntityFormInterface from 'client_page/ui/CompanyEntityFormInterface';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
 
@@ -95,7 +95,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 />
               }
             >
-              <CompanyEntityForm companyEntity={ companyEntity }/>
+              <CompanyEntityFormInterface match={ {params: { id: companyEntity.id } } }/>
             </Dialog>
           </Group>
         </Group>
@@ -177,7 +177,6 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
         ...AddressDisplay_address
       }
       ...ClientViewDocuments_companyEntity
-      ...CompanyEntityForm_companyEntity
     }
   `,
 });

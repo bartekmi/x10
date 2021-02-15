@@ -13,7 +13,7 @@ import environment from 'environment';
 
 
 type Props = { 
-  +match: { 
+  +match?: { 
     +params: { 
       +id: string
     }

@@ -9,7 +9,7 @@ import Loader from "latitude/Loader";
 import environment from "./environment";
 
 type Props<T> = {|
-  +match: {
+  +match?: {
     +params: {
       +id: string
     }
@@ -17,11 +17,10 @@ type Props<T> = {|
   +query: any,
   +createComponentFunc: (T) => React.Node,
   +createComponentFuncNew?: () => React.Node,
-  +gqlToInernalConvertFunc?: (any) => T,
 |};
 export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
-  const {match, query, createComponentFunc, createComponentFuncNew, gqlToInernalConvertFunc} = props;
-  const id = props.match.params.id;
+  const {match, query, createComponentFunc, createComponentFuncNew} = props;
+  const id = props.match?.params?.id;
   if (id == null) {
     if (createComponentFuncNew)
       return createComponentFuncNew();
@@ -39,8 +38,7 @@ export default function BasicQueryRenderer<T>(props: Props<T>): React.Node {
         if (error) {
           return <div>{error.message}</div>;
         } else if (props) {
-          const converted = gqlToInernalConvertFunc ? gqlToInernalConvertFunc(props.entity) : props.entity;
-          return createComponentFunc(converted);
+          return createComponentFunc(props.entity);
         }
         return <Loader loaded={false}/>;
       }}
