@@ -37,7 +37,7 @@ namespace x10.gen.react.attribute {
         // the main binding attribute (i.e. we will "bind" this attribute to the data model)
         if (IsMainDatabindingAttribute) {
           isCodeSnippet = true;
-          if (instance.ModelMember == null)
+          if (instance.ModelMember == null || generator.AlreadyScopedToMember)
             return generator.SourceVariableName;
           else
             return new CodeSnippetGenerator(WritePrimaryBindingAttribute);

@@ -5,7 +5,6 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Text from 'latitude/Text';
 
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
@@ -27,48 +26,58 @@ function ClientViewDocuments(props: Props): React.Node {
   const { companyEntity } = props;
 
   return (
-      <Table
-        data={ companyEntity?.documents }
-        // getUniqueRowId={ row => row.id }
-        columns={
-          [
-            {
-              id: 'Name',
-              accessor: (data) => data,
-              Cell: ({value}) => 
-                <Group flexDirection='column' gap={0}>
-                  <EnumDisplay
-                    value={ value?.documentType }
-                    options={ DocumentTypeEnumPairs }
-                  />
-                  <TextDisplay
-                    value={ value?.fileName }
-                  />
-                  <TextDisplay
-                    value={ value?.name }
-                  />
-                </Group>
-              ,
-              Header: 'Name',
-              width: 140,
-            },
-            {
-              id: 'Uploaded By',
-              accessor: (data) => userName(data?.uploadedBy),
-              Cell: ({value}) => <TextDisplay value={value}/>,
-              Header: 'Uploaded By',
-              width: 140,
-            },
-            {
-              id: 'Uploaded',
-              accessor: (data) => data?.uploadedTimestamp,
-              Cell: ({value}) => <TimestampDisplay value={value}/>,
-              Header: 'Uploaded',
-              width: 140,
-            },
-          ]
-        }
-      />
+    <Table
+      data={ companyEntity?.documents }
+      columns={
+        [
+          {
+            id: 'Name',
+            accessor: (data) => data,
+            Cell: ({ value }) =>
+              <Group
+                flexDirection='column'
+                gap={ 0 }
+              >
+                <EnumDisplay
+                  value={ value?.documentType }
+                  options={ DocumentTypeEnumPairs }
+                />
+                <TextDisplay
+                  value={ value?.fileName }
+                />
+                <TextDisplay
+                  value={ value?.name }
+                />
+              </Group>
+            ,
+            Header: 'Name',
+            width: 140,
+          },
+          {
+            id: 'Uploaded By',
+            accessor: (data) => userName(data?.uploadedBy),
+            Cell: ({ value }) =>
+              <TextDisplay
+                value={ value }
+              />
+            ,
+            Header: 'Uploaded By',
+            width: 140,
+          },
+          {
+            id: 'Uploaded',
+            accessor: (data) => data?.uploadedTimestamp,
+            Cell: ({ value }) =>
+              <TimestampDisplay
+                value={ value }
+              />
+            ,
+            Header: 'Uploaded',
+            width: 140,
+          },
+        ]
+      }
+    />
   );
 }
 

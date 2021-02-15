@@ -231,7 +231,7 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeByFunc() {
             PlatformName = "onChange",
             IsCodeSnippet = true,
-            Function = (generator, instance) => 
+            Function = (generator, instance) =>
               UiCompilerUtils.IsReadOnly(instance) ? "() => { }" : null,
           },
         },
@@ -452,7 +452,7 @@ namespace x10.gen.react.library {
               Instance inner = instance.PrimaryValueInstance;
 
               generator.WriteLine(indent, "itemDisplayFunc={ (data, onChange) => (");
-    
+
               generator.PushSourceVariableName("data");
               generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
               generator.PopSourceVariableName();
@@ -475,27 +475,21 @@ namespace x10.gen.react.library {
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",
-        PlatformName = "div",
-        StyleInfo = "height: '500px', wdith: '100%'",
-        NestedClassDef = new PlatformClassDef() {
-          PlatformName = "Table",
-          ImportDir = "latitude/table",
-          LocalPlatformAttributes = new List<PlatformAttribute>() {
-            new JavaScriptAttributeDynamic() {
-              IsMainDatabindingAttribute = true,
-              PlatformName = "data",
-            },
-            new PlatformAttributeStatic("getUniqueRowId", "row => row.id", true),
-            new PlatformAttributeStatic("useFullWidth", true, true),
-            new JavaScriptAttributePrimaryAsProp() {
-              CodeSnippet = (generator, indent, platClassDef, instance) => {
-                UiAttributeValueComplex primaryValue = (UiAttributeValueComplex)instance.PrimaryValue;
-                generator.WriteLine(indent, "columnDefinitions={");
-                generator.RenderComplexAttrAsJavascript(indent + 1, primaryValue);
-                generator.WriteLine(indent, "}");
-              },
-            }
+        PlatformName = "Table",
+        ImportDir = "react_lib/table",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            PlatformName = "data",
           },
+          new JavaScriptAttributePrimaryAsProp() {
+            CodeSnippet = (generator, indent, platClassDef, instance) => {
+              UiAttributeValueComplex primaryValue = (UiAttributeValueComplex)instance.PrimaryValue;
+              generator.WriteLine(indent, "columns={");
+              generator.RenderComplexAttrAsJavascript(indent + 1, primaryValue);
+              generator.WriteLine(indent, "}");
+            },
+          }
         }
       },
       new PlatformClassDef() {
@@ -507,37 +501,45 @@ namespace x10.gen.react.library {
             Function = (instance) => instance.FindValue("label")?.ToString(),
           },
           new JavaScriptAttributeByFunc() {
-            PlatformName = "render",
+            PlatformName = "accessor",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
               Instance inner = instance.PrimaryValueInstance;
-              Member member = inner.ModelMember;
 
-              if (member == null) {
-                return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
-                  generator.WriteLine(indent, "render: (data) =>");
-        
-                  // Don't try to combine this push/pop with the one below. Note that this path returns a func pointer.
-                  generator.PushSourceVariableName("data");
-                  generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
-                  generator.PopSourceVariableName();
-
-                  generator.WriteLine(indent, ",");
-                });
-              } else {
-                generator.ImportsPlaceholder.ImportDefault("latitude/table/TextCell", ImportLevel.ThirdParty);
-
-                generator.PushSourceVariableName("data");
+              if (inner is InstanceModelRef) {
+                generator.PushSourceVariableName("data", true);
                 string path = generator.GetReadOnlyBindingPath(instance);
                 generator.PopSourceVariableName();
 
-                return string.Format("(data) => <TextCell value={{ {0} }} />", path);
-              }
+                return string.Format("(data) => {0}", path);
+              } else 
+                // If the instance is not a model-reference but just a full-on component,
+                // we pass the entire row object to the "Cell" property - it may extract
+                // several attributes/members.
+                return "(data) => data";
+            },
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "Cell",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Instance inner = instance.PrimaryValueInstance;
+              
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "Cell: ({ value }) =>");
+      
+                // Don't try to combine this push/pop with the one below. Note that this path returns a func pointer.
+                generator.PushSourceVariableName("value", inner is InstanceModelRef);
+                generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
+                generator.PopSourceVariableName();
+
+                generator.WriteLine(indent, ",");
+              });
             },
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "label",
-            PlatformName = "header",
+            PlatformName = "Header",
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "width",
@@ -628,7 +630,7 @@ namespace x10.gen.react.library {
             Function = (generator, instance) => {
               Entity entity = instance.DataModelEntity;
               generator.ImportsPlaceholder.ImportCalculateErrorsFunc(entity);
-              return string.Format("{{ errors: {0}({1}) }}", 
+              return string.Format("{{ errors: {0}({1}) }}",
                 ReactCodeGenerator.CalculateErrorsFuncName(entity),
                 generator.SourceVariableName);
             },
@@ -758,7 +760,7 @@ namespace x10.gen.react.library {
               generator.GqlPlaceholder.AddGqlQueryForAssociationEditor(refedEntity);
               return varName + "Query"; // Must match query name in GqlPlaceholder
             }
-              
+
           },
           new PlatformAttributeStatic() {
             PlatformName = "toString",

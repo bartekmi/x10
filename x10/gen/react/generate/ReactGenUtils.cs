@@ -36,13 +36,19 @@ namespace x10.gen.react.generate {
     #region Source Variable Name
     private Stack<string> _sourceVariableNames = new Stack<string>();
     internal string SourceVariableName { get { return _sourceVariableNames.Peek(); } }
+    internal bool AlreadyScopedToMember { get; private set;}
 
-    internal void PushSourceVariableName(string variableName) {
+    internal void PushSourceVariableName(string variableName, bool alreadyScopedToMember = false) {
+      if (AlreadyScopedToMember && alreadyScopedToMember)
+        throw new Exception("Cannot nest 'AlreadyScopedToMember' - it should only happen at leaf Instance nodes.");
+        
       _sourceVariableNames.Push(variableName);
+      AlreadyScopedToMember = alreadyScopedToMember;
     }
 
     internal void PopSourceVariableName() {
       _sourceVariableNames.Pop();
+      AlreadyScopedToMember = false;
     }
     #endregion
 

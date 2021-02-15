@@ -2,7 +2,7 @@
   <Table path="documents">
     <Table.Columns>
       <TableColumn label="Name">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <documentType/>
           <fileName/>
           <name/>
