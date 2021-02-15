@@ -1,4 +1,4 @@
-<CompanyEntityForm model="CompanyEntity">
+<CompanyEntityForm model="CompanyEntity" url="/companyEntities">
   <Form>
     <legalName/>
     <doingBusinessAs/>

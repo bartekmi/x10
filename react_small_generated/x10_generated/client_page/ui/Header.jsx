@@ -12,6 +12,7 @@ import SpaContent from 'react_lib/SpaContent';
 
 import ClientsInterface from 'client_page/ui/ClientsInterface';
 import ClientViewInterface from 'client_page/ui/ClientViewInterface';
+import CompanyEntityFormInterface from 'client_page/ui/CompanyEntityFormInterface';
 
 
 
@@ -34,6 +35,8 @@ export default function Header(props: Props): React.Node {
         rootComponent={ ClientsInterface }
       >
         <Route exact path='/clients/view/:id' component={ ClientViewInterface } />
+        <Route exact path='/companyEntities/edit/:id' component={ CompanyEntityFormInterface } />
+        <Route exact path='/companyEntities/new' component={ CompanyEntityFormInterface } />
         <Route exact path='/clients' component={ ClientsInterface } />
       </SpaContent>
     </Group>
