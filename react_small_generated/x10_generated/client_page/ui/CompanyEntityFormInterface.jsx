@@ -14,7 +14,7 @@ import environment from 'environment';
 
 type Props = { 
   +id?: string,      // When invoked from another Component
-  +match?: {        // When invoked via Route
+  +match?: {         // When invoked via Route
     +params: { 
       +id: string
     }

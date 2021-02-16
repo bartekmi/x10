@@ -52,7 +52,8 @@ namespace x10.gen.react.generate {
     private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
       WriteLine(0,
 @"type Props = { 
-  +match: { 
+  +id?: string,      // When invoked from another Component
+  +match?: {         // When invoked via Route
     +params: { 
       +id: string
     }
@@ -66,6 +67,7 @@ namespace x10.gen.react.generate {
       WriteLine(0, "export default function {0}Interface(props: Props): React.Node {", classDefName);
       WriteLine(1, "return (");
       WriteLine(2, "<EntityQueryRenderer");
+      WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
 

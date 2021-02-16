@@ -9,6 +9,7 @@ using x10.compiler;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
+using x10.ui.libraries;
 using x10.gen.react.placeholder;
 using x10.gen.react.attribute;
 
@@ -124,7 +125,7 @@ namespace x10.gen.react.generate {
       WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
 
       ImportsPlaceholder.ImportType(fragmentName,
-        string.Format("./__generated__/{0}.graphql", fragmentName), 
+        string.Format("./__generated__/{0}.graphql", fragmentName),
         ImportLevel.RelayGenerated);
     }
     #endregion
@@ -163,7 +164,7 @@ namespace x10.gen.react.generate {
         GenerateComponentReference(level, instance, classDefX10);
         return;
       }
-      
+
       if (platClassDef == null)
         platClassDef = FindPlatformClassDef(instance);
       if (platClassDef == null)
@@ -194,13 +195,28 @@ namespace x10.gen.react.generate {
       if (!string.IsNullOrEmpty(path))
         path = "." + path;
 
-      WriteLine(level, "<{0} {1}={ {2}{3} }/>", 
-        instance.RenderAs.Name,
-        VariableName(instance.RenderAs.ComponentDataModel),
-        SourceVariableName,
-        path);
+      // Making an executive decision that Forms will be included as the Interface version
+      // of the component - i.e. they will make a separate GraphQL query for their data.
+      // At least one argument for this is that, if we're going to edit data, we want to start
+      // with the freshest copy. (There may be others)
+      if (IsForm(classDefX10)) {
+        string compInterface = classDefX10.Name + "Interface";
+        ImportsPlaceholder.ImportDefault(classDefX10, "Interface");
 
-      ImportsPlaceholder.ImportDefault(classDefX10);
+        WriteLine(level, "<{0}Interface id={ {1}{2}.id }/>",
+          classDefX10.Name,
+          SourceVariableName,
+          path);
+      } else {
+        ImportsPlaceholder.ImportDefault(classDefX10);
+
+        WriteLine(level, "<{0} {1}={ {2}{3} }/>",
+          classDefX10.Name,
+          VariableName(classDefX10.ComponentDataModel),
+          SourceVariableName,
+          path);
+      }
+
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
@@ -332,7 +348,8 @@ namespace x10.gen.react.generate {
           PrintGraphQL(indent, child);
 
       foreach (ClassDefX10 classDef in wrapper.ComponentReferences)
-        WriteLine(indent, "...{0}", FragmentName(classDef));
+        if (!IsForm(classDef))
+          WriteLine(indent, "...{0}", FragmentName(classDef));
     }
 
     #endregion
