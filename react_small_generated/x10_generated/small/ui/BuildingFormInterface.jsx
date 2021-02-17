@@ -13,7 +13,8 @@ import BuildingForm, { BuildingFormStateful } from 'small/ui/BuildingForm';
 
 
 type Props = { 
-  +match: { 
+  +id?: string,      // When invoked from another Component
+  +match?: {         // When invoked via Route
     +params: { 
       +id: string
     }
@@ -22,6 +23,7 @@ type Props = {
 export default function BuildingFormInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
+      id={ props.id }
       match={ props.match }
       createComponentFunc={ (building) => <BuildingForm building={ building }/> }
       createComponentFuncNew={ () => <BuildingFormStateful building={ createDefaultBuilding() }/> }

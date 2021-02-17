@@ -13,7 +13,8 @@ import MoveView from 'small/ui/MoveView';
 
 
 type Props = { 
-  +match: { 
+  +id?: string,      // When invoked from another Component
+  +match?: {         // When invoked via Route
     +params: { 
       +id: string
     }
@@ -22,6 +23,7 @@ type Props = {
 export default function MoveViewInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
+      id={ props.id }
       match={ props.match }
       createComponentFunc={ (move) => <MoveView move={ move }/> }
       query={ query }

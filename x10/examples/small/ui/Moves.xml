@@ -6,7 +6,7 @@
       <Table.Columns>
         <date/>
         <from.name label="From"/>
-        <to.name label="From"/>
+        <to.name label="To"/>
         <tenant.name label="Tenant"/>
         <TableColumn label="Action">
           <Row>

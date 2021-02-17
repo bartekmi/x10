@@ -59,14 +59,14 @@ function Moves(props: Props): React.Node {
               width: 140,
             },
             {
-              id: 'From',
+              id: 'To',
               accessor: (data) => data?.to?.name,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'From',
+              Header: 'To',
               width: 140,
             },
             {
