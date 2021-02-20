@@ -138,10 +138,12 @@ function TenantForm(props: Props): React.Node {
           label='Country'
         >
           <AssociationEditor
-            id={ tenant.permanentMailingAddress.country }
+            id={ tenant.permanentMailingAddress.country?.id }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.country = value;
+              newObj.permanentMailingAddress.country = {
+                id: value
+              };
               onChange(newObj);
             } }
             isNullable={ false }
@@ -188,31 +190,15 @@ function relayToInternal(relay: any): Tenant {
 }
 
 function save(tenant: Tenant) {
-  const variables = {
-    id: tenant.id,
-    name: tenant.name,
-    phone: tenant.phone,
-    email: tenant.email,
-    permanentMailingAddress: tenant.permanentMailingAddress,
-  };
-
-  basicCommitMutation(mutation, variables);
+  basicCommitMutation(mutation, {tenant});
 }
 
 const mutation = graphql`
   mutation TenantFormMutation(
-    $id: String!
-    $name: String!
-    $phone: String!
-    $email: String!
-    $permanentMailingAddress: AddressInput!
+    $tenant: TenantInput!
   ) {
     createOrUpdateTenant(
-      id: $id
-      name: $name
-      phone: $phone
-      email: $email
-      permanentMailingAddress: $permanentMailingAddress
+      tenant: $tenant
     )
   }
 `;

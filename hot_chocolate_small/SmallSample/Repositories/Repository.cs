@@ -26,9 +26,9 @@ namespace x10.hotchoc.SmallSample.Repositories {
       };
     }
 
-    public override void Add(int id, PrimordialEntityBase instance) {
-      instance.Dbid = id;
-
+    public override void Add(PrimordialEntityBase instance) {
+      int id = instance.Dbid;
+      
       if (instance is Building building) _buildings[id] = building;
       if (instance is Move move) _moves[id] = move;
       if (instance is Tenant tenant) _tenants[id] = tenant;

@@ -92,16 +92,16 @@ namespace x10.hotchoc {
       if (instance == null)
         throw new Exception("Could not instantiate " + type.Name);
 
-      _objectRowPairs[instance] = row;
-      repository.Add(row.Id, instance);
-
       PopulateEntity(repository, instance, row);
+
+      instance.SetDbid(row.Id);
+      _objectRowPairs[instance] = row;
+      repository.Add(instance);
+
       return instance;
     }
 
     private void PopulateEntity(RepositoryBase repository, PrimordialEntityBase instance, Row row) {
-      instance.Dbid = row.Id;
-
       PopulateEmptyLists(instance);
       PopulateEntityAttributes(instance, row);
       PopulateEntityOwnedAssociations(repository, instance, row);

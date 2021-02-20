@@ -72,24 +72,13 @@ namespace x10.hotchoc.SmallSample {
 
     #region Tenant
     /// <summary>
-    /// Creates a new Tenant or updates an existing one, depending on the value of id
+    /// Creates a new Tenant or updates an existing one, depending on the value of tenant.id
     /// </summary>
     public string CreateOrUpdateTenant(
-        string id,
-        string name,
-        string? phone,
-        string email,
-        Address permanentMailingAddress,
+        Tenant tenant,
         [Service] IRepository repository) {
 
-      Tenant tenant = new Tenant() {
-        Name = name,
-        Phone = phone,
-        Email = email,
-        PermanentMailingAddress = permanentMailingAddress,
-      };
-
-      int dbid = repository.AddOrUpdateTenant(IdUtils.FromRelayId(id), tenant);
+      int dbid = repository.AddOrUpdateTenant(IdUtils.FromRelayId(tenant.Id), tenant);
       return IdUtils.ToRelayId<Tenant>(dbid);
     }
     #endregion

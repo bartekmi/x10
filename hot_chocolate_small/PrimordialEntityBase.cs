@@ -1,18 +1,28 @@
+using System;
+using HotChocolate;
+
 namespace x10.hotchoc {
   public class PrimordialEntityBase {
-    public string Id {
-      get {
-        return IdUtils.ToRelayId(this, Dbid);
-      }
+    private string _id;
+    public string Id { 
+      get { return _id; }
       set {
-        // Do nothing. Needed to make Hot Chocolate happy.
+        _id = value;
       }
     }
+
     public int Hashcode {
       get { return GetHashCode(); }
       set {/* Do nothing */}
     }
-    public int Dbid { get; set; }
+
+    [GraphQLIgnore]
+    public int Dbid { get; private set; }
+
+    internal void SetDbid(int dbid) {
+      Dbid = dbid;
+      Id = IdUtils.ToRelayId(this, dbid);
+    }
 
     private static int _nextUniqueDbid = 1000;
     public virtual void EnsureUniqueDbid() {

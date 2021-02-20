@@ -14,7 +14,6 @@ type Address {
   country: Country!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A physical building which contains rental units"
@@ -32,7 +31,6 @@ type Building {
   mailingAddress: Address
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Represents a Country"
@@ -42,7 +40,6 @@ type Country {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -54,7 +51,6 @@ type Move {
   tenant: Tenant!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 type Mutation {
@@ -62,8 +58,8 @@ type Mutation {
   createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum! petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
   "Creates a new Move or updates an existing one, depending on the value of id"
   createOrUpdateMove(id: String! date: DateTime! fromId: String! toId: String! tenantId: String!): String!
-  "Creates a new Tenant or updates an existing one, depending on the value of id"
-  createOrUpdateTenant(id: String! name: String! phone: String email: String! permanentMailingAddress: AddressInput!): String!
+  "Creates a new Tenant or updates an existing one, depending on the value of tenant.id"
+  createOrUpdateTenant(tenant: TenantInput!): String!
   "Creates a new Address or updates an existing one, depending on the value of id"
   createOrUpdateAddress(id: String! unitNumber: String theAddress: String! city: String! stateOrProvince: String! zip: String! countryId: String!): String!
   "Creates a new Country or updates an existing one, depending on the value of id"
@@ -108,7 +104,6 @@ type Tenant {
   permanentMailingAddress: Address!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "An individual rental unit"
@@ -121,7 +116,6 @@ type Unit {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A physical or mailing address"
@@ -211,18 +205,6 @@ input AddressFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A physical or mailing address"
@@ -236,7 +218,6 @@ input AddressInput {
   country: CountryInput!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A physical or mailing address"
@@ -250,7 +231,6 @@ input AddressSort {
   country: CountrySort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "A physical building which contains rental units"
@@ -363,18 +343,6 @@ input BuildingFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A physical building which contains rental units"
@@ -391,7 +359,6 @@ input BuildingSort {
   mailingAddress: AddressSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Represents a Country"
@@ -450,18 +417,6 @@ input CountryFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Represents a Country"
@@ -471,7 +426,6 @@ input CountryInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Represents a Country"
@@ -481,7 +435,6 @@ input CountrySort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -535,18 +488,6 @@ input MoveFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -558,7 +499,6 @@ input MoveSort {
   tenant: TenantSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Tenant of a Unit"
@@ -628,18 +568,17 @@ input TenantFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
+}
+
+"Tenant of a Unit"
+input TenantInput {
+  name: String!
+  phone: String!
+  email: String!
+  toStringRepresentation: String!
+  permanentMailingAddress: AddressInput!
+  id: String!
+  hashcode: Int!
 }
 
 "Tenant of a Unit"
@@ -651,7 +590,6 @@ input TenantSort {
   permanentMailingAddress: AddressSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "An individual rental unit"
@@ -738,18 +676,6 @@ input UnitFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "An individual rental unit"
@@ -762,7 +688,6 @@ input UnitInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "An individual rental unit"
@@ -775,7 +700,6 @@ input UnitSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 enum MailboxTypeEnum {
