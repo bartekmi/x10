@@ -759,13 +759,13 @@ namespace x10.gen.react.library {
               generator.GqlPlaceholder.AddGqlQueryForAssociationEditor(refedEntity);
               return varName + "Query"; // Must match query name in GqlPlaceholder
             }
-
           },
           new PlatformAttributeStatic() {
             PlatformName = "toString",
             IsCodeSnippet = true,
             Value = "x => x.toStringRepresentation",
           },
+          new JavaScriptAttributeDynamic("order", "order"),
         },
       },
 

@@ -15,9 +15,9 @@ type Props = {|
   +toString: any => string,
   +onChange: (?string) => void,
   +isNullable: boolean,
+  +order?: "sameAsDefined" | "alphabetic",
 |};
-export default function AssociationEditor(props: Props): React.Node {
-  const {id, query, toString, onChange, isNullable} = props;
+export default function AssociationEditor({id, query, toString, onChange, isNullable, order = "alphabetic"}: Props): React.Node {
 
   return (
     <QueryRenderer
@@ -30,13 +30,19 @@ export default function AssociationEditor(props: Props): React.Node {
           return <div>{error.message}</div>;
         } else if (props) {
           const data = props.entities;
+          let options = data.map(x => ({ 
+                value: x.id, 
+                label: toString(x)
+              }));
+
+          if (order === "alphabetic") {
+            options = options.sort((a, b) => a.label.localeCompare(b.label));
+          }
+
           return (
             <SearchableSelectInput
               value={id || null}
-              options={data.map(x => ({ 
-                value: x.id, 
-                label: toString(x)
-              }))}
+              options={options}
               onChange={ value => onChange(value) }
               isNullable={ isNullable }
             />

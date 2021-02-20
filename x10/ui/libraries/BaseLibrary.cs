@@ -357,6 +357,15 @@ namespace x10.ui.libraries {
             Description = "If present, this allows the user to add new entities. This field must point to the name of a <Form> for the Entity being selected.",
             DataType = DataTypes.Singleton.String,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "order",
+            Description = "Determines in what order to show the options. 'sameAsDefined' means the same order in which the data is returned from the back-end.",
+            DataType = new DataTypeEnum() {
+              Name = "AssociationEditorOptionOrder",
+              EnumValueValues = new string[] { "sameAsDefined", "alphabetic" },
+            },
+            DefaultValue = "alphabetic"
+          },
         }
       },
 
