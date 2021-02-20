@@ -120,8 +120,8 @@ namespace x10.gen.hotchoc {
     }
 
     private void GenerateRepositoryAddMethod() {
-      WriteLine(2, "public override void Add(int id, PrimordialEntityBase instance) {");
-      WriteLine(3, "instance.Dbid = id;");
+      WriteLine(2, "public override void Add(PrimordialEntityBase instance) {");
+      WriteLine(3, "int id = instance.Dbid;");
       WriteLine();
 
       foreach (Entity entity in ConcreteEntities()) {
@@ -279,47 +279,18 @@ namespace x10.hotchoc.{0} {{
     private void GenerateCreateOrUpdate(Entity entity) {
       string entityName = entity.Name;
       string varName = NameUtils.UncapitalizeFirstLetter(entityName);
-      IEnumerable<Member> writableMembers = entity.Members.Where(x => !x.IsReadOnly);
 
       WriteRaw(
 @"    /// <summary>
-    /// Creates a new {0} or updates an existing one, depending on the value of id
+    /// Creates a new {0} or updates an existing one, depending on the value of {1}.id
     /// </summary>
     public string CreateOrUpdate{0}(
-", entityName);
-
-      // Method parameters
-      WriteLine(4, "string id,");
-      foreach (Member member in writableMembers)
-        WriteLine(4, "{0} {1}{2},", GetDataType(member), member.Name, member.IsNonOwnedAssociation ? "Id" : "");
-
-      WriteLine(4, "[Service] IRepository repository) {");
-      WriteLine();
-
-      // Instantiate entity
-      WriteLine(3, "{0} {1} = new {0}() {", entityName, varName);
-
-      foreach (Member member in writableMembers)
-        if (member.IsNonOwnedAssociation) {
-          Entity refedEntity = ((Association)member).ReferencedEntity;
-          WriteLine(4, "{0} = repository.Get{1}(IdUtils.FromRelayIdMandatory({2}Id)),",
-            PropName(member),
-            refedEntity.Name,
-            member.Name);
-        } else
-          WriteLine(4, "{0} = {1}{2},",
-            PropName(member),
-            member.Name,
-            member is Association assoc && assoc.IsMany ? ".ToList()" : "");
-
-      WriteLine(3, "};");
-      WriteLine();
-
-      // Method body and return
-      WriteLine(3, "int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId(id), {1});",
-        entityName, varName);
-      WriteLine(3, "return IdUtils.ToRelayId<{0}>(dbid);", entityName);
-      WriteLine(2, "}");
+      {0} {1},
+      [Service] IRepository repository) {{
+        int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId({1}.Id), {1});
+        return IdUtils.ToRelayId<{0}>(dbid);
+    }}
+", entityName, varName);
     }
 
     private static string GetDataType(Member member) {

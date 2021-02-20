@@ -54,18 +54,18 @@ type Move {
 }
 
 type Mutation {
-  "Creates a new Building or updates an existing one, depending on the value of id"
-  createOrUpdateBuilding(id: String! name: String! description: String dateOfOccupancy: DateTime! mailboxType: MailboxTypeEnum! petPolicy: PetPolicyEnum mailingAddressSameAsPhysical: Boolean! units: [UnitInput!]! physicalAddress: AddressInput! mailingAddress: AddressInput): String!
-  "Creates a new Move or updates an existing one, depending on the value of id"
-  createOrUpdateMove(id: String! date: DateTime! fromId: String! toId: String! tenantId: String!): String!
+  "Creates a new Building or updates an existing one, depending on the value of building.id"
+  createOrUpdateBuilding(building: BuildingInput!): String!
+  "Creates a new Move or updates an existing one, depending on the value of move.id"
+  createOrUpdateMove(move: MoveInput!): String!
   "Creates a new Tenant or updates an existing one, depending on the value of tenant.id"
   createOrUpdateTenant(tenant: TenantInput!): String!
-  "Creates a new Address or updates an existing one, depending on the value of id"
-  createOrUpdateAddress(id: String! unitNumber: String theAddress: String! city: String! stateOrProvince: String! zip: String! countryId: String!): String!
-  "Creates a new Country or updates an existing one, depending on the value of id"
-  createOrUpdateCountry(id: String! code: String! name: String!): String!
-  "Creates a new Unit or updates an existing one, depending on the value of id"
-  createOrUpdateUnit(id: String! number: String! squareFeet: Float numberOfBedrooms: Int! numberOfBathrooms: NumberOfBathroomsEnum! hasBalcony: Boolean!): String!
+  "Creates a new Address or updates an existing one, depending on the value of address.id"
+  createOrUpdateAddress(address: AddressInput!): String!
+  "Creates a new Country or updates an existing one, depending on the value of country.id"
+  createOrUpdateCountry(country: CountryInput!): String!
+  "Creates a new Unit or updates an existing one, depending on the value of unit.id"
+  createOrUpdateUnit(unit: UnitInput!): String!
 }
 
 type Query {
@@ -346,6 +346,23 @@ input BuildingFilter {
 }
 
 "A physical building which contains rental units"
+input BuildingInput {
+  moniker: String!
+  name: String!
+  description: String!
+  dateOfOccupancy: DateTime!
+  mailboxType: MailboxTypeEnum!
+  petPolicy: PetPolicyEnum
+  mailingAddressSameAsPhysical: Boolean!
+  toStringRepresentation: String!
+  units: [UnitInput!]!
+  physicalAddress: AddressInput!
+  mailingAddress: AddressInput
+  id: String!
+  hashcode: Int!
+}
+
+"A physical building which contains rental units"
 input BuildingSort {
   moniker: SortOperationKind
   name: SortOperationKind
@@ -488,6 +505,17 @@ input MoveFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
+}
+
+"Somewhat contrived move event from one apartment to another"
+input MoveInput {
+  date: DateTime!
+  toStringRepresentation: String!
+  from: BuildingInput!
+  to: BuildingInput!
+  tenant: TenantInput!
+  id: String!
+  hashcode: Int!
 }
 
 "Somewhat contrived move event from one apartment to another"
