@@ -16,9 +16,7 @@ export type Address = {
   +city: string,
   +stateOrProvince: string,
   +zip: string,
-  +country: ?{
-    id: string,
-  }
+  +country: ?string,
 };
 
 

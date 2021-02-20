@@ -141,9 +141,7 @@ function TenantForm(props: Props): React.Node {
             id={ tenant.permanentMailingAddress.country?.id }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.country = {
-                id: value
-              };
+              newObj.permanentMailingAddress.country = { id: value };
               onChange(newObj);
             } }
             isNullable={ false }
@@ -190,7 +188,7 @@ function relayToInternal(relay: any): Tenant {
 }
 
 function save(tenant: Tenant) {
-  basicCommitMutation(mutation, {tenant});
+  basicCommitMutation(mutation, { tenant });
 }
 
 const mutation = graphql`

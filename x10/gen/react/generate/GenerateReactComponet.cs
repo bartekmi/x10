@@ -360,16 +360,7 @@ namespace x10.gen.react.generate {
       string modelName = model.Name;
 
       WriteLine(0, "function save({0}: {1}) {", variableName, modelName);
-      WriteLine(1, "const variables = {");
-
-      foreach (Member member in model.Members)
-        if (IncludeInMutation(member))
-          WriteLine(2, "{0}: {1}.{0},", member.Name, variableName);
-
-      WriteLine(1, "};");
-
-      WriteLine();
-      WriteLine(1, "basicCommitMutation(mutation, variables);");
+      WriteLine(1, "basicCommitMutation(mutation, { {0} });", variableName);
       WriteLine(0, "}");
 
       ImportsPlaceholder.ImportDefault("react_lib/relay/basicCommitMutation", ImportLevel.ThirdParty);
@@ -394,21 +385,10 @@ namespace x10.gen.react.generate {
 
       WriteLine(0, "const mutation = graphql`");
       WriteLine(1, "mutation {0}Mutation(", classDefName);
-
-      foreach (Member member in model.Members)
-        if (IncludeInMutation(member))
-          WriteLine(2, "${0}: {1}", member.Name, GraphqlType(member));
-
+      WriteLine(2, "${0}: {1}Input!", variableName, model.Name);
       WriteLine(1, ") {");
       WriteLine(2, "createOrUpdate{0}(", model.Name);
-
-      foreach (Member member in model.Members)
-        if (IncludeInMutation(member))
-          WriteLine(3, "{0}{1}: ${0}",
-            member.Name,
-            member.IsNonOwnedAssociation ? "Id" : "");
-
-
+      WriteLine(3, "{0}: ${0}", variableName);
       WriteLine(2, ")");
       WriteLine(1, "}");
       WriteLine(0, "`;");

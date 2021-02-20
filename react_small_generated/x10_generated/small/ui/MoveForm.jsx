@@ -52,9 +52,9 @@ function MoveForm(props: Props): React.Node {
         label='From'
       >
         <AssociationEditor
-          id={ move.from }
+          id={ move.from?.id }
           onChange={ (value) => {
-            onChange({ ...move, from: value })
+            onChange({ ...move, from: { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -66,9 +66,9 @@ function MoveForm(props: Props): React.Node {
         label='To'
       >
         <AssociationEditor
-          id={ move.to }
+          id={ move.to?.id }
           onChange={ (value) => {
-            onChange({ ...move, to: value })
+            onChange({ ...move, to: { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -80,9 +80,9 @@ function MoveForm(props: Props): React.Node {
         label='Tenant'
       >
         <AssociationEditor
-          id={ move.tenant }
+          id={ move.tenant?.id }
           onChange={ (value) => {
-            onChange({ ...move, tenant: value })
+            onChange({ ...move, tenant: { id: value } })
           } }
           isNullable={ false }
           query={ tenantsQuery }
@@ -130,31 +130,15 @@ function relayToInternal(relay: any): Move {
 }
 
 function save(move: Move) {
-  const variables = {
-    id: move.id,
-    date: move.date,
-    from: move.from,
-    to: move.to,
-    tenant: move.tenant,
-  };
-
-  basicCommitMutation(mutation, variables);
+  basicCommitMutation(mutation, { move });
 }
 
 const mutation = graphql`
   mutation MoveFormMutation(
-    $id: String!
-    $date: DateTime!
-    $from: String!
-    $to: String!
-    $tenant: String!
+    $move: MoveInput!
   ) {
     createOrUpdateMove(
-      id: $id
-      date: $date
-      fromId: $from
-      toId: $to
-      tenantId: $tenant
+      move: $move
     )
   }
 `;

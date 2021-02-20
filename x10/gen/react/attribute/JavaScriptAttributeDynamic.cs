@@ -64,18 +64,30 @@ namespace x10.gen.react.attribute {
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
       } else {
         IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
+        if (path.Count() == 0)
+          throw new NotImplementedException("When would path be empty???");
+
         string pathExpression = string.Join(".", path.Select(x => x.Name));
-        generator.WriteLine(level, "{0}={ {1}.{2} }", dataBind.PlatformName, generator.SourceVariableName, pathExpression);
+
+        // For non-owned association, we represent the data as as an object containing the single "id" property
+        bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
+        string bindingValueExpression = isNonOwnedAssociation ? "{ id: value }" : "value";
+
+        generator.WriteLine(level, "{0}={ {1}.{2}{3} }", 
+          dataBind.PlatformName, 
+          generator.SourceVariableName, 
+          pathExpression,
+          isNonOwnedAssociation ? "?.id" : "");
         generator.WriteLine(level, "onChange={ (value) => {");
-        Member first = path.First();
 
         if (path.Count() == 1)
-          generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: value })",
+          generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: {2} })",
             generator.SourceVariableName,
-            first.Name);
+            path.Single().Name,
+            bindingValueExpression);
         else {
           generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", generator.SourceVariableName);
-          generator.WriteLine(level + 1, "newObj.{0} = value;", pathExpression);
+          generator.WriteLine(level + 1, "newObj.{0} = {1};", pathExpression, bindingValueExpression);
           generator.WriteLine(level + 1, "onChange(newObj);");
         }
 

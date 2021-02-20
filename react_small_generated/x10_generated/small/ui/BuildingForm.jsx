@@ -398,46 +398,15 @@ function relayToInternal(relay: any): Building {
 }
 
 function save(building: Building) {
-  const variables = {
-    id: building.id,
-    name: building.name,
-    description: building.description,
-    dateOfOccupancy: building.dateOfOccupancy,
-    mailboxType: building.mailboxType,
-    petPolicy: building.petPolicy,
-    mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
-    units: building.units,
-    physicalAddress: building.physicalAddress,
-    mailingAddress: building.mailingAddress,
-  };
-
-  basicCommitMutation(mutation, variables);
+  basicCommitMutation(mutation, { building });
 }
 
 const mutation = graphql`
   mutation BuildingFormMutation(
-    $id: String!
-    $name: String!
-    $description: String!
-    $dateOfOccupancy: DateTime!
-    $mailboxType: MailboxTypeEnum!
-    $petPolicy: PetPolicyEnum
-    $mailingAddressSameAsPhysical: Boolean!
-    $units: [UnitInput!]!
-    $physicalAddress: AddressInput!
-    $mailingAddress: AddressInput
+    $building: BuildingInput!
   ) {
     createOrUpdateBuilding(
-      id: $id
-      name: $name
-      description: $description
-      dateOfOccupancy: $dateOfOccupancy
-      mailboxType: $mailboxType
-      petPolicy: $petPolicy
-      mailingAddressSameAsPhysical: $mailingAddressSameAsPhysical
-      units: $units
-      physicalAddress: $physicalAddress
-      mailingAddress: $mailingAddress
+      building: $building
     )
   }
 `;
