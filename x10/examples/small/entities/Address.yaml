@@ -23,7 +23,6 @@ attributes:
     maxWidth: 400
     datagen_from_source: ( city => city )
 
-
   - name: stateOrProvince
     dataType: String
     mandatory: true
@@ -50,3 +49,9 @@ derivedAttributes:
     dataType: String
     formula: =zip
       
+
+associations:
+  - name: country
+    dataType: Country
+    mandatory: true
+    owns: false

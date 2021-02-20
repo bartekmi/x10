@@ -11,6 +11,7 @@ type Address {
   stateOrProvince: String!
   zip: String!
   toStringRepresentation: String!
+  country: Country!
   id: String!
   hashcode: Int!
   dbid: Int!
@@ -29,6 +30,16 @@ type Building {
   units: [Unit!]!
   physicalAddress: Address!
   mailingAddress: Address
+  id: String!
+  hashcode: Int!
+  dbid: Int!
+}
+
+"Represents a Country"
+type Country {
+  code: String!
+  name: String!
+  toStringRepresentation: String!
   id: String!
   hashcode: Int!
   dbid: Int!
@@ -54,7 +65,9 @@ type Mutation {
   "Creates a new Tenant or updates an existing one, depending on the value of id"
   createOrUpdateTenant(id: String! name: String! phone: String email: String! permanentMailingAddress: AddressInput!): String!
   "Creates a new Address or updates an existing one, depending on the value of id"
-  createOrUpdateAddress(id: String! unitNumber: String theAddress: String! city: String! stateOrProvince: String! zip: String!): String!
+  createOrUpdateAddress(id: String! unitNumber: String theAddress: String! city: String! stateOrProvince: String! zip: String! countryId: String!): String!
+  "Creates a new Country or updates an existing one, depending on the value of id"
+  createOrUpdateCountry(id: String! code: String! name: String!): String!
   "Creates a new Unit or updates an existing one, depending on the value of id"
   createOrUpdateUnit(id: String! number: String! squareFeet: Float numberOfBedrooms: Int! numberOfBathrooms: NumberOfBathroomsEnum! hasBalcony: Boolean!): String!
 }
@@ -76,6 +89,10 @@ type Query {
   address("The id of the Address." id: String!): Address!
   "Gets all Addresses.\n\n\n**Returns:**\nAll Addresses."
   addresses(where: AddressFilter order_by: AddressSort): [Address!]!
+  "Retrieve a Country by id\n\n\n**Returns:**\nThe Country."
+  country("The id of the Country." id: String!): Country!
+  "Gets all Countries.\n\n\n**Returns:**\nAll Countries."
+  countries(where: CountryFilter order_by: CountrySort): [Country!]!
   "Retrieve a Unit by id\n\n\n**Returns:**\nThe Unit."
   unit("The id of the Unit." id: String!): Unit!
   "Gets all Units.\n\n\n**Returns:**\nAll Units."
@@ -171,6 +188,7 @@ input AddressFilter {
   toStringRepresentation_not_ends_with: String
   toStringRepresentation_in: [String!]
   toStringRepresentation_not_in: [String!]
+  country: CountryFilter
   id: String
   id_not: String
   id_contains: String
@@ -215,6 +233,7 @@ input AddressInput {
   stateOrProvince: String!
   zip: String!
   toStringRepresentation: String!
+  country: CountryInput!
   id: String!
   hashcode: Int!
   dbid: Int!
@@ -228,6 +247,7 @@ input AddressSort {
   stateOrProvince: SortOperationKind
   zip: SortOperationKind
   toStringRepresentation: SortOperationKind
+  country: CountrySort
   id: SortOperationKind
   hashcode: SortOperationKind
   dbid: SortOperationKind
@@ -369,6 +389,96 @@ input BuildingSort {
   toStringRepresentation: SortOperationKind
   physicalAddress: AddressSort
   mailingAddress: AddressSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+  dbid: SortOperationKind
+}
+
+"Represents a Country"
+input CountryFilter {
+  AND: [CountryFilter!]
+  OR: [CountryFilter!]
+  code: String
+  code_not: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  code_in: [String!]
+  code_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int!]
+  dbid_not_in: [Int!]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+}
+
+"Represents a Country"
+input CountryInput {
+  code: String!
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+  dbid: Int!
+}
+
+"Represents a Country"
+input CountrySort {
+  code: SortOperationKind
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
   dbid: SortOperationKind

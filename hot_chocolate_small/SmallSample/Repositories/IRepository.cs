@@ -11,12 +11,14 @@ namespace x10.hotchoc.SmallSample.Repositories {
     Move GetMove(int id);
     Tenant GetTenant(int id);
     Address GetAddress(int id);
+    Country GetCountry(int id);
     Unit GetUnit(int id);
 
     IQueryable<Building> GetBuildings();
     IQueryable<Move> GetMoves();
     IQueryable<Tenant> GetTenants();
     IQueryable<Address> GetAddresses();
+    IQueryable<Country> GetCountries();
     IQueryable<Unit> GetUnits();
 
     // Mutations
@@ -24,6 +26,7 @@ namespace x10.hotchoc.SmallSample.Repositories {
     int AddOrUpdateMove(int? dbid, Move move);
     int AddOrUpdateTenant(int? dbid, Tenant tenant);
     int AddOrUpdateAddress(int? dbid, Address address);
+    int AddOrUpdateCountry(int? dbid, Country country);
     int AddOrUpdateUnit(int? dbid, Unit unit);
   }
 }

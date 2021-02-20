@@ -27,6 +27,10 @@ namespace x10.hotchoc.SmallSample.Entities {
       set { /* Needed to make Hot Chocolate happy */ }
     }
 
+    // Associations
+    [GraphQLNonNullType]
+    public Country? Country { get; set; }
+
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
     }

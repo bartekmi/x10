@@ -105,6 +105,7 @@ namespace x10.hotchoc.SmallSample {
         string city,
         string stateOrProvince,
         string zip,
+        string countryId,
         [Service] IRepository repository) {
 
       Address address = new Address() {
@@ -113,10 +114,31 @@ namespace x10.hotchoc.SmallSample {
         City = city,
         StateOrProvince = stateOrProvince,
         Zip = zip,
+        Country = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryId)),
       };
 
       int dbid = repository.AddOrUpdateAddress(IdUtils.FromRelayId(id), address);
       return IdUtils.ToRelayId<Address>(dbid);
+    }
+    #endregion
+
+    #region Country
+    /// <summary>
+    /// Creates a new Country or updates an existing one, depending on the value of id
+    /// </summary>
+    public string CreateOrUpdateCountry(
+        string id,
+        string code,
+        string name,
+        [Service] IRepository repository) {
+
+      Country country = new Country() {
+        Code = code,
+        Name = name,
+      };
+
+      int dbid = repository.AddOrUpdateCountry(IdUtils.FromRelayId(id), country);
+      return IdUtils.ToRelayId<Country>(dbid);
     }
     #endregion
 

@@ -10,6 +10,7 @@ namespace x10.hotchoc.SmallSample.Repositories {
     private Dictionary<int, Move> _moves = new Dictionary<int, Move>();
     private Dictionary<int, Tenant> _tenants = new Dictionary<int, Tenant>();
     private Dictionary<int, Address> _addresses = new Dictionary<int, Address>();
+    private Dictionary<int, Country> _countries = new Dictionary<int, Country>();
     private Dictionary<int, Unit> _units = new Dictionary<int, Unit>();
 
     public override IEnumerable<Type> Types() {
@@ -20,6 +21,7 @@ namespace x10.hotchoc.SmallSample.Repositories {
         typeof(Move),
         typeof(Tenant),
         typeof(Address),
+        typeof(Country),
         typeof(Unit),
       };
     }
@@ -31,6 +33,7 @@ namespace x10.hotchoc.SmallSample.Repositories {
       if (instance is Move move) _moves[id] = move;
       if (instance is Tenant tenant) _tenants[id] = tenant;
       if (instance is Address address) _addresses[id] = address;
+      if (instance is Country country) _countries[id] = country;
       if (instance is Unit unit) _units[id] = unit;
     }
 
@@ -63,6 +66,14 @@ namespace x10.hotchoc.SmallSample.Repositories {
     public Address GetAddress(int id) { return _addresses[id]; }
     public int AddOrUpdateAddress(int? dbid, Address address) {
       return RepositoryUtils.AddOrUpdate(dbid, address, _addresses);
+    }
+    #endregion
+
+    #region Countries
+    public IQueryable<Country> GetCountries() => _countries.Values.AsQueryable();
+    public Country GetCountry(int id) { return _countries[id]; }
+    public int AddOrUpdateCountry(int? dbid, Country country) {
+      return RepositoryUtils.AddOrUpdate(dbid, country, _countries);
     }
     #endregion
 

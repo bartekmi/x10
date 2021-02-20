@@ -1,0 +1,16 @@
+name: Country
+inheritsFrom: Base
+description: Represents a Country
+defaultStringRepresentation: =name
+datagen_sources: (world.csv AS country)
+
+attributes:
+  - name: code
+    dataType: String
+    mandatory: true
+    datagen_from_source: ( country => alpha2 )
+
+  - name: name
+    dataType: String
+    mandatory: true    
+    datagen_from_source: ( country => name )

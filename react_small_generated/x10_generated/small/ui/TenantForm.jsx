@@ -13,6 +13,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
+import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import isExistingObject from 'react_lib/utils/isExistingObject';
@@ -132,6 +133,22 @@ function TenantForm(props: Props): React.Node {
             } }
           />
         </FormField>
+        <FormField
+          editorFor='permanentMailingAddress.country'
+          label='Country'
+        >
+          <AssociationEditor
+            id={ tenant.permanentMailingAddress.country }
+            onChange={ (value) => {
+              let newObj = JSON.parse(JSON.stringify(tenant));
+              newObj.permanentMailingAddress.country = value;
+              onChange(newObj);
+            } }
+            isNullable={ false }
+            query={ countriesQuery }
+            toString={ x => x.toStringRepresentation }
+          />
+        </FormField>
       </FormSection>
       <Group
         justifyContent='space-between'
@@ -210,6 +227,9 @@ export default createFragmentContainer(TenantFormStateful, {
       permanentMailingAddress {
         id
         city
+        country {
+          id
+        }
         stateOrProvince
         theAddress
         zip
@@ -218,4 +238,13 @@ export default createFragmentContainer(TenantFormStateful, {
     }
   `,
 });
+
+const countriesQuery = graphql`
+  query TenantForm_countriesQuery {
+    entities: countries {
+      id
+      toStringRepresentation
+    }
+  }
+`;
 

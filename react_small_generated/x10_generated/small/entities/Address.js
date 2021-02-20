@@ -16,6 +16,7 @@ export type Address = {
   +city: string,
   +stateOrProvince: string,
   +zip: string,
+  +country: ?string,
 };
 
 
@@ -54,6 +55,7 @@ export function createDefaultAddress(): Address {
     city: '',
     stateOrProvince: '',
     zip: '',
+    country: null,
   };
 }
 
@@ -70,6 +72,8 @@ export function addressCalculateErrors(address: Address, prefix?: string): $Read
     addError(errors, prefix, 'State Or Province is required', ['stateOrProvince']);
   if (isBlank(address.zip))
     addError(errors, prefix, 'Zip is required', ['zip']);
+  if (isBlank(address.country))
+    addError(errors, prefix, 'Country is required', ['country']);
 
   return errors;
 }

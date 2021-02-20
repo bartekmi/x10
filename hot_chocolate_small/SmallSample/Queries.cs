@@ -107,6 +107,30 @@ namespace x10.hotchoc.SmallSample {
           repository.GetAddresses();
     #endregion
 
+    #region Country
+    /// <summary>
+    /// Retrieve a Country by id
+    /// </summary>
+    /// <param name="id">The id of the Country.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Country.</returns>
+    public Country GetCountry(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetCountry(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Countries.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Countries.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Country> GetCountries(
+        [Service] IRepository repository) =>
+          repository.GetCountries();
+    #endregion
+
     #region Unit
     /// <summary>
     /// Retrieve a Unit by id
