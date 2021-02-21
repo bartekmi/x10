@@ -113,14 +113,17 @@ export default createFragmentContainer(Moves, {
       date
       from {
         id
+        toStringRepresentation
         name
       }
       tenant {
         id
+        toStringRepresentation
         name
       }
       to {
         id
+        toStringRepresentation
         name
       }
     }

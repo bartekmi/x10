@@ -9,7 +9,6 @@ import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
-import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Table from 'react_lib/table/Table';
 
 import { type Tenant } from 'small/entities/Tenant';
@@ -114,6 +113,7 @@ export default createFragmentContainer(Tenants, {
       permanentMailingAddress {
         id
         country {
+          id
           toStringRepresentation
         }
       }
@@ -121,3 +121,4 @@ export default createFragmentContainer(Tenants, {
     }
   `,
 });
+

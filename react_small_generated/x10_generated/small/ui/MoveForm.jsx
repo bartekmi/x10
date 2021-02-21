@@ -151,12 +151,15 @@ export default createFragmentContainer(MoveFormStateful, {
       date
       from {
         id
+        toStringRepresentation
       }
       tenant {
         id
+        toStringRepresentation
       }
       to {
         id
+        toStringRepresentation
       }
     }
   `,

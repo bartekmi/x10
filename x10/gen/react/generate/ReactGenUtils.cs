@@ -108,6 +108,9 @@ namespace x10.gen.react.generate {
       ExpBase expression = CodeGenUtils.PathToExpression(path);
       string expressionString = ExpressionToString(expression);
 
+      if (path.Last().IsNonOwnedAssociation)
+        expressionString += ".toStringRepresentation";
+
       return expressionString;
     }
 

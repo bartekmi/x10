@@ -213,6 +213,7 @@ export default createFragmentContainer(TenantFormStateful, {
         city
         country {
           id
+          toStringRepresentation
         }
         stateOrProvince
         theAddress

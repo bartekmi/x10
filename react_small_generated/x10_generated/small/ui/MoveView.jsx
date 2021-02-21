@@ -90,10 +90,12 @@ export default createFragmentContainer(MoveView, {
       id
       from {
         id
+        toStringRepresentation
         ...BuildingView_building
       }
       tenant {
         id
+        toStringRepresentation
         email
         name
         permanentMailingAddress {
@@ -104,6 +106,7 @@ export default createFragmentContainer(MoveView, {
       }
       to {
         id
+        toStringRepresentation
         ...BuildingView_building
       }
     }

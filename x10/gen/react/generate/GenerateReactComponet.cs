@@ -343,6 +343,9 @@ namespace x10.gen.react.generate {
 
     private void PrintGraphQL_Children(int indent, MemberWrapper wrapper) {
       WriteLine(indent, "id");
+      if (wrapper.Member != null && wrapper.Member.IsNonOwnedAssociation)
+        WriteLine(indent, "toStringRepresentation");
+
       foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
         if (child.Member.Name != "id")
           PrintGraphQL(indent, child);
