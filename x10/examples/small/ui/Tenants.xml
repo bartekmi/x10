@@ -15,6 +15,7 @@
         <name/>
         <phone/>
         <email/>
+        <permanentMailingAddress.country/>
         <TableColumn label="Action">
           <Row>
             <Button label="View" /> <!-- url is TODO -->

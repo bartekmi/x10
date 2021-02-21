@@ -12,9 +12,9 @@ import isBlank from 'react_lib/utils/isBlank';
 export type Move = {
   +id: string,
   +date: ?string,
-  +from: ?string,
-  +to: ?string,
-  +tenant: ?string,
+  +from: ?{ id: string },
+  +to: ?{ id: string },
+  +tenant: ?{ id: string },
 };
 
 

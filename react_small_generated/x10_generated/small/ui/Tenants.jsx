@@ -9,6 +9,7 @@ import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Table from 'react_lib/table/Table';
 
 import { type Tenant } from 'small/entities/Tenant';
@@ -69,6 +70,17 @@ function Tenants(props: Props): React.Node {
               width: 140,
             },
             {
+              id: 'Country',
+              accessor: (data) => data?.permanentMailingAddress?.country.toStringRepresentation,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+              Header: 'Country',
+              width: 140,
+            },
+            {
               id: 'Action',
               accessor: (data) => data,
               Cell: ({ value }) =>
@@ -99,8 +111,13 @@ export default createFragmentContainer(Tenants, {
       id
       email
       name
+      permanentMailingAddress {
+        id
+        country {
+          toStringRepresentation
+        }
+      }
       phone
     }
   `,
 });
-

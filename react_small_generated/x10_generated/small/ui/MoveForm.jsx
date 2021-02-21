@@ -54,7 +54,7 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.from?.id }
           onChange={ (value) => {
-            onChange({ ...move, from: { id: value } })
+            onChange({ ...move, from: value == null ? null : { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -68,7 +68,7 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.to?.id }
           onChange={ (value) => {
-            onChange({ ...move, to: { id: value } })
+            onChange({ ...move, to: value == null ? null : { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -82,7 +82,7 @@ function MoveForm(props: Props): React.Node {
         <AssociationEditor
           id={ move.tenant?.id }
           onChange={ (value) => {
-            onChange({ ...move, tenant: { id: value } })
+            onChange({ ...move, tenant: value == null ? null : { id: value } })
           } }
           isNullable={ false }
           query={ tenantsQuery }
