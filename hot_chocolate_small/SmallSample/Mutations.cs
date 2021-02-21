@@ -43,6 +43,9 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateTenant(
       Tenant tenant,
       [Service] IRepository repository) {
+        int? countryId = IdUtils.FromRelayId(tenant.PermanentMailingAddress?.Country?.Id);
+        tenant.PermanentMailingAddress.Country = countryId == null ? null : repository.GetCountry(countryId.Value);
+
         int dbid = repository.AddOrUpdateTenant(IdUtils.FromRelayId(tenant.Id), tenant);
         return IdUtils.ToRelayId<Tenant>(dbid);
     }

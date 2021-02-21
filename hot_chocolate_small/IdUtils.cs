@@ -3,7 +3,9 @@ using System.Linq;
 
 namespace x10.hotchoc {
   public static class IdUtils {
-    public static bool IsUuid(string id) {
+    public static bool IsUuid(string? id) {
+      if (id == null)
+        return false;
       return id.Length == 36 && id.Count(x => x == '-') >= 4;
     }
 
@@ -15,7 +17,9 @@ namespace x10.hotchoc {
       return string.Format("{0}_{1}", typeof(T).Name, dbid);
     }
 
-    public static int? FromRelayId(string relayId) {
+    public static int? FromRelayId(string? relayId) {
+      if (relayId == null)
+        return null;
       return FromRelayId(relayId, out string dummy);
     }
 
