@@ -768,6 +768,19 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeDynamic("order", "order"),
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "AssociationDisplay",
+        PlatformName = "TextDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+        },
+      },
 
       new PlatformClassDef() {
         LogicalName = "HelpIcon",

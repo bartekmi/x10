@@ -76,6 +76,7 @@ namespace x10.gen.react.attribute {
         generator.WriteLine(level, "{0}={ {1}.{2}{3} }", 
           dataBind.PlatformName, 
           generator.SourceVariableName, 
+          
           pathExpression,
           isNonOwnedAssociation ? "?.id" : "");
         generator.WriteLine(level, "onChange={ (value) => {");

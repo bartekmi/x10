@@ -29,7 +29,8 @@ namespace x10.ui.metadata {
     private ClassDef _defaultComponentForEnumsRW;
     private ClassDef _defaultComponentForEnumsRO;
 
-    private ClassDef _defaultComponentForAssociations;
+    private ClassDef _defaultComponentForAssociationsRW;
+    private ClassDef _defaultComponentForAssociationsRO;
 
     // Derived
     public IEnumerable<ClassDef> All => _definitionsByName.Values;
@@ -79,13 +80,18 @@ namespace x10.ui.metadata {
       }
     }
 
-    public void SetComponentForAssociations(string componentName) {
+    public void SetComponentForAssociations(string componentName, UseMode mode) {
       ClassDef uiComponent = FindComponentByName(componentName);
       if (uiComponent == null)
-        throw new Exception(string.Format("Attempting to set default component for associations. Component {0} does not exist",
-          componentName));
+        throw new Exception(string.Format("Attempting to set default component for associations. Component {0} does not exist. Mode: {1}",
+          componentName, mode));
 
-      _defaultComponentForAssociations = uiComponent;
+      switch (mode) {
+        case UseMode.ReadOnly: _defaultComponentForAssociationsRO = uiComponent; break;
+        case UseMode.ReadWrite: _defaultComponentForAssociationsRW = uiComponent; break;
+        default:
+          throw new NotImplementedException("Unexpected mode: " + mode);
+      }
     }
 
     public bool HydrateAndValidate(MessageBucket messages) {
@@ -113,9 +119,14 @@ namespace x10.ui.metadata {
     public ClassDef FindUiComponentForMember(Member member, UseMode mode) {
       if (member is X10Attribute attribute)
         return FindUiComponentForDataType(attribute, mode);
-      else if (member is Association association)
-        return _defaultComponentForAssociations;
-      else
+      else if (member is Association) {
+        switch (mode) {
+          case UseMode.ReadOnly: return _defaultComponentForAssociationsRO;
+          case UseMode.ReadWrite: return _defaultComponentForAssociationsRW;
+          default:
+            throw new NotImplementedException("Unexpected mode: " + mode);
+        }
+      } else
         throw new Exception("Unexpected member type: " + member.GetType().Name);
     }
 

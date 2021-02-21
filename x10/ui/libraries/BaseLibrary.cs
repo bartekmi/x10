@@ -346,7 +346,7 @@ namespace x10.ui.libraries {
       },
       #endregion
 
-      #region Association Edit Components
+      #region Association Edit/Display Components
       new ClassDefNative() {
         Name = "AssociationEditor",
         Description = "A drop-down style editor for selecting an associated entity. E.g. an editor for 'Appointment' in a clinic might have a drop-down to select the Doctor.",
@@ -365,6 +365,19 @@ namespace x10.ui.libraries {
               EnumValueValues = new string[] { "sameAsDefined", "alphabetic" },
             },
             DefaultValue = "alphabetic"
+          },
+        }
+      },
+      new ClassDefNative() {
+        Name = "AssociationDisplay",
+        Description = "Display a non-owned association in a read-only context",
+        InheritsFromName = "TextualDisplay",
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display - at present, this is assumed to be returned by the back-end in the form of the 'toStringRepresentation' property",
+            DataType = DataTypes.Singleton.String,
+            IsPrimary = true,
           },
         }
       },
@@ -1028,7 +1041,8 @@ namespace x10.ui.libraries {
       library.SetComponentForEnums("DropDown", UseMode.ReadWrite);
       library.SetComponentForEnums("EnumDisplay", UseMode.ReadOnly);
 
-      library.SetComponentForAssociations("AssociationEditor");
+      library.SetComponentForAssociations("AssociationEditor", UseMode.ReadWrite);
+      library.SetComponentForAssociations("AssociationDisplay", UseMode.ReadOnly);
 
       return library;
     }
