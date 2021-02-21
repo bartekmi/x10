@@ -280,16 +280,15 @@ namespace x10.gen.react.generate {
 
       // TODO... Not recursive at this time
       foreach (Association association in model.Associations) {
-        bool isNullable = !association.IsMandatory && !association.IsMany;
-        if (isNullable) {
+        bool isNullableOwned = !association.IsMandatory && !association.IsMany && association.Owns;
+        if (isNullableOwned) {
           Entity assocModel = association.ReferencedEntity;
           WriteLine(2, "{0}: relay.{0} || {1}(),",
             association.Name,
             ReactCodeGenerator.CreateDefaultFuncName(assocModel));
 
           ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
-        } else if (!association.Owns)
-          WriteLine(2, "{0}: relay.{0}?.id,", association.Name);
+        } 
       }
 
       WriteLine(1, "};");
