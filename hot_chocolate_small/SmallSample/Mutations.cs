@@ -19,6 +19,13 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateBuilding(
       Building building,
       [Service] IRepository repository) {
+
+        int? nonOwnedId;
+        nonOwnedId = IdUtils.FromRelayId(building.PhysicalAddress?.Country?.Id);
+        building.PhysicalAddress.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
+        nonOwnedId = IdUtils.FromRelayId(building.MailingAddress?.Country?.Id);
+        building.MailingAddress.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
+
         int dbid = repository.AddOrUpdateBuilding(IdUtils.FromRelayId(building.Id), building);
         return IdUtils.ToRelayId<Building>(dbid);
     }
@@ -31,6 +38,15 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateMove(
       Move move,
       [Service] IRepository repository) {
+
+        int? nonOwnedId;
+        nonOwnedId = IdUtils.FromRelayId(move.From?.Id);
+        move.From = nonOwnedId == null ? null : repository.GetBuilding(nonOwnedId.Value);
+        nonOwnedId = IdUtils.FromRelayId(move.To?.Id);
+        move.To = nonOwnedId == null ? null : repository.GetBuilding(nonOwnedId.Value);
+        nonOwnedId = IdUtils.FromRelayId(move.Tenant?.Id);
+        move.Tenant = nonOwnedId == null ? null : repository.GetTenant(nonOwnedId.Value);
+
         int dbid = repository.AddOrUpdateMove(IdUtils.FromRelayId(move.Id), move);
         return IdUtils.ToRelayId<Move>(dbid);
     }
@@ -43,8 +59,10 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateTenant(
       Tenant tenant,
       [Service] IRepository repository) {
-        int? countryId = IdUtils.FromRelayId(tenant.PermanentMailingAddress?.Country?.Id);
-        tenant.PermanentMailingAddress.Country = countryId == null ? null : repository.GetCountry(countryId.Value);
+
+        int? nonOwnedId;
+        nonOwnedId = IdUtils.FromRelayId(tenant.PermanentMailingAddress?.Country?.Id);
+        tenant.PermanentMailingAddress.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
 
         int dbid = repository.AddOrUpdateTenant(IdUtils.FromRelayId(tenant.Id), tenant);
         return IdUtils.ToRelayId<Tenant>(dbid);
@@ -58,6 +76,11 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateAddress(
       Address address,
       [Service] IRepository repository) {
+
+        int? nonOwnedId;
+        nonOwnedId = IdUtils.FromRelayId(address.Country?.Id);
+        address.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
+
         int dbid = repository.AddOrUpdateAddress(IdUtils.FromRelayId(address.Id), address);
         return IdUtils.ToRelayId<Address>(dbid);
     }
