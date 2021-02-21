@@ -141,7 +141,7 @@ function TenantForm(props: Props): React.Node {
             id={ tenant.permanentMailingAddress.country?.id }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.country = { id: value };
+              newObj.permanentMailingAddress.country = value == null ? null : { id: value };
               onChange(newObj);
             } }
             isNullable={ false }

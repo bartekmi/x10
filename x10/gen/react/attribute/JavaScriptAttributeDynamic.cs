@@ -71,7 +71,7 @@ namespace x10.gen.react.attribute {
 
         // For non-owned association, we represent the data as as an object containing the single "id" property
         bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
-        string bindingValueExpression = isNonOwnedAssociation ? "{ id: value }" : "value";
+        string bindingValueExpression = isNonOwnedAssociation ? "value == null ? null : { id: value }" : "value";
 
         generator.WriteLine(level, "{0}={ {1}.{2}{3} }", 
           dataBind.PlatformName, 

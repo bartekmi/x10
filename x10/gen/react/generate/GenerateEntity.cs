@@ -47,7 +47,7 @@ namespace x10.gen.react.generate {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else if (member.IsNonOwnedAssociation) {
-          WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
+          WriteLine(1, "+{0}: ?{ id: string },", member.Name);
         } else
           WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
 
