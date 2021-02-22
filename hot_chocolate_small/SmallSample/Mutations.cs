@@ -19,12 +19,8 @@ namespace x10.hotchoc.SmallSample {
     public string CreateOrUpdateBuilding(
       Building building,
       [Service] IRepository repository) {
-
-        int? nonOwnedId;
-        nonOwnedId = IdUtils.FromRelayId(building.PhysicalAddress?.Country?.Id);
-        building.PhysicalAddress.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
-        nonOwnedId = IdUtils.FromRelayId(building.MailingAddress?.Country?.Id);
-        building.MailingAddress.Country = nonOwnedId == null ? null : repository.GetCountry(nonOwnedId.Value);
+        building.PhysicalAddress?.SetNonOwnedAssociations(repository);
+        building.MailingAddress?.SetNonOwnedAssociations(repository);
 
         int dbid = repository.AddOrUpdateBuilding(IdUtils.FromRelayId(building.Id), building);
         return IdUtils.ToRelayId<Building>(dbid);

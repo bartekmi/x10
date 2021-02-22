@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.SmallSample.Repositories;
+
 namespace x10.hotchoc.SmallSample.Entities {
   /// <summary>
   /// A physical or mailing address
@@ -33,6 +35,11 @@ namespace x10.hotchoc.SmallSample.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+    }
+
+    internal void SetNonOwnedAssociations(IRepository repository) {
+      int? country = IdUtils.FromRelayId(Country?.Id);
+      Country = country == null ? null : repository.GetCountry(country.Value);
     }
   }
 }
