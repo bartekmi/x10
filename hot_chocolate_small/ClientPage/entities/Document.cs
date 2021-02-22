@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   // Enums
   public enum DocumentTypeEnum {
@@ -39,6 +41,13 @@ namespace x10.hotchoc.ClientPage.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      int? uploadedBy = IdUtils.FromRelayId(UploadedBy?.Id);
+      UploadedBy = uploadedBy == null ? null : repository.GetUser(uploadedBy.Value);
     }
   }
 }

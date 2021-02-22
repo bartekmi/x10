@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
   /// VAT Number
@@ -25,6 +27,13 @@ namespace x10.hotchoc.ClientPage.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      int? countryRegion = IdUtils.FromRelayId(CountryRegion?.Id);
+      CountryRegion = countryRegion == null ? null : repository.GetCountry(countryRegion.Value);
     }
   }
 }

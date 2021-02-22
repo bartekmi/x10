@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
   /// An entity we do business with - mostly an umbrella for [CompanyEntity]'s
@@ -35,6 +37,20 @@ namespace x10.hotchoc.ClientPage.Entities {
       Entities?.ForEach(x => x.EnsureUniqueDbid());
       PrimaryContact?.EnsureUniqueDbid();
       Users?.ForEach(x => x.EnsureUniqueDbid());
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      PrimaryEntity?.SetNonOwnedAssociations(repository);
+
+      foreach (CompanyEntity entities in Entities)
+        entities.SetNonOwnedAssociations(repository);
+
+      PrimaryContact?.SetNonOwnedAssociations(repository);
+
+      foreach (User users in Users)
+        users.SetNonOwnedAssociations(repository);
     }
   }
 }

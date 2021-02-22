@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.SmallSample.Repositories;
+
 namespace x10.hotchoc.SmallSample.Entities {
   // Enums
   public enum MailboxTypeEnum {
@@ -57,6 +59,17 @@ namespace x10.hotchoc.SmallSample.Entities {
       Units?.ForEach(x => x.EnsureUniqueDbid());
       PhysicalAddress?.EnsureUniqueDbid();
       MailingAddress?.EnsureUniqueDbid();
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      foreach (Unit units in Units)
+        units.SetNonOwnedAssociations(repository);
+
+      PhysicalAddress?.SetNonOwnedAssociations(repository);
+
+      MailingAddress?.SetNonOwnedAssociations(repository);
     }
   }
 }

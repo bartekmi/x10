@@ -37,7 +37,9 @@ namespace x10.hotchoc.SmallSample.Entities {
       base.EnsureUniqueDbid();
     }
 
-    internal void SetNonOwnedAssociations(IRepository repository) {
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
       int? country = IdUtils.FromRelayId(Country?.Id);
       Country = country == null ? null : repository.GetCountry(country.Value);
     }

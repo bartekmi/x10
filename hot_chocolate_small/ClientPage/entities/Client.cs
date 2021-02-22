@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   // Enums
   public enum ClientStatusEnum {
@@ -75,6 +77,14 @@ namespace x10.hotchoc.ClientPage.Entities {
       base.EnsureUniqueDbid();
       Company?.EnsureUniqueDbid();
       PrimaryContact?.EnsureUniqueDbid();
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      Company?.SetNonOwnedAssociations(repository);
+
+      PrimaryContact?.SetNonOwnedAssociations(repository);
     }
   }
 }

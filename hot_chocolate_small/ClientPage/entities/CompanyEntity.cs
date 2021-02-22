@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   // Enums
   public enum CompanyEntityTypeEnum {
@@ -100,6 +102,31 @@ namespace x10.hotchoc.ClientPage.Entities {
       VatNumbers?.ForEach(x => x.EnsureUniqueDbid());
       CtpatReview?.EnsureUniqueDbid();
       Documents?.ForEach(x => x.EnsureUniqueDbid());
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      MailingAddress?.SetNonOwnedAssociations(repository);
+
+      PhysicalAddress?.SetNonOwnedAssociations(repository);
+
+      foreach (VatNumber vatNumbers in VatNumbers)
+        vatNumbers.SetNonOwnedAssociations(repository);
+
+      int? netsuiteVendorId = IdUtils.FromRelayId(NetsuiteVendorId?.Id);
+      NetsuiteVendorId = netsuiteVendorId == null ? null : repository.GetNetsuiteVendor(netsuiteVendorId.Value);
+
+      CtpatReview?.SetNonOwnedAssociations(repository);
+
+      foreach (Document documents in Documents)
+        documents.SetNonOwnedAssociations(repository);
+
+      int? countryOfBusinessRegistration = IdUtils.FromRelayId(CountryOfBusinessRegistration?.Id);
+      CountryOfBusinessRegistration = countryOfBusinessRegistration == null ? null : repository.GetCountry(countryOfBusinessRegistration.Value);
+
+      int? invoiceCurrencyDefault = IdUtils.FromRelayId(InvoiceCurrencyDefault?.Id);
+      InvoiceCurrencyDefault = invoiceCurrencyDefault == null ? null : repository.GetCurrency(invoiceCurrencyDefault.Value);
     }
   }
 }

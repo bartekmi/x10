@@ -14,375 +14,183 @@ namespace x10.hotchoc.ClientPage {
 
     #region NetsuiteVendor
     /// <summary>
-    /// Creates a new NetsuiteVendor or updates an existing one, depending on the value of id
+    /// Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id
     /// </summary>
     public string CreateOrUpdateNetsuiteVendor(
-        string id,
-        string name,
-        [Service] IRepository repository) {
-
-      NetsuiteVendor netsuiteVendor = new NetsuiteVendor() {
-        Name = name,
-      };
-
-      int dbid = repository.AddOrUpdateNetsuiteVendor(IdUtils.FromRelayId(id), netsuiteVendor);
-      return IdUtils.ToRelayId<NetsuiteVendor>(dbid);
+      NetsuiteVendor netsuiteVendor,
+      [Service] IRepository repository) {
+        netsuiteVendor.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateNetsuiteVendor(IdUtils.FromRelayId(netsuiteVendor.Id), netsuiteVendor);
+        return IdUtils.ToRelayId<NetsuiteVendor>(dbid);
     }
     #endregion
 
     #region Company
     /// <summary>
-    /// Creates a new Company or updates an existing one, depending on the value of id
+    /// Creates a new Company or updates an existing one, depending on the value of company.id
     /// </summary>
     public string CreateOrUpdateCompany(
-        string id,
-        string? website,
-        CompanyEntity primaryEntity,
-        IEnumerable<CompanyEntity> entities,
-        Contact primaryContact,
-        IEnumerable<User> users,
-        [Service] IRepository repository) {
-
-      Company company = new Company() {
-        Website = website,
-        PrimaryEntity = primaryEntity,
-        Entities = entities.ToList(),
-        PrimaryContact = primaryContact,
-        Users = users.ToList(),
-      };
-
-      int dbid = repository.AddOrUpdateCompany(IdUtils.FromRelayId(id), company);
-      return IdUtils.ToRelayId<Company>(dbid);
+      Company company,
+      [Service] IRepository repository) {
+        company.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCompany(IdUtils.FromRelayId(company.Id), company);
+        return IdUtils.ToRelayId<Company>(dbid);
     }
     #endregion
 
     #region StateOrProvince
     /// <summary>
-    /// Creates a new StateOrProvince or updates an existing one, depending on the value of id
+    /// Creates a new StateOrProvince or updates an existing one, depending on the value of stateOrProvince.id
     /// </summary>
     public string CreateOrUpdateStateOrProvince(
-        string id,
-        string name,
-        [Service] IRepository repository) {
-
-      StateOrProvince stateOrProvince = new StateOrProvince() {
-        Name = name,
-      };
-
-      int dbid = repository.AddOrUpdateStateOrProvince(IdUtils.FromRelayId(id), stateOrProvince);
-      return IdUtils.ToRelayId<StateOrProvince>(dbid);
+      StateOrProvince stateOrProvince,
+      [Service] IRepository repository) {
+        stateOrProvince.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateStateOrProvince(IdUtils.FromRelayId(stateOrProvince.Id), stateOrProvince);
+        return IdUtils.ToRelayId<StateOrProvince>(dbid);
     }
     #endregion
 
     #region CtpatReview
     /// <summary>
-    /// Creates a new CtpatReview or updates an existing one, depending on the value of id
+    /// Creates a new CtpatReview or updates an existing one, depending on the value of ctpatReview.id
     /// </summary>
     public string CreateOrUpdateCtpatReview(
-        string id,
-        bool complianceScreenRequired,
-        CtpatReviewStatusEnum status,
-        DateTime? expiresAt,
-        string complianceContactEmail,
-        [Service] IRepository repository) {
-
-      CtpatReview ctpatReview = new CtpatReview() {
-        ComplianceScreenRequired = complianceScreenRequired,
-        Status = status,
-        ExpiresAt = expiresAt,
-        ComplianceContactEmail = complianceContactEmail,
-      };
-
-      int dbid = repository.AddOrUpdateCtpatReview(IdUtils.FromRelayId(id), ctpatReview);
-      return IdUtils.ToRelayId<CtpatReview>(dbid);
+      CtpatReview ctpatReview,
+      [Service] IRepository repository) {
+        ctpatReview.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCtpatReview(IdUtils.FromRelayId(ctpatReview.Id), ctpatReview);
+        return IdUtils.ToRelayId<CtpatReview>(dbid);
     }
     #endregion
 
     #region CompanyEntity
     /// <summary>
-    /// Creates a new CompanyEntity or updates an existing one, depending on the value of id
+    /// Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id
     /// </summary>
     public string CreateOrUpdateCompanyEntity(
-        string id,
-        string legalName,
-        string? doingBusinessAs,
-        CompanyEntityTypeEnum companyType,
-        string? stateOfBusinessRegistration,
-        string? usTaxId,
-        bool isPrimary,
-        bool dgDisclaimerAgreed,
-        bool mailingAddressIsPhysicalAddress,
-        string? brBlCompanyName,
-        bool isArchived,
-        string? brBlRegistrationNumber,
-        string? brBlAddress,
-        string? brBlLegalRepChinese,
-        string? brBlLegalRepPinyin,
-        string? usFccNumber,
-        string? eoriNumber,
-        string? usciNumber,
-        string? agentIataCode,
-        string? hkRaNumber,
-        VendorCategoryEnum? vendorCategory,
-        Address mailingAddress,
-        Address? physicalAddress,
-        IEnumerable<VatNumber> vatNumbers,
-        string? netsuiteVendorIdId,
-        CtpatReview? ctpatReview,
-        IEnumerable<Document> documents,
-        string? countryOfBusinessRegistrationId,
-        string? invoiceCurrencyDefaultId,
-        [Service] IRepository repository) {
-
-      CompanyEntity companyEntity = new CompanyEntity() {
-        LegalName = legalName,
-        DoingBusinessAs = doingBusinessAs,
-        CompanyType = companyType,
-        StateOfBusinessRegistration = stateOfBusinessRegistration,
-        UsTaxId = usTaxId,
-        IsPrimary = isPrimary,
-        DgDisclaimerAgreed = dgDisclaimerAgreed,
-        MailingAddressIsPhysicalAddress = mailingAddressIsPhysicalAddress,
-        BrBlCompanyName = brBlCompanyName,
-        IsArchived = isArchived,
-        BrBlRegistrationNumber = brBlRegistrationNumber,
-        BrBlAddress = brBlAddress,
-        BrBlLegalRepChinese = brBlLegalRepChinese,
-        BrBlLegalRepPinyin = brBlLegalRepPinyin,
-        UsFccNumber = usFccNumber,
-        EoriNumber = eoriNumber,
-        UsciNumber = usciNumber,
-        AgentIataCode = agentIataCode,
-        HkRaNumber = hkRaNumber,
-        VendorCategory = vendorCategory,
-        MailingAddress = mailingAddress,
-        PhysicalAddress = physicalAddress,
-        VatNumbers = vatNumbers.ToList(),
-        NetsuiteVendorId = repository.GetNetsuiteVendor(IdUtils.FromRelayIdMandatory(netsuiteVendorIdId)),
-        CtpatReview = ctpatReview,
-        Documents = documents.ToList(),
-        CountryOfBusinessRegistration = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryOfBusinessRegistrationId)),
-        InvoiceCurrencyDefault = repository.GetCurrency(IdUtils.FromRelayIdMandatory(invoiceCurrencyDefaultId)),
-      };
-
-      int dbid = repository.AddOrUpdateCompanyEntity(IdUtils.FromRelayId(id), companyEntity);
-      return IdUtils.ToRelayId<CompanyEntity>(dbid);
+      CompanyEntity companyEntity,
+      [Service] IRepository repository) {
+        companyEntity.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCompanyEntity(IdUtils.FromRelayId(companyEntity.Id), companyEntity);
+        return IdUtils.ToRelayId<CompanyEntity>(dbid);
     }
     #endregion
 
     #region Currency
     /// <summary>
-    /// Creates a new Currency or updates an existing one, depending on the value of id
+    /// Creates a new Currency or updates an existing one, depending on the value of currency.id
     /// </summary>
     public string CreateOrUpdateCurrency(
-        string id,
-        string symbol,
-        string name,
-        [Service] IRepository repository) {
-
-      Currency currency = new Currency() {
-        Symbol = symbol,
-        Name = name,
-      };
-
-      int dbid = repository.AddOrUpdateCurrency(IdUtils.FromRelayId(id), currency);
-      return IdUtils.ToRelayId<Currency>(dbid);
+      Currency currency,
+      [Service] IRepository repository) {
+        currency.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCurrency(IdUtils.FromRelayId(currency.Id), currency);
+        return IdUtils.ToRelayId<Currency>(dbid);
     }
     #endregion
 
     #region Address
     /// <summary>
-    /// Creates a new Address or updates an existing one, depending on the value of id
+    /// Creates a new Address or updates an existing one, depending on the value of address.id
     /// </summary>
     public string CreateOrUpdateAddress(
-        string id,
-        string theAddress,
-        string? theAddress2,
-        string city,
-        string? postalCode,
-        bool verified,
-        string countryId,
-        string stateOrProvinceId,
-        [Service] IRepository repository) {
-
-      Address address = new Address() {
-        TheAddress = theAddress,
-        TheAddress2 = theAddress2,
-        City = city,
-        PostalCode = postalCode,
-        Verified = verified,
-        Country = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryId)),
-        StateOrProvince = repository.GetStateOrProvince(IdUtils.FromRelayIdMandatory(stateOrProvinceId)),
-      };
-
-      int dbid = repository.AddOrUpdateAddress(IdUtils.FromRelayId(id), address);
-      return IdUtils.ToRelayId<Address>(dbid);
+      Address address,
+      [Service] IRepository repository) {
+        address.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateAddress(IdUtils.FromRelayId(address.Id), address);
+        return IdUtils.ToRelayId<Address>(dbid);
     }
     #endregion
 
     #region User
     /// <summary>
-    /// Creates a new User or updates an existing one, depending on the value of id
+    /// Creates a new User or updates an existing one, depending on the value of user.id
     /// </summary>
     public string CreateOrUpdateUser(
-        string id,
-        string firstName,
-        string lastName,
-        string? phone,
-        string email,
-        [Service] IRepository repository) {
-
-      User user = new User() {
-        FirstName = firstName,
-        LastName = lastName,
-        Phone = phone,
-        Email = email,
-      };
-
-      int dbid = repository.AddOrUpdateUser(IdUtils.FromRelayId(id), user);
-      return IdUtils.ToRelayId<User>(dbid);
+      User user,
+      [Service] IRepository repository) {
+        user.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateUser(IdUtils.FromRelayId(user.Id), user);
+        return IdUtils.ToRelayId<User>(dbid);
     }
     #endregion
 
     #region Document
     /// <summary>
-    /// Creates a new Document or updates an existing one, depending on the value of id
+    /// Creates a new Document or updates an existing one, depending on the value of document.id
     /// </summary>
     public string CreateOrUpdateDocument(
-        string id,
-        string name,
-        string fileName,
-        DocumentTypeEnum documentType,
-        [Service] IRepository repository) {
-
-      Document document = new Document() {
-        Name = name,
-        FileName = fileName,
-        DocumentType = documentType,
-      };
-
-      int dbid = repository.AddOrUpdateDocument(IdUtils.FromRelayId(id), document);
-      return IdUtils.ToRelayId<Document>(dbid);
+      Document document,
+      [Service] IRepository repository) {
+        document.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateDocument(IdUtils.FromRelayId(document.Id), document);
+        return IdUtils.ToRelayId<Document>(dbid);
     }
     #endregion
 
     #region Client
     /// <summary>
-    /// Creates a new Client or updates an existing one, depending on the value of id
+    /// Creates a new Client or updates an existing one, depending on the value of client.id
     /// </summary>
     public string CreateOrUpdateClient(
-        string id,
-        string? salesforceAccountRef,
-        string? referredBy,
-        ClientStatusEnum status,
-        ClientSegmentEnum segment,
-        ClientPurchasingBehaviorEnum? purchasingBehavior,
-        ClientPrimaryShipmentRoleEnum primaryShipmentRole,
-        Company company,
-        Contact primaryContact,
-        [Service] IRepository repository) {
-
-      Client client = new Client() {
-        SalesforceAccountRef = salesforceAccountRef,
-        ReferredBy = referredBy,
-        Status = status,
-        Segment = segment,
-        PurchasingBehavior = purchasingBehavior,
-        PrimaryShipmentRole = primaryShipmentRole,
-        Company = company,
-        PrimaryContact = primaryContact,
-      };
-
-      int dbid = repository.AddOrUpdateClient(IdUtils.FromRelayId(id), client);
-      return IdUtils.ToRelayId<Client>(dbid);
+      Client client,
+      [Service] IRepository repository) {
+        client.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateClient(IdUtils.FromRelayId(client.Id), client);
+        return IdUtils.ToRelayId<Client>(dbid);
     }
     #endregion
 
     #region VatNumber
     /// <summary>
-    /// Creates a new VatNumber or updates an existing one, depending on the value of id
+    /// Creates a new VatNumber or updates an existing one, depending on the value of vatNumber.id
     /// </summary>
     public string CreateOrUpdateVatNumber(
-        string id,
-        string number,
-        string countryRegionId,
-        [Service] IRepository repository) {
-
-      VatNumber vatNumber = new VatNumber() {
-        Number = number,
-        CountryRegion = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryRegionId)),
-      };
-
-      int dbid = repository.AddOrUpdateVatNumber(IdUtils.FromRelayId(id), vatNumber);
-      return IdUtils.ToRelayId<VatNumber>(dbid);
+      VatNumber vatNumber,
+      [Service] IRepository repository) {
+        vatNumber.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateVatNumber(IdUtils.FromRelayId(vatNumber.Id), vatNumber);
+        return IdUtils.ToRelayId<VatNumber>(dbid);
     }
     #endregion
 
     #region Country
     /// <summary>
-    /// Creates a new Country or updates an existing one, depending on the value of id
+    /// Creates a new Country or updates an existing one, depending on the value of country.id
     /// </summary>
     public string CreateOrUpdateCountry(
-        string id,
-        string code,
-        string name,
-        IEnumerable<StateOrProvince> subRegions,
-        [Service] IRepository repository) {
-
-      Country country = new Country() {
-        Code = code,
-        Name = name,
-        SubRegions = subRegions.ToList(),
-      };
-
-      int dbid = repository.AddOrUpdateCountry(IdUtils.FromRelayId(id), country);
-      return IdUtils.ToRelayId<Country>(dbid);
+      Country country,
+      [Service] IRepository repository) {
+        country.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCountry(IdUtils.FromRelayId(country.Id), country);
+        return IdUtils.ToRelayId<Country>(dbid);
     }
     #endregion
 
     #region Contact
     /// <summary>
-    /// Creates a new Contact or updates an existing one, depending on the value of id
+    /// Creates a new Contact or updates an existing one, depending on the value of contact.id
     /// </summary>
     public string CreateOrUpdateContact(
-        string id,
-        string firstName,
-        string lastName,
-        string? phone,
-        string email,
-        [Service] IRepository repository) {
-
-      Contact contact = new Contact() {
-        FirstName = firstName,
-        LastName = lastName,
-        Phone = phone,
-        Email = email,
-      };
-
-      int dbid = repository.AddOrUpdateContact(IdUtils.FromRelayId(id), contact);
-      return IdUtils.ToRelayId<Contact>(dbid);
+      Contact contact,
+      [Service] IRepository repository) {
+        contact.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateContact(IdUtils.FromRelayId(contact.Id), contact);
+        return IdUtils.ToRelayId<Contact>(dbid);
     }
     #endregion
 
     #region CompanyEntityCountryService
     /// <summary>
-    /// Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of id
+    /// Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of companyEntityCountryService.id
     /// </summary>
     public string CreateOrUpdateCompanyEntityCountryService(
-        string id,
-        bool importCustoms,
-        bool exportCustoms,
-        string countryId,
-        [Service] IRepository repository) {
-
-      CompanyEntityCountryService companyEntityCountryService = new CompanyEntityCountryService() {
-        ImportCustoms = importCustoms,
-        ExportCustoms = exportCustoms,
-        Country = repository.GetCountry(IdUtils.FromRelayIdMandatory(countryId)),
-      };
-
-      int dbid = repository.AddOrUpdateCompanyEntityCountryService(IdUtils.FromRelayId(id), companyEntityCountryService);
-      return IdUtils.ToRelayId<CompanyEntityCountryService>(dbid);
+      CompanyEntityCountryService companyEntityCountryService,
+      [Service] IRepository repository) {
+        companyEntityCountryService.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCompanyEntityCountryService(IdUtils.FromRelayId(companyEntityCountryService.Id), companyEntityCountryService);
+        return IdUtils.ToRelayId<CompanyEntityCountryService>(dbid);
     }
     #endregion
 

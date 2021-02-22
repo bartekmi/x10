@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
   /// State, province or similar division within a country
@@ -21,6 +23,10 @@ namespace x10.hotchoc.ClientPage.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
     }
   }
 }

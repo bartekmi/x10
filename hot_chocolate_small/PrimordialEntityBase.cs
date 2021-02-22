@@ -2,7 +2,7 @@ using System;
 using HotChocolate;
 
 namespace x10.hotchoc {
-  public class PrimordialEntityBase {
+  public abstract class PrimordialEntityBase {
     private string _id;
     public string Id { 
       get { return _id; }

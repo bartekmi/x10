@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
   /// Provides attribute(s) common to all entities
@@ -10,6 +12,9 @@ namespace x10.hotchoc.ClientPage.Entities {
   public abstract class Base : PrimordialEntityBase {
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+    }
+
+    internal virtual void SetNonOwnedAssociations(IRepository repository) {
     }
   }
 }

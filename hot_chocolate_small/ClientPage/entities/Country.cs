@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using HotChocolate;
 
+using x10.hotchoc.ClientPage.Repositories;
+
 namespace x10.hotchoc.ClientPage.Entities {
   /// <summary>
   /// Represents a Country
@@ -28,6 +30,13 @@ namespace x10.hotchoc.ClientPage.Entities {
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
       SubRegions?.ForEach(x => x.EnsureUniqueDbid());
+    }
+
+    internal override void SetNonOwnedAssociations(IRepository repository) {
+      base.SetNonOwnedAssociations(repository);
+
+      foreach (StateOrProvince subRegions in SubRegions)
+        subRegions.SetNonOwnedAssociations(repository);
     }
   }
 }

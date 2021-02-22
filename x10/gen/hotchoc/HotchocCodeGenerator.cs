@@ -287,46 +287,11 @@ namespace x10.hotchoc.{0} {{
     public string CreateOrUpdate{0}(
       {0} {1},
       [Service] IRepository repository) {{
-", entityName, varName);
-
-      bool varDeclared = false;
-      GenerateNonOwnedAssociationAssignments(entity, new List<Association>(), varName, ref varDeclared);
-      if (varDeclared)
-        WriteLine();
-
-      WriteRaw(
-@"        int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId({1}.Id), {1});
+        {1}.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId({1}.Id), {1});
         return IdUtils.ToRelayId<{0}>(dbid);
     }}
 ", entityName, varName);
-    }
-
-    private void GenerateNonOwnedAssociationAssignments(Entity entity, List<Association> parents, string varName, ref bool varDeclared) {
-      foreach (Association association in entity.Associations) {
-        List<Association> parentsAndCurrent = new List<Association>(parents);
-        parentsAndCurrent.Add(association);
-
-        if (association.Owns) 
-          GenerateNonOwnedAssociationAssignments(association.ReferencedEntity, parentsAndCurrent, varName, ref varDeclared);
-        else {
-          if (!varDeclared) {
-            WriteLine();
-            WriteLine(4, "int? nonOwnedId;");
-            varDeclared = true;
-          }
-
-          IEnumerable<string> capitalizedParentNames = parentsAndCurrent.Select(x => NameUtils.CapitalizeFirstLetter(x.Name));
-
-          WriteLine(4, "nonOwnedId = IdUtils.FromRelayId({0}.{1}?.Id);",
-            varName,
-            string.Join("?.", capitalizedParentNames));
-
-          WriteLine(4, "{0}.{1} = nonOwnedId == null ? null : repository.Get{2}(nonOwnedId.Value);",
-            varName,
-            string.Join(".", capitalizedParentNames),
-            association.ReferencedEntity.Name);
-        }
-      }
     }
 
     private static string GetDataType(Member member) {
@@ -358,6 +323,8 @@ namespace x10.hotchoc.{0} {{
       WriteLine(0, "using System.Collections.Generic;");
       WriteLine();
       WriteLine(0, "using HotChocolate;");
+      WriteLine();
+      WriteLine(0, "using x10.hotchoc.{0}.Repositories;", PackageName);
       WriteLine();
       WriteLine(0, "namespace x10.hotchoc.{0}.Entities {", PackageName);
 
@@ -400,6 +367,7 @@ namespace x10.hotchoc.{0} {{
       GenerateToStringRepresentation(entity);
       GenerateAssociations(entity);
       GenerateEnsureUniqueDbid(entity);
+      GenerateSetNonOwnedAssociations(entity);
 
       WriteLine(1, "}");
     }
@@ -483,7 +451,41 @@ namespace x10.hotchoc.{0} {{
       }
 
       WriteLine(2, "}");
+      WriteLine();
     }
+
+
+    private void GenerateSetNonOwnedAssociations(Entity entity) {
+      bool hasParent = entity.InheritsFromName != null;
+      WriteLine(2, "internal {0} void SetNonOwnedAssociations(IRepository repository) {",
+        hasParent ? "override" : "virtual");
+      if (hasParent)
+        WriteLine(3, "base.SetNonOwnedAssociations(repository);");
+
+      foreach (Association association in entity.Associations) {
+        Entity refedEntity = association.ReferencedEntity;
+        string varName = association.Name;
+        string propName = PropName(association);
+
+        WriteLine();
+
+        if (association.IsMany) {
+          WriteLine(3, "foreach ({0} {1} in {2})", refedEntity.Name, varName, propName);
+          WriteLine(4, "{0}.SetNonOwnedAssociations(repository);", varName);
+        } else {
+          if (association.Owns) {
+            WriteLine(3, "{0}?.SetNonOwnedAssociations(repository);", propName);
+          } else {
+            WriteLine(3, "int? {0} = IdUtils.FromRelayId({1}?.Id);", varName, propName);
+            WriteLine(3, "{0} = {1} == null ? null : repository.Get{2}({1}.Value);",
+              propName, varName, refedEntity.Name);
+          }
+        }
+      }
+
+      WriteLine(2, "}");
+    }
+
     #endregion
     #endregion
 
