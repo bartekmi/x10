@@ -14,7 +14,7 @@ using x10.compiler;
 using x10.model.definition;
 using System.Text;
 
-namespace x10.gen.sql.primitives {
+namespace x10.gen.sql.parser {
   public class DataGenLanguageParserTest {
 
     [Fact]

@@ -6,9 +6,10 @@ using NLipsum.Core;
 
 using x10.utils;
 using x10.parsing;
-using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.model.metadata;
+using x10.gen.sql.primitives;
+using x10.gen.sql.parser;
 
 namespace x10.gen.sql {
   internal class AtomicDataGenerator {

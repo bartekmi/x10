@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using x10.parsing;
-using YamlDotNet.Core.Tokens;
 
-namespace x10.gen.sql.primitives {
+using x10.parsing;
+
+namespace x10.gen.sql.parser {
   // Parses strings like:
   // Some text ( 50% => <adjective> | 50% => <noun> ~LLDD.DD~ (80% => Hello | 20% => World)) more text
 
@@ -53,78 +50,8 @@ namespace x10.gen.sql.primitives {
     }
   }
 
-  abstract class Node : IWithProbability {
-    internal abstract void Print(StringBuilder builder);
-    public double Probability { get; internal set; }
-    internal List<Node> Children = new List<Node>();
 
-    // Derived
-    internal string OnlyChildText {
-      get {
-        return Children.OfType<NodeText>().Single().Text;
-      }
-    }
-  }
 
-  class NodeText : Node {
-    internal Delimiter Delimiter;
-    private readonly StringBuilder _builder = new StringBuilder();
-
-    // Derived
-    private string _trimmedText;
-    internal String Text { get { return _trimmedText ?? _builder.ToString(); } }
-    internal DelimiterType? Type { get { return Delimiter?.Type; } }
-    internal bool Empty { get { return _builder.Length == 0; } }
-
-    internal void Add(char c) {
-      _builder.Append(c);
-    }
-
-    internal void TrimStart() {
-      _trimmedText = Text.TrimStart();
-    }
-
-    internal void TrimEnd() {
-      _trimmedText = Text.TrimEnd();
-    }
-
-    internal override void Print(StringBuilder builder) {
-      if (Delimiter == null)
-        builder.Append(Text);
-      else
-        builder.Append(string.Format("{0}{1}{2}",
-          Delimiter.Open, Text, Delimiter.Close));
-    }
-  }
-
-  class NodeConcat : Node {
-    internal override void Print(StringBuilder builder) {
-      foreach (Node child in Children)
-        child.Print(builder);
-    }
-
-    // Trim whitespace at both ends
-    internal void Trim() {
-      if (Children.First() is NodeText first)
-        first.TrimStart();
-      if (Children.Last() is NodeText last)
-        last.TrimEnd();
-    }
-  }
-
-  class NodeProbabilities : Node {
-    internal override void Print(StringBuilder builder) {
-      builder.Append("( ");
-      foreach (Node child in Children) {
-        builder.Append(child.Probability * 100);
-        builder.Append("% => ");
-        child.Print(builder);
-        if (child != Children.Last())
-          builder.Append(" | ");
-      }
-      builder.Append(" )");
-    }
-  }
   #endregion
 
   #region Tokenizer

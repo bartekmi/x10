@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
-using x10.gen.sql.primitives;
 using x10.model.definition;
 using x10.parsing;
+using x10.gen.sql.primitives;
+using x10.gen.sql.parser;
 
 namespace x10.gen.sql {
   internal class DataGenerationContext {
