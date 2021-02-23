@@ -31,8 +31,28 @@
           <usciNumber/>
         </VerticalStackPanel>
       </Tab>
+      <Tab label="Identifiers">
+        <VerticalStackPanel>
+          <agentIataCode/>
+          <hkRaNumber/>
+        </VerticalStackPanel>
+      </Tab>
+      <Tab label="Compliance">
+        <VerticalStackPanel>
+          <Text>Wants to use Flexport Service:</Text>
+        </VerticalStackPanel>
+      </Tab>
+      <Tab label="Billing">
+        <VerticalStackPanel>
+          <vendorCategory/>
+        </VerticalStackPanel>
+      </Tab>
     </TabbedPane>
 
-    <SubmitButton label="Save"/>
+    <HorizontalDivider/>
+    <RepellingRow>
+      <FormErrorDisplay/>
+      <SubmitButton label="Save"/>
+    </RepellingRow>
   </Form>
 </CompanyEntityForm>

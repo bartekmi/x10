@@ -8,6 +8,7 @@ import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
+import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -18,7 +19,7 @@ import Separator from 'react_lib/Separator';
 import TabbedPane from 'react_lib/tab/TabbedPane';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
-import { companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { createDefaultCtpatReview } from 'client_page/entities/CtpatReview';
 
 
@@ -255,12 +256,85 @@ function CompanyEntityForm(props: Props): React.Node {
                 </Group>
               ,
             },
+            {
+              id: 'Identifiers',
+              label: 'Identifiers',
+              displayFunc: () =>
+                <Group
+                  flexDirection='column'
+                >
+                  <FormField
+                    editorFor='agentIataCode'
+                    label='Agent IATA Code'
+                  >
+                    <TextInput
+                      value={ companyEntity.agentIataCode }
+                      onChange={ (value) => {
+                        onChange({ ...companyEntity, agentIataCode: value })
+                      } }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='hkRaNumber'
+                    label='HK RA Number'
+                  >
+                    <TextInput
+                      value={ companyEntity.hkRaNumber }
+                      onChange={ (value) => {
+                        onChange({ ...companyEntity, hkRaNumber: value })
+                      } }
+                    />
+                  </FormField>
+                </Group>
+              ,
+            },
+            {
+              id: 'Compliance',
+              label: 'Compliance',
+              displayFunc: () =>
+                <Group
+                  flexDirection='column'
+                >
+                  <TextDisplay
+                    value='Wants to use Flexport Service:'
+                  />
+                </Group>
+              ,
+            },
+            {
+              id: 'Billing',
+              label: 'Billing',
+              displayFunc: () =>
+                <Group
+                  flexDirection='column'
+                >
+                  <FormField
+                    editorFor='vendorCategory'
+                    label='Vendor Category'
+                  >
+                    <SelectInput
+                      value={ companyEntity.vendorCategory }
+                      onChange={ (value) => {
+                        onChange({ ...companyEntity, vendorCategory: value })
+                      } }
+                      options={ VendorCategoryEnumPairs }
+                    />
+                  </FormField>
+                </Group>
+              ,
+            },
           ]
         }
       />
-      <FormSubmitButton
-        onClick={ () => save(companyEntity) }
-      />
+      <Separator/>
+      <Group
+        justifyContent='space-between'
+      >
+        <FormErrorDisplay/>
+        <FormSubmitButton
+          onClick={ () => save(companyEntity) }
+        />
+      </Group>
     </FormProvider>
   );
 }
@@ -304,6 +378,7 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
   companyEntity: graphql`
     fragment CompanyEntityForm_companyEntity on CompanyEntity {
       id
+      agentIataCode
       companyType
       countryOfBusinessRegistration {
         id
@@ -311,6 +386,7 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
       }
       doingBusinessAs
       eoriNumber
+      hkRaNumber
       legalName
       mailingAddress {
         id
@@ -331,6 +407,7 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
       usciNumber
       usFccNumber
       usTaxId
+      vendorCategory
     }
   `,
 });
