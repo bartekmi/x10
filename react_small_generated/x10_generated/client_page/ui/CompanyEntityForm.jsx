@@ -22,6 +22,7 @@ import { createDefaultCountry } from 'client_page/entities/Country';
 import { createDefaultCtpatReview } from 'client_page/entities/CtpatReview';
 import { createDefaultCurrency } from 'client_page/entities/Currency';
 import { createDefaultNetsuiteVendor } from 'client_page/entities/NetsuiteVendor';
+import TabbedPane from '../../../src/react_lib/tab/TabbedPane';
 
 
 
@@ -205,6 +206,20 @@ function CompanyEntityForm(props: Props): React.Node {
           </FormField>
         </Group>
       </Group>
+      <TabbedPane
+        tabs={[
+          {
+            id: "address",
+            label: "Address",
+            displayFunc: () => <TextDisplay value="Address Content"/>
+          },
+          {
+            id: "tax_info",
+            label: "Tax Information",
+            displayFunc: () => <TextDisplay value="Tax Info Content"/>
+          },
+        ]}
+      />
       <FormSubmitButton
         onClick={ () => save(companyEntity) }
       />

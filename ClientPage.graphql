@@ -15,7 +15,6 @@ type Address {
   stateOrProvince: StateOrProvince!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "More information about a company that we do business with as a client (we sell them stuff)"
@@ -34,7 +33,6 @@ type Client {
   primaryContact: Contact!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
@@ -47,7 +45,6 @@ type Company {
   users: [User!]!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A legal entity - typically a corporation - which belongs to a [Company]"
@@ -84,7 +81,6 @@ type CompanyEntity {
   invoiceCurrencyDefault: Currency
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A country and an indication wherther either of import\/export services are required"
@@ -95,7 +91,6 @@ type CompanyEntityCountryService {
   country: Country!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Basic contact info"
@@ -107,7 +102,6 @@ type Contact {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Represents a Country"
@@ -118,7 +112,6 @@ type Country {
   subRegions: [StateOrProvince!]!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Status of the current CTPAT review"
@@ -130,7 +123,6 @@ type CtpatReview {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Type of money\/currency"
@@ -140,7 +132,6 @@ type Currency {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Metadata about a document"
@@ -153,38 +144,37 @@ type Document {
   uploadedBy: User!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 type Mutation {
-  "Creates a new NetsuiteVendor or updates an existing one, depending on the value of id"
-  createOrUpdateNetsuiteVendor(id: String! name: String!): String!
-  "Creates a new Company or updates an existing one, depending on the value of id"
-  createOrUpdateCompany(id: String! website: String primaryEntity: CompanyEntityInput! entities: [CompanyEntityInput!]! primaryContact: ContactInput! users: [UserInput!]!): String!
-  "Creates a new StateOrProvince or updates an existing one, depending on the value of id"
-  createOrUpdateStateOrProvince(id: String! name: String!): String!
-  "Creates a new CtpatReview or updates an existing one, depending on the value of id"
-  createOrUpdateCtpatReview(id: String! complianceScreenRequired: Boolean! status: CtpatReviewStatusEnum! expiresAt: DateTime complianceContactEmail: String!): String!
-  "Creates a new CompanyEntity or updates an existing one, depending on the value of id"
-  createOrUpdateCompanyEntity(id: String! legalName: String! doingBusinessAs: String companyType: CompanyEntityTypeEnum! stateOfBusinessRegistration: String usTaxId: String isPrimary: Boolean! dgDisclaimerAgreed: Boolean! mailingAddressIsPhysicalAddress: Boolean! brBlCompanyName: String isArchived: Boolean! brBlRegistrationNumber: String brBlAddress: String brBlLegalRepChinese: String brBlLegalRepPinyin: String usFccNumber: String eoriNumber: String usciNumber: String agentIataCode: String hkRaNumber: String vendorCategory: VendorCategoryEnum mailingAddress: AddressInput! physicalAddress: AddressInput vatNumbers: [VatNumberInput!]! netsuiteVendorIdId: String ctpatReview: CtpatReviewInput documents: [DocumentInput!]! countryOfBusinessRegistrationId: String invoiceCurrencyDefaultId: String): String!
-  "Creates a new Currency or updates an existing one, depending on the value of id"
-  createOrUpdateCurrency(id: String! symbol: String! name: String!): String!
-  "Creates a new Address or updates an existing one, depending on the value of id"
-  createOrUpdateAddress(id: String! theAddress: String! theAddress2: String city: String! postalCode: String verified: Boolean! countryId: String! stateOrProvinceId: String!): String!
-  "Creates a new User or updates an existing one, depending on the value of id"
-  createOrUpdateUser(id: String! firstName: String! lastName: String! phone: String email: String!): String!
-  "Creates a new Document or updates an existing one, depending on the value of id"
-  createOrUpdateDocument(id: String! name: String! fileName: String! documentType: DocumentTypeEnum!): String!
-  "Creates a new Client or updates an existing one, depending on the value of id"
-  createOrUpdateClient(id: String! salesforceAccountRef: String referredBy: String status: ClientStatusEnum! segment: ClientSegmentEnum! purchasingBehavior: ClientPurchasingBehaviorEnum primaryShipmentRole: ClientPrimaryShipmentRoleEnum! company: CompanyInput! primaryContact: ContactInput!): String!
-  "Creates a new VatNumber or updates an existing one, depending on the value of id"
-  createOrUpdateVatNumber(id: String! number: String! countryRegionId: String!): String!
-  "Creates a new Country or updates an existing one, depending on the value of id"
-  createOrUpdateCountry(id: String! code: String! name: String! subRegions: [StateOrProvinceInput!]!): String!
-  "Creates a new Contact or updates an existing one, depending on the value of id"
-  createOrUpdateContact(id: String! firstName: String! lastName: String! phone: String email: String!): String!
-  "Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of id"
-  createOrUpdateCompanyEntityCountryService(id: String! importCustoms: Boolean! exportCustoms: Boolean! countryId: String!): String!
+  "Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id"
+  createOrUpdateNetsuiteVendor(netsuiteVendor: NetsuiteVendorInput!): String!
+  "Creates a new Company or updates an existing one, depending on the value of company.id"
+  createOrUpdateCompany(company: CompanyInput!): String!
+  "Creates a new StateOrProvince or updates an existing one, depending on the value of stateOrProvince.id"
+  createOrUpdateStateOrProvince(stateOrProvince: StateOrProvinceInput!): String!
+  "Creates a new CtpatReview or updates an existing one, depending on the value of ctpatReview.id"
+  createOrUpdateCtpatReview(ctpatReview: CtpatReviewInput!): String!
+  "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
+  createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
+  "Creates a new Currency or updates an existing one, depending on the value of currency.id"
+  createOrUpdateCurrency(currency: CurrencyInput!): String!
+  "Creates a new Address or updates an existing one, depending on the value of address.id"
+  createOrUpdateAddress(address: AddressInput!): String!
+  "Creates a new User or updates an existing one, depending on the value of user.id"
+  createOrUpdateUser(user: UserInput!): String!
+  "Creates a new Document or updates an existing one, depending on the value of document.id"
+  createOrUpdateDocument(document: DocumentInput!): String!
+  "Creates a new Client or updates an existing one, depending on the value of client.id"
+  createOrUpdateClient(client: ClientInput!): String!
+  "Creates a new VatNumber or updates an existing one, depending on the value of vatNumber.id"
+  createOrUpdateVatNumber(vatNumber: VatNumberInput!): String!
+  "Creates a new Country or updates an existing one, depending on the value of country.id"
+  createOrUpdateCountry(country: CountryInput!): String!
+  "Creates a new Contact or updates an existing one, depending on the value of contact.id"
+  createOrUpdateContact(contact: ContactInput!): String!
+  "Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of companyEntityCountryService.id"
+  createOrUpdateCompanyEntityCountryService(companyEntityCountryService: CompanyEntityCountryServiceInput!): String!
 }
 
 "A reference to an entity in Netsuite"
@@ -193,7 +183,6 @@ type NetsuiteVendor {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 type Query {
@@ -261,7 +250,6 @@ type StateOrProvince {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A user account within our system"
@@ -273,7 +261,6 @@ type User {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "VAT Number"
@@ -283,7 +270,6 @@ type VatNumber {
   countryRegion: Country!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A physical or mailing address"
@@ -366,18 +352,6 @@ input AddressFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A physical or mailing address"
@@ -392,7 +366,6 @@ input AddressInput {
   stateOrProvince: StateOrProvinceInput!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A physical or mailing address"
@@ -407,7 +380,6 @@ input AddressSort {
   stateOrProvince: StateOrProvinceSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "More information about a company that we do business with as a client (we sell them stuff)"
@@ -552,18 +524,24 @@ input ClientFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
+}
+
+"More information about a company that we do business with as a client (we sell them stuff)"
+input ClientInput {
+  salesforceAccountRef: String!
+  referredBy: String!
+  status: ClientStatusEnum!
+  segment: ClientSegmentEnum!
+  purchasingBehavior: ClientPurchasingBehaviorEnum
+  primaryShipmentRole: ClientPrimaryShipmentRoleEnum!
+  shipmentsAsClient: Int!
+  shipmentsAsShipper: Int!
+  shipmentsAsConsignee: Int!
+  toStringRepresentation: String!
+  company: CompanyInput!
+  primaryContact: ContactInput!
+  id: String!
+  hashcode: Int!
 }
 
 "More information about a company that we do business with as a client (we sell them stuff)"
@@ -582,7 +560,6 @@ input ClientSort {
   primaryContact: ContactSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "A country and an indication wherther either of import\/export services are required"
@@ -626,18 +603,16 @@ input CompanyEntityCountryServiceFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
+}
+
+"A country and an indication wherther either of import\/export services are required"
+input CompanyEntityCountryServiceInput {
+  importCustoms: Boolean!
+  exportCustoms: Boolean!
+  toStringRepresentation: String!
+  country: CountryInput!
+  id: String!
+  hashcode: Int!
 }
 
 "A country and an indication wherther either of import\/export services are required"
@@ -648,7 +623,6 @@ input CompanyEntityCountryServiceSort {
   country: CountrySort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "A legal entity - typically a corporation - which belongs to a [Company]"
@@ -885,18 +859,6 @@ input CompanyEntityFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A legal entity - typically a corporation - which belongs to a [Company]"
@@ -933,7 +895,6 @@ input CompanyEntityInput {
   invoiceCurrencyDefault: CurrencyInput
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A legal entity - typically a corporation - which belongs to a [Company]"
@@ -968,7 +929,6 @@ input CompanyEntitySort {
   invoiceCurrencyDefault: CurrencySort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
@@ -1027,18 +987,6 @@ input CompanyFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
@@ -1051,7 +999,6 @@ input CompanyInput {
   users: [UserInput!]!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
@@ -1062,7 +1009,6 @@ input CompanySort {
   primaryContact: ContactSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Basic contact info"
@@ -1141,18 +1087,6 @@ input ContactFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Basic contact info"
@@ -1164,7 +1098,6 @@ input ContactInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Basic contact info"
@@ -1176,7 +1109,6 @@ input ContactSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Represents a Country"
@@ -1239,18 +1171,6 @@ input CountryFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Represents a Country"
@@ -1261,7 +1181,6 @@ input CountryInput {
   subRegions: [StateOrProvinceInput!]!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Represents a Country"
@@ -1271,7 +1190,6 @@ input CountrySort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Status of the current CTPAT review"
@@ -1346,18 +1264,6 @@ input CtpatReviewFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Status of the current CTPAT review"
@@ -1369,7 +1275,6 @@ input CtpatReviewInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Status of the current CTPAT review"
@@ -1381,7 +1286,6 @@ input CtpatReviewSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Type of money\/currency"
@@ -1440,18 +1344,6 @@ input CurrencyFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Type of money\/currency"
@@ -1461,7 +1353,6 @@ input CurrencyInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Type of money\/currency"
@@ -1471,7 +1362,6 @@ input CurrencySort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "Metadata about a document"
@@ -1555,18 +1445,6 @@ input DocumentFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "Metadata about a document"
@@ -1579,7 +1457,6 @@ input DocumentInput {
   uploadedBy: UserInput!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "Metadata about a document"
@@ -1592,7 +1469,6 @@ input DocumentSort {
   uploadedBy: UserSort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "A reference to an entity in Netsuite"
@@ -1641,18 +1517,6 @@ input NetsuiteVendorFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A reference to an entity in Netsuite"
@@ -1661,7 +1525,6 @@ input NetsuiteVendorInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A reference to an entity in Netsuite"
@@ -1670,7 +1533,6 @@ input NetsuiteVendorSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "State, province or similar division within a country"
@@ -1719,18 +1581,6 @@ input StateOrProvinceFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "State, province or similar division within a country"
@@ -1739,7 +1589,6 @@ input StateOrProvinceInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "State, province or similar division within a country"
@@ -1748,7 +1597,6 @@ input StateOrProvinceSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "A user account within our system"
@@ -1827,18 +1675,6 @@ input UserFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "A user account within our system"
@@ -1850,7 +1686,6 @@ input UserInput {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "A user account within our system"
@@ -1862,7 +1697,6 @@ input UserSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 "VAT Number"
@@ -1912,18 +1746,6 @@ input VatNumberFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-  dbid: Int
-  dbid_not: Int
-  dbid_in: [Int!]
-  dbid_not_in: [Int!]
-  dbid_gt: Int
-  dbid_not_gt: Int
-  dbid_gte: Int
-  dbid_not_gte: Int
-  dbid_lt: Int
-  dbid_not_lt: Int
-  dbid_lte: Int
-  dbid_not_lte: Int
 }
 
 "VAT Number"
@@ -1933,7 +1755,6 @@ input VatNumberInput {
   countryRegion: CountryInput!
   id: String!
   hashcode: Int!
-  dbid: Int!
 }
 
 "VAT Number"
@@ -1943,7 +1764,6 @@ input VatNumberSort {
   countryRegion: CountrySort
   id: SortOperationKind
   hashcode: SortOperationKind
-  dbid: SortOperationKind
 }
 
 enum ClientPrimaryShipmentRoleEnum {

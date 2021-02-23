@@ -15,9 +15,9 @@ type TItem = {
 type Props<T: TItem> = {|
   +items: $ReadOnlyArray < T >,
   +itemDisplayFunc: (data: T, onChange: (data: T) => void) => React.Node,
-    +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
-    +addNewItem: () => T,
-      +addItemLabel ?: string,
+  +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
+  +addNewItem: () => T,
+  +addItemLabel ?: string,
 |};
 
 export default function MultiStacker<T: TItem>({
