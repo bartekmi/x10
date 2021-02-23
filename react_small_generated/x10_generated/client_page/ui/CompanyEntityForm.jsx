@@ -108,110 +108,111 @@ function CompanyEntityForm(props: Props): React.Node {
           } }
         />
       </FormField>
-      <Group
-        flexDirection='column'
-      >
-        <TextDisplay
-          value='Mailing Address'
-        />
-        <Separator/>
-        <FormField
-          editorFor='mailingAddress.theAddress'
-          label='Address'
-        >
-          <TextInput
-            value={ companyEntity.mailingAddress.theAddress }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(companyEntity));
-              newObj.mailingAddress.theAddress = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='mailingAddress.theAddress2'
-          label='Address 2'
-        >
-          <TextInput
-            value={ companyEntity.mailingAddress.theAddress2 }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(companyEntity));
-              newObj.mailingAddress.theAddress2 = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <Group>
-          <FormField
-            editorFor='mailingAddress.country'
-            label='Country/Region'
-          >
-            <AssociationEditor
-              id={ companyEntity.mailingAddress.country }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(companyEntity));
-                newObj.mailingAddress.country = value;
-                onChange(newObj);
-              } }
-              isNullable={ false }
-              query={ countriesQuery }
-              toString={ x => x.toStringRepresentation }
-            />
-          </FormField>
-          <FormField
-            editorFor='mailingAddress.stateOrProvince'
-            label='State Or Province'
-          >
-            <AssociationEditor
-              id={ companyEntity.mailingAddress.stateOrProvince }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(companyEntity));
-                newObj.mailingAddress.stateOrProvince = value;
-                onChange(newObj);
-              } }
-              isNullable={ false }
-              query={ stateOrProvincesQuery }
-              toString={ x => x.toStringRepresentation }
-            />
-          </FormField>
-        </Group>
-        <Group>
-          <FormField
-            editorFor='mailingAddress.city'
-            label='City/Town'
-            maxWidth={ 400 }
-          >
-            <TextInput
-              value={ companyEntity.mailingAddress.city }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(companyEntity));
-                newObj.mailingAddress.city = value;
-                onChange(newObj);
-              } }
-            />
-          </FormField>
-          <FormField
-            editorFor='mailingAddress.postalCode'
-            label='Zip or Postal Code'
-            maxWidth={ 150 }
-          >
-            <TextInput
-              value={ companyEntity.mailingAddress.postalCode }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(companyEntity));
-                newObj.mailingAddress.postalCode = value;
-                onChange(newObj);
-              } }
-            />
-          </FormField>
-        </Group>
-      </Group>
       <TabbedPane
         tabs={[
           {
             id: "address",
             label: "Address",
-            displayFunc: () => <TextDisplay value="Address Content"/>
+            displayFunc: () => (
+              <Group
+                flexDirection='column'
+              >
+                <TextDisplay
+                  value='Mailing Address'
+                />
+                <Separator/>
+                <FormField
+                  editorFor='mailingAddress.theAddress'
+                  label='Address'
+                >
+                  <TextInput
+                    value={ companyEntity.mailingAddress.theAddress }
+                    onChange={ (value) => {
+                      let newObj = JSON.parse(JSON.stringify(companyEntity));
+                      newObj.mailingAddress.theAddress = value;
+                      onChange(newObj);
+                    } }
+                  />
+                </FormField>
+                <FormField
+                  editorFor='mailingAddress.theAddress2'
+                  label='Address 2'
+                >
+                  <TextInput
+                    value={ companyEntity.mailingAddress.theAddress2 }
+                    onChange={ (value) => {
+                      let newObj = JSON.parse(JSON.stringify(companyEntity));
+                      newObj.mailingAddress.theAddress2 = value;
+                      onChange(newObj);
+                    } }
+                  />
+                </FormField>
+                <Group>
+                  <FormField
+                    editorFor='mailingAddress.country'
+                    label='Country/Region'
+                  >
+                    <AssociationEditor
+                      id={ companyEntity.mailingAddress.country }
+                      onChange={ (value) => {
+                        let newObj = JSON.parse(JSON.stringify(companyEntity));
+                        newObj.mailingAddress.country = value;
+                        onChange(newObj);
+                      } }
+                      isNullable={ false }
+                      query={ countriesQuery }
+                      toString={ x => x.toStringRepresentation }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='mailingAddress.stateOrProvince'
+                    label='State Or Province'
+                  >
+                    <AssociationEditor
+                      id={ companyEntity.mailingAddress.stateOrProvince }
+                      onChange={ (value) => {
+                        let newObj = JSON.parse(JSON.stringify(companyEntity));
+                        newObj.mailingAddress.stateOrProvince = value;
+                        onChange(newObj);
+                      } }
+                      isNullable={ false }
+                      query={ stateOrProvincesQuery }
+                      toString={ x => x.toStringRepresentation }
+                    />
+                  </FormField>
+                </Group>
+                <Group>
+                  <FormField
+                    editorFor='mailingAddress.city'
+                    label='City/Town'
+                    maxWidth={ 400 }
+                  >
+                    <TextInput
+                      value={ companyEntity.mailingAddress.city }
+                      onChange={ (value) => {
+                        let newObj = JSON.parse(JSON.stringify(companyEntity));
+                        newObj.mailingAddress.city = value;
+                        onChange(newObj);
+                      } }
+                    />
+                  </FormField>
+                  <FormField
+                    editorFor='mailingAddress.postalCode'
+                    label='Zip or Postal Code'
+                    maxWidth={ 150 }
+                  >
+                    <TextInput
+                      value={ companyEntity.mailingAddress.postalCode }
+                      onChange={ (value) => {
+                        let newObj = JSON.parse(JSON.stringify(companyEntity));
+                        newObj.mailingAddress.postalCode = value;
+                        onChange(newObj);
+                      } }
+                    />
+                  </FormField>
+                </Group>
+              </Group>
+            )
           },
           {
             id: "tax_info",
