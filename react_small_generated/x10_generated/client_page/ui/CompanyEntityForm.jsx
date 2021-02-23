@@ -424,6 +424,20 @@ function CompanyEntityForm(props: Props): React.Node {
                   flexDirection='column'
                 >
                   <FormField
+                    editorFor='netsuiteVendorId'
+                    label='Netsuite Vendor Id'
+                  >
+                    <AssociationEditor
+                      id={ companyEntity.netsuiteVendorId?.id }
+                      onChange={ (value) => {
+                        onChange({ ...companyEntity, netsuiteVendorId: value == null ? null : { id: value } })
+                      } }
+                      isNullable={ true }
+                      query={ netsuiteVendorsQuery }
+                      toString={ x => x.toStringRepresentation }
+                    />
+                  </FormField>
+                  <FormField
                     editorFor='vendorCategory'
                     label='Vendor Category'
                   >
@@ -519,6 +533,10 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
         theAddress2
       }
       mailingAddressIsPhysicalAddress
+      netsuiteVendorId {
+        id
+        toStringRepresentation
+      }
       physicalAddress {
         id
         city
@@ -546,6 +564,15 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
 const countriesQuery = graphql`
   query CompanyEntityForm_countriesQuery {
     entities: countries {
+      id
+      toStringRepresentation
+    }
+  }
+`;
+
+const netsuiteVendorsQuery = graphql`
+  query CompanyEntityForm_netsuiteVendorsQuery {
+    entities: netsuiteVendors {
       id
       toStringRepresentation
     }

@@ -2,8 +2,10 @@ name: NetsuiteVendor
 inheritsFrom: Base
 description: A reference to an entity in Netsuite
 defaultStringRepresentation: =name
+datagen_quantity: 50
 
 attributes:
   - name: name
     dataType: String
     mandatory: true
+    datagen_pattern: ~NDDD~ - <first_name> <last_name> (~NDDDDDDD~)
