@@ -75,9 +75,10 @@ attributes:
 # Tax Information
   - name: usFccNumber
     dataType: String
+    label: US FCC Number
   - name: eoriNumber
     dataType: String
-    label: EORI Number (EU Countries)
+    label: EORI Number (EU Countries / UK)
   - name: usciNumber
     dataType: String
     label: USCI Number (China)

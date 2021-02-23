@@ -472,6 +472,48 @@ namespace x10.gen.react.library {
       },
       #endregion
 
+      #region Tabbed Pane
+      new PlatformClassDef() {
+        LogicalName = "TabbedPane",
+        PlatformName = "TabbedPane",
+        ImportDir = "react_lib/tab",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributePrimaryAsProp() {
+            CodeSnippet = (generator, indent, platClassDef, instance) => {
+              UiAttributeValueComplex primaryValue = (UiAttributeValueComplex)instance.PrimaryValue;
+              generator.WriteLine(indent, "tabs={");
+              generator.RenderComplexAttrAsJavascript(indent + 1, primaryValue);
+              generator.WriteLine(indent, "}");
+            },
+          }
+        },
+      },
+      new PlatformClassDef() {
+        LogicalName = "Tab",
+        PlatformName = "",  // Just a JavaScript object
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeByFunc() {
+            PlatformName = "id",
+            Function = (instance) => instance.FindValue("label")?.ToString(),
+          },
+          new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "displayFunc",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Instance inner = instance.PrimaryValueInstance;
+              
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "displayFunc: () =>");
+                generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
+                generator.WriteLine(indent, ",");
+              });
+            },
+          },
+        },
+      },
+      #endregion
+
       #region Table
       new PlatformClassDef() {
         LogicalName = "Table",
@@ -499,6 +541,10 @@ namespace x10.gen.react.library {
           new PlatformAttributeByFunc() {
             PlatformName = "id",
             Function = (instance) => instance.FindValue("label")?.ToString(),
+          },
+          new JavaScriptAttributeDynamic("label", "Header"),
+          new JavaScriptAttributeDynamic("width", "width") {
+            DefaultValue = 140,
           },
           new JavaScriptAttributeByFunc() {
             PlatformName = "accessor",
@@ -535,15 +581,6 @@ namespace x10.gen.react.library {
                 generator.WriteLine(indent, ",");
               });
             },
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "Header",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "width",
-            PlatformName = "width",
-            DefaultValue = 140,
           },
         },
       },

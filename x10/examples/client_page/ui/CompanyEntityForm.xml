@@ -7,20 +7,31 @@
     <stateOfBusinessRegistration/>
     <usTaxId/>
 
-    <VerticalStackPanel path="mailingAddress">
-      <Text>Mailing Address</Text>
-      <HorizontalDivider/>
-      <theAddress/>
-      <theAddress2/>
-      <Row>
-        <country label="Country/Region"/>
-        <stateOrProvince/>
-      </Row>
-      <Row>
-        <city label="City/Town"/>
-        <postalCode/>
-      </Row>
-    </VerticalStackPanel>
+    <TabbedPane>
+      <Tab label="Address">
+        <VerticalStackPanel path="mailingAddress">
+          <Text>Mailing Address</Text>
+          <HorizontalDivider/>
+          <theAddress/>
+          <theAddress2/>
+          <Row>
+            <country label="Country/Region"/>
+            <stateOrProvince/>
+          </Row>
+          <Row>
+            <city label="City/Town"/>
+            <postalCode/>
+          </Row>
+        </VerticalStackPanel>
+      </Tab>
+      <Tab label="Tax Information">
+        <VerticalStackPanel>
+          <usFccNumber/>
+          <eoriNumber/>
+          <usciNumber/>
+        </VerticalStackPanel>
+      </Tab>
+    </TabbedPane>
 
     <SubmitButton label="Save"/>
   </Form>

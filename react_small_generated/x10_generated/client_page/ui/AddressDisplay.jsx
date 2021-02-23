@@ -69,6 +69,7 @@ export default createFragmentContainer(AddressDisplay, {
       city
       country {
         id
+        toStringRepresentation
         name
       }
       postalCode

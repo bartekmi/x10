@@ -38,17 +38,19 @@ function Clients(props: Props): React.Node {
           [
             {
               id: 'Legal Name',
+              Header: 'Legal Name',
+              width: 140,
               accessor: (data) => data?.company?.primaryEntity?.legalName,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Legal Name',
-              width: 140,
             },
             {
               id: 'Status',
+              Header: 'Status',
+              width: 140,
               accessor: (data) => data?.status,
               Cell: ({ value }) =>
                 <EnumDisplay
@@ -56,11 +58,11 @@ function Clients(props: Props): React.Node {
                   options={ ClientStatusEnumPairs }
                 />
               ,
-              Header: 'Status',
-              width: 140,
             },
             {
               id: 'Segment',
+              Header: 'Segment',
+              width: 140,
               accessor: (data) => data?.segment,
               Cell: ({ value }) =>
                 <EnumDisplay
@@ -68,11 +70,11 @@ function Clients(props: Props): React.Node {
                   options={ ClientSegmentEnumPairs }
                 />
               ,
-              Header: 'Segment',
-              width: 140,
             },
             {
               id: 'Primary Shipment Role',
+              Header: 'Primary Shipment Role',
+              width: 140,
               accessor: (data) => data?.primaryShipmentRole,
               Cell: ({ value }) =>
                 <EnumDisplay
@@ -80,11 +82,11 @@ function Clients(props: Props): React.Node {
                   options={ ClientPrimaryShipmentRoleEnumPairs }
                 />
               ,
-              Header: 'Primary Shipment Role',
-              width: 140,
             },
             {
               id: 'Action',
+              Header: 'Action',
+              width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Group>
@@ -94,8 +96,6 @@ function Clients(props: Props): React.Node {
                   />
                 </Group>
               ,
-              Header: 'Action',
-              width: 140,
             },
           ]
         }

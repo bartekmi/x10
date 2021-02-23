@@ -12,7 +12,7 @@ import isBlank from 'react_lib/utils/isBlank';
 export type VatNumber = {
   +id: string,
   +number: string,
-  +countryRegion: ?string,
+  +countryRegion: ?{ id: string },
 };
 
 

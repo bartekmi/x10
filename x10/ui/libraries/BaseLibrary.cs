@@ -597,6 +597,43 @@ namespace x10.ui.libraries {
       },
       #endregion
 
+      #region Tabbed Pane
+      new ClassDefNative() {
+        Name = "TabbedPane",
+        Description = "A component with labelled, user-selectable tabs that each show different content.",
+        ComponentDataModel = Entity.Object,
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            IsPrimary = true,
+            Name = "Tabs",
+            Description = "Definitions of the tabs",
+            IsMany = true,
+            IsMandatory = true,
+            ComplexAttributeTypeName = "Tab",
+          },
+        },
+      },
+      new ClassDefNative() {
+        Name = "Tab",
+        Description = "Defines a tab of a <TabbedPane>.",
+        InheritsFrom = ClassDefNative.Object,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionComplex() {
+            IsPrimary = true,
+            Name = "Content",
+            Description = "The visual content of the tab",
+            ComplexAttributeType = ClassDefNative.Visual,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "label",
+            Description = "Human-readable tab label.",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
+      },
+      #endregion
+
       #region Table
       new ClassDefNative() {
         Name = "Table",

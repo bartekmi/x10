@@ -13,7 +13,7 @@ export type CompanyEntityCountryService = {
   +id: string,
   +importCustoms: boolean,
   +exportCustoms: boolean,
-  +country: ?string,
+  +country: ?{ id: string },
 };
 
 

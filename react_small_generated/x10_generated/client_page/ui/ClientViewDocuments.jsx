@@ -32,6 +32,8 @@ function ClientViewDocuments(props: Props): React.Node {
         [
           {
             id: 'Name',
+            Header: 'Name',
+            width: 140,
             accessor: (data) => data,
             Cell: ({ value }) =>
               <Group
@@ -50,30 +52,28 @@ function ClientViewDocuments(props: Props): React.Node {
                 />
               </Group>
             ,
-            Header: 'Name',
-            width: 140,
           },
           {
             id: 'Uploaded By',
+            Header: 'Uploaded By',
+            width: 140,
             accessor: (data) => userName(data?.uploadedBy),
             Cell: ({ value }) =>
               <TextDisplay
                 value={ value }
               />
             ,
-            Header: 'Uploaded By',
-            width: 140,
           },
           {
             id: 'Uploaded',
+            Header: 'Uploaded',
+            width: 140,
             accessor: (data) => data?.uploadedTimestamp,
             Cell: ({ value }) =>
               <TimestampDisplay
                 value={ value }
               />
             ,
-            Header: 'Uploaded',
-            width: 140,
           },
         ]
       }
@@ -93,6 +93,7 @@ export default createFragmentContainer(ClientViewDocuments, {
         name
         uploadedBy {
           id
+          toStringRepresentation
           firstName
           lastName
         }

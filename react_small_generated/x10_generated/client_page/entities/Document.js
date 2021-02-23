@@ -15,7 +15,7 @@ export type Document = {
   +fileName: string,
   +documentType: ?DocumentTypeEnum,
   +uploadedTimestamp: ?string,
-  +uploadedBy: ?string,
+  +uploadedBy: ?{ id: string },
 };
 
 

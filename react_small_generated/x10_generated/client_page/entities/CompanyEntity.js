@@ -40,11 +40,11 @@ export type CompanyEntity = {
   +mailingAddress: Address,
   +physicalAddress: Address,
   +vatNumbers: $ReadOnlyArray<VatNumber>,
-  +netsuiteVendorId: ?string,
+  +netsuiteVendorId: ?{ id: string },
   +ctpatReview: CtpatReview,
   +documents: $ReadOnlyArray<Document>,
-  +countryOfBusinessRegistration: ?string,
-  +invoiceCurrencyDefault: ?string,
+  +countryOfBusinessRegistration: ?{ id: string },
+  +invoiceCurrencyDefault: ?{ id: string },
 };
 
 
