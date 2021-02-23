@@ -6,9 +6,11 @@ attributes:
   - name: number
     dataType: String
     mandatory: true
+    datagen_pattern: (~LLDDDDDLDL~ | ~NDDDDDD-DD~ | ~NDDLL-LL-NNN~)
 
 associations:
   - name: countryRegion
     dataType: Country
     mandatory: true
     owns: false
+    label: Country / Region

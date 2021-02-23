@@ -46,6 +46,12 @@
           <usFccNumber/>
           <eoriNumber/>
           <usciNumber/>
+          <List addItemLabel="Add Country" path="vatNumbers">
+            <Row>
+              <countryRegion/>
+              <number/>
+            </Row>
+          </List>
         </VerticalStackPanel>
       </Tab>
       <Tab label="Identifiers">

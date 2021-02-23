@@ -15,6 +15,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
+import MultiStacker from 'react_lib/multi/MultiStacker';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import TabbedPane from 'react_lib/tab/TabbedPane';
@@ -23,6 +24,7 @@ import VisibilityControl from 'react_lib/VisibilityControl';
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { createDefaultCtpatReview } from 'client_page/entities/CtpatReview';
+import { createDefaultVatNumber } from 'client_page/entities/VatNumber';
 
 
 
@@ -368,6 +370,42 @@ function CompanyEntityForm(props: Props): React.Node {
                       } }
                     />
                   </FormField>
+                  <MultiStacker
+                    items={ companyEntity.vatNumbers }
+                    onChange={ (value) => {
+                      onChange({ ...companyEntity, vatNumbers: value })
+                    } }
+                    itemDisplayFunc={ (data, onChange) => (
+                      <Group>
+                        <FormField
+                          editorFor='countryRegion'
+                          label='Country / Region'
+                        >
+                          <AssociationEditor
+                            id={ data.countryRegion?.id }
+                            onChange={ (value) => {
+                              onChange({ ...data, countryRegion: value == null ? null : { id: value } })
+                            } }
+                            isNullable={ false }
+                            query={ countriesQuery }
+                            toString={ x => x.toStringRepresentation }
+                          />
+                        </FormField>
+                        <FormField
+                          editorFor='number'
+                          label='Number'
+                        >
+                          <TextInput
+                            value={ data.number }
+                            onChange={ (value) => {
+                              onChange({ ...data, number: value })
+                            } }
+                          />
+                        </FormField>
+                      </Group>
+                    ) }
+                    addNewItem={ createDefaultVatNumber }
+                  />
                 </Group>
               ,
             },
@@ -556,6 +594,14 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
       usciNumber
       usFccNumber
       usTaxId
+      vatNumbers {
+        id
+        countryRegion {
+          id
+          toStringRepresentation
+        }
+        number
+      }
       vendorCategory
     }
   `,
