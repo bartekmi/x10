@@ -76,6 +76,16 @@ namespace x10.gen.sql.parser {
 
       while (true) {
         char? next = tokenizer.Peek();
+
+        // Any char following a backslash is taken as literal
+        if (next != null && next.Value == '\\') {
+          tokenizer.Next();
+          if (!tokenizer.HasMore)
+            break;
+          text.Add(tokenizer.Next());
+          continue;
+        }
+
         if (next == null || next.Value == '|' || next.Value == ')')
           break;
 

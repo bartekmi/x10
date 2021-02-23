@@ -28,6 +28,11 @@ namespace x10.gen.sql.parser {
     }
 
     [Fact]
+    public void ParseTextWithEscapedChars() {
+      RunTest("\\(\\)", "()");
+    }
+
+    [Fact]
     public void ParseConcatWithDelimiters() {
       RunTest("Start *LL.DD* Middle <noun> End");
     }
