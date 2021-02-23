@@ -125,8 +125,8 @@ namespace x10.gen.sql {
             messages.AddError(scalarNode, "Probability most be between 0.0 and 1.0 inclusive.");
 
           if (modelComponent is Association assoc)
-            if (assoc.IsMandatory || assoc.IsMandatory || !assoc.Owns)
-              messages.AddError(scalarNode, "Probability can only be applied to Single, Non-Mandatory, Owned Associations.");
+            if (assoc.IsMany || assoc.IsMandatory)
+              messages.AddError(scalarNode, "Probability can only be applied to Single, Non-Mandatory Associations.");
         }
       },
     };

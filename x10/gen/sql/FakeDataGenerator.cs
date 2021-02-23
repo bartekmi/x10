@@ -237,7 +237,7 @@ namespace x10.gen.sql {
           else if (assoc?.Owns == true) {
             // Do nothing
           } else if (assoc?.Owns == false) {
-              row.Values.Add(CreateNonOwnedAssociationValue(assoc));
+            row.Values.Add(CreateNonOwnedAssociationValue(assoc));
           } else
             throw new Exception("Member is unexpected: " + memberAndOwner.Member);
         } else {
@@ -266,10 +266,14 @@ namespace x10.gen.sql {
       Entity entity = association.ReferencedEntity;
       GenerateForEntity(entity);
 
-      int? value = EntityInfos[entity].RandomExistingId(_random, association);
-      if (association.IsMandatory && value == null)
-        _messages.AddError(association.TreeElement, "Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
-          association, entity.Name, DataGenLibrary.QUANTITY);
+      int? value = null;
+
+      if (ShouldCreateBasedOnProbability(association)) {
+        value = EntityInfos[entity].RandomExistingId(_random, association);
+        if (association.IsMandatory && value == null)
+          _messages.AddError(association.TreeElement, "Association {0} is mandatory, but Entity {1} does not specify '{2}' attribute for data generation",
+            association, entity.Name, DataGenLibrary.QUANTITY);
+      }
 
       return new MemberAndValue() {
         Member = association,
@@ -295,14 +299,20 @@ namespace x10.gen.sql {
       if (association.IsMany) {
         SqlRange range = association.FindValue<SqlRange>(DataGenLibrary.QUANTITY) ?? DEFAULT_ASSOCIATION_RANGE;
         return range.GetRandom(_random);
-      } else {
-        object probabilityObj = association.FindValue(DataGenLibrary.PROBABILITY);
-        if (association.IsMandatory || probabilityObj == null)
-          return 1;
+      } else
+        return ShouldCreateBasedOnProbability(association) ? 1 : 0;
+    }
 
-        double probability = (double)probabilityObj;
-        return _random.NextDouble() < probability ? 1 : 0;
-      }
+    private bool ShouldCreateBasedOnProbability(Member member) {
+      if (member.IsMandatory)
+        return true;
+
+      object probabilityObj = member.FindValue(DataGenLibrary.PROBABILITY);
+      if (probabilityObj == null)
+        return true;  // Default is to create
+
+      double probability = (double)probabilityObj;
+      return _random.NextDouble() < probability;
     }
 
     private int GetCount(Entity entity) {
@@ -312,7 +322,7 @@ namespace x10.gen.sql {
           return context.ExternalDataFiles.Single().Count;
         return 0;
       }
-        
+
       return TestingReducedNumberOfRows ?? quantity;
     }
     #endregion

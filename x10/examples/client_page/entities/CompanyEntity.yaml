@@ -114,6 +114,7 @@ associations:
   - name: netsuiteVendorId
     dataType: NetsuiteVendor
     owns: false
+    datagen_probability: 0.3
 
   - name: ctpatReview
     dataType: CtpatReview
