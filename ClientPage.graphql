@@ -69,6 +69,10 @@ type CompanyEntity {
   usciNumber: String!
   agentIataCode: String!
   hkRaNumber: String!
+  hkspFlexport: HkspFlexportEnum
+  hkspKnownConsignorNumber: String!
+  hkspStatusExpirationDate: DateTime
+  hkspKcResponsiblePerson: String!
   vendorCategory: VendorCategoryEnum
   toStringRepresentation: String!
   mailingAddress: Address!
@@ -79,6 +83,7 @@ type CompanyEntity {
   documents: [Document!]!
   countryOfBusinessRegistration: Country
   invoiceCurrencyDefault: Currency
+  hkspPartners: [HkspPartnerUse!]!
   id: String!
   hashcode: Int!
 }
@@ -146,15 +151,37 @@ type Document {
   hashcode: Int!
 }
 
+"Our partner in the HK Security Program"
+type HkspPartner {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Our partner in the HK Security Program"
+type HkspPartnerUse {
+  kcNumber: String!
+  expirationDate: DateTime!
+  toStringRepresentation: String!
+  partner: HkspPartner!
+  id: String!
+  hashcode: Int!
+}
+
 type Mutation {
   "Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id"
   createOrUpdateNetsuiteVendor(netsuiteVendor: NetsuiteVendorInput!): String!
+  "Creates a new HkspPartner or updates an existing one, depending on the value of hkspPartner.id"
+  createOrUpdateHkspPartner(hkspPartner: HkspPartnerInput!): String!
   "Creates a new Company or updates an existing one, depending on the value of company.id"
   createOrUpdateCompany(company: CompanyInput!): String!
   "Creates a new StateOrProvince or updates an existing one, depending on the value of stateOrProvince.id"
   createOrUpdateStateOrProvince(stateOrProvince: StateOrProvinceInput!): String!
   "Creates a new CtpatReview or updates an existing one, depending on the value of ctpatReview.id"
   createOrUpdateCtpatReview(ctpatReview: CtpatReviewInput!): String!
+  "Creates a new HkspPartnerUse or updates an existing one, depending on the value of hkspPartnerUse.id"
+  createOrUpdateHkspPartnerUse(hkspPartnerUse: HkspPartnerUseInput!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
   createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
   "Creates a new Currency or updates an existing one, depending on the value of currency.id"
@@ -190,6 +217,10 @@ type Query {
   netsuiteVendor("The id of the NetsuiteVendor." id: String!): NetsuiteVendor!
   "Gets all NetsuiteVendors.\n\n\n**Returns:**\nAll NetsuiteVendors."
   netsuiteVendors(where: NetsuiteVendorFilter order_by: NetsuiteVendorSort): [NetsuiteVendor!]!
+  "Retrieve a HkspPartner by id\n\n\n**Returns:**\nThe HkspPartner."
+  hkspPartner("The id of the HkspPartner." id: String!): HkspPartner!
+  "Gets all HkspPartners.\n\n\n**Returns:**\nAll HkspPartners."
+  hkspPartners(where: HkspPartnerFilter order_by: HkspPartnerSort): [HkspPartner!]!
   "Retrieve a Company by id\n\n\n**Returns:**\nThe Company."
   company("The id of the Company." id: String!): Company!
   "Gets all Companies.\n\n\n**Returns:**\nAll Companies."
@@ -202,6 +233,10 @@ type Query {
   ctpatReview("The id of the CtpatReview." id: String!): CtpatReview!
   "Gets all CtpatReviews.\n\n\n**Returns:**\nAll CtpatReviews."
   ctpatReviews(where: CtpatReviewFilter order_by: CtpatReviewSort): [CtpatReview!]!
+  "Retrieve a HkspPartnerUse by id\n\n\n**Returns:**\nThe HkspPartnerUse."
+  hkspPartnerUse("The id of the HkspPartnerUse." id: String!): HkspPartnerUse!
+  "Gets all HkspPartnerUses.\n\n\n**Returns:**\nAll HkspPartnerUses."
+  hkspPartnerUses(where: HkspPartnerUseFilter order_by: HkspPartnerUseSort): [HkspPartnerUse!]!
   "Retrieve a CompanyEntity by id\n\n\n**Returns:**\nThe CompanyEntity."
   companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
   "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
@@ -801,6 +836,50 @@ input CompanyEntityFilter {
   hkRaNumber_not_ends_with: String
   hkRaNumber_in: [String!]
   hkRaNumber_not_in: [String!]
+  hkspFlexport: HkspFlexportEnum
+  hkspFlexport_not: HkspFlexportEnum
+  hkspFlexport_in: [HkspFlexportEnum]
+  hkspFlexport_not_in: [HkspFlexportEnum]
+  hkspFlexport_gt: HkspFlexportEnum
+  hkspFlexport_not_gt: HkspFlexportEnum
+  hkspFlexport_gte: HkspFlexportEnum
+  hkspFlexport_not_gte: HkspFlexportEnum
+  hkspFlexport_lt: HkspFlexportEnum
+  hkspFlexport_not_lt: HkspFlexportEnum
+  hkspFlexport_lte: HkspFlexportEnum
+  hkspFlexport_not_lte: HkspFlexportEnum
+  hkspKnownConsignorNumber: String
+  hkspKnownConsignorNumber_not: String
+  hkspKnownConsignorNumber_contains: String
+  hkspKnownConsignorNumber_not_contains: String
+  hkspKnownConsignorNumber_starts_with: String
+  hkspKnownConsignorNumber_not_starts_with: String
+  hkspKnownConsignorNumber_ends_with: String
+  hkspKnownConsignorNumber_not_ends_with: String
+  hkspKnownConsignorNumber_in: [String!]
+  hkspKnownConsignorNumber_not_in: [String!]
+  hkspStatusExpirationDate: DateTime
+  hkspStatusExpirationDate_not: DateTime
+  hkspStatusExpirationDate_in: [DateTime]
+  hkspStatusExpirationDate_not_in: [DateTime]
+  hkspStatusExpirationDate_gt: DateTime
+  hkspStatusExpirationDate_not_gt: DateTime
+  hkspStatusExpirationDate_gte: DateTime
+  hkspStatusExpirationDate_not_gte: DateTime
+  hkspStatusExpirationDate_lt: DateTime
+  hkspStatusExpirationDate_not_lt: DateTime
+  hkspStatusExpirationDate_lte: DateTime
+  hkspStatusExpirationDate_not_lte: DateTime
+  hkspKcResponsiblePerson: String
+  hkspKcResponsiblePerson_not: String
+  hkspKcResponsiblePerson_contains: String
+  hkspKcResponsiblePerson_not_contains: String
+  hkspKcResponsiblePerson_starts_with: String
+  hkspKcResponsiblePerson_not_starts_with: String
+  hkspKcResponsiblePerson_ends_with: String
+  hkspKcResponsiblePerson_not_ends_with: String
+  hkspKcResponsiblePerson_in: [String!]
+  hkspKcResponsiblePerson_not_in: [String!]
   vendorCategory: VendorCategoryEnum
   vendorCategory_not: VendorCategoryEnum
   vendorCategory_in: [VendorCategoryEnum]
@@ -837,6 +916,10 @@ input CompanyEntityFilter {
   documents_any: Boolean
   countryOfBusinessRegistration: CountryFilter
   invoiceCurrencyDefault: CurrencyFilter
+  hkspPartners_some: HkspPartnerUseFilter
+  hkspPartners_none: HkspPartnerUseFilter
+  hkspPartners_all: HkspPartnerUseFilter
+  hkspPartners_any: Boolean
   id: String
   id_not: String
   id_contains: String
@@ -883,6 +966,10 @@ input CompanyEntityInput {
   usciNumber: String!
   agentIataCode: String!
   hkRaNumber: String!
+  hkspFlexport: HkspFlexportEnum
+  hkspKnownConsignorNumber: String!
+  hkspStatusExpirationDate: DateTime
+  hkspKcResponsiblePerson: String!
   vendorCategory: VendorCategoryEnum
   toStringRepresentation: String!
   mailingAddress: AddressInput!
@@ -893,6 +980,7 @@ input CompanyEntityInput {
   documents: [DocumentInput!]!
   countryOfBusinessRegistration: CountryInput
   invoiceCurrencyDefault: CurrencyInput
+  hkspPartners: [HkspPartnerUseInput!]!
   id: String!
   hashcode: Int!
 }
@@ -919,6 +1007,10 @@ input CompanyEntitySort {
   usciNumber: SortOperationKind
   agentIataCode: SortOperationKind
   hkRaNumber: SortOperationKind
+  hkspFlexport: SortOperationKind
+  hkspKnownConsignorNumber: SortOperationKind
+  hkspStatusExpirationDate: SortOperationKind
+  hkspKcResponsiblePerson: SortOperationKind
   vendorCategory: SortOperationKind
   toStringRepresentation: SortOperationKind
   mailingAddress: AddressSort
@@ -1471,6 +1563,151 @@ input DocumentSort {
   hashcode: SortOperationKind
 }
 
+"Our partner in the HK Security Program"
+input HkspPartnerFilter {
+  AND: [HkspPartnerFilter!]
+  OR: [HkspPartnerFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Our partner in the HK Security Program"
+input HkspPartnerInput {
+  name: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Our partner in the HK Security Program"
+input HkspPartnerSort {
+  name: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Our partner in the HK Security Program"
+input HkspPartnerUseFilter {
+  AND: [HkspPartnerUseFilter!]
+  OR: [HkspPartnerUseFilter!]
+  kcNumber: String
+  kcNumber_not: String
+  kcNumber_contains: String
+  kcNumber_not_contains: String
+  kcNumber_starts_with: String
+  kcNumber_not_starts_with: String
+  kcNumber_ends_with: String
+  kcNumber_not_ends_with: String
+  kcNumber_in: [String!]
+  kcNumber_not_in: [String!]
+  expirationDate: DateTime
+  expirationDate_not: DateTime
+  expirationDate_in: [DateTime!]
+  expirationDate_not_in: [DateTime!]
+  expirationDate_gt: DateTime
+  expirationDate_not_gt: DateTime
+  expirationDate_gte: DateTime
+  expirationDate_not_gte: DateTime
+  expirationDate_lt: DateTime
+  expirationDate_not_lt: DateTime
+  expirationDate_lte: DateTime
+  expirationDate_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  partner: HkspPartnerFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Our partner in the HK Security Program"
+input HkspPartnerUseInput {
+  kcNumber: String!
+  expirationDate: DateTime!
+  toStringRepresentation: String!
+  partner: HkspPartnerInput!
+  id: String!
+  hashcode: Int!
+}
+
+"Our partner in the HK Security Program"
+input HkspPartnerUseSort {
+  kcNumber: SortOperationKind
+  expirationDate: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  partner: HkspPartnerSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "A reference to an entity in Netsuite"
 input NetsuiteVendorFilter {
   AND: [NetsuiteVendorFilter!]
@@ -1819,6 +2056,12 @@ enum DocumentTypeEnum {
   BUSINESS_REGISTRATION
   POWER_OF_ATTORNEY
   ETC
+}
+
+enum HkspFlexportEnum {
+  KNOWN_CONSIGNOR
+  ACCCOUNT_CONSIGNOR
+  UNKNOWN
 }
 
 enum SortOperationKind {
