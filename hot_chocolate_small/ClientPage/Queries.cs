@@ -35,6 +35,30 @@ namespace x10.hotchoc.ClientPage {
           repository.GetNetsuiteVendors();
     #endregion
 
+    #region HkspPartner
+    /// <summary>
+    /// Retrieve a HkspPartner by id
+    /// </summary>
+    /// <param name="id">The id of the HkspPartner.</param>
+    /// <param name="repository"></param>
+    /// <returns>The HkspPartner.</returns>
+    public HkspPartner GetHkspPartner(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetHkspPartner(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all HkspPartners.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All HkspPartners.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<HkspPartner> GetHkspPartners(
+        [Service] IRepository repository) =>
+          repository.GetHkspPartners();
+    #endregion
+
     #region Company
     /// <summary>
     /// Retrieve a Company by id
@@ -105,6 +129,30 @@ namespace x10.hotchoc.ClientPage {
     public IEnumerable<CtpatReview> GetCtpatReviews(
         [Service] IRepository repository) =>
           repository.GetCtpatReviews();
+    #endregion
+
+    #region HkspPartnerUse
+    /// <summary>
+    /// Retrieve a HkspPartnerUse by id
+    /// </summary>
+    /// <param name="id">The id of the HkspPartnerUse.</param>
+    /// <param name="repository"></param>
+    /// <returns>The HkspPartnerUse.</returns>
+    public HkspPartnerUse GetHkspPartnerUse(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetHkspPartnerUse(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all HkspPartnerUses.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All HkspPartnerUses.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<HkspPartnerUse> GetHkspPartnerUses(
+        [Service] IRepository repository) =>
+          repository.GetHkspPartnerUses();
     #endregion
 
     #region CompanyEntity

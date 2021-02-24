@@ -25,6 +25,19 @@ namespace x10.hotchoc.ClientPage {
     }
     #endregion
 
+    #region HkspPartner
+    /// <summary>
+    /// Creates a new HkspPartner or updates an existing one, depending on the value of hkspPartner.id
+    /// </summary>
+    public string CreateOrUpdateHkspPartner(
+      HkspPartner hkspPartner,
+      [Service] IRepository repository) {
+        hkspPartner.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateHkspPartner(IdUtils.FromRelayId(hkspPartner.Id), hkspPartner);
+        return IdUtils.ToRelayId<HkspPartner>(dbid);
+    }
+    #endregion
+
     #region Company
     /// <summary>
     /// Creates a new Company or updates an existing one, depending on the value of company.id
@@ -61,6 +74,19 @@ namespace x10.hotchoc.ClientPage {
         ctpatReview.SetNonOwnedAssociations(repository);
         int dbid = repository.AddOrUpdateCtpatReview(IdUtils.FromRelayId(ctpatReview.Id), ctpatReview);
         return IdUtils.ToRelayId<CtpatReview>(dbid);
+    }
+    #endregion
+
+    #region HkspPartnerUse
+    /// <summary>
+    /// Creates a new HkspPartnerUse or updates an existing one, depending on the value of hkspPartnerUse.id
+    /// </summary>
+    public string CreateOrUpdateHkspPartnerUse(
+      HkspPartnerUse hkspPartnerUse,
+      [Service] IRepository repository) {
+        hkspPartnerUse.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateHkspPartnerUse(IdUtils.FromRelayId(hkspPartnerUse.Id), hkspPartnerUse);
+        return IdUtils.ToRelayId<HkspPartnerUse>(dbid);
     }
     #endregion
 

@@ -28,6 +28,12 @@ namespace x10.hotchoc.ClientPage.Entities {
     PassthroughApproved,
   }
 
+  public enum HkspFlexportEnum {
+    KnownConsignor,
+    AcccountConsignor,
+    Unknown,
+  }
+
 
   /// <summary>
   /// A legal entity - typically a corporation - which belongs to a [Company]
@@ -73,6 +79,12 @@ namespace x10.hotchoc.ClientPage.Entities {
     public string? AgentIataCode { get; set; }
     [GraphQLNonNullType]
     public string? HkRaNumber { get; set; }
+    public HkspFlexportEnum? HkspFlexport { get; set; }
+    [GraphQLNonNullType]
+    public string? HkspKnownConsignorNumber { get; set; }
+    public DateTime? HkspStatusExpirationDate { get; set; }
+    [GraphQLNonNullType]
+    public string? HkspKcResponsiblePerson { get; set; }
     public VendorCategoryEnum? VendorCategory { get; set; }
 
     // To String Representation
@@ -94,6 +106,8 @@ namespace x10.hotchoc.ClientPage.Entities {
     public List<Document>? Documents { get; set; }
     public Country? CountryOfBusinessRegistration { get; set; }
     public Currency? InvoiceCurrencyDefault { get; set; }
+    [GraphQLNonNullType]
+    public List<HkspPartnerUse>? HkspPartners { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
@@ -102,6 +116,7 @@ namespace x10.hotchoc.ClientPage.Entities {
       VatNumbers?.ForEach(x => x.EnsureUniqueDbid());
       CtpatReview?.EnsureUniqueDbid();
       Documents?.ForEach(x => x.EnsureUniqueDbid());
+      HkspPartners?.ForEach(x => x.EnsureUniqueDbid());
     }
 
     internal override void SetNonOwnedAssociations(IRepository repository) {
@@ -127,6 +142,9 @@ namespace x10.hotchoc.ClientPage.Entities {
 
       int? invoiceCurrencyDefault = IdUtils.FromRelayId(InvoiceCurrencyDefault?.Id);
       InvoiceCurrencyDefault = invoiceCurrencyDefault == null ? null : repository.GetCurrency(invoiceCurrencyDefault.Value);
+
+      foreach (HkspPartnerUse hkspPartners in HkspPartners)
+        hkspPartners.SetNonOwnedAssociations(repository);
     }
   }
 }

@@ -41,6 +41,7 @@
           </VerticalStackPanel>
         </VerticalStackPanel>
       </Tab>
+
       <Tab label="Tax Information">
         <VerticalStackPanel>
           <usFccNumber/>
@@ -54,17 +55,35 @@
           </List>
         </VerticalStackPanel>
       </Tab>
+
       <Tab label="Identifiers">
         <VerticalStackPanel>
           <agentIataCode/>
           <hkRaNumber/>
+          <Heading3 text="HK Security Program Status"/>
+          <hkspFlexport/>
+          <Row>
+            <hkspKnownConsignorNumber/>
+            <hkspStatusExpirationDate/>
+            <hkspKcResponsiblePerson/>
+          </Row>
+          <Text>Partners</Text>
+          <List path="hkspPartners">
+            <Row>
+              <partner/>
+              <kcNumber/>
+              <expirationDate/>
+            </Row>
+          </List>
         </VerticalStackPanel>
       </Tab>
+
       <Tab label="Compliance">
         <VerticalStackPanel>
           <Text>Wants to use Flexport Service:</Text>
         </VerticalStackPanel>
       </Tab>
+
       <Tab label="Billing">
         <VerticalStackPanel>
           <netsuiteVendorId/>

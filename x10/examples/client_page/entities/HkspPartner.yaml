@@ -1,0 +1,11 @@
+name: HkspPartner
+inheritsFrom: Base
+description: Our partner in the HK Security Program
+datagen_quantity: 20
+
+attributes:
+  - name: name
+    dataType: String
+    mandatory: true
+    datagen_pattern: <noun> (Shipping | Line | Warhehousing | Freight | Logistics)
+

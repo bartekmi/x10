@@ -131,6 +131,9 @@ namespace x10.ui.metadata {
     }
 
     private ClassDef FindUiComponentForDataType(X10Attribute attribute, UseMode mode) {
+      if (attribute.DataType == null)
+        return null;
+        
       ClassDef uiComponent = null;
 
       switch (mode) {

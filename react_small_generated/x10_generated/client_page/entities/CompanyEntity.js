@@ -10,6 +10,7 @@ import isBlank from 'react_lib/utils/isBlank';
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'client_page/entities/Address';
 import { createDefaultCtpatReview, ctpatReviewCalculateErrors, type CtpatReview } from 'client_page/entities/CtpatReview';
 import { type Document } from 'client_page/entities/Document';
+import { type HkspPartnerUse } from 'client_page/entities/HkspPartnerUse';
 import { type VatNumber } from 'client_page/entities/VatNumber';
 
 
@@ -36,6 +37,10 @@ export type CompanyEntity = {
   +usciNumber: string,
   +agentIataCode: string,
   +hkRaNumber: string,
+  +hkspFlexport: ?HkspFlexportEnum,
+  +hkspKnownConsignorNumber: string,
+  +hkspStatusExpirationDate: ?string,
+  +hkspKcResponsiblePerson: string,
   +vendorCategory: ?VendorCategoryEnum,
   +mailingAddress: Address,
   +physicalAddress: Address,
@@ -45,6 +50,7 @@ export type CompanyEntity = {
   +documents: $ReadOnlyArray<Document>,
   +countryOfBusinessRegistration: ?{ id: string },
   +invoiceCurrencyDefault: ?{ id: string },
+  +hkspPartners: $ReadOnlyArray<HkspPartnerUse>,
 };
 
 
@@ -119,6 +125,23 @@ export const VendorCategoryEnumPairs = [
 
 export type VendorCategoryEnum = 'UNASSIGNED' | 'FREIGHT_UNAPPROVED' | 'FREIGHT_APPROVED' | 'ARRIVAL_NOTICE' | 'ARRIVAL_NOTICE_TERMS' | 'PASSTHROUGH_APPROVED';
 
+export const HkspFlexportEnumPairs = [
+  {
+    value: 'KNOWN_CONSIGNOR',
+    label: 'Known Consignor',
+  },
+  {
+    value: 'ACCCOUNT_CONSIGNOR',
+    label: 'Acccount Consignor',
+  },
+  {
+    value: 'UNKNOWN',
+    label: 'Unknown',
+  },
+];
+
+export type HkspFlexportEnum = 'KNOWN_CONSIGNOR' | 'ACCCOUNT_CONSIGNOR' | 'UNKNOWN';
+
 
 
 // Derived Attribute Functions
@@ -156,6 +179,10 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     usciNumber: '',
     agentIataCode: '',
     hkRaNumber: '',
+    hkspFlexport: null,
+    hkspKnownConsignorNumber: '',
+    hkspStatusExpirationDate: null,
+    hkspKcResponsiblePerson: '',
     vendorCategory: null,
     mailingAddress: createDefaultAddress(),
     physicalAddress: createDefaultAddress(),
@@ -165,6 +192,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     documents: [],
     countryOfBusinessRegistration: null,
     invoiceCurrencyDefault: null,
+    hkspPartners: [],
   };
 }
 

@@ -7,12 +7,14 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
+import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import MultiStacker from 'react_lib/multi/MultiStacker';
@@ -22,8 +24,9 @@ import TabbedPane from 'react_lib/tab/TabbedPane';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
-import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, HkspFlexportEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { createDefaultCtpatReview } from 'client_page/entities/CtpatReview';
+import { createDefaultHkspPartnerUse } from 'client_page/entities/HkspPartnerUse';
 import { createDefaultVatNumber } from 'client_page/entities/VatNumber';
 
 
@@ -438,6 +441,107 @@ function CompanyEntityForm(props: Props): React.Node {
                       } }
                     />
                   </FormField>
+                  <Text
+                    scale='title'
+                    children='HK Security Program Status'
+                  />
+                  <FormField
+                    editorFor='hkspFlexport'
+                    label='Flexport'
+                  >
+                    <SelectInput
+                      value={ companyEntity.hkspFlexport }
+                      onChange={ (value) => {
+                        onChange({ ...companyEntity, hkspFlexport: value })
+                      } }
+                      options={ HkspFlexportEnumPairs }
+                    />
+                  </FormField>
+                  <Group>
+                    <FormField
+                      editorFor='hkspKnownConsignorNumber'
+                      label='Known Consignor Number'
+                    >
+                      <TextInput
+                        value={ companyEntity.hkspKnownConsignorNumber }
+                        onChange={ (value) => {
+                          onChange({ ...companyEntity, hkspKnownConsignorNumber: value })
+                        } }
+                      />
+                    </FormField>
+                    <FormField
+                      editorFor='hkspStatusExpirationDate'
+                      label='Status Expiration Date'
+                    >
+                      <CalendarDateInput
+                        value={ companyEntity.hkspStatusExpirationDate }
+                        onChange={ (value) => {
+                          onChange({ ...companyEntity, hkspStatusExpirationDate: value })
+                        } }
+                      />
+                    </FormField>
+                    <FormField
+                      editorFor='hkspKcResponsiblePerson'
+                      label='KC Responsible Person'
+                    >
+                      <TextInput
+                        value={ companyEntity.hkspKcResponsiblePerson }
+                        onChange={ (value) => {
+                          onChange({ ...companyEntity, hkspKcResponsiblePerson: value })
+                        } }
+                      />
+                    </FormField>
+                  </Group>
+                  <TextDisplay
+                    value='Partners'
+                  />
+                  <MultiStacker
+                    items={ companyEntity.hkspPartners }
+                    onChange={ (value) => {
+                      onChange({ ...companyEntity, hkspPartners: value })
+                    } }
+                    itemDisplayFunc={ (data, onChange) => (
+                      <Group>
+                        <FormField
+                          editorFor='partner'
+                          label='Partner'
+                        >
+                          <AssociationEditor
+                            id={ data.partner?.id }
+                            onChange={ (value) => {
+                              onChange({ ...data, partner: value == null ? null : { id: value } })
+                            } }
+                            isNullable={ false }
+                            query={ hkspPartnersQuery }
+                            toString={ x => x.toStringRepresentation }
+                          />
+                        </FormField>
+                        <FormField
+                          editorFor='kcNumber'
+                          label='KC Number'
+                        >
+                          <TextInput
+                            value={ data.kcNumber }
+                            onChange={ (value) => {
+                              onChange({ ...data, kcNumber: value })
+                            } }
+                          />
+                        </FormField>
+                        <FormField
+                          editorFor='expirationDate'
+                          label='Expiration Date'
+                        >
+                          <CalendarDateInput
+                            value={ data.expirationDate }
+                            onChange={ (value) => {
+                              onChange({ ...data, expirationDate: value })
+                            } }
+                          />
+                        </FormField>
+                      </Group>
+                    ) }
+                    addNewItem={ createDefaultHkspPartnerUse }
+                  />
                 </Group>
               ,
             },
@@ -554,6 +658,19 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
       doingBusinessAs
       eoriNumber
       hkRaNumber
+      hkspFlexport
+      hkspKcResponsiblePerson
+      hkspKnownConsignorNumber
+      hkspPartners {
+        id
+        expirationDate
+        kcNumber
+        partner {
+          id
+          toStringRepresentation
+        }
+      }
+      hkspStatusExpirationDate
       legalName
       mailingAddress {
         id
@@ -610,6 +727,15 @@ export default createFragmentContainer(CompanyEntityFormStateful, {
 const countriesQuery = graphql`
   query CompanyEntityForm_countriesQuery {
     entities: countries {
+      id
+      toStringRepresentation
+    }
+  }
+`;
+
+const hkspPartnersQuery = graphql`
+  query CompanyEntityForm_hkspPartnersQuery {
+    entities: hkspPartners {
       id
       toStringRepresentation
     }

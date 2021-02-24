@@ -90,6 +90,19 @@ attributes:
   - name: hkRaNumber
     dataType: String
     label: HK RA Number
+
+  - name: hkspFlexport
+    dataType: HkspFlexport
+    label: Flexport
+  - name: hkspKnownConsignorNumber
+    dataType: String
+    label: Known Consignor Number
+  - name: hkspStatusExpirationDate
+    dataType: Date
+    label: Status Expiration Date
+  - name: hkspKcResponsiblePerson
+    dataType: String
+    label: KC Responsible Person
   
 # Billing
   - name: vendorCategory
@@ -157,6 +170,11 @@ associations:
     label: Default Invoice Currency
     owns: false
 
+  - name: hkspPartners
+    dataType: HkspPartnerUse
+    owns: true
+    many: true
+
 
 enums:
   - name: CompanyEntityType
@@ -171,3 +189,5 @@ enums:
       - value: arrivalNotice
       - value: arrivalNoticeTerms
       - value: passthroughApproved
+  - name: HkspFlexport
+    values: knownConsignor, acccountConsignor, unknown

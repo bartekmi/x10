@@ -7,9 +7,11 @@ using x10.hotchoc.ClientPage.Entities;
 namespace x10.hotchoc.ClientPage.Repositories {
   public class Repository : RepositoryBase, IRepository {
     private Dictionary<int, NetsuiteVendor> _netsuiteVendors = new Dictionary<int, NetsuiteVendor>();
+    private Dictionary<int, HkspPartner> _hkspPartners = new Dictionary<int, HkspPartner>();
     private Dictionary<int, Company> _companies = new Dictionary<int, Company>();
     private Dictionary<int, StateOrProvince> _stateOrProvinces = new Dictionary<int, StateOrProvince>();
     private Dictionary<int, CtpatReview> _ctpatReviews = new Dictionary<int, CtpatReview>();
+    private Dictionary<int, HkspPartnerUse> _hkspPartnerUses = new Dictionary<int, HkspPartnerUse>();
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
     private Dictionary<int, Currency> _currencies = new Dictionary<int, Currency>();
     private Dictionary<int, Address> _addresses = new Dictionary<int, Address>();
@@ -26,9 +28,11 @@ namespace x10.hotchoc.ClientPage.Repositories {
         typeof(Queries),
         typeof(Mutations),
         typeof(NetsuiteVendor),
+        typeof(HkspPartner),
         typeof(Company),
         typeof(StateOrProvince),
         typeof(CtpatReview),
+        typeof(HkspPartnerUse),
         typeof(CompanyEntity),
         typeof(Currency),
         typeof(Address),
@@ -46,9 +50,11 @@ namespace x10.hotchoc.ClientPage.Repositories {
       int id = instance.Dbid;
 
       if (instance is NetsuiteVendor netsuiteVendor) _netsuiteVendors[id] = netsuiteVendor;
+      if (instance is HkspPartner hkspPartner) _hkspPartners[id] = hkspPartner;
       if (instance is Company company) _companies[id] = company;
       if (instance is StateOrProvince stateOrProvince) _stateOrProvinces[id] = stateOrProvince;
       if (instance is CtpatReview ctpatReview) _ctpatReviews[id] = ctpatReview;
+      if (instance is HkspPartnerUse hkspPartnerUse) _hkspPartnerUses[id] = hkspPartnerUse;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
       if (instance is Currency currency) _currencies[id] = currency;
       if (instance is Address address) _addresses[id] = address;
@@ -66,6 +72,14 @@ namespace x10.hotchoc.ClientPage.Repositories {
     public NetsuiteVendor GetNetsuiteVendor(int id) { return _netsuiteVendors[id]; }
     public int AddOrUpdateNetsuiteVendor(int? dbid, NetsuiteVendor netsuiteVendor) {
       return RepositoryUtils.AddOrUpdate(dbid, netsuiteVendor, _netsuiteVendors);
+    }
+    #endregion
+
+    #region HkspPartners
+    public IQueryable<HkspPartner> GetHkspPartners() => _hkspPartners.Values.AsQueryable();
+    public HkspPartner GetHkspPartner(int id) { return _hkspPartners[id]; }
+    public int AddOrUpdateHkspPartner(int? dbid, HkspPartner hkspPartner) {
+      return RepositoryUtils.AddOrUpdate(dbid, hkspPartner, _hkspPartners);
     }
     #endregion
 
@@ -90,6 +104,14 @@ namespace x10.hotchoc.ClientPage.Repositories {
     public CtpatReview GetCtpatReview(int id) { return _ctpatReviews[id]; }
     public int AddOrUpdateCtpatReview(int? dbid, CtpatReview ctpatReview) {
       return RepositoryUtils.AddOrUpdate(dbid, ctpatReview, _ctpatReviews);
+    }
+    #endregion
+
+    #region HkspPartnerUses
+    public IQueryable<HkspPartnerUse> GetHkspPartnerUses() => _hkspPartnerUses.Values.AsQueryable();
+    public HkspPartnerUse GetHkspPartnerUse(int id) { return _hkspPartnerUses[id]; }
+    public int AddOrUpdateHkspPartnerUse(int? dbid, HkspPartnerUse hkspPartnerUse) {
+      return RepositoryUtils.AddOrUpdate(dbid, hkspPartnerUse, _hkspPartnerUses);
     }
     #endregion
 

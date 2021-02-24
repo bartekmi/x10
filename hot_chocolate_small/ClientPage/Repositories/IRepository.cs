@@ -8,9 +8,11 @@ namespace x10.hotchoc.ClientPage.Repositories {
   public interface IRepository {
     // Queries
     NetsuiteVendor GetNetsuiteVendor(int id);
+    HkspPartner GetHkspPartner(int id);
     Company GetCompany(int id);
     StateOrProvince GetStateOrProvince(int id);
     CtpatReview GetCtpatReview(int id);
+    HkspPartnerUse GetHkspPartnerUse(int id);
     CompanyEntity GetCompanyEntity(int id);
     Currency GetCurrency(int id);
     Address GetAddress(int id);
@@ -23,9 +25,11 @@ namespace x10.hotchoc.ClientPage.Repositories {
     CompanyEntityCountryService GetCompanyEntityCountryService(int id);
 
     IQueryable<NetsuiteVendor> GetNetsuiteVendors();
+    IQueryable<HkspPartner> GetHkspPartners();
     IQueryable<Company> GetCompanies();
     IQueryable<StateOrProvince> GetStateOrProvinces();
     IQueryable<CtpatReview> GetCtpatReviews();
+    IQueryable<HkspPartnerUse> GetHkspPartnerUses();
     IQueryable<CompanyEntity> GetCompanyEntities();
     IQueryable<Currency> GetCurrencies();
     IQueryable<Address> GetAddresses();
@@ -39,9 +43,11 @@ namespace x10.hotchoc.ClientPage.Repositories {
 
     // Mutations
     int AddOrUpdateNetsuiteVendor(int? dbid, NetsuiteVendor netsuiteVendor);
+    int AddOrUpdateHkspPartner(int? dbid, HkspPartner hkspPartner);
     int AddOrUpdateCompany(int? dbid, Company company);
     int AddOrUpdateStateOrProvince(int? dbid, StateOrProvince stateOrProvince);
     int AddOrUpdateCtpatReview(int? dbid, CtpatReview ctpatReview);
+    int AddOrUpdateHkspPartnerUse(int? dbid, HkspPartnerUse hkspPartnerUse);
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
     int AddOrUpdateCurrency(int? dbid, Currency currency);
     int AddOrUpdateAddress(int? dbid, Address address);

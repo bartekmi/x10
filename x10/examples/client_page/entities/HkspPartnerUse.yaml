@@ -1,0 +1,19 @@
+name: HkspPartnerUse
+inheritsFrom: Base
+description: Our partner in the HK Security Program
+
+attributes:
+  - name: kcNumber
+    dataType: String
+    mandatory: true
+    datagen_pattern: ~NDDDDDLL~
+    label: KC Number
+  - name: expirationDate
+    dataType: Date
+    mandatory: true
+
+associations:
+  - name: partner
+    dataType: HkspPartner
+    mandatory: true
+    owns: false
