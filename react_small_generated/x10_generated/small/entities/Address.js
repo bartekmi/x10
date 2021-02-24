@@ -63,6 +63,7 @@ export function createDefaultAddress(): Address {
 // Validations
 export function addressCalculateErrors(address: Address, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (address == null ) return errors;
 
   if (isBlank(address.theAddress))
     addError(errors, prefix, 'The Address is required', ['theAddress']);

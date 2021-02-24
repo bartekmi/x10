@@ -27,6 +27,7 @@ export function createDefaultStateOrProvince(): StateOrProvince {
 // Validations
 export function stateOrProvinceCalculateErrors(stateOrProvince: StateOrProvince, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (stateOrProvince == null ) return errors;
 
   if (isBlank(stateOrProvince.name))
     addError(errors, prefix, 'Name is required', ['name']);

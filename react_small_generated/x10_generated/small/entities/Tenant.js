@@ -35,6 +35,7 @@ export function createDefaultTenant(): Tenant {
 // Validations
 export function tenantCalculateErrors(tenant: Tenant, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (tenant == null ) return errors;
 
   if (isBlank(tenant.name))
     addError(errors, prefix, 'Name is required', ['name']);

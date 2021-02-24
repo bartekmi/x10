@@ -31,6 +31,7 @@ export function createDefaultCompanyEntityCountryService(): CompanyEntityCountry
 // Validations
 export function companyEntityCountryServiceCalculateErrors(companyEntityCountryService: CompanyEntityCountryService, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (companyEntityCountryService == null ) return errors;
 
   if (isBlank(companyEntityCountryService.country))
     addError(errors, prefix, 'Country is required', ['country']);

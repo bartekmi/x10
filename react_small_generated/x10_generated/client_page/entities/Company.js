@@ -39,6 +39,7 @@ export function createDefaultCompany(): Company {
 // Validations
 export function companyCalculateErrors(company: Company, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (company == null ) return errors;
 
 
   errors.push(...companyEntityCalculateErrors(company.primaryEntity, 'primaryEntity'));

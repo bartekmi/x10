@@ -33,6 +33,7 @@ export function createDefaultCountry(): Country {
 // Validations
 export function countryCalculateErrors(country: Country, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (country == null ) return errors;
 
   if (isBlank(country.code))
     addError(errors, prefix, 'Code is required', ['code']);

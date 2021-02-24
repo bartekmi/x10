@@ -200,6 +200,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
 // Validations
 export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (companyEntity == null ) return errors;
 
   if (isBlank(companyEntity.legalName))
     addError(errors, prefix, 'Legal Name is required', ['legalName']);

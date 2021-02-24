@@ -263,7 +263,6 @@ function BuildingForm(props: Props): React.Node {
                 onChange({ ...building, mailboxType: value })
               } }
               options={ MailboxTypeEnumPairs }
-              isInline={ false }
             />
           </FormField>
           <FormField

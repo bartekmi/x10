@@ -29,6 +29,7 @@ export function createDefaultVatNumber(): VatNumber {
 // Validations
 export function vatNumberCalculateErrors(vatNumber: VatNumber, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (vatNumber == null ) return errors;
 
   if (isBlank(vatNumber.number))
     addError(errors, prefix, 'Number is required', ['number']);

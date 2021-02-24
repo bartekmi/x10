@@ -29,6 +29,7 @@ export function createDefaultCurrency(): Currency {
 // Validations
 export function currencyCalculateErrors(currency: Currency, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (currency == null ) return errors;
 
   if (isBlank(currency.symbol))
     addError(errors, prefix, 'Symbol is required', ['symbol']);

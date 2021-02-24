@@ -27,6 +27,7 @@ export function createDefaultNetsuiteVendor(): NetsuiteVendor {
 // Validations
 export function netsuiteVendorCalculateErrors(netsuiteVendor: NetsuiteVendor, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (netsuiteVendor == null ) return errors;
 
   if (isBlank(netsuiteVendor.name))
     addError(errors, prefix, 'Name is required', ['name']);

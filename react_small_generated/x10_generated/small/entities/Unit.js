@@ -67,6 +67,7 @@ export function createDefaultUnit(): Unit {
 // Validations
 export function unitCalculateErrors(unit: Unit, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (unit == null ) return errors;
 
   if (isBlank(unit.number))
     addError(errors, prefix, 'Number is required', ['number']);

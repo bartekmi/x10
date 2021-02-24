@@ -147,6 +147,7 @@ export function createDefaultClient(): Client {
 // Validations
 export function clientCalculateErrors(client: Client, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (client == null ) return errors;
 
   if (isBlank(client.status))
     addError(errors, prefix, 'Status is required', ['status']);

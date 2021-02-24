@@ -58,6 +58,7 @@ export function createDefaultCtpatReview(): CtpatReview {
 // Validations
 export function ctpatReviewCalculateErrors(ctpatReview: CtpatReview, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (ctpatReview == null ) return errors;
 
   if (isBlank(ctpatReview.status))
     addError(errors, prefix, 'Status is required', ['status']);

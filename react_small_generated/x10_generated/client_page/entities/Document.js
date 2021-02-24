@@ -60,6 +60,7 @@ export function createDefaultDocument(): Document {
 // Validations
 export function documentCalculateErrors(document: Document, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (document == null ) return errors;
 
   if (isBlank(document.name))
     addError(errors, prefix, 'Name is required', ['name']);

@@ -113,6 +113,7 @@ export function createDefaultBuilding(): Building {
 export function buildingCalculateErrors(building: Building, prefix?: string): $ReadOnlyArray<FormError> {
   const appContext = React.useContext(AppContext);
   const errors = [];
+  if (building == null ) return errors;
 
   if (isBlank(building.name))
     addError(errors, prefix, 'Name is required', ['name']);

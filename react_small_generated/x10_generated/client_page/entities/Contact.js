@@ -44,6 +44,7 @@ export function createDefaultContact(): Contact {
 // Validations
 export function contactCalculateErrors(contact: Contact, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (contact == null ) return errors;
 
   if (isBlank(contact.firstName))
     addError(errors, prefix, 'First Name is required', ['firstName']);

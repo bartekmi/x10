@@ -38,50 +38,52 @@ function Moves(props: Props): React.Node {
           [
             {
               id: 'Date',
+              Header: 'Date',
+              width: 140,
               accessor: (data) => data?.date,
               Cell: ({ value }) =>
                 <DateDisplay
                   value={ value }
                 />
               ,
-              Header: 'Date',
-              width: 140,
             },
             {
               id: 'From',
+              Header: 'From',
+              width: 140,
               accessor: (data) => data?.from?.name,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'From',
-              width: 140,
             },
             {
               id: 'To',
+              Header: 'To',
+              width: 140,
               accessor: (data) => data?.to?.name,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'To',
-              width: 140,
             },
             {
               id: 'Tenant',
+              Header: 'Tenant',
+              width: 140,
               accessor: (data) => data?.tenant?.name,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Tenant',
-              width: 140,
             },
             {
               id: 'Action',
+              Header: 'Action',
+              width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Group>
@@ -95,8 +97,6 @@ function Moves(props: Props): React.Node {
                   />
                 </Group>
               ,
-              Header: 'Action',
-              width: 140,
             },
           ]
         }

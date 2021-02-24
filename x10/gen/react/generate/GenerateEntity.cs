@@ -218,6 +218,7 @@ namespace x10.gen.react.generate {
 
       WriteAppContextIfNeeded(entity.Validations.Select(x => x.TriggerExpression));
       WriteLine(1, "const errors = [];");
+      WriteLine(1, "if ({0} == null ) return errors;", varName);
       WriteLine();
 
       GenerateValidationsMandatory(entity);

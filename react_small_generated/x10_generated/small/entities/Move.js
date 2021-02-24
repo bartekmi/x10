@@ -34,6 +34,7 @@ export function createDefaultMove(): Move {
 // Validations
 export function moveCalculateErrors(move: Move, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (move == null ) return errors;
 
   if (isBlank(move.date))
     addError(errors, prefix, 'Date is required', ['date']);

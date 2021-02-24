@@ -44,6 +44,7 @@ export function createDefaultUser(): User {
 // Validations
 export function userCalculateErrors(user: User, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (user == null ) return errors;
 
   if (isBlank(user.firstName))
     addError(errors, prefix, 'First Name is required', ['firstName']);

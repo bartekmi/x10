@@ -27,6 +27,7 @@ export function createDefaultHkspPartner(): HkspPartner {
 // Validations
 export function hkspPartnerCalculateErrors(hkspPartner: HkspPartner, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (hkspPartner == null ) return errors;
 
   if (isBlank(hkspPartner.name))
     addError(errors, prefix, 'Name is required', ['name']);

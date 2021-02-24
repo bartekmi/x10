@@ -43,6 +43,8 @@ function Buildings(props: Props): React.Node {
           [
             {
               id: 'Name',
+              Header: 'Name',
+              width: 200,
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Group>
@@ -58,44 +60,44 @@ function Buildings(props: Props): React.Node {
                   </VisibilityControl>
                 </Group>
               ,
-              Header: 'Name',
-              width: 200,
             },
             {
               id: 'The Address',
+              Header: 'The Address',
+              width: 140,
               accessor: (data) => data?.physicalAddress?.theAddress,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'The Address',
-              width: 140,
             },
             {
               id: 'City / Province',
+              Header: 'City / Province',
+              width: 140,
               accessor: (data) => addressSecondAddressLine(data?.physicalAddress),
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'City / Province',
-              width: 140,
             },
             {
               id: 'Age In Years',
+              Header: 'Age In Years',
+              width: 140,
               accessor: (data) => buildingAgeInYears(data),
               Cell: ({ value }) =>
                 <FloatDisplay
                   value={ value }
                 />
               ,
-              Header: 'Age In Years',
-              width: 140,
             },
             {
               id: 'Pet Policy',
+              Header: 'Pet Policy',
+              width: 140,
               accessor: (data) => data?.petPolicy,
               Cell: ({ value }) =>
                 <EnumDisplay
@@ -103,11 +105,11 @@ function Buildings(props: Props): React.Node {
                   options={ PetPolicyEnumPairs }
                 />
               ,
-              Header: 'Pet Policy',
-              width: 140,
             },
             {
               id: 'Action',
+              Header: 'Action',
+              width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Group>
@@ -120,8 +122,6 @@ function Buildings(props: Props): React.Node {
                   />
                 </Group>
               ,
-              Header: 'Action',
-              width: 140,
             },
           ]
         }

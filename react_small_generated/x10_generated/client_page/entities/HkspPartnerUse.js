@@ -32,6 +32,7 @@ export function createDefaultHkspPartnerUse(): HkspPartnerUse {
 // Validations
 export function hkspPartnerUseCalculateErrors(hkspPartnerUse: HkspPartnerUse, prefix?: string): $ReadOnlyArray<FormError> {
   const errors = [];
+  if (hkspPartnerUse == null ) return errors;
 
   if (isBlank(hkspPartnerUse.kcNumber))
     addError(errors, prefix, 'Kc Number is required', ['kcNumber']);

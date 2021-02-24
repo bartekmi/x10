@@ -37,50 +37,52 @@ function Tenants(props: Props): React.Node {
           [
             {
               id: 'Name',
+              Header: 'Name',
+              width: 140,
               accessor: (data) => data?.name,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Name',
-              width: 140,
             },
             {
               id: 'Phone',
+              Header: 'Phone',
+              width: 140,
               accessor: (data) => data?.phone,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Phone',
-              width: 140,
             },
             {
               id: 'Email',
+              Header: 'Email',
+              width: 140,
               accessor: (data) => data?.email,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Email',
-              width: 140,
             },
             {
               id: 'Country',
+              Header: 'Country',
+              width: 140,
               accessor: (data) => data?.permanentMailingAddress?.country.toStringRepresentation,
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }
                 />
               ,
-              Header: 'Country',
-              width: 140,
             },
             {
               id: 'Action',
+              Header: 'Action',
+              width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Group>
@@ -93,8 +95,6 @@ function Tenants(props: Props): React.Node {
                   />
                 </Group>
               ,
-              Header: 'Action',
-              width: 140,
             },
           ]
         }
