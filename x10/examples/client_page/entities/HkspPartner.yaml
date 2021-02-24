@@ -1,6 +1,7 @@
 name: HkspPartner
 inheritsFrom: Base
 description: Our partner in the HK Security Program
+defaultStringRepresentation: =name
 datagen_quantity: 20
 
 attributes:

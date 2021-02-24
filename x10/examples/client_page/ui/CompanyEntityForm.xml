@@ -61,7 +61,7 @@
           <agentIataCode/>
           <hkRaNumber/>
           <Heading3 text="HK Security Program Status"/>
-          <hkspFlexport/>
+          <hkspFlexport ui="RadioButtonGroup"/>
           <Row>
             <hkspKnownConsignorNumber/>
             <hkspStatusExpirationDate/>

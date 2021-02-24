@@ -343,6 +343,17 @@ namespace x10.ui.libraries {
         Description = "A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
         AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "layout",
+            Description = "The direction in which to order the radio buttons",
+            DataType = new DataTypeEnum() {
+              Name = "RadioButtonGroupLayout",
+              EnumValueValues = new string[] { "vertical", "horizontal" },
+            },
+            DefaultValue = "vertical"
+          },
+        }
       },
       #endregion
 

@@ -17,7 +17,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "HkspPartner: " + Dbid; }
+      get { return Name; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

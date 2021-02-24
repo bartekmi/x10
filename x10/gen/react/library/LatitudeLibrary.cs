@@ -371,7 +371,9 @@ namespace x10.gen.react.library {
         InheritsFromName = "EnumSelection",
         ImportDir = "latitude/radio",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("isInline", false),
+          new JavaScriptAttributeDynamic("layout", "isInline") {
+            TranslationFunc = (value) => value?.ToString() == "horizontal",
+          },
         }
       },
       #endregion

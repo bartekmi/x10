@@ -6,6 +6,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
+import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 
@@ -449,7 +450,7 @@ function CompanyEntityForm(props: Props): React.Node {
                     editorFor='hkspFlexport'
                     label='Flexport'
                   >
-                    <SelectInput
+                    <RadioGroup
                       value={ companyEntity.hkspFlexport }
                       onChange={ (value) => {
                         onChange({ ...companyEntity, hkspFlexport: value })
