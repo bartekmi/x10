@@ -103,9 +103,9 @@ namespace x10 {
       }
     }
 
-    internal ClassDefX10 CompileClassDef(string xml) {
+    internal ClassDefX10 CompileClassDef(string xml, out TestBasicEntities basicEntities) {
       // Set up Basic Entities
-      TestBasicEntities basicEntities = new TestBasicEntities(_output);
+      basicEntities = new TestBasicEntities(_output);
       AllEntities allEntities = basicEntities.AllEntities;
       AllEnums allEnums = basicEntities.AllEnums;
 

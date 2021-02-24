@@ -44,6 +44,27 @@ namespace x10.model {
       return entities.Single();
     }
 
+    public Member FindMemberByPath(string path) {
+      string[] components = path.Split(".");
+
+      Entity entity = FindEntityByName(components.First());
+      if (entity == null)
+        throw new Exception("Entity does not exist: " + entity);
+      
+      Member member = null;
+      foreach (string memberName in components.Skip(1)) {
+        member = entity.FindMemberByName(memberName);
+        if (member == null)
+          throw new Exception(string.Format("Member does not exist: {0}.{1}", entity, memberName));
+
+        if (member is Association assoc)
+          entity = assoc.ReferencedEntity;
+        // Skipping check... If member is NOT association, we better be at end of path
+      }
+
+      return member;
+    }
+
     internal Entity FindContextEntityWithError(IParseElement parseElement) {
       Entity contextEntity = FindEntityByNameWithError(ModelValidationUtils.CONTEXT_ENTITY_NAME, parseElement);
       if (contextEntity == null)

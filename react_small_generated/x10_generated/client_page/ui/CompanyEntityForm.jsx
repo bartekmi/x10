@@ -627,7 +627,7 @@ function relayToInternal(relay: any): CompanyEntity {
   return {
     ...relay,
     physicalAddress: relay.physicalAddress || createDefaultAddress(),
-    ctpatReview: relay.ctpatReview || createDefaultCtpatReview(),
+    // ctpatReview: relay.ctpatReview || createDefaultCtpatReview(),
   };
 }
 

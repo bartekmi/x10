@@ -209,7 +209,7 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
   errors.push(...addressCalculateErrors(companyEntity.mailingAddress, 'mailingAddress'));
   if (companyEntityApplicableWhenForPhysicalAddress(companyEntity))
     errors.push(...addressCalculateErrors(companyEntity.physicalAddress, 'physicalAddress'));
-  errors.push(...ctpatReviewCalculateErrors(companyEntity.ctpatReview, 'ctpatReview'));
+  // errors.push(...ctpatReviewCalculateErrors(companyEntity.ctpatReview, 'ctpatReview'));
 
   return errors;
 }

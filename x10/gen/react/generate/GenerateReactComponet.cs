@@ -37,6 +37,7 @@ namespace x10.gen.react.generate {
     private void GenerateMainUiFile(ClassDefX10 classDef, Entity model, bool isForm) {
       PreProcessTree(classDef);
       GqlPlaceholder = new GqlPlaceholder(classDef);
+      MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(classDef);
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
@@ -46,13 +47,13 @@ namespace x10.gen.react.generate {
 
       if (isForm) {
         GenerateStatefulWrapper(classDef, model);
-        GenerateFormRelayToInternal(model);
+        GenerateFormRelayToInternal(model, dataInventory);
         GenerateSave(model);
         GenerateGraphqlMutation(classDef, model);
       }
 
       if (model != null)
-        GenerateFragment(classDef, model, isForm);
+        GenerateFragment(classDef, model, dataInventory, isForm);
 
       AddPlaceholder(GqlPlaceholder);
 
@@ -273,15 +274,17 @@ namespace x10.gen.react.generate {
     #endregion
 
     #region Generate Relay To Internal
-    private void GenerateFormRelayToInternal(Entity model) {
+    private void GenerateFormRelayToInternal(Entity model, MemberWrapper dataInventory) {
       WriteLine(0, "function relayToInternal(relay: any): {0} {", model.Name);
       WriteLine(1, "return {");
       WriteLine(2, "...relay,");
 
       // TODO... Not recursive at this time
       foreach (Association association in model.Associations) {
-        bool isNullableOwned = !association.IsMandatory && !association.IsMany && association.Owns;
-        if (isNullableOwned) {
+        bool isNullableSingleOwned = !association.IsMandatory && !association.IsMany && association.Owns;
+        bool formHasData = dataInventory.RecursivelyContainsMember(association);
+
+        if (isNullableSingleOwned && formHasData) {
           Entity assocModel = association.ReferencedEntity;
           WriteLine(2, "{0}: relay.{0} || {1}(),",
             association.Name,
@@ -298,7 +301,7 @@ namespace x10.gen.react.generate {
     #endregion
 
     #region Generate Fragment
-    private void GenerateFragment(ClassDefX10 classDef, Entity model, bool isForm) {
+    private void GenerateFragment(ClassDefX10 classDef, Entity model, MemberWrapper dataInventory, bool isForm) {
       string variableName = VariableName(model, classDef.IsMany);
 
       WriteLine(0, "// $FlowExpectedError");
@@ -311,8 +314,7 @@ namespace x10.gen.react.generate {
         model.Name,
         classDef.IsMany ? "@relay(plural: true) " : "");
 
-      MemberWrapper dataRoot = UiComponentDataCalculator.ExtractData(classDef);
-      PrintGraphQL(3, dataRoot);
+      PrintGraphQL(3, dataInventory);
 
       WriteLine(2, "}");
       WriteLine(1, "`,");

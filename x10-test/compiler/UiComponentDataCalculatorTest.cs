@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using x10.parsing;
+using x10.model;
+using x10.model.definition;
 using x10.ui.composition;
-using x10.ui.metadata;
 
 namespace x10.compiler {
   public class UiComponentDataCalculatorTest {
@@ -177,11 +177,41 @@ myDate
       RunTest(xml, gql);
     }
 
-    private void RunTest(string xml, string expectedGql) {
+    [Fact]
+    public void RecursivelyContainsMember() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Group>
+    <myInteger1/>
+    <nested.myNestedInteger1/>
+  </Group>
+</MyClassDef>
+";
+
+      MemberWrapper wrapper = ExtractWrapper(xml, out TestBasicEntities basicEntities);
+      AllEntities allEntities = basicEntities.AllEntities;
+
+      Member myInteger1 = allEntities.FindMemberByPath("Entity.myInteger1");
+      Member nested = allEntities.FindMemberByPath("Entity.nested");
+      Member myNestedInteger1 = allEntities.FindMemberByPath("Entity.nested.myNestedInteger1");
+      Member many = allEntities.FindMemberByPath("Entity.many");
+
+      Assert.True(wrapper.RecursivelyContainsMember(myInteger1));
+      Assert.True(wrapper.RecursivelyContainsMember(nested));
+      Assert.True(wrapper.RecursivelyContainsMember(myNestedInteger1));
+      Assert.False(wrapper.RecursivelyContainsMember(many));
+    }
+
+    private MemberWrapper ExtractWrapper(string xml, out TestBasicEntities basicEntities) {
       TestBasicUiLibrary basicLib = new TestBasicUiLibrary(_output);
-      ClassDefX10 classDef = basicLib.CompileClassDef(xml);
+      ClassDefX10 classDef = basicLib.CompileClassDef(xml, out basicEntities);
       MemberWrapper wrapper = UiComponentDataCalculator.ExtractData(classDef);
 
+      return wrapper;
+    }
+
+    private void RunTest(string xml, string expectedGql) {
+      MemberWrapper wrapper = ExtractWrapper(xml, out TestBasicEntities dummy);
       string actualGql = wrapper.PrintGraphQL(0);
 
       Assert.Equal(expectedGql.Trim(), actualGql.Trim());

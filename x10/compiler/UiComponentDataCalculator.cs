@@ -38,6 +38,13 @@ namespace x10.compiler {
       Member = member;
     }
 
+    internal bool RecursivelyContainsMember(Member member) {
+      if (Member == member)
+        return true;
+
+      return Children.Any(x => x.RecursivelyContainsMember(member));
+    }
+
     // Useful for testing
     public void Print(TextWriter writer, int indent) {
       if (RootEntity != null)
