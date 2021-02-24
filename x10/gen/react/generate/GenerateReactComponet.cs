@@ -37,7 +37,7 @@ namespace x10.gen.react.generate {
     private void GenerateMainUiFile(ClassDefX10 classDef, Entity model, bool isForm) {
       PreProcessTree(classDef);
       GqlPlaceholder = new GqlPlaceholder(classDef);
-      MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(classDef);
+      MemberWrapper dataInventory = model == null ? null : UiComponentDataCalculator.ExtractData(classDef);
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 

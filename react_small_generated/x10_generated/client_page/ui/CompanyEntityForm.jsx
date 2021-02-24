@@ -26,7 +26,6 @@ import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, HkspFlexportEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
-import { createDefaultCtpatReview } from 'client_page/entities/CtpatReview';
 import { createDefaultHkspPartnerUse } from 'client_page/entities/HkspPartnerUse';
 import { createDefaultVatNumber } from 'client_page/entities/VatNumber';
 
@@ -627,7 +626,6 @@ function relayToInternal(relay: any): CompanyEntity {
   return {
     ...relay,
     physicalAddress: relay.physicalAddress || createDefaultAddress(),
-    // ctpatReview: relay.ctpatReview || createDefaultCtpatReview(),
   };
 }
 
