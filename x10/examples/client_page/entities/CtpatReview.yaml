@@ -15,6 +15,7 @@ attributes:
   - name: complianceContactEmail
     dataType: String
     mandatory: true
+    datagen_pattern: <first_name>(70% => | 10% => ~D~ | 10% => ~DD~ | 10% => ~DDD~)@(gmail.com | yahoo.com | hotmail.com | aol.com)
 
 enums:
   - name: CtpatReviewStatus
