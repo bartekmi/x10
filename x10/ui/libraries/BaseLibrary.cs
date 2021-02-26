@@ -272,6 +272,7 @@ namespace x10.ui.libraries {
             Name = "checkboxLabel",
             Description = "Text placed to the right of the checkbox",
             DataType = DataTypes.Singleton.String,
+            IsPrimary = true,
           },
           new UiAttributeDefinitionAtomic() {
             Name = "onChange",
@@ -1033,6 +1034,8 @@ namespace x10.ui.libraries {
             Name = "text",
             Description = "The text of the help info.",
             DataType = DataTypes.Singleton.String,
+            IsMandatory = true,
+            IsPrimary = true,
           },
         },
       },

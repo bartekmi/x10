@@ -52,6 +52,7 @@ type CompanyEntity {
   legalName: String!
   doingBusinessAs: String!
   coreId: Int
+  adminEmail: String!
   companyType: CompanyEntityTypeEnum!
   stateOfBusinessRegistration: String!
   usTaxId: String!
@@ -696,6 +697,16 @@ input CompanyEntityFilter {
   coreId_not_lt: Int
   coreId_lte: Int
   coreId_not_lte: Int
+  adminEmail: String
+  adminEmail_not: String
+  adminEmail_contains: String
+  adminEmail_not_contains: String
+  adminEmail_starts_with: String
+  adminEmail_not_starts_with: String
+  adminEmail_ends_with: String
+  adminEmail_not_ends_with: String
+  adminEmail_in: [String!]
+  adminEmail_not_in: [String!]
   companyType: CompanyEntityTypeEnum
   companyType_not: CompanyEntityTypeEnum
   companyType_in: [CompanyEntityTypeEnum!]
@@ -949,6 +960,7 @@ input CompanyEntityInput {
   legalName: String!
   doingBusinessAs: String!
   coreId: Int
+  adminEmail: String!
   companyType: CompanyEntityTypeEnum!
   stateOfBusinessRegistration: String!
   usTaxId: String!
@@ -990,6 +1002,7 @@ input CompanyEntitySort {
   legalName: SortOperationKind
   doingBusinessAs: SortOperationKind
   coreId: SortOperationKind
+  adminEmail: SortOperationKind
   companyType: SortOperationKind
   stateOfBusinessRegistration: SortOperationKind
   usTaxId: SortOperationKind

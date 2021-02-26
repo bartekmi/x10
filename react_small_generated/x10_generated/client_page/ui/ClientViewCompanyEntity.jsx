@@ -10,17 +10,20 @@ import HelpTooltip from 'latitude/HelpTooltip';
 import Status from 'latitude/Status';
 
 import BooleanBanner from 'react_lib/display/BooleanBanner';
+import DateDisplay from 'react_lib/display/DateDisplay';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
+import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Dialog from 'react_lib/modal/Dialog';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
+import { CtpatReviewStatusEnumPairs } from 'client_page/entities/CtpatReview';
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
 import ClientViewDocuments from 'client_page/ui/ClientViewDocuments';
@@ -148,7 +151,78 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               />
             </VisibilityControl>
           </Group>
+          <Button
+            label='Archive this entity'
+          />
         </Group>
+        <DisplayForm>
+          <VisibilityControl
+            visible={ companyEntity?.ctpatReview == null }
+          >
+            <Group
+              justifyContent='space-between'
+            >
+              <DisplayField
+                label='Admin Email'
+              >
+                <TextDisplay
+                  value={ companyEntity?.adminEmail }
+                />
+              </DisplayField>
+              <Button
+                label='Initiate First-Time Compliance Screen'
+              />
+            </Group>
+          </VisibilityControl>
+          <VisibilityControl
+            visible={ companyEntity?.ctpatReview != null }
+          >
+            <Group
+              justifyContent='space-between'
+            >
+              <Group>
+                <Checkbox
+                  checked={ companyEntity?.ctpatReview?.complianceScreenRequired }
+                  label='Compliance Screen Required'
+                  disabled={ true }
+                />
+                <HelpTooltip
+                  text='C-TPAT Screening is required...'
+                />
+              </Group>
+              <DisplayField
+                label='Status'
+              >
+                <EnumDisplay
+                  value={ companyEntity?.ctpatReview?.status }
+                  options={ CtpatReviewStatusEnumPairs }
+                />
+              </DisplayField>
+              <DisplayField
+                label='Next due date'
+              >
+                <DateDisplay
+                  value={ companyEntity?.ctpatReview?.expiresAt }
+                />
+              </DisplayField>
+              <DisplayField
+                label='Compliance Contact Email'
+              >
+                <TextDisplay
+                  value={ companyEntity?.ctpatReview?.complianceContactEmail }
+                />
+              </DisplayField>
+              <Group>
+                <Button
+                  label='Request Screen'
+                />
+                <Button
+                  label='Edit'
+                />
+              </Group>
+            </Group>
+          </VisibilityControl>
+        </DisplayForm>
       </Group>
     </Expander>
   );
@@ -159,10 +233,14 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
   companyEntity: graphql`
     fragment ClientViewCompanyEntity_companyEntity on CompanyEntity {
       id
+      adminEmail
       companyType
       coreId
       ctpatReview {
         id
+        complianceContactEmail
+        complianceScreenRequired
+        expiresAt
         status
       }
       isPrimary

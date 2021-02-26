@@ -46,6 +46,8 @@ namespace x10.hotchoc.ClientPage.Entities {
     public string? DoingBusinessAs { get; set; }
     public int? CoreId { get; set; }
     [GraphQLNonNullType]
+    public string? AdminEmail { get; set; }
+    [GraphQLNonNullType]
     public CompanyEntityTypeEnum? CompanyType { get; set; }
     [GraphQLNonNullType]
     public string? StateOfBusinessRegistration { get; set; }

@@ -20,6 +20,7 @@ export type CompanyEntity = {
   +legalName: string,
   +doingBusinessAs: string,
   +coreId: ?number,
+  +adminEmail: string,
   +companyType: ?CompanyEntityTypeEnum,
   +stateOfBusinessRegistration: string,
   +usTaxId: string,
@@ -161,6 +162,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     legalName: '',
     doingBusinessAs: '',
     coreId: null,
+    adminEmail: '',
     // $FlowExpectedError Required field, but no default value
     companyType: null,
     stateOfBusinessRegistration: '',
@@ -204,6 +206,8 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
 
   if (isBlank(companyEntity.legalName))
     addError(errors, prefix, 'Legal Name is required', ['legalName']);
+  if (isBlank(companyEntity.adminEmail))
+    addError(errors, prefix, 'Admin Email is required', ['adminEmail']);
   if (isBlank(companyEntity.companyType))
     addError(errors, prefix, 'Company Type is required', ['companyType']);
 

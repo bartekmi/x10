@@ -35,6 +35,7 @@
     <!-- Body -->
     <Expander.Body>
       <VerticalStackPanel gap="20">
+        <!-- Core Id and Addresses -->
         <Row gap="80">
           <Label label="Core Id">
             <coreId/>
@@ -46,13 +47,37 @@
             <AddressDisplay path="physicalAddress"/>
           </Label>
         </Row>
+
+        <!-- Is Primary? Checkbox -->
         <RepellingRow>
           <Row>
             <Checkbox path="isPrimary" checkboxLabel="Primary Entity" readOnly="=isPrimary"
               checked="=isPrimary" onChange="=SetCompanyEntityAsPrimary(id)"/>
             <HelpIcon text="You can change the primary entity by selecting..." visible="=isPrimary"/>
           </Row>
+          <Button>Archive this entity</Button>
         </RepellingRow>
+
+        <!-- CTPAT Review -->
+        <DisplayForm>
+          <RepellingRow visible="=ctpatReview == null">
+            <adminEmail/>
+            <Button>Initiate First-Time Compliance Screen</Button>
+          </RepellingRow>
+          <RepellingRow visible="=ctpatReview != null">
+            <Row>
+              <Checkbox checked="=ctpatReview.complianceScreenRequired">Compliance Screen Required</Checkbox>
+              <HelpIcon>C-TPAT Screening is required...</HelpIcon>
+            </Row>
+            <ctpatReview.status/>
+            <ctpatReview.expiresAt label="Next due date"/>
+            <ctpatReview.complianceContactEmail/>
+            <Row>
+              <Button>Request Screen</Button>
+              <Button>Edit</Button>
+            </Row>
+          </RepellingRow>
+        </DisplayForm>
       </VerticalStackPanel>
     </Expander.Body>
   </Expander>

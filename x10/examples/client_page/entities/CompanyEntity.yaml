@@ -20,6 +20,11 @@ attributes:
     datagen_min: 1
     datagen_max: 50000
 
+  - name: adminEmail
+    dataType: String
+    mandatory: true
+    datagen_pattern: <first_name>@gmail.com
+
   - name: companyType
     dataType: CompanyEntityType
     mandatory: true
