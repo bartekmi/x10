@@ -24,6 +24,7 @@ attributes:
     dataType: String
     mandatory: true
     datagen_pattern: <first_name>@gmail.com
+    readOnly: true
 
   - name: companyType
     dataType: CompanyEntityType

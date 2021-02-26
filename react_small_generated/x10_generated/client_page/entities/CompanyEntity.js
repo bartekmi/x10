@@ -206,8 +206,6 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
 
   if (isBlank(companyEntity.legalName))
     addError(errors, prefix, 'Legal Name is required', ['legalName']);
-  if (isBlank(companyEntity.adminEmail))
-    addError(errors, prefix, 'Admin Email is required', ['adminEmail']);
   if (isBlank(companyEntity.companyType))
     addError(errors, prefix, 'Company Type is required', ['companyType']);
 

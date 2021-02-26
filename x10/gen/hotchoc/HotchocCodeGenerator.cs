@@ -470,8 +470,9 @@ namespace x10.hotchoc.{0} {{
         WriteLine();
 
         if (association.IsMany) {
-          WriteLine(3, "foreach ({0} {1} in {2})", refedEntity.Name, varName, propName);
-          WriteLine(4, "{0}.SetNonOwnedAssociations(repository);", varName);
+          WriteLine(3, "if ({0} != null)", propName);
+          WriteLine(4, "foreach ({0} {1} in {2})", refedEntity.Name, varName, propName);
+          WriteLine(5, "{0}.SetNonOwnedAssociations(repository);", varName);
         } else {
           if (association.Owns) {
             WriteLine(3, "{0}?.SetNonOwnedAssociations(repository);", propName);

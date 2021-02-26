@@ -35,8 +35,9 @@ namespace x10.hotchoc.ClientPage.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      foreach (StateOrProvince subRegions in SubRegions)
-        subRegions.SetNonOwnedAssociations(repository);
+      if (SubRegions != null)
+        foreach (StateOrProvince subRegions in SubRegions)
+          subRegions.SetNonOwnedAssociations(repository);
     }
   }
 }

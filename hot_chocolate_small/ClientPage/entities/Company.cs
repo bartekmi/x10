@@ -44,13 +44,15 @@ namespace x10.hotchoc.ClientPage.Entities {
 
       PrimaryEntity?.SetNonOwnedAssociations(repository);
 
-      foreach (CompanyEntity entities in Entities)
-        entities.SetNonOwnedAssociations(repository);
+      if (Entities != null)
+        foreach (CompanyEntity entities in Entities)
+          entities.SetNonOwnedAssociations(repository);
 
       PrimaryContact?.SetNonOwnedAssociations(repository);
 
-      foreach (User users in Users)
-        users.SetNonOwnedAssociations(repository);
+      if (Users != null)
+        foreach (User users in Users)
+          users.SetNonOwnedAssociations(repository);
     }
   }
 }

@@ -64,8 +64,9 @@ namespace x10.hotchoc.SmallSample.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      foreach (Unit units in Units)
-        units.SetNonOwnedAssociations(repository);
+      if (Units != null)
+        foreach (Unit units in Units)
+          units.SetNonOwnedAssociations(repository);
 
       PhysicalAddress?.SetNonOwnedAssociations(repository);
 

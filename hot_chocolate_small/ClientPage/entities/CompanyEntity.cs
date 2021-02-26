@@ -128,16 +128,18 @@ namespace x10.hotchoc.ClientPage.Entities {
 
       PhysicalAddress?.SetNonOwnedAssociations(repository);
 
-      foreach (VatNumber vatNumbers in VatNumbers)
-        vatNumbers.SetNonOwnedAssociations(repository);
+      if (VatNumbers != null)
+        foreach (VatNumber vatNumbers in VatNumbers)
+          vatNumbers.SetNonOwnedAssociations(repository);
 
       int? netsuiteVendorId = IdUtils.FromRelayId(NetsuiteVendorId?.Id);
       NetsuiteVendorId = netsuiteVendorId == null ? null : repository.GetNetsuiteVendor(netsuiteVendorId.Value);
 
       CtpatReview?.SetNonOwnedAssociations(repository);
 
-      foreach (Document documents in Documents)
-        documents.SetNonOwnedAssociations(repository);
+      if (Documents != null)
+        foreach (Document documents in Documents)
+          documents.SetNonOwnedAssociations(repository);
 
       int? countryOfBusinessRegistration = IdUtils.FromRelayId(CountryOfBusinessRegistration?.Id);
       CountryOfBusinessRegistration = countryOfBusinessRegistration == null ? null : repository.GetCountry(countryOfBusinessRegistration.Value);
@@ -145,8 +147,9 @@ namespace x10.hotchoc.ClientPage.Entities {
       int? invoiceCurrencyDefault = IdUtils.FromRelayId(InvoiceCurrencyDefault?.Id);
       InvoiceCurrencyDefault = invoiceCurrencyDefault == null ? null : repository.GetCurrency(invoiceCurrencyDefault.Value);
 
-      foreach (HkspPartnerUse hkspPartners in HkspPartners)
-        hkspPartners.SetNonOwnedAssociations(repository);
+      if (HkspPartners != null)
+        foreach (HkspPartnerUse hkspPartners in HkspPartners)
+          hkspPartners.SetNonOwnedAssociations(repository);
     }
   }
 }
