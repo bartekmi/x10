@@ -1,6 +1,5 @@
 // @flow
 
-import stringOrFalse from "latitude/tools/stringOrFalse";
 import * as React from "react";
 
 export type FormError = {|

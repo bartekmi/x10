@@ -5,6 +5,14 @@ import { StyleSheet, css } from "aphrodite";
 
 import NotificationModal from "latitude/modal/NotificationModal";
 
+export type DialogContextType = {|
+  +setIsOpen: (value: bool) => void,
+|};
+
+export const DialogContext: React.Context<DialogContextType> = React.createContext({
+  setIsOpen: (value) => {},
+});
+
 type Props = {|
   +openButton: any,
   +title: string,
@@ -22,13 +30,14 @@ export default function Dialog(props: Props): React.Node {
   }
 
   return (
-    <NotificationModal
-      onRequestClose={() => setIsOpen(false)}
-      title={title}
-      buttons={[]}
-    >
-      {children}
-    </NotificationModal>
-
+    <DialogContext.Provider value={ {setIsOpen} }>
+      <NotificationModal
+        onRequestClose={() => setIsOpen(false)}
+        title={title}
+        buttons={[]}
+      >
+        {children}
+      </NotificationModal>
+    </DialogContext.Provider>
   );
 }

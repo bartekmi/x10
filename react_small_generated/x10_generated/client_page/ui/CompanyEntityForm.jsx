@@ -15,6 +15,7 @@ import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import CancelDialogButton from 'react_lib/modal/CancelDialogButton';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
@@ -603,9 +604,12 @@ function CompanyEntityForm(props: Props): React.Node {
         justifyContent='space-between'
       >
         <FormErrorDisplay/>
-        <FormSubmitButton
-          onClick={ () => save(companyEntity) }
-        />
+        <Group>
+          <CancelDialogButton/>
+          <FormSubmitButton
+            onClick={ () => save(companyEntity) }
+          />
+        </Group>
       </Group>
     </FormProvider>
   );
