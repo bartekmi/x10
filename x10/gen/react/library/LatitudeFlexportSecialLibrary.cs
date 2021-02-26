@@ -17,6 +17,10 @@ namespace x10.gen.react.library {
             LogicalName = "intent",
             PlatformName = "intent",
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "text",
+            PlatformName = "children",
+          },
         },
       },
     };

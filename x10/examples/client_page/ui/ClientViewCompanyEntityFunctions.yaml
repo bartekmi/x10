@@ -12,3 +12,10 @@
     - name: ctpatReviewStatus
       dataType: CtpatReviewStatus
 
+- name: CtpatReviewStatusToText
+  importDir: client_page
+  returnDataType: String
+  arguments:
+    - name: ctpatReviewStatus
+      dataType: CtpatReviewStatus
+

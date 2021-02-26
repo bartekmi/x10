@@ -22,6 +22,7 @@ import Dialog from 'react_lib/modal/Dialog';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
+import ctpatReviewStatusToText from 'client_page/ctpatReviewStatusToText';
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { CtpatReviewStatusEnumPairs } from 'client_page/entities/CtpatReview';
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
@@ -74,6 +75,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 >
                   <Status
                     intent={ ctpatReviewStatusToIntent(companyEntity?.ctpatReview?.status) }
+                    children={ ctpatReviewStatusToText(companyEntity?.ctpatReview?.status) }
                   />
                 </DisplayField>
               </VisibilityControl>

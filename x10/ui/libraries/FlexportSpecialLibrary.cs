@@ -16,6 +16,10 @@ namespace x10.ui.libraries {
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
             IsPrimary = true, 
+            Name = "text",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
             Name = "intent",
             DataType = new DataTypeEnum("StatusIntent", new string[] { "pending", "active", "error", "done", "complete", "due-soon"} ),
           },
