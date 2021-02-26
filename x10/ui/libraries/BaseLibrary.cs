@@ -810,11 +810,6 @@ namespace x10.ui.libraries {
         // TODO: Add cross-validation... Either Action or url must be provided
       },
       new ClassDefNative() {
-        Name = "SubmitButton",
-        Description = "A button which triggers validation and submits user input",
-        InheritsFromName = "Button",
-      },
-      new ClassDefNative() {
         Name = "CancelButton",
         Description = "A button which cancels the current user edits or in-progress action",
         InheritsFromName = "Button",
@@ -998,6 +993,11 @@ namespace x10.ui.libraries {
           },
         }
       },
+      new ClassDefNative() {
+        Name = "SubmitButton",
+        Description = "A button which triggers validation and submits user input",
+        InheritsFromName = "Button",
+      },
       #endregion
 
       #region Misc
@@ -1022,6 +1022,19 @@ namespace x10.ui.libraries {
             IsPrimary = true,
             Description = "The Content of the Dialog.",
             ComplexAttributeType = ClassDefNative.Visual,
+          },
+        },
+      },
+      new ClassDefNative() {
+        Name = "CancelDialogButton",
+        Description = "A button cancels the current Dialog",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "label",
+            Description = "Label of the cancel button",
+            IsPrimary = true,
+            DataType = DataTypes.Singleton.String,
           },
         },
       },

@@ -95,7 +95,10 @@
     <HorizontalDivider/>
     <RepellingRow>
       <FormErrorDisplay/>
-      <SubmitButton label="Save"/>
+      <Row>
+        <CancelDialogButton/>
+        <SubmitButton label="Save"/>
+      </Row>
     </RepellingRow>
   </Form>
 </CompanyEntityForm>

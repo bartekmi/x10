@@ -778,6 +778,14 @@ namespace x10.gen.react.library {
         },
       },
       new PlatformClassDef() {
+        LogicalName = "CancelDialogButton",
+        PlatformName = "CancelDialogButton",
+        ImportDir = "react_lib/modal",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("label", "label"),
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "AssociationEditor",
         PlatformName = "AssociationEditor",
         ImportDir = "react_lib/multi",
