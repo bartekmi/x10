@@ -407,6 +407,7 @@ function CompanyEntityForm(props: Props): React.Node {
                         </FormField>
                       </Group>
                     ) }
+                    addItemLabel='Add Country'
                     addNewItem={ createDefaultVatNumber }
                   />
                 </Group>

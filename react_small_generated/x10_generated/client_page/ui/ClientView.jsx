@@ -195,6 +195,7 @@ function ClientView(props: Props): React.Node {
         itemDisplayFunc={ (data, onChange) => (
           <ClientViewCompanyEntity companyEntity={ data }/>
         ) }
+        addItemLabel='Add Entity'
         addNewItem={ createDefaultCompanyEntity }
       />
     </DisplayForm>

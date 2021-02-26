@@ -462,6 +462,7 @@ namespace x10.gen.react.library {
               generator.WriteLine(indent, ") }");
             },
           },
+          new JavaScriptAttributeDynamic("addItemLabel", "addItemLabel"),
           new JavaScriptAttributeByFunc() {
             PlatformName = "addNewItem",
             IsCodeSnippet = true,
