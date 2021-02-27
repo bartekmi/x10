@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
 import HelpTooltip from 'latitude/HelpTooltip';
 import Status from 'latitude/Status';
@@ -18,6 +17,7 @@ import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Checkbox from 'react_lib/latitude_wrappers/Checkbox';
 import Dialog from 'react_lib/modal/Dialog';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
@@ -25,7 +25,7 @@ import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
 import ctpatReviewStatusToText from 'client_page/ctpatReviewStatusToText';
 import { companyEntityApplicableWhenForPhysicalAddress, CompanyEntityTypeEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
 import { CtpatReviewStatusEnumPairs } from 'client_page/entities/CtpatReview';
-import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
+import setCompanyEntityAsPrimary from 'client_page/ui/mutations/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
 import ClientViewDocuments from 'client_page/ui/ClientViewDocuments';
 import CompanyEntityFormInterface from 'client_page/ui/CompanyEntityFormInterface';
@@ -143,7 +143,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               checked={ companyEntity?.isPrimary }
               label='Primary Entity'
               disabled={ companyEntity?.isPrimary }
-              onChange={ setCompanyEntityAsPrimary(companyEntity?.id) }
+              onChange={ (value) => setCompanyEntityAsPrimary(companyEntity?.id) }
             />
             <VisibilityControl
               visible={ companyEntity?.isPrimary }
