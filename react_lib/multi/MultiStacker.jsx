@@ -15,9 +15,9 @@ type TItem = {
 type Props<T: TItem> = {|
   +items: $ReadOnlyArray < T >,
   +itemDisplayFunc: (data: T, onChange: (data: T) => void) => React.Node,
-  +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
-  +addNewItem: () => T,
-  +addItemLabel ?: string,
+    +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
+    +addNewItem: () => T,
+      +addItemLabel ?: string,
 |};
 
 export default function MultiStacker<T: TItem>({
@@ -27,12 +27,10 @@ export default function MultiStacker<T: TItem>({
   addNewItem,
   addItemLabel = "Add",
 }: Props<T>): React.Node {
-  const showDeleteIcon = items.length > 1
-
   return (
     <Group gap={20} flexDirection="column">
       {items.map(item => (
-        <Group key={item.id} alignItems="center" fillChildren={true}>
+        <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
           {itemDisplayFunc(
             item,
             (newItem) => {
@@ -42,7 +40,7 @@ export default function MultiStacker<T: TItem>({
               }
             },
           )}
-          {showDeleteIcon && onChange ? (
+          {onChange ? (
             <IconButton
               iconName="trash"
               type="button"
@@ -51,7 +49,7 @@ export default function MultiStacker<T: TItem>({
               }
             />
           ) : null}
-        </Group>
+        </div>
       ))}
       {onChange ? (
         <Button
