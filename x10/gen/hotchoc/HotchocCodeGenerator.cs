@@ -199,7 +199,7 @@ using x10.hotchoc.{0}.Repositories;
 
 namespace x10.hotchoc.{0} {{
   [ExtendObjectType(Name = ""Query"")]
-  public class Queries {{
+  public partial class Queries {{
 
 ", PackageName);
     }
@@ -271,7 +271,7 @@ using x10.hotchoc.{0}.Repositories;
 
 namespace x10.hotchoc.{0} {{
   [ExtendObjectType(Name = ""Mutation"")]
-  public class Mutations {{
+  public partial class Mutations {{
 
 ", PackageName);
     }

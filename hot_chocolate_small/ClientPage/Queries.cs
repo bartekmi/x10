@@ -9,7 +9,7 @@ using x10.hotchoc.ClientPage.Repositories;
 
 namespace x10.hotchoc.ClientPage {
   [ExtendObjectType(Name = "Query")]
-  public class Queries {
+  public partial class Queries {
 
     #region NetsuiteVendor
     /// <summary>
