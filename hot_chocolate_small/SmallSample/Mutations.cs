@@ -10,7 +10,7 @@ using x10.hotchoc.SmallSample.Repositories;
 
 namespace x10.hotchoc.SmallSample {
   [ExtendObjectType(Name = "Mutation")]
-  public class Mutations {
+  public partial class Mutations {
 
     #region Building
     /// <summary>

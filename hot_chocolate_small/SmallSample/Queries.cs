@@ -9,7 +9,7 @@ using x10.hotchoc.SmallSample.Repositories;
 
 namespace x10.hotchoc.SmallSample {
   [ExtendObjectType(Name = "Query")]
-  public class Queries {
+  public partial class Queries {
 
     #region Building
     /// <summary>
