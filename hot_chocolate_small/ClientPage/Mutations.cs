@@ -10,7 +10,7 @@ using x10.hotchoc.ClientPage.Repositories;
 
 namespace x10.hotchoc.ClientPage {
   [ExtendObjectType(Name = "Mutation")]
-  public class Mutations {
+  public partial class Mutations {
 
     #region NetsuiteVendor
     /// <summary>

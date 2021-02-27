@@ -171,6 +171,8 @@ type HkspPartnerUse {
 }
 
 type Mutation {
+  "Set a particular Company Entity as the \"Primary\" - and sets all others to false."
+  setCompanyEntityAsPrimary(companyEntityId: String!): [CompanyEntity!]!
   "Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id"
   createOrUpdateNetsuiteVendor(netsuiteVendor: NetsuiteVendorInput!): String!
   "Creates a new HkspPartner or updates an existing one, depending on the value of hkspPartner.id"
