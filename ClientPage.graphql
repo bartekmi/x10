@@ -176,8 +176,6 @@ type IdAndIsPrimary {
 }
 
 type Mutation {
-  "Set a particular Company Entity as the \"Primary\" - and sets all others to false."
-  setCompanyEntityAsPrimary(companyEntityId: String!): [IdAndIsPrimary!]!
   "Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id"
   createOrUpdateNetsuiteVendor(netsuiteVendor: NetsuiteVendorInput!): String!
   "Creates a new HkspPartner or updates an existing one, depending on the value of hkspPartner.id"
@@ -210,6 +208,8 @@ type Mutation {
   createOrUpdateContact(contact: ContactInput!): String!
   "Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of companyEntityCountryService.id"
   createOrUpdateCompanyEntityCountryService(companyEntityCountryService: CompanyEntityCountryServiceInput!): String!
+  "Set a particular Company Entity as the \"Primary\" - and sets all others to false."
+  setCompanyEntityAsPrimary(companyEntityId: String!): [IdAndIsPrimary!]!
 }
 
 "A reference to an entity in Netsuite"
