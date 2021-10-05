@@ -9,3 +9,7 @@ attributes:
     dataType: String
   - name: email
     dataType: String
+  - name: phone
+    dataType: String
+  - name: location
+    dataType: String

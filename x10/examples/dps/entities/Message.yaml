@@ -1,0 +1,21 @@
+name: Message
+inheritsFrom: Base
+description: An escalation message - logically identical to Core "Internal Message"
+
+attributes:
+  - name: timestamp
+    dataType: Timestamp
+  - name: text
+    dataType: String
+  - name: coreShipmentId
+    dataType: Integer
+
+associations:
+  - name: user
+    dataType: User
+    mandatory: true
+    owns: false  
+  - name: attachments
+    dataType: Attachment
+    many: true
+    owns: true

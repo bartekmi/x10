@@ -9,6 +9,7 @@ import isBlank from 'react_lib/utils/isBlank';
 
 import { type Attachment } from 'dps/entities/Attachment';
 import { type MatchInfo } from 'dps/entities/MatchInfo';
+import { type Message } from 'dps/entities/Message';
 import { type SuggestedResource } from 'dps/entities/SuggestedResource';
 
 
@@ -28,6 +29,7 @@ export type Hit = {
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +resources: $ReadOnlyArray<SuggestedResource>,
+  +messages: $ReadOnlyArray<Message>,
 };
 
 
@@ -85,6 +87,7 @@ export function createDefaultHit(): Hit {
     attachments: [],
     matches: [],
     resources: [],
+    messages: [],
   };
 }
 

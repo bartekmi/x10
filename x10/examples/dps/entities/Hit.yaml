@@ -47,6 +47,11 @@ associations:
     many: true
     owns: true
     datagen_quantity: 2
+  - name: messages
+    dataType: Message
+    many: true
+    owns: true
+    datagen_quantity: 0..5
 
 
 enums:

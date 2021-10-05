@@ -14,6 +14,8 @@ export type User = {
   +firstName: string,
   +lastName: string,
   +email: string,
+  +phone: string,
+  +location: string,
 };
 
 
@@ -24,6 +26,8 @@ export function createDefaultUser(): User {
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
+    location: '',
   };
 }
 
