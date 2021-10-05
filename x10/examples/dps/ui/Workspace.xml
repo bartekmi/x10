@@ -1,0 +1,5 @@
+<Workspace model="Hit" url="/workspace" query="GetWorkspace(hitId: $hitId">
+  <Form>
+    <Heading1>TODO</Heading1>
+  </Form>
+</Workspace>

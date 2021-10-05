@@ -1,0 +1,11 @@
+name: Base
+description: Provides attribute(s) common to all entities
+abstract: true
+
+attributes:
+  - name: id
+    dataType: String
+    description: The relay id associated all entities
+    mandatory: true
+    readOnly: true
+    idAttribute: true

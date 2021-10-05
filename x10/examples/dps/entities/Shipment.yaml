@@ -1,0 +1,49 @@
+# There is redundancy here since part of this info duplicates 
+# existing shipment_type.rb definition
+name: Shipment
+inheritsFrom: Base
+description: A portion of Core Shipment entity
+
+attributes:
+  - name: coreId
+    dataType: Integer
+  - name: name
+    dataType: String
+  - name: transportationMode
+    dataType: TransportationMode
+  - name: status
+    dataType: String
+  - name: customs
+    dataType: String
+  - name: cargoReady
+    dataType: Date
+  - name: departsDate
+    dataType: Date
+  - name: departsLocation
+    dataType: String
+  - name: arrivesDate
+    dataType: Date
+  - name: arrivesLocation
+    dataType: String
+  - name: dueDate
+    dataType: Date
+  - name: dueDateTask
+    dataType: String
+  - name: isLcl
+    dataType: Boolean
+  - name: isLtl
+    dataType: Boolean
+
+associations:
+  - name: consignee
+    dataType: CompanyEntity
+    mandatory: false
+    owns: false
+  - name: shipper
+    dataType: CompanyEntity
+    mandatory: false
+    owns: false
+
+enums:
+  - name: TransportationMode
+    values: air, ocean, truck, rail, unknownTransportation, truckIntl, warehouseStorage

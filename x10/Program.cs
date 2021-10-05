@@ -61,6 +61,23 @@ namespace x10 {
       },
 
       new GenConfig() {
+        Name = "DPS",
+        CommandLine = "dps",
+        SourceDir = "examples/dps",
+        ProjectDir = "../react_small_generated",
+        TargetDir = "x10_generated/dps",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "dps",
+        },
+        PostGenerationScript = new ScriptInfo() {
+          Script = "yarn",
+          Args = "relay-dps",
+        }
+      },
+
+      new GenConfig() {
         Name = "Client Page Project - React Generation",
         CommandLine = "cpreact",
         SourceDir = "examples/client_page",

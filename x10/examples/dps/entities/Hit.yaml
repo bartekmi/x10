@@ -1,0 +1,56 @@
+name: Hit
+inheritsFrom: Base
+description: A "hit" on a User or Company Entity as reported by LexisNexis
+datagen_quantity: 0
+
+
+attributes:
+  - name: priority
+    dataType: Priority
+  - name: status
+    dataType: HitStatus
+  - name: reasonForClear
+    dataType: String
+  - name: whiteListUntil
+    dataType: Timestamp
+  - name: notes
+    dataType: String
+  - name: resolutionTimestamp
+    dataType: Timestamp
+  - name: whitelistedFor
+    dataType: Integer
+
+associations:
+  - name: clearedBy
+    dataType: User
+    mandatory: false
+    owns: false
+  - name: user
+    dataType: User
+    mandatory: false
+    owns: false
+  - name: companyEntity
+    dataType: CompanyEntity
+    mandatory: true
+    owns: false
+  - name: attachments
+    dataType: Attachment
+    many: true
+    owns: true
+  - name: matches
+    dataType: MatchInfo
+    many: true
+    owns: true
+    datagen_quantity: 1..3
+  - name: resources
+    dataType: SuggestedResource
+    many: true
+    owns: true
+    datagen_quantity: 2
+
+
+enums:
+  - name: Priority
+    values: low, middle, high
+  - name: HitStatus
+    values: unresolved, cleared, denied

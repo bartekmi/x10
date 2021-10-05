@@ -1,0 +1,19 @@
+name: SuggestedResource
+inheritsFrom: Base
+description: Canned search results from sources like Google and LinkedIn which may be helpful in making a clear/don't-clear decision
+datagen_quantity: 2
+
+attributes:
+  - name: type
+    dataType: SuggestedResourceType
+  - name: title
+    dataType: String
+  - name: text
+    dataType: String
+  - name: helpful
+    dataType: Boolean
+    mandatory: false
+
+enums:
+  - name: SuggestedResourceType
+    values: google, linkedIn

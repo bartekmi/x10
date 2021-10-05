@@ -1,0 +1,25 @@
+name: MatchInfo
+inheritsFrom: Base
+description: A "Hit" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity.
+
+attributes:
+  - name: sourceList
+    dataType: String
+  - name: ids
+    dataType: String
+  - name: name
+    dataType: String
+  - name: address
+    dataType: String
+  - name: type
+    dataType: String
+  - name: title
+    dataType: String
+  - name: source
+    dataType: String
+  - name: programs
+    dataType: String
+  - name: score
+    dataType: Float
+  - name: note
+    dataType: String

@@ -1,0 +1,9 @@
+name: Attachment
+inheritsFrom: Base
+description: Reflects a hit clearance attachment - typically screenshot jpg's
+
+attributes:
+  - name: filename
+    dataType: String
+  - name: url
+    dataType: String

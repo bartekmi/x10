@@ -1,0 +1,11 @@
+name: User
+inheritsFrom: Base
+description: A portion of Core User entity
+
+attributes:
+  - name: firstName
+    dataType: String
+  - name: lastName
+    dataType: String
+  - name: email
+    dataType: String

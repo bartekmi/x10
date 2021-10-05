@@ -50,6 +50,7 @@
     "build": "yarn react-lib && yarn webpack --config config/webpack-dev-config.js",
     "start": "yarn react-lib && node config/webpack-dev-server.js",
     "relay-small": "relay-compiler --src ./x10_generated/small --schema ../SmallSample.graphql --customScalars.DateTime=String --extensions js jsx",
+    "relay-dps": "relay-compiler --src ./x10_generated/dps --schema ../Dps.graphql --customScalars.DateTime=String --extensions js jsx",
     "relay-cp": "relay-compiler --src ./x10_generated/client_page --schema ../ClientPage.graphql --customScalars.DateTime=String --extensions js jsx",
     "flow": "flow",
     "gen": "pushd ../x10 && dotnet run && popd",
