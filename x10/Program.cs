@@ -151,6 +151,9 @@ namespace x10 {
 
       // Execute Post-Build
       ExecutePostBuildScript(config);
+
+      // Generate docs for all logical libraries
+      GenerateLibraryDocs(config);
     }
 
     private static void GenerateCode(GenConfig config, AllEntities allEntities, AllEnums allEnums, AllUiDefinitions allUiDefinitions) {
@@ -203,6 +206,23 @@ namespace x10 {
         Environment.Exit(1);
       }
     }
+
+    #region Generate Library Docs
+    private const string DOC_DIR = "doc";
+    private static void GenerateLibraryDocs(GenConfig config) {
+      if (!Directory.Exists(DOC_DIR))
+        Directory.CreateDirectory(DOC_DIR);
+
+      foreach (UiLibrary library in config.LogicalLibraries) {
+        string filename = String.Format("{0}/{1}.md", 
+          DOC_DIR,
+          library.Name.Replace(" ", "_").ToLower());
+
+        using (TextWriter writer = new StreamWriter(filename))
+          library.GenerateMarkdown(writer);
+      }
+    }
+    #endregion
 
     #region Post-Build Script
     private static void ExecutePostBuildScript(GenConfig config) {
