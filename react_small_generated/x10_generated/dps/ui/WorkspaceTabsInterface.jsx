@@ -7,7 +7,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import EntityQueryRenderer from 'react_lib/relay/EntityQueryRenderer';
 
 import { createDefaultHit } from 'dps/entities/Hit';
-import Workspace, { WorkspaceStateful } from 'dps/ui/Workspace';
+import WorkspaceTabs from 'dps/ui/WorkspaceTabs';
 import environment from 'environment';
 
 
@@ -20,22 +20,21 @@ type Props = {
     }
   }
 };
-export default function WorkspaceInterface(props: Props): React.Node {
+export default function WorkspaceTabsInterface(props: Props): React.Node {
   return (
     <EntityQueryRenderer
       id={ props.id }
       match={ props.match }
-      createComponentFunc={ (hit) => <Workspace hit={ hit }/> }
-      createComponentFuncNew={ () => <WorkspaceStateful hit={ createDefaultHit() }/> }
+      createComponentFunc={ (hit) => <WorkspaceTabs hit={ hit }/> }
       query={ query }
     />
   );
 }
 
 const query = graphql`
-  query WorkspaceInterfaceQuery($id: String!) {
+  query WorkspaceTabsInterfaceQuery($id: String!) {
     entity: hit(id: $id) {
-      ...Workspace_hit
+      ...WorkspaceTabs_hit
     }
   }
 `;

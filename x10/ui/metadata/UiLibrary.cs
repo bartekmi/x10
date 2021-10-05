@@ -165,13 +165,20 @@ namespace x10.ui.metadata {
         GenerateMarkdownForClassDef(writer, classDef);
     }
 
+    private string ToMarkdown(string text) {
+      if (text == null)
+        return null;
+
+      return text.Replace("<", "*").Replace(">", "*");
+    }
+
     private void GenerateMarkdownForClassDef(TextWriter writer, ClassDef classDef) {
       writer.WriteLine("# Class Definition - '{0}'", classDef.Name);
       writer.WriteLine();
-      writer.WriteLine(classDef.Description);
+      writer.WriteLine(ToMarkdown(classDef.Description));
       writer.WriteLine();
 
-      Write(writer, "Inherits From", classDef.InheritsFromName);
+      Write(writer, "Inherits From", classDef.InheritsFrom?.Name);
       Write(writer, "Expects Data Type", classDef.AtomicDataModel?.Name);
       Write(writer, "Expects Array of Data", classDef?.IsMany == true ? "Yes" : null);
 
@@ -197,7 +204,6 @@ namespace x10.ui.metadata {
       writer.WriteLine(attrDef.Description);
       writer.WriteLine();
 
-      Write(writer, "Primary Attribute", attrDef.IsPrimary ? "Yes" : null);
       Write(writer, "Mandatory", attrDef.IsMandatory ? "Yes" : null);
       Write(writer, "Expects Array of Values", attrDef.IsMany ? "Yes" : null);
 
@@ -210,7 +216,7 @@ namespace x10.ui.metadata {
 
     private void Write(TextWriter writer, string label, string value) {
       if (!string.IsNullOrWhiteSpace(value))
-        writer.WriteLine("{0}: {1}", label, value);
+        writer.WriteLine("- {0}: {1}", label, value);
     }
     #endregion
 
