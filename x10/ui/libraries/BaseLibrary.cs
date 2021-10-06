@@ -1094,8 +1094,8 @@ namespace x10.ui.libraries {
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampEditor", UseMode.ReadWrite);
       
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "Text", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatDisplay", UseMode.ReadOnly);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntDisplay", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "IntDisplay", UseMode.ReadOnly);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "FloatDisplay", UseMode.ReadOnly);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadOnly);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateDisplay", UseMode.ReadOnly);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Timestamp, "TimestampDisplay", UseMode.ReadOnly);

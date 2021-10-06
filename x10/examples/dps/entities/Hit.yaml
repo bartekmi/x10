@@ -47,6 +47,11 @@ associations:
     many: true
     owns: true
     datagen_quantity: 2
+  - name: shipments
+    dataType: Shipment
+    many: true
+    owns: false
+    datagen_quantity: 0..3
   - name: messages
     dataType: Message
     many: true

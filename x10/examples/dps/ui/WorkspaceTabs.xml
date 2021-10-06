@@ -1,5 +1,13 @@
 <WorkspaceTabs model="Hit" url="/workspace" query="GetWorkspace(hitId: $hitId">
-  <Tab>
-    <Heading1>TODO</Heading1>
-  </Tab>
+  <TabbedPane>
+    <Tab label="Hit details">
+      <HitDetailsTab/>
+    </Tab>
+    <Tab label="='Shipment ' + shipments.count">
+      <ShipmentTab path="shipments"/>
+    </Tab>
+    <Tab label="='Escalation ' + messages.count">
+      <EscalationTab path="messages"/>
+    </Tab>
+  </TabbedPane>
 </WorkspaceTabs>

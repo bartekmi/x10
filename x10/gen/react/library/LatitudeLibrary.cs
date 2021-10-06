@@ -74,6 +74,14 @@ namespace x10.gen.react.library {
         ImportDir = "react_lib",
       },
       new PlatformClassDef() {
+        LogicalName = "VerticalDivider",
+        PlatformName = "Separator",
+        ImportDir = "react_lib",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic("orientation", "vertical"),
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "Bullet",
         PlatformName = "Text",
         LocalPlatformAttributes = new List<PlatformAttribute>() {

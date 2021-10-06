@@ -11,11 +11,11 @@ import isBlank from 'react_lib/utils/isBlank';
 // Type Definition
 export type CompanyEntity = {
   +id: string,
-  +legalName: string,
   +clientId: ?number,
+  +name: string,
+  +primaryContact: string,
   +location: string,
   +mainNumber: string,
-  +contact: string,
   +address: string,
 };
 
@@ -24,11 +24,11 @@ export type CompanyEntity = {
 export function createDefaultCompanyEntity(): CompanyEntity {
   return {
     id: uuid(),
-    legalName: '',
     clientId: null,
+    name: '',
+    primaryContact: '',
     location: '',
     mainNumber: '',
-    contact: '',
     address: '',
   };
 }

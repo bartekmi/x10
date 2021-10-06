@@ -3,15 +3,15 @@ inheritsFrom: Base
 description: A portion of Core CompanyEntity entity
 
 attributes:
-  - name: legalName
-    dataType: String
   - name: clientId
     dataType: Integer
+  - name: name
+    dataType: String
+  - name: primaryContact
+    dataType: String
   - name: location
     dataType: String
   - name: mainNumber
-    dataType: String
-  - name: contact
     dataType: String
   - name: address
     dataType: String

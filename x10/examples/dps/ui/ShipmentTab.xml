@@ -1,0 +1,3 @@
+<ShipmentTab model="Shipment" many="true">
+  <Heading1 text="TBD Shipments"/>
+</ShipmentTab>

@@ -29,6 +29,7 @@ export type Hit = {
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +resources: $ReadOnlyArray<SuggestedResource>,
+  +shipments: ?{ id: string },
   +messages: $ReadOnlyArray<Message>,
 };
 
@@ -87,6 +88,7 @@ export function createDefaultHit(): Hit {
     attachments: [],
     matches: [],
     resources: [],
+    shipments: [],
     messages: [],
   };
 }
