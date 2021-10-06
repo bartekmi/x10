@@ -1,7 +1,7 @@
 name: Hit
 inheritsFrom: Base
 description: A "hit" on a User or Company Entity as reported by LexisNexis
-datagen_quantity: 0
+datagen_quantity: 10
 
 
 attributes:

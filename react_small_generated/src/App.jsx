@@ -15,12 +15,14 @@ import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 import { AppContextProvider as SmallAppContextProvider } from "SmallAppContext";
 
 import SmallHeader from "../x10_generated/small/ui/Header";
+import DpsHeader from "../x10_generated/dps/ui/Header";
 import ClientPageHeader from "../x10_generated/client_page/ui/Header";
 
 export default function App(): React.Node {
   // const [app, setApp] = React.useState(null);
   // const app = "client_page";
-  const app = "small";
+  // const app = "small";
+  const app = "dps";
 
   const appContext = {
     today: new Date().toISOString(),
@@ -48,6 +50,17 @@ export default function App(): React.Node {
             <SmallHeader />
           </div>
         </SmallAppContextProvider>
+      </>
+    );
+  }
+
+  else if (app == "dps") {
+    return (
+      <>
+        <ConnectedToaster />
+        <div className={css(styles.app)}>
+          <DpsHeader />
+        </div>
       </>
     );
   }

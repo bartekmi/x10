@@ -1,4 +1,4 @@
-<WorkspaceTabs model="Hit" url="/workspace" query="GetWorkspace(hitId: $hitId">
+<WorkspaceTabs model="Hit" url="/hits" query="GetHit(hitId: $hitId">
   <TabbedPane>
     <Tab label="Hit details">
       <HitDetailsTab/>

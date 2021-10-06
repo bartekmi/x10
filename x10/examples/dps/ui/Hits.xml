@@ -1,0 +1,25 @@
+<Hits model="Hit" many="true" url="/hits" query="Hits">
+  <VerticalStackPanel>
+    <Heading1 text="Hits"/>
+
+    <Table>
+      <!-- Header -->
+      <Table.Header>
+          <Row>
+            <!-- TODO: Filters -->
+          </Row>
+      </Table.Header>
+
+      <!-- Columns -->
+      <Table.Columns>
+        <companyEntity.name/>
+        <priority/>
+        <TableColumn label="Go-To">
+          <Row>
+            <Button label="Go-To" url="='/hits/' + id"/>
+          </Row>
+        </TableColumn>
+      </Table.Columns>
+    </Table>
+  </VerticalStackPanel>
+</Hits>

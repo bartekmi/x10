@@ -1,0 +1,8 @@
+<Header>
+  <VerticalStackPanel>
+    <Menu>
+      <MenuItem label="Hits" url="/hits"/>
+    </Menu>
+    <SpaContent rootComponent="Hits"/>
+  </VerticalStackPanel>
+</Header>
