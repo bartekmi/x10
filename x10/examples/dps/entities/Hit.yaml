@@ -50,7 +50,7 @@ associations:
   - name: shipments
     dataType: Shipment
     many: true
-    owns: false
+    owns: true
     datagen_quantity: 0..3
   - name: messages
     dataType: Message

@@ -36,7 +36,7 @@ function HitDetailsTab(props: Props): React.Node {
       />
       <Text
         scale='headline'
-        children={ 'Please review ' + x10toString(hit?.matches?.count) + ' matches' }
+        children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
       />
       <Group>
         <Group

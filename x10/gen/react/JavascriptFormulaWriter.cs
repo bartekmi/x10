@@ -97,9 +97,29 @@ namespace x10.gen.react {
       if (WriteDerivedAttribute(exp))
         return;
 
+      if (WriteArrayIntrinsicMember(exp))
+        return;
+
       exp.Expression.Accept(this);
       _writer.Write("?.");
       _writer.Write(exp.MemberName);
+    }
+
+    private bool WriteArrayIntrinsicMember(ExpMemberAccess exp) {
+      if (exp.Expression.DataType.IsMany) {
+        switch (exp.MemberName) {
+          case "count":
+            exp.Expression.Accept(this);
+            _writer.Write(".length");
+            break;
+          default:
+            throw new NotImplementedException("Unimplemented array member access: " + exp.MemberName);
+        }
+
+        return true;
+      }
+
+      return false;
     }
 
     private bool WriteDerivedAttribute(ExpMemberAccess exp) {

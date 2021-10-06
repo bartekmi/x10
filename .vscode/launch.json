@@ -34,6 +34,36 @@
       }
     },
 
+    // Code Generation - Dps Example
+    {
+      "name": "Gen Dps - Hot Choc",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "args": ["dpshot"],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
+    {
+      "name": "Gen Dps - React",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "args": ["dps"],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
+
     // Code Generation - Client Page
     {
       "name": "Gen CP - Hot Choc",

@@ -34,13 +34,13 @@ function WorkspaceTabs(props: Props): React.Node {
             ,
           },
           {
-            label: 'Shipment ' + x10toString(hit?.shipments?.count),
+            label: 'Shipment ' + x10toString(hit?.shipments.length),
             displayFunc: () =>
               <ShipmentTab shipment={ hit.shipments }/>
             ,
           },
           {
-            label: 'Escalation ' + x10toString(hit?.messages?.count),
+            label: 'Escalation ' + x10toString(hit?.messages.length),
             displayFunc: () =>
               <EscalationTab message={ hit.messages }/>
             ,
@@ -62,7 +62,6 @@ export default createFragmentContainer(WorkspaceTabs, {
       }
       shipments {
         id
-        toStringRepresentation
         ...ShipmentTab_shipments
       }
       ...HitDetailsTab_hit

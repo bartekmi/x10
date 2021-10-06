@@ -10,6 +10,7 @@ import isBlank from 'react_lib/utils/isBlank';
 import { type Attachment } from 'dps/entities/Attachment';
 import { type MatchInfo } from 'dps/entities/MatchInfo';
 import { type Message } from 'dps/entities/Message';
+import { type Shipment } from 'dps/entities/Shipment';
 import { type SuggestedResource } from 'dps/entities/SuggestedResource';
 
 
@@ -29,7 +30,7 @@ export type Hit = {
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +resources: $ReadOnlyArray<SuggestedResource>,
-  +shipments: ?{ id: string },
+  +shipments: $ReadOnlyArray<Shipment>,
   +messages: $ReadOnlyArray<Message>,
 };
 
