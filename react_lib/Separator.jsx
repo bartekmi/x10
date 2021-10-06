@@ -5,16 +5,27 @@ import {StyleSheet, css} from "aphrodite";
 
 import colors from "latitude/colors";
 
-export default function Separator(): React.Node {
+type Props = {|
+  +orientation?: "vertical" | "horizontal"
+|};
+export default function Separator(props: Props): React.Node {
+  const {orientation} = props;
+
   return (
-    <div className={css(styles.main)}/>
+    <div className={css(orientation === "vertical" ? styles.vertical : styles.horizontal)}/>
   );
 }
 
 const styles = StyleSheet.create({
-  main: {
+  horizontal: {
     height: "2px",
     borderBottom: `1px solid ${colors.grey30}`,
+    margin: "1em 0",
+    padding: "0",
+  },
+  vertical: {
+    width: "2px",
+    borderLeft: `1px solid ${colors.grey30}`,
     margin: "1em 0",
     padding: "0",
   },
