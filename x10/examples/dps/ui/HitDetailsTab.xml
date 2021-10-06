@@ -1,7 +1,7 @@
 <HitDetailsTab model="Hit">
   <VerticalStackPanel>
     <Heading1 text="Match details"/>
-    <Heading2 text="'Please review ' + matches.count + ' matches'"/>
+    <Heading2 text="='Please review ' + matches.count + ' matches'"/>
     <Row>
       <VerticalStackPanel>
         <Heading3 text="Company information"/>

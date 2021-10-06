@@ -5,5 +5,8 @@ description: Reflects a hit clearance attachment - typically screenshot jpg's
 attributes:
   - name: filename
     dataType: String
+    datagen_pattern: (<noun>.jpg | <noun>.pdf)
+
   - name: url
     dataType: String
+    datagen_pattern: ~mybucket.s3.amazon.com/DDDDDDDDDDDD~

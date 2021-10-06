@@ -60,6 +60,15 @@ namespace x10.hotchoc {
         IntermediateOutputDir = "/Users/bmuszynski/temp/small",
       },
       new HotChocConfig(
+        commandLine: "dps",
+        projectName: "dps",
+        metadataDir: "../x10/examples/dps",
+        repositoryInterface: typeof(dps.Repositories.IRepository),
+        repository: new dps.Repositories.Repository()
+      ) {
+        IntermediateOutputDir = "/Users/bmuszynski/temp/dps",
+      },
+      new HotChocConfig(
         commandLine: "cp",
         projectName: "ClientPage",
         metadataDir: "../x10/examples/client_page",

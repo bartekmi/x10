@@ -43,7 +43,7 @@ namespace x10 {
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
-        Name = "Small Project - React Generation",
+        Name = "Small Project - React",
         CommandLine = "smallreact",
         SourceDir = "examples/small",
         ProjectDir = "../react_small_generated",
@@ -61,7 +61,7 @@ namespace x10 {
       },
 
       new GenConfig() {
-        Name = "DPS",
+        Name = "DPS - React",
         CommandLine = "dps",
         SourceDir = "examples/dps",
         ProjectDir = "../react_small_generated",
@@ -78,7 +78,7 @@ namespace x10 {
       },
 
       new GenConfig() {
-        Name = "Client Page Project - React Generation",
+        Name = "Client Page Project - React",
         CommandLine = "cpreact",
         SourceDir = "examples/client_page",
         ProjectDir = "../react_small_generated",
@@ -96,7 +96,7 @@ namespace x10 {
       },
 
       new GenConfig() {
-        Name = "Small Project - Hot Chocolate Generation",
+        Name = "Small Project - Hot Chocolate",
         CommandLine = "smallhot",
         SourceDir = "examples/small",
         ProjectDir = "../hot_chocolate_small",
@@ -110,7 +110,21 @@ namespace x10 {
       },
 
       new GenConfig() {
-        Name = "Client Page Project - Hot Chocolate Generation",
+        Name = "DPS - Hot Chocolate",
+        CommandLine = "dpshot",
+        SourceDir = "examples/dps",
+        ProjectDir = "../hot_chocolate_small",
+        TargetDir = "dps",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new HotchocCodeGenerator() {
+          GenerateAbstractEntities = true,
+          PackageName = "dps",
+        },
+      },
+
+      new GenConfig() {
+        Name = "Client Page Project - Hot Chocolate",
         CommandLine = "cphot",
         SourceDir = "examples/client_page",
         ProjectDir = "../hot_chocolate_small",

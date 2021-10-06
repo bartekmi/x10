@@ -7,30 +7,45 @@ description: A portion of Core Shipment entity
 attributes:
   - name: coreId
     dataType: Integer
+
   - name: name
     dataType: String
+    datagen_pattern: <adjective> <noun>
+    datagen_capitalization: wordCaps
+
   - name: transportationMode
     dataType: TransportationMode
+
   - name: status
     dataType: String
+
   - name: customs
     dataType: String
+
   - name: cargoReady
     dataType: Date
+
   - name: departsDate
     dataType: Date
+
   - name: departsLocation
     dataType: String
+
   - name: arrivesDate
     dataType: Date
+
   - name: arrivesLocation
     dataType: String
+
   - name: dueDate
     dataType: Date
+
   - name: dueDateTask
     dataType: String
+
   - name: isLcl
     dataType: Boolean
+    
   - name: isLtl
     dataType: Boolean
 

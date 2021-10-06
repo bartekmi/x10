@@ -1,0 +1,1314 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+type Attachment {
+  filename: String!
+  url: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core CompanyEntity entity"
+type CompanyEntity {
+  clientId: Int
+  name: String!
+  primaryContact: String!
+  location: String!
+  mainNumber: String!
+  address: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+type Hit {
+  priority: PriorityEnum
+  status: HitStatusEnum
+  reasonForClear: String!
+  whiteListUntil: DateTime
+  notes: String!
+  resolutionTimestamp: DateTime
+  whitelistedFor: Int
+  toStringRepresentation: String!
+  clearedBy: User
+  user: User
+  companyEntity: CompanyEntity!
+  attachments: [Attachment!]!
+  matches: [MatchInfo!]!
+  resources: [SuggestedResource!]!
+  shipments: [Shipment!]!
+  messages: [Message!]!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+type MatchInfo {
+  sourceList: String!
+  ids: String!
+  name: String!
+  address: String!
+  type: String!
+  title: String!
+  source: String!
+  programs: String!
+  score: Float
+  note: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+type Message {
+  timestamp: DateTime
+  text: String!
+  coreShipmentId: Int
+  toStringRepresentation: String!
+  user: User!
+  attachments: [Attachment!]!
+  id: String!
+  hashcode: Int!
+}
+
+type Mutation {
+  "Creates a new SuggestedResource or updates an existing one, depending on the value of suggestedResource.id"
+  createOrUpdateSuggestedResource(suggestedResource: SuggestedResourceInput!): String!
+  "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
+  createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
+  "Creates a new Hit or updates an existing one, depending on the value of hit.id"
+  createOrUpdateHit(hit: HitInput!): String!
+  "Creates a new Attachment or updates an existing one, depending on the value of attachment.id"
+  createOrUpdateAttachment(attachment: AttachmentInput!): String!
+  "Creates a new MatchInfo or updates an existing one, depending on the value of matchInfo.id"
+  createOrUpdateMatchInfo(matchInfo: MatchInfoInput!): String!
+  "Creates a new User or updates an existing one, depending on the value of user.id"
+  createOrUpdateUser(user: UserInput!): String!
+  "Creates a new Shipment or updates an existing one, depending on the value of shipment.id"
+  createOrUpdateShipment(shipment: ShipmentInput!): String!
+  "Creates a new Message or updates an existing one, depending on the value of message.id"
+  createOrUpdateMessage(message: MessageInput!): String!
+}
+
+type Query {
+  "Retrieve a SuggestedResource by id\n\n\n**Returns:**\nThe SuggestedResource."
+  suggestedResource("The id of the SuggestedResource." id: String!): SuggestedResource!
+  "Gets all SuggestedResources.\n\n\n**Returns:**\nAll SuggestedResources."
+  suggestedResources(where: SuggestedResourceFilter order_by: SuggestedResourceSort): [SuggestedResource!]!
+  "Retrieve a CompanyEntity by id\n\n\n**Returns:**\nThe CompanyEntity."
+  companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
+  "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
+  companyEntities(where: CompanyEntityFilter order_by: CompanyEntitySort): [CompanyEntity!]!
+  "Retrieve a Hit by id\n\n\n**Returns:**\nThe Hit."
+  hit("The id of the Hit." id: String!): Hit!
+  "Gets all Hits.\n\n\n**Returns:**\nAll Hits."
+  hits(where: HitFilter order_by: HitSort): [Hit!]!
+  "Retrieve a Attachment by id\n\n\n**Returns:**\nThe Attachment."
+  attachment("The id of the Attachment." id: String!): Attachment!
+  "Gets all Attachments.\n\n\n**Returns:**\nAll Attachments."
+  attachments(where: AttachmentFilter order_by: AttachmentSort): [Attachment!]!
+  "Retrieve a MatchInfo by id\n\n\n**Returns:**\nThe MatchInfo."
+  matchInfo("The id of the MatchInfo." id: String!): MatchInfo!
+  "Gets all MatchInfos.\n\n\n**Returns:**\nAll MatchInfos."
+  matchInfos(where: MatchInfoFilter order_by: MatchInfoSort): [MatchInfo!]!
+  "Retrieve a User by id\n\n\n**Returns:**\nThe User."
+  user("The id of the User." id: String!): User!
+  "Gets all Users.\n\n\n**Returns:**\nAll Users."
+  users(where: UserFilter order_by: UserSort): [User!]!
+  "Retrieve a Shipment by id\n\n\n**Returns:**\nThe Shipment."
+  shipment("The id of the Shipment." id: String!): Shipment!
+  "Gets all Shipments.\n\n\n**Returns:**\nAll Shipments."
+  shipments(where: ShipmentFilter order_by: ShipmentSort): [Shipment!]!
+  "Retrieve a Message by id\n\n\n**Returns:**\nThe Message."
+  message("The id of the Message." id: String!): Message!
+  "Gets all Messages.\n\n\n**Returns:**\nAll Messages."
+  messages(where: MessageFilter order_by: MessageSort): [Message!]!
+}
+
+"A portion of Core Shipment entity"
+type Shipment {
+  coreId: Int
+  name: String!
+  transportationMode: TransportationModeEnum
+  status: String!
+  customs: String!
+  cargoReady: DateTime
+  departsDate: DateTime
+  departsLocation: String!
+  arrivesDate: DateTime
+  arrivesLocation: String!
+  dueDate: DateTime
+  dueDateTask: String!
+  isLcl: Boolean!
+  isLtl: Boolean!
+  toStringRepresentation: String!
+  consignee: CompanyEntity
+  shipper: CompanyEntity
+  id: String!
+  hashcode: Int!
+}
+
+"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
+type SuggestedResource {
+  type: SuggestedResourceTypeEnum
+  title: String!
+  text: String!
+  helpful: Boolean!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core User entity"
+type User {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String!
+  location: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+input AttachmentFilter {
+  AND: [AttachmentFilter!]
+  OR: [AttachmentFilter!]
+  filename: String
+  filename_not: String
+  filename_contains: String
+  filename_not_contains: String
+  filename_starts_with: String
+  filename_not_starts_with: String
+  filename_ends_with: String
+  filename_not_ends_with: String
+  filename_in: [String!]
+  filename_not_in: [String!]
+  url: String
+  url_not: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  url_in: [String!]
+  url_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+input AttachmentInput {
+  filename: String!
+  url: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+input AttachmentSort {
+  filename: SortOperationKind
+  url: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A portion of Core CompanyEntity entity"
+input CompanyEntityFilter {
+  AND: [CompanyEntityFilter!]
+  OR: [CompanyEntityFilter!]
+  clientId: Int
+  clientId_not: Int
+  clientId_in: [Int]
+  clientId_not_in: [Int]
+  clientId_gt: Int
+  clientId_not_gt: Int
+  clientId_gte: Int
+  clientId_not_gte: Int
+  clientId_lt: Int
+  clientId_not_lt: Int
+  clientId_lte: Int
+  clientId_not_lte: Int
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  primaryContact: String
+  primaryContact_not: String
+  primaryContact_contains: String
+  primaryContact_not_contains: String
+  primaryContact_starts_with: String
+  primaryContact_not_starts_with: String
+  primaryContact_ends_with: String
+  primaryContact_not_ends_with: String
+  primaryContact_in: [String!]
+  primaryContact_not_in: [String!]
+  location: String
+  location_not: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  location_in: [String!]
+  location_not_in: [String!]
+  mainNumber: String
+  mainNumber_not: String
+  mainNumber_contains: String
+  mainNumber_not_contains: String
+  mainNumber_starts_with: String
+  mainNumber_not_starts_with: String
+  mainNumber_ends_with: String
+  mainNumber_not_ends_with: String
+  mainNumber_in: [String!]
+  mainNumber_not_in: [String!]
+  address: String
+  address_not: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  address_in: [String!]
+  address_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A portion of Core CompanyEntity entity"
+input CompanyEntityInput {
+  clientId: Int
+  name: String!
+  primaryContact: String!
+  location: String!
+  mainNumber: String!
+  address: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core CompanyEntity entity"
+input CompanyEntitySort {
+  clientId: SortOperationKind
+  name: SortOperationKind
+  primaryContact: SortOperationKind
+  location: SortOperationKind
+  mainNumber: SortOperationKind
+  address: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input HitFilter {
+  AND: [HitFilter!]
+  OR: [HitFilter!]
+  priority: PriorityEnum
+  priority_not: PriorityEnum
+  priority_in: [PriorityEnum]
+  priority_not_in: [PriorityEnum]
+  priority_gt: PriorityEnum
+  priority_not_gt: PriorityEnum
+  priority_gte: PriorityEnum
+  priority_not_gte: PriorityEnum
+  priority_lt: PriorityEnum
+  priority_not_lt: PriorityEnum
+  priority_lte: PriorityEnum
+  priority_not_lte: PriorityEnum
+  status: HitStatusEnum
+  status_not: HitStatusEnum
+  status_in: [HitStatusEnum]
+  status_not_in: [HitStatusEnum]
+  status_gt: HitStatusEnum
+  status_not_gt: HitStatusEnum
+  status_gte: HitStatusEnum
+  status_not_gte: HitStatusEnum
+  status_lt: HitStatusEnum
+  status_not_lt: HitStatusEnum
+  status_lte: HitStatusEnum
+  status_not_lte: HitStatusEnum
+  reasonForClear: String
+  reasonForClear_not: String
+  reasonForClear_contains: String
+  reasonForClear_not_contains: String
+  reasonForClear_starts_with: String
+  reasonForClear_not_starts_with: String
+  reasonForClear_ends_with: String
+  reasonForClear_not_ends_with: String
+  reasonForClear_in: [String!]
+  reasonForClear_not_in: [String!]
+  whiteListUntil: DateTime
+  whiteListUntil_not: DateTime
+  whiteListUntil_in: [DateTime]
+  whiteListUntil_not_in: [DateTime]
+  whiteListUntil_gt: DateTime
+  whiteListUntil_not_gt: DateTime
+  whiteListUntil_gte: DateTime
+  whiteListUntil_not_gte: DateTime
+  whiteListUntil_lt: DateTime
+  whiteListUntil_not_lt: DateTime
+  whiteListUntil_lte: DateTime
+  whiteListUntil_not_lte: DateTime
+  notes: String
+  notes_not: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
+  notes_in: [String!]
+  notes_not_in: [String!]
+  resolutionTimestamp: DateTime
+  resolutionTimestamp_not: DateTime
+  resolutionTimestamp_in: [DateTime]
+  resolutionTimestamp_not_in: [DateTime]
+  resolutionTimestamp_gt: DateTime
+  resolutionTimestamp_not_gt: DateTime
+  resolutionTimestamp_gte: DateTime
+  resolutionTimestamp_not_gte: DateTime
+  resolutionTimestamp_lt: DateTime
+  resolutionTimestamp_not_lt: DateTime
+  resolutionTimestamp_lte: DateTime
+  resolutionTimestamp_not_lte: DateTime
+  whitelistedFor: Int
+  whitelistedFor_not: Int
+  whitelistedFor_in: [Int]
+  whitelistedFor_not_in: [Int]
+  whitelistedFor_gt: Int
+  whitelistedFor_not_gt: Int
+  whitelistedFor_gte: Int
+  whitelistedFor_not_gte: Int
+  whitelistedFor_lt: Int
+  whitelistedFor_not_lt: Int
+  whitelistedFor_lte: Int
+  whitelistedFor_not_lte: Int
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  clearedBy: UserFilter
+  user: UserFilter
+  companyEntity: CompanyEntityFilter
+  attachments_some: AttachmentFilter
+  attachments_none: AttachmentFilter
+  attachments_all: AttachmentFilter
+  attachments_any: Boolean
+  matches_some: MatchInfoFilter
+  matches_none: MatchInfoFilter
+  matches_all: MatchInfoFilter
+  matches_any: Boolean
+  resources_some: SuggestedResourceFilter
+  resources_none: SuggestedResourceFilter
+  resources_all: SuggestedResourceFilter
+  resources_any: Boolean
+  shipments_some: ShipmentFilter
+  shipments_none: ShipmentFilter
+  shipments_all: ShipmentFilter
+  shipments_any: Boolean
+  messages_some: MessageFilter
+  messages_none: MessageFilter
+  messages_all: MessageFilter
+  messages_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input HitInput {
+  priority: PriorityEnum
+  status: HitStatusEnum
+  reasonForClear: String!
+  whiteListUntil: DateTime
+  notes: String!
+  resolutionTimestamp: DateTime
+  whitelistedFor: Int
+  toStringRepresentation: String!
+  clearedBy: UserInput
+  user: UserInput
+  companyEntity: CompanyEntityInput!
+  attachments: [AttachmentInput!]!
+  matches: [MatchInfoInput!]!
+  resources: [SuggestedResourceInput!]!
+  shipments: [ShipmentInput!]!
+  messages: [MessageInput!]!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input HitSort {
+  priority: SortOperationKind
+  status: SortOperationKind
+  reasonForClear: SortOperationKind
+  whiteListUntil: SortOperationKind
+  notes: SortOperationKind
+  resolutionTimestamp: SortOperationKind
+  whitelistedFor: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  clearedBy: UserSort
+  user: UserSort
+  companyEntity: CompanyEntitySort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+input MatchInfoFilter {
+  AND: [MatchInfoFilter!]
+  OR: [MatchInfoFilter!]
+  sourceList: String
+  sourceList_not: String
+  sourceList_contains: String
+  sourceList_not_contains: String
+  sourceList_starts_with: String
+  sourceList_not_starts_with: String
+  sourceList_ends_with: String
+  sourceList_not_ends_with: String
+  sourceList_in: [String!]
+  sourceList_not_in: [String!]
+  ids: String
+  ids_not: String
+  ids_contains: String
+  ids_not_contains: String
+  ids_starts_with: String
+  ids_not_starts_with: String
+  ids_ends_with: String
+  ids_not_ends_with: String
+  ids_in: [String!]
+  ids_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  address: String
+  address_not: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  address_in: [String!]
+  address_not_in: [String!]
+  type: String
+  type_not: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  type_in: [String!]
+  type_not_in: [String!]
+  title: String
+  title_not: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  title_in: [String!]
+  title_not_in: [String!]
+  source: String
+  source_not: String
+  source_contains: String
+  source_not_contains: String
+  source_starts_with: String
+  source_not_starts_with: String
+  source_ends_with: String
+  source_not_ends_with: String
+  source_in: [String!]
+  source_not_in: [String!]
+  programs: String
+  programs_not: String
+  programs_contains: String
+  programs_not_contains: String
+  programs_starts_with: String
+  programs_not_starts_with: String
+  programs_ends_with: String
+  programs_not_ends_with: String
+  programs_in: [String!]
+  programs_not_in: [String!]
+  score: Float
+  score_not: Float
+  score_in: [Float]
+  score_not_in: [Float]
+  score_gt: Float
+  score_not_gt: Float
+  score_gte: Float
+  score_not_gte: Float
+  score_lt: Float
+  score_not_lt: Float
+  score_lte: Float
+  score_not_lte: Float
+  note: String
+  note_not: String
+  note_contains: String
+  note_not_contains: String
+  note_starts_with: String
+  note_not_starts_with: String
+  note_ends_with: String
+  note_not_ends_with: String
+  note_in: [String!]
+  note_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+input MatchInfoInput {
+  sourceList: String!
+  ids: String!
+  name: String!
+  address: String!
+  type: String!
+  title: String!
+  source: String!
+  programs: String!
+  score: Float
+  note: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+input MatchInfoSort {
+  sourceList: SortOperationKind
+  ids: SortOperationKind
+  name: SortOperationKind
+  address: SortOperationKind
+  type: SortOperationKind
+  title: SortOperationKind
+  source: SortOperationKind
+  programs: SortOperationKind
+  score: SortOperationKind
+  note: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+input MessageFilter {
+  AND: [MessageFilter!]
+  OR: [MessageFilter!]
+  timestamp: DateTime
+  timestamp_not: DateTime
+  timestamp_in: [DateTime]
+  timestamp_not_in: [DateTime]
+  timestamp_gt: DateTime
+  timestamp_not_gt: DateTime
+  timestamp_gte: DateTime
+  timestamp_not_gte: DateTime
+  timestamp_lt: DateTime
+  timestamp_not_lt: DateTime
+  timestamp_lte: DateTime
+  timestamp_not_lte: DateTime
+  text: String
+  text_not: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  text_in: [String!]
+  text_not_in: [String!]
+  coreShipmentId: Int
+  coreShipmentId_not: Int
+  coreShipmentId_in: [Int]
+  coreShipmentId_not_in: [Int]
+  coreShipmentId_gt: Int
+  coreShipmentId_not_gt: Int
+  coreShipmentId_gte: Int
+  coreShipmentId_not_gte: Int
+  coreShipmentId_lt: Int
+  coreShipmentId_not_lt: Int
+  coreShipmentId_lte: Int
+  coreShipmentId_not_lte: Int
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  user: UserFilter
+  attachments_some: AttachmentFilter
+  attachments_none: AttachmentFilter
+  attachments_all: AttachmentFilter
+  attachments_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+input MessageInput {
+  timestamp: DateTime
+  text: String!
+  coreShipmentId: Int
+  toStringRepresentation: String!
+  user: UserInput!
+  attachments: [AttachmentInput!]!
+  id: String!
+  hashcode: Int!
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+input MessageSort {
+  timestamp: SortOperationKind
+  text: SortOperationKind
+  coreShipmentId: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  user: UserSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A portion of Core Shipment entity"
+input ShipmentFilter {
+  AND: [ShipmentFilter!]
+  OR: [ShipmentFilter!]
+  coreId: Int
+  coreId_not: Int
+  coreId_in: [Int]
+  coreId_not_in: [Int]
+  coreId_gt: Int
+  coreId_not_gt: Int
+  coreId_gte: Int
+  coreId_not_gte: Int
+  coreId_lt: Int
+  coreId_not_lt: Int
+  coreId_lte: Int
+  coreId_not_lte: Int
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  transportationMode: TransportationModeEnum
+  transportationMode_not: TransportationModeEnum
+  transportationMode_in: [TransportationModeEnum]
+  transportationMode_not_in: [TransportationModeEnum]
+  transportationMode_gt: TransportationModeEnum
+  transportationMode_not_gt: TransportationModeEnum
+  transportationMode_gte: TransportationModeEnum
+  transportationMode_not_gte: TransportationModeEnum
+  transportationMode_lt: TransportationModeEnum
+  transportationMode_not_lt: TransportationModeEnum
+  transportationMode_lte: TransportationModeEnum
+  transportationMode_not_lte: TransportationModeEnum
+  status: String
+  status_not: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  status_in: [String!]
+  status_not_in: [String!]
+  customs: String
+  customs_not: String
+  customs_contains: String
+  customs_not_contains: String
+  customs_starts_with: String
+  customs_not_starts_with: String
+  customs_ends_with: String
+  customs_not_ends_with: String
+  customs_in: [String!]
+  customs_not_in: [String!]
+  cargoReady: DateTime
+  cargoReady_not: DateTime
+  cargoReady_in: [DateTime]
+  cargoReady_not_in: [DateTime]
+  cargoReady_gt: DateTime
+  cargoReady_not_gt: DateTime
+  cargoReady_gte: DateTime
+  cargoReady_not_gte: DateTime
+  cargoReady_lt: DateTime
+  cargoReady_not_lt: DateTime
+  cargoReady_lte: DateTime
+  cargoReady_not_lte: DateTime
+  departsDate: DateTime
+  departsDate_not: DateTime
+  departsDate_in: [DateTime]
+  departsDate_not_in: [DateTime]
+  departsDate_gt: DateTime
+  departsDate_not_gt: DateTime
+  departsDate_gte: DateTime
+  departsDate_not_gte: DateTime
+  departsDate_lt: DateTime
+  departsDate_not_lt: DateTime
+  departsDate_lte: DateTime
+  departsDate_not_lte: DateTime
+  departsLocation: String
+  departsLocation_not: String
+  departsLocation_contains: String
+  departsLocation_not_contains: String
+  departsLocation_starts_with: String
+  departsLocation_not_starts_with: String
+  departsLocation_ends_with: String
+  departsLocation_not_ends_with: String
+  departsLocation_in: [String!]
+  departsLocation_not_in: [String!]
+  arrivesDate: DateTime
+  arrivesDate_not: DateTime
+  arrivesDate_in: [DateTime]
+  arrivesDate_not_in: [DateTime]
+  arrivesDate_gt: DateTime
+  arrivesDate_not_gt: DateTime
+  arrivesDate_gte: DateTime
+  arrivesDate_not_gte: DateTime
+  arrivesDate_lt: DateTime
+  arrivesDate_not_lt: DateTime
+  arrivesDate_lte: DateTime
+  arrivesDate_not_lte: DateTime
+  arrivesLocation: String
+  arrivesLocation_not: String
+  arrivesLocation_contains: String
+  arrivesLocation_not_contains: String
+  arrivesLocation_starts_with: String
+  arrivesLocation_not_starts_with: String
+  arrivesLocation_ends_with: String
+  arrivesLocation_not_ends_with: String
+  arrivesLocation_in: [String!]
+  arrivesLocation_not_in: [String!]
+  dueDate: DateTime
+  dueDate_not: DateTime
+  dueDate_in: [DateTime]
+  dueDate_not_in: [DateTime]
+  dueDate_gt: DateTime
+  dueDate_not_gt: DateTime
+  dueDate_gte: DateTime
+  dueDate_not_gte: DateTime
+  dueDate_lt: DateTime
+  dueDate_not_lt: DateTime
+  dueDate_lte: DateTime
+  dueDate_not_lte: DateTime
+  dueDateTask: String
+  dueDateTask_not: String
+  dueDateTask_contains: String
+  dueDateTask_not_contains: String
+  dueDateTask_starts_with: String
+  dueDateTask_not_starts_with: String
+  dueDateTask_ends_with: String
+  dueDateTask_not_ends_with: String
+  dueDateTask_in: [String!]
+  dueDateTask_not_in: [String!]
+  isLcl: Boolean
+  isLcl_not: Boolean
+  isLtl: Boolean
+  isLtl_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  consignee: CompanyEntityFilter
+  shipper: CompanyEntityFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A portion of Core Shipment entity"
+input ShipmentInput {
+  coreId: Int
+  name: String!
+  transportationMode: TransportationModeEnum
+  status: String!
+  customs: String!
+  cargoReady: DateTime
+  departsDate: DateTime
+  departsLocation: String!
+  arrivesDate: DateTime
+  arrivesLocation: String!
+  dueDate: DateTime
+  dueDateTask: String!
+  isLcl: Boolean!
+  isLtl: Boolean!
+  toStringRepresentation: String!
+  consignee: CompanyEntityInput
+  shipper: CompanyEntityInput
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core Shipment entity"
+input ShipmentSort {
+  coreId: SortOperationKind
+  name: SortOperationKind
+  transportationMode: SortOperationKind
+  status: SortOperationKind
+  customs: SortOperationKind
+  cargoReady: SortOperationKind
+  departsDate: SortOperationKind
+  departsLocation: SortOperationKind
+  arrivesDate: SortOperationKind
+  arrivesLocation: SortOperationKind
+  dueDate: SortOperationKind
+  dueDateTask: SortOperationKind
+  isLcl: SortOperationKind
+  isLtl: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  consignee: CompanyEntitySort
+  shipper: CompanyEntitySort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
+input SuggestedResourceFilter {
+  AND: [SuggestedResourceFilter!]
+  OR: [SuggestedResourceFilter!]
+  type: SuggestedResourceTypeEnum
+  type_not: SuggestedResourceTypeEnum
+  type_in: [SuggestedResourceTypeEnum]
+  type_not_in: [SuggestedResourceTypeEnum]
+  type_gt: SuggestedResourceTypeEnum
+  type_not_gt: SuggestedResourceTypeEnum
+  type_gte: SuggestedResourceTypeEnum
+  type_not_gte: SuggestedResourceTypeEnum
+  type_lt: SuggestedResourceTypeEnum
+  type_not_lt: SuggestedResourceTypeEnum
+  type_lte: SuggestedResourceTypeEnum
+  type_not_lte: SuggestedResourceTypeEnum
+  title: String
+  title_not: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  title_in: [String!]
+  title_not_in: [String!]
+  text: String
+  text_not: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  text_in: [String!]
+  text_not_in: [String!]
+  helpful: Boolean
+  helpful_not: Boolean
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
+input SuggestedResourceInput {
+  type: SuggestedResourceTypeEnum
+  title: String!
+  text: String!
+  helpful: Boolean!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
+input SuggestedResourceSort {
+  type: SortOperationKind
+  title: SortOperationKind
+  text: SortOperationKind
+  helpful: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A portion of Core User entity"
+input UserFilter {
+  AND: [UserFilter!]
+  OR: [UserFilter!]
+  firstName: String
+  firstName_not: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  lastName: String
+  lastName_not: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  email: String
+  email_not: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  email_in: [String!]
+  email_not_in: [String!]
+  phone: String
+  phone_not: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  location: String
+  location_not: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  location_in: [String!]
+  location_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A portion of Core User entity"
+input UserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String!
+  location: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core User entity"
+input UserSort {
+  firstName: SortOperationKind
+  lastName: SortOperationKind
+  email: SortOperationKind
+  phone: SortOperationKind
+  location: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+enum HitStatusEnum {
+  UNRESOLVED
+  CLEARED
+  DENIED
+}
+
+enum PriorityEnum {
+  LOW
+  MIDDLE
+  HIGH
+}
+
+enum SortOperationKind {
+  ASC
+  DESC
+}
+
+enum SuggestedResourceTypeEnum {
+  GOOGLE
+  LINKED_IN
+}
+
+enum TransportationModeEnum {
+  AIR
+  OCEAN
+  TRUCK
+  RAIL
+  UNKNOWN_TRANSPORTATION
+  TRUCK_INTL
+  WAREHOUSE_STORAGE
+}
+
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer("If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String "Deferred when true." if: Boolean) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The @deprecated directive is used within the type system definition language to indicate deprecated portions of a GraphQL service’s schema,such as deprecated fields on a type or deprecated enum values."
+directive @deprecated("Deprecations include a reason for why it is deprecated, which is formatted using Markdown syntax (as specified by CommonMark)." reason: String = "No longer supported") on FIELD_DEFINITION | ENUM_VALUE
+
+"Directs the executor to include this field or fragment only when the `if` argument is true."
+directive @include("Included when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Directs the executor to skip this field or fragment when the `if` argument is true."
+directive @skip("Skipped when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")

@@ -1,15 +1,20 @@
 name: SuggestedResource
 inheritsFrom: Base
 description: Canned search results from sources like Google and LinkedIn which may be helpful in making a clear/don't-clear decision
-datagen_quantity: 2
 
 attributes:
   - name: type
     dataType: SuggestedResourceType
+    datagen_pattern: (50% => 'google' | 50% => 'linkedIn')
+
   - name: title
     dataType: String
+    datagen_pattern: <first_name> <last_name>
+
   - name: text
     dataType: String
+    datagen_random_text: 1..2 sentences
+
   - name: helpful
     dataType: Boolean
     mandatory: false

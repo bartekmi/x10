@@ -11,6 +11,7 @@ import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultMatchInfo } from 'dps/entities/MatchInfo';
@@ -35,7 +36,7 @@ function HitDetailsTab(props: Props): React.Node {
       />
       <Text
         scale='headline'
-        children=''Please review ' + matches.count + ' matches''
+        children={ 'Please review ' + x10toString(hit?.matches?.count) + ' matches' }
       />
       <Group>
         <Group

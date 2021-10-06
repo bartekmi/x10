@@ -1,15 +1,31 @@
 name: User
 inheritsFrom: Base
 description: A portion of Core User entity
+datagen_quantity: 100
+defaultStringRepresentation: "=firstName + ' ' + lastName"
 
 attributes:
   - name: firstName
     dataType: String
+    mandatory: true
+    datagen_pattern: <first_name>
+
   - name: lastName
     dataType: String
+    mandatory: true
+    datagen_pattern: <last_name>
+
   - name: email
     dataType: String
+    mandatory: true
+    datagen_pattern: <first_name>(70% => | 10% => ~D~ | 10% => ~DD~ | 10% => ~DDD~)@(gmail.com | yahoo.com | hotmail.com | aol.com)
+    datagen_capitalization: allDown
+
   - name: phone
     dataType: String
+    datagen_pattern: ~NDD-DDDD-DDD~
+
   - name: location
     dataType: String
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+    datagen_capitalization: wordCaps

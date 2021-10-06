@@ -1,17 +1,32 @@
 name: CompanyEntity
 inheritsFrom: Base
 description: A portion of Core CompanyEntity entity
+datagen_quantity: 50
+datagen_sources: (cn_cities.csv AS city)
 
 attributes:
   - name: clientId
     dataType: Integer
+    datagen_min: 1
+    datagen_max: 50000
+
   - name: name
     dataType: String
+    datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
+    datagen_capitalization: wordCaps
+
   - name: primaryContact
     dataType: String
+    datagen_pattern: <first_name> <last_name>
+
   - name: location
     dataType: String
+    datagen_from_source: ( city => city )
+
   - name: mainNumber
     dataType: String
+    datagen_pattern: ~NDD-DDDD-DDD~
+
   - name: address
     dataType: String
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)

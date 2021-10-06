@@ -37,6 +37,12 @@ export function userCalculateErrors(user: User, prefix?: string): $ReadOnlyArray
   const errors = [];
   if (user == null ) return errors;
 
+  if (isBlank(user.firstName))
+    addError(errors, prefix, 'First Name is required', ['firstName']);
+  if (isBlank(user.lastName))
+    addError(errors, prefix, 'Last Name is required', ['lastName']);
+  if (isBlank(user.email))
+    addError(errors, prefix, 'Email is required', ['email']);
 
   return errors;
 }
