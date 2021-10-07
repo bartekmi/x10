@@ -11,6 +11,7 @@ import MenuItem from 'react_lib/menu/MenuItem';
 import SpaContent from 'react_lib/SpaContent';
 
 import HitsInterface from 'dps/ui/HitsInterface';
+import SlideoutPanelInterface from 'dps/ui/SlideoutPanelInterface';
 import WorkspaceTabsInterface from 'dps/ui/WorkspaceTabsInterface';
 
 
@@ -33,6 +34,7 @@ export default function Header(props: Props): React.Node {
       <SpaContent
         rootComponent={ HitsInterface }
       >
+        <Route exact path='/hits/panel/:id' component={ SlideoutPanelInterface } />
         <Route exact path='/hits' component={ HitsInterface } />
         <Route exact path='/hits/:id' component={ WorkspaceTabsInterface } />
       </SpaContent>

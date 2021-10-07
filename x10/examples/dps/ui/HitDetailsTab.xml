@@ -13,15 +13,15 @@
       <VerticalDivider/>
       <List path="matches">
         <VerticalStackPanel>
-          <Heading3 text="Source information"/>
-          <score/>
-          <sourceList/>
-          <ids/>
-          <name/>
-          <address/>
-          <type/>
-          <title/>
-          <programs/>
+          <Heading3 text="Match details"/>
+          <Row>
+            <name/>
+            <address/>
+            <matchType/>
+          </Row>
+          <reasonListed/>
+          <comments/>
+          <recordSource/>
         </VerticalStackPanel>
       </List>
     </Row>

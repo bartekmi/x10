@@ -1,0 +1,3 @@
+<SlideoutPanel model="Hit" url="/hits/panel" query="GetHit(hitId: $hitId">
+  <Heading1 text="TBD Slide-out Panel"/>
+</SlideoutPanel>

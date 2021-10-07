@@ -7,7 +7,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 
-import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
@@ -72,31 +71,27 @@ function HitDetailsTab(props: Props): React.Node {
             >
               <Text
                 scale='title'
-                children='Source information'
+                children='Match details'
               />
-              <FloatDisplay
-                value={ data?.score }
+              <Group>
+                <TextDisplay
+                  value={ data?.name }
+                />
+                <TextDisplay
+                  value={ data?.address }
+                />
+                <TextDisplay
+                  value={ data?.matchType }
+                />
+              </Group>
+              <TextDisplay
+                value={ data?.reasonListed }
               />
               <TextDisplay
-                value={ data?.sourceList }
+                value={ data?.comments }
               />
               <TextDisplay
-                value={ data?.ids }
-              />
-              <TextDisplay
-                value={ data?.name }
-              />
-              <TextDisplay
-                value={ data?.address }
-              />
-              <TextDisplay
-                value={ data?.type }
-              />
-              <TextDisplay
-                value={ data?.title }
-              />
-              <TextDisplay
-                value={ data?.programs }
+                value={ data?.recordSource }
               />
             </Group>
           ) }
@@ -149,13 +144,11 @@ export default createFragmentContainer(HitDetailsTab, {
       matches {
         id
         address
-        ids
+        comments
+        matchType
         name
-        programs
-        score
-        sourceList
-        title
-        type
+        reasonListed
+        recordSource
       }
       resources {
         id

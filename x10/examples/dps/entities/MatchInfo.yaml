@@ -3,23 +3,27 @@ inheritsFrom: Base
 description: A "Hit" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity.
 
 attributes:
-  - name: sourceList
-    dataType: String
-  - name: ids
+  - name: reasonListed
     dataType: String
   - name: name
     dataType: String
   - name: address
     dataType: String
-  - name: type
+  - name: ids
     dataType: String
-  - name: title
+  - name: matchType
     dataType: String
-  - name: source
+  - name: nameMatchScore
+    dataType: Float
+  - name: addressMatchScore
+    dataType: Float
+  - name: comments
     dataType: String
-  - name: programs
+  - name: recordSource
     dataType: String
+
+derivedAttributes:
   - name: score
     dataType: Float
-  - name: note
-    dataType: String
+    formula: "=nameMatchScore > addressMatchScore ? nameMatchScore : addressMatchScore"
+    toolTip: A score close to 100 reflects a very close match.

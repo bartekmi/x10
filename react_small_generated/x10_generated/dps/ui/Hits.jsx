@@ -67,8 +67,12 @@ function Hits(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Group>
                   <Button
-                    label='Go-To'
+                    label='Tabs'
                     url={ '/hits/' + value?.id }
+                  />
+                  <Button
+                    label='Panel'
+                    url={ '/hits/panel' + value?.id }
                   />
                 </Group>
               ,

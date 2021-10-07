@@ -6,38 +6,48 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toNum from 'react_lib/utils/toNum';
 
 
 // Type Definition
 export type MatchInfo = {
   +id: string,
-  +sourceList: string,
-  +ids: string,
+  +reasonListed: string,
   +name: string,
   +address: string,
-  +type: string,
-  +title: string,
-  +source: string,
-  +programs: string,
-  +score: ?number,
-  +note: string,
+  +ids: string,
+  +matchType: string,
+  +nameMatchScore: ?number,
+  +addressMatchScore: ?number,
+  +comments: string,
+  +recordSource: string,
 };
+
+
+// Derived Attribute Functions
+export function matchInfoScore(matchInfo: {
+  +nameMatchScore: ?number,
+  +addressMatchScore: ?number,
+}): ?number {
+  const result = toNum(matchInfo?.nameMatchScore) > toNum(matchInfo?.addressMatchScore) ? matchInfo?.nameMatchScore : matchInfo?.addressMatchScore;
+  return isNaN(result) ? null : result;
+}
+
 
 
 // Create Default Function
 export function createDefaultMatchInfo(): MatchInfo {
   return {
     id: uuid(),
-    sourceList: '',
-    ids: '',
+    reasonListed: '',
     name: '',
     address: '',
-    type: '',
-    title: '',
-    source: '',
-    programs: '',
-    score: null,
-    note: '',
+    ids: '',
+    matchType: '',
+    nameMatchScore: null,
+    addressMatchScore: null,
+    comments: '',
+    recordSource: '',
   };
 }
 
