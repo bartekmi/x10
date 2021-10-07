@@ -16,7 +16,7 @@ import x10toString from 'react_lib/utils/x10toString';
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultMatchInfo } from 'dps/entities/MatchInfo';
 import { createDefaultSuggestedResource } from 'dps/entities/SuggestedResource';
-import ClearanceFormInterface from 'dps/ui/ClearanceFormInterface';
+import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
 
@@ -128,7 +128,7 @@ function HitDetailsTab(props: Props): React.Node {
         addNewItem={ createDefaultSuggestedResource }
       />
       <Separator/>
-      <ClearanceFormInterface id={ hit.id }/>
+      <ClearanceForm hit={ hit }/>
     </Group>
   );
 }

@@ -196,28 +196,15 @@ namespace x10.gen.react.generate {
       if (!string.IsNullOrEmpty(path))
         path = "." + path;
 
-      // Making an executive decision that Forms will be included as the Interface version
-      // of the component - i.e. they will make a separate GraphQL query for their data.
-      // At least one argument for this is that, if we're going to edit data, we want to start
-      // with the freshest copy. (There may be others)
-      if (IsForm(classDefX10)) {
-        string compInterface = classDefX10.Name + "Interface";
-        ImportsPlaceholder.ImportDefault(classDefX10, "Interface");
+      // At one point, for Forms, I wanted to embed the Interface (go back through history Oct 7 2021)
+      // but changed my mind - data is just passed to form
+      ImportsPlaceholder.ImportDefault(classDefX10);
 
-        WriteLine(level, "<{0}Interface id={ {1}{2}.id }/>",
-          classDefX10.Name,
-          SourceVariableName,
-          path);
-      } else {
-        ImportsPlaceholder.ImportDefault(classDefX10);
-
-        WriteLine(level, "<{0} {1}={ {2}{3} }/>",
-          classDefX10.Name,
-          VariableName(classDefX10.ComponentDataModel),
-          SourceVariableName,
-          path);
-      }
-
+      WriteLine(level, "<{0} {1}={ {2}{3} }/>",
+        classDefX10.Name,
+        VariableName(classDefX10.ComponentDataModel),
+        SourceVariableName,
+        path);
     }
 
     private void WriteNestedContentsAndClosingTag(int level, PlatformClassDef platClassDef, Instance instance) {
