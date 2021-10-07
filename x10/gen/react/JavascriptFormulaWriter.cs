@@ -191,10 +191,8 @@ namespace x10.gen.react {
       X10DataType dataType = expression.DataType;
 
       if (expression.IsEnumLiteral) {
-        if (nameOrNull == null)
-          _writer.Write("null");
-        else
-          _writer.Write("{0}.{1}", dataType.DataType?.Name, NameUtils.Capitalize(nameOrNull.ToString()));
+        string text = nameOrNull == null ? "null" : String.Format("\"{0}\"", nameOrNull);
+        _writer.Write(text);
         return true;
       }
 
