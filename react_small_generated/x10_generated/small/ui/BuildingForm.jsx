@@ -354,6 +354,7 @@ function BuildingForm(props: Props): React.Node {
                 </Group>
               </Group>
             ) }
+            addItemLabel='Add Unit'
             addNewItem={ createDefaultUnit }
           />
         </FormSection>

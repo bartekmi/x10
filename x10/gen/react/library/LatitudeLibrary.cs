@@ -120,6 +120,20 @@ namespace x10.gen.react.library {
         },
       },
       new PlatformClassDef() {
+        LogicalName = "IntDisplay",
+        // For now, we don't have a special component just for ints
+        PlatformName = "FloatDisplay",
+        ImportDir = "react_lib/display",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "value",
+            PlatformName = "value",
+          },
+        },
+      },
+      new PlatformClassDef() {
         LogicalName = "FloatDisplay",
         PlatformName = "FloatDisplay",
         ImportDir = "react_lib/display",
