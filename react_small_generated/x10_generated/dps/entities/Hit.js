@@ -19,11 +19,11 @@ export type Hit = {
   +id: string,
   +priority: ?PriorityEnum,
   +status: ?HitStatusEnum,
-  +reasonForClear: string,
+  +reasonForClearance: ?ReasonForCleranceEnum,
   +whiteListUntil: ?string,
   +notes: string,
   +resolutionTimestamp: ?string,
-  +whitelistedFor: ?number,
+  +whitelistTime: ?number,
   +clearedBy: ?{ id: string },
   +user: ?{ id: string },
   +companyEntity: ?{ id: string },
@@ -70,6 +70,27 @@ export const HitStatusEnumPairs = [
 
 export type HitStatusEnum = 'UNRESOLVED' | 'CLEARED' | 'DENIED';
 
+export const ReasonForCleranceEnumPairs = [
+  {
+    value: 'PERSON_NOT_ENTITY',
+    label: 'Person is not an Entity/Business',
+  },
+  {
+    value: 'PARTIAL_NAME',
+    label: 'Partial Name Match - No Country/Address Match',
+  },
+  {
+    value: 'PARTIAL_ADDRESS',
+    label: 'Partial Address Match - No Name Match',
+  },
+  {
+    value: 'OTHER',
+    label: 'Other',
+  },
+];
+
+export type ReasonForCleranceEnum = 'PERSON_NOT_ENTITY' | 'PARTIAL_NAME' | 'PARTIAL_ADDRESS' | 'OTHER';
+
 
 
 // Create Default Function
@@ -77,12 +98,14 @@ export function createDefaultHit(): Hit {
   return {
     id: uuid(),
     priority: null,
-    status: null,
-    reasonForClear: '',
+    status: 'UNRESOLVED',
+    // $FlowExpectedError Required field, but no default value
+    reasonForClearance: null,
     whiteListUntil: null,
     notes: '',
     resolutionTimestamp: null,
-    whitelistedFor: null,
+    // $FlowExpectedError Required field, but no default value
+    whitelistTime: null,
     clearedBy: null,
     user: null,
     companyEntity: null,
@@ -100,6 +123,12 @@ export function hitCalculateErrors(hit: Hit, prefix?: string): $ReadOnlyArray<Fo
   const errors = [];
   if (hit == null ) return errors;
 
+  if (isBlank(hit.reasonForClearance))
+    addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance']);
+  if (isBlank(hit.notes))
+    addError(errors, prefix, 'Notes is required', ['notes']);
+  if (isBlank(hit.whitelistTime))
+    addError(errors, prefix, 'Whitelist Time is required', ['whitelistTime']);
   if (isBlank(hit.companyEntity))
     addError(errors, prefix, 'Company Entity is required', ['companyEntity']);
 

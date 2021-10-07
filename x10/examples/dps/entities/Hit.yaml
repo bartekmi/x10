@@ -9,16 +9,21 @@ attributes:
     dataType: Priority
   - name: status
     dataType: HitStatus
-  - name: reasonForClear
-    dataType: String
+    default: unresolved
+  - name: reasonForClearance
+    dataType: ReasonForClerance
+    mandatory: true
   - name: whiteListUntil
     dataType: Timestamp
   - name: notes
     dataType: String
+    mandatory: true
   - name: resolutionTimestamp
     dataType: Timestamp
-  - name: whitelistedFor
+  - name: whitelistTime
+#TODO: Select from a list
     dataType: Integer
+    mandatory: true
 
 associations:
   - name: clearedBy
@@ -64,3 +69,14 @@ enums:
     values: low, middle, high
   - name: HitStatus
     values: unresolved, cleared, denied
+  - name: ReasonForClerance
+    values: 
+      - value: personNotEntity
+        label: "Person is not an Entity/Business"
+      - value: partialName
+        label: "Partial Name Match - No Country/Address Match"
+      - value: partialAddress
+        label: "Partial Address Match - No Name Match"
+      - value: other
+        label: "Other"
+        

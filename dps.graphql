@@ -29,11 +29,11 @@ type CompanyEntity {
 type Hit {
   priority: PriorityEnum
   status: HitStatusEnum
-  reasonForClear: String!
+  reasonForClearance: ReasonForCleranceEnum!
   whiteListUntil: DateTime
   notes: String!
   resolutionTimestamp: DateTime
-  whitelistedFor: Int
+  whitelistTime: Int!
   toStringRepresentation: String!
   clearedBy: User
   user: User
@@ -158,7 +158,7 @@ type SuggestedResource {
   type: SuggestedResourceTypeEnum
   title: String!
   text: String!
-  helpful: Boolean!
+  helpful: HelpfulStateEnum
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -406,16 +406,18 @@ input HitFilter {
   status_not_lt: HitStatusEnum
   status_lte: HitStatusEnum
   status_not_lte: HitStatusEnum
-  reasonForClear: String
-  reasonForClear_not: String
-  reasonForClear_contains: String
-  reasonForClear_not_contains: String
-  reasonForClear_starts_with: String
-  reasonForClear_not_starts_with: String
-  reasonForClear_ends_with: String
-  reasonForClear_not_ends_with: String
-  reasonForClear_in: [String!]
-  reasonForClear_not_in: [String!]
+  reasonForClearance: ReasonForCleranceEnum
+  reasonForClearance_not: ReasonForCleranceEnum
+  reasonForClearance_in: [ReasonForCleranceEnum!]
+  reasonForClearance_not_in: [ReasonForCleranceEnum!]
+  reasonForClearance_gt: ReasonForCleranceEnum
+  reasonForClearance_not_gt: ReasonForCleranceEnum
+  reasonForClearance_gte: ReasonForCleranceEnum
+  reasonForClearance_not_gte: ReasonForCleranceEnum
+  reasonForClearance_lt: ReasonForCleranceEnum
+  reasonForClearance_not_lt: ReasonForCleranceEnum
+  reasonForClearance_lte: ReasonForCleranceEnum
+  reasonForClearance_not_lte: ReasonForCleranceEnum
   whiteListUntil: DateTime
   whiteListUntil_not: DateTime
   whiteListUntil_in: [DateTime]
@@ -450,18 +452,18 @@ input HitFilter {
   resolutionTimestamp_not_lt: DateTime
   resolutionTimestamp_lte: DateTime
   resolutionTimestamp_not_lte: DateTime
-  whitelistedFor: Int
-  whitelistedFor_not: Int
-  whitelistedFor_in: [Int]
-  whitelistedFor_not_in: [Int]
-  whitelistedFor_gt: Int
-  whitelistedFor_not_gt: Int
-  whitelistedFor_gte: Int
-  whitelistedFor_not_gte: Int
-  whitelistedFor_lt: Int
-  whitelistedFor_not_lt: Int
-  whitelistedFor_lte: Int
-  whitelistedFor_not_lte: Int
+  whitelistTime: Int
+  whitelistTime_not: Int
+  whitelistTime_in: [Int!]
+  whitelistTime_not_in: [Int!]
+  whitelistTime_gt: Int
+  whitelistTime_not_gt: Int
+  whitelistTime_gte: Int
+  whitelistTime_not_gte: Int
+  whitelistTime_lt: Int
+  whitelistTime_not_lt: Int
+  whitelistTime_lte: Int
+  whitelistTime_not_lte: Int
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -523,11 +525,11 @@ input HitFilter {
 input HitInput {
   priority: PriorityEnum
   status: HitStatusEnum
-  reasonForClear: String!
+  reasonForClearance: ReasonForCleranceEnum!
   whiteListUntil: DateTime
   notes: String!
   resolutionTimestamp: DateTime
-  whitelistedFor: Int
+  whitelistTime: Int!
   toStringRepresentation: String!
   clearedBy: UserInput
   user: UserInput
@@ -545,11 +547,11 @@ input HitInput {
 input HitSort {
   priority: SortOperationKind
   status: SortOperationKind
-  reasonForClear: SortOperationKind
+  reasonForClearance: SortOperationKind
   whiteListUntil: SortOperationKind
   notes: SortOperationKind
   resolutionTimestamp: SortOperationKind
-  whitelistedFor: SortOperationKind
+  whitelistTime: SortOperationKind
   toStringRepresentation: SortOperationKind
   clearedBy: UserSort
   user: UserSort
@@ -1090,8 +1092,18 @@ input SuggestedResourceFilter {
   text_not_ends_with: String
   text_in: [String!]
   text_not_in: [String!]
-  helpful: Boolean
-  helpful_not: Boolean
+  helpful: HelpfulStateEnum
+  helpful_not: HelpfulStateEnum
+  helpful_in: [HelpfulStateEnum]
+  helpful_not_in: [HelpfulStateEnum]
+  helpful_gt: HelpfulStateEnum
+  helpful_not_gt: HelpfulStateEnum
+  helpful_gte: HelpfulStateEnum
+  helpful_not_gte: HelpfulStateEnum
+  helpful_lt: HelpfulStateEnum
+  helpful_not_lt: HelpfulStateEnum
+  helpful_lte: HelpfulStateEnum
+  helpful_not_lte: HelpfulStateEnum
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1131,7 +1143,7 @@ input SuggestedResourceInput {
   type: SuggestedResourceTypeEnum
   title: String!
   text: String!
-  helpful: Boolean!
+  helpful: HelpfulStateEnum
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -1260,6 +1272,12 @@ input UserSort {
   hashcode: SortOperationKind
 }
 
+enum HelpfulStateEnum {
+  UNSPECIFIED
+  HELPFUL
+  UNHELPFUL
+}
+
 enum HitStatusEnum {
   UNRESOLVED
   CLEARED
@@ -1270,6 +1288,13 @@ enum PriorityEnum {
   LOW
   MIDDLE
   HIGH
+}
+
+enum ReasonForCleranceEnum {
+  PERSON_NOT_ENTITY
+  PARTIAL_NAME
+  PARTIAL_ADDRESS
+  OTHER
 }
 
 enum SortOperationKind {

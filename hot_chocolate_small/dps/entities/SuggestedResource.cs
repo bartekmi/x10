@@ -12,6 +12,12 @@ namespace x10.hotchoc.dps.Entities {
     LinkedIn,
   }
 
+  public enum HelpfulStateEnum {
+    Unspecified,
+    Helpful,
+    Unhelpful,
+  }
+
 
   /// <summary>
   /// Canned search results from sources like Google and LinkedIn which may be helpful in making a clear/don't-clear decision
@@ -23,8 +29,7 @@ namespace x10.hotchoc.dps.Entities {
     public string? Title { get; set; }
     [GraphQLNonNullType]
     public string? Text { get; set; }
-    [GraphQLNonNullType]
-    public bool Helpful { get; set; }
+    public HelpfulStateEnum? Helpful { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

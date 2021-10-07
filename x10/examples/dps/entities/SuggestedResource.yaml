@@ -16,9 +16,11 @@ attributes:
     datagen_random_text: 1..2 sentences
 
   - name: helpful
-    dataType: Boolean
-    mandatory: false
+    dataType: HelpfulState
+    default: unspecified
 
 enums:
   - name: SuggestedResourceType
     values: google, linkedIn
+  - name: HelpfulState
+    values: unspecified, helpful, unhelpful

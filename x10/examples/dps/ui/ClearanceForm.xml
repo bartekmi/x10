@@ -1,0 +1,16 @@
+<ClearanceForm model="Hit">
+    <Form>
+      <Heading1 text="Clearance"/>
+      <RadioButtonGroup path="status"/>
+      <Row visible="=status != 'denied'">
+        <reasonForClearance/>
+        <whitelistTime label="Whitelist time"/>
+      </Row>
+      <notes/>
+      <SubmitButton label="=status != 'denied' ? 'Clear the hit' : 'Confirm'">
+        <SubmitButton.Action>
+          <Action backEndTarget="/tenants/create" successUrl="/tenants"/>
+        </SubmitButton.Action>
+      </SubmitButton>
+    </Form>
+</ClearanceForm>

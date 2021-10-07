@@ -14,7 +14,7 @@ export type SuggestedResource = {
   +type: ?SuggestedResourceTypeEnum,
   +title: string,
   +text: string,
-  +helpful: boolean,
+  +helpful: ?HelpfulStateEnum,
 };
 
 
@@ -32,6 +32,23 @@ export const SuggestedResourceTypeEnumPairs = [
 
 export type SuggestedResourceTypeEnum = 'GOOGLE' | 'LINKED_IN';
 
+export const HelpfulStateEnumPairs = [
+  {
+    value: 'UNSPECIFIED',
+    label: 'Unspecified',
+  },
+  {
+    value: 'HELPFUL',
+    label: 'Helpful',
+  },
+  {
+    value: 'UNHELPFUL',
+    label: 'Unhelpful',
+  },
+];
+
+export type HelpfulStateEnum = 'UNSPECIFIED' | 'HELPFUL' | 'UNHELPFUL';
+
 
 
 // Create Default Function
@@ -41,7 +58,7 @@ export function createDefaultSuggestedResource(): SuggestedResource {
     type: null,
     title: '',
     text: '',
-    helpful: false,
+    helpful: 'UNSPECIFIED',
   };
 }
 

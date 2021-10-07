@@ -25,9 +25,21 @@
         </VerticalStackPanel>
       </List>
     </Row>
+
     <HorizontalDivider/>
+
     <Heading1 text="Suggested resources"/>
+    <List path="resources">
+      <VerticalStackPanel>
+        <title/>
+        <text/>
+        <text>HELPFUL? (TBD)</text>
+      </VerticalStackPanel>
+    </List>
+
     <HorizontalDivider/>
-    <Heading1 text="Clearance"/>
+
+    <ClearanceForm/>
+
   </VerticalStackPanel>
 </HitDetailsTab>

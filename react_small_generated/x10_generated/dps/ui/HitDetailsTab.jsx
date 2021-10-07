@@ -15,6 +15,8 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultMatchInfo } from 'dps/entities/MatchInfo';
+import { createDefaultSuggestedResource } from 'dps/entities/SuggestedResource';
+import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
 
@@ -106,11 +108,27 @@ function HitDetailsTab(props: Props): React.Node {
         scale='display'
         children='Suggested resources'
       />
-      <Separator/>
-      <Text
-        scale='display'
-        children='Clearance'
+      <MultiStacker
+        items={ hit?.resources }
+        itemDisplayFunc={ (data, onChange) => (
+          <Group
+            flexDirection='column'
+          >
+            <TextDisplay
+              value={ data?.title }
+            />
+            <TextDisplay
+              value={ data?.text }
+            />
+            <TextDisplay
+              value='HELPFUL? (TBD)'
+            />
+          </Group>
+        ) }
+        addNewItem={ createDefaultSuggestedResource }
       />
+      <Separator/>
+      <ClearanceForm hit={ hit }/>
     </Group>
   );
 }
@@ -138,6 +156,11 @@ export default createFragmentContainer(HitDetailsTab, {
         sourceList
         title
         type
+      }
+      resources {
+        id
+        text
+        title
       }
     }
   `,

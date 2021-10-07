@@ -91,7 +91,7 @@ namespace x10.gen.sql {
           }
         } else
           if (!dataTypeEnum.HasEnumValue(value))
-          _messages.AddError(x10Attr.TreeElement, "Invalide Enum value '{0}' generated for Enum '{1}'",
+          _messages.AddError(x10Attr.TreeElement, "Invalid Enum value '{0}' generated for Enum '{1}'",
             value, dataTypeEnum.Name);
       } else
         _messages.AddError(x10Attr.TreeElement, "Unknown data type: " + x10Attr.DataType.Name);

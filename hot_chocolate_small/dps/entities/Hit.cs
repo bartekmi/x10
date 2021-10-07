@@ -19,6 +19,13 @@ namespace x10.hotchoc.dps.Entities {
     Denied,
   }
 
+  public enum ReasonForCleranceEnum {
+    PersonNotEntity,
+    PartialName,
+    PartialAddress,
+    Other,
+  }
+
 
   /// <summary>
   /// A "hit" on a User or Company Entity as reported by LexisNexis
@@ -28,12 +35,13 @@ namespace x10.hotchoc.dps.Entities {
     public PriorityEnum? Priority { get; set; }
     public HitStatusEnum? Status { get; set; }
     [GraphQLNonNullType]
-    public string? ReasonForClear { get; set; }
+    public ReasonForCleranceEnum? ReasonForClearance { get; set; }
     public DateTime? WhiteListUntil { get; set; }
     [GraphQLNonNullType]
     public string? Notes { get; set; }
     public DateTime? ResolutionTimestamp { get; set; }
-    public int? WhitelistedFor { get; set; }
+    [GraphQLNonNullType]
+    public int? WhitelistTime { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
@@ -63,6 +71,7 @@ namespace x10.hotchoc.dps.Entities {
       Attachments?.ForEach(x => x.EnsureUniqueDbid());
       Matches?.ForEach(x => x.EnsureUniqueDbid());
       Resources?.ForEach(x => x.EnsureUniqueDbid());
+      Shipments?.ForEach(x => x.EnsureUniqueDbid());
       Messages?.ForEach(x => x.EnsureUniqueDbid());
     }
 
