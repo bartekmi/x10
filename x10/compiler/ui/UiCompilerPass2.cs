@@ -314,9 +314,6 @@ namespace x10.compiler.ui {
       } else
         throw new Exception("Unexpected instance type: " + instance.GetType().Name);
 
-      ValidateRenderAsType(instance);
-      ParseAndValidateFormulas(instance, parentDataModel);
-
       // Recurse...
       foreach (UiAttributeValueComplex value in instance.ComplexAttributeValues().ToList()) {
         X10DataType childDataModel = myDataModel != null && value.DefinitionComplex.ReducesManyToOne ?
@@ -326,6 +323,9 @@ namespace x10.compiler.ui {
         foreach (Instance childInstance in value.Instances)
           CompileRecursively(childInstance, childDataModel);
       }
+
+      ValidateRenderAsType(instance);
+      ParseAndValidateFormulas(instance, parentDataModel);
     }
 
     #region Resolve Path

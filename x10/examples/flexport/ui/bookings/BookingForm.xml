@@ -74,7 +74,7 @@
             <description Grid.row="1" Grid.column="0"/>
             <hsCode Grid.row="1" Grid.column="1"/>
 
-            <descriptionInLocalLanguage Grid.row="2" Grid.column="0" visible="=requiresChineseProductDescription"/>
+            <!-- <descriptionInLocalLanguage Grid.row="2" Grid.column="0" visible="=requiresChineseProductDescription"/> -->
           </Grid>
         </List>
 
