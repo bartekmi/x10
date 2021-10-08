@@ -106,7 +106,7 @@ namespace x10.compiler {
         Description = "The name of the UI Definition (component) being referenced",
         AppliesTo = UiAppliesTo.UiComponentUse,
         DataType = DataTypes.Singleton.String,
-        Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
+        Pass2ActionPre = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
           Instance instance = (Instance)uiComponent;
           instance.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
         },
@@ -140,7 +140,7 @@ namespace x10.compiler {
         Description = "The name of a visual UiDefinition which will be used to display this node",
         AppliesTo = UiAppliesTo.UiModelReference,
         DataType = DataTypes.Singleton.String,
-        Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
+        Pass2ActionPre = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
           Instance instance = (Instance)uiComponent;
           instance.RenderAs = allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
         },

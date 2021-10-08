@@ -38,20 +38,20 @@ export type Hit = {
 // Enums
 export const PriorityEnumPairs = [
   {
-    value: 'LOW',
+    value: 'low',
     label: 'Low',
   },
   {
-    value: 'MIDDLE',
+    value: 'middle',
     label: 'Middle',
   },
   {
-    value: 'HIGH',
+    value: 'high',
     label: 'High',
   },
 ];
 
-export type PriorityEnum = 'LOW' | 'MIDDLE' | 'HIGH';
+export type PriorityEnum = 'low' | 'middle' | 'high';
 
 
 
@@ -60,7 +60,7 @@ export function createDefaultHit(): Hit {
   return {
     id: uuid(),
     priority: null,
-    status: 'UNRESOLVED',
+    status: 'unresolved',
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
     notes: '',

@@ -6,9 +6,10 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
-import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
 
+import TextDisplay from 'react_lib/display/TextDisplay';
+import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -32,13 +33,19 @@ function ClearanceForm(props: Props): React.Node {
     <FormProvider
       value={ { errors: hitCalculateErrors(hit) } }
     >
-      <RadioGroup
-        value={ hit.status }
-        onChange={ (value) => {
-          onChange({ ...hit, status: value })
-        } }
-        options={ HitStatusEnumPairs }
-      />
+      <Group>
+        <TextDisplay
+          value='Is this a denid party?'
+        />
+        <RadioGroup
+          value={ hit.status }
+          onChange={ (value) => {
+            onChange({ ...hit, status: value })
+          } }
+          excludeItems='unresolved'
+          options={ HitStatusEnumPairs }
+        />
+      </Group>
       <VisibilityControl
         visible={ hit?.status != "denied" }
       >

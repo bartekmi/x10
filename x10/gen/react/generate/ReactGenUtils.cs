@@ -144,7 +144,7 @@ namespace x10.gen.react.generate {
     }
 
     internal static string ToEnumValueString(object value) {
-      return NameUtils.CamelCaseToSnakeCaseAllCaps(value.ToString());
+      return NameUtils.CamelCaseToSnakeCase(value.ToString());
     }
 
     #endregion

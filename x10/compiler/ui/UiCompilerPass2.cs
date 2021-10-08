@@ -47,7 +47,7 @@ namespace x10.compiler.ui {
       _allUiDefinitions.UiComponentUniquenessCheck();
 
       foreach (ClassDefX10 definition in _allUiDefinitions.All) {
-        InvokePass2Actions(definition);
+        InvokePass2ActionsPre(definition);
 
         XmlElement rootXmlChild = ParseComponentDefinition(definition);
         if (rootXmlChild == null)
@@ -296,11 +296,7 @@ namespace x10.compiler.ui {
       if (instance == null)
         return;
 
-      // Invoke Pass2 Actions (e.g. deep validation, etc)
-      // If you ever come across a use-case where this needs to be at the end of this method, create two
-      // versions: of the UiAttributeDefinition auxilliary function Pass2ActionPre and Pass2ActionPost.
-      // At the very least, the "ui" property requires this to be first.
-      InvokePass2Actions(instance);
+      InvokePass2ActionsPre(instance);
 
       X10DataType myDataModel = ResolvePath(parentDataModel, instance);
       if (instance is InstanceModelRef modelReference) {
@@ -326,6 +322,8 @@ namespace x10.compiler.ui {
 
       ValidateRenderAsType(instance);
       ParseAndValidateFormulas(instance, parentDataModel);
+
+      InvokePass2ActionsPost(instance);
     }
 
     #region Resolve Path
@@ -488,9 +486,14 @@ namespace x10.compiler.ui {
     }
     #endregion
 
-    private void InvokePass2Actions(IAcceptsUiAttributeValues component) {
+    private void InvokePass2ActionsPre(IAcceptsUiAttributeValues component) {
       foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())
-        value.Definition.Pass2Action?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
+        value.Definition.Pass2ActionPre?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
+    }
+
+    private void InvokePass2ActionsPost(IAcceptsUiAttributeValues component) {
+      foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())
+        value.Definition.Pass2ActionPost?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
     }
     #endregion
   }

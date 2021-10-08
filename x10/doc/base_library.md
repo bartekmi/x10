@@ -626,6 +626,11 @@ Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: EnumSelection
 
+### Attribute 'excludeItems'
+
+Optional comma-separated list of (enum) items that should be excluded
+
+- Data Type: String
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -699,6 +704,11 @@ Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: ClassDefEditable
 
+### Attribute 'excludeItems'
+
+Optional comma-separated list of (enum) items that should be excluded
+
+- Data Type: String
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1647,6 +1657,11 @@ A list of radio (mutually exclusive) buttons to select one choice from list of c
 
 - Inherits From: EnumSelection
 
+### Attribute 'excludeItems'
+
+Optional comma-separated list of (enum) items that should be excluded
+
+- Data Type: String
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging

@@ -34,36 +34,36 @@ export type Shipment = {
 // Enums
 export const TransportationModeEnumPairs = [
   {
-    value: 'AIR',
+    value: 'air',
     label: 'Air',
   },
   {
-    value: 'OCEAN',
+    value: 'ocean',
     label: 'Ocean',
   },
   {
-    value: 'TRUCK',
+    value: 'truck',
     label: 'Truck',
   },
   {
-    value: 'RAIL',
+    value: 'rail',
     label: 'Rail',
   },
   {
-    value: 'UNKNOWN_TRANSPORTATION',
+    value: 'unknown_transportation',
     label: 'Unknown Transportation',
   },
   {
-    value: 'TRUCK_INTL',
+    value: 'truck_intl',
     label: 'Truck Intl',
   },
   {
-    value: 'WAREHOUSE_STORAGE',
+    value: 'warehouse_storage',
     label: 'Warehouse Storage',
   },
 ];
 
-export type TransportationModeEnum = 'AIR' | 'OCEAN' | 'TRUCK' | 'RAIL' | 'UNKNOWN_TRANSPORTATION' | 'TRUCK_INTL' | 'WAREHOUSE_STORAGE';
+export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unknown_transportation' | 'truck_intl' | 'warehouse_storage';
 
 
 

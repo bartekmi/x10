@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using x10.model.definition;
 using x10.model.metadata;
@@ -330,6 +332,40 @@ namespace x10.ui.libraries {
               EnumValueValues = new string[] { "sameAsDefined", "alphabetic" },
             },
             DefaultValue = "sameAsDefined"
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "excludeItems",
+            Description = "Optional comma-separated list of (enum) items that should be excluded",
+            DataType = DataTypes.Singleton.String,
+            Pass2ActionPost = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
+              string value = attributeValue.Value.ToString();
+              if (String.IsNullOrEmpty(value)) {
+                messages.AddError(attributeValue.XmlBase, "Cannot be empty");
+                return;
+              }
+
+              string[] items = value.Split(',').Select(x => x.Trim()).ToArray();
+              X10Attribute attribute= ((Instance)uiComponent).ModelMember as X10Attribute;
+              DataType dataType = attribute?.DataType;
+              if (!(dataType is DataTypeEnum dataTypeEnum)) {
+                messages.AddError(attributeValue.XmlBase, "DataType for this component must be an enum, but is: {0}", 
+                  dataType);
+                return;
+              }
+
+              List<string> badValues = new List<String>();
+              foreach (string item in items) {
+                if (!dataTypeEnum.HasEnumValue(item))
+                  badValues.Add(item);
+              }
+
+              if (badValues.Count > 0) {
+                messages.AddError(attributeValue.XmlBase, "The following values are not part of the {0} enum: {1}", 
+                  dataTypeEnum.Name,
+                  string.Join(", ", badValues));
+                return;
+              }
+            },
           },
         }
       },
@@ -1062,7 +1098,7 @@ namespace x10.ui.libraries {
             Description = "The name of the component to show if there is no path in the url - just the raw domain (i.e. Home Page)",
             IsMandatory = true,
             DataType = DataTypes.Singleton.String,
-            Pass2Action = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
+            Pass2ActionPost = (messages, allEntities, allEnums, allUiDefinitions, uiComponent, attributeValue) => {
               allUiDefinitions.FindDefinitionByNameWithError(attributeValue.Value.ToString(), attributeValue.XmlBase);
             },
           },

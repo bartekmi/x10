@@ -364,6 +364,10 @@ namespace x10.gen.react.library {
             PlatformName = "disabled",
             AttributeUnnecessaryWhen = false,
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "excludeItems",
+            PlatformName = "excludeItems",
+          },
           new JavaScriptAttributeByFunc() {
             PlatformName = "options",
             IsCodeSnippet = true,
@@ -394,7 +398,7 @@ namespace x10.gen.react.library {
         LogicalName = "RadioButtonGroup",
         PlatformName = "RadioGroup",
         InheritsFromName = "EnumSelection",
-        ImportDir = "latitude/radio",
+        ImportDir = "react_lib/enum",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("layout", "isInline") {
             TranslationFunc = (value) => value?.ToString() == "horizontal",

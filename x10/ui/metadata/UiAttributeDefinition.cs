@@ -54,7 +54,14 @@ namespace x10.ui.metadata {
     public ModelAttributeDefinition TakeValueFromModelAttr { get; set; }
 
     public Action<MessageBucket, AllEntities, AllEnums, XmlScalar, IAcceptsUiAttributeValues> Pass1Action { get; set; }
-    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2Action { get; set; }
+
+    // runs During Pass 2 of UI Complation - BEFORE all other attributes from the XML file are read
+    // Do not use this on attributes defined in libraries as it will not work.
+    // Reserved for internal use only.
+    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2ActionPre { get; set; }
+
+    // runs During Pass 2 of UI Complation - AFTER all attributes from the XML file are read
+    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, IAcceptsUiAttributeValues, UiAttributeValueAtomic> Pass2ActionPost { get; set; }
 
     protected UiAttributeDefinition() {
       // Some sensible defaults...

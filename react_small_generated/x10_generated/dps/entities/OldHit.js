@@ -29,7 +29,7 @@ export type OldHit = {
 export function createDefaultOldHit(): OldHit {
   return {
     id: uuid(),
-    status: 'UNRESOLVED',
+    status: 'unresolved',
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
     whiteListUntil: null,

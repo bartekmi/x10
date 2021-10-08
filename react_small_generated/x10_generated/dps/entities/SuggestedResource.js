@@ -21,33 +21,33 @@ export type SuggestedResource = {
 // Enums
 export const SuggestedResourceTypeEnumPairs = [
   {
-    value: 'GOOGLE',
+    value: 'google',
     label: 'Google',
   },
   {
-    value: 'LINKED_IN',
+    value: 'linked_in',
     label: 'Linked In',
   },
 ];
 
-export type SuggestedResourceTypeEnum = 'GOOGLE' | 'LINKED_IN';
+export type SuggestedResourceTypeEnum = 'google' | 'linked_in';
 
 export const HelpfulStateEnumPairs = [
   {
-    value: 'UNSPECIFIED',
+    value: 'unspecified',
     label: 'Unspecified',
   },
   {
-    value: 'HELPFUL',
+    value: 'helpful',
     label: 'Helpful',
   },
   {
-    value: 'UNHELPFUL',
+    value: 'unhelpful',
     label: 'Unhelpful',
   },
 ];
 
-export type HelpfulStateEnum = 'UNSPECIFIED' | 'HELPFUL' | 'UNHELPFUL';
+export type HelpfulStateEnum = 'unspecified' | 'helpful' | 'unhelpful';
 
 
 
@@ -58,7 +58,7 @@ export function createDefaultSuggestedResource(): SuggestedResource {
     type: null,
     title: '',
     text: '',
-    helpful: 'UNSPECIFIED',
+    helpful: 'unspecified',
   };
 }
 
