@@ -8,6 +8,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { type Attachment } from 'dps/entities/Attachment';
+import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
 
 // Type Definition

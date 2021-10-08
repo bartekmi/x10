@@ -123,39 +123,10 @@ namespace x10.gen.react.generate {
 
       WriteLine(0, "// Enums");
 
-      foreach (DataTypeEnum theEnum in enums) {
-        GeneratePairs(theEnum);
-        GenerateEnumType(theEnum);
-      }
+      foreach (DataTypeEnum theEnum in enums)
+        GenerateEnum(theEnum);
 
       WriteLine();
-      WriteLine();
-    }
-
-    private void GeneratePairs(DataTypeEnum theEnum) {
-      WriteLine(0, "export const {0} = [", EnumToPairsConstant(theEnum));
-
-      foreach (EnumValue enumValue in theEnum.EnumValues) {
-        WriteLine(1, "{");
-        WriteLine(2, "value: '{0}',", ToEnumValueString(enumValue.Value));
-        WriteLine(2, "label: '{0}',", enumValue.EffectiveLabel);
-        if (enumValue.IconName != null)
-          WriteLine(1, "icon: '{0}'", enumValue.IconName);
-        WriteLine(1, "},");
-      }
-
-      WriteLine(0, "];");
-      WriteLine();
-    }
-
-    private void GenerateEnumType(DataTypeEnum theEnum) {
-      IEnumerable<string> enumStrings =
-        theEnum.AvailableValuesAsStrings.Select(x => string.Format("'{0}'", ToEnumValueString(x)));
-
-      WriteLine(0, "export type {0} = {1};",
-        EnumToName(theEnum),
-        string.Join(" | ", enumStrings));
-
       WriteLine();
     }
     #endregion
@@ -352,7 +323,7 @@ namespace x10.gen.react.generate {
         }
       } else if (member is X10Attribute attribute) {
         string optionalIndicator = IsMandatory(attribute) ? "" : "?";
-        return optionalIndicator + GetAtomicFlowType(attribute.DataType);
+        return optionalIndicator + GetAtomicFlowType(member.Owner, attribute.DataType);
       } else
         throw new NotImplementedException("Unknown member type: " + member.GetType());
     }
@@ -385,7 +356,7 @@ namespace x10.gen.react.generate {
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }
 
-    private string GetAtomicFlowType(DataType dataType) {
+    private string GetAtomicFlowType(Entity entity, DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "boolean";
       if (dataType == DataTypes.Singleton.Date) return "string";
       if (dataType == DataTypes.Singleton.Timestamp) return "string";
@@ -393,7 +364,13 @@ namespace x10.gen.react.generate {
       if (dataType == DataTypes.Singleton.Integer) return "number";
       if (dataType == DataTypes.Singleton.String) return "string";
       if (dataType == DataTypes.Singleton.Money) return "number";
-      if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
+      if (dataType is DataTypeEnum enumType) {
+        if (entity.TreeElement.FileInfo.RelativePath != enumType.TreeElement.FileInfo.RelativePath) {
+          string enumName = EnumToName(enumType);
+          ImportsPlaceholder.ImportType(enumName, enumType);
+        }
+        return EnumToName(enumType);
+      }
 
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }

@@ -1,15 +1,18 @@
 <SlideoutPanel model="Hit" url="/hits/panel" query="GetHit(hitId: $hitId">
   <VerticalStackPanel>
-    <VerticalStackPanel path="companyEntity">
+    <DisplayForm path="companyEntity">
       <Heading1 text="Overview"/>
       <primaryContact/>
       <primaryContactEmail/>
       <mainNumber/>
       <segment/>
       <!-- TODO: Link -->
+      <Label label="Website">
+        <Button label="=website" url="=website"/>
+      </Label>
       <website/>
       <address/>
-    </VerticalStackPanel>
+    </DisplayForm>
 
     <HorizontalDivider/>
 
@@ -21,27 +24,17 @@
 
     <Heading1 text="Denied party screening records"/>
     <List path="oldHits">
-      <VerticalStackPanel>
-        <Label label="Screened as a hit">
-          <createdAt/>
-        </Label>
-        <Label label="=status == 'denied' ? 'Denied time' : 'Clearance time'">
-          <resolutionTimestamp/>
-        </Label>
-        <Label label="=status == 'denied' ? 'Denied by' : 'Cleared by'">
-          <resolvedBy.name/>
-        </Label>
-        <Label label="Reason for clearance" visible="=status != 'denied'">
-          <reasonForClearance/>
-        </Label>
-        <Label label="Notes">
-          <notes/>
-        </Label>
+      <DisplayForm>
+        <createdAt label="Screened as a hit"/>
+        <resolutionTimestamp  label="=status == 'denied' ? 'Denied time' : 'Clearance time'"/>
+        <resolvedBy.name  label="=status == 'denied' ? 'Denied by' : 'Cleared by'"/>
+        <reasonForClearance label="Reason for clearance" visible="=status != 'denied'"/>
+        <notes/>
 
         <List path="attachments" visible="=attachments.count > 0">
           <Button label="=filename" url="=url"/>
         </List>
-      </VerticalStackPanel>
+      </DisplayForm>
     </List>
 
   </VerticalStackPanel>

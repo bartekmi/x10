@@ -3,16 +3,16 @@
     <Heading1 text="Match details"/>
     <Heading2 text="='Please review ' + matches.count + ' matches'"/>
     <Row>
-      <VerticalStackPanel>
+      <DisplayForm>
         <Heading3 text="Company information"/>
         <companyEntity.name/>
         <companyEntity.primaryContact/>
         <companyEntity.mainNumber/>
         <companyEntity.address/>
-      </VerticalStackPanel>
+      </DisplayForm>
       <VerticalDivider/>
       <List path="matches">
-        <VerticalStackPanel>
+        <DisplayForm>
           <Heading3 text="Match details"/>
           <Row>
             <name/>
@@ -22,7 +22,7 @@
           <reasonListed/>
           <comments/>
           <recordSource/>
-        </VerticalStackPanel>
+        </DisplayForm>
       </List>
     </Row>
 

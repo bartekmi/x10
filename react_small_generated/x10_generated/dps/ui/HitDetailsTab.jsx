@@ -8,6 +8,8 @@ import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
+import DisplayField from 'react_lib/form/DisplayField';
+import DisplayForm from 'react_lib/form/DisplayForm';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import x10toString from 'react_lib/utils/x10toString';
@@ -40,60 +42,96 @@ function HitDetailsTab(props: Props): React.Node {
         children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
       />
       <Group>
-        <Group
-          flexDirection='column'
-        >
+        <DisplayForm>
           <Text
             scale='title'
             children='Company information'
           />
-          <TextDisplay
-            value={ hit?.companyEntity?.name }
-          />
-          <TextDisplay
-            value={ hit?.companyEntity?.primaryContact }
-          />
-          <TextDisplay
-            value={ hit?.companyEntity?.mainNumber }
-          />
-          <TextDisplay
-            value={ hit?.companyEntity?.address }
-          />
-        </Group>
+          <DisplayField
+            label='Name'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.name }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Primary Contact'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.primaryContact }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Main Number'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.mainNumber }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Address'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.address }
+            />
+          </DisplayField>
+        </DisplayForm>
         <Separator
           orientation='vertical'
         />
         <MultiStacker
           items={ hit?.matches }
           itemDisplayFunc={ (data, onChange) => (
-            <Group
-              flexDirection='column'
-            >
+            <DisplayForm>
               <Text
                 scale='title'
                 children='Match details'
               />
               <Group>
-                <TextDisplay
-                  value={ data?.name }
-                />
-                <TextDisplay
-                  value={ data?.address }
-                />
-                <TextDisplay
-                  value={ data?.matchType }
-                />
+                <DisplayField
+                  label='Name'
+                >
+                  <TextDisplay
+                    value={ data?.name }
+                  />
+                </DisplayField>
+                <DisplayField
+                  label='Address'
+                >
+                  <TextDisplay
+                    value={ data?.address }
+                  />
+                </DisplayField>
+                <DisplayField
+                  label='Match Type'
+                >
+                  <TextDisplay
+                    value={ data?.matchType }
+                  />
+                </DisplayField>
               </Group>
-              <TextDisplay
-                value={ data?.reasonListed }
-              />
-              <TextDisplay
-                value={ data?.comments }
-              />
-              <TextDisplay
-                value={ data?.recordSource }
-              />
-            </Group>
+              <DisplayField
+                label='Reason Listed'
+              >
+                <TextDisplay
+                  value={ data?.reasonListed }
+                />
+              </DisplayField>
+              <DisplayField
+                label='Comments'
+              >
+                <TextDisplay
+                  value={ data?.comments }
+                />
+              </DisplayField>
+              <DisplayField
+                label='Record Source'
+              >
+                <TextDisplay
+                  value={ data?.recordSource }
+                />
+              </DisplayField>
+            </DisplayForm>
           ) }
           addNewItem={ createDefaultMatchInfo }
         />

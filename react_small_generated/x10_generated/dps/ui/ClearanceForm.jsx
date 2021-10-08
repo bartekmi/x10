@@ -17,7 +17,8 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
-import { hitCalculateErrors, HitStatusEnumPairs, ReasonForCleranceEnumPairs, type Hit } from 'dps/entities/Hit';
+import { hitCalculateErrors, type Hit } from 'dps/entities/Hit';
+import { HitStatusEnumPairs, ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
 
 
 

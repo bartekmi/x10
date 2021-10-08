@@ -11,6 +11,7 @@ import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
+import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
@@ -18,9 +19,10 @@ import toNum from 'react_lib/utils/toNum';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { createDefaultAttachment } from 'dps/entities/Attachment';
-import { ReasonForCleranceEnumPairs, type Hit } from 'dps/entities/Hit';
+import { type Hit } from 'dps/entities/Hit';
 import { createDefaultOldHit } from 'dps/entities/OldHit';
 import { userName } from 'dps/entities/User';
+import { ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
 
 import { type SlideoutPanel_hit } from './__generated__/SlideoutPanel_hit.graphql';
 
@@ -36,32 +38,62 @@ function SlideoutPanel(props: Props): React.Node {
     <Group
       flexDirection='column'
     >
-      <Group
-        flexDirection='column'
-      >
+      <DisplayForm>
         <Text
           scale='display'
           children='Overview'
         />
-        <TextDisplay
-          value={ hit?.companyEntity?.primaryContact }
-        />
-        <TextDisplay
-          value={ hit?.companyEntity?.primaryContactEmail }
-        />
-        <TextDisplay
-          value={ hit?.companyEntity?.mainNumber }
-        />
-        <TextDisplay
-          value={ hit?.companyEntity?.segment }
-        />
-        <TextDisplay
-          value={ hit?.companyEntity?.website }
-        />
-        <TextDisplay
-          value={ hit?.companyEntity?.address }
-        />
-      </Group>
+        <DisplayField
+          label='Primary Contact'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.primaryContact }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Primary Contact Email'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.primaryContactEmail }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Main Number'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.mainNumber }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Segment'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.segment }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Website'
+        >
+          <Button
+            label={ hit?.website }
+            url={ hit?.website }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Website'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.website }
+          />
+        </DisplayField>
+        <DisplayField
+          label='Address'
+        >
+          <TextDisplay
+            value={ hit?.companyEntity?.address }
+          />
+        </DisplayField>
+      </DisplayForm>
       <Separator/>
       <Text
         scale='display'
@@ -85,9 +117,7 @@ function SlideoutPanel(props: Props): React.Node {
       <MultiStacker
         items={ hit?.oldHits }
         itemDisplayFunc={ (data, onChange) => (
-          <Group
-            flexDirection='column'
-          >
+          <DisplayForm>
             <DisplayField
               label='Screened as a hit'
             >
@@ -95,22 +125,18 @@ function SlideoutPanel(props: Props): React.Node {
                 value={ data?.createdAt }
               />
             </DisplayField>
-            <DisplayField
-              label={ data?.status == "denied" ? 'Denied time' : 'Clearance time' }
-            >
+            <DisplayField>
               <TimestampDisplay
                 value={ data?.resolutionTimestamp }
               />
             </DisplayField>
-            <DisplayField
-              label={ data?.status == "denied" ? 'Denied by' : 'Cleared by' }
-            >
+            <DisplayField>
               <TextDisplay
                 value={ userName(data?.resolvedBy) }
               />
             </DisplayField>
             <VisibilityControl
-              visible={ data?.status != "denied" }
+              visible={ false }
             >
               <DisplayField
                 label='Reason for clearance'
@@ -142,7 +168,7 @@ function SlideoutPanel(props: Props): React.Node {
                 addNewItem={ createDefaultAttachment }
               />
             </VisibilityControl>
-          </Group>
+          </DisplayForm>
         ) }
         addNewItem={ createDefaultOldHit }
       />
@@ -182,7 +208,6 @@ export default createFragmentContainer(SlideoutPanel, {
           firstName
           lastName
         }
-        status
       }
     }
   `,
