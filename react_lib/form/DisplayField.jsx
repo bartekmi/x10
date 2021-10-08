@@ -21,6 +21,7 @@ export default function DisplayField(props: Props): React.Node {
   return (
     <Label
       value={label}
+      paddingBottom={"none"}
       helpTooltip={toolTip ? <HelpTooltip
         iconName="question"
         position="top"

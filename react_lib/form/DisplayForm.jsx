@@ -11,7 +11,7 @@ export default function DisplayForm(props: Props): React.Node {
   const { children } = props
 
   return (
-    <Group flexDirection="column">
+    <Group flexDirection="column" gap={20}>
       { children }
     </Group>
   );

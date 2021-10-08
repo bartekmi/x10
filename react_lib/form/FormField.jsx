@@ -28,6 +28,7 @@ export default function FormField(props: Props): React.Node {
   return (
     <Label 
       value={label} 
+      paddingBottom={"none"}
       indicateRequired={indicateRequired}
       helpTooltip={toolTip ? <HelpTooltip
           iconName="question"
