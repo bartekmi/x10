@@ -1,0 +1,12 @@
+- name: HitStatus
+  values: unresolved, cleared, denied
+- name: ReasonForClerance
+  values: 
+    - value: personNotEntity
+      label: "Person is not an Entity/Business"
+    - value: partialName
+      label: "Partial Name Match - No Country/Address Match"
+    - value: partialAddress
+      label: "Partial Address Match - No Name Match"
+    - value: other
+      label: "Other"

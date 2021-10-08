@@ -1119,6 +1119,36 @@ namespace x10.compiler {
 ", result);
     }
 
+    [Fact]
+    public void AttributesHoistedToWrappingComponentFormula() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <Form>  
+    <name label='=1+2'/>
+  </Form>
+</MyComponent>
+"); 
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <Form>
+    <Label label='=1+2'>
+      <name/>
+    </Label>
+  </Form>
+</MyComponent>
+", result);
+
+      // Verify that the expression was parsed
+      Instance root = definition.RootChild;
+      Instance labelInstance = ((UiAttributeValueComplex)root.FindAttributeValue("Children")).Instances.Single();
+      UiAttributeValueAtomic labelAttribute = (UiAttributeValueAtomic)labelInstance.FindAttributeValue("label");
+      Assert.NotNull(labelAttribute.Expression);
+    }
+
+    
 
     #endregion
 

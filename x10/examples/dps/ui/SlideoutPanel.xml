@@ -26,6 +26,9 @@
     <List path="oldHits">
       <DisplayForm>
         <createdAt label="Screened as a hit"/>
+        <Label label="=status == 'denied' ? 'Denied time' : 'Clearance time'">
+          <resolutionTimestamp/>
+        </Label>
         <resolutionTimestamp  label="=status == 'denied' ? 'Denied time' : 'Clearance time'"/>
         <resolvedBy.name  label="=status == 'denied' ? 'Denied by' : 'Cleared by'"/>
         <reasonForClearance label="Reason for clearance" visible="=status != 'denied'"/>

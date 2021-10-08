@@ -125,6 +125,13 @@ function SlideoutPanel(props: Props): React.Node {
                 value={ data?.createdAt }
               />
             </DisplayField>
+            <DisplayField
+              label={ data?.status == "denied" ? 'Denied time' : 'Clearance time' }
+            >
+              <TimestampDisplay
+                value={ data?.resolutionTimestamp }
+              />
+            </DisplayField>
             <DisplayField>
               <TimestampDisplay
                 value={ data?.resolutionTimestamp }
@@ -208,6 +215,7 @@ export default createFragmentContainer(SlideoutPanel, {
           firstName
           lastName
         }
+        status
       }
     }
   `,
