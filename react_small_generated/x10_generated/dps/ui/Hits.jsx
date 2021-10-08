@@ -72,7 +72,7 @@ function Hits(props: Props): React.Node {
                   />
                   <Button
                     label='Panel'
-                    url={ '/hits/panel' + value?.id }
+                    url={ '/hits/panel/' + value?.id }
                   />
                 </Group>
               ,

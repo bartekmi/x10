@@ -1,3 +1,25 @@
-<ShipmentTab model="Shipment" many="true">
-  <Heading1 text="TBD Shipments"/>
+<ShipmentTab model="Hit">
+  <VerticalStackPanel>
+    <Heading1 text="Shipments"/>
+
+    <Table path="shipments">
+      <!-- TODO: Make flexId, Consignee, Shipper int hyperlinks -->
+      <flexId/>
+      <name/>
+      <consignee.name/>
+      <shipper.name/>
+      <transportationMode/>
+      <status/>
+      <customs/>
+      <cargoReady/>
+      <departsDate/>
+      <arrivesDate/>
+      <TableColumn>
+        <VerticalStackPanel>
+          <dueDateTask/>
+          <dueDate weight="bold"/>
+        </VerticalStackPanel>
+      </TableColumn>
+    </Table>
+  </VerticalStackPanel>
 </ShipmentTab>

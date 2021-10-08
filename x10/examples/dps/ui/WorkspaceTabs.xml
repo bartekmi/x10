@@ -3,11 +3,11 @@
     <Tab label="Hit details">
       <HitDetailsTab/>
     </Tab>
-    <Tab label="='Shipment ' + shipments.count">
-      <ShipmentTab path="shipments"/>
+    <Tab label="='Shipment(' + shipments.count + ')'">
+      <ShipmentTab/>
     </Tab>
-    <Tab label="='Escalation ' + messages.count">
-      <EscalationTab path="messages"/>
-    </Tab>
+    <!-- <Tab label="='Escalation(' + messages.count + ')'">
+      <EscalationTab/>
+    </Tab> -->
   </TabbedPane>
 </WorkspaceTabs>

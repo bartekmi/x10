@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 
 
 // Type Definition
@@ -63,6 +64,16 @@ export const TransportationModeEnumPairs = [
 ];
 
 export type TransportationModeEnum = 'AIR' | 'OCEAN' | 'TRUCK' | 'RAIL' | 'UNKNOWN_TRANSPORTATION' | 'TRUCK_INTL' | 'WAREHOUSE_STORAGE';
+
+
+
+// Derived Attribute Functions
+export function shipmentFlexId(shipment: {
+  +coreId: ?number,
+}): string {
+  const result = 'Flex-' + x10toString(shipment?.coreId);
+  return result;
+}
 
 
 

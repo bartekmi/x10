@@ -20,6 +20,13 @@ namespace x10.gen.react {
       return string.Format("[{0}]", string.Join(", ", data.Select(x => Qs(x))));
     }
 
+    internal static string SanitizeToSymbol(string unsanitized) {
+      if (unsanitized == null)
+        return null;
+      return new String(unsanitized.Select(x => char.IsLetterOrDigit(x) ? x : '_')
+        .ToArray());
+    }
+
     internal static string FuncCall(Function function, string content, ImportsPlaceholder imports) {
       imports.ImportFunction(function);
       return string.Format("{0}({1})", function, content);

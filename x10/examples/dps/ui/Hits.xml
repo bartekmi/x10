@@ -17,7 +17,7 @@
         <TableColumn label="Go-To">
           <Row>
             <Button label="Tabs" url="='/hits/' + id"/>
-            <Button label="Panel" url="='/hits/panel' + id"/>
+            <Button label="Panel" url="='/hits/panel/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>

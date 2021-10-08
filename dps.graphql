@@ -49,16 +49,15 @@ type Hit {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 type MatchInfo {
-  sourceList: String!
-  ids: String!
+  reasonListed: String!
   name: String!
   address: String!
-  type: String!
-  title: String!
-  source: String!
-  programs: String!
-  score: Float
-  note: String!
+  ids: String!
+  matchType: String!
+  nameMatchScore: Float
+  addressMatchScore: Float
+  comments: String!
+  recordSource: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -564,26 +563,16 @@ input HitSort {
 input MatchInfoFilter {
   AND: [MatchInfoFilter!]
   OR: [MatchInfoFilter!]
-  sourceList: String
-  sourceList_not: String
-  sourceList_contains: String
-  sourceList_not_contains: String
-  sourceList_starts_with: String
-  sourceList_not_starts_with: String
-  sourceList_ends_with: String
-  sourceList_not_ends_with: String
-  sourceList_in: [String!]
-  sourceList_not_in: [String!]
-  ids: String
-  ids_not: String
-  ids_contains: String
-  ids_not_contains: String
-  ids_starts_with: String
-  ids_not_starts_with: String
-  ids_ends_with: String
-  ids_not_ends_with: String
-  ids_in: [String!]
-  ids_not_in: [String!]
+  reasonListed: String
+  reasonListed_not: String
+  reasonListed_contains: String
+  reasonListed_not_contains: String
+  reasonListed_starts_with: String
+  reasonListed_not_starts_with: String
+  reasonListed_ends_with: String
+  reasonListed_not_ends_with: String
+  reasonListed_in: [String!]
+  reasonListed_not_in: [String!]
   name: String
   name_not: String
   name_contains: String
@@ -604,68 +593,70 @@ input MatchInfoFilter {
   address_not_ends_with: String
   address_in: [String!]
   address_not_in: [String!]
-  type: String
-  type_not: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
-  type_in: [String!]
-  type_not_in: [String!]
-  title: String
-  title_not: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  title_in: [String!]
-  title_not_in: [String!]
-  source: String
-  source_not: String
-  source_contains: String
-  source_not_contains: String
-  source_starts_with: String
-  source_not_starts_with: String
-  source_ends_with: String
-  source_not_ends_with: String
-  source_in: [String!]
-  source_not_in: [String!]
-  programs: String
-  programs_not: String
-  programs_contains: String
-  programs_not_contains: String
-  programs_starts_with: String
-  programs_not_starts_with: String
-  programs_ends_with: String
-  programs_not_ends_with: String
-  programs_in: [String!]
-  programs_not_in: [String!]
-  score: Float
-  score_not: Float
-  score_in: [Float]
-  score_not_in: [Float]
-  score_gt: Float
-  score_not_gt: Float
-  score_gte: Float
-  score_not_gte: Float
-  score_lt: Float
-  score_not_lt: Float
-  score_lte: Float
-  score_not_lte: Float
-  note: String
-  note_not: String
-  note_contains: String
-  note_not_contains: String
-  note_starts_with: String
-  note_not_starts_with: String
-  note_ends_with: String
-  note_not_ends_with: String
-  note_in: [String!]
-  note_not_in: [String!]
+  ids: String
+  ids_not: String
+  ids_contains: String
+  ids_not_contains: String
+  ids_starts_with: String
+  ids_not_starts_with: String
+  ids_ends_with: String
+  ids_not_ends_with: String
+  ids_in: [String!]
+  ids_not_in: [String!]
+  matchType: String
+  matchType_not: String
+  matchType_contains: String
+  matchType_not_contains: String
+  matchType_starts_with: String
+  matchType_not_starts_with: String
+  matchType_ends_with: String
+  matchType_not_ends_with: String
+  matchType_in: [String!]
+  matchType_not_in: [String!]
+  nameMatchScore: Float
+  nameMatchScore_not: Float
+  nameMatchScore_in: [Float]
+  nameMatchScore_not_in: [Float]
+  nameMatchScore_gt: Float
+  nameMatchScore_not_gt: Float
+  nameMatchScore_gte: Float
+  nameMatchScore_not_gte: Float
+  nameMatchScore_lt: Float
+  nameMatchScore_not_lt: Float
+  nameMatchScore_lte: Float
+  nameMatchScore_not_lte: Float
+  addressMatchScore: Float
+  addressMatchScore_not: Float
+  addressMatchScore_in: [Float]
+  addressMatchScore_not_in: [Float]
+  addressMatchScore_gt: Float
+  addressMatchScore_not_gt: Float
+  addressMatchScore_gte: Float
+  addressMatchScore_not_gte: Float
+  addressMatchScore_lt: Float
+  addressMatchScore_not_lt: Float
+  addressMatchScore_lte: Float
+  addressMatchScore_not_lte: Float
+  comments: String
+  comments_not: String
+  comments_contains: String
+  comments_not_contains: String
+  comments_starts_with: String
+  comments_not_starts_with: String
+  comments_ends_with: String
+  comments_not_ends_with: String
+  comments_in: [String!]
+  comments_not_in: [String!]
+  recordSource: String
+  recordSource_not: String
+  recordSource_contains: String
+  recordSource_not_contains: String
+  recordSource_starts_with: String
+  recordSource_not_starts_with: String
+  recordSource_ends_with: String
+  recordSource_not_ends_with: String
+  recordSource_in: [String!]
+  recordSource_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -702,16 +693,15 @@ input MatchInfoFilter {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 input MatchInfoInput {
-  sourceList: String!
-  ids: String!
+  reasonListed: String!
   name: String!
   address: String!
-  type: String!
-  title: String!
-  source: String!
-  programs: String!
-  score: Float
-  note: String!
+  ids: String!
+  matchType: String!
+  nameMatchScore: Float
+  addressMatchScore: Float
+  comments: String!
+  recordSource: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -719,16 +709,15 @@ input MatchInfoInput {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 input MatchInfoSort {
-  sourceList: SortOperationKind
-  ids: SortOperationKind
+  reasonListed: SortOperationKind
   name: SortOperationKind
   address: SortOperationKind
-  type: SortOperationKind
-  title: SortOperationKind
-  source: SortOperationKind
-  programs: SortOperationKind
-  score: SortOperationKind
-  note: SortOperationKind
+  ids: SortOperationKind
+  matchType: SortOperationKind
+  nameMatchScore: SortOperationKind
+  addressMatchScore: SortOperationKind
+  comments: SortOperationKind
+  recordSource: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind

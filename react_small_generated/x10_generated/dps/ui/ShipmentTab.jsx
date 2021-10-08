@@ -4,33 +4,203 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import Group from 'latitude/Group';
 import Text from 'latitude/Text';
 
-import { type Shipment } from 'dps/entities/Shipment';
+import DateDisplay from 'react_lib/display/DateDisplay';
+import EnumDisplay from 'react_lib/display/EnumDisplay';
+import TextDisplay from 'react_lib/display/TextDisplay';
+import Table from 'react_lib/table/Table';
 
-import { type ShipmentTab_shipments } from './__generated__/ShipmentTab_shipments.graphql';
+import { type Hit } from 'dps/entities/Hit';
+import { shipmentFlexId, TransportationModeEnumPairs } from 'dps/entities/Shipment';
+
+import { type ShipmentTab_hit } from './__generated__/ShipmentTab_hit.graphql';
 
 
 
 type Props = {|
-  +shipments: ShipmentTab_shipments,
+  +hit: ShipmentTab_hit,
 |};
 function ShipmentTab(props: Props): React.Node {
-  const { shipments } = props;
+  const { hit } = props;
 
   return (
-    <Text
-      scale='display'
-      children='TBD Shipments'
-    />
+    <Group
+      flexDirection='column'
+    >
+      <Text
+        scale='display'
+        children='Hits'
+      />
+      <Table
+        data={ hit?.shipments }
+        columns={
+          [
+            {
+              id: 'Flex Id',
+              Header: 'Flex Id',
+              width: 140,
+              accessor: (data) => shipmentFlexId(data),
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Name1',
+              Header: 'Name',
+              width: 140,
+              accessor: (data) => data?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Name2',
+              Header: 'Name',
+              width: 140,
+              accessor: (data) => data?.consignee?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Name3',
+              Header: 'Name',
+              width: 140,
+              accessor: (data) => data?.shipper?.name,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Transportation Mode',
+              Header: 'Transportation Mode',
+              width: 140,
+              accessor: (data) => data?.transportationMode,
+              Cell: ({ value }) =>
+                <EnumDisplay
+                  value={ value }
+                  options={ TransportationModeEnumPairs }
+                />
+              ,
+            },
+            {
+              id: 'Status',
+              Header: 'Status',
+              width: 140,
+              accessor: (data) => data?.status,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Customs',
+              Header: 'Customs',
+              width: 140,
+              accessor: (data) => data?.customs,
+              Cell: ({ value }) =>
+                <TextDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Cargo Ready',
+              Header: 'Cargo Ready',
+              width: 140,
+              accessor: (data) => data?.cargoReady,
+              Cell: ({ value }) =>
+                <DateDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Departs Date',
+              Header: 'Departs Date',
+              width: 140,
+              accessor: (data) => data?.departsDate,
+              Cell: ({ value }) =>
+                <DateDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'Arrives Date',
+              Header: 'Arrives Date',
+              width: 140,
+              accessor: (data) => data?.arrivesDate,
+              Cell: ({ value }) =>
+                <DateDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: 'dueDate',
+              width: 140,
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Group
+                  flexDirection='column'
+                >
+                  <TextDisplay
+                    value={ value?.dueDateTask }
+                  />
+                  <DateDisplay
+                    weight='bold'
+                    value={ value?.dueDate }
+                  />
+                </Group>
+              ,
+            },
+          ]
+        }
+      />
+    </Group>
   );
 }
 
 // $FlowExpectedError
 export default createFragmentContainer(ShipmentTab, {
-  shipments: graphql`
-    fragment ShipmentTab_shipments on Shipment @relay(plural: true) {
+  hit: graphql`
+    fragment ShipmentTab_hit on Hit {
       id
+      shipments {
+        id
+        arrivesDate
+        cargoReady
+        consignee {
+          id
+          toStringRepresentation
+          name
+        }
+        coreId
+        customs
+        departsDate
+        dueDate
+        dueDateTask
+        name
+        shipper {
+          id
+          toStringRepresentation
+          name
+        }
+        status
+        transportationMode
+      }
     }
   `,
 });

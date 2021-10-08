@@ -519,7 +519,10 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "id",
-            Function = (instance) => instance.FindValue("label")?.ToString(),
+            Function = (instance) => {
+              UiAttributeValue value = instance.FindAttributeValue("label");
+              return JS.SanitizeToSymbol(value?.ToString());
+            },
           },
           new JavaScriptAttributeDynamic("label", "label"),
           new JavaScriptAttributeByFunc() {

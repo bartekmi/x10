@@ -12,24 +12,21 @@ namespace x10.hotchoc.dps.Entities {
   public class MatchInfo : Base {
     // Regular Attributes
     [GraphQLNonNullType]
-    public string? SourceList { get; set; }
-    [GraphQLNonNullType]
-    public string? Ids { get; set; }
+    public string? ReasonListed { get; set; }
     [GraphQLNonNullType]
     public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? Address { get; set; }
     [GraphQLNonNullType]
-    public string? Type { get; set; }
+    public string? Ids { get; set; }
     [GraphQLNonNullType]
-    public string? Title { get; set; }
+    public string? MatchType { get; set; }
+    public double? NameMatchScore { get; set; }
+    public double? AddressMatchScore { get; set; }
     [GraphQLNonNullType]
-    public string? Source { get; set; }
+    public string? Comments { get; set; }
     [GraphQLNonNullType]
-    public string? Programs { get; set; }
-    public double? Score { get; set; }
-    [GraphQLNonNullType]
-    public string? Note { get; set; }
+    public string? RecordSource { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
