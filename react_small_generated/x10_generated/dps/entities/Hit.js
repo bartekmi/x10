@@ -10,6 +10,7 @@ import isBlank from 'react_lib/utils/isBlank';
 import { type Attachment } from 'dps/entities/Attachment';
 import { type MatchInfo } from 'dps/entities/MatchInfo';
 import { type Message } from 'dps/entities/Message';
+import { type OldHit } from 'dps/entities/OldHit';
 import { type Shipment } from 'dps/entities/Shipment';
 import { type SuggestedResource } from 'dps/entities/SuggestedResource';
 
@@ -20,18 +21,16 @@ export type Hit = {
   +priority: ?PriorityEnum,
   +status: ?HitStatusEnum,
   +reasonForClearance: ?ReasonForCleranceEnum,
-  +whiteListUntil: ?string,
   +notes: string,
-  +resolutionTimestamp: ?string,
   +whitelistTime: ?number,
-  +clearedBy: ?{ id: string },
-  +user: ?{ id: string },
   +companyEntity: ?{ id: string },
+  +user: ?{ id: string },
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +resources: $ReadOnlyArray<SuggestedResource>,
   +shipments: $ReadOnlyArray<Shipment>,
   +messages: $ReadOnlyArray<Message>,
+  +oldHits: $ReadOnlyArray<OldHit>,
 };
 
 
@@ -101,19 +100,17 @@ export function createDefaultHit(): Hit {
     status: 'UNRESOLVED',
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
-    whiteListUntil: null,
     notes: '',
-    resolutionTimestamp: null,
     // $FlowExpectedError Required field, but no default value
     whitelistTime: null,
-    clearedBy: null,
-    user: null,
     companyEntity: null,
+    user: null,
     attachments: [],
     matches: [],
     resources: [],
     shipments: [],
     messages: [],
+    oldHits: [],
   };
 }
 

@@ -13,30 +13,22 @@ attributes:
   - name: reasonForClearance
     dataType: ReasonForClerance
     mandatory: true
-  - name: whiteListUntil
-    dataType: Timestamp
   - name: notes
     dataType: String
     mandatory: true
-  - name: resolutionTimestamp
-    dataType: Timestamp
   - name: whitelistTime
 #TODO: Select from a list
     dataType: Integer
     mandatory: true
 
 associations:
-  - name: clearedBy
-    dataType: User
-    mandatory: false
+  - name: companyEntity
+    dataType: CompanyEntity
+    mandatory: true
     owns: false
   - name: user
     dataType: User
     mandatory: false
-    owns: false
-  - name: companyEntity
-    dataType: CompanyEntity
-    mandatory: true
     owns: false
   - name: attachments
     dataType: Attachment
@@ -62,6 +54,11 @@ associations:
     many: true
     owns: true
     datagen_quantity: 0..5
+  - name: oldHits
+    dataType: OldHit
+    many: true
+    owns: true
+    datagen_quantity: 0..2
 
 
 enums:

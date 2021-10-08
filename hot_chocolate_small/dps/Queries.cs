@@ -131,6 +131,30 @@ namespace x10.hotchoc.dps {
           repository.GetMatchInfos();
     #endregion
 
+    #region OldHit
+    /// <summary>
+    /// Retrieve a OldHit by id
+    /// </summary>
+    /// <param name="id">The id of the OldHit.</param>
+    /// <param name="repository"></param>
+    /// <returns>The OldHit.</returns>
+    public OldHit GetOldHit(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetOldHit(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all OldHits.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All OldHits.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<OldHit> GetOldHits(
+        [Service] IRepository repository) =>
+          repository.GetOldHits();
+    #endregion
+
     #region User
     /// <summary>
     /// Retrieve a User by id

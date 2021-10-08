@@ -6,8 +6,8 @@
     <Tab label="='Shipment(' + shipments.count + ')'">
       <ShipmentTab/>
     </Tab>
-    <!-- <Tab label="='Escalation(' + messages.count + ')'">
+    <Tab label="='Escalation(' + messages.count + ')'">
       <EscalationTab/>
-    </Tab> -->
+    </Tab>
   </TabbedPane>
 </WorkspaceTabs>

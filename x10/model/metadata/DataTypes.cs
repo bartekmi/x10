@@ -23,6 +23,8 @@ namespace x10.model.metadata {
     public readonly DataType Date;
     public readonly DataType Timestamp;
 
+    public static readonly DataType ERROR = new DataType() { Name = "ERROR" };
+
     public readonly List<DataType> All;
 
     private DataTypes() {

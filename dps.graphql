@@ -17,8 +17,10 @@ type CompanyEntity {
   clientId: Int
   name: String!
   primaryContact: String!
-  location: String!
+  primaryContactEmail: String!
   mainNumber: String!
+  segment: String!
+  website: String!
   address: String!
   toStringRepresentation: String!
   id: String!
@@ -30,19 +32,17 @@ type Hit {
   priority: PriorityEnum
   status: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum!
-  whiteListUntil: DateTime
   notes: String!
-  resolutionTimestamp: DateTime
   whitelistTime: Int!
   toStringRepresentation: String!
-  clearedBy: User
-  user: User
   companyEntity: CompanyEntity!
+  user: User
   attachments: [Attachment!]!
   matches: [MatchInfo!]!
   resources: [SuggestedResource!]!
   shipments: [Shipment!]!
   messages: [Message!]!
+  oldHits: [OldHit!]!
   id: String!
   hashcode: Int!
 }
@@ -86,12 +86,29 @@ type Mutation {
   createOrUpdateAttachment(attachment: AttachmentInput!): String!
   "Creates a new MatchInfo or updates an existing one, depending on the value of matchInfo.id"
   createOrUpdateMatchInfo(matchInfo: MatchInfoInput!): String!
+  "Creates a new OldHit or updates an existing one, depending on the value of oldHit.id"
+  createOrUpdateOldHit(oldHit: OldHitInput!): String!
   "Creates a new User or updates an existing one, depending on the value of user.id"
   createOrUpdateUser(user: UserInput!): String!
   "Creates a new Shipment or updates an existing one, depending on the value of shipment.id"
   createOrUpdateShipment(shipment: ShipmentInput!): String!
   "Creates a new Message or updates an existing one, depending on the value of message.id"
   createOrUpdateMessage(message: MessageInput!): String!
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+type OldHit {
+  status: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum!
+  whiteListUntil: DateTime
+  notes: String!
+  createdAt: DateTime
+  resolutionTimestamp: DateTime
+  toStringRepresentation: String!
+  resolvedBy: User
+  attachments: [Attachment!]!
+  id: String!
+  hashcode: Int!
 }
 
 type Query {
@@ -115,6 +132,10 @@ type Query {
   matchInfo("The id of the MatchInfo." id: String!): MatchInfo!
   "Gets all MatchInfos.\n\n\n**Returns:**\nAll MatchInfos."
   matchInfos(where: MatchInfoFilter order_by: MatchInfoSort): [MatchInfo!]!
+  "Retrieve a OldHit by id\n\n\n**Returns:**\nThe OldHit."
+  oldHit("The id of the OldHit." id: String!): OldHit!
+  "Gets all OldHits.\n\n\n**Returns:**\nAll OldHits."
+  oldHits(where: OldHitFilter order_by: OldHitSort): [OldHit!]!
   "Retrieve a User by id\n\n\n**Returns:**\nThe User."
   user("The id of the User." id: String!): User!
   "Gets all Users.\n\n\n**Returns:**\nAll Users."
@@ -287,16 +308,16 @@ input CompanyEntityFilter {
   primaryContact_not_ends_with: String
   primaryContact_in: [String!]
   primaryContact_not_in: [String!]
-  location: String
-  location_not: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
-  location_in: [String!]
-  location_not_in: [String!]
+  primaryContactEmail: String
+  primaryContactEmail_not: String
+  primaryContactEmail_contains: String
+  primaryContactEmail_not_contains: String
+  primaryContactEmail_starts_with: String
+  primaryContactEmail_not_starts_with: String
+  primaryContactEmail_ends_with: String
+  primaryContactEmail_not_ends_with: String
+  primaryContactEmail_in: [String!]
+  primaryContactEmail_not_in: [String!]
   mainNumber: String
   mainNumber_not: String
   mainNumber_contains: String
@@ -307,6 +328,26 @@ input CompanyEntityFilter {
   mainNumber_not_ends_with: String
   mainNumber_in: [String!]
   mainNumber_not_in: [String!]
+  segment: String
+  segment_not: String
+  segment_contains: String
+  segment_not_contains: String
+  segment_starts_with: String
+  segment_not_starts_with: String
+  segment_ends_with: String
+  segment_not_ends_with: String
+  segment_in: [String!]
+  segment_not_in: [String!]
+  website: String
+  website_not: String
+  website_contains: String
+  website_not_contains: String
+  website_starts_with: String
+  website_not_starts_with: String
+  website_ends_with: String
+  website_not_ends_with: String
+  website_in: [String!]
+  website_not_in: [String!]
   address: String
   address_not: String
   address_contains: String
@@ -356,8 +397,10 @@ input CompanyEntityInput {
   clientId: Int
   name: String!
   primaryContact: String!
-  location: String!
+  primaryContactEmail: String!
   mainNumber: String!
+  segment: String!
+  website: String!
   address: String!
   toStringRepresentation: String!
   id: String!
@@ -369,8 +412,10 @@ input CompanyEntitySort {
   clientId: SortOperationKind
   name: SortOperationKind
   primaryContact: SortOperationKind
-  location: SortOperationKind
+  primaryContactEmail: SortOperationKind
   mainNumber: SortOperationKind
+  segment: SortOperationKind
+  website: SortOperationKind
   address: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
@@ -417,18 +462,6 @@ input HitFilter {
   reasonForClearance_not_lt: ReasonForCleranceEnum
   reasonForClearance_lte: ReasonForCleranceEnum
   reasonForClearance_not_lte: ReasonForCleranceEnum
-  whiteListUntil: DateTime
-  whiteListUntil_not: DateTime
-  whiteListUntil_in: [DateTime]
-  whiteListUntil_not_in: [DateTime]
-  whiteListUntil_gt: DateTime
-  whiteListUntil_not_gt: DateTime
-  whiteListUntil_gte: DateTime
-  whiteListUntil_not_gte: DateTime
-  whiteListUntil_lt: DateTime
-  whiteListUntil_not_lt: DateTime
-  whiteListUntil_lte: DateTime
-  whiteListUntil_not_lte: DateTime
   notes: String
   notes_not: String
   notes_contains: String
@@ -439,18 +472,6 @@ input HitFilter {
   notes_not_ends_with: String
   notes_in: [String!]
   notes_not_in: [String!]
-  resolutionTimestamp: DateTime
-  resolutionTimestamp_not: DateTime
-  resolutionTimestamp_in: [DateTime]
-  resolutionTimestamp_not_in: [DateTime]
-  resolutionTimestamp_gt: DateTime
-  resolutionTimestamp_not_gt: DateTime
-  resolutionTimestamp_gte: DateTime
-  resolutionTimestamp_not_gte: DateTime
-  resolutionTimestamp_lt: DateTime
-  resolutionTimestamp_not_lt: DateTime
-  resolutionTimestamp_lte: DateTime
-  resolutionTimestamp_not_lte: DateTime
   whitelistTime: Int
   whitelistTime_not: Int
   whitelistTime_in: [Int!]
@@ -473,9 +494,8 @@ input HitFilter {
   toStringRepresentation_not_ends_with: String
   toStringRepresentation_in: [String!]
   toStringRepresentation_not_in: [String!]
-  clearedBy: UserFilter
-  user: UserFilter
   companyEntity: CompanyEntityFilter
+  user: UserFilter
   attachments_some: AttachmentFilter
   attachments_none: AttachmentFilter
   attachments_all: AttachmentFilter
@@ -496,6 +516,10 @@ input HitFilter {
   messages_none: MessageFilter
   messages_all: MessageFilter
   messages_any: Boolean
+  oldHits_some: OldHitFilter
+  oldHits_none: OldHitFilter
+  oldHits_all: OldHitFilter
+  oldHits_any: Boolean
   id: String
   id_not: String
   id_contains: String
@@ -525,19 +549,17 @@ input HitInput {
   priority: PriorityEnum
   status: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum!
-  whiteListUntil: DateTime
   notes: String!
-  resolutionTimestamp: DateTime
   whitelistTime: Int!
   toStringRepresentation: String!
-  clearedBy: UserInput
-  user: UserInput
   companyEntity: CompanyEntityInput!
+  user: UserInput
   attachments: [AttachmentInput!]!
   matches: [MatchInfoInput!]!
   resources: [SuggestedResourceInput!]!
   shipments: [ShipmentInput!]!
   messages: [MessageInput!]!
+  oldHits: [OldHitInput!]!
   id: String!
   hashcode: Int!
 }
@@ -547,14 +569,11 @@ input HitSort {
   priority: SortOperationKind
   status: SortOperationKind
   reasonForClearance: SortOperationKind
-  whiteListUntil: SortOperationKind
   notes: SortOperationKind
-  resolutionTimestamp: SortOperationKind
   whitelistTime: SortOperationKind
   toStringRepresentation: SortOperationKind
-  clearedBy: UserSort
-  user: UserSort
   companyEntity: CompanyEntitySort
+  user: UserSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -819,6 +838,148 @@ input MessageSort {
   coreShipmentId: SortOperationKind
   toStringRepresentation: SortOperationKind
   user: UserSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input OldHitFilter {
+  AND: [OldHitFilter!]
+  OR: [OldHitFilter!]
+  status: HitStatusEnum
+  status_not: HitStatusEnum
+  status_in: [HitStatusEnum]
+  status_not_in: [HitStatusEnum]
+  status_gt: HitStatusEnum
+  status_not_gt: HitStatusEnum
+  status_gte: HitStatusEnum
+  status_not_gte: HitStatusEnum
+  status_lt: HitStatusEnum
+  status_not_lt: HitStatusEnum
+  status_lte: HitStatusEnum
+  status_not_lte: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum
+  reasonForClearance_not: ReasonForCleranceEnum
+  reasonForClearance_in: [ReasonForCleranceEnum!]
+  reasonForClearance_not_in: [ReasonForCleranceEnum!]
+  reasonForClearance_gt: ReasonForCleranceEnum
+  reasonForClearance_not_gt: ReasonForCleranceEnum
+  reasonForClearance_gte: ReasonForCleranceEnum
+  reasonForClearance_not_gte: ReasonForCleranceEnum
+  reasonForClearance_lt: ReasonForCleranceEnum
+  reasonForClearance_not_lt: ReasonForCleranceEnum
+  reasonForClearance_lte: ReasonForCleranceEnum
+  reasonForClearance_not_lte: ReasonForCleranceEnum
+  whiteListUntil: DateTime
+  whiteListUntil_not: DateTime
+  whiteListUntil_in: [DateTime]
+  whiteListUntil_not_in: [DateTime]
+  whiteListUntil_gt: DateTime
+  whiteListUntil_not_gt: DateTime
+  whiteListUntil_gte: DateTime
+  whiteListUntil_not_gte: DateTime
+  whiteListUntil_lt: DateTime
+  whiteListUntil_not_lt: DateTime
+  whiteListUntil_lte: DateTime
+  whiteListUntil_not_lte: DateTime
+  notes: String
+  notes_not: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
+  notes_in: [String!]
+  notes_not_in: [String!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime]
+  createdAt_not_in: [DateTime]
+  createdAt_gt: DateTime
+  createdAt_not_gt: DateTime
+  createdAt_gte: DateTime
+  createdAt_not_gte: DateTime
+  createdAt_lt: DateTime
+  createdAt_not_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_not_lte: DateTime
+  resolutionTimestamp: DateTime
+  resolutionTimestamp_not: DateTime
+  resolutionTimestamp_in: [DateTime]
+  resolutionTimestamp_not_in: [DateTime]
+  resolutionTimestamp_gt: DateTime
+  resolutionTimestamp_not_gt: DateTime
+  resolutionTimestamp_gte: DateTime
+  resolutionTimestamp_not_gte: DateTime
+  resolutionTimestamp_lt: DateTime
+  resolutionTimestamp_not_lt: DateTime
+  resolutionTimestamp_lte: DateTime
+  resolutionTimestamp_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  resolvedBy: UserFilter
+  attachments_some: AttachmentFilter
+  attachments_none: AttachmentFilter
+  attachments_all: AttachmentFilter
+  attachments_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input OldHitInput {
+  status: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum!
+  whiteListUntil: DateTime
+  notes: String!
+  createdAt: DateTime
+  resolutionTimestamp: DateTime
+  toStringRepresentation: String!
+  resolvedBy: UserInput
+  attachments: [AttachmentInput!]!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"hit\" on a User or Company Entity as reported by LexisNexis"
+input OldHitSort {
+  status: SortOperationKind
+  reasonForClearance: SortOperationKind
+  whiteListUntil: SortOperationKind
+  notes: SortOperationKind
+  createdAt: SortOperationKind
+  resolutionTimestamp: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  resolvedBy: UserSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }

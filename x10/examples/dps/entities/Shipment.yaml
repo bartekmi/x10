@@ -53,7 +53,6 @@ derivedAttributes:
   - name: flexId
     dataType: String
     formula: "='Flex-' + coreId"
-    toolTip: A score close to 100 reflects a very close match.
 
 associations:
   - name: consignee

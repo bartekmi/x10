@@ -1,0 +1,33 @@
+name: OldHit
+inheritsFrom: Base
+description: A "hit" on a User or Company Entity as reported by LexisNexis
+datagen_quantity: 10
+
+
+attributes:
+  - name: status
+    dataType: HitStatus
+    default: unresolved
+  - name: reasonForClearance
+    dataType: ReasonForClerance
+    mandatory: true
+  - name: whiteListUntil
+    dataType: Timestamp
+  - name: notes
+    dataType: String
+    mandatory: true
+  - name: createdAt
+    dataType: Timestamp
+  - name: resolutionTimestamp
+    dataType: Timestamp
+
+associations:
+  - name: resolvedBy
+    dataType: User
+    mandatory: false
+    owns: false
+  - name: attachments
+    dataType: Attachment
+    many: true
+    owns: true
+        

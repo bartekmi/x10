@@ -64,14 +64,14 @@ namespace x10.model {
         if (doErrors)
           _messages.AddError(parseElement,
             string.Format("Neither Enum nor a built-in data tyes '{0}' is defined", typeName));
-        return null;
+        return DataTypes.ERROR;
       }
 
       if (enums.Count > 1) {
         if (doErrors)
           _messages.AddError(parseElement,
           string.Format("Multiple Enums with the name '{0}' exist", typeName));
-        return null;
+        return DataTypes.ERROR;
       }
 
       return enums.Single();

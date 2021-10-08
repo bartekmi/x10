@@ -17,9 +17,13 @@ namespace x10.hotchoc.dps.Entities {
     [GraphQLNonNullType]
     public string? PrimaryContact { get; set; }
     [GraphQLNonNullType]
-    public string? Location { get; set; }
+    public string? PrimaryContactEmail { get; set; }
     [GraphQLNonNullType]
     public string? MainNumber { get; set; }
+    [GraphQLNonNullType]
+    public string? Segment { get; set; }
+    [GraphQLNonNullType]
+    public string? Website { get; set; }
     [GraphQLNonNullType]
     public string? Address { get; set; }
 

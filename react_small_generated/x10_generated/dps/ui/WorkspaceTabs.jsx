@@ -8,6 +8,7 @@ import TabbedPane from 'react_lib/tab/TabbedPane';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
+import EscalationTab from 'dps/ui/EscalationTab';
 import HitDetailsTab from 'dps/ui/HitDetailsTab';
 import ShipmentTab from 'dps/ui/ShipmentTab';
 
@@ -39,6 +40,13 @@ function WorkspaceTabs(props: Props): React.Node {
               <ShipmentTab hit={ hit }/>
             ,
           },
+          {
+            id: 2,
+            label: 'Escalation(' + x10toString(hit?.messages.length) + ')',
+            displayFunc: () =>
+              <EscalationTab hit={ hit }/>
+            ,
+          },
         ]
       }
     />
@@ -50,11 +58,15 @@ export default createFragmentContainer(WorkspaceTabs, {
   hit: graphql`
     fragment WorkspaceTabs_hit on Hit {
       id
+      messages {
+        id
+      }
       shipments {
         id
       }
       ...HitDetailsTab_hit
       ...ShipmentTab_hit
+      ...EscalationTab_hit
     }
   `,
 });

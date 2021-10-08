@@ -19,13 +19,21 @@ attributes:
     dataType: String
     datagen_pattern: <first_name> <last_name>
 
-  - name: location
+  - name: primaryContactEmail
     dataType: String
-    datagen_from_source: ( city => city )
+    datagen_pattern: <first_name>(70% => | 10% => ~D~ | 10% => ~DD~ | 10% => ~DDD~)@(gmail.com | yahoo.com | hotmail.com | aol.com)
 
   - name: mainNumber
     dataType: String
     datagen_pattern: ~NDD-DDDD-DDD~
+
+  - name: segment
+    dataType: String
+    datagen_pattern: (Emerging | Smb | Mid-size | Enterprise)
+
+  - name: website
+    dataType: String
+    datagen_pattern: www.<adjective><nound>.com
 
   - name: address
     dataType: String

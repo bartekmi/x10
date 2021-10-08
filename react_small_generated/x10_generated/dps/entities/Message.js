@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { type Attachment } from 'dps/entities/Attachment';
 
@@ -19,6 +20,16 @@ export type Message = {
   +user: ?{ id: string },
   +attachments: $ReadOnlyArray<Attachment>,
 };
+
+
+// Derived Attribute Functions
+export function messageFlexId(message: {
+  +coreShipmentId: ?number,
+}): string {
+  const result = 'Flex-' + x10toString(message?.coreShipmentId);
+  return result;
+}
+
 
 
 // Create Default Function

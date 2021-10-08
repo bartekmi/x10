@@ -7,8 +7,15 @@ attributes:
     dataType: Timestamp
   - name: text
     dataType: String
+    datagen_random_text: 1..3 sentences
   - name: coreShipmentId
     dataType: Integer
+
+
+derivedAttributes:
+  - name: flexId
+    dataType: String
+    formula: "='Flex-' + coreShipmentId"
 
 associations:
   - name: user

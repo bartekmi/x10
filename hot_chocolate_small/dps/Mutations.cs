@@ -77,6 +77,19 @@ namespace x10.hotchoc.dps {
     }
     #endregion
 
+    #region OldHit
+    /// <summary>
+    /// Creates a new OldHit or updates an existing one, depending on the value of oldHit.id
+    /// </summary>
+    public string CreateOrUpdateOldHit(
+      OldHit oldHit,
+      [Service] IRepository repository) {
+        oldHit.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateOldHit(IdUtils.FromRelayId(oldHit.Id), oldHit);
+        return IdUtils.ToRelayId<OldHit>(dbid);
+    }
+    #endregion
+
     #region User
     /// <summary>
     /// Creates a new User or updates an existing one, depending on the value of user.id

@@ -29,3 +29,9 @@ attributes:
     dataType: String
     datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
     datagen_capitalization: wordCaps
+
+
+derivedAttributes:
+  - name: name
+    dataType: String
+    formula: "=firstName + ' ' + lastName"

@@ -14,8 +14,10 @@ export type CompanyEntity = {
   +clientId: ?number,
   +name: string,
   +primaryContact: string,
-  +location: string,
+  +primaryContactEmail: string,
   +mainNumber: string,
+  +segment: string,
+  +website: string,
   +address: string,
 };
 
@@ -27,8 +29,10 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     clientId: null,
     name: '',
     primaryContact: '',
-    location: '',
+    primaryContactEmail: '',
     mainNumber: '',
+    segment: '',
+    website: '',
     address: '',
   };
 }

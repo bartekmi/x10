@@ -11,6 +11,7 @@ namespace x10.hotchoc.dps.Repositories {
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
     private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
     private Dictionary<int, MatchInfo> _matchInfos = new Dictionary<int, MatchInfo>();
+    private Dictionary<int, OldHit> _oldHits = new Dictionary<int, OldHit>();
     private Dictionary<int, User> _users = new Dictionary<int, User>();
     private Dictionary<int, Shipment> _shipments = new Dictionary<int, Shipment>();
     private Dictionary<int, Message> _messages = new Dictionary<int, Message>();
@@ -24,6 +25,7 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(Hit),
         typeof(Attachment),
         typeof(MatchInfo),
+        typeof(OldHit),
         typeof(User),
         typeof(Shipment),
         typeof(Message),
@@ -38,6 +40,7 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is Hit hit) _hits[id] = hit;
       if (instance is Attachment attachment) _attachments[id] = attachment;
       if (instance is MatchInfo matchInfo) _matchInfos[id] = matchInfo;
+      if (instance is OldHit oldHit) _oldHits[id] = oldHit;
       if (instance is User user) _users[id] = user;
       if (instance is Shipment shipment) _shipments[id] = shipment;
       if (instance is Message message) _messages[id] = message;
@@ -80,6 +83,14 @@ namespace x10.hotchoc.dps.Repositories {
     public MatchInfo GetMatchInfo(int id) { return _matchInfos[id]; }
     public int AddOrUpdateMatchInfo(int? dbid, MatchInfo matchInfo) {
       return RepositoryUtils.AddOrUpdate(dbid, matchInfo, _matchInfos);
+    }
+    #endregion
+
+    #region OldHits
+    public IQueryable<OldHit> GetOldHits() => _oldHits.Values.AsQueryable();
+    public OldHit GetOldHit(int id) { return _oldHits[id]; }
+    public int AddOrUpdateOldHit(int? dbid, OldHit oldHit) {
+      return RepositoryUtils.AddOrUpdate(dbid, oldHit, _oldHits);
     }
     #endregion
 
