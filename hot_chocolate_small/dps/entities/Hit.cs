@@ -13,19 +13,6 @@ namespace x10.hotchoc.dps.Entities {
     High,
   }
 
-  public enum HitStatusEnum {
-    Unresolved,
-    Cleared,
-    Denied,
-  }
-
-  public enum ReasonForCleranceEnum {
-    PersonNotEntity,
-    PartialName,
-    PartialAddress,
-    Other,
-  }
-
 
   /// <summary>
   /// A "hit" on a User or Company Entity as reported by LexisNexis

@@ -80,13 +80,6 @@ function SlideoutPanel(props: Props): React.Node {
           />
         </DisplayField>
         <DisplayField
-          label='Website'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.website }
-          />
-        </DisplayField>
-        <DisplayField
           label='Address'
         >
           <TextDisplay
@@ -132,18 +125,15 @@ function SlideoutPanel(props: Props): React.Node {
                 value={ data?.resolutionTimestamp }
               />
             </DisplayField>
-            <DisplayField>
-              <TimestampDisplay
-                value={ data?.resolutionTimestamp }
-              />
-            </DisplayField>
-            <DisplayField>
+            <DisplayField
+              label={ data?.status == "denied" ? 'Denied by' : 'Cleared by' }
+            >
               <TextDisplay
                 value={ userName(data?.resolvedBy) }
               />
             </DisplayField>
             <VisibilityControl
-              visible={ false }
+              visible={ data?.status != "denied" }
             >
               <DisplayField
                 label='Reason for clearance'
