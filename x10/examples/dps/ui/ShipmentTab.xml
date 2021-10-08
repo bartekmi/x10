@@ -1,6 +1,6 @@
 <ShipmentTab model="Hit">
   <VerticalStackPanel>
-    <Heading1 text="Shipments"/>
+    <Heading3 text="Shipments"/>
 
     <Table path="shipments">
       <!-- TODO: Make flexId, Consignee, Shipper int hyperlinks -->

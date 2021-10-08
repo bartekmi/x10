@@ -40,7 +40,8 @@ function SlideoutPanel(props: Props): React.Node {
     >
       <DisplayForm>
         <Text
-          scale='display'
+          scale='headline'
+          weight='bold'
           children='Overview'
         />
         <DisplayField
@@ -89,7 +90,8 @@ function SlideoutPanel(props: Props): React.Node {
       </DisplayForm>
       <Separator/>
       <Text
-        scale='display'
+        scale='headline'
+        weight='bold'
         children='Compliance status'
       />
       <Group
@@ -104,7 +106,8 @@ function SlideoutPanel(props: Props): React.Node {
         />
       </Group>
       <Text
-        scale='display'
+        scale='headline'
+        weight='bold'
         children='Denied party screening records'
       />
       <MultiStacker

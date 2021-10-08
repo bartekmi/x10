@@ -30,6 +30,7 @@ function Hits(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children='Hits'
       />
       <Table

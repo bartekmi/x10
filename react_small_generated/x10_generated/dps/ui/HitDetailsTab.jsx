@@ -34,17 +34,20 @@ function HitDetailsTab(props: Props): React.Node {
       flexDirection='column'
     >
       <Text
-        scale='display'
+        scale='headline'
+        weight='bold'
         children='Match details'
       />
       <Text
-        scale='headline'
+        scale='title'
+        weight='bold'
         children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
       />
       <Group>
         <DisplayForm>
           <Text
             scale='title'
+            weight='bold'
             children='Company information'
           />
           <DisplayField
@@ -85,6 +88,7 @@ function HitDetailsTab(props: Props): React.Node {
             <DisplayForm>
               <Text
                 scale='title'
+                weight='bold'
                 children='Match details'
               />
               <Group>
@@ -138,7 +142,8 @@ function HitDetailsTab(props: Props): React.Node {
       </Group>
       <Separator/>
       <Text
-        scale='display'
+        scale='headline'
+        weight='bold'
         children='Suggested resources'
       />
       <MultiStacker
@@ -161,6 +166,11 @@ function HitDetailsTab(props: Props): React.Node {
         addNewItem={ createDefaultSuggestedResource }
       />
       <Separator/>
+      <Text
+        scale='headline'
+        weight='bold'
+        children='Clearance'
+      />
       <ClearanceForm hit={ hit }/>
     </Group>
   );

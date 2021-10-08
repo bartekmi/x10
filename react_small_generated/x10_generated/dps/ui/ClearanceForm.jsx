@@ -8,7 +8,6 @@ import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
-import Text from 'latitude/Text';
 
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
@@ -33,10 +32,6 @@ function ClearanceForm(props: Props): React.Node {
     <FormProvider
       value={ { errors: hitCalculateErrors(hit) } }
     >
-      <Text
-        scale='display'
-        children='Clearance'
-      />
       <RadioGroup
         value={ hit.status }
         onChange={ (value) => {

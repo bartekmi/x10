@@ -1,7 +1,7 @@
 <SlideoutPanel model="Hit" url="/hits/panel" query="GetHit(hitId: $hitId">
   <VerticalStackPanel>
     <DisplayForm path="companyEntity">
-      <Heading1 text="Overview"/>
+      <Heading2 text="Overview"/>
       <primaryContact/>
       <primaryContactEmail/>
       <mainNumber/>
@@ -15,13 +15,13 @@
 
     <HorizontalDivider/>
 
-    <Heading1 text="Compliance status"/>
+    <Heading2 text="Compliance status"/>
     <RepellingRow>
       <Text weight="bold">Denied party screening</Text>
       <Text>Detected as a hit, waiting for review</Text>
     </RepellingRow>
 
-    <Heading1 text="Denied party screening records"/>
+    <Heading2 text="Denied party screening records"/>
     <List path="oldHits">
       <DisplayForm>
         <createdAt label="Screened as a hit"/>

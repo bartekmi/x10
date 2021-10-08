@@ -30,7 +30,8 @@ function ShipmentTab(props: Props): React.Node {
       flexDirection='column'
     >
       <Text
-        scale='display'
+        scale='title'
+        weight='bold'
         children='Shipments'
       />
       <Table

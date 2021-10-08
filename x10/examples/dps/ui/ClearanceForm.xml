@@ -1,6 +1,5 @@
 <ClearanceForm model="Hit">
   <Form>
-    <Heading1 text="Clearance"/>
     <RadioButtonGroup path="status"/>
     <Row visible="=status != 'denied'">
       <reasonForClearance/>

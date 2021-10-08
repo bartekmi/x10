@@ -31,6 +31,7 @@ function EscalationTab(props: Props): React.Node {
     >
       <Text
         scale='headline'
+        weight='bold'
         children='Ops sent these messages when they escalated this hit'
       />
       <MultiStacker

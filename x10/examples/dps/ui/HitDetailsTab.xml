@@ -1,7 +1,7 @@
 <HitDetailsTab model="Hit">
   <VerticalStackPanel>
-    <Heading1 text="Match details"/>
-    <Heading2 text="='Please review ' + matches.count + ' matches'"/>
+    <Heading2 text="Match details"/>
+    <Heading3 text="='Please review ' + matches.count + ' matches'"/>
     <Row>
       <DisplayForm>
         <Heading3 text="Company information"/>
@@ -28,7 +28,7 @@
 
     <HorizontalDivider/>
 
-    <Heading1 text="Suggested resources"/>
+    <Heading2 text="Suggested resources"/>
     <List path="resources">
       <VerticalStackPanel>
         <title/>
@@ -39,6 +39,7 @@
 
     <HorizontalDivider/>
 
+    <Heading2 text="Clearance"/>
     <ClearanceForm/>
 
   </VerticalStackPanel>
