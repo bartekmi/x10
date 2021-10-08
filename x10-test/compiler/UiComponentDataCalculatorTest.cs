@@ -139,6 +139,22 @@ myInteger2
     }
 
     [Fact]
+    public void DataFromFormulaManyCount() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Text text='=many.count'/>
+</MyClassDef>
+";
+
+      string gql = @"
+many {
+}
+";
+
+      RunTest(xml, gql);
+    }
+
+    [Fact]
     public void DataFromFormulaNested() {
       string xml = @"
 <MyClassDef model='Entity'>

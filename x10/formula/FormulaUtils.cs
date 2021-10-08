@@ -56,13 +56,13 @@ namespace x10.formula {
       List<IEnumerable<Member>> paths = new List<IEnumerable<Member>>();
 
       foreach (ExpBase expression in subExpressions) 
-        if (expression.DataType.Member is X10Attribute attr)
+        if (expression.DataType.Member != null)
           paths.Add(ExtractMemberPath(expression));
 
       return paths;
     }
 
-    private static IEnumerable<Member> ExtractMemberPath(ExpBase expression) {
+    private static List<Member> ExtractMemberPath(ExpBase expression) {
       List<Member> members = new List<Member>();
       members.Add(expression.DataType.Member);
 
