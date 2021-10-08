@@ -36,7 +36,7 @@ function Tenants(props: Props): React.Node {
         columns={
           [
             {
-              id: 'Name',
+              id: 0,
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.name,
@@ -47,7 +47,7 @@ function Tenants(props: Props): React.Node {
               ,
             },
             {
-              id: 'Phone',
+              id: 1,
               Header: 'Phone',
               width: 140,
               accessor: (data) => data?.phone,
@@ -58,7 +58,7 @@ function Tenants(props: Props): React.Node {
               ,
             },
             {
-              id: 'Email',
+              id: 2,
               Header: 'Email',
               width: 140,
               accessor: (data) => data?.email,
@@ -69,7 +69,7 @@ function Tenants(props: Props): React.Node {
               ,
             },
             {
-              id: 'Country',
+              id: 3,
               Header: 'Country',
               width: 140,
               accessor: (data) => data?.permanentMailingAddress?.country.toStringRepresentation,
@@ -80,7 +80,7 @@ function Tenants(props: Props): React.Node {
               ,
             },
             {
-              id: 'Action',
+              id: 4,
               Header: 'Action',
               width: 140,
               accessor: (data) => data,

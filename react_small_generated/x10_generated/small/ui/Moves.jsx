@@ -37,7 +37,7 @@ function Moves(props: Props): React.Node {
         columns={
           [
             {
-              id: 'Date',
+              id: 0,
               Header: 'Date',
               width: 140,
               accessor: (data) => data?.date,
@@ -48,7 +48,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 'From',
+              id: 1,
               Header: 'From',
               width: 140,
               accessor: (data) => data?.from?.name,
@@ -59,7 +59,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 'To',
+              id: 2,
               Header: 'To',
               width: 140,
               accessor: (data) => data?.to?.name,
@@ -70,7 +70,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 'Tenant',
+              id: 3,
               Header: 'Tenant',
               width: 140,
               accessor: (data) => data?.tenant?.name,
@@ -81,7 +81,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 'Action',
+              id: 4,
               Header: 'Action',
               width: 140,
               accessor: (data) => data,

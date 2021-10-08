@@ -31,7 +31,7 @@ function ClientViewDocuments(props: Props): React.Node {
       columns={
         [
           {
-            id: 'Name',
+            id: 0,
             Header: 'Name',
             width: 140,
             accessor: (data) => data,
@@ -54,7 +54,7 @@ function ClientViewDocuments(props: Props): React.Node {
             ,
           },
           {
-            id: 'Uploaded By',
+            id: 1,
             Header: 'Uploaded By',
             width: 140,
             accessor: (data) => userName(data?.uploadedBy),
@@ -65,7 +65,7 @@ function ClientViewDocuments(props: Props): React.Node {
             ,
           },
           {
-            id: 'Uploaded',
+            id: 2,
             Header: 'Uploaded',
             width: 140,
             accessor: (data) => data?.uploadedTimestamp,

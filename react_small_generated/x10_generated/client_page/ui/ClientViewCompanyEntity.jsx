@@ -28,7 +28,7 @@ import { CtpatReviewStatusEnumPairs } from 'client_page/entities/CtpatReview';
 import setCompanyEntityAsPrimary from 'client_page/setCompanyEntityAsPrimary';
 import AddressDisplay from 'client_page/ui/AddressDisplay';
 import ClientViewDocuments from 'client_page/ui/ClientViewDocuments';
-import CompanyEntityFormInterface from 'client_page/ui/CompanyEntityFormInterface';
+import CompanyEntityForm from 'client_page/ui/CompanyEntityForm';
 
 import { type ClientViewCompanyEntity_companyEntity } from './__generated__/ClientViewCompanyEntity_companyEntity.graphql';
 
@@ -100,7 +100,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 />
               }
             >
-              <CompanyEntityFormInterface id={ companyEntity.id }/>
+              <CompanyEntityForm companyEntity={ companyEntity }/>
             </Dialog>
           </Group>
         </Group>

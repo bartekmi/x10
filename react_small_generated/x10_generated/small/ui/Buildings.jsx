@@ -42,7 +42,7 @@ function Buildings(props: Props): React.Node {
         columns={
           [
             {
-              id: 'Name',
+              id: 0,
               Header: 'Name',
               width: 200,
               accessor: (data) => data,
@@ -62,7 +62,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 'The Address',
+              id: 1,
               Header: 'The Address',
               width: 140,
               accessor: (data) => data?.physicalAddress?.theAddress,
@@ -73,7 +73,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 'City / Province',
+              id: 2,
               Header: 'City / Province',
               width: 140,
               accessor: (data) => addressSecondAddressLine(data?.physicalAddress),
@@ -84,7 +84,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 'Age In Years',
+              id: 3,
               Header: 'Age In Years',
               width: 140,
               accessor: (data) => buildingAgeInYears(data),
@@ -95,7 +95,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 'Pet Policy',
+              id: 4,
               Header: 'Pet Policy',
               width: 140,
               accessor: (data) => data?.petPolicy,
@@ -107,7 +107,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 'Action',
+              id: 5,
               Header: 'Action',
               width: 140,
               accessor: (data) => data,

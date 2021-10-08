@@ -118,7 +118,7 @@ function CompanyEntityForm(props: Props): React.Node {
         tabs={
           [
             {
-              id: 'Address',
+              id: 0,
               label: 'Address',
               displayFunc: () =>
                 <Group
@@ -335,7 +335,7 @@ function CompanyEntityForm(props: Props): React.Node {
               ,
             },
             {
-              id: 'Tax Information',
+              id: 1,
               label: 'Tax Information',
               displayFunc: () =>
                 <Group
@@ -415,7 +415,7 @@ function CompanyEntityForm(props: Props): React.Node {
               ,
             },
             {
-              id: 'Identifiers',
+              id: 2,
               label: 'Identifiers',
               displayFunc: () =>
                 <Group
@@ -548,7 +548,7 @@ function CompanyEntityForm(props: Props): React.Node {
               ,
             },
             {
-              id: 'Compliance',
+              id: 3,
               label: 'Compliance',
               displayFunc: () =>
                 <Group
@@ -561,7 +561,7 @@ function CompanyEntityForm(props: Props): React.Node {
               ,
             },
             {
-              id: 'Billing',
+              id: 4,
               label: 'Billing',
               displayFunc: () =>
                 <Group

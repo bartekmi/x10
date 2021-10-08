@@ -37,7 +37,7 @@ function Clients(props: Props): React.Node {
         columns={
           [
             {
-              id: 'Legal Name',
+              id: 0,
               Header: 'Legal Name',
               width: 140,
               accessor: (data) => data?.company?.primaryEntity?.legalName,
@@ -48,7 +48,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 'Status',
+              id: 1,
               Header: 'Status',
               width: 140,
               accessor: (data) => data?.status,
@@ -60,7 +60,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 'Segment',
+              id: 2,
               Header: 'Segment',
               width: 140,
               accessor: (data) => data?.segment,
@@ -72,7 +72,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 'Primary Shipment Role',
+              id: 3,
               Header: 'Primary Shipment Role',
               width: 140,
               accessor: (data) => data?.primaryShipmentRole,
@@ -84,7 +84,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 'Action',
+              id: 4,
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
