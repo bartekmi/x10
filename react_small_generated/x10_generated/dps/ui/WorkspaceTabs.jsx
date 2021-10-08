@@ -26,14 +26,14 @@ function WorkspaceTabs(props: Props): React.Node {
       tabs={
         [
           {
-            id: 'label__Hit_details_',
+            id: 0,
             label: 'Hit details',
             displayFunc: () =>
               <HitDetailsTab hit={ hit }/>
             ,
           },
           {
-            id: 'label_____Shipment_____shipments_count_______',
+            id: 1,
             label: 'Shipment(' + x10toString(hit?.shipments.length) + ')',
             displayFunc: () =>
               <ShipmentTab hit={ hit }/>

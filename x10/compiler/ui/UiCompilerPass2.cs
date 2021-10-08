@@ -103,7 +103,6 @@ namespace x10.compiler.ui {
     #endregion
 
     #region Pass 2.1 - Build the Instance/AttributeValue tree
-
     private Instance ParseInstance(XmlElement xmlElement, UiAttributeValueComplex owner) {
       if (IsModelReference(xmlElement)) {
         Instance instance = ParseModelRefInstance(xmlElement, owner);
@@ -250,10 +249,13 @@ namespace x10.compiler.ui {
 
       UiAttributeValueComplex complexValue = attrComplex.CreateValueAndAddToOwnerComplex(owner, children.First().Parent);
 
+      int index = 0;
       foreach (XmlElement child in children) {
         Instance instance = ParseInstance(child, complexValue);
-        if (instance != null)
+        if (instance != null) {
+          instance.Index = index++;
           complexValue.AddInstance(instance);
+        }
       }
     }
 

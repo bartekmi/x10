@@ -18,6 +18,10 @@ namespace x10.ui.composition {
     // and unit test purposes
     public abstract string DebugPrintAs();
 
+    // If this instance is owned by a Complex Attribute Value, this is the index
+    // of the instance within its parent. Useful for generating unique id's (e.g. columns, tabs)
+    public int Index {get; set;}
+
     // Instance id for any purpose - e.g. debugging. You can set the id property on any 
     // UI component and trigger a conditional break-point on that id anywhere in the code
     public string Id {get; set;}

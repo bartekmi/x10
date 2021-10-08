@@ -31,14 +31,14 @@ function ShipmentTab(props: Props): React.Node {
     >
       <Text
         scale='display'
-        children='Hits'
+        children='Shipments'
       />
       <Table
         data={ hit?.shipments }
         columns={
           [
             {
-              id: 'Flex Id',
+              id: 0,
               Header: 'Flex Id',
               width: 140,
               accessor: (data) => shipmentFlexId(data),
@@ -49,7 +49,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Name1',
+              id: 1,
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.name,
@@ -60,7 +60,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Name2',
+              id: 2,
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.consignee?.name,
@@ -71,7 +71,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Name3',
+              id: 3,
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.shipper?.name,
@@ -82,7 +82,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Transportation Mode',
+              id: 4,
               Header: 'Transportation Mode',
               width: 140,
               accessor: (data) => data?.transportationMode,
@@ -94,7 +94,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Status',
+              id: 5,
               Header: 'Status',
               width: 140,
               accessor: (data) => data?.status,
@@ -105,7 +105,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Customs',
+              id: 6,
               Header: 'Customs',
               width: 140,
               accessor: (data) => data?.customs,
@@ -116,7 +116,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Cargo Ready',
+              id: 7,
               Header: 'Cargo Ready',
               width: 140,
               accessor: (data) => data?.cargoReady,
@@ -127,7 +127,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Departs Date',
+              id: 8,
               Header: 'Departs Date',
               width: 140,
               accessor: (data) => data?.departsDate,
@@ -138,7 +138,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'Arrives Date',
+              id: 9,
               Header: 'Arrives Date',
               width: 140,
               accessor: (data) => data?.arrivesDate,
@@ -149,7 +149,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 'dueDate',
+              id: 10,
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
