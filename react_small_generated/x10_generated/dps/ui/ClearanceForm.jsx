@@ -100,6 +100,7 @@ function ClearanceForm(props: Props): React.Node {
             successUrl: '/tenants',
           }
         }
+        label={ hit?.status != "denied" ? 'Clear the hit' : 'Confirm' }
       />
     </FormProvider>
   );

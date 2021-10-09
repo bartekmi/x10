@@ -21,7 +21,7 @@ type Props = {|
 export default function FormSubmitButton(props: Props): React.Node {
   const history = useHistory();
   const formContext = React.useContext(FormContext);
-  const { label = "Save", onClick, action: {successUrl} = {} } = props
+  const { label, onClick, action: {successUrl} = {} } = props
 
   const handleOnClick = () => {
     onClick();

@@ -41,10 +41,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "display"),
           new PlatformAttributeStatic("weight", "bold"),
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "children",
-          },
+          new JavaScriptAttributeDynamic("text", "children"),
         },
       },
       new PlatformClassDef() {
@@ -53,10 +50,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "headline"),
           new PlatformAttributeStatic("weight", "bold"),
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "children",
-          },
+          new JavaScriptAttributeDynamic("text", "children"),
         },
       },
       new PlatformClassDef() {
@@ -65,10 +59,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("scale", "title"),
           new PlatformAttributeStatic("weight", "bold"),
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "children",
-          },
+          new JavaScriptAttributeDynamic("text", "children"),
         },
       },
       new PlatformClassDef() {
@@ -302,19 +293,13 @@ namespace x10.gen.react.library {
             LogicalName = "checked",
             PlatformName = "checked",
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "checkboxLabel",
-            PlatformName = "label",
-          },
+          new JavaScriptAttributeDynamic("checkboxLabel", "label"),
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "disabled",
             AttributeUnnecessaryWhen = false,
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "onChange",
-            PlatformName = "onChange",
-          },
+          new JavaScriptAttributeDynamic("onChange", "onChange"),
         },
       },
       new PlatformClassDef() {
@@ -364,10 +349,7 @@ namespace x10.gen.react.library {
             PlatformName = "disabled",
             AttributeUnnecessaryWhen = false,
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "excludeItems",
-            PlatformName = "excludeItems",
-          },
+          new JavaScriptAttributeDynamic("excludeItems", "excludeItems"),
           new JavaScriptAttributeByFunc() {
             PlatformName = "options",
             IsCodeSnippet = true,
@@ -625,14 +607,8 @@ namespace x10.gen.react.library {
         PlatformName = "Button",
         ImportDir = "react_lib/latitude_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "label",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "url",
-            PlatformName = "url",
-          },
+          new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("url", "url"),
         },
       },
       #endregion
@@ -648,14 +624,8 @@ namespace x10.gen.react.library {
         PlatformName = "MenuItem",
         ImportDir = "react_lib/menu",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "label",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "url",
-            PlatformName = "href",
-          },
+          new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("url", "href"),
         },
       },
       #endregion
@@ -671,18 +641,9 @@ namespace x10.gen.react.library {
         PlatformName = "DisplayField",
         ImportDir = "react_lib/form",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "toolTip",
-            PlatformName = "toolTip",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "label",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "maxWidth",
-            PlatformName = "maxWidth",
-          },
+          new JavaScriptAttributeDynamic("toolTip", "toolTip"),
+          new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
         },
       },
       #endregion
@@ -728,18 +689,9 @@ namespace x10.gen.react.library {
             PlatformName = "indicateRequired",
             TranslationFunc = (value) => value?.ToString() == "mandatory",
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "toolTip",
-            PlatformName = "toolTip",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "label",
-            PlatformName = "label",
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "maxWidth",
-            PlatformName = "maxWidth",
-          },
+          new JavaScriptAttributeDynamic("toolTip", "toolTip"),
+          new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
         },
       },
       new PlatformClassDef() {
@@ -759,10 +711,8 @@ namespace x10.gen.react.library {
               return string.Format("() => save({0})", generator.SourceVariableName);
             },
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "Action",
-            PlatformName = "action",
-          },
+          new JavaScriptAttributeDynamic("Action", "action"),
+          new JavaScriptAttributeDynamic("label", "label"),
         },
       },
       new PlatformClassDef() {
@@ -770,10 +720,7 @@ namespace x10.gen.react.library {
         PlatformName = "",  // Just a JavaScript object
         ImportDir = "react_lib/form",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "successUrl",
-            PlatformName = "successUrl",
-          },
+          new JavaScriptAttributeDynamic("successUrl", "successUrl"),
         },
       },
       new PlatformClassDef() {
@@ -864,10 +811,7 @@ namespace x10.gen.react.library {
         LogicalName = "HelpIcon",
         PlatformName = "HelpTooltip",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "text",
-            PlatformName = "text",
-          },
+          new JavaScriptAttributeDynamic("text", "text"),
         },
       },
 
