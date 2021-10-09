@@ -16,6 +16,7 @@ attributes:
   - name: notes
     dataType: String
     mandatory: true
+    ui: TextArea
   - name: whitelistTime
 #TODO: Select from a list
     dataType: Integer

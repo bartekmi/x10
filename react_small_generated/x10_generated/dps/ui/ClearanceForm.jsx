@@ -7,13 +7,13 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import SelectInput from 'latitude/select/SelectInput';
+import TextareaInput from 'latitude/TextareaInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
-import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
@@ -85,11 +85,12 @@ function ClearanceForm(props: Props): React.Node {
         editorFor='notes'
         label='Notes'
       >
-        <TextInput
+        <TextareaInput
           value={ hit.notes }
           onChange={ (value) => {
             onChange({ ...hit, notes: value })
           } }
+          rows={ 3 }
         />
       </FormField>
       <FormSubmitButton
