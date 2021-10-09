@@ -1,5 +1,13 @@
 - name: HitStatus
-  values: unresolved, cleared, denied
+  values: 
+    # The 'No' / 'Yes' labels answer the question "Is this a Denied Party?"
+    # Note that this is LAME since the same field could appear on UI with different labels
+    # Proper way is to override default labels on the single UI element
+    - value: unresolved
+    - value: cleared
+      label: No           # No, it's not a denied party
+    - value: denied
+      label: Yes          # Yes, it is a denied party
 - name: ReasonForClerance
   values: 
     - value: personNotEntity

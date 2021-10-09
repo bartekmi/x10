@@ -9,11 +9,11 @@ export const HitStatusEnumPairs = [
   },
   {
     value: 'cleared',
-    label: 'Cleared',
+    label: 'No',
   },
   {
     value: 'denied',
-    label: 'Denied',
+    label: 'Yes',
   },
 ];
 
