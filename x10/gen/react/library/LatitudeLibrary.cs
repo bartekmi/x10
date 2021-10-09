@@ -431,6 +431,7 @@ namespace x10.gen.react.library {
         LogicalName = "Row",
         PlatformName = "Group",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new PlatformAttributeStatic("alignItems", "center"),
           new JavaScriptAttributeDynamic("gap", "gap"),
         },
       },

@@ -33,7 +33,10 @@ function ClearanceForm(props: Props): React.Node {
     <FormProvider
       value={ { errors: hitCalculateErrors(hit) } }
     >
-      <Group>
+      <Group
+        alignItems='center'
+        gap={ 100 }
+      >
         <TextDisplay
           value='Is this a denid party?'
         />
@@ -49,7 +52,10 @@ function ClearanceForm(props: Props): React.Node {
       <VisibilityControl
         visible={ hit?.status != "denied" }
       >
-        <Group>
+        <Group
+          alignItems='center'
+          gap={ 32 }
+        >
           <FormField
             editorFor='reasonForClearance'
             label='Reason For Clearance'

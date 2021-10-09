@@ -43,7 +43,9 @@ function HitDetailsTab(props: Props): React.Node {
         weight='bold'
         children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
       />
-      <Group>
+      <Group
+        alignItems='center'
+      >
         <DisplayForm>
           <Text
             scale='title'
@@ -91,7 +93,9 @@ function HitDetailsTab(props: Props): React.Node {
                 weight='bold'
                 children='Match details'
               />
-              <Group>
+              <Group
+                alignItems='center'
+              >
                 <DisplayField
                   label='Name'
                 >

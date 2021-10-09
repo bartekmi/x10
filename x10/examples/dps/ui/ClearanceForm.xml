@@ -1,10 +1,10 @@
 <ClearanceForm model="Hit">
   <Form>
-    <Row>
+    <Row gap="100">
       <Text>Is this a denid party?</Text>
       <RadioButtonGroup path="status" excludeItems="unresolved"/>
     </Row>
-    <Row visible="=status != 'denied'">
+    <Row visible="=status != 'denied'" gap="32">
       <reasonForClearance/>
       <whitelistTime label="Whitelist time"/>
     </Row>

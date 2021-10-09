@@ -40,7 +40,9 @@ function EscalationTab(props: Props): React.Node {
           <Group
             flexDirection='column'
           >
-            <Group>
+            <Group
+              alignItems='center'
+            >
               <TextDisplay
                 value={ userName(data?.user) }
               />

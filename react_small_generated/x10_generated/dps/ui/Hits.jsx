@@ -66,7 +66,9 @@ function Hits(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <Button
                     label='Tabs'
                     url={ '/hits/' + value?.id }
