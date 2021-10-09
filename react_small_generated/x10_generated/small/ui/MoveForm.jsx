@@ -33,6 +33,7 @@ function MoveForm(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children='New Move'
       />
       <Separator/>
@@ -102,6 +103,7 @@ function MoveForm(props: Props): React.Node {
               successUrl: '/moves',
             }
           }
+          label='Save'
         />
       </Group>
     </FormProvider>

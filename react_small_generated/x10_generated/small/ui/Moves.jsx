@@ -30,6 +30,7 @@ function Moves(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children='Moves'
       />
       <Table
@@ -86,7 +87,9 @@ function Moves(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <Button
                     label='View'
                     url={ '/moves/view/' + value?.id }

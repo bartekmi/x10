@@ -7,13 +7,13 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
-import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
 
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
@@ -48,10 +48,12 @@ function BuildingForm(props: Props): React.Node {
       >
         <Text
           scale='display'
+          weight='bold'
           children={ 'Editing Building in: ' + addressSecondAddressLine(building?.physicalAddress) }
         />
         <Text
           scale='display'
+          weight='bold'
           children={ 'Age in Years: ' + x10toString(buildingAgeInYears(building)) }
         />
         <Separator/>
@@ -290,7 +292,9 @@ function BuildingForm(props: Props): React.Node {
               <Group
                 flexDirection='column'
               >
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <FormField
                     editorFor='number'
                     toolTip='Unit number corresponding to mailing address'
@@ -327,7 +331,9 @@ function BuildingForm(props: Props): React.Node {
                     />
                   </FormField>
                 </Group>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <FormField
                     editorFor='numberOfBedrooms'
                     label='Number Of Bedrooms'
@@ -371,6 +377,7 @@ function BuildingForm(props: Props): React.Node {
                 successUrl: '/buildings',
               }
             }
+            label='Save'
           />
         </Group>
       </Group>

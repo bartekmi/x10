@@ -22,32 +22,32 @@ export type Unit = {
 // Enums
 export const NumberOfBathroomsEnumPairs = [
   {
-    value: 'HALF',
+    value: 'half',
     label: 'Half',
   },
   {
-    value: 'ONE',
+    value: 'one',
     label: '1',
   },
   {
-    value: 'ONE_AND_HALF',
+    value: 'one_and_half',
     label: '1.5',
   },
   {
-    value: 'TWO',
+    value: 'two',
     label: '2',
   },
   {
-    value: 'THREE',
+    value: 'three',
     label: '3',
   },
   {
-    value: 'FOUR_PLUS',
+    value: 'four_plus',
     label: '4+',
   },
 ];
 
-export type NumberOfBathroomsEnum = 'HALF' | 'ONE' | 'ONE_AND_HALF' | 'TWO' | 'THREE' | 'FOUR_PLUS';
+export type NumberOfBathroomsEnum = 'half' | 'one' | 'one_and_half' | 'two' | 'three' | 'four_plus';
 
 
 
@@ -58,7 +58,7 @@ export function createDefaultUnit(): Unit {
     number: '',
     squareFeet: null,
     numberOfBedrooms: 2,
-    numberOfBathrooms: 'ONE',
+    numberOfBathrooms: 'one',
     hasBalcony: false,
   };
 }

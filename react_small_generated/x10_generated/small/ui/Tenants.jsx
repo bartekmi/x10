@@ -29,6 +29,7 @@ function Tenants(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children='Tenants'
       />
       <Table
@@ -85,7 +86,9 @@ function Tenants(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <Button
                     label='View'
                   />

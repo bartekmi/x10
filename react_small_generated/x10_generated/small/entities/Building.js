@@ -34,41 +34,41 @@ export type Building = {
 // Enums
 export const MailboxTypeEnumPairs = [
   {
-    value: 'IN_BUILDING',
+    value: 'in_building',
     label: 'Mailroom in Building',
   },
   {
-    value: 'COMMUNITY',
+    value: 'community',
     label: 'Postal System Community Mailbox',
   },
   {
-    value: 'INDIVIDUAL',
+    value: 'individual',
     label: 'Mail Delivered to Unit',
   },
 ];
 
-export type MailboxTypeEnum = 'IN_BUILDING' | 'COMMUNITY' | 'INDIVIDUAL';
+export type MailboxTypeEnum = 'in_building' | 'community' | 'individual';
 
 export const PetPolicyEnumPairs = [
   {
-    value: 'NO_PETS',
+    value: 'no_pets',
     label: 'No Pets',
   },
   {
-    value: 'ALL_PETS_OK',
+    value: 'all_pets_ok',
     label: 'All Pets Ok',
   },
   {
-    value: 'CATS_ONLY',
+    value: 'cats_only',
     label: 'Cats Only',
   },
   {
-    value: 'DOGS_ONLY',
+    value: 'dogs_only',
     label: 'Dogs Only',
   },
 ];
 
-export type PetPolicyEnum = 'NO_PETS' | 'ALL_PETS_OK' | 'CATS_ONLY' | 'DOGS_ONLY';
+export type PetPolicyEnum = 'no_pets' | 'all_pets_ok' | 'cats_only' | 'dogs_only';
 
 
 
@@ -99,7 +99,7 @@ export function createDefaultBuilding(): Building {
     description: '',
     // $FlowExpectedError Required field, but no default value
     dateOfOccupancy: null,
-    mailboxType: 'IN_BUILDING',
+    mailboxType: 'in_building',
     petPolicy: null,
     mailingAddressSameAsPhysical: true,
     units: [],

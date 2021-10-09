@@ -30,6 +30,7 @@ function MoveView(props: Props): React.Node {
     <DisplayForm>
       <Text
         scale='display'
+        weight='bold'
         children='Move Details'
       />
       <Separator/>

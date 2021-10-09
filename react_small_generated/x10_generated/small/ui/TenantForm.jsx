@@ -35,6 +35,7 @@ function TenantForm(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + tenant?.name : 'New Tenant' }
       />
       <Separator/>
@@ -163,6 +164,7 @@ function TenantForm(props: Props): React.Node {
               successUrl: '/tenants',
             }
           }
+          label='Save'
         />
       </Group>
     </FormProvider>

@@ -35,6 +35,7 @@ function Buildings(props: Props): React.Node {
     >
       <Text
         scale='display'
+        weight='bold'
         children='Buildings'
       />
       <Table
@@ -47,7 +48,9 @@ function Buildings(props: Props): React.Node {
               width: 200,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <TextDisplay
                     value={ value?.name }
                   />
@@ -112,7 +115,9 @@ function Buildings(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <Button
                     label='View'
                   />
