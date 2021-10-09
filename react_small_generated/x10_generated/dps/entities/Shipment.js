@@ -8,6 +8,8 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
+import { type CompanyEntity } from 'dps/entities/CompanyEntity';
+
 
 // Type Definition
 export type Shipment = {
@@ -26,8 +28,8 @@ export type Shipment = {
   +dueDateTask: string,
   +isLcl: boolean,
   +isLtl: boolean,
-  +consignee: ?{ id: string },
-  +shipper: ?{ id: string },
+  +consignee: CompanyEntity,
+  +shipper: CompanyEntity,
 };
 
 
@@ -68,9 +70,10 @@ export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unkno
 
 
 // Derived Attribute Functions
-export function shipmentFlexId(shipment: {
+export function shipmentFlexId(shipment: ?{
   +coreId: ?number,
-}): string {
+}): ?string {
+  if (shipment == null) return null;
   const result = 'Flex-' + x10toString(shipment?.coreId);
   return result;
 }

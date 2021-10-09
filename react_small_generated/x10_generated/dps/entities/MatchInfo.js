@@ -25,10 +25,11 @@ export type MatchInfo = {
 
 
 // Derived Attribute Functions
-export function matchInfoScore(matchInfo: {
+export function matchInfoScore(matchInfo: ?{
   +nameMatchScore: ?number,
   +addressMatchScore: ?number,
 }): ?number {
+  if (matchInfo == null) return null;
   const result = toNum(matchInfo?.nameMatchScore) > toNum(matchInfo?.addressMatchScore) ? matchInfo?.nameMatchScore : matchInfo?.addressMatchScore;
   return isNaN(result) ? null : result;
 }

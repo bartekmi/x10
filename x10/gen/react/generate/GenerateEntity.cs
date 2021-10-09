@@ -46,10 +46,8 @@ namespace x10.gen.react.generate {
       foreach (Member member in model.Members)
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
-        } else if (member.IsNonOwnedAssociation) {
-          WriteLine(1, "+{0}: ?{ id: string },", member.Name);
         } else
-          WriteLine(1, "+{0}: {1},", member.Name, GetType(member));
+          WriteLine(1, "+{0}: {1},", member.Name, GetType(member, false));
 
       WriteLine(0, "};");
       WriteLine();
@@ -143,17 +141,18 @@ namespace x10.gen.react.generate {
         ExpBase expression = attribute.Expression;
 
         // Method signature
-        WriteLine(0, "export function {0}({1}: {",
+        WriteLine(0, "export function {0}({1}: ?{",
           DerivedAttrFuncName(attribute),
           SourceVariableName);
 
         foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
           if (!regular.Owner.IsContext)
-            WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular));
+            WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular, false));
 
-        WriteLine(0, "}): {0} {", GetType(attribute));
+        WriteLine(0, "}): {0} {", GetType(attribute, true));
 
         // Method Body
+        WriteLine(1, "if ({0} == null) return null;", SourceVariableName);
         WriteAppContextIfNeeded(new ExpBase[] { expression });
         WriteLine(1, "const result = {0};", ExpressionToString(expression));
 
@@ -300,29 +299,22 @@ namespace x10.gen.react.generate {
         dataType == DataTypes.Singleton.Float;
     }
 
-    private string GetType(Member member) {
+    private string GetType(Member member, bool forceOptional) {
       if (member is Association association) {
         Entity refedEntity = association.ReferencedEntity;
 
-        if (association.Owns) {
-          ImportsPlaceholder.ImportType(refedEntity);
+        ImportsPlaceholder.ImportType(refedEntity);
 
-          if (association.IsMany)
-            return string.Format("$ReadOnlyArray<{0}>", refedEntity.Name);
-          else
-            // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
-            // are filled with default values when processing the GraphQL results. This ensures
-            // that we have default data if the users tarts to edit such entities which previously
-            // have been hidden.
-            return refedEntity.Name;
-        } else {
-          if (association.IsMany)
-            return "$ReadOnlyArray<string>";
-          // Always generate optional - even if mandatory, will not be filled in initially
-          return "?string";   // Relay ID
-        }
+        if (association.IsMany)
+          return string.Format("$ReadOnlyArray<{0}>", refedEntity.Name);
+        else
+          // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
+          // are filled with default values when processing the GraphQL results. This ensures
+          // that we have default data if the users starts to edit such entities which previously
+          // have been hidden.
+          return refedEntity.Name;
       } else if (member is X10Attribute attribute) {
-        string optionalIndicator = IsMandatory(attribute) ? "" : "?";
+        string optionalIndicator = !IsMandatory(attribute) || forceOptional ? "?" : "";
         return optionalIndicator + GetAtomicFlowType(member.Owner, attribute.DataType);
       } else
         throw new NotImplementedException("Unknown member type: " + member.GetType());

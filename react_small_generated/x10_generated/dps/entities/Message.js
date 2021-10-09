@@ -9,6 +9,7 @@ import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type Attachment } from 'dps/entities/Attachment';
+import { type User } from 'dps/entities/User';
 
 
 // Type Definition
@@ -17,15 +18,16 @@ export type Message = {
   +timestamp: ?string,
   +text: string,
   +coreShipmentId: ?number,
-  +user: ?{ id: string },
+  +user: User,
   +attachments: $ReadOnlyArray<Attachment>,
 };
 
 
 // Derived Attribute Functions
-export function messageFlexId(message: {
+export function messageFlexId(message: ?{
   +coreShipmentId: ?number,
-}): string {
+}): ?string {
+  if (message == null) return null;
   const result = 'Flex-' + x10toString(message?.coreShipmentId);
   return result;
 }

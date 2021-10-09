@@ -8,6 +8,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { type Attachment } from 'dps/entities/Attachment';
+import { type User } from 'dps/entities/User';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
 
@@ -20,7 +21,7 @@ export type OldHit = {
   +notes: string,
   +createdAt: ?string,
   +resolutionTimestamp: ?string,
-  +resolvedBy: ?{ id: string },
+  +resolvedBy: User,
   +attachments: $ReadOnlyArray<Attachment>,
 };
 

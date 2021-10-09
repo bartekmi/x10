@@ -8,11 +8,13 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { type Attachment } from 'dps/entities/Attachment';
+import { type CompanyEntity } from 'dps/entities/CompanyEntity';
 import { type MatchInfo } from 'dps/entities/MatchInfo';
 import { type Message } from 'dps/entities/Message';
 import { type OldHit } from 'dps/entities/OldHit';
 import { type Shipment } from 'dps/entities/Shipment';
 import { type SuggestedResource } from 'dps/entities/SuggestedResource';
+import { type User } from 'dps/entities/User';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
 
@@ -24,8 +26,8 @@ export type Hit = {
   +reasonForClearance: ?ReasonForCleranceEnum,
   +notes: string,
   +whitelistTime: ?number,
-  +companyEntity: ?{ id: string },
-  +user: ?{ id: string },
+  +companyEntity: CompanyEntity,
+  +user: User,
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +resources: $ReadOnlyArray<SuggestedResource>,

@@ -20,10 +20,11 @@ export type User = {
 
 
 // Derived Attribute Functions
-export function userName(user: {
+export function userName(user: ?{
   +firstName: string,
   +lastName: string,
-}): string {
+}): ?string {
+  if (user == null) return null;
   const result = user?.firstName + ' ' + user?.lastName;
   return result;
 }
