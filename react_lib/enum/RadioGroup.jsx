@@ -4,14 +4,15 @@ import * as React from "react";
 
 import LatRadioGroup, {type OptionObject} from "latitude/radio/RadioGroup";
 
-type Props = {|
-  +value: ?string,
-  +onChange: (newValue: string) => void,
+// T generic 
+type Props<T> = {|
+  +value: ?T,
+  +onChange: (newValue: T) => void,
   +excludeItems?: string,
   +layout?: "vertical" | "horizontal",
   +options: $ReadOnlyArray<OptionObject<string>>,  
 |};
-export default function RadioGroup(props: Props): React.Node {
+export default function RadioGroup<T>(props: Props<T>): React.Node {
   let {value, onChange, excludeItems, layout, options} = props;
 
   if (excludeItems) {
@@ -25,7 +26,8 @@ export default function RadioGroup(props: Props): React.Node {
       onChange={ (newValue) => {
         onChange(newValue)
       } }
+      // $FlowExpectedError
       options={ options }
     />
-);
+  );
 }
