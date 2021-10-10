@@ -21,6 +21,8 @@
       <Text>Detected as a hit, waiting for review</Text>
     </RepellingRow>
 
+    <HorizontalDivider/>
+
     <Heading2 text="Denied party screening records"/>
     <List path="oldHits">
       <DisplayForm>

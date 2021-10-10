@@ -30,7 +30,7 @@ export type OldHit = {
 export function createDefaultOldHit(): OldHit {
   return {
     id: uuid(),
-    status: 'unresolved',
+    status: 'cleared',
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
     whiteListUntil: null,
@@ -48,6 +48,8 @@ export function oldHitCalculateErrors(oldHit: OldHit, prefix?: string): $ReadOnl
   const errors = [];
   if (oldHit == null ) return errors;
 
+  if (isBlank(oldHit.status))
+    addError(errors, prefix, 'Status is required', ['status']);
   if (isBlank(oldHit.reasonForClearance))
     addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance']);
   if (isBlank(oldHit.notes))

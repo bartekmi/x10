@@ -105,6 +105,7 @@ function SlideoutPanel(props: Props): React.Node {
           value='Detected as a hit, waiting for review'
         />
       </Group>
+      <Separator/>
       <Text
         scale='headline'
         weight='bold'

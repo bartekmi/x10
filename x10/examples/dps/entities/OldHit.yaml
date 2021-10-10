@@ -7,7 +7,8 @@ datagen_quantity: 10
 attributes:
   - name: status
     dataType: HitStatus
-    default: unresolved
+    default: cleared
+    mandatory: true
   - name: reasonForClearance
     dataType: ReasonForClerance
     mandatory: true
