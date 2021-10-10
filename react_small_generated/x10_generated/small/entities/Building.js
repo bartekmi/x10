@@ -84,8 +84,8 @@ export function buildingAgeInYears(building: ?{
 
 export function buildingApplicableWhenForMailingAddress(building: ?{
   +mailingAddressSameAsPhysical: boolean,
-}): ?boolean {
-  if (building == null) return null;
+}): boolean {
+  if (building == null) return false;
   const result = !building?.mailingAddressSameAsPhysical;
   return result;
 }

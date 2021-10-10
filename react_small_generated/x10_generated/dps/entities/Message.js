@@ -26,8 +26,8 @@ export type Message = {
 // Derived Attribute Functions
 export function messageFlexId(message: ?{
   +coreShipmentId: ?number,
-}): ?string {
-  if (message == null) return null;
+}): string {
+  if (message == null) return '';
   const result = 'Flex-' + x10toString(message?.coreShipmentId);
   return result;
 }

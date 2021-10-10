@@ -72,8 +72,8 @@ export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unkno
 // Derived Attribute Functions
 export function shipmentFlexId(shipment: ?{
   +coreId: ?number,
-}): ?string {
-  if (shipment == null) return null;
+}): string {
+  if (shipment == null) return '';
   const result = 'Flex-' + x10toString(shipment?.coreId);
   return result;
 }

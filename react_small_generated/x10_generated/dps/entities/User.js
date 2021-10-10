@@ -24,8 +24,8 @@ export type User = {
 export function userName(user: ?{
   +firstName: string,
   +lastName: string,
-}): ?string {
-  if (user == null) return null;
+}): string {
+  if (user == null) return '';
   const result = x10toString(x10toString(user?.firstName) + ' ') + x10toString(user?.lastName);
   return result;
 }

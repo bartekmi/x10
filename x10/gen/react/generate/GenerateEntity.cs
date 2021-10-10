@@ -152,7 +152,10 @@ namespace x10.gen.react.generate {
         WriteLine(0, "}): {0} {", GetType(attribute, true));
 
         // Method Body
-        WriteLine(1, "if ({0} == null) return null;", SourceVariableName);
+        WriteLine(1, "if ({0} == null) return {1};", 
+          SourceVariableName, 
+          DefaultEmpty(attribute.DataType));
+          
         WriteAppContextIfNeeded(new ExpBase[] { expression });
         WriteLine(1, "const result = {0};", ExpressionToString(expression));
 
@@ -318,10 +321,29 @@ namespace x10.gen.react.generate {
             return refedEntity.Name;
         }
       } else if (member is X10Attribute attribute) {
-        string optionalIndicator = !IsMandatory(attribute) || forceOptional ? "?" : "";
-        return optionalIndicator + GetAtomicFlowType(member.Owner, attribute.DataType);
+        bool optional = !IsMandatory(attribute) || forceOptional;
+        if (IsNeverOptional(attribute.DataType))
+          optional = false;
+
+        return (optional ? "?" : "") + GetAtomicFlowType(member.Owner, attribute.DataType);
       } else
         throw new NotImplementedException("Unknown member type: " + member.GetType());
+    }
+
+    private bool IsNeverOptional(DataType dataType) {
+      // The mandatory/optional decision is made based on the usual UI used to represent
+      // the data type. It is assumed that booleans are represented by CheckBoxes and
+      // Strings are represented by TextInput's or similar where the empty string represents
+      // no user input
+      return 
+        dataType == DataTypes.Singleton.Boolean ||
+        dataType == DataTypes.Singleton.String;
+    }
+
+    private string DefaultEmpty(DataType dataType) {
+        if (dataType == DataTypes.Singleton.Boolean) return "false";
+        if (dataType == DataTypes.Singleton.String) return "''";
+        return "null";
     }
 
     private bool IsMandatory(X10Attribute attribute) {
@@ -332,12 +354,8 @@ namespace x10.gen.react.generate {
 
       DataType dataType = attribute.DataType;
 
-      // The mandatory/optional decision is made based on the usual UI used to represent
-      // the data type. It is assumed that booleans are represented by CheckBoxes and
-      // Strings are represented by TextInput's or similar where the empty string represents
-      // no user input
-      if (dataType == DataTypes.Singleton.Boolean) return true;
-      if (dataType == DataTypes.Singleton.String) return true;
+      if (IsNeverOptional(dataType))
+        return true;
 
       // All UI element used to represent these types can have a null state. For example,
       // a DateInput UI can have a state where no value has been specified, and so for all

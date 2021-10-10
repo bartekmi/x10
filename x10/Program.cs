@@ -44,7 +44,7 @@ namespace x10 {
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
         Name = "Small Project - React",
-        CommandLine = "smallreact",
+        CommandLine = "small",
         SourceDir = "examples/small",
         ProjectDir = "../react_small_generated",
         TargetDir = "x10_generated/small",
@@ -79,7 +79,7 @@ namespace x10 {
 
       new GenConfig() {
         Name = "Client Page Project - React",
-        CommandLine = "cpreact",
+        CommandLine = "cp",
         SourceDir = "examples/client_page",
         ProjectDir = "../react_small_generated",
         TargetDir = "x10_generated/client_page",
