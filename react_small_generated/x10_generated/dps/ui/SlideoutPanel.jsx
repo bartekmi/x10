@@ -5,6 +5,7 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
+import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
 import EnumDisplay from 'react_lib/display/EnumDisplay';
@@ -97,10 +98,17 @@ function SlideoutPanel(props: Props): React.Node {
       <Group
         justifyContent='space-between'
       >
-        <TextDisplay
-          weight='bold'
-          value='Denied party screening'
-        />
+        <Group
+          alignItems='center'
+        >
+          <Icon
+            iconName='attention'
+          />
+          <TextDisplay
+            weight='bold'
+            value='Denied party screening'
+          />
+        </Group>
         <TextDisplay
           value='Detected as a hit, waiting for review'
         />

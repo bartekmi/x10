@@ -5,6 +5,7 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
+import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
@@ -38,11 +39,18 @@ function HitDetailsTab(props: Props): React.Node {
         weight='bold'
         children='Match details'
       />
-      <Text
-        scale='title'
-        weight='bold'
-        children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
-      />
+      <Group
+        alignItems='center'
+      >
+        <Icon
+          iconName='attention'
+        />
+        <Text
+          scale='title'
+          weight='bold'
+          children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
+        />
+      </Group>
       <Group
         alignItems='center'
       >

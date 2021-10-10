@@ -4,6 +4,10 @@
       <Text>Is this a denid party?</Text>
       <RadioButtonGroup path="status" excludeItems="unresolved"/>
     </Row>
+    <Row visible="=status == 'denied'">
+      <Icon icon="attention"/>
+      <Text>Shipments related to this entity will remain blocked</Text>
+    </Row>
     <Row visible="=status != 'denied'" gap="32">
       <reasonForClearance/>
       <whitelistTime label="Whitelist time"/>

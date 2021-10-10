@@ -1,6 +1,9 @@
 <EscalationTab model="Hit">
   <VerticalStackPanel>
-    <Heading2 text="Ops sent these messages when they escalated this hit"/>
+    <Row>
+      <Icon icon="attention"/>
+      <Text text="Ops sent these messages when they escalated this hit"/>
+    </Row>
 
     <List path="messages">
       <VerticalStackPanel>

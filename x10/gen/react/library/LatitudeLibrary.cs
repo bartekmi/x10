@@ -209,6 +209,15 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeDynamic("icon", "icon"),
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "Icon",
+        PlatformName = "Icon",
+        ImportDir = "latitude",
+        InheritsFromName = "TextualDisplay",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("icon", "iconName"),
+        },
+      },
       #endregion
 
       #region Edit Components

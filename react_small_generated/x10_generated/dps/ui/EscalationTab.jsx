@@ -5,7 +5,7 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
-import Text from 'latitude/Text';
+import Icon from 'latitude/Icon';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
@@ -29,11 +29,16 @@ function EscalationTab(props: Props): React.Node {
     <Group
       flexDirection='column'
     >
-      <Text
-        scale='headline'
-        weight='bold'
-        children='Ops sent these messages when they escalated this hit'
-      />
+      <Group
+        alignItems='center'
+      >
+        <Icon
+          iconName='attention'
+        />
+        <TextDisplay
+          value='Ops sent these messages when they escalated this hit'
+        />
+      </Group>
       <MultiStacker
         items={ hit?.messages }
         itemDisplayFunc={ (data, onChange) => (

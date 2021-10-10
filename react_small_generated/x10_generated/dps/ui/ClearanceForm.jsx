@@ -6,6 +6,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
+import Icon from 'latitude/Icon';
 import SelectInput from 'latitude/select/SelectInput';
 import TextareaInput from 'latitude/TextareaInput';
 
@@ -49,6 +50,20 @@ function ClearanceForm(props: Props): React.Node {
           options={ HitStatusEnumPairs }
         />
       </Group>
+      <VisibilityControl
+        visible={ hit?.status == "denied" }
+      >
+        <Group
+          alignItems='center'
+        >
+          <Icon
+            iconName='attention'
+          />
+          <TextDisplay
+            value='Shipments related to this entity will remain blocked'
+          />
+        </Group>
+      </VisibilityControl>
       <VisibilityControl
         visible={ hit?.status != "denied" }
       >

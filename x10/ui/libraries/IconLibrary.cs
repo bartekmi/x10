@@ -11,8 +11,10 @@ namespace x10.ui.libraries {
     private static readonly string[] iconNames = new string[] {
       "airplane",
       "airport",
+      "attention",
       "boat",
       "callout",
+      "check",
       "credit-card",
       "dollar-sign",
       "dont",
