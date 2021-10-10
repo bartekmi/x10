@@ -17,6 +17,7 @@ import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import isExistingObject from 'react_lib/utils/isExistingObject';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { tenantCalculateErrors, type Tenant } from 'small/entities/Tenant';
 
@@ -36,7 +37,7 @@ function TenantForm(props: Props): React.Node {
       <Text
         scale='display'
         weight='bold'
-        children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + tenant?.name : 'New Tenant' }
+        children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + x10toString(tenant?.name) : 'New Tenant' }
       />
       <Separator/>
       <FormSection
@@ -47,7 +48,7 @@ function TenantForm(props: Props): React.Node {
           label='Name'
         >
           <TextInput
-            value={ tenant.name }
+            value={ tenant?.name }
             onChange={ (value) => {
               onChange({ ...tenant, name: value })
             } }
@@ -58,7 +59,7 @@ function TenantForm(props: Props): React.Node {
           label='Phone'
         >
           <TextInput
-            value={ tenant.phone }
+            value={ tenant?.phone }
             onChange={ (value) => {
               onChange({ ...tenant, phone: value })
             } }
@@ -69,7 +70,7 @@ function TenantForm(props: Props): React.Node {
           label='Email'
         >
           <TextInput
-            value={ tenant.email }
+            value={ tenant?.email }
             onChange={ (value) => {
               onChange({ ...tenant, email: value })
             } }
@@ -84,10 +85,10 @@ function TenantForm(props: Props): React.Node {
           label='The Address'
         >
           <TextInput
-            value={ tenant.permanentMailingAddress.theAddress }
+            value={ tenant?.permanentMailingAddress?.theAddress }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.theAddress = value;
+              newObj.tenant.permanentMailingAddress.theAddress = value;
               onChange(newObj);
             } }
           />
@@ -98,10 +99,10 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 400 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress.city }
+            value={ tenant?.permanentMailingAddress?.city }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.city = value;
+              newObj.tenant.permanentMailingAddress.city = value;
               onChange(newObj);
             } }
           />
@@ -112,10 +113,10 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 250 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress.stateOrProvince }
+            value={ tenant?.permanentMailingAddress?.stateOrProvince }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.stateOrProvince = value;
+              newObj.tenant.permanentMailingAddress.stateOrProvince = value;
               onChange(newObj);
             } }
           />
@@ -126,10 +127,10 @@ function TenantForm(props: Props): React.Node {
           maxWidth={ 150 }
         >
           <TextInput
-            value={ tenant.permanentMailingAddress.zip }
+            value={ tenant?.permanentMailingAddress?.zip }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.zip = value;
+              newObj.tenant.permanentMailingAddress.zip = value;
               onChange(newObj);
             } }
           />
@@ -139,10 +140,10 @@ function TenantForm(props: Props): React.Node {
           label='Country'
         >
           <AssociationEditor
-            id={ tenant.permanentMailingAddress.country?.id }
+            id={ tenant?.permanentMailingAddress?.country?.id }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.permanentMailingAddress.country = value == null ? null : { id: value };
+              newObj.tenant.permanentMailingAddress.country = value == null ? null : { id: value };
               onChange(newObj);
             } }
             isNullable={ false }

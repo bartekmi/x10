@@ -70,7 +70,7 @@ namespace x10.gen.react.attribute {
 
         // For non-owned association, we represent the data as as an object containing the single "id" property
         IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
-      bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
+        bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
         string bindingValueExpression = isNonOwnedAssociation ? "value == null ? null : { id: value }" : "value";
 
         generator.WriteLine(level, "{0}={ {1}{2} }",
@@ -79,13 +79,16 @@ namespace x10.gen.react.attribute {
           isNonOwnedAssociation ? "?.id" : "");
         generator.WriteLine(level, "onChange={ (value) => {");
 
-        if (path.Count() == 1)
+        if (path.Count() == 1) {
+          if (isNonOwnedAssociation)
+            generator.WriteLine(level + 1, "// $FlowExpectedError");
           generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: {2} })",
             generator.SourceVariableName,
             path.Single().Name,
             bindingValueExpression);
-        else {
+        } else {
           generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", generator.SourceVariableName);
+          pathExpression = pathExpression.Replace("?", "");   // Cannot assign to maybe-null
           generator.WriteLine(level + 1, "newObj.{0} = {1};", pathExpression, bindingValueExpression);
           generator.WriteLine(level + 1, "onChange(newObj);");
         }

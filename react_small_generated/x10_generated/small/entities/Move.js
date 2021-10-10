@@ -7,14 +7,17 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { type Building } from 'small/entities/Building';
+import { type Tenant } from 'small/entities/Tenant';
+
 
 // Type Definition
 export type Move = {
   +id: string,
   +date: ?string,
-  +from: ?{ id: string },
-  +to: ?{ id: string },
-  +tenant: ?{ id: string },
+  +from: ?Building,
+  +to: ?Building,
+  +tenant: ?Tenant,
 };
 
 

@@ -42,7 +42,7 @@ function MoveForm(props: Props): React.Node {
         label='Date'
       >
         <CalendarDateInput
-          value={ move.date }
+          value={ move?.date }
           onChange={ (value) => {
             onChange({ ...move, date: value })
           } }
@@ -53,8 +53,9 @@ function MoveForm(props: Props): React.Node {
         label='From'
       >
         <AssociationEditor
-          id={ move.from?.id }
+          id={ move?.from?.id }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...move, from: value == null ? null : { id: value } })
           } }
           isNullable={ false }
@@ -67,8 +68,9 @@ function MoveForm(props: Props): React.Node {
         label='To'
       >
         <AssociationEditor
-          id={ move.to?.id }
+          id={ move?.to?.id }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...move, to: value == null ? null : { id: value } })
           } }
           isNullable={ false }
@@ -81,8 +83,9 @@ function MoveForm(props: Props): React.Node {
         label='Tenant'
       >
         <AssociationEditor
-          id={ move.tenant?.id }
+          id={ move?.tenant?.id }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...move, tenant: value == null ? null : { id: value } })
           } }
           isNullable={ false }

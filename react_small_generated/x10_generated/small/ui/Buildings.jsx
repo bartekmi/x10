@@ -14,6 +14,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { addressSecondAddressLine } from 'small/entities/Address';
@@ -123,7 +124,7 @@ function Buildings(props: Props): React.Node {
                   />
                   <Button
                     label='Edit'
-                    url={ '/buildings/edit/' + value?.id }
+                    url={ '/buildings/edit/' + x10toString(value?.id) }
                   />
                 </Group>
               ,

@@ -32,7 +32,7 @@ namespace x10.gen.react {
     }
 
     private void PossiblyWrap(ExpBinary binary, ExpBase expression) {
-      if (binary.DataType.IsString && !expression.DataType.IsString)
+      if (binary.DataType.IsString && !(expression is ExpLiteral))
         // Without converting to string, Flow complains and UI shows "null"
         Wrap(expression, HelperFunctions.X10_ToString);
       else if (binary.IsComparison && !binary.DataType.IsString)

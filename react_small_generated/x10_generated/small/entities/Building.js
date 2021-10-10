@@ -73,17 +73,19 @@ export type PetPolicyEnum = 'no_pets' | 'all_pets_ok' | 'cats_only' | 'dogs_only
 
 
 // Derived Attribute Functions
-export function buildingAgeInYears(building: {
+export function buildingAgeInYears(building: ?{
   +dateOfOccupancy: ?string,
 }): ?number {
+  if (building == null) return null;
   const appContext = React.useContext(AppContext);
   const result = getYear(appContext?.today) - getYear(building?.dateOfOccupancy);
   return isNaN(result) ? null : result;
 }
 
-export function buildingApplicableWhenForMailingAddress(building: {
+export function buildingApplicableWhenForMailingAddress(building: ?{
   +mailingAddressSameAsPhysical: boolean,
-}): boolean {
+}): ?boolean {
+  if (building == null) return null;
   const result = !building?.mailingAddressSameAsPhysical;
   return result;
 }

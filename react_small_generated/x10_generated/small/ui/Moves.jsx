@@ -11,6 +11,7 @@ import DateDisplay from 'react_lib/display/DateDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { type Move } from 'small/entities/Move';
 
@@ -92,11 +93,11 @@ function Moves(props: Props): React.Node {
                 >
                   <Button
                     label='View'
-                    url={ '/moves/view/' + value?.id }
+                    url={ '/moves/view/' + x10toString(value?.id) }
                   />
                   <Button
                     label='Edit'
-                    url={ '/moves/edit/' + value?.id }
+                    url={ '/moves/edit/' + x10toString(value?.id) }
                   />
                 </Group>
               ,

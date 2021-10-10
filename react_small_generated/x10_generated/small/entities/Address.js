@@ -6,6 +6,9 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
+
+import { type Country } from 'small/entities/Country';
 
 
 // Type Definition
@@ -16,30 +19,33 @@ export type Address = {
   +city: string,
   +stateOrProvince: string,
   +zip: string,
-  +country: ?{ id: string },
+  +country: ?Country,
 };
 
 
 // Derived Attribute Functions
-export function addressFirstAddressLine(address: {
+export function addressFirstAddressLine(address: ?{
   +theAddress: string,
   +unitNumber: string,
-}): string {
-  const result = address?.theAddress + '   Unit ' + address?.unitNumber;
+}): ?string {
+  if (address == null) return null;
+  const result = x10toString(x10toString(address?.theAddress) + '   Unit ') + x10toString(address?.unitNumber);
   return result;
 }
 
-export function addressSecondAddressLine(address: {
+export function addressSecondAddressLine(address: ?{
   +city: string,
   +stateOrProvince: string,
-}): string {
-  const result = address?.city + ', ' + address?.stateOrProvince;
+}): ?string {
+  if (address == null) return null;
+  const result = x10toString(x10toString(address?.city) + ', ') + x10toString(address?.stateOrProvince);
   return result;
 }
 
-export function addressThirdAddressLine(address: {
+export function addressThirdAddressLine(address: ?{
   +zip: string,
-}): string {
+}): ?string {
+  if (address == null) return null;
   const result = address?.zip;
   return result;
 }

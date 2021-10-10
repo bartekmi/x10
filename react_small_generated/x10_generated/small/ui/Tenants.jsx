@@ -10,6 +10,7 @@ import Text from 'latitude/Text';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { type Tenant } from 'small/entities/Tenant';
 
@@ -94,7 +95,7 @@ function Tenants(props: Props): React.Node {
                   />
                   <Button
                     label='Edit'
-                    url={ '/tenants/edit/' + value?.id }
+                    url={ '/tenants/edit/' + x10toString(value?.id) }
                   />
                 </Group>
               ,
