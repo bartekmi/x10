@@ -24,8 +24,6 @@ namespace x10.hotchoc.dps.Entities {
     public string? Segment { get; set; }
     [GraphQLNonNullType]
     public string? Website { get; set; }
-    [GraphQLNonNullType]
-    public string? Address { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
@@ -34,12 +32,19 @@ namespace x10.hotchoc.dps.Entities {
       set { /* Needed to make Hot Chocolate happy */ }
     }
 
+    // Associations
+    [GraphQLNonNullType]
+    public AddressType? PhysicalAddress { get; set; }
+
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+      PhysicalAddress?.EnsureUniqueDbid();
     }
 
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
+
+      PhysicalAddress?.SetNonOwnedAssociations(repository);
     }
   }
 }

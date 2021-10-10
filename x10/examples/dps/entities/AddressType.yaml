@@ -1,0 +1,8 @@
+name: AddressType
+inheritsFrom: Base
+description: An Address of a Company Entity
+
+attributes:
+  - name: address
+    dataType: String
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane), <city>, ~LDL DLD~, <country>

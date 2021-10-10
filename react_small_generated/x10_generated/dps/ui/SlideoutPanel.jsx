@@ -84,7 +84,7 @@ function SlideoutPanel(props: Props): React.Node {
           label='Address'
         >
           <TextDisplay
-            value={ hit?.companyEntity?.address }
+            value={ hit?.companyEntity?.physicalAddress?.address }
           />
         </DisplayField>
       </DisplayForm>
@@ -185,8 +185,11 @@ export default createFragmentContainer(SlideoutPanel, {
       companyEntity {
         id
         toStringRepresentation
-        address
         mainNumber
+        physicalAddress {
+          id
+          address
+        }
         primaryContact
         primaryContactEmail
         segment

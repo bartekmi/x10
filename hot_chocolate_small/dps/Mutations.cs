@@ -116,6 +116,19 @@ namespace x10.hotchoc.dps {
     }
     #endregion
 
+    #region AddressType
+    /// <summary>
+    /// Creates a new AddressType or updates an existing one, depending on the value of addressType.id
+    /// </summary>
+    public string CreateOrUpdateAddressType(
+      AddressType addressType,
+      [Service] IRepository repository) {
+        addressType.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateAddressType(IdUtils.FromRelayId(addressType.Id), addressType);
+        return IdUtils.ToRelayId<AddressType>(dbid);
+    }
+    #endregion
+
     #region Message
     /// <summary>
     /// Creates a new Message or updates an existing one, depending on the value of message.id

@@ -7,6 +7,8 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { addressTypeCalculateErrors, createDefaultAddressType, type AddressType } from 'dps/entities/AddressType';
+
 
 // Type Definition
 export type CompanyEntity = {
@@ -18,7 +20,7 @@ export type CompanyEntity = {
   +mainNumber: string,
   +segment: string,
   +website: string,
-  +address: string,
+  +physicalAddress: AddressType,
 };
 
 
@@ -33,7 +35,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     mainNumber: '',
     segment: '',
     website: '',
-    address: '',
+    physicalAddress: createDefaultAddressType(),
   };
 }
 
@@ -43,6 +45,8 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
   const errors = [];
   if (companyEntity == null ) return errors;
 
+
+  errors.push(...addressTypeCalculateErrors(companyEntity.physicalAddress, 'physicalAddress'));
 
   return errors;
 }

@@ -8,7 +8,7 @@
         <companyEntity.name/>
         <companyEntity.primaryContact/>
         <companyEntity.mainNumber/>
-        <companyEntity.address/>
+        <companyEntity.physicalAddress.address/>
       </DisplayForm>
       <VerticalDivider/>
       <List path="matches">

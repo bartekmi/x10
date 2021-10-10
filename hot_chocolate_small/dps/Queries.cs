@@ -203,6 +203,30 @@ namespace x10.hotchoc.dps {
           repository.GetShipments();
     #endregion
 
+    #region AddressType
+    /// <summary>
+    /// Retrieve a AddressType by id
+    /// </summary>
+    /// <param name="id">The id of the AddressType.</param>
+    /// <param name="repository"></param>
+    /// <returns>The AddressType.</returns>
+    public AddressType GetAddressType(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetAddressType(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all AddressTypes.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All AddressTypes.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<AddressType> GetAddressTypes(
+        [Service] IRepository repository) =>
+          repository.GetAddressTypes();
+    #endregion
+
     #region Message
     /// <summary>
     /// Retrieve a Message by id

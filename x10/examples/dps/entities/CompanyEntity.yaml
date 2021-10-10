@@ -2,7 +2,7 @@ name: CompanyEntity
 inheritsFrom: Base
 description: A portion of Core CompanyEntity entity
 datagen_quantity: 50
-datagen_sources: (cn_cities.csv AS city)
+datagen_sources: (world_cities.csv AS city)
 
 attributes:
   - name: clientId
@@ -35,6 +35,8 @@ attributes:
     dataType: String
     datagen_pattern: www.<adjective>-<noun>.com
 
-  - name: address
-    dataType: String
-    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+associations:
+  - name: physicalAddress
+    dataType: AddressType
+    mandatory: true
+    owns: true

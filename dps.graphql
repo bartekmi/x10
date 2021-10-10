@@ -3,6 +3,14 @@ schema {
   mutation: Mutation
 }
 
+"An Address of a Company Entity"
+type AddressType {
+  address: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
 "Reflects a hit clearance attachment - typically screenshot jpg's"
 type Attachment {
   filename: String!
@@ -21,8 +29,8 @@ type CompanyEntity {
   mainNumber: String!
   segment: String!
   website: String!
-  address: String!
   toStringRepresentation: String!
+  physicalAddress: AddressType!
   id: String!
   hashcode: Int!
 }
@@ -92,13 +100,15 @@ type Mutation {
   createOrUpdateUser(user: UserInput!): String!
   "Creates a new Shipment or updates an existing one, depending on the value of shipment.id"
   createOrUpdateShipment(shipment: ShipmentInput!): String!
+  "Creates a new AddressType or updates an existing one, depending on the value of addressType.id"
+  createOrUpdateAddressType(addressType: AddressTypeInput!): String!
   "Creates a new Message or updates an existing one, depending on the value of message.id"
   createOrUpdateMessage(message: MessageInput!): String!
 }
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 type OldHit {
-  status: HitStatusEnum
+  status: HitStatusEnum!
   reasonForClearance: ReasonForCleranceEnum!
   whiteListUntil: DateTime
   notes: String!
@@ -144,6 +154,10 @@ type Query {
   shipment("The id of the Shipment." id: String!): Shipment!
   "Gets all Shipments.\n\n\n**Returns:**\nAll Shipments."
   shipments(where: ShipmentFilter order_by: ShipmentSort): [Shipment!]!
+  "Retrieve a AddressType by id\n\n\n**Returns:**\nThe AddressType."
+  addressType("The id of the AddressType." id: String!): AddressType!
+  "Gets all AddressTypes.\n\n\n**Returns:**\nAll AddressTypes."
+  addressTypes(where: AddressTypeFilter order_by: AddressTypeSort): [AddressType!]!
   "Retrieve a Message by id\n\n\n**Returns:**\nThe Message."
   message("The id of the Message." id: String!): Message!
   "Gets all Messages.\n\n\n**Returns:**\nAll Messages."
@@ -194,6 +208,70 @@ type User {
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
+}
+
+"An Address of a Company Entity"
+input AddressTypeFilter {
+  AND: [AddressTypeFilter!]
+  OR: [AddressTypeFilter!]
+  address: String
+  address_not: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  address_in: [String!]
+  address_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"An Address of a Company Entity"
+input AddressTypeInput {
+  address: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"An Address of a Company Entity"
+input AddressTypeSort {
+  address: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
 }
 
 "Reflects a hit clearance attachment - typically screenshot jpg's"
@@ -348,16 +426,6 @@ input CompanyEntityFilter {
   website_not_ends_with: String
   website_in: [String!]
   website_not_in: [String!]
-  address: String
-  address_not: String
-  address_contains: String
-  address_not_contains: String
-  address_starts_with: String
-  address_not_starts_with: String
-  address_ends_with: String
-  address_not_ends_with: String
-  address_in: [String!]
-  address_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -368,6 +436,7 @@ input CompanyEntityFilter {
   toStringRepresentation_not_ends_with: String
   toStringRepresentation_in: [String!]
   toStringRepresentation_not_in: [String!]
+  physicalAddress: AddressTypeFilter
   id: String
   id_not: String
   id_contains: String
@@ -401,8 +470,8 @@ input CompanyEntityInput {
   mainNumber: String!
   segment: String!
   website: String!
-  address: String!
   toStringRepresentation: String!
+  physicalAddress: AddressTypeInput!
   id: String!
   hashcode: Int!
 }
@@ -416,8 +485,8 @@ input CompanyEntitySort {
   mainNumber: SortOperationKind
   segment: SortOperationKind
   website: SortOperationKind
-  address: SortOperationKind
   toStringRepresentation: SortOperationKind
+  physicalAddress: AddressTypeSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -848,8 +917,8 @@ input OldHitFilter {
   OR: [OldHitFilter!]
   status: HitStatusEnum
   status_not: HitStatusEnum
-  status_in: [HitStatusEnum]
-  status_not_in: [HitStatusEnum]
+  status_in: [HitStatusEnum!]
+  status_not_in: [HitStatusEnum!]
   status_gt: HitStatusEnum
   status_not_gt: HitStatusEnum
   status_gte: HitStatusEnum
@@ -957,7 +1026,7 @@ input OldHitFilter {
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 input OldHitInput {
-  status: HitStatusEnum
+  status: HitStatusEnum!
   reasonForClearance: ReasonForCleranceEnum!
   whiteListUntil: DateTime
   notes: String!

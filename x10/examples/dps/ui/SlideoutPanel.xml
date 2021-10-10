@@ -10,7 +10,7 @@
       <Label label="Website">
         <Button label="=website" url="=website"/>
       </Label>
-      <address/>
+      <physicalAddress.address/>
     </DisplayForm>
 
     <HorizontalDivider/>

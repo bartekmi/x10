@@ -15,6 +15,7 @@ namespace x10.hotchoc.dps.Repositories {
     OldHit GetOldHit(int id);
     User GetUser(int id);
     Shipment GetShipment(int id);
+    AddressType GetAddressType(int id);
     Message GetMessage(int id);
 
     IQueryable<SuggestedResource> GetSuggestedResources();
@@ -25,6 +26,7 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<OldHit> GetOldHits();
     IQueryable<User> GetUsers();
     IQueryable<Shipment> GetShipments();
+    IQueryable<AddressType> GetAddressTypes();
     IQueryable<Message> GetMessages();
 
     // Mutations
@@ -36,6 +38,7 @@ namespace x10.hotchoc.dps.Repositories {
     int AddOrUpdateOldHit(int? dbid, OldHit oldHit);
     int AddOrUpdateUser(int? dbid, User user);
     int AddOrUpdateShipment(int? dbid, Shipment shipment);
+    int AddOrUpdateAddressType(int? dbid, AddressType addressType);
     int AddOrUpdateMessage(int? dbid, Message message);
   }
 }

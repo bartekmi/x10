@@ -14,6 +14,7 @@ namespace x10.hotchoc.dps.Repositories {
     private Dictionary<int, OldHit> _oldHits = new Dictionary<int, OldHit>();
     private Dictionary<int, User> _users = new Dictionary<int, User>();
     private Dictionary<int, Shipment> _shipments = new Dictionary<int, Shipment>();
+    private Dictionary<int, AddressType> _addressTypes = new Dictionary<int, AddressType>();
     private Dictionary<int, Message> _messages = new Dictionary<int, Message>();
 
     public override IEnumerable<Type> Types() {
@@ -28,6 +29,7 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(OldHit),
         typeof(User),
         typeof(Shipment),
+        typeof(AddressType),
         typeof(Message),
       };
     }
@@ -43,6 +45,7 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is OldHit oldHit) _oldHits[id] = oldHit;
       if (instance is User user) _users[id] = user;
       if (instance is Shipment shipment) _shipments[id] = shipment;
+      if (instance is AddressType addressType) _addressTypes[id] = addressType;
       if (instance is Message message) _messages[id] = message;
     }
 
@@ -107,6 +110,14 @@ namespace x10.hotchoc.dps.Repositories {
     public Shipment GetShipment(int id) { return _shipments[id]; }
     public int AddOrUpdateShipment(int? dbid, Shipment shipment) {
       return RepositoryUtils.AddOrUpdate(dbid, shipment, _shipments);
+    }
+    #endregion
+
+    #region AddressTypes
+    public IQueryable<AddressType> GetAddressTypes() => _addressTypes.Values.AsQueryable();
+    public AddressType GetAddressType(int id) { return _addressTypes[id]; }
+    public int AddOrUpdateAddressType(int? dbid, AddressType addressType) {
+      return RepositoryUtils.AddOrUpdate(dbid, addressType, _addressTypes);
     }
     #endregion
 
