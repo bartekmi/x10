@@ -13,6 +13,7 @@ import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
+import StyleControl from 'react_lib/StyleControl';
 
 import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
 
@@ -34,15 +35,16 @@ function BuildingView(props: Props): React.Node {
         <Group
           gap={ 40 }
         >
-          <DisplayField
-            toolTip='A short and memorable name of the Building'
-            label='Name'
-            maxWidth={ 350 }
-          >
-            <TextDisplay
-              value={ building?.name }
-            />
-          </DisplayField>
+          <StyleControl>
+            <DisplayField
+              toolTip='A short and memorable name of the Building'
+              label='Name'
+            >
+              <TextDisplay
+                value={ building?.name }
+              />
+            </DisplayField>
+          </StyleControl>
           <DisplayField
             toolTip='Description for advertising purposes'
             label='Description'

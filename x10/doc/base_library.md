@@ -1914,6 +1914,34 @@ Id for any purpose - e.g. debugging
 - Mandatory: Yes
 - Data Type: String
 
+# Class Definition - 'StyleControl'
+
+Automatically inserted by code generation schemes which require separate intermediate component to control visibility
+
+- Inherits From: ClassDefVisual
+
+### Attribute 'Content' (Primary)
+
+The content which is made visible or invisible
+
+### Attribute 'id'
+
+Id for any purpose - e.g. debugging
+
+- Data Type: String
+### Attribute 'maxWidth'
+
+Maximum width that the object should have in the UI
+
+- Data Type: Integer
+- Default Value: False
+### Attribute 'visible'
+
+Is the object visible on the UI?
+
+- Data Type: Boolean
+- Default Value: False
+
 # Class Definition - 'SubmitButton'
 
 A button which triggers validation and submits user input
@@ -2442,34 +2470,6 @@ Controls the horizontal alignment of the items in the Panel
 If present, specifies gap between items in pixels.
 
 - Data Type: Integer
-### Attribute 'id'
-
-Id for any purpose - e.g. debugging
-
-- Data Type: String
-### Attribute 'maxWidth'
-
-Maximum width that the object should have in the UI
-
-- Data Type: Integer
-- Default Value: False
-### Attribute 'visible'
-
-Is the object visible on the UI?
-
-- Data Type: Boolean
-- Default Value: False
-
-# Class Definition - 'VisibilityControl'
-
-Automatically inserted by code generation schemes which require separate intermediate component to control visibility
-
-- Inherits From: ClassDefVisual
-
-### Attribute 'Content' (Primary)
-
-The content which is made visible or invisible
-
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging

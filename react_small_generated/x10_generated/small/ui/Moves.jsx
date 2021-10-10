@@ -10,6 +10,7 @@ import Text from 'latitude/Text';
 import DateDisplay from 'react_lib/display/DateDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
@@ -53,22 +54,26 @@ function Moves(props: Props): React.Node {
               id: 1,
               Header: 'From',
               width: 140,
-              accessor: (data) => data?.from?.name,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
-                />
+                <StyleControl>
+                  <TextDisplay
+                    value={ value?.from?.name }
+                  />
+                </StyleControl>
               ,
             },
             {
               id: 2,
               Header: 'To',
               width: 140,
-              accessor: (data) => data?.to?.name,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
-                />
+                <StyleControl>
+                  <TextDisplay
+                    value={ value?.to?.name }
+                  />
+                </StyleControl>
               ,
             },
             {

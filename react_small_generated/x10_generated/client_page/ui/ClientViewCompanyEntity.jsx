@@ -19,7 +19,7 @@ import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Dialog from 'react_lib/modal/Dialog';
-import VisibilityControl from 'react_lib/VisibilityControl';
+import StyleControl from 'react_lib/StyleControl';
 
 import ctpatReviewStatusToIntent from 'client_page/ctpatReviewStatusToIntent';
 import ctpatReviewStatusToText from 'client_page/ctpatReviewStatusToText';
@@ -67,7 +67,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 label='Primary Entity'
                 icon='star'
               />
-              <VisibilityControl
+              <StyleControl
                 visible={ companyEntity?.ctpatReview != null }
               >
                 <DisplayField
@@ -78,7 +78,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                     children={ ctpatReviewStatusToText(companyEntity?.ctpatReview?.status) }
                   />
                 </DisplayField>
-              </VisibilityControl>
+              </StyleControl>
             </Group>
           </Group>
           <Group>
@@ -128,11 +128,11 @@ function ClientViewCompanyEntity(props: Props): React.Node {
           <DisplayField
             label='Physical Address'
           >
-            <VisibilityControl
+            <StyleControl
               visible={ companyEntityApplicableWhenForPhysicalAddress(companyEntity) }
             >
               <AddressDisplay address={ companyEntity.physicalAddress }/>
-            </VisibilityControl>
+            </StyleControl>
           </DisplayField>
         </Group>
         <Group
@@ -145,20 +145,20 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               disabled={ companyEntity?.isPrimary }
               onChange={ setCompanyEntityAsPrimary(companyEntity?.id) }
             />
-            <VisibilityControl
+            <StyleControl
               visible={ companyEntity?.isPrimary }
             >
               <HelpTooltip
                 text='You can change the primary entity by selecting...'
               />
-            </VisibilityControl>
+            </StyleControl>
           </Group>
           <Button
             label='Archive this entity'
           />
         </Group>
         <DisplayForm>
-          <VisibilityControl
+          <StyleControl
             visible={ companyEntity?.ctpatReview == null }
           >
             <Group
@@ -175,8 +175,8 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 label='Initiate First-Time Compliance Screen'
               />
             </Group>
-          </VisibilityControl>
-          <VisibilityControl
+          </StyleControl>
+          <StyleControl
             visible={ companyEntity?.ctpatReview != null }
           >
             <Group
@@ -223,7 +223,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                 />
               </Group>
             </Group>
-          </VisibilityControl>
+          </StyleControl>
         </DisplayForm>
       </Group>
     </Expander>

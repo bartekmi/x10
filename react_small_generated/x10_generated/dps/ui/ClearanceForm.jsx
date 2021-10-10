@@ -16,7 +16,7 @@ import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
-import VisibilityControl from 'react_lib/VisibilityControl';
+import StyleControl from 'react_lib/StyleControl';
 
 import { hitCalculateErrors, type Hit } from 'dps/entities/Hit';
 import { HitStatusEnumPairs, ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
@@ -50,7 +50,7 @@ function ClearanceForm(props: Props): React.Node {
           options={ HitStatusEnumPairs }
         />
       </Group>
-      <VisibilityControl
+      <StyleControl
         visible={ hit?.status == "denied" }
       >
         <Group
@@ -63,8 +63,8 @@ function ClearanceForm(props: Props): React.Node {
             value='Shipments related to this entity will remain blocked'
           />
         </Group>
-      </VisibilityControl>
-      <VisibilityControl
+      </StyleControl>
+      <StyleControl
         visible={ hit?.status != "denied" }
       >
         <Group
@@ -95,7 +95,7 @@ function ClearanceForm(props: Props): React.Node {
             />
           </FormField>
         </Group>
-      </VisibilityControl>
+      </StyleControl>
       <FormField
         editorFor='notes'
         label='Notes'

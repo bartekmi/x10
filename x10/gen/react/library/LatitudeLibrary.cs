@@ -16,14 +16,12 @@ using x10.gen.react.placeholder;
 namespace x10.gen.react.library {
   internal class LatitudeLibrary {
 
-    internal const string VISIBILITY_CONTROL = "VisibilityControl";
-
     private readonly static List<PlatformClassDef> definitions = new List<PlatformClassDef>() {
 
       #region Primordial / Special Components
       new PlatformClassDef() {
-        LogicalName = ClassDefNative.VisibilityControl.Name,
-        PlatformName = VISIBILITY_CONTROL,
+        LogicalName = ClassDefNative.StyleControl.Name,
+        PlatformName = "StyleControl",
         ImportDir = "react_lib",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
@@ -652,7 +650,6 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("toolTip", "toolTip"),
           new JavaScriptAttributeDynamic("label", "label"),
-          new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
         },
       },
       #endregion
@@ -700,7 +697,6 @@ namespace x10.gen.react.library {
           },
           new JavaScriptAttributeDynamic("toolTip", "toolTip"),
           new JavaScriptAttributeDynamic("label", "label"),
-          new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
         },
       },
       new PlatformClassDef() {

@@ -16,8 +16,8 @@ import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
+import StyleControl from 'react_lib/StyleControl';
 import toNum from 'react_lib/utils/toNum';
-import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { createDefaultAttachment } from 'dps/entities/Attachment';
 import { type Hit } from 'dps/entities/Hit';
@@ -144,7 +144,7 @@ function SlideoutPanel(props: Props): React.Node {
                 value={ userName(data?.resolvedBy) }
               />
             </DisplayField>
-            <VisibilityControl
+            <StyleControl
               visible={ data?.status != "denied" }
             >
               <DisplayField
@@ -155,7 +155,7 @@ function SlideoutPanel(props: Props): React.Node {
                   options={ ReasonForCleranceEnumPairs }
                 />
               </DisplayField>
-            </VisibilityControl>
+            </StyleControl>
             <DisplayField
               label='Notes'
             >
@@ -163,7 +163,7 @@ function SlideoutPanel(props: Props): React.Node {
                 value={ data?.notes }
               />
             </DisplayField>
-            <VisibilityControl
+            <StyleControl
               visible={ toNum(data?.attachments.length) > toNum(0) }
             >
               <MultiStacker
@@ -176,7 +176,7 @@ function SlideoutPanel(props: Props): React.Node {
                 ) }
                 addNewItem={ createDefaultAttachment }
               />
-            </VisibilityControl>
+            </StyleControl>
           </DisplayForm>
         ) }
         addNewItem={ createDefaultOldHit }

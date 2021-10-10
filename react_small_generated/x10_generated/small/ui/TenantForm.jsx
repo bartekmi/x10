@@ -16,6 +16,7 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
+import StyleControl from 'react_lib/StyleControl';
 import isExistingObject from 'react_lib/utils/isExistingObject';
 import x10toString from 'react_lib/utils/x10toString';
 
@@ -93,48 +94,51 @@ function TenantForm(props: Props): React.Node {
             } }
           />
         </FormField>
-        <FormField
-          editorFor='permanentMailingAddress.city'
-          label='City'
-          maxWidth={ 400 }
-        >
-          <TextInput
-            value={ tenant?.permanentMailingAddress?.city }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.tenant.permanentMailingAddress.city = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='permanentMailingAddress.stateOrProvince'
-          label='State Or Province'
-          maxWidth={ 250 }
-        >
-          <TextInput
-            value={ tenant?.permanentMailingAddress?.stateOrProvince }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.tenant.permanentMailingAddress.stateOrProvince = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
-        <FormField
-          editorFor='permanentMailingAddress.zip'
-          label='Zip or Postal Code'
-          maxWidth={ 150 }
-        >
-          <TextInput
-            value={ tenant?.permanentMailingAddress?.zip }
-            onChange={ (value) => {
-              let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.tenant.permanentMailingAddress.zip = value;
-              onChange(newObj);
-            } }
-          />
-        </FormField>
+        <StyleControl>
+          <FormField
+            editorFor='permanentMailingAddress.city'
+            label='City'
+          >
+            <TextInput
+              value={ tenant?.permanentMailingAddress?.city }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(tenant));
+                newObj.tenant.permanentMailingAddress.city = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+        </StyleControl>
+        <StyleControl>
+          <FormField
+            editorFor='permanentMailingAddress.stateOrProvince'
+            label='State Or Province'
+          >
+            <TextInput
+              value={ tenant?.permanentMailingAddress?.stateOrProvince }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(tenant));
+                newObj.tenant.permanentMailingAddress.stateOrProvince = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+        </StyleControl>
+        <StyleControl>
+          <FormField
+            editorFor='permanentMailingAddress.zip'
+            label='Zip or Postal Code'
+          >
+            <TextInput
+              value={ tenant?.permanentMailingAddress?.zip }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(tenant));
+                newObj.tenant.permanentMailingAddress.zip = value;
+                onChange(newObj);
+              } }
+            />
+          </FormField>
+        </StyleControl>
         <FormField
           editorFor='permanentMailingAddress.country'
           label='Country'

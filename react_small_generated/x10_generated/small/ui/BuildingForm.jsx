@@ -23,8 +23,8 @@ import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
+import StyleControl from 'react_lib/StyleControl';
 import x10toString from 'react_lib/utils/x10toString';
-import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { addressSecondAddressLine, createDefaultAddress } from 'small/entities/Address';
 import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
@@ -68,19 +68,20 @@ function BuildingForm(props: Props): React.Node {
               value={ building?.moniker }
             />
           </FormField>
-          <FormField
-            editorFor='name'
-            toolTip='A short and memorable name of the Building'
-            label='Name'
-            maxWidth={ 350 }
-          >
-            <TextInput
-              value={ building?.name }
-              onChange={ (value) => {
-                onChange({ ...building, name: value })
-              } }
-            />
-          </FormField>
+          <StyleControl>
+            <FormField
+              editorFor='name'
+              toolTip='A short and memorable name of the Building'
+              label='Name'
+            >
+              <TextInput
+                value={ building?.name }
+                onChange={ (value) => {
+                  onChange({ ...building, name: value })
+                } }
+              />
+            </FormField>
+          </StyleControl>
           <FormField
             editorFor='description'
             toolTip='Description for advertising purposes'
@@ -111,48 +112,51 @@ function BuildingForm(props: Props): React.Node {
               } }
             />
           </FormField>
-          <FormField
-            editorFor='physicalAddress.city'
-            label='City'
-            maxWidth={ 400 }
-          >
-            <TextInput
-              value={ building?.physicalAddress?.city }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.building.physicalAddress.city = value;
-                onChange(newObj);
-              } }
-            />
-          </FormField>
-          <FormField
-            editorFor='physicalAddress.stateOrProvince'
-            label='State Or Province'
-            maxWidth={ 250 }
-          >
-            <TextInput
-              value={ building?.physicalAddress?.stateOrProvince }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.building.physicalAddress.stateOrProvince = value;
-                onChange(newObj);
-              } }
-            />
-          </FormField>
-          <FormField
-            editorFor='physicalAddress.zip'
-            label='Zip or Postal Code'
-            maxWidth={ 150 }
-          >
-            <TextInput
-              value={ building?.physicalAddress?.zip }
-              onChange={ (value) => {
-                let newObj = JSON.parse(JSON.stringify(building));
-                newObj.building.physicalAddress.zip = value;
-                onChange(newObj);
-              } }
-            />
-          </FormField>
+          <StyleControl>
+            <FormField
+              editorFor='physicalAddress.city'
+              label='City'
+            >
+              <TextInput
+                value={ building?.physicalAddress?.city }
+                onChange={ (value) => {
+                  let newObj = JSON.parse(JSON.stringify(building));
+                  newObj.building.physicalAddress.city = value;
+                  onChange(newObj);
+                } }
+              />
+            </FormField>
+          </StyleControl>
+          <StyleControl>
+            <FormField
+              editorFor='physicalAddress.stateOrProvince'
+              label='State Or Province'
+            >
+              <TextInput
+                value={ building?.physicalAddress?.stateOrProvince }
+                onChange={ (value) => {
+                  let newObj = JSON.parse(JSON.stringify(building));
+                  newObj.building.physicalAddress.stateOrProvince = value;
+                  onChange(newObj);
+                } }
+              />
+            </FormField>
+          </StyleControl>
+          <StyleControl>
+            <FormField
+              editorFor='physicalAddress.zip'
+              label='Zip or Postal Code'
+            >
+              <TextInput
+                value={ building?.physicalAddress?.zip }
+                onChange={ (value) => {
+                  let newObj = JSON.parse(JSON.stringify(building));
+                  newObj.building.physicalAddress.zip = value;
+                  onChange(newObj);
+                } }
+              />
+            </FormField>
+          </StyleControl>
         </FormSection>
         <FormSection
           label='Mailing Address'
@@ -164,7 +168,7 @@ function BuildingForm(props: Props): React.Node {
             } }
             label='Mailing Address Same as Physical Address'
           />
-          <VisibilityControl
+          <StyleControl
             visible={ buildingApplicableWhenForMailingAddress(building) }
           >
             <Group
@@ -183,50 +187,53 @@ function BuildingForm(props: Props): React.Node {
                   } }
                 />
               </FormField>
-              <FormField
-                editorFor='mailingAddress.city'
-                label='City'
-                maxWidth={ 400 }
-              >
-                <TextInput
-                  value={ building?.mailingAddress?.city }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.building.mailingAddress.city = value;
-                    onChange(newObj);
-                  } }
-                />
-              </FormField>
-              <FormField
-                editorFor='mailingAddress.stateOrProvince'
-                label='State Or Province'
-                maxWidth={ 250 }
-              >
-                <TextInput
-                  value={ building?.mailingAddress?.stateOrProvince }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.building.mailingAddress.stateOrProvince = value;
-                    onChange(newObj);
-                  } }
-                />
-              </FormField>
-              <FormField
-                editorFor='mailingAddress.zip'
-                label='Zip or Postal Code'
-                maxWidth={ 150 }
-              >
-                <TextInput
-                  value={ building?.mailingAddress?.zip }
-                  onChange={ (value) => {
-                    let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.building.mailingAddress.zip = value;
-                    onChange(newObj);
-                  } }
-                />
-              </FormField>
+              <StyleControl>
+                <FormField
+                  editorFor='mailingAddress.city'
+                  label='City'
+                >
+                  <TextInput
+                    value={ building?.mailingAddress?.city }
+                    onChange={ (value) => {
+                      let newObj = JSON.parse(JSON.stringify(building));
+                      newObj.building.mailingAddress.city = value;
+                      onChange(newObj);
+                    } }
+                  />
+                </FormField>
+              </StyleControl>
+              <StyleControl>
+                <FormField
+                  editorFor='mailingAddress.stateOrProvince'
+                  label='State Or Province'
+                >
+                  <TextInput
+                    value={ building?.mailingAddress?.stateOrProvince }
+                    onChange={ (value) => {
+                      let newObj = JSON.parse(JSON.stringify(building));
+                      newObj.building.mailingAddress.stateOrProvince = value;
+                      onChange(newObj);
+                    } }
+                  />
+                </FormField>
+              </StyleControl>
+              <StyleControl>
+                <FormField
+                  editorFor='mailingAddress.zip'
+                  label='Zip or Postal Code'
+                >
+                  <TextInput
+                    value={ building?.mailingAddress?.zip }
+                    onChange={ (value) => {
+                      let newObj = JSON.parse(JSON.stringify(building));
+                      newObj.building.mailingAddress.zip = value;
+                      onChange(newObj);
+                    } }
+                  />
+                </FormField>
+              </StyleControl>
             </Group>
-          </VisibilityControl>
+          </StyleControl>
         </FormSection>
         <FormSection
           label='Other Details'

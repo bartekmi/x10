@@ -19,7 +19,6 @@ namespace x10.ui.metadata {
     // WARNING! WARNING! WARINING! ********* If adding new component, also add to array at bottom ***********
 
     public const string ATTR_VISIBLE = "visible";
-    public const string ATTR_MAX_WIDTH = "maxWidth";
     public const string ATTR_READ_ONLY = "readOnly";
 
     public static ClassDefNative Object = new ClassDefNative() {
@@ -45,7 +44,7 @@ namespace x10.ui.metadata {
           DefaultValue = false,
         },
         new UiAttributeDefinitionAtomic() {
-          Name = ATTR_MAX_WIDTH,
+          Name = "maxWidth",
           Description = "Maximum width that the object should have in the UI",
           DataType = DataTypes.Singleton.Integer,
           DefaultValue = false,
@@ -54,8 +53,8 @@ namespace x10.ui.metadata {
       }
     };
 
-    public static ClassDefNative VisibilityControl = new ClassDefNative() {
-      Name = "VisibilityControl",
+    public static ClassDefNative StyleControl = new ClassDefNative() {
+      Name = "StyleControl",
       InheritsFrom = Visual,
       Description = "Automatically inserted by code generation schemes which require separate intermediate component to control visibility",
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
@@ -189,7 +188,7 @@ namespace x10.ui.metadata {
       ClassDefNative.RawHtml,
       ClassDefNative.State,
       ClassDefNative.Visual,
-      ClassDefNative.VisibilityControl,
+      ClassDefNative.StyleControl,
       ClassDefNative.Editable,
     };
     #endregion

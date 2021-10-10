@@ -23,7 +23,7 @@ import MultiStacker from 'react_lib/multi/MultiStacker';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import TabbedPane from 'react_lib/tab/TabbedPane';
-import VisibilityControl from 'react_lib/VisibilityControl';
+import StyleControl from 'react_lib/StyleControl';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, HkspFlexportEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -229,7 +229,7 @@ function CompanyEntityForm(props: Props): React.Node {
                     } }
                     label='Mailing Address is Physical Address'
                   />
-                  <VisibilityControl
+                  <StyleControl
                     visible={ companyEntityApplicableWhenForPhysicalAddress(companyEntity) }
                   >
                     <Group
@@ -330,7 +330,7 @@ function CompanyEntityForm(props: Props): React.Node {
                         </FormField>
                       </Group>
                     </Group>
-                  </VisibilityControl>
+                  </StyleControl>
                 </Group>
               ,
             },

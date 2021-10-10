@@ -80,8 +80,7 @@ namespace x10.gen.react.attribute {
         generator.WriteLine(level, "onChange={ (value) => {");
 
         if (path.Count() == 1) {
-          if (isNonOwnedAssociation)
-            generator.WriteLine(level + 1, "// $FlowExpectedError");
+          generator.WriteLine(level + 1, "// $FlowExpectedError");
           generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: {2} })",
             generator.SourceVariableName,
             path.Single().Name,

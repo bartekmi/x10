@@ -61,13 +61,22 @@ namespace x10.gen.react.generate {
     }
 
     private void PreProcessTree(ClassDefX10 classDef) {
-      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild))
-        // Any instance which has the "visible" attribute is wrapped with the "VisibilityControl" component
-        if (instance.HasAttributeValue(ClassDefNative.ATTR_VISIBLE)) {
-          Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.VisibilityControl);
-          UiAttributeValue visibleAttribute = instance.RemoveAttributeValue(ClassDefNative.ATTR_VISIBLE);
-          intermediate.AttributeValues.Add(visibleAttribute);
+      // Any instance which has any of the "ClassDefVisual" attributes set is wrapped with the "StyleControl" component
+      var visualAttrs = new HashSet<UiAttributeDefinition>(ClassDefNative.Visual.AttributeDefinitions);
+      foreach (Instance instance in UiUtils.ListSelfAndDescendants(classDef.RootChild)) {
+        bool needsStyleControl = instance.AttributeValues.Any(x => visualAttrs.Contains(x.Definition));
+
+        if (needsStyleControl) {
+          Instance intermediate = UiTreeUtils.InsertIntermediateParent(instance, ClassDefNative.StyleControl);
+          foreach (UiAttributeValue attrValue in instance.AttributeValues.ToList())
+            if (visualAttrs.Contains(attrValue.Definition)) {
+              instance.AttributeValues.Remove(attrValue);
+              intermediate.AttributeValues.Add(attrValue);
+            }
         }
+      }
+
+      // Other pre-processing operations can go here...
     }
 
     private void GenerateImports(Entity model) {

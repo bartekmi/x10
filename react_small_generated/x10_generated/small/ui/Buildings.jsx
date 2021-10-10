@@ -12,10 +12,10 @@ import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
-import VisibilityControl from 'react_lib/VisibilityControl';
 
 import { addressSecondAddressLine } from 'small/entities/Address';
 import { buildingAgeInYears, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
@@ -52,16 +52,18 @@ function Buildings(props: Props): React.Node {
                 <Group
                   alignItems='center'
                 >
-                  <TextDisplay
-                    value={ value?.name }
-                  />
-                  <VisibilityControl
+                  <StyleControl>
+                    <TextDisplay
+                      value={ value?.name }
+                    />
+                  </StyleControl>
+                  <StyleControl
                     visible={ !isBlank(value?.description) }
                   >
                     <HelpTooltip
                       text={ value?.description }
                     />
-                  </VisibilityControl>
+                  </StyleControl>
                 </Group>
               ,
             },
