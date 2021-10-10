@@ -24,6 +24,7 @@ namespace x10.ui {
 
       // Create the new intermediate instance and its main content 
       InstanceClassDefUse intermedInst = new InstanceClassDefUse(intermidateClassDef, childInst.XmlElement, parentCplxAttr);
+      intermedInst.Id = childInst.Id;
       UiAttributeValueComplex intermedCplxAttr = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(intermedInst, childInst.XmlElement);
       
       // Hook-up parent/child relationships 

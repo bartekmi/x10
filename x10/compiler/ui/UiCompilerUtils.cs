@@ -14,7 +14,6 @@ namespace x10.compiler.ui {
     // Get the binding path of an instance as a list of members
     public static IEnumerable<Member> GetBindingPath(Instance startInstance) {
       List<Member> members = new List<Member>();
-      startInstance = startInstance.Unwrap();
 
       foreach (Instance instance in UiUtils.ListSelfAndAncestors(startInstance)) {
         if (instance.PathComponents != null)

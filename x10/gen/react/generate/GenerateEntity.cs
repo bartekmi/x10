@@ -307,12 +307,16 @@ namespace x10.gen.react.generate {
 
         if (association.IsMany)
           return string.Format("$ReadOnlyArray<{0}>", refedEntity.Name);
-        else
-          // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
-          // are filled with default values when processing the GraphQL results. This ensures
-          // that we have default data if the users starts to edit such entities which previously
-          // have been hidden.
-          return refedEntity.Name;
+        else {
+          if (association.IsNonOwnedAssociation)
+            return "?" + refedEntity.Name;
+          else
+            // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
+            // are filled with default values when processing the GraphQL results. This ensures
+            // that we have default data if the users starts to edit such entities which previously
+            // have been hidden.
+            return refedEntity.Name;
+        }
       } else if (member is X10Attribute attribute) {
         string optionalIndicator = !IsMandatory(attribute) || forceOptional ? "?" : "";
         return optionalIndicator + GetAtomicFlowType(member.Owner, attribute.DataType);

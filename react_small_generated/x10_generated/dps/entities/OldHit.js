@@ -21,7 +21,7 @@ export type OldHit = {
   +notes: string,
   +createdAt: ?string,
   +resolutionTimestamp: ?string,
-  +resolvedBy: User,
+  +resolvedBy: ?User,
   +attachments: $ReadOnlyArray<Attachment>,
 };
 

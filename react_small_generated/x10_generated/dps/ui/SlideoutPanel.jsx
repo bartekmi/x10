@@ -76,8 +76,8 @@ function SlideoutPanel(props: Props): React.Node {
           label='Website'
         >
           <Button
-            label={ hit?.website }
-            url={ hit?.website }
+            label={ hit?.companyEntity?.website }
+            url={ hit?.companyEntity?.website }
           />
         </DisplayField>
         <DisplayField

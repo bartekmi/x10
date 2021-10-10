@@ -41,7 +41,7 @@ function ClearanceForm(props: Props): React.Node {
           value='Is this a denid party?'
         />
         <RadioGroup
-          value={ hit.status }
+          value={ hit?.status }
           onChange={ (value) => {
             onChange({ ...hit, status: value })
           } }
@@ -61,7 +61,7 @@ function ClearanceForm(props: Props): React.Node {
             label='Reason For Clearance'
           >
             <SelectInput
-              value={ hit.reasonForClearance }
+              value={ hit?.reasonForClearance }
               onChange={ (value) => {
                 onChange({ ...hit, reasonForClearance: value })
               } }
@@ -73,7 +73,7 @@ function ClearanceForm(props: Props): React.Node {
             label='Whitelist time'
           >
             <FloatInput
-              value={ hit.whitelistTime }
+              value={ hit?.whitelistTime }
               onChange={ (value) => {
                 onChange({ ...hit, whitelistTime: value })
               } }
@@ -86,7 +86,7 @@ function ClearanceForm(props: Props): React.Node {
         label='Notes'
       >
         <TextareaInput
-          value={ hit.notes }
+          value={ hit?.notes }
           onChange={ (value) => {
             onChange({ ...hit, notes: value })
           } }

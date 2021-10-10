@@ -28,8 +28,8 @@ export type Shipment = {
   +dueDateTask: string,
   +isLcl: boolean,
   +isLtl: boolean,
-  +consignee: CompanyEntity,
-  +shipper: CompanyEntity,
+  +consignee: ?CompanyEntity,
+  +shipper: ?CompanyEntity,
 };
 
 

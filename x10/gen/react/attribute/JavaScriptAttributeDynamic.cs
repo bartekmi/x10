@@ -14,7 +14,7 @@ namespace x10.gen.react.attribute {
   // The following situations are taken care of by this attribute type:
   // 1. Default binding attribute
   // 2. Pass-through with no modification (both complex and atomic). Complex Attribute
-  //    will be rendered as a JavaScript list or object
+  //    will be rendered as a JavaScript list or objects
   // 3. Translation of logical formula into platform-specific formula
   public class JavaScriptAttributeDynamic : PlatformAttributeDynamic {
 
@@ -48,7 +48,10 @@ namespace x10.gen.react.attribute {
       } else if (value is UiAttributeValueAtomic atomicValue) {
         if (atomicValue.Expression != null) {
           isCodeSnippet = true;
-          return generator.ExpressionToString(atomicValue.Expression);
+          generator.PushSourceVariableName(generator.GetBindingPath(instance));
+          string expression = generator.ExpressionToString(atomicValue.Expression);
+          generator.PopSourceVariableName();
+          return expression;
         } else
           return GenerateAttributeForValue(atomicValue.Value);
       } else
@@ -63,20 +66,15 @@ namespace x10.gen.react.attribute {
         string expressionString = generator.GetReadOnlyBindingPath(instance);
         generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
       } else {
-        IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
-        if (path.Count() == 0)
-          throw new NotImplementedException("When would path be empty???");
-
-        string pathExpression = string.Join(".", path.Select(x => x.Name));
+        string pathExpression = generator.GetBindingPath(instance);
 
         // For non-owned association, we represent the data as as an object containing the single "id" property
-        bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
+        IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
+      bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
         string bindingValueExpression = isNonOwnedAssociation ? "value == null ? null : { id: value }" : "value";
 
-        generator.WriteLine(level, "{0}={ {1}.{2}{3} }", 
+        generator.WriteLine(level, "{0}={ {1}{2} }",
           dataBind.PlatformName, 
-          generator.SourceVariableName, 
-          
           pathExpression,
           isNonOwnedAssociation ? "?.id" : "");
         generator.WriteLine(level, "onChange={ (value) => {");

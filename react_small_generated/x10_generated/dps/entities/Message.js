@@ -18,7 +18,7 @@ export type Message = {
   +timestamp: ?string,
   +text: string,
   +coreShipmentId: ?number,
-  +user: User,
+  +user: ?User,
   +attachments: $ReadOnlyArray<Attachment>,
 };
 

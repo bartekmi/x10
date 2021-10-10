@@ -103,12 +103,20 @@ namespace x10.gen.react.generate {
       return writer.ToString();
     }
 
-    internal string GetReadOnlyBindingPath(Instance instance) {
+    internal string GetBindingPath(Instance instance) {
       IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
+      if (path.Count() == 0)
+        return SourceVariableName;
       ExpBase expression = CodeGenUtils.PathToExpression(path);
       string expressionString = ExpressionToString(expression);
+      return expressionString;
+    }
 
-      if (path.Last().IsNonOwnedAssociation)
+    internal string GetReadOnlyBindingPath(Instance instance) {
+      string expressionString = GetBindingPath(instance);
+
+      IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
+      if (path.Count() > 0 && path.Last().IsNonOwnedAssociation)
         expressionString += ".toStringRepresentation";
 
       return expressionString;

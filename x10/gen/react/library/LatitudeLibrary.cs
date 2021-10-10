@@ -569,7 +569,7 @@ namespace x10.gen.react.library {
 
               if (inner is InstanceModelRef) {
                 generator.PushSourceVariableName("data", true);
-                string path = generator.GetReadOnlyBindingPath(instance);
+                string path = generator.GetReadOnlyBindingPath(instance.Unwrap());
                 generator.PopSourceVariableName();
 
                 return string.Format("(data) => {0}", path);
@@ -682,7 +682,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "editorFor",
-            Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance),
+            Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance.Unwrap()),
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "mandatoryIndicator",
