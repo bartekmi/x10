@@ -35,14 +35,14 @@ function WorkspaceTabs(props: Props): React.Node {
           },
           {
             id: 1,
-            label: 'Shipment(' + x10toString(hit?.shipments.length) + ')',
+            label: x10toString('Shipment(' + x10toString(hit?.shipments.length)) + ')',
             displayFunc: () =>
               <ShipmentTab hit={ hit }/>
             ,
           },
           {
             id: 2,
-            label: 'Escalation(' + x10toString(hit?.messages.length) + ')',
+            label: x10toString('Escalation(' + x10toString(hit?.messages.length)) + ')',
             displayFunc: () =>
               <EscalationTab hit={ hit }/>
             ,

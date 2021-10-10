@@ -11,6 +11,7 @@ import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { PriorityEnumPairs, type Hit } from 'dps/entities/Hit';
 
@@ -71,11 +72,11 @@ function Hits(props: Props): React.Node {
                 >
                   <Button
                     label='Tabs'
-                    url={ '/hits/' + value?.id }
+                    url={ '/hits/' + x10toString(value?.id) }
                   />
                   <Button
                     label='Panel'
-                    url={ '/hits/panel/' + value?.id }
+                    url={ '/hits/panel/' + x10toString(value?.id) }
                   />
                 </Group>
               ,

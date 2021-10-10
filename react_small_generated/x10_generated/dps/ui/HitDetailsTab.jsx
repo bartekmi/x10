@@ -48,7 +48,7 @@ function HitDetailsTab(props: Props): React.Node {
         <Text
           scale='title'
           weight='bold'
-          children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
+          children={ x10toString('Please review ' + x10toString(hit?.matches.length)) + ' matches' }
         />
       </Group>
       <Group
