@@ -19,7 +19,7 @@ export default function EnumDisplay(props: Props): React.Node {
 
   let display = value;
   if (value != null) {
-    const displayOption = options.find(x => x.value == value);
+    const displayOption = options.find(x => x.value == value.toLowerCase());
     if (displayOption) {
       display = displayOption.label;
     }
