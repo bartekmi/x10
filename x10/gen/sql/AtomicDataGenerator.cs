@@ -119,7 +119,8 @@ namespace x10.gen.sql {
         else if (randomTextSpecs != null)
           text = GenerateRandomText(random, randomTextSpecs);
       } catch (Exception e) {
-        _messages.AddError(attrValue.TreeElement, e.Message);
+        var treeElement = attrValue == null ? x10Attr.TreeElement : attrValue.TreeElement;
+        _messages.AddError(treeElement, e.Message);
       }
 
       if (capitalization == "wordCaps")

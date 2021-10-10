@@ -34,7 +34,7 @@
       }
     },
 
-    // Code Generation - Dps Example
+    // Dps Example
     {
       "name": "Gen Dps - Hot Choc",
       "type": "coreclr",
@@ -43,6 +43,20 @@
       "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
       "args": ["dpshot"],
       "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
+    {
+      "name": "Run Dps - Hot Choc",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
+      "args": ["dps"],
+      "cwd": "${workspaceFolder}/hot_chocolate_small",
       "console": "internalConsole",
       "stopAtEntry": false,
       "logging": {

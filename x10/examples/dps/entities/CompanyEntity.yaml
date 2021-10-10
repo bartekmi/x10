@@ -33,7 +33,7 @@ attributes:
 
   - name: website
     dataType: String
-    datagen_pattern: www.<adjective><nound>.com
+    datagen_pattern: www.<adjective>-<noun>.com
 
   - name: address
     dataType: String
