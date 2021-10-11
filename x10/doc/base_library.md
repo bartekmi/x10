@@ -2210,13 +2210,13 @@ Id for any purpose - e.g. debugging
 
 # Class Definition - 'StyleControl'
 
-Automatically inserted by code generation schemes which require separate intermediate component to control visibility
+Automatically inserted by code generation schemes which require separate intermediate component to control style (see attributes of 'Visual')
 
 - Inherits From: ClassDefVisual
 
 ### Attribute 'Content' (Primary)
 
-The content which is made visible or invisible
+The content which is styled by this control
 
 ### Attribute 'id'
 

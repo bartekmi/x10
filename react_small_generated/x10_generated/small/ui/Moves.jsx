@@ -57,7 +57,6 @@ function Moves(props: Props): React.Node {
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <StyleControl
-                  width={ 350 }
                   maxWidth={ 350 }
                 >
                   <TextDisplay
@@ -73,7 +72,6 @@ function Moves(props: Props): React.Node {
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <StyleControl
-                  width={ 350 }
                   maxWidth={ 350 }
                 >
                   <TextDisplay

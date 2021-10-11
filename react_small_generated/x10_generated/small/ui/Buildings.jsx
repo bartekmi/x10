@@ -53,7 +53,6 @@ function Buildings(props: Props): React.Node {
                   alignItems='center'
                 >
                   <StyleControl
-                    width={ 350 }
                     maxWidth={ 350 }
                   >
                     <TextDisplay

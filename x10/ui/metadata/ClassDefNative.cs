@@ -55,7 +55,6 @@ namespace x10.ui.metadata {
           Description = "Exact width that the object should have in the UI (in pixels)",
           DataType = DataTypes.Singleton.Integer,
           DefaultValue = false,
-          TakeValueFromModelAttrName = model.libraries.BaseLibrary.MAX_WIDTH,
         },
       }
     };
@@ -63,11 +62,11 @@ namespace x10.ui.metadata {
     public static ClassDefNative StyleControl = new ClassDefNative() {
       Name = "StyleControl",
       InheritsFrom = Visual,
-      Description = "Automatically inserted by code generation schemes which require separate intermediate component to control visibility",
+      Description = "Automatically inserted by code generation schemes which require separate intermediate component to control style (see attributes of 'Visual')",
       LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
         new UiAttributeDefinitionComplex() {
           Name = "Content",
-          Description = "The content which is made visible or invisible",
+          Description = "The content which is styled by this control",
           IsPrimary = true,
           ComplexAttributeType = ClassDefNative.Visual,
         },

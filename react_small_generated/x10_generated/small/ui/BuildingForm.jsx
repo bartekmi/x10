@@ -69,7 +69,6 @@ function BuildingForm(props: Props): React.Node {
             />
           </FormField>
           <StyleControl
-            width={ 350 }
             maxWidth={ 350 }
           >
             <FormField
@@ -118,7 +117,6 @@ function BuildingForm(props: Props): React.Node {
             />
           </FormField>
           <StyleControl
-            width={ 400 }
             maxWidth={ 400 }
           >
             <FormField
@@ -136,7 +134,6 @@ function BuildingForm(props: Props): React.Node {
             </FormField>
           </StyleControl>
           <StyleControl
-            width={ 250 }
             maxWidth={ 250 }
           >
             <FormField
@@ -154,7 +151,6 @@ function BuildingForm(props: Props): React.Node {
             </FormField>
           </StyleControl>
           <StyleControl
-            width={ 150 }
             maxWidth={ 150 }
           >
             <FormField
@@ -203,7 +199,6 @@ function BuildingForm(props: Props): React.Node {
                 />
               </FormField>
               <StyleControl
-                width={ 400 }
                 maxWidth={ 400 }
               >
                 <FormField
@@ -221,7 +216,6 @@ function BuildingForm(props: Props): React.Node {
                 </FormField>
               </StyleControl>
               <StyleControl
-                width={ 250 }
                 maxWidth={ 250 }
               >
                 <FormField
@@ -239,7 +233,6 @@ function BuildingForm(props: Props): React.Node {
                 </FormField>
               </StyleControl>
               <StyleControl
-                width={ 150 }
                 maxWidth={ 150 }
               >
                 <FormField

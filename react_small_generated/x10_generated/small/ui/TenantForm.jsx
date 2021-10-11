@@ -98,7 +98,6 @@ function TenantForm(props: Props): React.Node {
           />
         </FormField>
         <StyleControl
-          width={ 400 }
           maxWidth={ 400 }
         >
           <FormField
@@ -116,7 +115,6 @@ function TenantForm(props: Props): React.Node {
           </FormField>
         </StyleControl>
         <StyleControl
-          width={ 250 }
           maxWidth={ 250 }
         >
           <FormField
@@ -134,7 +132,6 @@ function TenantForm(props: Props): React.Node {
           </FormField>
         </StyleControl>
         <StyleControl
-          width={ 150 }
           maxWidth={ 150 }
         >
           <FormField

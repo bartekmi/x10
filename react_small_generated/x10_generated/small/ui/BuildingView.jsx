@@ -36,7 +36,6 @@ function BuildingView(props: Props): React.Node {
           gap={ 40 }
         >
           <StyleControl
-            width={ 350 }
             maxWidth={ 350 }
           >
             <DisplayField
