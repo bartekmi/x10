@@ -45,7 +45,14 @@ namespace x10.ui.metadata {
         },
         new UiAttributeDefinitionAtomic() {
           Name = "maxWidth",
-          Description = "Maximum width that the object should have in the UI",
+          Description = "Maximum width that the object should have in the UI (in pixels)",
+          DataType = DataTypes.Singleton.Integer,
+          DefaultValue = false,
+          TakeValueFromModelAttrName = model.libraries.BaseLibrary.MAX_WIDTH,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "width",
+          Description = "Exact width that the object should have in the UI (in pixels)",
           DataType = DataTypes.Singleton.Integer,
           DefaultValue = false,
           TakeValueFromModelAttrName = model.libraries.BaseLibrary.MAX_WIDTH,

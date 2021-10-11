@@ -44,6 +44,7 @@ function ClearanceForm(props: Props): React.Node {
         <RadioGroup
           value={ hit?.status }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...hit, status: value })
           } }
           excludeItems='unresolved'
@@ -78,6 +79,7 @@ function ClearanceForm(props: Props): React.Node {
             <SelectInput
               value={ hit?.reasonForClearance }
               onChange={ (value) => {
+                // $FlowExpectedError
                 onChange({ ...hit, reasonForClearance: value })
               } }
               options={ ReasonForCleranceEnumPairs }
@@ -90,24 +92,30 @@ function ClearanceForm(props: Props): React.Node {
             <FloatInput
               value={ hit?.whitelistTime }
               onChange={ (value) => {
+                // $FlowExpectedError
                 onChange({ ...hit, whitelistTime: value })
               } }
             />
           </FormField>
         </Group>
       </StyleControl>
-      <FormField
-        editorFor='notes'
-        label='Notes'
+      <StyleControl
+        maxWidth={ 800 }
       >
-        <TextareaInput
-          value={ hit?.notes }
-          onChange={ (value) => {
-            onChange({ ...hit, notes: value })
-          } }
-          rows={ 3 }
-        />
-      </FormField>
+        <FormField
+          editorFor='notes'
+          label='Notes'
+        >
+          <TextareaInput
+            value={ hit?.notes }
+            onChange={ (value) => {
+              // $FlowExpectedError
+              onChange({ ...hit, notes: value })
+            } }
+            rows={ 3 }
+          />
+        </FormField>
+      </StyleControl>
       <FormSubmitButton
         onClick={ () => save(hit) }
         action={

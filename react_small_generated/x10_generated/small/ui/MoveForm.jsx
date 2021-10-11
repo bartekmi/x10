@@ -44,6 +44,7 @@ function MoveForm(props: Props): React.Node {
         <CalendarDateInput
           value={ move?.date }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...move, date: value })
           } }
         />

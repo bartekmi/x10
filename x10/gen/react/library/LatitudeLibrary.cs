@@ -24,10 +24,9 @@ namespace x10.gen.react.library {
         PlatformName = "StyleControl",
         ImportDir = "react_lib",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = ClassDefNative.ATTR_VISIBLE,
-            PlatformName = "visible",
-          },
+          new JavaScriptAttributeDynamic(ClassDefNative.ATTR_VISIBLE, "visible"),
+          new JavaScriptAttributeDynamic("width", "width"),
+          new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
         },
       },
       #endregion

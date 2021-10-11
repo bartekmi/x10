@@ -32,7 +32,10 @@ namespace x10.gen.react {
     }
 
     private void PossiblyWrap(ExpBinary binary, ExpBase expression) {
-      if (binary.DataType.IsString && !(expression is ExpLiteral))
+      // This is hokey. Correct way would be to convert sequences of string concatenation additions
+      // to proper JavaScript string interpolation... `Foo ${myVar} Bar`, but this is harder to do.
+      bool dontWrapWithToString = expression is ExpLiteral || expression is ExpBinary && expression.DataType.IsString;
+      if (binary.DataType.IsString && !dontWrapWithToString)
         // Without converting to string, Flow complains and UI shows "null"
         Wrap(expression, HelperFunctions.X10_ToString);
       else if (binary.IsComparison && !binary.DataType.IsString)

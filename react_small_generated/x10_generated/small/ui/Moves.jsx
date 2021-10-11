@@ -56,7 +56,10 @@ function Moves(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <StyleControl>
+                <StyleControl
+                  width={ 350 }
+                  maxWidth={ 350 }
+                >
                   <TextDisplay
                     value={ value?.from?.name }
                   />
@@ -69,7 +72,10 @@ function Moves(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <StyleControl>
+                <StyleControl
+                  width={ 350 }
+                  maxWidth={ 350 }
+                >
                   <TextDisplay
                     value={ value?.to?.name }
                   />

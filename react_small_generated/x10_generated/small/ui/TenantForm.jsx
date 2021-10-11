@@ -51,6 +51,7 @@ function TenantForm(props: Props): React.Node {
           <TextInput
             value={ tenant?.name }
             onChange={ (value) => {
+              // $FlowExpectedError
               onChange({ ...tenant, name: value })
             } }
           />
@@ -62,6 +63,7 @@ function TenantForm(props: Props): React.Node {
           <TextInput
             value={ tenant?.phone }
             onChange={ (value) => {
+              // $FlowExpectedError
               onChange({ ...tenant, phone: value })
             } }
           />
@@ -73,6 +75,7 @@ function TenantForm(props: Props): React.Node {
           <TextInput
             value={ tenant?.email }
             onChange={ (value) => {
+              // $FlowExpectedError
               onChange({ ...tenant, email: value })
             } }
           />
@@ -94,7 +97,10 @@ function TenantForm(props: Props): React.Node {
             } }
           />
         </FormField>
-        <StyleControl>
+        <StyleControl
+          width={ 400 }
+          maxWidth={ 400 }
+        >
           <FormField
             editorFor='permanentMailingAddress.city'
             label='City'
@@ -109,7 +115,10 @@ function TenantForm(props: Props): React.Node {
             />
           </FormField>
         </StyleControl>
-        <StyleControl>
+        <StyleControl
+          width={ 250 }
+          maxWidth={ 250 }
+        >
           <FormField
             editorFor='permanentMailingAddress.stateOrProvince'
             label='State Or Province'
@@ -124,7 +133,10 @@ function TenantForm(props: Props): React.Node {
             />
           </FormField>
         </StyleControl>
-        <StyleControl>
+        <StyleControl
+          width={ 150 }
+          maxWidth={ 150 }
+        >
           <FormField
             editorFor='permanentMailingAddress.zip'
             label='Zip or Postal Code'

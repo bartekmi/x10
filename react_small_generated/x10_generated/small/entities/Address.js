@@ -29,7 +29,7 @@ export function addressFirstAddressLine(address: ?{
   +unitNumber: string,
 }): string {
   if (address == null) return '';
-  const result = x10toString(x10toString(address?.theAddress) + '   Unit ') + x10toString(address?.unitNumber);
+  const result = x10toString(address?.theAddress) + '   Unit ' + x10toString(address?.unitNumber);
   return result;
 }
 
@@ -38,7 +38,7 @@ export function addressSecondAddressLine(address: ?{
   +stateOrProvince: string,
 }): string {
   if (address == null) return '';
-  const result = x10toString(x10toString(address?.city) + ', ') + x10toString(address?.stateOrProvince);
+  const result = x10toString(address?.city) + ', ' + x10toString(address?.stateOrProvince);
   return result;
 }
 

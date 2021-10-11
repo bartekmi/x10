@@ -77,7 +77,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -93,6 +93,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'AssociationEditor'
 
@@ -118,7 +124,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -140,6 +146,12 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'BooleanBanner'
@@ -166,7 +178,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -182,6 +194,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'BooleanViaButtons'
 
@@ -203,7 +221,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -232,6 +250,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'Bullet'
 
@@ -246,7 +270,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -255,6 +279,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Button'
@@ -280,7 +310,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -294,6 +324,12 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'CancelButton'
@@ -319,7 +355,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -333,6 +369,12 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'CancelDialogButton'
@@ -353,7 +395,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -362,6 +404,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Checkbox'
@@ -394,7 +442,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -416,6 +464,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'ClassDefEditable'
 
@@ -436,7 +490,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -453,6 +507,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'ClassDefVisual'
 
@@ -467,7 +527,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -476,6 +536,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'DateDisplay'
@@ -497,7 +563,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -513,6 +579,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'DateEditor'
 
@@ -534,7 +606,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -550,6 +622,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Dialog'
@@ -569,7 +647,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -588,6 +666,12 @@ The title of the dialog
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'DisplayForm'
@@ -609,7 +693,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -618,6 +702,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'DropDown'
@@ -644,7 +734,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -667,6 +757,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'EnumDisplay'
 
@@ -681,7 +777,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -697,6 +793,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'EnumSelection'
 
@@ -722,7 +824,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -744,6 +846,12 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Expander'
@@ -767,7 +875,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -776,6 +884,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'FloatDisplay'
@@ -797,7 +911,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -813,6 +927,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'FloatEdit'
 
@@ -834,7 +954,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -850,6 +970,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Form'
@@ -871,7 +997,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -880,6 +1006,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'FormErrorDisplay'
@@ -895,7 +1027,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -904,6 +1036,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'FormField'
@@ -934,7 +1072,7 @@ If 'mandatory', an asterisk will be added to the label. If 'optional', the word 
 - Default Value: none
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -948,6 +1086,12 @@ If present, an icon (?) will be placed after the label - the Tool Tip message wi
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'FormRow'
@@ -968,7 +1112,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -977,6 +1121,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'FormSection'
@@ -1004,7 +1154,7 @@ The label of this <FormSection>.
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1013,6 +1163,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Grid'
@@ -1044,7 +1200,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1064,6 +1220,12 @@ Defines the Grid rows
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'GridColumn'
@@ -1128,7 +1290,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1137,6 +1299,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Heading2'
@@ -1157,7 +1325,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1166,6 +1334,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Heading3'
@@ -1186,7 +1360,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1195,6 +1369,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'HelpIcon'
@@ -1216,7 +1396,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1225,6 +1405,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'HollowButton'
@@ -1250,7 +1436,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1264,6 +1450,12 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'HorizontalDivider'
@@ -1279,7 +1471,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1288,6 +1480,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Icon'
@@ -1309,7 +1507,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1318,6 +1516,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'IntDisplay'
@@ -1339,7 +1543,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1355,6 +1559,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'IntEdit'
 
@@ -1376,7 +1586,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1392,6 +1602,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Label'
@@ -1416,7 +1632,7 @@ The text of the label. Normally rendered as bold text.
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1430,6 +1646,12 @@ If present, an icon (?) will be placed after the label - the Tool Tip message wi
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'LinkButton'
@@ -1455,7 +1677,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1469,6 +1691,12 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'List'
@@ -1502,7 +1730,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1511,6 +1739,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Menu'
@@ -1532,7 +1766,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1541,6 +1775,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'MenuItem'
@@ -1571,7 +1811,7 @@ The label of the <MenuItem>
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1585,6 +1825,12 @@ The Application Url to navigate to when user click the <MenuItem> (either url or
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'PackingLayout'
@@ -1605,7 +1851,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1614,6 +1860,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Pill'
@@ -1634,7 +1886,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1650,6 +1902,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'RadioButtonGroup'
 
@@ -1681,7 +1939,7 @@ The direction in which to order the radio buttons
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1704,6 +1962,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'RawHtml'
 
@@ -1718,7 +1982,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1727,6 +1991,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'RepellingRow'
@@ -1747,7 +2017,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1756,6 +2026,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Row'
@@ -1781,7 +2057,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1790,6 +2066,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'SelectableButton'
@@ -1815,7 +2097,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1845,6 +2127,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'SpaContent'
 
@@ -1859,7 +2147,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1874,6 +2162,12 @@ The name of the component to show if there is no path in the url - just the raw 
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'State'
@@ -1931,7 +2225,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1940,6 +2234,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'SubmitButton'
@@ -1965,7 +2265,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -1979,6 +2279,12 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Tab'
@@ -2021,7 +2327,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2030,6 +2336,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'Table'
@@ -2056,7 +2368,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2077,6 +2389,12 @@ The way in which table selection is shown
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'TableColumn'
@@ -2123,7 +2441,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2132,6 +2450,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'TableSelectionColumn'
@@ -2183,7 +2507,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2199,6 +2523,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'TextArea'
 
@@ -2220,7 +2550,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2236,6 +2566,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'TextEdit'
@@ -2258,7 +2594,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2275,6 +2611,12 @@ Is the object visible on the UI?
 
 - Data Type: Boolean
 - Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'TextualDisplay'
 
@@ -2289,7 +2631,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2305,6 +2647,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'TimestampDisplay'
 
@@ -2325,7 +2673,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2341,6 +2689,12 @@ You can optionally make the text bold using this attribute
 
 - Data Type: FontWeight
 - Attached Attribute: Yes
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
+- Default Value: False
 
 # Class Definition - 'TimestampEditor'
 
@@ -2362,7 +2716,7 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2378,6 +2732,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'UploadAction'
@@ -2438,7 +2798,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2447,6 +2807,12 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 
 # Class Definition - 'VerticalStackPanel'
@@ -2477,7 +2843,7 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'maxWidth'
 
-Maximum width that the object should have in the UI
+Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
 - Default Value: False
@@ -2486,5 +2852,11 @@ Maximum width that the object should have in the UI
 Is the object visible on the UI?
 
 - Data Type: Boolean
+- Default Value: False
+### Attribute 'width'
+
+Exact width that the object should have in the UI (in pixels)
+
+- Data Type: Integer
 - Default Value: False
 

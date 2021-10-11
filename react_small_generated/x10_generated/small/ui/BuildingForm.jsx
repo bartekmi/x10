@@ -68,7 +68,10 @@ function BuildingForm(props: Props): React.Node {
               value={ building?.moniker }
             />
           </FormField>
-          <StyleControl>
+          <StyleControl
+            width={ 350 }
+            maxWidth={ 350 }
+          >
             <FormField
               editorFor='name'
               toolTip='A short and memorable name of the Building'
@@ -77,6 +80,7 @@ function BuildingForm(props: Props): React.Node {
               <TextInput
                 value={ building?.name }
                 onChange={ (value) => {
+                  // $FlowExpectedError
                   onChange({ ...building, name: value })
                 } }
               />
@@ -90,6 +94,7 @@ function BuildingForm(props: Props): React.Node {
             <TextareaInput
               value={ building?.description }
               onChange={ (value) => {
+                // $FlowExpectedError
                 onChange({ ...building, description: value })
               } }
               rows={ 3 }
@@ -112,7 +117,10 @@ function BuildingForm(props: Props): React.Node {
               } }
             />
           </FormField>
-          <StyleControl>
+          <StyleControl
+            width={ 400 }
+            maxWidth={ 400 }
+          >
             <FormField
               editorFor='physicalAddress.city'
               label='City'
@@ -127,7 +135,10 @@ function BuildingForm(props: Props): React.Node {
               />
             </FormField>
           </StyleControl>
-          <StyleControl>
+          <StyleControl
+            width={ 250 }
+            maxWidth={ 250 }
+          >
             <FormField
               editorFor='physicalAddress.stateOrProvince'
               label='State Or Province'
@@ -142,7 +153,10 @@ function BuildingForm(props: Props): React.Node {
               />
             </FormField>
           </StyleControl>
-          <StyleControl>
+          <StyleControl
+            width={ 150 }
+            maxWidth={ 150 }
+          >
             <FormField
               editorFor='physicalAddress.zip'
               label='Zip or Postal Code'
@@ -164,6 +178,7 @@ function BuildingForm(props: Props): React.Node {
           <Checkbox
             checked={ building?.mailingAddressSameAsPhysical }
             onChange={ (value) => {
+              // $FlowExpectedError
               onChange({ ...building, mailingAddressSameAsPhysical: value })
             } }
             label='Mailing Address Same as Physical Address'
@@ -187,7 +202,10 @@ function BuildingForm(props: Props): React.Node {
                   } }
                 />
               </FormField>
-              <StyleControl>
+              <StyleControl
+                width={ 400 }
+                maxWidth={ 400 }
+              >
                 <FormField
                   editorFor='mailingAddress.city'
                   label='City'
@@ -202,7 +220,10 @@ function BuildingForm(props: Props): React.Node {
                   />
                 </FormField>
               </StyleControl>
-              <StyleControl>
+              <StyleControl
+                width={ 250 }
+                maxWidth={ 250 }
+              >
                 <FormField
                   editorFor='mailingAddress.stateOrProvince'
                   label='State Or Province'
@@ -217,7 +238,10 @@ function BuildingForm(props: Props): React.Node {
                   />
                 </FormField>
               </StyleControl>
-              <StyleControl>
+              <StyleControl
+                width={ 150 }
+                maxWidth={ 150 }
+              >
                 <FormField
                   editorFor='mailingAddress.zip'
                   label='Zip or Postal Code'
@@ -248,6 +272,7 @@ function BuildingForm(props: Props): React.Node {
               <CalendarDateInput
                 value={ building?.dateOfOccupancy }
                 onChange={ (value) => {
+                  // $FlowExpectedError
                   onChange({ ...building, dateOfOccupancy: value })
                 } }
               />
@@ -269,6 +294,7 @@ function BuildingForm(props: Props): React.Node {
             <RadioGroup
               value={ building?.mailboxType }
               onChange={ (value) => {
+                // $FlowExpectedError
                 onChange({ ...building, mailboxType: value })
               } }
               options={ MailboxTypeEnumPairs }
@@ -281,6 +307,7 @@ function BuildingForm(props: Props): React.Node {
             <SelectInput
               value={ building?.petPolicy }
               onChange={ (value) => {
+                // $FlowExpectedError
                 onChange({ ...building, petPolicy: value })
               } }
               options={ PetPolicyEnumPairs }
@@ -293,6 +320,7 @@ function BuildingForm(props: Props): React.Node {
           <MultiStacker
             items={ building?.units }
             onChange={ (value) => {
+              // $FlowExpectedError
               onChange({ ...building, units: value })
             } }
             itemDisplayFunc={ (data, onChange) => (
@@ -310,6 +338,7 @@ function BuildingForm(props: Props): React.Node {
                     <TextInput
                       value={ data?.number }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...data, number: value })
                       } }
                     />
@@ -321,6 +350,7 @@ function BuildingForm(props: Props): React.Node {
                     <FloatInput
                       value={ data?.squareFeet }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...data, squareFeet: value })
                       } }
                       decimalPrecision={ 0 }
@@ -333,6 +363,7 @@ function BuildingForm(props: Props): React.Node {
                     <Checkbox
                       checked={ data?.hasBalcony }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...data, hasBalcony: value })
                       } }
                     />
@@ -348,6 +379,7 @@ function BuildingForm(props: Props): React.Node {
                     <FloatInput
                       value={ data?.numberOfBedrooms }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...data, numberOfBedrooms: value })
                       } }
                     />
@@ -359,6 +391,7 @@ function BuildingForm(props: Props): React.Node {
                     <SelectInput
                       value={ data?.numberOfBathrooms }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...data, numberOfBathrooms: value })
                       } }
                       options={ NumberOfBathroomsEnumPairs }

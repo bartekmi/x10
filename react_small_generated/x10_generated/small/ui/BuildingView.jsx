@@ -35,7 +35,10 @@ function BuildingView(props: Props): React.Node {
         <Group
           gap={ 40 }
         >
-          <StyleControl>
+          <StyleControl
+            width={ 350 }
+            maxWidth={ 350 }
+          >
             <DisplayField
               toolTip='A short and memorable name of the Building'
               label='Name'

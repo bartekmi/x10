@@ -52,7 +52,10 @@ function Buildings(props: Props): React.Node {
                 <Group
                   alignItems='center'
                 >
-                  <StyleControl>
+                  <StyleControl
+                    width={ 350 }
+                    maxWidth={ 350 }
+                  >
                     <TextDisplay
                       value={ value?.name }
                     />
