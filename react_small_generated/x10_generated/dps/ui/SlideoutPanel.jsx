@@ -38,7 +38,7 @@ function SlideoutPanel(props: Props): React.Node {
 
   return (
     <StyleControl
-      width={ 700 }
+      width={ 520 }
     >
       <Group
         flexDirection='column'
