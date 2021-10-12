@@ -70,6 +70,21 @@ Display a non-owned association in a read-only context
 The value to display - at present, this is assumed to be returned by the back-end in the form of the 'toStringRepresentation' property
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -77,34 +92,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -120,7 +140,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'AssociationEditor'
 
@@ -128,11 +148,26 @@ A drop-down style editor for selecting an associated entity. E.g. an editor for 
 
 - Inherits From: ClassDefEditable
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'createForm'
 
 If present, this allows the user to add new entities. This field must point to the name of a <Form> for the Entity being selected.
 
 - Data Type: String
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -146,40 +181,45 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the data is returned from the back-end.
 
 - Data Type: AssociationEditorOptionOrder
 - Default Value: alphabetic
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -196,7 +236,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'BooleanBanner'
 
@@ -205,6 +245,21 @@ If the bound value is true, show the 'label' text in a box
 - Inherits From: TextualDisplay
 - Expects Data Type: Boolean
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'icon'
 
 
@@ -222,34 +277,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -265,7 +325,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'BooleanViaButtons'
 
@@ -274,6 +334,21 @@ Editor for A Boolean value using two labelled buttons.
 - Inherits From: ClassDefEditable
 - Expects Data Type: Boolean
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -287,34 +362,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -343,7 +423,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Bullet'
 
@@ -351,6 +431,21 @@ A black dot - a 'bullet' - used to break up text
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -358,34 +453,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -395,7 +495,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Button'
 
@@ -413,6 +513,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -420,34 +535,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -462,7 +582,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'CancelButton'
 
@@ -480,6 +600,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -487,34 +622,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -529,7 +669,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'CancelDialogButton'
 
@@ -542,6 +682,21 @@ A button cancels the current Dialog
 Label of the cancel button
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -549,34 +704,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -586,7 +746,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Checkbox'
 
@@ -600,11 +760,26 @@ Editor for a Boolean value. Only two states are possible - checked and unchecked
 Text placed to the right of the checkbox
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'checked'
 
 The state of the <Checkbox>
 
 - Data Type: Boolean
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -618,39 +793,44 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'onChange'
 
 Function to invoke when state is changed
 
 - Data Type: Boolean
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -667,7 +847,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'ClassDefEditable'
 
@@ -675,6 +855,21 @@ Exact width that the object should have in the UI (in pixels)
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -688,34 +883,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -732,7 +932,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'ClassDefVisual'
 
@@ -740,6 +940,21 @@ Exact width that the object should have in the UI (in pixels)
 
 - Inherits From: ClassDefObject
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -747,34 +962,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -784,7 +1004,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'DateDisplay'
 
@@ -798,6 +1018,21 @@ Display an Date on the User Interface.
 The value to display
 
 - Data Type: Date
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -805,34 +1040,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -848,7 +1088,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'DateEditor'
 
@@ -857,6 +1097,21 @@ Editor for a date.
 - Inherits From: ClassDefEditable
 - Expects Data Type: Date
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -870,34 +1125,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -914,7 +1174,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Dialog'
 
@@ -926,6 +1186,21 @@ This action opens a dialog
 
 The Content of the Dialog.
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -933,38 +1208,43 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'OpenButton'
 
 Defines the button which opens the dialog.
 
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'title'
 
 The title of the dialog
@@ -980,7 +1260,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'DisplayForm'
 
@@ -994,6 +1274,21 @@ The child components. Often, these may be <FormSection>'s.
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1001,34 +1296,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1038,7 +1338,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'DropDown'
 
@@ -1046,11 +1346,26 @@ Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: EnumSelection
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'excludeItems'
 
 Optional comma-separated list of (enum) items that should be excluded
 
 - Data Type: String
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1064,40 +1379,45 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
 
 - Data Type: DropDownOptionOrder
 - Default Value: sameAsDefined
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -1114,7 +1434,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'EnumDisplay'
 
@@ -1122,6 +1442,21 @@ Display for a choice from a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: TextualDisplay
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1129,34 +1464,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1172,7 +1512,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'EnumSelection'
 
@@ -1180,11 +1520,26 @@ Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: ClassDefEditable
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'excludeItems'
 
 Optional comma-separated list of (enum) items that should be excluded
 
 - Data Type: String
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1198,40 +1553,45 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
 
 - Data Type: DropDownOptionOrder
 - Default Value: sameAsDefined
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -1248,7 +1608,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Expander'
 
@@ -1260,6 +1620,21 @@ A component with a header section and an 'Expander' button that toggles to show 
 
 The contents of the body when expanded.
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'Header'
 
 The contents of the header.
@@ -1271,34 +1646,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1308,7 +1688,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FloatDisplay'
 
@@ -1322,6 +1702,21 @@ Display a Float on the User Interface.
 The value to display
 
 - Data Type: Float
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1329,34 +1724,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1372,7 +1772,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FloatEdit'
 
@@ -1381,6 +1781,21 @@ Editor for a Floating-point number. Proper validation is built-in.
 - Inherits From: ClassDefEditable
 - Expects Data Type: Float
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1394,34 +1809,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -1438,7 +1858,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Form'
 
@@ -1452,6 +1872,21 @@ The child components. Often, these may be <FormSection>'s.
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1459,34 +1894,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1496,7 +1936,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FormErrorDisplay'
 
@@ -1504,6 +1944,21 @@ Can only exist embedded in a *Form*. Displays all errors. Typicall, located next
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1511,34 +1966,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1548,7 +2008,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FormField'
 
@@ -1560,6 +2020,21 @@ A form field - includes a label plus validation display
 
 Embedded UI components that are 'labelled' (i.e. that live within the label)
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1578,34 +2053,39 @@ If 'mandatory', an asterisk will be added to the label. If 'optional', the word 
 - Default Value: none
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'toolTip'
 
 If present, an icon (?) will be placed after the label - the Tool Tip message will be displayed to the user when they hover over the icon
@@ -1620,7 +2100,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FormRow'
 
@@ -1633,6 +2113,21 @@ A horizontal row layout with a wide spacing, suitable for use in forms
 The contents/children of the row.
 
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1640,34 +2135,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1677,7 +2177,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'FormSection'
 
@@ -1691,6 +2191,21 @@ The child components.
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1704,34 +2219,39 @@ The label of this <FormSection>.
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1741,7 +2261,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Grid'
 
@@ -1754,6 +2274,16 @@ A layout which lays out its children on a grid of arbitrary size. Children can s
 The contents/children of the panel.
 
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'column'
 
 Attach this attribute to children of <Grid> to specify which column to show it in. Zero-based index.
@@ -1765,6 +2295,11 @@ Attach this attribute to children of <Grid> to specify which column to show it i
 Defines the Grid columns
 
 - Expects Array of Values: Yes
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1772,34 +2307,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'row'
 
 Attach this attribute to children of <Grid> to specify which row to show it in. Zero-based index.
@@ -1820,7 +2360,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'GridColumn'
 
@@ -1877,6 +2417,21 @@ A top-level heading - typically used for the main name of a page
 The text of the heading
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1884,34 +2439,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1921,7 +2481,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Heading2'
 
@@ -1934,6 +2494,21 @@ Same idea as *Heading1*, but smaller font - second-level heading on a page
 The text of the heading
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1941,34 +2516,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1978,7 +2558,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Heading3'
 
@@ -1991,6 +2571,21 @@ Same idea as *Heading2*, but even smaller font - third-level heading on a page
 The text of the heading
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -1998,34 +2593,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2035,7 +2635,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'HelpIcon'
 
@@ -2049,6 +2649,21 @@ The text of the help info.
 
 - Mandatory: Yes
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2056,34 +2671,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2093,7 +2713,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'HollowButton'
 
@@ -2111,6 +2731,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2118,34 +2753,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -2160,7 +2800,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'HorizontalDivider'
 
@@ -2168,6 +2808,21 @@ A horizontal divider line running the entire width of its container - typically,
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2175,34 +2830,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2212,7 +2872,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Icon'
 
@@ -2221,6 +2881,21 @@ Exact width that the object should have in the UI (in pixels)
 - Inherits From: ClassDefVisual
 - Expects Data Type: String
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'icon'
 
 
@@ -2233,34 +2908,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2270,7 +2950,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'IntDisplay'
 
@@ -2284,6 +2964,21 @@ Display an Integer on the User Interface.
 The value to display
 
 - Data Type: Integer
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2291,34 +2986,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2334,7 +3034,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'IntEdit'
 
@@ -2343,6 +3043,21 @@ Editor for an Integer. Proper validation is built-in.
 - Inherits From: ClassDefEditable
 - Expects Data Type: Integer
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2356,34 +3071,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -2400,7 +3120,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Label'
 
@@ -2412,6 +3132,21 @@ A label around a data entry or data display field/content. Normally, you get thi
 
 Embedded UI components that are 'labelled' (i.e. that live within the label)
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2424,34 +3159,39 @@ The text of the label. Normally rendered as bold text.
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'toolTip'
 
 If present, an icon (?) will be placed after the label - the Tool Tip message will be displayed to the user when they hover over the icon
@@ -2466,7 +3206,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'LinkButton'
 
@@ -2484,6 +3224,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2491,34 +3246,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -2533,7 +3293,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'List'
 
@@ -2553,12 +3313,27 @@ The label for the button to add items to the list
 
 - Data Type: String
 - Default Value: Add item
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'canAdd'
 
 Can user add items to the list in edit mode?
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2566,34 +3341,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2603,7 +3383,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Menu'
 
@@ -2617,6 +3397,21 @@ The child <MenuItem>'s of the <Menu>.
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2624,34 +3419,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2661,7 +3461,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'MenuItem'
 
@@ -2678,6 +3478,21 @@ If any children exist, this <MenuItem> represents a nested menu, and should not 
 
 An <Action> to execute when user clicks the <MenuItem> (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2691,34 +3506,39 @@ The label of the <MenuItem>
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 The Application Url to navigate to when user click the <MenuItem> (either url or Action must be provided)..
@@ -2733,7 +3553,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'PackingLayout'
 
@@ -2746,6 +3566,21 @@ A layout which does its best to arrange its children in a grid, flowing top-to-b
 The contents/children of the panel.
 
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2753,34 +3588,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2790,7 +3630,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Pill'
 
@@ -2803,6 +3643,21 @@ Like the *Text* component, but the text will be displayed within a colored oval 
 The text to display
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2810,34 +3665,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2853,7 +3713,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'RadioButtonGroup'
 
@@ -2861,11 +3721,26 @@ A list of radio (mutually exclusive) buttons to select one choice from list of c
 
 - Inherits From: EnumSelection
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
 ### Attribute 'excludeItems'
 
 Optional comma-separated list of (enum) items that should be excluded
 
 - Data Type: String
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2885,40 +3760,45 @@ The direction in which to order the radio buttons
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
 
 - Data Type: DropDownOptionOrder
 - Default Value: sameAsDefined
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -2935,7 +3815,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'RawHtml'
 
@@ -2943,6 +3823,21 @@ A placeholder within which you can put raw HTML which will be rendered in the UI
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -2950,34 +3845,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2987,7 +3887,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'RepellingRow'
 
@@ -3000,6 +3900,21 @@ A layout panel which arranges its children horizontally, spread as far away from
 The contents/children of the panel.
 
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3007,34 +3922,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3044,7 +3964,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Row'
 
@@ -3057,6 +3977,21 @@ A layout panel which arranges its children horizontally, touching each other.
 The contents/children of the panel.
 
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'gap'
 
 If present, specifies gap between items in pixels.
@@ -3069,34 +4004,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3106,7 +4046,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'SelectableButton'
 
@@ -3124,6 +4064,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3131,34 +4086,34 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'onDeselect'
 
 Custom function to invoke when user de-selects the button.
@@ -3169,6 +4124,11 @@ Custom function to invoke when user de-selects the button.
 Custom function to invoke when user selects the button.
 
 - Data Type: String
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'selected'
 
 Determines the state of the button. Typically, this is a formula.
@@ -3188,7 +4148,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'SpaContent'
 
@@ -3196,6 +4156,21 @@ Exact width that the object should have in the UI (in pixels)
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3203,34 +4178,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'rootComponent'
 
 The name of the component to show if there is no path in the url - just the raw domain (i.e. Home Page)
@@ -3246,7 +4226,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'State'
 
@@ -3296,6 +4276,21 @@ Automatically inserted by code generation schemes which require separate interme
 
 The content which is styled by this control
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3303,34 +4298,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3340,7 +4340,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'SubmitButton'
 
@@ -3358,6 +4358,21 @@ Label of the button
 
 An action to execute (either url or Action must be provided).
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3365,34 +4380,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -3407,7 +4427,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Tab'
 
@@ -3442,6 +4462,21 @@ Definitions of the tabs
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3449,34 +4484,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3486,7 +4526,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'Table'
 
@@ -3501,6 +4541,21 @@ Definitions of the columns
 
 - Mandatory: Yes
 - Expects Array of Values: Yes
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'Header'
 
 An optional header area connected to the table. It appears above the column headings. Typical use is for pagination controls.
@@ -3512,34 +4567,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'selected'
 
 Read/Write list of items which are currently selected
@@ -3561,7 +4621,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TableColumn'
 
@@ -3600,6 +4660,21 @@ The pagination controls for the *Table* - e.g. 'Page 2 of 7', along with buttons
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3607,34 +4682,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3644,7 +4724,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TableSelectionColumn'
 
@@ -3688,6 +4768,21 @@ Display text on the User Interface.
 The text to display
 
 - Data Type: String
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3695,34 +4790,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3738,7 +4838,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TextArea'
 
@@ -3747,6 +4847,21 @@ Multi-line editor for text. Suitable for longer descriptions.
 - Inherits From: ClassDefEditable
 - Expects Data Type: String
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3760,34 +4875,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -3804,7 +4924,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TextEdit'
 
@@ -3813,6 +4933,21 @@ One-line editor for text
 - Inherits From: ClassDefEditable
 - Expects Data Type: String
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3826,34 +4961,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -3870,7 +5010,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TextualDisplay'
 
@@ -3878,6 +5018,21 @@ Base class for all components which display text
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3885,34 +5040,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3928,7 +5088,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TimestampDisplay'
 
@@ -3942,6 +5102,21 @@ Display an Timestamp on the User Interface.
 The value to display
 
 - Data Type: Timestamp
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -3949,34 +5124,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3992,7 +5172,7 @@ You can optionally make the text bold using this attribute
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'TimestampEditor'
 
@@ -4001,6 +5181,21 @@ Editor for Date and Time (i.e. 'Timestamp')
 - Inherits From: ClassDefEditable
 - Expects Data Type: Timestamp
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -4014,34 +5209,39 @@ Id for any purpose - e.g. debugging
 - Default Value: True
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'readOnly'
 
 
@@ -4058,7 +5258,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'UploadAction'
 
@@ -4111,6 +5311,21 @@ A vertical divider line running the entire height of its container
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
@@ -4118,34 +5333,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -4155,7 +5375,7 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 
 # Class Definition - 'VerticalStackPanel'
 
@@ -4173,6 +5393,21 @@ The contents/children of the panel.
 Controls the horizontal alignment of the items in the Panel
 
 - Data Type: HorizontalAlignment
+### Attribute 'borderColor'
+
+If specified, element will have a border of this color and some small padding
+
+- Data Type: Color
+### Attribute 'borderWidth'
+
+If specified, element will have a border of this thickness and some small padding
+
+- Data Type: Float
+### Attribute 'fillColor'
+
+Specifies background color of element
+
+- Data Type: Color
 ### Attribute 'gap'
 
 If present, specifies gap between items in pixels.
@@ -4185,34 +5420,39 @@ Id for any purpose - e.g. debugging
 - Data Type: String
 ### Attribute 'margin'
 
-Margin around the component (in pixels)
+Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginBottom'
 
 Margin below the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginLeft'
 
 Margin to the left of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginRight'
 
 Margin to the right of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'marginTop'
 
 Margin on top of the component (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
+### Attribute 'padding'
+
+Padding around the component (in pixels). Padding is the distance between the element and border (if any).
+
+- Data Type: Float
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -4222,5 +5462,5 @@ Is the object visible on the UI?
 
 Exact width that the object should have in the UI (in pixels)
 
-- Data Type: Integer
+- Data Type: Float
 

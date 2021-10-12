@@ -32,6 +32,10 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeDynamic("marginRight", "marginRight"),
           new JavaScriptAttributeDynamic("marginBottom", "marginBottom"),
           new JavaScriptAttributeDynamic("marginLeft", "marginLeft"),
+          new JavaScriptAttributeDynamic("padding", "padding"),
+          new JavaScriptAttributeDynamic("borderColor", "borderColor"),
+          new JavaScriptAttributeDynamic("borderWidth", "borderWidth"),
+          new JavaScriptAttributeDynamic("fillColor", "fillColor"),
         },
       },
       #endregion

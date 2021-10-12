@@ -45,38 +45,58 @@ namespace x10.ui.metadata {
         new UiAttributeDefinitionAtomic() {
           Name = "maxWidth",
           Description = "Maximum width that the object should have in the UI (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
           TakeValueFromModelAttrName = model.libraries.BaseLibrary.MAX_WIDTH,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "width",
           Description = "Exact width that the object should have in the UI (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "margin",
-          Description = "Margin around the component (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          Description = "Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.",
+          DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "marginTop",
           Description = "Margin on top of the component (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "marginRight",
           Description = "Margin to the right of the component (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "marginBottom",
           Description = "Margin below the component (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
           Name = "marginLeft",
           Description = "Margin to the left of the component (in pixels)",
-          DataType = DataTypes.Singleton.Integer,
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "padding",
+          Description = "Padding around the component (in pixels). Padding is the distance between the element and border (if any).",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "borderColor",
+          Description = "If specified, element will have a border of this color and some small padding",
+          DataType = DataTypes.Singleton.Color,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "borderWidth",
+          Description = "If specified, element will have a border of this thickness and some small padding",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "fillColor",
+          Description = "Specifies background color of element",
+          DataType = DataTypes.Singleton.Color,
         },
       }
     };

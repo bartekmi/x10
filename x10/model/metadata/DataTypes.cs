@@ -22,6 +22,7 @@ namespace x10.model.metadata {
     public readonly DataType Boolean;
     public readonly DataType Date;
     public readonly DataType Timestamp;
+    public readonly DataType Color;
 
     public static readonly DataType ERROR = new DataType() { Name = "ERROR" };
 
@@ -81,6 +82,12 @@ namespace x10.model.metadata {
           ParseFunction = (s) => new ParseResult(Double.Parse(s)),
           Examples = "12.30, -208.12, 0",
         },
+        new DataType() {
+          Name = "Color",
+          Description = "A user-interface color, expressed by name or hex value",
+          ParseFunction = (s) => new ParseResult(ParseColor(s)),
+          Examples = "#09C, #0099CC, white, silver gray, black, red (see https://en.wikipedia.org/wiki/Web_colors)",
+        },
       };
 
 
@@ -92,6 +99,7 @@ namespace x10.model.metadata {
       Money = Find("Money");
       String = Find("String");
       Timestamp = Find("Timestamp");
+      Color = Find("Color");
 
       foreach (DataType dataType in All)
         dataType.Initialize();
@@ -108,6 +116,35 @@ namespace x10.model.metadata {
     public void AddDataTypes(IEnumerable<DataType> customDataTypes) {
       foreach (DataType dataType in customDataTypes)
         AddDataType(dataType);
+    }
+
+    private readonly string[] COLOR_NAMES = 
+      new string[] {"white", "silver", "gray", "black", "red", "maroon", "yellow", "olive", "lime", "green", "aqua", "teal", "blue", "navy", "fuchsia", "purple"};
+
+    private string ParseColor(string color) {
+      color = color.ToLower();
+
+      if (color.StartsWith("#")) {
+        string raw = color.Substring(1);
+        if (raw.Length == 3 || raw.Length == 6)
+          foreach(char c in raw)
+            ValidateHexDigit(color, c);
+        else
+          throw new Exception("Color which begins with '#' must be followed by exactly 3 or 6 characters");
+      } else {
+        if (!COLOR_NAMES.Contains(color)) 
+          throw new Exception(string.Format("{0} is not a valid color. Valid colors are: {1}", 
+            color, string.Join(", ", COLOR_NAMES)));
+      }
+
+      return color;
+    }
+
+    private void ValidateHexDigit(string color, char c) {
+      if (char.IsDigit(c) || c >= 'a' && c <= 'f')
+        return;
+
+      throw new Exception(string.Format("Hash (#) Color expression {0} must only contain hexadecimal characters: 0-9 and a-f (case insensitive)", color));
     }
   }
 }
