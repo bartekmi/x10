@@ -7,7 +7,6 @@ using x10.hotchoc.dps.Entities;
 namespace x10.hotchoc.dps.Repositories {
   public interface IRepository {
     // Queries
-    SuggestedResource GetSuggestedResource(int id);
     CompanyEntity GetCompanyEntity(int id);
     Hit GetHit(int id);
     Attachment GetAttachment(int id);
@@ -18,7 +17,6 @@ namespace x10.hotchoc.dps.Repositories {
     AddressType GetAddressType(int id);
     Message GetMessage(int id);
 
-    IQueryable<SuggestedResource> GetSuggestedResources();
     IQueryable<CompanyEntity> GetCompanyEntities();
     IQueryable<Hit> GetHits();
     IQueryable<Attachment> GetAttachments();
@@ -30,7 +28,6 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<Message> GetMessages();
 
     // Mutations
-    int AddOrUpdateSuggestedResource(int? dbid, SuggestedResource suggestedResource);
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
     int AddOrUpdateHit(int? dbid, Hit hit);
     int AddOrUpdateAttachment(int? dbid, Attachment attachment);

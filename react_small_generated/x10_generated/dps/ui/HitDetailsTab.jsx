@@ -9,6 +9,7 @@ import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
+import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import MultiStacker from 'react_lib/multi/MultiStacker';
@@ -17,7 +18,6 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultMatchInfo } from 'dps/entities/MatchInfo';
-import { createDefaultSuggestedResource } from 'dps/entities/SuggestedResource';
 import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
@@ -51,34 +51,20 @@ function HitDetailsTab(props: Props): React.Node {
           children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
         />
       </Group>
-      <Group
-        alignItems='center'
-      >
-        <DisplayForm>
-          <Text
-            scale='title'
-            weight='bold'
-            children='Company information'
-          />
+      <DisplayForm>
+        <Text
+          scale='title'
+          weight='bold'
+          children='Company information'
+        />
+        <Group
+          alignItems='center'
+        >
           <DisplayField
             label='Name'
           >
             <TextDisplay
               value={ hit?.companyEntity?.name }
-            />
-          </DisplayField>
-          <DisplayField
-            label='Primary Contact'
-          >
-            <TextDisplay
-              value={ hit?.companyEntity?.primaryContact }
-            />
-          </DisplayField>
-          <DisplayField
-            label='Main Number'
-          >
-            <TextDisplay
-              value={ hit?.companyEntity?.mainNumber }
             />
           </DisplayField>
           <DisplayField
@@ -88,10 +74,20 @@ function HitDetailsTab(props: Props): React.Node {
               value={ hit?.companyEntity?.physicalAddress?.address }
             />
           </DisplayField>
-        </DisplayForm>
-        <Separator
-          orientation='vertical'
-        />
+        </Group>
+      </DisplayForm>
+      <Separator
+        orientation='vertical'
+      />
+      <Expander
+        headerFunc={ () => (
+          <Text
+            scale='title'
+            weight='bold'
+            children='Match information'
+          />
+        ) }
+      >
         <MultiStacker
           items={ hit?.matches }
           itemDisplayFunc={ (data, onChange) => (
@@ -151,39 +147,19 @@ function HitDetailsTab(props: Props): React.Node {
           ) }
           addNewItem={ createDefaultMatchInfo }
         />
-      </Group>
+      </Expander>
       <Separator/>
-      <Text
-        scale='headline'
-        weight='bold'
-        children='Suggested resources'
-      />
-      <MultiStacker
-        items={ hit?.resources }
-        itemDisplayFunc={ (data, onChange) => (
-          <Group
-            flexDirection='column'
-          >
-            <TextDisplay
-              value={ data?.title }
-            />
-            <TextDisplay
-              value={ data?.text }
-            />
-            <TextDisplay
-              value='HELPFUL? (TBD)'
-            />
-          </Group>
+      <Expander
+        headerFunc={ () => (
+          <Text
+            scale='title'
+            weight='bold'
+            children='Clearance'
+          />
         ) }
-        addNewItem={ createDefaultSuggestedResource }
-      />
-      <Separator/>
-      <Text
-        scale='headline'
-        weight='bold'
-        children='Clearance'
-      />
-      <ClearanceForm hit={ hit }/>
+      >
+        <ClearanceForm hit={ hit }/>
+      </Expander>
     </Group>
   );
 }
@@ -196,13 +172,11 @@ export default createFragmentContainer(HitDetailsTab, {
       companyEntity {
         id
         toStringRepresentation
-        mainNumber
         name
         physicalAddress {
           id
           address
         }
-        primaryContact
       }
       matches {
         id
@@ -212,11 +186,6 @@ export default createFragmentContainer(HitDetailsTab, {
         name
         reasonListed
         recordSource
-      }
-      resources {
-        id
-        text
-        title
       }
     }
   `,

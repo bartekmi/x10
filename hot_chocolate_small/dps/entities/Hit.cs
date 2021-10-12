@@ -44,8 +44,6 @@ namespace x10.hotchoc.dps.Entities {
     [GraphQLNonNullType]
     public List<MatchInfo>? Matches { get; set; }
     [GraphQLNonNullType]
-    public List<SuggestedResource>? Resources { get; set; }
-    [GraphQLNonNullType]
     public List<Shipment>? Shipments { get; set; }
     [GraphQLNonNullType]
     public List<Message>? Messages { get; set; }
@@ -56,7 +54,6 @@ namespace x10.hotchoc.dps.Entities {
       base.EnsureUniqueDbid();
       Attachments?.ForEach(x => x.EnsureUniqueDbid());
       Matches?.ForEach(x => x.EnsureUniqueDbid());
-      Resources?.ForEach(x => x.EnsureUniqueDbid());
       Shipments?.ForEach(x => x.EnsureUniqueDbid());
       Messages?.ForEach(x => x.EnsureUniqueDbid());
       OldHits?.ForEach(x => x.EnsureUniqueDbid());
@@ -78,10 +75,6 @@ namespace x10.hotchoc.dps.Entities {
       if (Matches != null)
         foreach (MatchInfo matches in Matches)
           matches.SetNonOwnedAssociations(repository);
-
-      if (Resources != null)
-        foreach (SuggestedResource resources in Resources)
-          resources.SetNonOwnedAssociations(repository);
 
       if (Shipments != null)
         foreach (Shipment shipments in Shipments)

@@ -5,45 +5,48 @@
       <Icon icon="attention"/>
       <Heading3 text="='Please review ' + matches.count + ' matches'"/>
     </Row>
-    <Row>
-      <DisplayForm>
-        <Heading3 text="Company information"/>
+
+    <DisplayForm>
+      <Heading3 text="Company information"/>
+      <Row>
         <companyEntity.name/>
-        <companyEntity.primaryContact/>
-        <companyEntity.mainNumber/>
         <companyEntity.physicalAddress.address/>
-      </DisplayForm>
-      <VerticalDivider/>
-      <List path="matches">
-        <DisplayForm>
-          <Heading3 text="Match details"/>
-          <Row>
-            <name/>
-            <address/>
-            <matchType/>
-          </Row>
-          <reasonListed/>
-          <comments/>
-          <recordSource/>
-        </DisplayForm>
-      </List>
-    </Row>
+      </Row>
+    </DisplayForm>
+
+    <VerticalDivider/>
+
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Match information"/>
+      </Expander.Header>
+      <Expander.Body>
+        <List path="matches">
+          <DisplayForm>
+            <Heading3 text="Match details"/>
+            <Row>
+              <name/>
+              <address/>
+              <matchType/>
+            </Row>
+            <reasonListed/>
+            <comments/>
+            <recordSource/>
+          </DisplayForm>
+        </List>
+      </Expander.Body>
+    </Expander>
 
     <HorizontalDivider/>
 
-    <Heading2 text="Suggested resources"/>
-    <List path="resources">
-      <VerticalStackPanel>
-        <title/>
-        <text/>
-        <text>HELPFUL? (TBD)</text>
-      </VerticalStackPanel>
-    </List>
-
-    <HorizontalDivider/>
-
-    <Heading2 text="Clearance"/>
-    <ClearanceForm/>
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Clearance"/>
+      </Expander.Header>
+      <Expander.Body>
+        <ClearanceForm/>
+      </Expander.Body>
+    </Expander>
 
   </VerticalStackPanel>
 </HitDetailsTab>

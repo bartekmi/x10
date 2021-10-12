@@ -6,7 +6,6 @@ using x10.hotchoc.dps.Entities;
 
 namespace x10.hotchoc.dps.Repositories {
   public class Repository : RepositoryBase, IRepository {
-    private Dictionary<int, SuggestedResource> _suggestedResources = new Dictionary<int, SuggestedResource>();
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
     private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
@@ -21,7 +20,6 @@ namespace x10.hotchoc.dps.Repositories {
       return new Type[] {
         typeof(Queries),
         typeof(Mutations),
-        typeof(SuggestedResource),
         typeof(CompanyEntity),
         typeof(Hit),
         typeof(Attachment),
@@ -37,7 +35,6 @@ namespace x10.hotchoc.dps.Repositories {
     public override void Add(PrimordialEntityBase instance) {
       int id = instance.Dbid;
 
-      if (instance is SuggestedResource suggestedResource) _suggestedResources[id] = suggestedResource;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
       if (instance is Hit hit) _hits[id] = hit;
       if (instance is Attachment attachment) _attachments[id] = attachment;
@@ -48,14 +45,6 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is AddressType addressType) _addressTypes[id] = addressType;
       if (instance is Message message) _messages[id] = message;
     }
-
-    #region SuggestedResources
-    public IQueryable<SuggestedResource> GetSuggestedResources() => _suggestedResources.Values.AsQueryable();
-    public SuggestedResource GetSuggestedResource(int id) { return _suggestedResources[id]; }
-    public int AddOrUpdateSuggestedResource(int? dbid, SuggestedResource suggestedResource) {
-      return RepositoryUtils.AddOrUpdate(dbid, suggestedResource, _suggestedResources);
-    }
-    #endregion
 
     #region CompanyEntities
     public IQueryable<CompanyEntity> GetCompanyEntities() => _companyEntities.Values.AsQueryable();

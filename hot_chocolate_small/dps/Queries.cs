@@ -11,30 +11,6 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Query")]
   public partial class Queries {
 
-    #region SuggestedResource
-    /// <summary>
-    /// Retrieve a SuggestedResource by id
-    /// </summary>
-    /// <param name="id">The id of the SuggestedResource.</param>
-    /// <param name="repository"></param>
-    /// <returns>The SuggestedResource.</returns>
-    public SuggestedResource GetSuggestedResource(
-        string id,
-        [Service] IRepository repository) =>
-          repository.GetSuggestedResource(IdUtils.FromRelayIdMandatory(id));
-
-    /// <summary>
-    /// Gets all SuggestedResources.
-    /// </summary>
-    /// <param name="repository"></param>
-    /// <returns>All SuggestedResources.</returns>
-    [UseFiltering]
-    [UseSorting]
-    public IEnumerable<SuggestedResource> GetSuggestedResources(
-        [Service] IRepository repository) =>
-          repository.GetSuggestedResources();
-    #endregion
-
     #region CompanyEntity
     /// <summary>
     /// Retrieve a CompanyEntity by id

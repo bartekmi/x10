@@ -11,6 +11,7 @@ import Text from 'latitude/Text';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
+import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
@@ -39,148 +40,163 @@ function SlideoutPanel(props: Props): React.Node {
     <Group
       flexDirection='column'
     >
-      <DisplayForm>
-        <Text
-          scale='headline'
-          weight='bold'
-          children='Overview'
-        />
-        <DisplayField
-          label='Primary Contact'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.primaryContact }
+      <Expander
+        headerFunc={ () => (
+          <Text
+            scale='title'
+            weight='bold'
+            children='Overview'
           />
-        </DisplayField>
-        <DisplayField
-          label='Primary Contact Email'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.primaryContactEmail }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Main Number'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.mainNumber }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Segment'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.segment }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Website'
-        >
-          <Button
-            label={ hit?.companyEntity?.website }
-            url={ hit?.companyEntity?.website }
-          />
-        </DisplayField>
-        <DisplayField
-          label='Address'
-        >
-          <TextDisplay
-            value={ hit?.companyEntity?.physicalAddress?.address }
-          />
-        </DisplayField>
-      </DisplayForm>
+        ) }
+      >
+        <DisplayForm>
+          <DisplayField
+            label='Primary Contact'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.primaryContact }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Primary Contact Email'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.primaryContactEmail }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Main Number'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.mainNumber }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Segment'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.segment }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Website'
+          >
+            <Button
+              label={ hit?.companyEntity?.website }
+              url={ hit?.companyEntity?.website }
+            />
+          </DisplayField>
+          <DisplayField
+            label='Address'
+          >
+            <TextDisplay
+              value={ hit?.companyEntity?.physicalAddress?.address }
+            />
+          </DisplayField>
+        </DisplayForm>
+      </Expander>
       <Separator/>
-      <Text
-        scale='headline'
-        weight='bold'
-        children='Compliance status'
-      />
-      <Group
-        justifyContent='space-between'
+      <Expander
+        headerFunc={ () => (
+          <Text
+            scale='title'
+            weight='bold'
+            children='Compliance status'
+          />
+        ) }
       >
         <Group
-          alignItems='center'
+          justifyContent='space-between'
         >
-          <Icon
-            iconName='attention'
-          />
+          <Group
+            alignItems='center'
+          >
+            <Icon
+              iconName='attention'
+            />
+            <TextDisplay
+              weight='bold'
+              value='Denied party screening'
+            />
+          </Group>
           <TextDisplay
-            weight='bold'
-            value='Denied party screening'
+            value='Detected as a hit, waiting for review'
           />
         </Group>
-        <TextDisplay
-          value='Detected as a hit, waiting for review'
-        />
-      </Group>
+      </Expander>
       <Separator/>
-      <Text
-        scale='headline'
-        weight='bold'
-        children='Denied party screening records'
-      />
-      <MultiStacker
-        items={ hit?.oldHits }
-        itemDisplayFunc={ (data, onChange) => (
-          <DisplayForm>
-            <DisplayField
-              label='Screened as a hit'
-            >
-              <TimestampDisplay
-                value={ data?.createdAt }
-              />
-            </DisplayField>
-            <DisplayField
-              label={ data?.status == "denied" ? 'Denied time' : 'Clearance time' }
-            >
-              <TimestampDisplay
-                value={ data?.resolutionTimestamp }
-              />
-            </DisplayField>
-            <DisplayField
-              label={ data?.status == "denied" ? 'Denied by' : 'Cleared by' }
-            >
-              <TextDisplay
-                value={ userName(data?.resolvedBy) }
-              />
-            </DisplayField>
-            <StyleControl
-              visible={ data?.status != "denied" }
-            >
+      <Expander
+        headerFunc={ () => (
+          <Text
+            scale='title'
+            weight='bold'
+            children='Denied party screening records'
+          />
+        ) }
+      >
+        <MultiStacker
+          items={ hit?.oldHits }
+          itemDisplayFunc={ (data, onChange) => (
+            <DisplayForm>
               <DisplayField
-                label='Reason for clearance'
+                label='Screened as a hit'
               >
-                <EnumDisplay
-                  value={ data?.reasonForClearance }
-                  options={ ReasonForCleranceEnumPairs }
+                <TimestampDisplay
+                  value={ data?.createdAt }
                 />
               </DisplayField>
-            </StyleControl>
-            <DisplayField
-              label='Notes'
-            >
-              <TextDisplay
-                value={ data?.notes }
-              />
-            </DisplayField>
-            <StyleControl
-              visible={ toNum(data?.attachments.length) > toNum(0) }
-            >
-              <MultiStacker
-                items={ data?.attachments }
-                itemDisplayFunc={ (data, onChange) => (
-                  <Button
-                    label={ data?.filename }
-                    url={ data?.url }
+              <DisplayField
+                label={ data?.status == "denied" ? 'Denied time' : 'Clearance time' }
+              >
+                <TimestampDisplay
+                  value={ data?.resolutionTimestamp }
+                />
+              </DisplayField>
+              <DisplayField
+                label={ data?.status == "denied" ? 'Denied by' : 'Cleared by' }
+              >
+                <TextDisplay
+                  value={ userName(data?.resolvedBy) }
+                />
+              </DisplayField>
+              <StyleControl
+                visible={ data?.status != "denied" }
+              >
+                <DisplayField
+                  label='Reason for clearance'
+                >
+                  <EnumDisplay
+                    value={ data?.reasonForClearance }
+                    options={ ReasonForCleranceEnumPairs }
                   />
-                ) }
-                addNewItem={ createDefaultAttachment }
-              />
-            </StyleControl>
-          </DisplayForm>
-        ) }
-        addNewItem={ createDefaultOldHit }
-      />
+                </DisplayField>
+              </StyleControl>
+              <DisplayField
+                label='Notes'
+              >
+                <TextDisplay
+                  value={ data?.notes }
+                />
+              </DisplayField>
+              <StyleControl
+                visible={ toNum(data?.attachments.length) > toNum(0) }
+              >
+                <MultiStacker
+                  items={ data?.attachments }
+                  itemDisplayFunc={ (data, onChange) => (
+                    <Button
+                      label={ data?.filename }
+                      url={ data?.url }
+                    />
+                  ) }
+                  addNewItem={ createDefaultAttachment }
+                />
+              </StyleControl>
+            </DisplayForm>
+          ) }
+          addNewItem={ createDefaultOldHit }
+        />
+      </Expander>
     </Group>
   );
 }

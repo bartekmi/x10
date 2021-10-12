@@ -12,19 +12,6 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Mutation")]
   public partial class Mutations {
 
-    #region SuggestedResource
-    /// <summary>
-    /// Creates a new SuggestedResource or updates an existing one, depending on the value of suggestedResource.id
-    /// </summary>
-    public string CreateOrUpdateSuggestedResource(
-      SuggestedResource suggestedResource,
-      [Service] IRepository repository) {
-        suggestedResource.SetNonOwnedAssociations(repository);
-        int dbid = repository.AddOrUpdateSuggestedResource(IdUtils.FromRelayId(suggestedResource.Id), suggestedResource);
-        return IdUtils.ToRelayId<SuggestedResource>(dbid);
-    }
-    #endregion
-
     #region CompanyEntity
     /// <summary>
     /// Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id

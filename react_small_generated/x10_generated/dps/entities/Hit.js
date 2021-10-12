@@ -13,7 +13,6 @@ import { type MatchInfo } from 'dps/entities/MatchInfo';
 import { type Message } from 'dps/entities/Message';
 import { type OldHit } from 'dps/entities/OldHit';
 import { type Shipment } from 'dps/entities/Shipment';
-import { type SuggestedResource } from 'dps/entities/SuggestedResource';
 import { type User } from 'dps/entities/User';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
@@ -30,7 +29,6 @@ export type Hit = {
   +user: ?User,
   +attachments: $ReadOnlyArray<Attachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
-  +resources: $ReadOnlyArray<SuggestedResource>,
   +shipments: $ReadOnlyArray<Shipment>,
   +messages: $ReadOnlyArray<Message>,
   +oldHits: $ReadOnlyArray<OldHit>,
@@ -72,7 +70,6 @@ export function createDefaultHit(): Hit {
     user: null,
     attachments: [],
     matches: [],
-    resources: [],
     shipments: [],
     messages: [],
     oldHits: [],
