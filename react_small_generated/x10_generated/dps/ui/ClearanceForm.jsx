@@ -116,15 +116,19 @@ function ClearanceForm(props: Props): React.Node {
           />
         </FormField>
       </StyleControl>
-      <FormSubmitButton
-        onClick={ () => save(hit) }
-        action={
-          {
-            successUrl: '/tenants',
+      <StyleControl
+        marginTop={ 30 }
+      >
+        <FormSubmitButton
+          onClick={ () => save(hit) }
+          action={
+            {
+              successUrl: '/tenants',
+            }
           }
-        }
-        label={ hit?.status != "denied" ? 'Clear the hit' : 'Confirm' }
-      />
+          label={ hit?.status != "denied" ? 'Clear the hit' : 'Confirm' }
+        />
+      </StyleControl>
     </FormProvider>
   );
 }

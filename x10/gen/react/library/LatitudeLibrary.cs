@@ -27,6 +27,11 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeDynamic(ClassDefNative.ATTR_VISIBLE, "visible"),
           new JavaScriptAttributeDynamic("width", "width"),
           new JavaScriptAttributeDynamic("maxWidth", "maxWidth"),
+          new JavaScriptAttributeDynamic("margin", "margin"),
+          new JavaScriptAttributeDynamic("marginTop", "marginTop"),
+          new JavaScriptAttributeDynamic("marginRight", "marginRight"),
+          new JavaScriptAttributeDynamic("marginBottom", "marginBottom"),
+          new JavaScriptAttributeDynamic("marginLeft", "marginLeft"),
         },
       },
       #endregion

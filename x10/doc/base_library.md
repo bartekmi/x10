@@ -75,18 +75,41 @@ The value to display - at present, this is assumed to be returned by the back-en
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -98,7 +121,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'AssociationEditor'
 
@@ -122,12 +144,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the data is returned from the back-end.
@@ -146,13 +192,11 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'BooleanBanner'
 
@@ -176,18 +220,41 @@ Id for any purpose - e.g. debugging
 
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -199,7 +266,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'BooleanViaButtons'
 
@@ -219,12 +285,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -249,13 +339,11 @@ The text to display on the button for the 'True' value
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Bullet'
 
@@ -268,24 +356,46 @@ A black dot - a 'bullet' - used to break up text
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Button'
 
@@ -308,12 +418,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -324,13 +458,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'CancelButton'
 
@@ -353,12 +485,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -369,13 +525,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'CancelDialogButton'
 
@@ -393,24 +547,46 @@ Label of the cancel button
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Checkbox'
 
@@ -440,12 +616,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'onChange'
 
 Function to invoke when state is changed
@@ -463,13 +663,11 @@ Function to invoke when state is changed
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'ClassDefEditable'
 
@@ -488,12 +686,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -506,13 +728,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'ClassDefVisual'
 
@@ -525,24 +745,46 @@ Exact width that the object should have in the UI (in pixels)
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'DateDisplay'
 
@@ -561,18 +803,41 @@ The value to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -584,7 +849,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'DateEditor'
 
@@ -604,12 +868,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -622,13 +910,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Dialog'
 
@@ -645,12 +931,36 @@ The Content of the Dialog.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'OpenButton'
 
 Defines the button which opens the dialog.
@@ -666,13 +976,11 @@ The title of the dialog
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'DisplayForm'
 
@@ -691,24 +999,46 @@ The child components. Often, these may be <FormSection>'s.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'DropDown'
 
@@ -732,12 +1062,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
@@ -756,13 +1110,11 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'EnumDisplay'
 
@@ -775,18 +1127,41 @@ Display for a choice from a fixed list of choices - a.k.a. 'Enumeration'
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -798,7 +1173,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'EnumSelection'
 
@@ -822,12 +1196,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
@@ -846,13 +1244,11 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Expander'
 
@@ -873,24 +1269,46 @@ The contents of the header.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FloatDisplay'
 
@@ -909,18 +1327,41 @@ The value to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -932,7 +1373,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FloatEdit'
 
@@ -952,12 +1392,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -970,13 +1434,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Form'
 
@@ -995,24 +1457,46 @@ The child components. Often, these may be <FormSection>'s.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FormErrorDisplay'
 
@@ -1025,24 +1509,46 @@ Can only exist embedded in a *Form*. Displays all errors. Typicall, located next
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FormField'
 
@@ -1070,12 +1576,36 @@ If 'mandatory', an asterisk will be added to the label. If 'optional', the word 
 
 - Data Type: FormFieldMandatoryIndicator
 - Default Value: none
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'toolTip'
 
 If present, an icon (?) will be placed after the label - the Tool Tip message will be displayed to the user when they hover over the icon
@@ -1086,13 +1616,11 @@ If present, an icon (?) will be placed after the label - the Tool Tip message wi
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FormRow'
 
@@ -1110,24 +1638,46 @@ The contents/children of the row.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'FormSection'
 
@@ -1152,24 +1702,46 @@ The label of this <FormSection>.
 
 - Mandatory: Yes
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Grid'
 
@@ -1198,12 +1770,36 @@ Defines the Grid columns
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'row'
 
 Attach this attribute to children of <Grid> to specify which row to show it in. Zero-based index.
@@ -1220,13 +1816,11 @@ Defines the Grid rows
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'GridColumn'
 
@@ -1288,24 +1882,46 @@ The text of the heading
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Heading2'
 
@@ -1323,24 +1939,46 @@ The text of the heading
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Heading3'
 
@@ -1358,24 +1996,46 @@ The text of the heading
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'HelpIcon'
 
@@ -1394,24 +2054,46 @@ The text of the help info.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'HollowButton'
 
@@ -1434,12 +2116,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -1450,13 +2156,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'HorizontalDivider'
 
@@ -1469,24 +2173,46 @@ A horizontal divider line running the entire width of its container - typically,
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Icon'
 
@@ -1505,24 +2231,46 @@ Exact width that the object should have in the UI (in pixels)
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'IntDisplay'
 
@@ -1541,18 +2289,41 @@ The value to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -1564,7 +2335,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'IntEdit'
 
@@ -1584,12 +2354,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -1602,13 +2396,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Label'
 
@@ -1630,12 +2422,36 @@ Id for any purpose - e.g. debugging
 The text of the label. Normally rendered as bold text.
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'toolTip'
 
 If present, an icon (?) will be placed after the label - the Tool Tip message will be displayed to the user when they hover over the icon
@@ -1646,13 +2462,11 @@ If present, an icon (?) will be placed after the label - the Tool Tip message wi
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'LinkButton'
 
@@ -1675,12 +2489,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -1691,13 +2529,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'List'
 
@@ -1728,24 +2564,46 @@ Can user add items to the list in edit mode?
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Menu'
 
@@ -1764,24 +2622,46 @@ The child <MenuItem>'s of the <Menu>.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'MenuItem'
 
@@ -1809,12 +2689,36 @@ The label of the <MenuItem>
 
 - Mandatory: Yes
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 The Application Url to navigate to when user click the <MenuItem> (either url or Action must be provided)..
@@ -1825,13 +2729,11 @@ The Application Url to navigate to when user click the <MenuItem> (either url or
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'PackingLayout'
 
@@ -1849,24 +2751,46 @@ The contents/children of the panel.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Pill'
 
@@ -1884,18 +2808,41 @@ The text to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -1907,7 +2854,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'RadioButtonGroup'
 
@@ -1937,12 +2883,36 @@ The direction in which to order the radio buttons
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'order'
 
 Determines in what order to show the options. 'sameAsDefined' means the same order in which the Enumerated type was defined in yaml.
@@ -1961,13 +2931,11 @@ Determines in what order to show the options. 'sameAsDefined' means the same ord
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'RawHtml'
 
@@ -1980,24 +2948,46 @@ A placeholder within which you can put raw HTML which will be rendered in the UI
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'RepellingRow'
 
@@ -2015,24 +3005,46 @@ The contents/children of the panel.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Row'
 
@@ -2055,24 +3067,46 @@ If present, specifies gap between items in pixels.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'SelectableButton'
 
@@ -2095,12 +3129,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'onDeselect'
 
 Custom function to invoke when user de-selects the button.
@@ -2126,13 +3184,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'SpaContent'
 
@@ -2145,12 +3201,36 @@ Exact width that the object should have in the UI (in pixels)
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'rootComponent'
 
 The name of the component to show if there is no path in the url - just the raw domain (i.e. Home Page)
@@ -2162,13 +3242,11 @@ The name of the component to show if there is no path in the url - just the raw 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'State'
 
@@ -2223,24 +3301,46 @@ The content which is styled by this control
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'SubmitButton'
 
@@ -2263,12 +3363,36 @@ An action to execute (either url or Action must be provided).
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -2279,13 +3403,11 @@ Application Url to jump to (either url or Action must be provided).
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Tab'
 
@@ -2325,24 +3447,46 @@ Definitions of the tabs
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'Table'
 
@@ -2366,12 +3510,36 @@ An optional header area connected to the table. It appears above the column head
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'selected'
 
 Read/Write list of items which are currently selected
@@ -2389,13 +3557,11 @@ The way in which table selection is shown
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TableColumn'
 
@@ -2439,24 +3605,46 @@ The pagination controls for the *Table* - e.g. 'Page 2 of 7', along with buttons
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TableSelectionColumn'
 
@@ -2505,18 +3693,41 @@ The text to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -2528,7 +3739,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TextArea'
 
@@ -2548,12 +3758,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -2566,13 +3800,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TextEdit'
 
@@ -2592,12 +3824,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -2610,13 +3866,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TextualDisplay'
 
@@ -2629,18 +3883,41 @@ Base class for all components which display text
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -2652,7 +3929,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TimestampDisplay'
 
@@ -2671,18 +3947,41 @@ The value to display
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'weight'
 
 You can optionally make the text bold using this attribute
@@ -2694,7 +3993,6 @@ You can optionally make the text bold using this attribute
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'TimestampEditor'
 
@@ -2714,12 +4012,36 @@ Id for any purpose - e.g. debugging
 
 - Data Type: Boolean
 - Default Value: True
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'readOnly'
 
 
@@ -2732,13 +4054,11 @@ Maximum width that the object should have in the UI (in pixels)
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'UploadAction'
 
@@ -2796,24 +4116,46 @@ A vertical divider line running the entire height of its container
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
 # Class Definition - 'VerticalStackPanel'
 
@@ -2841,22 +4183,44 @@ If present, specifies gap between items in pixels.
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'margin'
+
+Margin around the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginBottom'
+
+Margin below the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginLeft'
+
+Margin to the left of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginRight'
+
+Margin to the right of the component (in pixels)
+
+- Data Type: Integer
+### Attribute 'marginTop'
+
+Margin on top of the component (in pixels)
+
+- Data Type: Integer
 ### Attribute 'maxWidth'
 
 Maximum width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 ### Attribute 'visible'
 
 Is the object visible on the UI?
 
 - Data Type: Boolean
-- Default Value: False
 ### Attribute 'width'
 
 Exact width that the object should have in the UI (in pixels)
 
 - Data Type: Integer
-- Default Value: False
 
