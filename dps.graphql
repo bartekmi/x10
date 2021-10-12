@@ -47,7 +47,6 @@ type Hit {
   user: User
   attachments: [Attachment!]!
   matches: [MatchInfo!]!
-  resources: [SuggestedResource!]!
   shipments: [Shipment!]!
   messages: [Message!]!
   oldHits: [OldHit!]!
@@ -84,8 +83,6 @@ type Message {
 }
 
 type Mutation {
-  "Creates a new SuggestedResource or updates an existing one, depending on the value of suggestedResource.id"
-  createOrUpdateSuggestedResource(suggestedResource: SuggestedResourceInput!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
   createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
   "Creates a new Hit or updates an existing one, depending on the value of hit.id"
@@ -122,10 +119,6 @@ type OldHit {
 }
 
 type Query {
-  "Retrieve a SuggestedResource by id\n\n\n**Returns:**\nThe SuggestedResource."
-  suggestedResource("The id of the SuggestedResource." id: String!): SuggestedResource!
-  "Gets all SuggestedResources.\n\n\n**Returns:**\nAll SuggestedResources."
-  suggestedResources(where: SuggestedResourceFilter order_by: SuggestedResourceSort): [SuggestedResource!]!
   "Retrieve a CompanyEntity by id\n\n\n**Returns:**\nThe CompanyEntity."
   companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
   "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
@@ -183,17 +176,6 @@ type Shipment {
   toStringRepresentation: String!
   consignee: CompanyEntity
   shipper: CompanyEntity
-  id: String!
-  hashcode: Int!
-}
-
-"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
-type SuggestedResource {
-  type: SuggestedResourceTypeEnum
-  title: String!
-  text: String!
-  helpful: HelpfulStateEnum
-  toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
@@ -573,10 +555,6 @@ input HitFilter {
   matches_none: MatchInfoFilter
   matches_all: MatchInfoFilter
   matches_any: Boolean
-  resources_some: SuggestedResourceFilter
-  resources_none: SuggestedResourceFilter
-  resources_all: SuggestedResourceFilter
-  resources_any: Boolean
   shipments_some: ShipmentFilter
   shipments_none: ShipmentFilter
   shipments_all: ShipmentFilter
@@ -625,7 +603,6 @@ input HitInput {
   user: UserInput
   attachments: [AttachmentInput!]!
   matches: [MatchInfoInput!]!
-  resources: [SuggestedResourceInput!]!
   shipments: [ShipmentInput!]!
   messages: [MessageInput!]!
   oldHits: [OldHitInput!]!
@@ -1275,110 +1252,6 @@ input ShipmentSort {
   hashcode: SortOperationKind
 }
 
-"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
-input SuggestedResourceFilter {
-  AND: [SuggestedResourceFilter!]
-  OR: [SuggestedResourceFilter!]
-  type: SuggestedResourceTypeEnum
-  type_not: SuggestedResourceTypeEnum
-  type_in: [SuggestedResourceTypeEnum]
-  type_not_in: [SuggestedResourceTypeEnum]
-  type_gt: SuggestedResourceTypeEnum
-  type_not_gt: SuggestedResourceTypeEnum
-  type_gte: SuggestedResourceTypeEnum
-  type_not_gte: SuggestedResourceTypeEnum
-  type_lt: SuggestedResourceTypeEnum
-  type_not_lt: SuggestedResourceTypeEnum
-  type_lte: SuggestedResourceTypeEnum
-  type_not_lte: SuggestedResourceTypeEnum
-  title: String
-  title_not: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  title_in: [String!]
-  title_not_in: [String!]
-  text: String
-  text_not: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  text_in: [String!]
-  text_not_in: [String!]
-  helpful: HelpfulStateEnum
-  helpful_not: HelpfulStateEnum
-  helpful_in: [HelpfulStateEnum]
-  helpful_not_in: [HelpfulStateEnum]
-  helpful_gt: HelpfulStateEnum
-  helpful_not_gt: HelpfulStateEnum
-  helpful_gte: HelpfulStateEnum
-  helpful_not_gte: HelpfulStateEnum
-  helpful_lt: HelpfulStateEnum
-  helpful_not_lt: HelpfulStateEnum
-  helpful_lte: HelpfulStateEnum
-  helpful_not_lte: HelpfulStateEnum
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
-  id: String
-  id_not: String
-  id_contains: String
-  id_not_contains: String
-  id_starts_with: String
-  id_not_starts_with: String
-  id_ends_with: String
-  id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
-}
-
-"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
-input SuggestedResourceInput {
-  type: SuggestedResourceTypeEnum
-  title: String!
-  text: String!
-  helpful: HelpfulStateEnum
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
-"Canned search results from sources like Google and LinkedIn which may be helpful in making a clear\/don't-clear decision"
-input SuggestedResourceSort {
-  type: SortOperationKind
-  title: SortOperationKind
-  text: SortOperationKind
-  helpful: SortOperationKind
-  toStringRepresentation: SortOperationKind
-  id: SortOperationKind
-  hashcode: SortOperationKind
-}
-
 "A portion of Core User entity"
 input UserFilter {
   AND: [UserFilter!]
@@ -1491,12 +1364,6 @@ input UserSort {
   hashcode: SortOperationKind
 }
 
-enum HelpfulStateEnum {
-  UNSPECIFIED
-  HELPFUL
-  UNHELPFUL
-}
-
 enum HitStatusEnum {
   UNRESOLVED
   CLEARED
@@ -1519,11 +1386,6 @@ enum ReasonForCleranceEnum {
 enum SortOperationKind {
   ASC
   DESC
-}
-
-enum SuggestedResourceTypeEnum {
-  GOOGLE
-  LINKED_IN
 }
 
 enum TransportationModeEnum {
