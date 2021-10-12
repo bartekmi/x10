@@ -1,5 +1,5 @@
 <SlideoutPanel model="Hit" url="/hits/panel" query="GetHit(hitId: $hitId">
-  <VerticalStackPanel>
+  <VerticalStackPanel width="700">
     <Expander>
       <Expander.Header>
         <Heading3 text="Overview"/>

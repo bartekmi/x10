@@ -15,20 +15,30 @@ namespace x10.ui {
     //
     // Before: parentInst->parentCplxAttr-> childInst
     // After:  parentInst->parentCplxAttr-> intermedInst->intermedCplxAttr-> childInst
+    //
+    // Note that there is a special case when intermedInst is the Root Child of a top-level ClassDef
     public static InstanceClassDefUse InsertIntermediateParent(Instance childInst, ClassDef intermidateClassDef) {
-      UiAttributeValueComplex parentCplxAttr = childInst.Owner;
-
       UiAttributeDefinitionComplex wrapperPrimaryAttr = intermidateClassDef.PrimaryAttributeDef as UiAttributeDefinitionComplex;
       if (wrapperPrimaryAttr == null)
         throw new Exception(string.Format("ClassDef '{0}' does not have a complex primary attribute", intermidateClassDef.Name));
 
       // Create the new intermediate instance and its main content 
-      InstanceClassDefUse intermedInst = new InstanceClassDefUse(intermidateClassDef, childInst.XmlElement, parentCplxAttr);
+      InstanceClassDefUse intermedInst = new InstanceClassDefUse(intermidateClassDef, childInst.XmlElement, childInst.Owner);
       intermedInst.Id = childInst.Id;
       UiAttributeValueComplex intermedCplxAttr = wrapperPrimaryAttr.CreateValueAndAddToOwnerComplex(intermedInst, childInst.XmlElement);
       
       // Hook-up parent/child relationships 
-      parentCplxAttr.ReplaceInstance(childInst, intermedInst);
+      if (childInst.Owner == null) {
+        // Special case: childInst is the "Root Child" of the top-most ClassDef
+        ClassDefX10 topClassDef = (ClassDefX10)childInst.OwnerClassDef;
+        if (topClassDef == null)
+          throw new Exception("Neither Owner nor OwnerClassDef is set!");
+        topClassDef.RootChild = intermedInst;
+        childInst.Owner = intermedCplxAttr;
+        intermedInst.OwnerClassDef = topClassDef;
+      } else
+        childInst.Owner.ReplaceInstance(childInst, intermedInst);
+
       intermedCplxAttr.AddInstance(childInst);
 
       return intermedInst;
