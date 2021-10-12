@@ -11,25 +11,24 @@ import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 type Props = {|
     +headerFunc: () => React.Node,
     +children: React.Node, // The body when expanded
+    +defaultState?: "open" | "closed"
 |};
 export default function Expander(props: Props): React.Node {
-  const {headerFunc, children} = props;
-  const [expanded, setExpanded] = React.useState(false);
+  const {headerFunc, children, defaultState = "open"} = props;
+  const [expanded, setExpanded] = React.useState(defaultState == "open");
 
   return (
-    <div className={css(styles.border)}>
-      <Group flexDirection="column">
-        <div style={{display: "flex"}}>
-          <IconButton 
-            kind="bare" 
-            iconName={expanded ? "downOpen" : "rightOpen"} 
-            type="button" 
-            onClick={() => setExpanded(!expanded)} />
-          {headerFunc()}
-        </div>
-        {expanded ? children : null}
+    <Group flexDirection="column">
+      <Group alignItems="center" justifyContent="space-between">
+        {headerFunc()}
+        <IconButton 
+          kind="bare" 
+          iconName={expanded ? "downOpen" : "rightOpen"} 
+          type="button" 
+          onClick={() => setExpanded(!expanded)} />
       </Group>
-    </div>
+      {expanded ? children : null}
+    </Group>
   );
 }
 
