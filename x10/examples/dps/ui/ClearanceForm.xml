@@ -6,7 +6,7 @@
     </Row>
     <Row visible="=status == 'denied'" borderColor="red" marginBottom="10" marginTop="10" 
         padding="10" width="800" borderWidth="1.5">
-      <Icon icon="attention"/>
+      <Icon icon="attention" color="red"/>
       <Text>Shipments related to this entity will remain blocked</Text>
     </Row>
     <Row visible="=status != 'denied'" gap="32">

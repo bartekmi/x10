@@ -222,6 +222,26 @@ namespace x10.gen.react.library {
         InheritsFromName = "TextualDisplay",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("icon", "iconName"),
+          new JavaScriptAttributeDynamic("color", "color") {
+            EnumConversions = new List<EnumConversion>() {
+              new EnumConversion("white", "white"),
+              new EnumConversion("silver", "grey40"),
+              new EnumConversion("gray", "grey60"),
+              new EnumConversion("black", "black"),
+              new EnumConversion("red", "red30"),
+              new EnumConversion("maroon", "orange60"),
+              new EnumConversion("yellow", "orange20"),
+              new EnumConversion("olive", "green40"),
+              new EnumConversion("lime", "green40"),    // No actual lime color
+              new EnumConversion("green", "green60"),
+              new EnumConversion("aqua", "green30"),
+              new EnumConversion("teal", "greey60"),
+              new EnumConversion("blue", "indigo40"),
+              new EnumConversion("navy", "blue60"),
+              new EnumConversion("fuchsia", "purple40"),
+              new EnumConversion("purple", "purple60"),
+            },
+          },
         },
       },
       #endregion

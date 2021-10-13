@@ -222,7 +222,13 @@ namespace x10.ui.libraries {
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
             Name = "icon",
+            Description = "Type of icon",
             DataType = x10.model.libraries.BaseLibrary.ICON_DATA_TYPE,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "color",
+            Description = "The color of the icon",
+            DataType = DataTypes.Singleton.Color,
           },
         }
       },

@@ -65,6 +65,7 @@ function ClearanceForm(props: Props): React.Node {
         >
           <Icon
             iconName='attention'
+            color='red30'
           />
           <TextDisplay
             value='Shipments related to this entity will remain blocked'

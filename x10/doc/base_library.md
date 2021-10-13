@@ -2891,6 +2891,11 @@ If specified, element will have a border of this color and some small padding
 If specified, element will have a border of this thickness and some small padding
 
 - Data Type: Float
+### Attribute 'color'
+
+The color of the icon
+
+- Data Type: Color
 ### Attribute 'fillColor'
 
 Specifies background color of element
@@ -2898,7 +2903,7 @@ Specifies background color of element
 - Data Type: Color
 ### Attribute 'icon'
 
-
+Type of icon
 
 - Data Type: Icon
 ### Attribute 'id'
