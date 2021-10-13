@@ -7,11 +7,11 @@ using x10.model.metadata;
 using x10.parsing;
 
 namespace x10.ui.metadata {
-  internal class UiLibraryValidator {
+  internal class UiLibraryHydratorAndValidator {
 
     private readonly MessageBucket _messages;
 
-    internal UiLibraryValidator(MessageBucket messages) {
+    internal UiLibraryHydratorAndValidator(MessageBucket messages) {
       _messages = messages;
     }
 

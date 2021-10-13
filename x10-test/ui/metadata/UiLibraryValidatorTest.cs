@@ -11,11 +11,11 @@ namespace x10.ui.metadata {
 
     private readonly ITestOutputHelper _output;
     private readonly MessageBucket _messages = new MessageBucket();
-    private readonly UiLibraryValidator _validator;
+    private readonly UiLibraryHydratorAndValidator _validator;
 
     public UiLibraryValidatorTest(ITestOutputHelper output) {
       _output = output;
-      _validator = new UiLibraryValidator(_messages);
+      _validator = new UiLibraryHydratorAndValidator(_messages);
     }
 
     [Fact]

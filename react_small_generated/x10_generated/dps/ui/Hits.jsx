@@ -39,7 +39,7 @@ function Hits(props: Props): React.Node {
         columns={
           [
             {
-              id: 0,
+              id: '_0',
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.companyEntity?.name,
@@ -50,7 +50,7 @@ function Hits(props: Props): React.Node {
               ,
             },
             {
-              id: 1,
+              id: '_1',
               Header: 'Priority',
               width: 140,
               accessor: (data) => data?.priority,
@@ -62,7 +62,7 @@ function Hits(props: Props): React.Node {
               ,
             },
             {
-              id: 2,
+              id: '_2',
               Header: 'Go-To',
               width: 140,
               accessor: (data) => data,

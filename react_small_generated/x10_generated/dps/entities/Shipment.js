@@ -78,6 +78,14 @@ export function shipmentFlexId(shipment: ?{
   return result;
 }
 
+export function shipmentUrl(shipment: ?{
+  +coreId: ?number,
+}): string {
+  if (shipment == null) return '';
+  const result = 'shipments/' + x10toString(shipment?.coreId);
+  return result;
+}
+
 
 
 // Create Default Function

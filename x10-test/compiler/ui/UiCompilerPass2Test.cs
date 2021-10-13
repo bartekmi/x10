@@ -128,25 +128,25 @@ namespace x10.compiler {
             new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, false),
           },
         },
-      new ClassDefNative() {
-        Name = "Label",
-        Description = "A label around a data entry or data display field/content. Normally, you get this 'for free' around model fields, but it's useful if you want to have a label around a group of fields",
-        InheritsFrom = ClassDefNative.Visual,
-        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionComplex() {
-            Name = "Content",
-            Description = "Embedded UI components that are 'labelled' (i.e. that live within the label)",
-            IsPrimary = true,
-            ComplexAttributeType = ClassDefNative.Visual,
-          },
-          new UiAttributeDefinitionAtomic() {
-            Name = "label",
-            Description = "The text of the label. Normally rendered as bold text.",
-            DataType = DataTypes.Singleton.String,
-            TakeValueFromModelAttrName = "label",
-          },
-        }
-      },
+        new ClassDefNative() {
+          Name = "Label",
+          Description = "A label around a data entry or data display field/content. Normally, you get this 'for free' around model fields, but it's useful if you want to have a label around a group of fields",
+          InheritsFrom = ClassDefNative.Visual,
+          LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+            new UiAttributeDefinitionComplex() {
+              Name = "Content",
+              Description = "Embedded UI components that are 'labelled' (i.e. that live within the label)",
+              IsPrimary = true,
+              ComplexAttributeType = ClassDefNative.Visual,
+            },
+            new UiAttributeDefinitionAtomic() {
+              Name = "label",
+              Description = "The text of the label. Normally rendered as bold text.",
+              DataType = DataTypes.Singleton.String,
+              TakeValueFromModelAttrName = "label",
+            },
+          }
+        },
         new ClassDefNative() {
           Name = "Table",
           ComponentDataModel = Entity.Object,

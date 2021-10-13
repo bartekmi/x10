@@ -53,6 +53,9 @@ derivedAttributes:
   - name: flexId
     dataType: String
     formula: "='Flex-' + coreId"
+  - name: url
+    dataType: String
+    formula: "='shipments/' + coreId"
 
 associations:
   - name: consignee

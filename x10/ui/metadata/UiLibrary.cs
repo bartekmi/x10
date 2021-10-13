@@ -95,7 +95,7 @@ namespace x10.ui.metadata {
     }
 
     public bool HydrateAndValidate(MessageBucket messages) {
-      UiLibraryValidator validator = new UiLibraryValidator(messages);
+      UiLibraryHydratorAndValidator validator = new UiLibraryHydratorAndValidator(messages);
 
       int messageCountBefore = messages.Messages.Count;
       validator.HydrateAndValidate(this);

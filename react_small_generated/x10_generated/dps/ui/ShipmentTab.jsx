@@ -10,10 +10,11 @@ import Text from 'latitude/Text';
 import DateDisplay from 'react_lib/display/DateDisplay';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
 
 import { type Hit } from 'dps/entities/Hit';
-import { shipmentFlexId, TransportationModeEnumPairs } from 'dps/entities/Shipment';
+import { shipmentFlexId, shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
 
 import { type ShipmentTab_hit } from './__generated__/ShipmentTab_hit.graphql';
 
@@ -39,18 +40,18 @@ function ShipmentTab(props: Props): React.Node {
         columns={
           [
             {
-              id: 0,
-              Header: 'Flex Id',
+              id: '_0',
               width: 140,
-              accessor: (data) => shipmentFlexId(data),
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
+                <Button
+                  label={ shipmentFlexId(value) }
+                  url={ shipmentUrl(value) }
                 />
               ,
             },
             {
-              id: 1,
+              id: '_1',
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.name,
@@ -61,7 +62,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 2,
+              id: '_2',
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.consignee?.name,
@@ -72,7 +73,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 3,
+              id: '_3',
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.shipper?.name,
@@ -83,7 +84,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 4,
+              id: '_4',
               Header: 'Transportation Mode',
               width: 140,
               accessor: (data) => data?.transportationMode,
@@ -95,7 +96,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 5,
+              id: '_5',
               Header: 'Status',
               width: 140,
               accessor: (data) => data?.status,
@@ -106,7 +107,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 6,
+              id: '_6',
               Header: 'Customs',
               width: 140,
               accessor: (data) => data?.customs,
@@ -117,7 +118,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 7,
+              id: '_7',
               Header: 'Cargo Ready',
               width: 140,
               accessor: (data) => data?.cargoReady,
@@ -128,7 +129,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 8,
+              id: '_8',
               Header: 'Departs Date',
               width: 140,
               accessor: (data) => data?.departsDate,
@@ -139,7 +140,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 9,
+              id: '_9',
               Header: 'Arrives Date',
               width: 140,
               accessor: (data) => data?.arrivesDate,
@@ -150,7 +151,7 @@ function ShipmentTab(props: Props): React.Node {
               ,
             },
             {
-              id: 10,
+              id: '_10',
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>

@@ -590,7 +590,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeByFunc() {
             PlatformName = "id",
-            Function = (instance) => instance.Index,
+            Function = (instance) => "_" + instance.Index,
           },
           new JavaScriptAttributeDynamic("label", "Header"),
           new JavaScriptAttributeDynamic("width", "width") {
