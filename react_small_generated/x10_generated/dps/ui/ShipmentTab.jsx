@@ -13,6 +13,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import Table from 'react_lib/table/Table';
 
+import { companyEntityUrl } from 'dps/entities/CompanyEntity';
 import { type Hit } from 'dps/entities/Hit';
 import { shipmentFlexId, shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
 
@@ -41,6 +42,7 @@ function ShipmentTab(props: Props): React.Node {
           [
             {
               id: '_0',
+              Header: 'Id',
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
@@ -63,23 +65,25 @@ function ShipmentTab(props: Props): React.Node {
             },
             {
               id: '_2',
-              Header: 'Name',
+              Header: 'Consignee',
               width: 140,
-              accessor: (data) => data?.consignee?.name,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
+                <Button
+                  label={ value?.consignee?.name }
+                  url={ companyEntityUrl(value?.consignee) }
                 />
               ,
             },
             {
               id: '_3',
-              Header: 'Name',
+              Header: 'Shipper',
               width: 140,
-              accessor: (data) => data?.shipper?.name,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
+                <Button
+                  label={ value?.shipper?.name }
+                  url={ companyEntityUrl(value?.shipper) }
                 />
               ,
             },
@@ -152,6 +156,7 @@ function ShipmentTab(props: Props): React.Node {
             },
             {
               id: '_10',
+              Header: 'Due Date',
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
@@ -187,6 +192,7 @@ export default createFragmentContainer(ShipmentTab, {
         consignee {
           id
           toStringRepresentation
+          clientId
           name
         }
         coreId
@@ -198,6 +204,7 @@ export default createFragmentContainer(ShipmentTab, {
         shipper {
           id
           toStringRepresentation
+          clientId
           name
         }
         status

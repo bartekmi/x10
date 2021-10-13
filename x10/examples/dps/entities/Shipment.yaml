@@ -55,17 +55,19 @@ derivedAttributes:
     formula: "='Flex-' + coreId"
   - name: url
     dataType: String
-    formula: "='shipments/' + coreId"
+    formula: "='/shipments/' + coreId"
 
 associations:
   - name: consignee
     dataType: CompanyEntity
     mandatory: false
     owns: false
+    label: Consignee
   - name: shipper
     dataType: CompanyEntity
     mandatory: false
     owns: false
+    label: Shipper
 
 enums:
   - name: TransportationMode

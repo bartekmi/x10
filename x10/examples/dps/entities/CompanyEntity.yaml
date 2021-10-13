@@ -35,6 +35,11 @@ attributes:
     dataType: String
     datagen_pattern: www.<adjective>-<noun>.com
 
+derivedAttributes:
+  - name: url
+    dataType: String
+    formula: "='/clients/' + clientId"
+
 associations:
   - name: physicalAddress
     dataType: AddressType
