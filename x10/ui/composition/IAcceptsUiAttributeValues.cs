@@ -44,7 +44,7 @@ namespace x10.ui.composition {
     public static bool HasAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       return FindAttributeValue(source, attributeName) != null;
     }
-    
+
     public static UiAttributeValue RemoveAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       UiAttributeValue value = FindAttributeValue(source, attributeName);
       if (value == null)

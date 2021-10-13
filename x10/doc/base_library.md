@@ -2050,7 +2050,6 @@ The text of the label. Normally rendered as bold text.
 If 'mandatory', an asterisk will be added to the label. If 'optional', the word 'optional' will be added after the label.
 
 - Data Type: FormFieldMandatoryIndicator
-- Default Value: none
 ### Attribute 'margin'
 
 Margin around the component (in pixels). Margin is the distance between the border (if any) and the surrounding world.

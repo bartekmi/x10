@@ -81,6 +81,7 @@ function ClearanceForm(props: Props): React.Node {
         >
           <FormField
             editorFor='reasonForClearance'
+            indicateRequired={ true }
             label='Reason For Clearance'
           >
             <SelectInput
@@ -94,6 +95,7 @@ function ClearanceForm(props: Props): React.Node {
           </FormField>
           <FormField
             editorFor='whitelistTime'
+            indicateRequired={ true }
             label='Whitelist time'
           >
             <FloatInput
@@ -111,6 +113,7 @@ function ClearanceForm(props: Props): React.Node {
       >
         <FormField
           editorFor='notes'
+          indicateRequired={ true }
           label='Notes'
         >
           <TextareaInput

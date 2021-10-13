@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using x10.parsing;
+
+using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
+
 using static x10.ui.metadata.ClassDefNative;
 using x10.ui.composition;
-using x10.model;
+using x10.compiler;
 
 namespace x10.ui.metadata {
 
@@ -45,6 +47,10 @@ namespace x10.ui.metadata {
     // all the Attribute Definitions of their ancestors
     // This name will be hydrated into the actual object
     public string InheritsFromName { get; set; }
+
+    // runs During Pass 2 of UI Complation - AFTER all attributes from the XML file are read
+    public Action<MessageBucket, AllEntities, AllEnums, AllUiDefinitions, Instance> Pass2ActionPost { get; set; }
+
 
     // Hydrated
     public ClassDef InheritsFrom { get; set; }

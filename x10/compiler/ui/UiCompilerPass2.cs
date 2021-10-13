@@ -492,6 +492,9 @@ namespace x10.compiler.ui {
     }
 
     private void InvokePass2ActionsPost(IAcceptsUiAttributeValues component) {
+      if (component is Instance instance)
+        instance.ClassDef.Pass2ActionPost?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, instance);
+        
       foreach (UiAttributeValueAtomic value in component.AttributeValues.OfType<UiAttributeValueAtomic>())
         value.Definition.Pass2ActionPost?.Invoke(_messages, _allEntities, _allEnums, _allUiDefinitions, component, value);
     }

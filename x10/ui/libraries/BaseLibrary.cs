@@ -11,6 +11,7 @@ namespace x10.ui.libraries {
   public class BaseLibrary {
 
     public const string CLASS_DEF_FORM = "Form";
+    private const string MANDATORY_INDICATOR = "mandatoryIndicator";
 
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
 
@@ -1026,12 +1027,24 @@ namespace x10.ui.libraries {
         Name = "FormField",
         Description = "A form field - includes a label plus validation display",
         InheritsFromName = "Label",
+        Pass2ActionPost = (messages, allEntities, allEnums, allUiDefinitions, instance) => {
+          Member member = instance.Unwrap().ModelMember;
+          if (member == null)
+            return;
+          bool isMandatory = member.IsMandatory;
+
+          object mandatoryIndicator = instance.FindValue(MANDATORY_INDICATOR);
+          if (mandatoryIndicator == null && isMandatory) {
+            UiAttributeDefinitionAtomic attribute = instance.ClassDef.FindAtomicAttribute(MANDATORY_INDICATOR);
+            UiAttributeValueAtomic attrValue = attribute.CreateValueAndAddToOwnerAtomic(instance, null);
+            attrValue.Value = "mandatory";
+          }
+        },
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
-            Name = "mandatoryIndicator",
+            Name = MANDATORY_INDICATOR,
             Description = "If 'mandatory', an asterisk will be added to the label. If 'optional', the word 'optional' will be added after the label.",
             DataType = new DataTypeEnum("FormFieldMandatoryIndicator", new string[] {"none", "mandatory", "optional" }),
-            DefaultValue = "none",
           },
         }
       },
