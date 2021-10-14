@@ -12,9 +12,13 @@ type Props = {|
 export default function TextDisplay(props: Props): React.Node {
   let {value, weight} = props;
 
-  // Without this, blank ("") texts leaves a gap, which generall looks bad
+  // Without this, blank ("") texts leaves a gap, which generally looks bad
   if (typeof value === "string" && value.trim() === "")
     value = null;
+
+  if (value != null) {
+    value = value.toString();
+  }
 
   return (
     <Text weight={weight || "regular"}>

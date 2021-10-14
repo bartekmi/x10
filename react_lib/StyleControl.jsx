@@ -15,6 +15,10 @@ type Props = {|
   +marginLeft?: number,
 
   +padding?: number,
+  +paddingTop?: number,
+  +paddingRight?: number,
+  +paddingBottom?: number,
+  +paddingLeft?: number,
 
   +borderColor?: string,
   +borderWidth?: number,
@@ -27,7 +31,7 @@ export default function StyleControl(props: Props): React.Node {
   const {visible, 
     width, maxWidth, 
     margin, marginTop, marginRight, marginBottom, marginLeft, 
-    padding,
+    padding, paddingTop, paddingRight, paddingBottom, paddingLeft, 
     borderColor, borderWidth,
     fillColor,
     children} = props;
@@ -48,6 +52,10 @@ export default function StyleControl(props: Props): React.Node {
   if (marginLeft != null)     style["marginLeft"] = marginLeft.toString() + "px";
 
   if (padding != null)         style["padding"] = padding.toString() + "px";
+  if (paddingTop != null)      style["paddingTop"] = paddingTop.toString() + "px";
+  if (paddingRight != null)    style["paddingRight"] = paddingRight.toString() + "px";
+  if (paddingBottom != null)   style["paddingBottom"] = paddingBottom.toString() + "px";
+  if (paddingLeft != null)     style["paddingLeft"] = paddingLeft.toString() + "px";
 
   if (borderColor != null)         style["borderColor"] = borderColor;
   if (borderWidth != null)         style["borderWidth"] = borderWidth.toString() + "px";

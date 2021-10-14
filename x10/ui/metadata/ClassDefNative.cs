@@ -84,6 +84,26 @@ namespace x10.ui.metadata {
           DataType = DataTypes.Singleton.Float,
         },
         new UiAttributeDefinitionAtomic() {
+          Name = "paddingTop",
+          Description = "Padding on top of the component (in pixels)",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "paddingRight",
+          Description = "Padding to the right of the component (in pixels)",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "paddingBottom",
+          Description = "Padding below the component (in pixels)",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
+          Name = "paddingLeft",
+          Description = "Padding to the left of the component (in pixels)",
+          DataType = DataTypes.Singleton.Float,
+        },
+        new UiAttributeDefinitionAtomic() {
           Name = "borderColor",
           Description = "If specified, element will have a border of this color and some small padding",
           DataType = DataTypes.Singleton.Color,

@@ -19,7 +19,7 @@ namespace x10.ui.composition {
     }
 
     public override string ToString() {
-      return string.Format("Model Reference @ {0}. Member = {1}", Path, ModelMember?.Name);
+      return string.Format("Model Reference @ {0}. Member = {1}", Path, ModelMember);
     }
   }
 }

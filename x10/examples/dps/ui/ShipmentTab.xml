@@ -16,15 +16,15 @@
       </TableColumn>
 
       <TableColumn label="Mode">
-        <transportationMode fillColor="black" />
+        <transportationMode/>
       </TableColumn>
 
-      <TableColumn label="Mode">
-        <status fillColor="black" />
+      <TableColumn label="Status">
+        <status fillColor="black" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
       </TableColumn>
 
-      <TableColumn label="Mode">
-        <customs fillColor="red"/>
+      <TableColumn label="Customs">
+        <customs fillColor="#B22222" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
       </TableColumn>
 
       <cargoReadyDate/>

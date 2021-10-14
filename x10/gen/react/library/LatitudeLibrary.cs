@@ -33,6 +33,10 @@ namespace x10.gen.react.library {
           new JavaScriptAttributeDynamic("marginBottom", "marginBottom"),
           new JavaScriptAttributeDynamic("marginLeft", "marginLeft"),
           new JavaScriptAttributeDynamic("padding", "padding"),
+          new JavaScriptAttributeDynamic("paddingTop", "paddingTop"),
+          new JavaScriptAttributeDynamic("paddingRight", "paddingRight"),
+          new JavaScriptAttributeDynamic("paddingBottom", "paddingBottom"),
+          new JavaScriptAttributeDynamic("paddingLeft", "paddingLeft"),
           new JavaScriptAttributeDynamic("borderColor", "borderColor"),
           new JavaScriptAttributeDynamic("borderWidth", "borderWidth"),
           new JavaScriptAttributeDynamic("fillColor", "fillColor"),
@@ -604,7 +608,7 @@ namespace x10.gen.react.library {
 
               if (inner is InstanceModelRef) {
                 generator.PushSourceVariableName("data", true);
-                string path = generator.GetReadOnlyBindingPath(instance.Unwrap());
+                string path = generator.GetReadOnlyBindingPath(inner);
                 generator.PopSourceVariableName();
 
                 return string.Format("(data) => {0}", path);

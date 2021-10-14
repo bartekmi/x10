@@ -93,38 +93,50 @@ function ShipmentTab(props: Props): React.Node {
               id: '_4',
               Header: 'Mode',
               width: 140,
-              accessor: (data) => data,
+              accessor: (data) => data?.transportationMode,
               Cell: ({ value }) =>
-                <StyleControl
-                  fillColor='black'
-                >
-                  <EnumDisplay
-                    value={ value?.transportationMode }
-                    options={ TransportationModeEnumPairs }
-                  />
-                </StyleControl>
+                <EnumDisplay
+                  value={ value }
+                  options={ TransportationModeEnumPairs }
+                />
               ,
             },
             {
               id: '_5',
               Header: 'Status',
               width: 140,
-              accessor: (data) => data?.status,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
-                />
+                <StyleControl
+                  paddingTop={ 5 }
+                  paddingRight={ 20 }
+                  paddingBottom={ 5 }
+                  paddingLeft={ 20 }
+                  fillColor='black'
+                >
+                  <TextDisplay
+                    value={ value?.status }
+                  />
+                </StyleControl>
               ,
             },
             {
               id: '_6',
               Header: 'Customs',
               width: 140,
-              accessor: (data) => data?.customs,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
-                />
+                <StyleControl
+                  paddingTop={ 5 }
+                  paddingRight={ 20 }
+                  paddingBottom={ 5 }
+                  paddingLeft={ 20 }
+                  fillColor='#b22222'
+                >
+                  <TextDisplay
+                    value={ value?.customs }
+                  />
+                </StyleControl>
               ,
             },
             {
