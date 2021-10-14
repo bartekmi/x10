@@ -25,6 +25,7 @@ attributes:
 
   - name: status
     dataType: String
+    datagen_pattern: "(Seller's Location | Awaiting Arrival At Departure Port | At Departure Port | In Transit to Arrival Port | At Arrival Port)"
 
   - name: cargoReadyDate
     dataType: Date

@@ -11,6 +11,7 @@ import DateDisplay from 'react_lib/display/DateDisplay';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 
 import { companyEntityUrl } from 'dps/entities/CompanyEntity';
@@ -90,14 +91,18 @@ function ShipmentTab(props: Props): React.Node {
             },
             {
               id: '_4',
-              Header: 'Transportation Mode',
+              Header: 'Mode',
               width: 140,
-              accessor: (data) => data?.transportationMode,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <EnumDisplay
-                  value={ value }
-                  options={ TransportationModeEnumPairs }
-                />
+                <StyleControl
+                  fillColor='black'
+                >
+                  <EnumDisplay
+                    value={ value?.transportationMode }
+                    options={ TransportationModeEnumPairs }
+                  />
+                </StyleControl>
               ,
             },
             {

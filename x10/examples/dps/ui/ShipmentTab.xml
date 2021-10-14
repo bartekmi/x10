@@ -14,9 +14,19 @@
       <TableColumn label="Shipper" path="shipper">
         <Button label="=name" url="=url"/>
       </TableColumn>
-      <transportationMode/>
-      <status/>
-      <customs/>
+
+      <TableColumn label="Mode">
+        <transportationMode fillColor="black" />
+      </TableColumn>
+
+      <TableColumn label="Mode">
+        <status fillColor="black" />
+      </TableColumn>
+
+      <TableColumn label="Mode">
+        <customs fillColor="red"/>
+      </TableColumn>
+
       <cargoReadyDate/>
 
       <TableColumn label="Departs">
