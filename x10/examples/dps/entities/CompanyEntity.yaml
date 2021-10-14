@@ -45,3 +45,7 @@ associations:
     dataType: AddressType
     mandatory: true
     owns: true
+  - name: company
+    dataType: Company
+    mandatory: true
+    owns: true

@@ -9,6 +9,7 @@ import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { addressTypeCalculateErrors, createDefaultAddressType, type AddressType } from 'dps/entities/AddressType';
+import { companyCalculateErrors, createDefaultCompany, type Company } from 'dps/entities/Company';
 
 
 // Type Definition
@@ -22,6 +23,7 @@ export type CompanyEntity = {
   +segment: string,
   +website: string,
   +physicalAddress: AddressType,
+  +company: Company,
 };
 
 
@@ -48,6 +50,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
     segment: '',
     website: '',
     physicalAddress: createDefaultAddressType(),
+    company: createDefaultCompany(),
   };
 }
 
@@ -59,6 +62,7 @@ export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefi
 
 
   errors.push(...addressTypeCalculateErrors(companyEntity.physicalAddress, 'physicalAddress'));
+  errors.push(...companyCalculateErrors(companyEntity.company, 'company'));
 
   return errors;
 }

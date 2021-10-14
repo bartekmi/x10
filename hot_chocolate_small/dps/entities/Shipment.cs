@@ -17,34 +17,38 @@ namespace x10.hotchoc.dps.Entities {
     WarehouseStorage,
   }
 
+  public enum ShipmentPriorityEnum {
+    Standard,
+    High,
+  }
+
 
   /// <summary>
   /// A portion of Core Shipment entity
   /// </summary>
   public class Shipment : Base {
     // Regular Attributes
-    public int? CoreId { get; set; }
+    public int? Dbid { get; set; }
+    [GraphQLNonNullType]
+    public string? FlexId { get; set; }
     [GraphQLNonNullType]
     public string? Name { get; set; }
+    public ShipmentPriorityEnum? Priority { get; set; }
     public TransportationModeEnum? TransportationMode { get; set; }
     [GraphQLNonNullType]
     public string? Status { get; set; }
-    [GraphQLNonNullType]
-    public string? Customs { get; set; }
-    public DateTime? CargoReady { get; set; }
-    public DateTime? DepartsDate { get; set; }
-    [GraphQLNonNullType]
-    public string? DepartsLocation { get; set; }
-    public DateTime? ArrivesDate { get; set; }
-    [GraphQLNonNullType]
-    public string? ArrivesLocation { get; set; }
-    public DateTime? DueDate { get; set; }
-    [GraphQLNonNullType]
-    public string? DueDateTask { get; set; }
+    public DateTime? CargoReadyDate { get; set; }
+    public DateTime? ActualDepartureDate { get; set; }
+    public DateTime? ArrivalDate { get; set; }
     [GraphQLNonNullType]
     public bool IsLcl { get; set; }
     [GraphQLNonNullType]
     public bool IsLtl { get; set; }
+    [GraphQLNonNullType]
+    public string? Customs { get; set; }
+    public DateTime? DueDate { get; set; }
+    [GraphQLNonNullType]
+    public string? DueDateTask { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
@@ -56,6 +60,8 @@ namespace x10.hotchoc.dps.Entities {
     // Associations
     public CompanyEntity? Consignee { get; set; }
     public CompanyEntity? Shipper { get; set; }
+    public Port? DeparturePort { get; set; }
+    public Port? ArrivalPort { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
@@ -69,6 +75,12 @@ namespace x10.hotchoc.dps.Entities {
 
       int? shipper = IdUtils.FromRelayId(Shipper?.Id);
       Shipper = shipper == null ? null : repository.GetCompanyEntity(shipper.Value);
+
+      int? departurePort = IdUtils.FromRelayId(DeparturePort?.Id);
+      DeparturePort = departurePort == null ? null : repository.GetPort(departurePort.Value);
+
+      int? arrivalPort = IdUtils.FromRelayId(ArrivalPort?.Id);
+      ArrivalPort = arrivalPort == null ? null : repository.GetPort(arrivalPort.Value);
     }
   }
 }

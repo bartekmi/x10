@@ -35,16 +35,21 @@ namespace x10.hotchoc.dps.Entities {
     // Associations
     [GraphQLNonNullType]
     public AddressType? PhysicalAddress { get; set; }
+    [GraphQLNonNullType]
+    public Company? Company { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
       PhysicalAddress?.EnsureUniqueDbid();
+      Company?.EnsureUniqueDbid();
     }
 
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
       PhysicalAddress?.SetNonOwnedAssociations(repository);
+
+      Company?.SetNonOwnedAssociations(repository);
     }
   }
 }

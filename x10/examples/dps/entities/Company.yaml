@@ -1,0 +1,8 @@
+name: Company
+inheritsFrom: Base
+description: Corresponds to Core Company
+
+associations:
+  - name: client
+    dataType: Client
+    owns: true

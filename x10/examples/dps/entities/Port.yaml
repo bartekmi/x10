@@ -1,0 +1,17 @@
+name: Port
+inheritsFrom: Base
+description: A port of a shipment
+
+attributes:
+  - name: city
+    dataType: String
+    datagen_pattern: <city>
+  - name: countryName
+    dataType: String
+    datagen_pattern: <country>
+
+derivedAttributes:
+  - name: cityAndCountry
+    dataType: String
+    formula: "=city + ', ' + countryName"
+

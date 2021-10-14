@@ -17,15 +17,29 @@
       <transportationMode/>
       <status/>
       <customs/>
-      <cargoReady/>
-      <departsDate/>
-      <arrivesDate/>
+      <cargoReadyDate/>
+
+      <TableColumn label="Departs">
+        <VerticalStackPanel>
+          <actualDepartureDate/>
+          <departurePort.cityAndCountry/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="Arrives">
+        <VerticalStackPanel>
+          <arrivalDate/>
+          <arrivalPort.cityAndCountry/>
+        </VerticalStackPanel>
+      </TableColumn>
+
       <TableColumn label="Due Date">
         <VerticalStackPanel>
           <dueDateTask/>
           <dueDate weight="bold"/>
         </VerticalStackPanel>
       </TableColumn>
+
     </Table>
   </VerticalStackPanel>
 </ShipmentTab>

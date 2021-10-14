@@ -15,7 +15,8 @@ import Table from 'react_lib/table/Table';
 
 import { companyEntityUrl } from 'dps/entities/CompanyEntity';
 import { type Hit } from 'dps/entities/Hit';
-import { shipmentFlexId, shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
+import { portCityAndCountry } from 'dps/entities/Port';
+import { shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
 
 import { type ShipmentTab_hit } from './__generated__/ShipmentTab_hit.graphql';
 
@@ -47,7 +48,7 @@ function ShipmentTab(props: Props): React.Node {
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <Button
-                  label={ shipmentFlexId(value) }
+                  label={ value?.flexId }
                   url={ shipmentUrl(value) }
                 />
               ,
@@ -125,7 +126,7 @@ function ShipmentTab(props: Props): React.Node {
               id: '_7',
               Header: 'Cargo Ready',
               width: 140,
-              accessor: (data) => data?.cargoReady,
+              accessor: (data) => data?.cargoReadyDate,
               Cell: ({ value }) =>
                 <DateDisplay
                   value={ value }
@@ -134,24 +135,38 @@ function ShipmentTab(props: Props): React.Node {
             },
             {
               id: '_8',
-              Header: 'Departs Date',
+              Header: 'Departs',
               width: 140,
-              accessor: (data) => data?.departsDate,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <DateDisplay
-                  value={ value }
-                />
+                <Group
+                  flexDirection='column'
+                >
+                  <DateDisplay
+                    value={ value?.actualDepartureDate }
+                  />
+                  <TextDisplay
+                    value={ portCityAndCountry(value?.departurePort) }
+                  />
+                </Group>
               ,
             },
             {
               id: '_9',
-              Header: 'Arrives Date',
+              Header: 'Arrives',
               width: 140,
-              accessor: (data) => data?.arrivesDate,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <DateDisplay
-                  value={ value }
-                />
+                <Group
+                  flexDirection='column'
+                >
+                  <DateDisplay
+                    value={ value?.arrivalDate }
+                  />
+                  <TextDisplay
+                    value={ portCityAndCountry(value?.arrivalPort) }
+                  />
+                </Group>
               ,
             },
             {
@@ -187,19 +202,32 @@ export default createFragmentContainer(ShipmentTab, {
       id
       shipments {
         id
-        arrivesDate
-        cargoReady
+        actualDepartureDate
+        arrivalDate
+        arrivalPort {
+          id
+          toStringRepresentation
+          city
+          countryName
+        }
+        cargoReadyDate
         consignee {
           id
           toStringRepresentation
           clientId
           name
         }
-        coreId
         customs
-        departsDate
+        dbid
+        departurePort {
+          id
+          toStringRepresentation
+          city
+          countryName
+        }
         dueDate
         dueDateTask
+        flexId
         name
         shipper {
           id

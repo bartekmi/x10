@@ -9,27 +9,30 @@ import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
+import { type Port } from 'dps/entities/Port';
 
 
 // Type Definition
 export type Shipment = {
   +id: string,
-  +coreId: ?number,
+  +dbid: ?number,
+  +flexId: string,
   +name: string,
+  +priority: ?ShipmentPriorityEnum,
   +transportationMode: ?TransportationModeEnum,
   +status: string,
-  +customs: string,
-  +cargoReady: ?string,
-  +departsDate: ?string,
-  +departsLocation: string,
-  +arrivesDate: ?string,
-  +arrivesLocation: string,
-  +dueDate: ?string,
-  +dueDateTask: string,
+  +cargoReadyDate: ?string,
+  +actualDepartureDate: ?string,
+  +arrivalDate: ?string,
   +isLcl: boolean,
   +isLtl: boolean,
+  +customs: string,
+  +dueDate: ?string,
+  +dueDateTask: string,
   +consignee: ?CompanyEntity,
   +shipper: ?CompanyEntity,
+  +departurePort: ?Port,
+  +arrivalPort: ?Port,
 };
 
 
@@ -67,22 +70,27 @@ export const TransportationModeEnumPairs = [
 
 export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unknown_transportation' | 'truck_intl' | 'warehouse_storage';
 
+export const ShipmentPriorityEnumPairs = [
+  {
+    value: 'standard',
+    label: 'Standard',
+  },
+  {
+    value: 'high',
+    label: 'High',
+  },
+];
+
+export type ShipmentPriorityEnum = 'standard' | 'high';
+
 
 
 // Derived Attribute Functions
-export function shipmentFlexId(shipment: ?{
-  +coreId: ?number,
-}): string {
-  if (shipment == null) return '';
-  const result = 'Flex-' + x10toString(shipment?.coreId);
-  return result;
-}
-
 export function shipmentUrl(shipment: ?{
-  +coreId: ?number,
+  +dbid: ?number,
 }): string {
   if (shipment == null) return '';
-  const result = '/shipments/' + x10toString(shipment?.coreId);
+  const result = '/shipments/' + x10toString(shipment?.dbid);
   return result;
 }
 
@@ -92,22 +100,24 @@ export function shipmentUrl(shipment: ?{
 export function createDefaultShipment(): Shipment {
   return {
     id: uuid(),
-    coreId: null,
+    dbid: null,
+    flexId: '',
     name: '',
+    priority: null,
     transportationMode: null,
     status: '',
-    customs: '',
-    cargoReady: null,
-    departsDate: null,
-    departsLocation: '',
-    arrivesDate: null,
-    arrivesLocation: '',
-    dueDate: null,
-    dueDateTask: '',
+    cargoReadyDate: null,
+    actualDepartureDate: null,
+    arrivalDate: null,
     isLcl: false,
     isLtl: false,
+    customs: '',
+    dueDate: null,
+    dueDateTask: '',
     consignee: null,
     shipper: null,
+    departurePort: null,
+    arrivalPort: null,
   };
 }
 

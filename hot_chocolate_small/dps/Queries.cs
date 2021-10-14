@@ -11,6 +11,30 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Query")]
   public partial class Queries {
 
+    #region Company
+    /// <summary>
+    /// Retrieve a Company by id
+    /// </summary>
+    /// <param name="id">The id of the Company.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Company.</returns>
+    public Company GetCompany(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetCompany(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Companies.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Companies.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Company> GetCompanies(
+        [Service] IRepository repository) =>
+          repository.GetCompanies();
+    #endregion
+
     #region CompanyEntity
     /// <summary>
     /// Retrieve a CompanyEntity by id
@@ -81,6 +105,30 @@ namespace x10.hotchoc.dps {
     public IEnumerable<Attachment> GetAttachments(
         [Service] IRepository repository) =>
           repository.GetAttachments();
+    #endregion
+
+    #region Port
+    /// <summary>
+    /// Retrieve a Port by id
+    /// </summary>
+    /// <param name="id">The id of the Port.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Port.</returns>
+    public Port GetPort(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetPort(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Ports.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Ports.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Port> GetPorts(
+        [Service] IRepository repository) =>
+          repository.GetPorts();
     #endregion
 
     #region MatchInfo
@@ -177,6 +225,30 @@ namespace x10.hotchoc.dps {
     public IEnumerable<Shipment> GetShipments(
         [Service] IRepository repository) =>
           repository.GetShipments();
+    #endregion
+
+    #region Client
+    /// <summary>
+    /// Retrieve a Client by id
+    /// </summary>
+    /// <param name="id">The id of the Client.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Client.</returns>
+    public Client GetClient(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetClient(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Clients.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Clients.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Client> GetClients(
+        [Service] IRepository repository) =>
+          repository.GetClients();
     #endregion
 
     #region AddressType

@@ -12,6 +12,19 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Mutation")]
   public partial class Mutations {
 
+    #region Company
+    /// <summary>
+    /// Creates a new Company or updates an existing one, depending on the value of company.id
+    /// </summary>
+    public string CreateOrUpdateCompany(
+      Company company,
+      [Service] IRepository repository) {
+        company.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateCompany(IdUtils.FromRelayId(company.Id), company);
+        return IdUtils.ToRelayId<Company>(dbid);
+    }
+    #endregion
+
     #region CompanyEntity
     /// <summary>
     /// Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id
@@ -48,6 +61,19 @@ namespace x10.hotchoc.dps {
         attachment.SetNonOwnedAssociations(repository);
         int dbid = repository.AddOrUpdateAttachment(IdUtils.FromRelayId(attachment.Id), attachment);
         return IdUtils.ToRelayId<Attachment>(dbid);
+    }
+    #endregion
+
+    #region Port
+    /// <summary>
+    /// Creates a new Port or updates an existing one, depending on the value of port.id
+    /// </summary>
+    public string CreateOrUpdatePort(
+      Port port,
+      [Service] IRepository repository) {
+        port.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdatePort(IdUtils.FromRelayId(port.Id), port);
+        return IdUtils.ToRelayId<Port>(dbid);
     }
     #endregion
 
@@ -100,6 +126,19 @@ namespace x10.hotchoc.dps {
         shipment.SetNonOwnedAssociations(repository);
         int dbid = repository.AddOrUpdateShipment(IdUtils.FromRelayId(shipment.Id), shipment);
         return IdUtils.ToRelayId<Shipment>(dbid);
+    }
+    #endregion
+
+    #region Client
+    /// <summary>
+    /// Creates a new Client or updates an existing one, depending on the value of client.id
+    /// </summary>
+    public string CreateOrUpdateClient(
+      Client client,
+      [Service] IRepository repository) {
+        client.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateClient(IdUtils.FromRelayId(client.Id), client);
+        return IdUtils.ToRelayId<Client>(dbid);
     }
     #endregion
 

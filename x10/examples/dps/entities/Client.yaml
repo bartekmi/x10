@@ -1,0 +1,9 @@
+name: Client
+inheritsFrom: Base
+description: Corresponds to Core Client
+
+attributes:
+  - name: dbid
+    dataType: Integer
+    datagen_min: 1
+    datagen_max: 50000
