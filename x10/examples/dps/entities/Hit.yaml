@@ -44,7 +44,7 @@ associations:
     dataType: Shipment
     many: true
     owns: true
-    datagen_quantity: 0..3
+    datagen_quantity: 1..3
   - name: messages
     dataType: Message
     many: true
