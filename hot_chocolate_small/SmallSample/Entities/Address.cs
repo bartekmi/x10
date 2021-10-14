@@ -25,7 +25,7 @@ namespace x10.hotchoc.SmallSample.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Address: " + Dbid; }
+      get { return "Address: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

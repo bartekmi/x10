@@ -92,7 +92,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "CompanyEntity: " + Dbid; }
+      get { return "CompanyEntity: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

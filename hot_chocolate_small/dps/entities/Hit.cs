@@ -31,7 +31,7 @@ namespace x10.hotchoc.dps.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Hit: " + Dbid; }
+      get { return "Hit: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

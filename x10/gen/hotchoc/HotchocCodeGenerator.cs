@@ -121,7 +121,7 @@ namespace x10.gen.hotchoc {
 
     private void GenerateRepositoryAddMethod() {
       WriteLine(2, "public override void Add(PrimordialEntityBase instance) {");
-      WriteLine(3, "int id = instance.Dbid;");
+      WriteLine(3, "int id = instance.DbidHotChoc;");
       WriteLine();
 
       foreach (Entity entity in ConcreteEntities()) {
@@ -399,7 +399,7 @@ namespace x10.hotchoc.{0} {{
       WriteLine(2, "[GraphQLNonNullType]");
 
       string formula = entity.StringRepresentation == null ?
-        string.Format("\"{0}: \" + Dbid", entity.Name) :
+        string.Format("\"{0}: \" + DbidHotChoc", entity.Name) :
         ExpressionToString(entity.StringRepresentation);
 
       WriteLine(2, "public string? ToStringRepresentation {", formula);

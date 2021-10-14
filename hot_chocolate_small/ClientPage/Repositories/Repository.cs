@@ -47,7 +47,7 @@ namespace x10.hotchoc.ClientPage.Repositories {
     }
 
     public override void Add(PrimordialEntityBase instance) {
-      int id = instance.Dbid;
+      int id = instance.DbidHotChoc;
 
       if (instance is NetsuiteVendor netsuiteVendor) _netsuiteVendors[id] = netsuiteVendor;
       if (instance is HkspPartner hkspPartner) _hkspPartners[id] = hkspPartner;

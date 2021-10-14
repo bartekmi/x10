@@ -8,8 +8,8 @@ namespace x10.hotchoc {
         entity.SetDbid(dbid.Value);
       entity.EnsureUniqueDbid();
 
-      entities[entity.Dbid] = entity;
-      return entity.Dbid;
+      entities[entity.DbidHotChoc] = entity;
+      return entity.DbidHotChoc;
     }
   }
 }

@@ -17,17 +17,17 @@ namespace x10.hotchoc {
     }
 
     [GraphQLIgnore]
-    public int Dbid { get; private set; }
+    public int DbidHotChoc { get; private set; }
 
     internal void SetDbid(int dbid) {
-      Dbid = dbid;
+      DbidHotChoc = dbid;
       Id = IdUtils.ToRelayId(this, dbid);
     }
 
     private static int _nextUniqueDbid = 1000;
     public virtual void EnsureUniqueDbid() {
-      if (Dbid == 0)
-        Dbid = _nextUniqueDbid++;
+      if (DbidHotChoc == 0)
+        DbidHotChoc = _nextUniqueDbid++;
     }
   }
 }

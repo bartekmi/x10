@@ -39,7 +39,7 @@ namespace x10.hotchoc.dps.Repositories {
     }
 
     public override void Add(PrimordialEntityBase instance) {
-      int id = instance.Dbid;
+      int id = instance.DbidHotChoc;
 
       if (instance is Company company) _companies[id] = company;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;

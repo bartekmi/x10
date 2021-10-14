@@ -20,6 +20,22 @@ type Attachment {
   hashcode: Int!
 }
 
+"Corresponds to Core Client"
+type Client {
+  dbid: Int
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Corresponds to Core Company"
+type Company {
+  toStringRepresentation: String!
+  client: Client
+  id: String!
+  hashcode: Int!
+}
+
 "A portion of Core CompanyEntity entity"
 type CompanyEntity {
   clientId: Int
@@ -31,6 +47,7 @@ type CompanyEntity {
   website: String!
   toStringRepresentation: String!
   physicalAddress: AddressType!
+  company: Company!
   id: String!
   hashcode: Int!
 }
@@ -83,12 +100,16 @@ type Message {
 }
 
 type Mutation {
+  "Creates a new Company or updates an existing one, depending on the value of company.id"
+  createOrUpdateCompany(company: CompanyInput!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
   createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
   "Creates a new Hit or updates an existing one, depending on the value of hit.id"
   createOrUpdateHit(hit: HitInput!): String!
   "Creates a new Attachment or updates an existing one, depending on the value of attachment.id"
   createOrUpdateAttachment(attachment: AttachmentInput!): String!
+  "Creates a new Port or updates an existing one, depending on the value of port.id"
+  createOrUpdatePort(port: PortInput!): String!
   "Creates a new MatchInfo or updates an existing one, depending on the value of matchInfo.id"
   createOrUpdateMatchInfo(matchInfo: MatchInfoInput!): String!
   "Creates a new OldHit or updates an existing one, depending on the value of oldHit.id"
@@ -97,6 +118,8 @@ type Mutation {
   createOrUpdateUser(user: UserInput!): String!
   "Creates a new Shipment or updates an existing one, depending on the value of shipment.id"
   createOrUpdateShipment(shipment: ShipmentInput!): String!
+  "Creates a new Client or updates an existing one, depending on the value of client.id"
+  createOrUpdateClient(client: ClientInput!): String!
   "Creates a new AddressType or updates an existing one, depending on the value of addressType.id"
   createOrUpdateAddressType(addressType: AddressTypeInput!): String!
   "Creates a new Message or updates an existing one, depending on the value of message.id"
@@ -118,7 +141,20 @@ type OldHit {
   hashcode: Int!
 }
 
+"A port of a shipment"
+type Port {
+  city: String!
+  countryName: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
 type Query {
+  "Retrieve a Company by id\n\n\n**Returns:**\nThe Company."
+  company("The id of the Company." id: String!): Company!
+  "Gets all Companies.\n\n\n**Returns:**\nAll Companies."
+  companies(where: CompanyFilter order_by: CompanySort): [Company!]!
   "Retrieve a CompanyEntity by id\n\n\n**Returns:**\nThe CompanyEntity."
   companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
   "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
@@ -131,6 +167,10 @@ type Query {
   attachment("The id of the Attachment." id: String!): Attachment!
   "Gets all Attachments.\n\n\n**Returns:**\nAll Attachments."
   attachments(where: AttachmentFilter order_by: AttachmentSort): [Attachment!]!
+  "Retrieve a Port by id\n\n\n**Returns:**\nThe Port."
+  port("The id of the Port." id: String!): Port!
+  "Gets all Ports.\n\n\n**Returns:**\nAll Ports."
+  ports(where: PortFilter order_by: PortSort): [Port!]!
   "Retrieve a MatchInfo by id\n\n\n**Returns:**\nThe MatchInfo."
   matchInfo("The id of the MatchInfo." id: String!): MatchInfo!
   "Gets all MatchInfos.\n\n\n**Returns:**\nAll MatchInfos."
@@ -147,6 +187,10 @@ type Query {
   shipment("The id of the Shipment." id: String!): Shipment!
   "Gets all Shipments.\n\n\n**Returns:**\nAll Shipments."
   shipments(where: ShipmentFilter order_by: ShipmentSort): [Shipment!]!
+  "Retrieve a Client by id\n\n\n**Returns:**\nThe Client."
+  client("The id of the Client." id: String!): Client!
+  "Gets all Clients.\n\n\n**Returns:**\nAll Clients."
+  clients(where: ClientFilter order_by: ClientSort): [Client!]!
   "Retrieve a AddressType by id\n\n\n**Returns:**\nThe AddressType."
   addressType("The id of the AddressType." id: String!): AddressType!
   "Gets all AddressTypes.\n\n\n**Returns:**\nAll AddressTypes."
@@ -159,23 +203,25 @@ type Query {
 
 "A portion of Core Shipment entity"
 type Shipment {
-  coreId: Int
+  dbid: Int
+  flexId: String!
   name: String!
+  priority: ShipmentPriorityEnum
   transportationMode: TransportationModeEnum
   status: String!
-  customs: String!
-  cargoReady: DateTime
-  departsDate: DateTime
-  departsLocation: String!
-  arrivesDate: DateTime
-  arrivesLocation: String!
-  dueDate: DateTime
-  dueDateTask: String!
+  cargoReadyDate: DateTime
+  actualDepartureDate: DateTime
+  arrivalDate: DateTime
   isLcl: Boolean!
   isLtl: Boolean!
+  customs: String!
+  dueDate: DateTime
+  dueDateTask: String!
   toStringRepresentation: String!
   consignee: CompanyEntity
   shipper: CompanyEntity
+  departurePort: Port
+  arrivalPort: Port
   id: String!
   hashcode: Int!
 }
@@ -332,6 +378,72 @@ input AttachmentSort {
   hashcode: SortOperationKind
 }
 
+"Corresponds to Core Client"
+input ClientFilter {
+  AND: [ClientFilter!]
+  OR: [ClientFilter!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int]
+  dbid_not_in: [Int]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Corresponds to Core Client"
+input ClientInput {
+  dbid: Int
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"Corresponds to Core Client"
+input ClientSort {
+  dbid: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "A portion of Core CompanyEntity entity"
 input CompanyEntityFilter {
   AND: [CompanyEntityFilter!]
@@ -419,6 +531,7 @@ input CompanyEntityFilter {
   toStringRepresentation_in: [String!]
   toStringRepresentation_not_in: [String!]
   physicalAddress: AddressTypeFilter
+  company: CompanyFilter
   id: String
   id_not: String
   id_contains: String
@@ -454,6 +567,7 @@ input CompanyEntityInput {
   website: String!
   toStringRepresentation: String!
   physicalAddress: AddressTypeInput!
+  company: CompanyInput!
   id: String!
   hashcode: Int!
 }
@@ -469,6 +583,62 @@ input CompanyEntitySort {
   website: SortOperationKind
   toStringRepresentation: SortOperationKind
   physicalAddress: AddressTypeSort
+  company: CompanySort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Corresponds to Core Company"
+input CompanyFilter {
+  AND: [CompanyFilter!]
+  OR: [CompanyFilter!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  client: ClientFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Corresponds to Core Company"
+input CompanyInput {
+  toStringRepresentation: String!
+  client: ClientInput
+  id: String!
+  hashcode: Int!
+}
+
+"Corresponds to Core Company"
+input CompanySort {
+  toStringRepresentation: SortOperationKind
+  client: ClientSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -1030,22 +1200,108 @@ input OldHitSort {
   hashcode: SortOperationKind
 }
 
+"A port of a shipment"
+input PortFilter {
+  AND: [PortFilter!]
+  OR: [PortFilter!]
+  city: String
+  city_not: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  city_in: [String!]
+  city_not_in: [String!]
+  countryName: String
+  countryName_not: String
+  countryName_contains: String
+  countryName_not_contains: String
+  countryName_starts_with: String
+  countryName_not_starts_with: String
+  countryName_ends_with: String
+  countryName_not_ends_with: String
+  countryName_in: [String!]
+  countryName_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A port of a shipment"
+input PortInput {
+  city: String!
+  countryName: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A port of a shipment"
+input PortSort {
+  city: SortOperationKind
+  countryName: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "A portion of Core Shipment entity"
 input ShipmentFilter {
   AND: [ShipmentFilter!]
   OR: [ShipmentFilter!]
-  coreId: Int
-  coreId_not: Int
-  coreId_in: [Int]
-  coreId_not_in: [Int]
-  coreId_gt: Int
-  coreId_not_gt: Int
-  coreId_gte: Int
-  coreId_not_gte: Int
-  coreId_lt: Int
-  coreId_not_lt: Int
-  coreId_lte: Int
-  coreId_not_lte: Int
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int]
+  dbid_not_in: [Int]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+  flexId: String
+  flexId_not: String
+  flexId_contains: String
+  flexId_not_contains: String
+  flexId_starts_with: String
+  flexId_not_starts_with: String
+  flexId_ends_with: String
+  flexId_not_ends_with: String
+  flexId_in: [String!]
+  flexId_not_in: [String!]
   name: String
   name_not: String
   name_contains: String
@@ -1056,6 +1312,18 @@ input ShipmentFilter {
   name_not_ends_with: String
   name_in: [String!]
   name_not_in: [String!]
+  priority: ShipmentPriorityEnum
+  priority_not: ShipmentPriorityEnum
+  priority_in: [ShipmentPriorityEnum]
+  priority_not_in: [ShipmentPriorityEnum]
+  priority_gt: ShipmentPriorityEnum
+  priority_not_gt: ShipmentPriorityEnum
+  priority_gte: ShipmentPriorityEnum
+  priority_not_gte: ShipmentPriorityEnum
+  priority_lt: ShipmentPriorityEnum
+  priority_not_lt: ShipmentPriorityEnum
+  priority_lte: ShipmentPriorityEnum
+  priority_not_lte: ShipmentPriorityEnum
   transportationMode: TransportationModeEnum
   transportationMode_not: TransportationModeEnum
   transportationMode_in: [TransportationModeEnum]
@@ -1078,6 +1346,46 @@ input ShipmentFilter {
   status_not_ends_with: String
   status_in: [String!]
   status_not_in: [String!]
+  cargoReadyDate: DateTime
+  cargoReadyDate_not: DateTime
+  cargoReadyDate_in: [DateTime]
+  cargoReadyDate_not_in: [DateTime]
+  cargoReadyDate_gt: DateTime
+  cargoReadyDate_not_gt: DateTime
+  cargoReadyDate_gte: DateTime
+  cargoReadyDate_not_gte: DateTime
+  cargoReadyDate_lt: DateTime
+  cargoReadyDate_not_lt: DateTime
+  cargoReadyDate_lte: DateTime
+  cargoReadyDate_not_lte: DateTime
+  actualDepartureDate: DateTime
+  actualDepartureDate_not: DateTime
+  actualDepartureDate_in: [DateTime]
+  actualDepartureDate_not_in: [DateTime]
+  actualDepartureDate_gt: DateTime
+  actualDepartureDate_not_gt: DateTime
+  actualDepartureDate_gte: DateTime
+  actualDepartureDate_not_gte: DateTime
+  actualDepartureDate_lt: DateTime
+  actualDepartureDate_not_lt: DateTime
+  actualDepartureDate_lte: DateTime
+  actualDepartureDate_not_lte: DateTime
+  arrivalDate: DateTime
+  arrivalDate_not: DateTime
+  arrivalDate_in: [DateTime]
+  arrivalDate_not_in: [DateTime]
+  arrivalDate_gt: DateTime
+  arrivalDate_not_gt: DateTime
+  arrivalDate_gte: DateTime
+  arrivalDate_not_gte: DateTime
+  arrivalDate_lt: DateTime
+  arrivalDate_not_lt: DateTime
+  arrivalDate_lte: DateTime
+  arrivalDate_not_lte: DateTime
+  isLcl: Boolean
+  isLcl_not: Boolean
+  isLtl: Boolean
+  isLtl_not: Boolean
   customs: String
   customs_not: String
   customs_contains: String
@@ -1088,62 +1396,6 @@ input ShipmentFilter {
   customs_not_ends_with: String
   customs_in: [String!]
   customs_not_in: [String!]
-  cargoReady: DateTime
-  cargoReady_not: DateTime
-  cargoReady_in: [DateTime]
-  cargoReady_not_in: [DateTime]
-  cargoReady_gt: DateTime
-  cargoReady_not_gt: DateTime
-  cargoReady_gte: DateTime
-  cargoReady_not_gte: DateTime
-  cargoReady_lt: DateTime
-  cargoReady_not_lt: DateTime
-  cargoReady_lte: DateTime
-  cargoReady_not_lte: DateTime
-  departsDate: DateTime
-  departsDate_not: DateTime
-  departsDate_in: [DateTime]
-  departsDate_not_in: [DateTime]
-  departsDate_gt: DateTime
-  departsDate_not_gt: DateTime
-  departsDate_gte: DateTime
-  departsDate_not_gte: DateTime
-  departsDate_lt: DateTime
-  departsDate_not_lt: DateTime
-  departsDate_lte: DateTime
-  departsDate_not_lte: DateTime
-  departsLocation: String
-  departsLocation_not: String
-  departsLocation_contains: String
-  departsLocation_not_contains: String
-  departsLocation_starts_with: String
-  departsLocation_not_starts_with: String
-  departsLocation_ends_with: String
-  departsLocation_not_ends_with: String
-  departsLocation_in: [String!]
-  departsLocation_not_in: [String!]
-  arrivesDate: DateTime
-  arrivesDate_not: DateTime
-  arrivesDate_in: [DateTime]
-  arrivesDate_not_in: [DateTime]
-  arrivesDate_gt: DateTime
-  arrivesDate_not_gt: DateTime
-  arrivesDate_gte: DateTime
-  arrivesDate_not_gte: DateTime
-  arrivesDate_lt: DateTime
-  arrivesDate_not_lt: DateTime
-  arrivesDate_lte: DateTime
-  arrivesDate_not_lte: DateTime
-  arrivesLocation: String
-  arrivesLocation_not: String
-  arrivesLocation_contains: String
-  arrivesLocation_not_contains: String
-  arrivesLocation_starts_with: String
-  arrivesLocation_not_starts_with: String
-  arrivesLocation_ends_with: String
-  arrivesLocation_not_ends_with: String
-  arrivesLocation_in: [String!]
-  arrivesLocation_not_in: [String!]
   dueDate: DateTime
   dueDate_not: DateTime
   dueDate_in: [DateTime]
@@ -1166,10 +1418,6 @@ input ShipmentFilter {
   dueDateTask_not_ends_with: String
   dueDateTask_in: [String!]
   dueDateTask_not_in: [String!]
-  isLcl: Boolean
-  isLcl_not: Boolean
-  isLtl: Boolean
-  isLtl_not: Boolean
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1182,6 +1430,8 @@ input ShipmentFilter {
   toStringRepresentation_not_in: [String!]
   consignee: CompanyEntityFilter
   shipper: CompanyEntityFilter
+  departurePort: PortFilter
+  arrivalPort: PortFilter
   id: String
   id_not: String
   id_contains: String
@@ -1208,46 +1458,50 @@ input ShipmentFilter {
 
 "A portion of Core Shipment entity"
 input ShipmentInput {
-  coreId: Int
+  dbid: Int
+  flexId: String!
   name: String!
+  priority: ShipmentPriorityEnum
   transportationMode: TransportationModeEnum
   status: String!
-  customs: String!
-  cargoReady: DateTime
-  departsDate: DateTime
-  departsLocation: String!
-  arrivesDate: DateTime
-  arrivesLocation: String!
-  dueDate: DateTime
-  dueDateTask: String!
+  cargoReadyDate: DateTime
+  actualDepartureDate: DateTime
+  arrivalDate: DateTime
   isLcl: Boolean!
   isLtl: Boolean!
+  customs: String!
+  dueDate: DateTime
+  dueDateTask: String!
   toStringRepresentation: String!
   consignee: CompanyEntityInput
   shipper: CompanyEntityInput
+  departurePort: PortInput
+  arrivalPort: PortInput
   id: String!
   hashcode: Int!
 }
 
 "A portion of Core Shipment entity"
 input ShipmentSort {
-  coreId: SortOperationKind
+  dbid: SortOperationKind
+  flexId: SortOperationKind
   name: SortOperationKind
+  priority: SortOperationKind
   transportationMode: SortOperationKind
   status: SortOperationKind
-  customs: SortOperationKind
-  cargoReady: SortOperationKind
-  departsDate: SortOperationKind
-  departsLocation: SortOperationKind
-  arrivesDate: SortOperationKind
-  arrivesLocation: SortOperationKind
-  dueDate: SortOperationKind
-  dueDateTask: SortOperationKind
+  cargoReadyDate: SortOperationKind
+  actualDepartureDate: SortOperationKind
+  arrivalDate: SortOperationKind
   isLcl: SortOperationKind
   isLtl: SortOperationKind
+  customs: SortOperationKind
+  dueDate: SortOperationKind
+  dueDateTask: SortOperationKind
   toStringRepresentation: SortOperationKind
   consignee: CompanyEntitySort
   shipper: CompanyEntitySort
+  departurePort: PortSort
+  arrivalPort: PortSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -1381,6 +1635,11 @@ enum ReasonForCleranceEnum {
   PARTIAL_NAME
   PARTIAL_ADDRESS
   OTHER
+}
+
+enum ShipmentPriorityEnum {
+  STANDARD
+  HIGH
 }
 
 enum SortOperationKind {
