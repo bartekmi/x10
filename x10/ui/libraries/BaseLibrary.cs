@@ -465,6 +465,7 @@ namespace x10.ui.libraries {
             Name = "gap",
             Description = "If present, specifies gap between items in pixels.",
             DataType = DataTypes.Singleton.Integer,
+            DefaultValue = 8,
           },
           new UiAttributeDefinitionAtomic() {
             Name = "align",

@@ -30,21 +30,21 @@
       <cargoReadyDate/>
 
       <TableColumn label="Departs">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <actualDepartureDate/>
           <departurePort.cityAndCountry/>
         </VerticalStackPanel>
       </TableColumn>
 
       <TableColumn label="Arrives">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <arrivalDate/>
           <arrivalPort.cityAndCountry/>
         </VerticalStackPanel>
       </TableColumn>
 
       <TableColumn label="Due Date">
-        <VerticalStackPanel>
+        <VerticalStackPanel gap="0">
           <dueDateTask/>
           <dueDate weight="bold"/>
         </VerticalStackPanel>

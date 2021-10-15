@@ -6697,6 +6697,7 @@ Specifies background color of element
 If present, specifies gap between items in pixels.
 
 - Data Type: Integer
+- Default Value: 8
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging

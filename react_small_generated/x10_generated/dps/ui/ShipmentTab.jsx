@@ -163,6 +163,7 @@ function ShipmentTab(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Group
                   flexDirection='column'
+                  gap={ 0 }
                 >
                   <DateDisplay
                     value={ value?.actualDepartureDate }
@@ -181,6 +182,7 @@ function ShipmentTab(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Group
                   flexDirection='column'
+                  gap={ 0 }
                 >
                   <DateDisplay
                     value={ value?.arrivalDate }
@@ -199,6 +201,7 @@ function ShipmentTab(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Group
                   flexDirection='column'
+                  gap={ 0 }
                 >
                   <TextDisplay
                     value={ value?.dueDateTask }
