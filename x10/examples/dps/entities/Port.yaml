@@ -1,6 +1,7 @@
 name: Port
 inheritsFrom: Base
 description: A port of a shipment
+datagen_quantity: 20
 
 attributes:
   - name: city
