@@ -24,6 +24,14 @@ export type Message = {
 
 
 // Derived Attribute Functions
+export function messageShipmentUrl(message: ?{
+  +coreShipmentId: ?number,
+}): string {
+  if (message == null) return '';
+  const result = '/shipments/' + x10toString(message?.coreShipmentId);
+  return result;
+}
+
 export function messageFlexId(message: ?{
   +coreShipmentId: ?number,
 }): string {

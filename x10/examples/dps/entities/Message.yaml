@@ -13,6 +13,9 @@ attributes:
 
 
 derivedAttributes:
+  - name: shipmentUrl
+    dataType: String
+    formula: "='/shipments/' + coreShipmentId"
   - name: flexId
     dataType: String
     formula: "='Flex-' + coreShipmentId"

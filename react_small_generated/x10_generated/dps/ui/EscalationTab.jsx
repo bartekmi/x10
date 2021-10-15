@@ -9,10 +9,11 @@ import Icon from 'latitude/Icon';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
+import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 
 import { type Hit } from 'dps/entities/Hit';
-import { createDefaultMessage, messageFlexId } from 'dps/entities/Message';
+import { createDefaultMessage, messageFlexId, messageShipmentUrl } from 'dps/entities/Message';
 import { userName } from 'dps/entities/User';
 
 import { type EscalationTab_hit } from './__generated__/EscalationTab_hit.graphql';
@@ -28,6 +29,7 @@ function EscalationTab(props: Props): React.Node {
   return (
     <Group
       flexDirection='column'
+      gap={ 20 }
     >
       <Group
         alignItems='center'
@@ -44,9 +46,11 @@ function EscalationTab(props: Props): React.Node {
         itemDisplayFunc={ (data, onChange) => (
           <Group
             flexDirection='column'
+            gap={ 4 }
           >
             <Group
               alignItems='center'
+              gap={ 20 }
             >
               <TextDisplay
                 value={ userName(data?.user) }
@@ -58,8 +62,9 @@ function EscalationTab(props: Props): React.Node {
             <TextDisplay
               value={ data?.text }
             />
-            <TextDisplay
-              value={ messageFlexId(data) }
+            <Button
+              label={ messageFlexId(data) }
+              url={ messageShipmentUrl(data) }
             />
           </Group>
         ) }
