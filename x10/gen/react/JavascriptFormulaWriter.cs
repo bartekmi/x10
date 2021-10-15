@@ -40,6 +40,9 @@ namespace x10.gen.react {
         Wrap(expression, HelperFunctions.X10_ToString);
       else if (binary.IsComparison && !binary.DataType.IsString)
         Wrap(expression, HelperFunctions.ToNum);
+      else if (binary.IsEqualityOrInequality && 
+               expression.DataType.IsEnum && !(expression is ExpLiteral))
+        Wrap(expression, HelperFunctions.ToEnum);
       else
         expression.Accept(this);
     }

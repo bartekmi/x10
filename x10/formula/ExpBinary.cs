@@ -10,6 +10,7 @@ namespace x10.formula {
 
     // Derived
     public bool IsComparison => Token == "<" || Token == ">" || Token == "<=" || Token == ">=";
+    public bool IsEqualityOrInequality => Token == "==" || Token == "!=";
 
     public ExpBinary(FormulaParser parser) : base(parser) { 
       // Do nothing

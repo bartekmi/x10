@@ -17,6 +17,7 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import StyleControl from 'react_lib/StyleControl';
+import toEnum from 'react_lib/utils/toEnum';
 
 import { hitCalculateErrors, type Hit } from 'dps/entities/Hit';
 import { HitStatusEnumPairs, ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
@@ -52,7 +53,7 @@ function ClearanceForm(props: Props): React.Node {
         />
       </Group>
       <StyleControl
-        visible={ hit?.status == "denied" }
+        visible={ toEnum(hit?.status) == "denied" }
         width={ 800 }
         marginTop={ 10 }
         marginBottom={ 10 }
@@ -73,7 +74,7 @@ function ClearanceForm(props: Props): React.Node {
         </Group>
       </StyleControl>
       <StyleControl
-        visible={ hit?.status != "denied" }
+        visible={ toEnum(hit?.status) != "denied" }
       >
         <Group
           alignItems='center'
@@ -136,7 +137,7 @@ function ClearanceForm(props: Props): React.Node {
               successUrl: '/tenants',
             }
           }
-          label={ hit?.status != "denied" ? 'Clear the hit' : 'Confirm' }
+          label={ toEnum(hit?.status) != "denied" ? 'Clear the hit' : 'Confirm' }
         />
       </StyleControl>
     </FormProvider>

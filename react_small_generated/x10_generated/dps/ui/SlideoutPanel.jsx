@@ -18,6 +18,7 @@ import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
+import toEnum from 'react_lib/utils/toEnum';
 import toNum from 'react_lib/utils/toNum';
 
 import { createDefaultAttachment } from 'dps/entities/Attachment';
@@ -149,21 +150,21 @@ function SlideoutPanel(props: Props): React.Node {
                   />
                 </DisplayField>
                 <DisplayField
-                  label={ data?.status == "denied" ? 'Denied time' : 'Clearance time' }
+                  label={ toEnum(data?.status) == "denied" ? 'Denied time' : 'Clearance time' }
                 >
                   <TimestampDisplay
                     value={ data?.resolutionTimestamp }
                   />
                 </DisplayField>
                 <DisplayField
-                  label={ data?.status == "denied" ? 'Denied by' : 'Cleared by' }
+                  label={ toEnum(data?.status) == "denied" ? 'Denied by' : 'Cleared by' }
                 >
                   <TextDisplay
                     value={ userName(data?.resolvedBy) }
                   />
                 </DisplayField>
                 <StyleControl
-                  visible={ data?.status != "denied" }
+                  visible={ toEnum(data?.status) != "denied" }
                 >
                   <DisplayField
                     label='Reason for clearance'

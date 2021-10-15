@@ -17,7 +17,7 @@ import Table from 'react_lib/table/Table';
 import { companyEntityUrl } from 'dps/entities/CompanyEntity';
 import { type Hit } from 'dps/entities/Hit';
 import { portCityAndCountry } from 'dps/entities/Port';
-import { shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
+import { shipmentModeSubtext, shipmentUrl, TransportationModeEnumPairs } from 'dps/entities/Shipment';
 
 import { type ShipmentTab_hit } from './__generated__/ShipmentTab_hit.graphql';
 
@@ -93,13 +93,21 @@ function ShipmentTab(props: Props): React.Node {
               id: '_4',
               Header: 'Mode',
               width: 140,
-              accessor: (data) => data?.transportationMode,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <EnumDisplay
-                  value={ value }
-                  hideLabelIfIconPresent={ true }
-                  options={ TransportationModeEnumPairs }
-                />
+                <Group
+                  flexDirection='column'
+                  gap={ 0 }
+                >
+                  <EnumDisplay
+                    value={ value?.transportationMode }
+                    hideLabelIfIconPresent={ true }
+                    options={ TransportationModeEnumPairs }
+                  />
+                  <TextDisplay
+                    value={ shipmentModeSubtext(value) }
+                  />
+                </Group>
               ,
             },
             {
@@ -254,6 +262,8 @@ export default createFragmentContainer(ShipmentTab, {
         dueDate
         dueDateTask
         flexId
+        isLcl
+        isLtl
         name
         shipper {
           id

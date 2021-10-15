@@ -16,7 +16,10 @@
       </TableColumn>
 
       <TableColumn label="Mode">
-        <transportationMode hideLabelIfIconPresent="true"/>
+        <VerticalStackPanel gap="0">
+          <transportationMode hideLabelIfIconPresent="true"/>
+          <modeSubtext/>
+        </VerticalStackPanel>
       </TableColumn>
 
       <TableColumn label="Status">

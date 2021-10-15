@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toEnum from 'react_lib/utils/toEnum';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
@@ -98,6 +99,16 @@ export function shipmentUrl(shipment: ?{
 }): string {
   if (shipment == null) return '';
   const result = '/shipments/' + x10toString(shipment?.dbid);
+  return result;
+}
+
+export function shipmentModeSubtext(shipment: ?{
+  +transportationMode: ?TransportationModeEnum,
+  +isLcl: boolean,
+  +isLtl: boolean,
+}): string {
+  if (shipment == null) return '';
+  const result = toEnum(shipment?.transportationMode) == "ocean" ? (shipment?.isLcl ? 'LCL' : 'FCL') : toEnum(shipment?.transportationMode) == "truck" ? (shipment?.isLtl ? 'LTL' : 'FTL') : '';
   return result;
 }
 

@@ -62,6 +62,12 @@ derivedAttributes:
   - name: url
     dataType: String
     formula: "='/shipments/' + dbid"
+  - name: modeSubtext
+    description: FCL/LCL/FTL/LTL - as appropriate
+    dataType: String
+    formula: "=transportationMode == 'ocean' ? (isLcl ? 'LCL' : 'FCL') :
+               transportationMode == 'truck' ? (isLtl ? 'LTL' : 'FTL') :
+               '' "
 
 associations:
   - name: consignee
