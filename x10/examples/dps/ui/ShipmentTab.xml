@@ -16,7 +16,7 @@
       </TableColumn>
 
       <TableColumn label="Mode">
-        <transportationMode/>
+        <transportationMode hideLabelIfIconPresent="true"/>
       </TableColumn>
 
       <TableColumn label="Status">

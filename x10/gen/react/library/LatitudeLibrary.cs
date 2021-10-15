@@ -190,6 +190,7 @@ namespace x10.gen.react.library {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
           },
+          new JavaScriptAttributeDynamic("hideLabelIfIconPresent", "hideLabelIfIconPresent"),
           new JavaScriptAttributeByFunc() {
             PlatformName = "options",
             IsCodeSnippet = true,

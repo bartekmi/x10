@@ -197,6 +197,13 @@ namespace x10.ui.libraries {
         Description = "Display for a choice from a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "TextualDisplay",
         AtomicDataModel = new DataTypeEnum(),
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "hideLabelIfIconPresent",
+            Description = "If true, hide the enum label if an icon is present",
+            DataType = DataTypes.Singleton.Boolean,
+          },
+        }
       },
       new ClassDefNative() {
         Name = "BooleanBanner",

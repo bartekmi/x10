@@ -32,7 +32,7 @@ namespace x10.gen.react.generate {
         WriteLine(2, "value: '{0}',", ToEnumValueString(enumValue.Value));
         WriteLine(2, "label: '{0}',", enumValue.EffectiveLabel);
         if (enumValue.IconName != null)
-          WriteLine(1, "icon: '{0}'", enumValue.IconName);
+          WriteLine(2, "icon: '{0}'", enumValue.IconName);
         WriteLine(1, "},");
       }
 

@@ -1795,6 +1795,11 @@ If specified, element will have a border of this thickness and some small paddin
 Specifies background color of element
 
 - Data Type: Color
+### Attribute 'hideLabelIfIconPresent'
+
+If true, hide the enum label if an icon is present
+
+- Data Type: Boolean
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging

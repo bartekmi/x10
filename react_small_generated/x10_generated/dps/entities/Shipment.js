@@ -41,30 +41,37 @@ export const TransportationModeEnumPairs = [
   {
     value: 'air',
     label: 'Air',
+    icon: 'plane'
   },
   {
     value: 'ocean',
     label: 'Ocean',
+    icon: 'ship'
   },
   {
     value: 'truck',
     label: 'Truck',
+    icon: 'truck'
   },
   {
     value: 'rail',
     label: 'Rail',
+    icon: 'rail'
   },
   {
     value: 'unknown_transportation',
     label: 'Unknown Transportation',
+    icon: 'question'
   },
   {
     value: 'truck_intl',
     label: 'Truck Intl',
+    icon: 'truck'
   },
   {
     value: 'warehouse_storage',
     label: 'Warehouse Storage',
+    icon: 'warehouse'
   },
 ];
 

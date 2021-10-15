@@ -9,10 +9,8 @@ namespace x10.ui.libraries {
   public class IconLibrary {
 
     private static readonly string[] iconNames = new string[] {
-      "airplane",
       "airport",
       "attention",
-      "boat",
       "callout",
       "check",
       "credit-card",
@@ -22,9 +20,12 @@ namespace x10.ui.libraries {
       "factory",
       "human",
       "lightning",
+      "plane",
       "port",
-      "question-mark",
+      "question",
       "quotation-mark",
+      "rail",
+      "ship",
       "square-with-bubble",
       "star",
       "task",
@@ -32,6 +33,7 @@ namespace x10.ui.libraries {
       "ticket",
       "truck",
       "upload",
+      "warehouse",
     };
 
     private readonly static List<ClassDef> _classDefs = new List<ClassDef>() {

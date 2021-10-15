@@ -97,6 +97,7 @@ function ShipmentTab(props: Props): React.Node {
               Cell: ({ value }) =>
                 <EnumDisplay
                   value={ value }
+                  hideLabelIfIconPresent={ true }
                   options={ TransportationModeEnumPairs }
                 />
               ,
