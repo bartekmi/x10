@@ -206,8 +206,8 @@ type Shipment {
   dbid: Int
   flexId: String!
   name: String!
-  priority: ShipmentPriorityEnum
-  transportationMode: TransportationModeEnum
+  priority: ShipmentPriorityEnum!
+  transportationMode: TransportationModeEnum!
   status: String!
   cargoReadyDate: DateTime
   actualDepartureDate: DateTime
@@ -1314,8 +1314,8 @@ input ShipmentFilter {
   name_not_in: [String!]
   priority: ShipmentPriorityEnum
   priority_not: ShipmentPriorityEnum
-  priority_in: [ShipmentPriorityEnum]
-  priority_not_in: [ShipmentPriorityEnum]
+  priority_in: [ShipmentPriorityEnum!]
+  priority_not_in: [ShipmentPriorityEnum!]
   priority_gt: ShipmentPriorityEnum
   priority_not_gt: ShipmentPriorityEnum
   priority_gte: ShipmentPriorityEnum
@@ -1326,8 +1326,8 @@ input ShipmentFilter {
   priority_not_lte: ShipmentPriorityEnum
   transportationMode: TransportationModeEnum
   transportationMode_not: TransportationModeEnum
-  transportationMode_in: [TransportationModeEnum]
-  transportationMode_not_in: [TransportationModeEnum]
+  transportationMode_in: [TransportationModeEnum!]
+  transportationMode_not_in: [TransportationModeEnum!]
   transportationMode_gt: TransportationModeEnum
   transportationMode_not_gt: TransportationModeEnum
   transportationMode_gte: TransportationModeEnum
@@ -1461,8 +1461,8 @@ input ShipmentInput {
   dbid: Int
   flexId: String!
   name: String!
-  priority: ShipmentPriorityEnum
-  transportationMode: TransportationModeEnum
+  priority: ShipmentPriorityEnum!
+  transportationMode: TransportationModeEnum!
   status: String!
   cargoReadyDate: DateTime
   actualDepartureDate: DateTime

@@ -19,6 +19,7 @@ attributes:
 
   - name: priority
     dataType: ShipmentPriority
+    mandatory: true
 
   - name: transportationMode
     dataType: TransportationMode

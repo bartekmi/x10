@@ -5,6 +5,7 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
+import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
 import DateDisplay from 'react_lib/display/DateDisplay';
@@ -13,6 +14,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
+import toEnum from 'react_lib/utils/toEnum';
 
 import { companyEntityUrl } from 'dps/entities/CompanyEntity';
 import { type Hit } from 'dps/entities/Hit';
@@ -48,10 +50,21 @@ function ShipmentTab(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Button
-                  label={ value?.flexId }
-                  url={ shipmentUrl(value) }
-                />
+                <Group
+                  alignItems='center'
+                >
+                  <Button
+                    label={ value?.flexId }
+                    url={ shipmentUrl(value) }
+                  />
+                  <StyleControl
+                    visible={ toEnum(value?.priority) == "high" }
+                  >
+                    <Icon
+                      iconName='lightning'
+                    />
+                  </StyleControl>
+                </Group>
               ,
             },
             {
@@ -265,6 +278,7 @@ export default createFragmentContainer(ShipmentTab, {
         isLcl
         isLtl
         name
+        priority
         shipper {
           id
           toStringRepresentation

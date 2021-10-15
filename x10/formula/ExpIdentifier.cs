@@ -54,6 +54,8 @@ namespace x10.formula {
       string otherVarsMessage = otherVars == null ? null : string.Format("not a State variable: [{0}] and ",
         string.Join(", ", otherVars.Keys));
 
+      // TODO: This is an opportunity to use AddErrorDidYouMean(), but would require a bit of work to 
+      // come up with full list of allowed values
       Parser.Errors.AddError(this, "Identifier '{0}' is {1}not a Member of type: {2}", 
         Name,                 // Index 0
         otherVarsMessage,     // Index 1

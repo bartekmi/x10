@@ -5,7 +5,10 @@
     <Table path="shipments">
       <!-- TODO: Make flexId, Consignee, Shipper int hyperlinks -->
       <TableColumn label="Id">
-        <Button label="=flexId" url="=url"/>
+        <Row>
+          <Button label="=flexId" url="=url"/>
+          <Icon icon="lightning" visible="=priority == 'high'"/>
+        </Row>
       </TableColumn>
       <name/>
       <TableColumn label="Consignee" path="consignee">

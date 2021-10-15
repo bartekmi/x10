@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using HotChocolate;
 using HotChocolate.Execution;
 
+using x10.ui.metadata;
 using x10.ui.libraries;
 
 namespace x10.hotchoc {
@@ -25,6 +26,7 @@ namespace x10.hotchoc {
     public Type RepositoryInterface { get; private set; }
     public RepositoryBase Repository { get; private set; }
 
+    public UiLibrary[]? LogicalLibraries { get; set; }
     public string? IntermediateOutputDir { get; internal set; }
     public Action? PostInitializeAction { get; internal set; }
     public Action? PreInitializeAction { get; internal set; }
@@ -67,6 +69,7 @@ namespace x10.hotchoc {
         repository: new dps.Repositories.Repository()
       ) {
         IntermediateOutputDir = "/Users/bmuszynski/temp/dps",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
       },
       new HotChocConfig(
         commandLine: "cp",

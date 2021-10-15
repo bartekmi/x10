@@ -121,6 +121,7 @@ export function createDefaultShipment(): Shipment {
     dbid: null,
     flexId: '',
     name: '',
+    // $FlowExpectedError Required field, but no default value
     priority: null,
     // $FlowExpectedError Required field, but no default value
     transportationMode: null,
@@ -146,6 +147,8 @@ export function shipmentCalculateErrors(shipment: Shipment, prefix?: string): $R
   const errors = [];
   if (shipment == null ) return errors;
 
+  if (isBlank(shipment.priority))
+    addError(errors, prefix, 'Priority is required', ['priority']);
   if (isBlank(shipment.transportationMode))
     addError(errors, prefix, 'Transportation Mode is required', ['transportationMode']);
 
