@@ -20,11 +20,11 @@
       </TableColumn>
 
       <TableColumn label="Status">
-        <status fillColor="black" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
+        <status fillColor="black" textColor="white" weight="bold" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
       </TableColumn>
 
       <TableColumn label="Customs">
-        <customs fillColor="#B22222" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
+        <customs fillColor="#B22222" textColor="white" weight="bold" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
       </TableColumn>
 
       <cargoReadyDate/>

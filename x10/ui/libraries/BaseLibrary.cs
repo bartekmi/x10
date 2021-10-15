@@ -112,6 +112,12 @@ namespace x10.ui.libraries {
             },
             IsAttached = true,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "textColor",
+            Description = "The color of the text",
+            DataType = DataTypes.Singleton.Color,
+            IsAttached = true,
+          },
         }
       },
       new ClassDefNative() {

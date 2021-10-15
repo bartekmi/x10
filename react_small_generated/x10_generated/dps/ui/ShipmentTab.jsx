@@ -115,6 +115,8 @@ function ShipmentTab(props: Props): React.Node {
                   fillColor='black'
                 >
                   <TextDisplay
+                    weight='bold'
+                    textColor='white'
                     value={ value?.status }
                   />
                 </StyleControl>
@@ -134,6 +136,8 @@ function ShipmentTab(props: Props): React.Node {
                   fillColor='#b22222'
                 >
                   <TextDisplay
+                    weight='bold'
+                    textColor='white'
                     value={ value?.customs }
                   />
                 </StyleControl>

@@ -108,6 +108,10 @@ namespace x10.gen.react.library {
               new EnumConversion("bold", "bold"),
             },
           },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "textColor",
+            PlatformName = "textColor",
+          },
         },
       },
       new PlatformClassDef() {

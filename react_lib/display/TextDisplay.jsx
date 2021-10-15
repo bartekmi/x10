@@ -7,10 +7,11 @@ import Text from "latitude/Text";
 type Props = {|
   +value: ?string | ?number,
   +weight?: "bold",
+  +textColor?: string,
   // If needed, add bool prop to control behavior when blank (see comment below)
 |};
 export default function TextDisplay(props: Props): React.Node {
-  let {value, weight} = props;
+  let {value, weight, textColor} = props;
 
   // Without this, blank ("") texts leaves a gap, which generally looks bad
   if (typeof value === "string" && value.trim() === "")
@@ -21,7 +22,8 @@ export default function TextDisplay(props: Props): React.Node {
   }
 
   return (
-    <Text weight={weight || "regular"}>
+    // $FlowExpectedError error around textColor
+    <Text weight={weight || "regular"} color={textColor}>
       {value}
     </Text>
   );

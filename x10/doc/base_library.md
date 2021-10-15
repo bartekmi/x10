@@ -145,6 +145,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -370,6 +376,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1313,6 +1325,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -1837,6 +1855,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -2157,6 +2181,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3723,6 +3753,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -4562,6 +4598,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -5927,6 +5969,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -6237,6 +6285,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -6341,6 +6395,12 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'textColor'
+
+The color of the text
+
+- Data Type: Color
+- Attached Attribute: Yes
 ### Attribute 'visible'
 
 Is the object visible on the UI?
