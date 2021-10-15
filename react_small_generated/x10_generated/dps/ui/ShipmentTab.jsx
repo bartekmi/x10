@@ -129,6 +129,7 @@ function ShipmentTab(props: Props): React.Node {
               accessor: (data) => data,
               Cell: ({ value }) =>
                 <StyleControl
+                  visible={ value?.customs != '' }
                   paddingTop={ 5 }
                   paddingRight={ 20 }
                   paddingBottom={ 5 }

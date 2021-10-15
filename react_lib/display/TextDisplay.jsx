@@ -14,12 +14,14 @@ export default function TextDisplay(props: Props): React.Node {
   let {value, weight, textColor} = props;
 
   // Without this, blank ("") texts leaves a gap, which generally looks bad
-  if (typeof value === "string" && value.trim() === "")
-    value = null;
-
-  if (value != null) {
-    value = value.toString();
+  if (value == null ||
+    typeof value === "string" && value.trim() === "" ||
+    typeof value === "number" && isNaN(value)) {
+        return null;
   }
+
+  // Otherwise, things will blow up is value is, say, an object
+  value = value.toString();
 
   return (
     // $FlowExpectedError error around textColor

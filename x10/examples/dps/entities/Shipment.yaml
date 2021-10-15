@@ -49,7 +49,7 @@ attributes:
 # Note yet located in GraphQL
   - name: customs
     dataType: String
-    datagen_pattern: (ISF | Entry | Released | )
+    datagen_pattern: (20% => ISF | 15% => Entry | 15% => Released | 50% => )
 
   - name: dueDate
     dataType: Date

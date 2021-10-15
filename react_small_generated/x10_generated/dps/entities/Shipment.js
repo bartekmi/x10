@@ -104,6 +104,7 @@ export function createDefaultShipment(): Shipment {
     flexId: '',
     name: '',
     priority: null,
+    // $FlowExpectedError Required field, but no default value
     transportationMode: null,
     status: '',
     cargoReadyDate: null,
@@ -127,6 +128,8 @@ export function shipmentCalculateErrors(shipment: Shipment, prefix?: string): $R
   const errors = [];
   if (shipment == null ) return errors;
 
+  if (isBlank(shipment.transportationMode))
+    addError(errors, prefix, 'Transportation Mode is required', ['transportationMode']);
 
   return errors;
 }
