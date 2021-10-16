@@ -3,10 +3,12 @@
  */
 
 import * as React from "react";
+import {StyleSheet, css} from "aphrodite";
 
 import Group from "latitude/Group";
 import Button from "latitude/button/Button";
 import IconButton from "latitude/button/IconButton";
+import colors from "latitude/colors";
 
 type TItem = {
   +id: string,
@@ -30,26 +32,29 @@ export default function MultiStacker<T: TItem>({
   return (
     <Group gap={20} flexDirection="column">
       {items.map(item => (
-        <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
-          {itemDisplayFunc(
-            item,
-            (newItem) => {
-              if (onChange) {
-                const newArray = items.map(x => x.id === newItem.id ? newItem : x);
-                onChange(newArray);
-              }
-            },
-          )}
-          {onChange ? (
-            <IconButton
-              iconName="trash"
-              type="button"
-              onClick={() =>
-                onChange(items.filter(x => x.id !== item.id))
-              }
-            />
-          ) : null}
-        </div>
+        <>
+          <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
+            {itemDisplayFunc(
+              item,
+              (newItem) => {
+                if (onChange) {
+                  const newArray = items.map(x => x.id === newItem.id ? newItem : x);
+                  onChange(newArray);
+                }
+              },
+            )}
+            {onChange ? (
+              <IconButton
+                iconName="trash"
+                type="button"
+                onClick={() =>
+                  onChange(items.filter(x => x.id !== item.id))
+                }
+              />
+            ) : null}
+          </div>
+          <div className={css(styles.divider)}/>
+        </>
       ))}
       {onChange ? (
         <Button
@@ -67,3 +72,12 @@ export default function MultiStacker<T: TItem>({
     </Group>
   );
 }
+
+const styles = StyleSheet.create({
+  divider: {
+    height: "2px",
+    borderBottom: `1px solid ${colors.grey30}`,
+    margin: "10px 0",
+    padding: "0",
+  },
+});
