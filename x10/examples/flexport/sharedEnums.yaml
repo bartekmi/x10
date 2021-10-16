@@ -3,9 +3,9 @@
   ui: EnumCardSelector
   values: 
     - value: ocean
-      icon: boat
+      icon: ship
     - value: air
-      icon: airplane
+      icon: plane
     - value: truck
       icon: truck
   default: ocean
