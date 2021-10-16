@@ -2,18 +2,13 @@ name: User
 inheritsFrom: Base
 description: A portion of Core User entity
 datagen_quantity: 100
-defaultStringRepresentation: "=firstName + ' ' + lastName"
+defaultStringRepresentation: "=name"
 
 attributes:
-  - name: firstName
+  - name: name
     dataType: String
     mandatory: true
-    datagen_pattern: <first_name>
-
-  - name: lastName
-    dataType: String
-    mandatory: true
-    datagen_pattern: <last_name>
+    datagen_pattern: <first_name> <last_name>
 
   - name: email
     dataType: String
@@ -27,11 +22,5 @@ attributes:
 
   - name: location
     dataType: String
-    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane)
+    datagen_pattern: (~ND~ | ~NDD~ | ~NDDD~) (50% => (West | East | North | South) | 50% => ) <noun> (Street | Avenue | Road | Rd | Cres | Lane),   <city>, <country>
     datagen_capitalization: wordCaps
-
-
-derivedAttributes:
-  - name: name
-    dataType: String
-    formula: "=firstName + ' ' + lastName"

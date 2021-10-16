@@ -8,7 +8,18 @@
     <List path="messages">
       <VerticalStackPanel gap="4">
         <Row gap="20">
-          <user.name/>
+          <Dialog path="user" title="=user.name">
+            <Dialog.OpenButton>
+              <Button label="=name"/>
+            </Dialog.OpenButton>
+            <VerticalStackPanel width="350">
+              <DisplayForm>
+                <phone/>
+                <email/>
+                <location/>
+              </DisplayForm>
+            </VerticalStackPanel>
+          </Dialog>
           <timestamp/>
         </Row>
         <text/>

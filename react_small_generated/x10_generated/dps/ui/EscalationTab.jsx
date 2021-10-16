@@ -9,12 +9,15 @@ import Icon from 'latitude/Icon';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
+import DisplayField from 'react_lib/form/DisplayField';
+import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import Dialog from 'react_lib/modal/Dialog';
 import MultiStacker from 'react_lib/multi/MultiStacker';
+import StyleControl from 'react_lib/StyleControl';
 
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultMessage, messageFlexId, messageShipmentUrl } from 'dps/entities/Message';
-import { userName } from 'dps/entities/User';
 
 import { type EscalationTab_hit } from './__generated__/EscalationTab_hit.graphql';
 
@@ -52,9 +55,46 @@ function EscalationTab(props: Props): React.Node {
               alignItems='center'
               gap={ 20 }
             >
-              <TextDisplay
-                value={ userName(data?.user) }
-              />
+              <Dialog
+                title={ data?.user?.user?.name }
+                openButton={
+                  <Button
+                    label={ data?.user?.name }
+                  />
+                }
+              >
+                <StyleControl
+                  width={ 350 }
+                >
+                  <Group
+                    flexDirection='column'
+                  >
+                    <DisplayForm>
+                      <DisplayField
+                        label='Phone'
+                      >
+                        <TextDisplay
+                          value={ data?.user?.phone }
+                        />
+                      </DisplayField>
+                      <DisplayField
+                        label='Email'
+                      >
+                        <TextDisplay
+                          value={ data?.user?.email }
+                        />
+                      </DisplayField>
+                      <DisplayField
+                        label='Location'
+                      >
+                        <TextDisplay
+                          value={ data?.user?.location }
+                        />
+                      </DisplayField>
+                    </DisplayForm>
+                  </Group>
+                </StyleControl>
+              </Dialog>
               <TimestampDisplay
                 value={ data?.timestamp }
               />
@@ -87,8 +127,10 @@ export default createFragmentContainer(EscalationTab, {
         user {
           id
           toStringRepresentation
-          firstName
-          lastName
+          email
+          location
+          name
+          phone
         }
       }
     }

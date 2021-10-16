@@ -24,7 +24,6 @@ import toNum from 'react_lib/utils/toNum';
 import { createDefaultAttachment } from 'dps/entities/Attachment';
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultOldHit } from 'dps/entities/OldHit';
-import { userName } from 'dps/entities/User';
 import { ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
 
 import { type SlideoutPanel_hit } from './__generated__/SlideoutPanel_hit.graphql';
@@ -160,7 +159,7 @@ function SlideoutPanel(props: Props): React.Node {
                   label={ toEnum(data?.status) == "denied" ? 'Denied by' : 'Cleared by' }
                 >
                   <TextDisplay
-                    value={ userName(data?.resolvedBy) }
+                    value={ data?.resolvedBy?.name }
                   />
                 </DisplayField>
                 <StyleControl
@@ -238,8 +237,7 @@ export default createFragmentContainer(SlideoutPanel, {
         resolvedBy {
           id
           toStringRepresentation
-          firstName
-          lastName
+          name
         }
         status
       }

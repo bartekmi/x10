@@ -228,8 +228,7 @@ type Shipment {
 
 "A portion of Core User entity"
 type User {
-  firstName: String!
-  lastName: String!
+  name: String!
   email: String!
   phone: String!
   location: String!
@@ -1510,26 +1509,16 @@ input ShipmentSort {
 input UserFilter {
   AND: [UserFilter!]
   OR: [UserFilter!]
-  firstName: String
-  firstName_not: String
-  firstName_contains: String
-  firstName_not_contains: String
-  firstName_starts_with: String
-  firstName_not_starts_with: String
-  firstName_ends_with: String
-  firstName_not_ends_with: String
-  firstName_in: [String!]
-  firstName_not_in: [String!]
-  lastName: String
-  lastName_not: String
-  lastName_contains: String
-  lastName_not_contains: String
-  lastName_starts_with: String
-  lastName_not_starts_with: String
-  lastName_ends_with: String
-  lastName_not_ends_with: String
-  lastName_in: [String!]
-  lastName_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
   email: String
   email_not: String
   email_contains: String
@@ -1596,8 +1585,7 @@ input UserFilter {
 
 "A portion of Core User entity"
 input UserInput {
-  firstName: String!
-  lastName: String!
+  name: String!
   email: String!
   phone: String!
   location: String!
@@ -1608,8 +1596,7 @@ input UserInput {
 
 "A portion of Core User entity"
 input UserSort {
-  firstName: SortOperationKind
-  lastName: SortOperationKind
+  name: SortOperationKind
   email: SortOperationKind
   phone: SortOperationKind
   location: SortOperationKind

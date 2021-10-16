@@ -12,9 +12,7 @@ namespace x10.hotchoc.dps.Entities {
   public class User : Base {
     // Regular Attributes
     [GraphQLNonNullType]
-    public string? FirstName { get; set; }
-    [GraphQLNonNullType]
-    public string? LastName { get; set; }
+    public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? Email { get; set; }
     [GraphQLNonNullType]
@@ -25,7 +23,7 @@ namespace x10.hotchoc.dps.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return FirstName + " " + LastName; }
+      get { return Name; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 
