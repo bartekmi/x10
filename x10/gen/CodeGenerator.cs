@@ -57,8 +57,8 @@ namespace x10.gen {
         Generate(entity);
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
-        PrintIntermediateFile(classDef);
         Generate(classDef);
+        PrintIntermediateFile(classDef);
       }
 
       GenerateEnumFiles();

@@ -176,7 +176,8 @@ namespace x10 {
 
       generator.IntermediateFilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-        INTERMEDIATE_FILES_DIR);
+        INTERMEDIATE_FILES_DIR,
+        config.CommandLine);
 
       generator.Generate(
         messages,

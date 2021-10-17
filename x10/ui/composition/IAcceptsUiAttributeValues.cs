@@ -71,10 +71,11 @@ namespace x10.ui.composition {
       Instance instance = source as Instance;
 
       if (config != null) {
-        if (config.AlwaysPrintRenderAs && instance != null)
+        // There's no point printing RenderAs for ClassDefUse's since it's same as name
+        if (config.AlwaysPrintRenderAs && instance is InstanceModelRef)
           writer.Write(" renderAs='{0}'", instance.RenderAs?.Name ?? "NULL");
-        if (config.PrintModelMember && instance?.ModelMember != null)
-          writer.Write(" modelMember='{0}'", instance.ModelMember);
+        if (config.PrintModelMember && instance?.PathComponents?.Count > 0)
+          writer.Write(" pathComps='{0}'", string.Join(", ", instance.PathComponents.Select(x => x.Name)));
       }
 
       if (source.ComplexAttributeValues().Count() == 0 && !(source is ClassDefX10))
