@@ -6,7 +6,7 @@ import LatitudeButton from "latitude/button/Button";
 import TextLink from "latitude/TextLink";
 
 type Props = {|
-  +label: string,
+  +label: ?string,          // Allow null primarily to appease Flow
   +onClick?: () => mixed,
   +url?: string,
 |};

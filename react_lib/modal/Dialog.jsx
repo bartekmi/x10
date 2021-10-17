@@ -15,7 +15,7 @@ export const DialogContext: React.Context<DialogContextType> = React.createConte
 
 type Props = {|
   +openButton: any,
-  +title: string,
+  +title: ?string,        // Allow null primarily to appease Flow
   +children: React.Node, // The body of the Dialog
 |};
 export default function Dialog(props: Props): React.Node {
