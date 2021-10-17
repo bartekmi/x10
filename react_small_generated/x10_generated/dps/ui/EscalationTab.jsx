@@ -56,7 +56,7 @@ function EscalationTab(props: Props): React.Node {
               gap={ 20 }
             >
               <Dialog
-                title={ data?.user?.user?.name }
+                title={ data?.user?.name }
                 openButton={
                   <Button
                     label={ data?.user?.name }

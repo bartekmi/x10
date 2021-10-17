@@ -8,11 +8,11 @@
     <List path="messages">
       <VerticalStackPanel gap="4">
         <Row gap="20">
-          <Dialog path="user" title="=user.name">
+          <Dialog title="=user.name">
             <Dialog.OpenButton>
-              <Button label="=name"/>
+              <Button label="=user.name"/>
             </Dialog.OpenButton>
-            <VerticalStackPanel width="350">
+            <VerticalStackPanel path="user" width="350">
               <DisplayForm>
                 <phone/>
                 <email/>
