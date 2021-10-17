@@ -700,6 +700,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -807,6 +812,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -3460,6 +3470,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -4084,6 +4099,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -5145,6 +5165,11 @@ Padding on top of the component (in pixels)
 Determines the state of the button. Typically, this is a formula.
 
 - Data Type: Boolean
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).
@@ -5484,6 +5509,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'style'
+
+The visual style of the button
+
+- Data Type: ButtonStyle
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).

@@ -854,6 +854,11 @@ namespace x10.ui.libraries {
             DataType = DataTypes.Singleton.String,
           },
           new UiAttributeDefinitionAtomic() {
+            Name = "style",
+            Description = "The visual style of the button",
+            DataType = new DataTypeEnum("ButtonStyle", new string[] {"normal", "link" }),
+          },
+          new UiAttributeDefinitionAtomic() {
             Name = "url",
             Description = "Application Url to jump to (either url or Action must be provided).",
             DataType = DataTypes.Singleton.String,

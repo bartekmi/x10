@@ -653,6 +653,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("label", "label"),
           new JavaScriptAttributeDynamic("url", "url"),
+          new JavaScriptAttributeDynamic("style", "style"),
         },
       },
       #endregion

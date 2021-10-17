@@ -60,6 +60,7 @@ function EscalationTab(props: Props): React.Node {
                 openButton={
                   <Button
                     label={ data?.user?.name }
+                    style='link'
                   />
                 }
               >

@@ -10,7 +10,7 @@
         <Row gap="20">
           <Dialog title="=user.name">
             <Dialog.OpenButton>
-              <Button label="=user.name"/>
+              <Button label="=user.name" style="link"/>
             </Dialog.OpenButton>
             <VerticalStackPanel path="user" width="350">
               <DisplayForm>
