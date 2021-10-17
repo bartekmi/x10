@@ -651,47 +651,6 @@ namespace x10.compiler {
 
     #region Success
     [Fact]
-    public void PathResolution() {
-      ClassDefX10 definition = RunTest(@"
-<MyComponent model='Building'>
-  <VerticalGroup>       <!-- No path -->
-    <name/>             <!-- Path for a Model Reference -->
-    <Table path='demoApartment.rooms'>   <!-- double member path-->
-      <Table.Header>
-        <HelpIcon/>
-      </Table.Header>
-      <name/>
-      <TableColumn label='Paint'>
-        <Button path='paintColor' label='Boo' action='doSomething'/>    <!-- Many to single -->
-      </TableColumn>
-    </Table>
-  </VerticalGroup>
-</MyComponent>
-");
-
-      Assert.Empty(_messages.Messages);
-      string result = Print(definition);
-
-      Assert.Equal(@"<MyComponent model='Building'>
-  <VerticalGroup>
-    <name/>
-    <Table path='demoApartment.rooms'>
-      <Table.Header>
-        <HelpIcon/>
-      </Table.Header>
-      <TableColumn>
-        <name/>
-      </TableColumn>
-      <TableColumn label='Paint'>
-        <Button path='paintColor' label='Boo' action='doSomething'/>
-      </TableColumn>
-    </Table>
-  </VerticalGroup>
-</MyComponent>
-", result);
-    }
-
-    [Fact]
     public void EnumAttributeReading() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent model='Building'>
@@ -732,23 +691,6 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void ReadContextData() {
-      ClassDefX10 definition = RunTest(@"
-<MyComponent model='Building'>
-  <TextEdit path='__Context__.currentUser.firstName'/>
-</MyComponent>
-");
-
-      Assert.Empty(_messages.Messages);
-      string result = Print(definition);
-
-      Assert.Equal(@"<MyComponent model='Building'>
-  <TextEdit path='__Context__.currentUser.firstName'/>
-</MyComponent>
-", result);
-    }
-
-    [Fact]
     public void ModelRefWithAttributes() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent model='Building'>
@@ -771,9 +713,10 @@ namespace x10.compiler {
     #endregion
 
     #region Path-Related Tests
+    #region Success
 
     [Fact]
-    public void NestedModelReferencePath() {
+    public void Path_Success_NestedModelReference() {
       ClassDefX10 definition = RunTest(@"
 <MyComponent model='Building'>
   <VerticalGroup>
@@ -793,8 +736,107 @@ namespace x10.compiler {
 ", result);
     }
 
+
+    // I've struggled long and hard with this - should 'path' affect its peer
+    // attributes - i.e. attributes declared for the same Instance?
+    //
+    // 1. If Yes, peer attributes should be scoped to the path 
+    //    Pro: may be convenient and also intuitive
+    // 2. If No, peer attributes are not affected by the path
+    //    Pro: Allows more flexibility since other attributes (e.g. visibility)
+    //         can access un-scoped data
+    //
+    // #2 above is implemented
+    //
+    // *** Nitty-gritty...
+    // In UiCompilerPass2, note that in the following line of code, the context for
+    // formula parsing is the PARENT data model of the instance.
+    //  ParseAndValidateFormulas(instance, parentDataModel);
+
     [Fact]
-    public void NonExistentPathMember() {
+    public void Path_Success_DoesNotAffectPeers() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <VerticalGroup path='demoApartment' visible='=apartmentCount > 0'>
+    <number/>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <VerticalGroup path='demoApartment' visible='=apartmentCount > 0'>
+    <number/>
+  </VerticalGroup>
+</MyComponent>
+", result);
+    }
+
+    [Fact]
+    public void Path_Success_ReadContextData() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <TextEdit path='__Context__.currentUser.firstName'/>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <TextEdit path='__Context__.currentUser.firstName'/>
+</MyComponent>
+", result);
+    }
+    [Fact]
+    public void Path_Success_PathResolution() {
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <VerticalGroup>       <!-- No path -->
+    <name/>             <!-- Path for a Model Reference -->
+    <Table path='demoApartment.rooms'>   <!-- double member path-->
+      <Table.Header>
+        <HelpIcon/>
+      </Table.Header>
+      <name/>
+      <TableColumn label='Paint'>
+        <Button path='paintColor' label='Boo' action='doSomething'/>    <!-- Many to single -->
+      </TableColumn>
+    </Table>
+  </VerticalGroup>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition);
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <VerticalGroup>
+    <name/>
+    <Table path='demoApartment.rooms'>
+      <Table.Header>
+        <HelpIcon/>
+      </Table.Header>
+      <TableColumn>
+        <name/>
+      </TableColumn>
+      <TableColumn label='Paint'>
+        <Button path='paintColor' label='Boo' action='doSomething'/>
+      </TableColumn>
+    </Table>
+  </VerticalGroup>
+</MyComponent>
+", result);
+    }
+
+    #endregion
+
+    #region Fail
+
+    [Fact]
+    public void Path_Fail_NonExistentMember() {
       RunTest(@"
 <Outer model='Building'>
   <VerticalGroup path='bogus'>
@@ -807,7 +849,7 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void NonExistentNestedPathMember() {
+    public void Path_Fail_NonExistentNestedMember() {
       RunTest(@"
 <Outer model='Building'>
   <VerticalGroup path='demoApartment.windows'/>
@@ -818,7 +860,7 @@ namespace x10.compiler {
     }
 
     [Fact]
-    public void BadModelReference() {
+    public void Path_Fail_BadModelReference() {
       RunTest(@"
 <Outer description='My description...' model='Building'>
   <Table path='apartments'>
@@ -832,6 +874,7 @@ namespace x10.compiler {
 
       Assert.Single(_messages.Messages);
     }
+    #endregion // Path - Failure
 
     #endregion
 

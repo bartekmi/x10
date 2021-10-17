@@ -68,10 +68,12 @@ namespace x10.ui.composition {
       foreach (UiAttributeValueAtomic atomic in source.AtomicAttributeValues())
         atomic.Print(writer);
 
+      Instance instance = source as Instance;
+
       if (config != null) {
-        if (config.AlwaysPrintRenderAs && source is InstanceModelRef modelRef)
-          writer.Write(" renderAs='{0}'", modelRef.RenderAs?.Name ?? "NULL");
-        if (config.PrintModelMember && source is Instance instance && instance.ModelMember != null)
+        if (config.AlwaysPrintRenderAs && instance != null)
+          writer.Write(" renderAs='{0}'", instance.RenderAs?.Name ?? "NULL");
+        if (config.PrintModelMember && instance?.ModelMember != null)
           writer.Write(" modelMember='{0}'", instance.ModelMember);
       }
 

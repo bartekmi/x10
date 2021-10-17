@@ -83,7 +83,7 @@ attributes:
   - name: number
     description: dummy
     dataType: Integer
-  - name: squreFootage
+  - name: squareFootage
     description: dummy
     dataType: Float
   - name: balconyType
