@@ -1,5 +1,6 @@
 // @flow
 
+import moment from "moment-timezone";
 import * as React from "react";
 
 import Text from "latitude/Text";
@@ -16,25 +17,16 @@ export default function TimestampDisplay(props: Props): React.Node {
   if (value == null)
     return null;
 
-  const [date, time] = extractDateAndTime(value);
+  const theMoment = moment(value, [moment.ISO_8601, "YYYY-MM-DD"]);
+  const formattedDate = theMoment.format("YYYY-MM-DD");
+  const formattedTime = theMoment.format("h:mm A");
+
   const nonNullWeight = weight || "regular";
 
   return (
     <Group gap={12}>
-      <Text weight={nonNullWeight}>{date}</Text>
-      <Text weight={nonNullWeight}>{time}</Text>
+      <Text weight={nonNullWeight}>{formattedDate}</Text>
+      <Text weight={nonNullWeight}>{formattedTime}</Text>
     </Group>
   );
-}
-
-function extractDateAndTime(timestamp: string): $ReadOnlyArray<string> {
-  const index = timestamp.indexOf("T");
-  if (index == -1) {
-    throw "Invalid date/time format: " + timestamp;
-  }
- 
-  const date = timestamp.substr(0, index);
-  const time = timestamp.substr(index + 1, 8);
-
-  return [date, time];
 }
