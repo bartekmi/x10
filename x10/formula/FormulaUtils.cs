@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
+using x10.parsing;
 using x10.model.definition;
+using x10.model.metadata;
 
 namespace x10.formula {
   public static class FormulaUtils {
@@ -89,6 +90,20 @@ namespace x10.formula {
           throw new NotImplementedException();
 
       return regAttrs;
+    }
+
+    public static void ValidateReturnedDataType(MessageBucket messages, IParseElement element, X10DataType expected, X10DataType actual) {
+      if (actual.IsError)
+        return;
+
+      if (expected.IsString ||  // Anything can be converted to String; don't worry about checking
+          expected.IsError ||
+          expected.IsColor && actual.IsString)  // Color can be parsed from string
+        return;
+
+      if (!actual.Equals(expected))
+        messages.AddError(element, "Expected expression to return {0}, but it returns {1}",
+          expected, actual);
     }
   }
 }

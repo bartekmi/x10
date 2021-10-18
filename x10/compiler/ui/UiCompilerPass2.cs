@@ -470,19 +470,10 @@ namespace x10.compiler.ui {
     }
 
     private void ValidateReturnedDataType(UiAttributeValueAtomic value) {
-      X10DataType returnedDataType = value.Expression.DataType;
-      if (returnedDataType.IsError)
-        return;
+      X10DataType expected = new X10DataType(value.DefinitionAtomic.DataType);
+      X10DataType actual = value.Expression.DataType;
 
-      X10DataType expectedReturnType = new X10DataType(value.DefinitionAtomic.DataType);
-
-      // Since anything can be converted to String, don't worry about type checking
-      if (expectedReturnType.IsString || expectedReturnType.IsError)
-        return;
-
-      if (!returnedDataType.Equals(expectedReturnType))
-        _messages.AddError(value.XmlBase, "Expected expression to return {0}, but it returns {1}",
-          expectedReturnType, returnedDataType);
+      FormulaUtils.ValidateReturnedDataType(_messages, value.XmlBase, expected, actual);
     }
     #endregion
 

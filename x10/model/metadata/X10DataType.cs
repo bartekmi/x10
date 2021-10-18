@@ -26,6 +26,7 @@ namespace x10.model.metadata {
     public bool IsFloat { get { return DataType == DataTypes.Singleton.Float; } }
     public bool IsInteger { get { return DataType == DataTypes.Singleton.Integer; } }
     public bool IsString { get { return DataType == DataTypes.Singleton.String; } }
+    public bool IsColor { get { return DataType == DataTypes.Singleton.Color; } }
     public bool IsBoolean { get { return DataType == DataTypes.Singleton.Boolean; } }
     public bool IsComparable { get { return IsPrimitive && !IsBoolean; } } // Can participate in >, <, >=, <= comparisons
 

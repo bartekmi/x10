@@ -134,21 +134,12 @@ namespace x10.compiler {
     }
 
     private void ValidateReturnedDataType(Member member, ModelAttributeDefinitionAtomic atomicDef, ModelAttributeValue value) {
-      X10DataType returnedDataType = value.Expression.DataType;
-      if (returnedDataType.IsError)
-        return;
-
-      X10DataType expectedReturnType = atomicDef.DataTypeMustBeSameAsAttribute ?
+      X10DataType expected = atomicDef.DataTypeMustBeSameAsAttribute ?
         member.GetX10DataType() :
         new X10DataType(atomicDef.DataType);
+      X10DataType actual = value.Expression.DataType;
 
-      // Since anything can be converted to String, don't worry about type checking
-      if (expectedReturnType.IsString || expectedReturnType.IsError)
-        return;
-
-      if (!returnedDataType.Equals(expectedReturnType))
-        Messages.AddError(value.TreeElement, "Expected expression to return {0}, but it returns {1}",
-          expectedReturnType, returnedDataType);
+      FormulaUtils.ValidateReturnedDataType(Messages, value.TreeElement, expected, actual);
     }
   }
 }

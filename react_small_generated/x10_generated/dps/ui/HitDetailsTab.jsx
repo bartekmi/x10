@@ -15,11 +15,12 @@ import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Separator from 'react_lib/Separator';
+import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
-import { MatchTypeEnumPairs } from 'dps/entities/MatchInfo';
+import { matchInfoIsAddressMatch, matchInfoIsNameMatch, MatchTypeEnumPairs } from 'dps/entities/MatchInfo';
 import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
@@ -61,6 +62,7 @@ function HitDetailsTab(props: Props): React.Node {
         />
         <Group
           alignItems='center'
+          gap={ 52 }
         >
           <DisplayField
             label='Name'
@@ -118,22 +120,30 @@ function HitDetailsTab(props: Props): React.Node {
                 id: '_2',
                 Header: 'Name',
                 width: 140,
-                accessor: (data) => data?.name,
+                accessor: (data) => data,
                 Cell: ({ value }) =>
-                  <TextDisplay
-                    value={ value }
-                  />
+                  <StyleControl
+                    fillColor={ matchInfoIsNameMatch(value) ? '#FFA07A' : null }
+                  >
+                    <TextDisplay
+                      value={ value?.name }
+                    />
+                  </StyleControl>
                 ,
               },
               {
                 id: '_3',
                 Header: 'Address',
                 width: 140,
-                accessor: (data) => data?.address,
+                accessor: (data) => data,
                 Cell: ({ value }) =>
-                  <TextDisplay
-                    value={ value }
-                  />
+                  <StyleControl
+                    fillColor={ matchInfoIsAddressMatch(value) ? '#FFD700' : null }
+                  >
+                    <TextDisplay
+                      value={ value?.address }
+                    />
+                  </StyleControl>
                 ,
               },
               {
@@ -218,9 +228,11 @@ export default createFragmentContainer(HitDetailsTab, {
       matches {
         id
         address
+        addressMatchScore
         comments
         matchType
         name
+        nameMatchScore
         number
         reasonListed
         score

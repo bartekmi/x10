@@ -8,7 +8,7 @@
 
     <DisplayForm>
       <Heading3 text="Company information"/>
-      <Row>
+      <Row gap="52">
         <companyEntity.name/>
         <companyEntity.physicalAddress.address/>
       </Row>
@@ -38,8 +38,8 @@
 
           <number/>
           <score/>
-          <name/>
-          <address/>
+          <name fillColor="=isNameMatch ? '#FFA07A' : null"/>
+          <address fillColor="=isAddressMatch ? '#FFD700' : null"/>
           <matchType label="Type"/>
         </Table>
       </Expander.Body>

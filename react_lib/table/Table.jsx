@@ -51,7 +51,7 @@ export default function Table({ columns, data, expandedContentFunc }: Props): Re
       if (rowExpanded && expandedContentFunc) {
         rowArray.push(
           <tr className="expanded" key="expanded">
-            <td colSpan={row.cells.length}>{expandedContentFunc(row)}</td>
+            <td colSpan={row.cells.length}>{expandedContentFunc(row.original)}</td>
           </tr>
         );
       }

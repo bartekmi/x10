@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toNum from 'react_lib/utils/toNum';
 
 import { type MatchInfoSource } from 'dps/entities/MatchInfoSource';
 
@@ -44,6 +45,25 @@ export const MatchTypeEnumPairs = [
 ];
 
 export type MatchTypeEnum = 'business' | 'individual' | 'vessel';
+
+
+
+// Derived Attribute Functions
+export function matchInfoIsNameMatch(matchInfo: ?{
+  +nameMatchScore: ?number,
+}): boolean {
+  if (matchInfo == null) return false;
+  const result = toNum(matchInfo?.nameMatchScore) > toNum(85);
+  return result;
+}
+
+export function matchInfoIsAddressMatch(matchInfo: ?{
+  +addressMatchScore: ?number,
+}): boolean {
+  if (matchInfo == null) return false;
+  const result = toNum(matchInfo?.addressMatchScore) > toNum(85);
+  return result;
+}
 
 
 

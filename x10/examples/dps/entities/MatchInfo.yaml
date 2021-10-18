@@ -55,6 +55,14 @@ attributes:
   - name: recordSource
     dataType: String
 
+derivedAttributes:
+  - name: isNameMatch
+    dataType: Boolean
+    formula: "=nameMatchScore > 85"
+  - name: isAddressMatch
+    dataType: Boolean
+    formula: "=addressMatchScore > 85"
+
 associations:
   - name: sources
     dataType: MatchInfoSource
