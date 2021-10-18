@@ -477,8 +477,10 @@ namespace x10.gen.react.library {
             PlatformName = "headerFunc",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              UiAttributeValueComplex headerAttr = instance.FindAttributeValue("Header") as UiAttributeValueComplex;
-              Instance headerInstance = headerAttr.Instances.Single();
+              Instance headerInstance = instance.FindSingleComplexAttributeInstance("Header");
+              if (headerInstance == null)
+                return null;              
+
               return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
                 generator.WriteLine(indent, "headerFunc={ () => (");
                 generator.GenerateComponentRecursively(OutputType.React, indent + 1, headerInstance);
@@ -590,7 +592,26 @@ namespace x10.gen.react.library {
               generator.RenderComplexAttrAsJavascript(indent + 1, primaryValue);
               generator.WriteLine(indent, "}");
             },
-          }
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "expandedContentFunc",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Instance expandedInstance = instance.FindSingleComplexAttributeInstance("ExpandedContent");
+              if (expandedInstance == null)
+                return null;              
+
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                generator.WriteLine(indent, "expandedContentFunc={ (data) => (");
+
+                generator.PushSourceVariableName("data");
+                generator.GenerateComponentRecursively(OutputType.React, indent + 1, expandedInstance);
+                generator.PopSourceVariableName();
+
+                generator.WriteLine(indent, ") }");              
+              });
+            },
+          },
         }
       },
       new PlatformClassDef() {
@@ -786,8 +807,7 @@ namespace x10.gen.react.library {
             PlatformName = "openButton",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              UiAttributeValueComplex headerAttr = instance.FindAttributeValue("OpenButton") as UiAttributeValueComplex;
-              Instance buttonInstance = headerAttr.Instances.Single();
+              Instance buttonInstance = instance.FindSingleComplexAttributeInstance("OpenButton");
               return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
                 generator.WriteLine(indent, "openButton={");
                 generator.GenerateComponentRecursively(OutputType.React, indent + 1, buttonInstance);

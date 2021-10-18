@@ -23,6 +23,10 @@ table tr:nth-child(2n) {
   background-color:#fafafa
 }
 
+table tr.expanded {
+  background-color:Seashell
+}
+
 table th:before{
   position:absolute;
   right:15px;

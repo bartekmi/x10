@@ -41,6 +41,11 @@ namespace x10.ui.composition {
         .FirstOrDefault(x => x.Definition.Name == attributeName);
     }
 
+    public static Instance FindSingleComplexAttributeInstance(this IAcceptsUiAttributeValues source, string attributeName) {
+      UiAttributeValueComplex cplxAttr = source.FindAttributeValue(attributeName) as UiAttributeValueComplex;
+      return cplxAttr?.Instances.SingleOrDefault();
+    }
+
     public static bool HasAttributeValue(this IAcceptsUiAttributeValues source, string attributeName) {
       return FindAttributeValue(source, attributeName) != null;
     }

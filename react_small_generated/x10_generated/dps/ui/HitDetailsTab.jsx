@@ -150,6 +150,39 @@ function HitDetailsTab(props: Props): React.Node {
               },
             ]
           }
+          expandedContentFunc={ (data) => (
+            <Group
+              flexDirection='column'
+            >
+              <TextDisplay
+                weight='bold'
+                value='Match details'
+              />
+              <DisplayForm>
+                <DisplayField
+                  label='Reason Listed'
+                >
+                  <TextDisplay
+                    value={ data?.reasonListed }
+                  />
+                </DisplayField>
+                <Separator/>
+                <DisplayField
+                  label='Comments'
+                >
+                  <TextDisplay
+                    value={ data?.comments }
+                  />
+                </DisplayField>
+              </DisplayForm>
+              <Separator/>
+              <Text
+                scale='display'
+                weight='bold'
+                children='TBD - Sources'
+              />
+            </Group>
+          ) }
         />
       </Expander>
       <Separator/>
