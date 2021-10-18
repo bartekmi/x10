@@ -21,6 +21,8 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
 import { matchInfoIsAddressMatch, matchInfoIsNameMatch, MatchTypeEnumPairs } from 'dps/entities/MatchInfo';
+import hasAddressMatches from 'dps/hasAddressMatches';
+import hasNameMatches from 'dps/hasNameMatches';
 import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
@@ -64,20 +66,28 @@ function HitDetailsTab(props: Props): React.Node {
           alignItems='center'
           gap={ 52 }
         >
-          <DisplayField
-            label='Name'
+          <StyleControl
+            borderColor={ hasNameMatches(hit?.matches) ? '#FFA07A' : null }
           >
-            <TextDisplay
-              value={ hit?.companyEntity?.name }
-            />
-          </DisplayField>
-          <DisplayField
-            label='Address'
+            <DisplayField
+              label='Name'
+            >
+              <TextDisplay
+                value={ hit?.companyEntity?.name }
+              />
+            </DisplayField>
+          </StyleControl>
+          <StyleControl
+            borderColor={ hasAddressMatches(hit?.matches) ? '#FFD700' : null }
           >
-            <TextDisplay
-              value={ hit?.companyEntity?.physicalAddress?.address }
-            />
-          </DisplayField>
+            <DisplayField
+              label='Address'
+            >
+              <TextDisplay
+                value={ hit?.companyEntity?.physicalAddress?.address }
+              />
+            </DisplayField>
+          </StyleControl>
         </Group>
       </DisplayForm>
       <Separator/>

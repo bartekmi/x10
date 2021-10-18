@@ -38,12 +38,12 @@ namespace x10.formula {
           if (actualType == X10DataType.ERROR)
             continue;
 
-          if (expectedArg.Type is DataTypeEnum enumType && expression is ExpLiteral literal) {
+          if (expectedArg.Type?.DataType is DataTypeEnum enumType && expression is ExpLiteral literal) {
             literal.UpgradeToEnum(enumType);
             continue;
           }
 
-          if (!actualType.Equals(new X10DataType(expectedArg.Type)))
+          if (!actualType.Equals(expectedArg.Type))
             Parser.Errors.AddError(expression, "For argument at position {0}, function '{1}' expects data type {2}, but was given {3}",
               ii + 1, FunctionName, expectedArg.Type, actualType);
         }

@@ -13,7 +13,8 @@ namespace x10.model {
   public class Argument : IAcceptsModelAttributeValues {
     public string Name { get; set; }
     public string Description { get; set; }
-    public DataType Type { get; set; }
+    public X10DataType Type { get; set; }
+    public bool IsMany {get; set; }
 
     // IAcceptsModelAttributeValues
     public List<ModelAttributeValue> AttributeValues { get; private set; }

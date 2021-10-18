@@ -24,7 +24,9 @@ namespace x10.model {
     }
 
     public Entity FindEntityByName(string entityName) {
-      return _entitiesByName[entityName].Single();
+      if (_entitiesByName.TryGetValue(entityName, out List<Entity> entities)) 
+        return entities.FirstOrDefault();
+      return null;
     }
 
     public Entity FindEntityByNameWithError(string entityName, IParseElement parseElement) {

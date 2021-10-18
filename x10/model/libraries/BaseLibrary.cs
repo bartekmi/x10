@@ -410,8 +410,34 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Pass2Action = (messages, allEntities, allEnums, modelComponent, attributeValue) => {
           Argument arg = (Argument)modelComponent;
           string dataTypeName = attributeValue.Value?.ToString();
-          arg.Type = allEnums.FindDataTypeByNameWithError(dataTypeName, attributeValue.TreeElement);
+          
+          DataType builtInOrEnum = allEnums.FindDataTypeByName(dataTypeName);
+          if (builtInOrEnum != DataTypes.ERROR) {
+            arg.Type = new X10DataType(builtInOrEnum);
+            return;
+          }
+
+          Entity entity = allEntities.FindEntityByName(dataTypeName);
+          if (entity != null) {
+            arg.Type = new X10DataType(entity, arg.IsMany);
+            return;
+          }
+
+          arg.Type = X10DataType.ERROR;
+
+          messages.AddError(attributeValue.TreeElement, 
+            "Data Type '{0}' of function argument '{1}' was neither a built-in type, nor an enum, nor an Entity name",
+            dataTypeName,
+            arg);
         },
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = "many",
+        Description = "If true, argument expects a list of the input data type.",
+        AppliesTo = AppliesTo.FunctionArgument,
+        DefaultIfMissing = false,
+        DataType = DataTypes.Singleton.Boolean,
+        Setter = "IsMany",
       },
 
       //============================================================================

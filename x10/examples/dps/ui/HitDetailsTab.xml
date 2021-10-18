@@ -9,8 +9,8 @@
     <DisplayForm>
       <Heading3 text="Company information"/>
       <Row gap="52">
-        <companyEntity.name/>
-        <companyEntity.physicalAddress.address/>
+        <companyEntity.name borderColor="=HasNameMatches(matches) ? '#FFA07A' : null"/>
+        <companyEntity.physicalAddress.address borderColor="=HasAddressMatches(matches) ? '#FFD700' : null"/>
       </Row>
     </DisplayForm>
 

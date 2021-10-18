@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using x10.model;
+using x10.model.definition;
 using x10.parsing;
 
 namespace x10.compiler {
@@ -17,7 +19,8 @@ namespace x10.compiler {
     public FunctionsCompilerTest(ITestOutputHelper output) {
       _output = output;
       AttributeReader attrReader = new AttributeReader(_messages);
-      _compiler = new FunctionsCompiler(_messages, null, new AllEnums(_messages), new AllFunctions(_messages), attrReader);
+      AllEntities allEntities = new AllEntities(_messages, new List<Entity>());
+      _compiler = new FunctionsCompiler(_messages, allEntities, new AllEnums(_messages), new AllFunctions(_messages), attrReader);
     }
 
     [Fact]
@@ -66,7 +69,7 @@ arguments:
   - name: myArg
     dataType: Bogus
 ",
-        "Neither Enum nor a built-in data tyes 'Bogus' is defined", 7, 15);
+        "Data Type 'Bogus' of function argument 'myArg' was neither a built-in type, nor an enum, nor an Entity name", 7, 15);
     }
 
     [Fact]

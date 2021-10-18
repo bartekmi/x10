@@ -36,11 +36,10 @@ namespace x10.compiler {
     }
 
     private List<Entity> CompilePrivate(IEnumerable<TreeNode> rootNodes) { 
-      // Pass 1
+      // Pass 1 -------------------------------
       List<Entity> entities = new List<Entity>();
       AttributeReader attrReader = new AttributeReader(_messages);
       EnumsCompiler enums = new EnumsCompiler(_messages, _allEnums, attrReader);
-      FunctionsCompiler functions = new FunctionsCompiler(_messages, null, _allEnums, _allFunctions, attrReader);
       EntityCompilerPass1 pass1 = new EntityCompilerPass1(_messages, enums, attrReader);
 
       foreach (TreeNode rootNode in rootNodes) {
@@ -55,13 +54,15 @@ namespace x10.compiler {
         }
       }
 
+      // Pass 2 ---------------------------------
+      AllEntities allEntities = new AllEntities(_messages, entities);
+
       // Functions
+      FunctionsCompiler functions = new FunctionsCompiler(_messages, allEntities, _allEnums, _allFunctions, attrReader);
       foreach (TreeNode rootNode in rootNodes) 
         if (IsFunctionFile(rootNode.FileInfo.FilePath))
           functions.CompileFunctionsFile(rootNode);
 
-      // Pass 2
-      AllEntities allEntities = new AllEntities(_messages, entities);
       EntityCompilerPass2 pass2 = new EntityCompilerPass2(_messages, allEntities, _allEnums, _allFunctions);
       pass2.CompileAllEntities();
 

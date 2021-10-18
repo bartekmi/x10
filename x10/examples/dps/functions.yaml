@@ -1,0 +1,15 @@
+﻿- name: HasNameMatches
+  returnDataType: Boolean
+  importDir: dps
+  arguments:
+    - name: value
+      dataType: MatchInfo
+      many: true
+
+- name: HasAddressMatches
+  returnDataType: Boolean
+  importDir: dps
+  arguments:
+    - name: value
+      dataType: MatchInfo
+      many: true
