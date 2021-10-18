@@ -1,12 +1,10 @@
 // @flow
 
 import * as React from "react";
-import {StyleSheet, css} from "aphrodite";
 
 import colors from "latitude/colors";
 import Group from "latitude/Group";
 import IconButton from "latitude/button/IconButton";
-import { whitespaceSizeConstants } from "latitude/styles/whitespace";
 
 type Props = {|
     +headerFunc: () => React.Node,
@@ -31,11 +29,3 @@ export default function Expander(props: Props): React.Node {
     </Group>
   );
 }
-
-const styles = StyleSheet.create({
-  border: {
-    border: `1px solid ${colors.grey20}`,
-    padding: whitespaceSizeConstants.xs,
-    margins: "0px",
-  },
-});

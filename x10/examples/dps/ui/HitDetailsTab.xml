@@ -35,6 +35,10 @@
               <List path="sources" layout="wrap">
                 <Embed url="=url"/>
               </List>
+              <Row>
+                <Text>If the content of some of the previews is not showing, consider installing</Text>
+                <Button url="https://chrome.google.com/webstore/detail/ignore-x-frame-headers/gleekbfjekiniecknbkamfmkohkpodhe">this Chrome extension</Button>
+              </Row>
 
             </VerticalStackPanel>
           </Table.ExpandedContent>

@@ -15,6 +15,7 @@ import Embed from 'react_lib/Embed';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
+import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
@@ -212,6 +213,17 @@ function HitDetailsTab(props: Props): React.Node {
                 layout='wrap'
                 addNewItem={ createDefaultMatchInfoSource }
               />
+              <Group
+                alignItems='center'
+              >
+                <TextDisplay
+                  value='If the content of some of the previews is not showing, consider installing'
+                />
+                <Button
+                  label='this Chrome extension'
+                  url='https://chrome.google.com/webstore/detail/ignore-x-frame-headers/gleekbfjekiniecknbkamfmkohkpodhe'
+                />
+              </Group>
             </Group>
           ) }
         />
