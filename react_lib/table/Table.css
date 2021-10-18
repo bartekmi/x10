@@ -27,6 +27,10 @@ table tr.expanded {
   background-color:Seashell
 }
 
+table tr.clickable {
+  cursor: pointer
+}
+
 table th:before{
   position:absolute;
   right:15px;

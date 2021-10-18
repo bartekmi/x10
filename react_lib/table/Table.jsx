@@ -70,7 +70,7 @@ export default function Table({ columns, data, expandedContentFunc }: Props): Re
           if (setExpandedRowId)
             setExpandedRowId(expandedRowId == row.id ? null : row.id);
         },
-        className: rowExpanded ? "expanded" : null
+        className: rowExpanded ? "expanded clickable" : "clickable"
       }
     }
   
