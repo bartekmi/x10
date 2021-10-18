@@ -51,7 +51,7 @@
             <reasonForClearance label="Reason for clearance" visible="=status != 'denied'"/>
             <notes/>
 
-            <List path="attachments" visible="=attachments.count > 0">
+            <List path="attachments" visible="=attachments.count > 0" layout="wrap">
               <Button label="=filename" url="=url"/>
             </List>
           </DisplayForm>

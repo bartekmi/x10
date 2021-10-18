@@ -192,6 +192,7 @@ function SlideoutPanel(props: Props): React.Node {
                         url={ data?.url }
                       />
                     ) }
+                    layout='wrap'
                     addNewItem={ createDefaultAttachment }
                   />
                 </StyleControl>

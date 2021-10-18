@@ -16,7 +16,7 @@ attributes:
     dataType: Timestamp
   - name: notes
     dataType: String
-    mandatory: true
+    datagen_random_text: 3..5 sentences
   - name: createdAt
     dataType: Timestamp
   - name: resolutionTimestamp
