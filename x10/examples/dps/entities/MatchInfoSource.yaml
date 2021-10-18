@@ -1,0 +1,8 @@
+name: MatchInfoSource
+inheritsFrom: Base
+description: A match info source - just a URL
+
+attributes:
+  - name: url
+    dataType: String
+    datagen_pattern: (https://www.linkedin.com/in/shuyuli-design | https://www.linkedin.com/in/shuyuli | https://scholar.google.com/citations?user=zcgcKgUAAAAJ&hl=zh-CN | https://www.facebook.com/public/Shuyu-Li)

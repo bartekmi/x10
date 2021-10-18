@@ -11,6 +11,7 @@ namespace x10.hotchoc.dps.Repositories {
     CompanyEntity GetCompanyEntity(int id);
     Hit GetHit(int id);
     Attachment GetAttachment(int id);
+    MatchInfoSource GetMatchInfoSource(int id);
     Port GetPort(int id);
     MatchInfo GetMatchInfo(int id);
     OldHit GetOldHit(int id);
@@ -24,6 +25,7 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<CompanyEntity> GetCompanyEntities();
     IQueryable<Hit> GetHits();
     IQueryable<Attachment> GetAttachments();
+    IQueryable<MatchInfoSource> GetMatchInfoSources();
     IQueryable<Port> GetPorts();
     IQueryable<MatchInfo> GetMatchInfos();
     IQueryable<OldHit> GetOldHits();
@@ -38,6 +40,7 @@ namespace x10.hotchoc.dps.Repositories {
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
     int AddOrUpdateHit(int? dbid, Hit hit);
     int AddOrUpdateAttachment(int? dbid, Attachment attachment);
+    int AddOrUpdateMatchInfoSource(int? dbid, MatchInfoSource matchInfoSource);
     int AddOrUpdatePort(int? dbid, Port port);
     int AddOrUpdateMatchInfo(int? dbid, MatchInfo matchInfo);
     int AddOrUpdateOldHit(int? dbid, OldHit oldHit);

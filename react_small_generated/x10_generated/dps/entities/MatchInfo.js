@@ -6,33 +6,44 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
-import toNum from 'react_lib/utils/toNum';
+
+import { type MatchInfoSource } from 'dps/entities/MatchInfoSource';
 
 
 // Type Definition
 export type MatchInfo = {
   +id: string,
+  +number: ?number,
   +reasonListed: string,
   +name: string,
   +address: string,
-  +ids: string,
-  +matchType: string,
+  +matchType: ?MatchTypeEnum,
+  +score: ?number,
   +nameMatchScore: ?number,
   +addressMatchScore: ?number,
   +comments: string,
   +recordSource: string,
+  +sources: $ReadOnlyArray<MatchInfoSource>,
 };
 
 
-// Derived Attribute Functions
-export function matchInfoScore(matchInfo: ?{
-  +nameMatchScore: ?number,
-  +addressMatchScore: ?number,
-}): ?number {
-  if (matchInfo == null) return null;
-  const result = toNum(matchInfo?.nameMatchScore) > toNum(matchInfo?.addressMatchScore) ? matchInfo?.nameMatchScore : matchInfo?.addressMatchScore;
-  return isNaN(result) ? null : result;
-}
+// Enums
+export const MatchTypeEnumPairs = [
+  {
+    value: 'business',
+    label: 'Business',
+  },
+  {
+    value: 'individual',
+    label: 'Individual',
+  },
+  {
+    value: 'vessel',
+    label: 'Vessel',
+  },
+];
+
+export type MatchTypeEnum = 'business' | 'individual' | 'vessel';
 
 
 
@@ -40,15 +51,22 @@ export function matchInfoScore(matchInfo: ?{
 export function createDefaultMatchInfo(): MatchInfo {
   return {
     id: uuid(),
+    // $FlowExpectedError Required field, but no default value
+    number: null,
     reasonListed: '',
     name: '',
     address: '',
-    ids: '',
-    matchType: '',
+    // $FlowExpectedError Required field, but no default value
+    matchType: null,
+    // $FlowExpectedError Required field, but no default value
+    score: null,
+    // $FlowExpectedError Required field, but no default value
     nameMatchScore: null,
+    // $FlowExpectedError Required field, but no default value
     addressMatchScore: null,
     comments: '',
     recordSource: '',
+    sources: [],
   };
 }
 
@@ -58,6 +76,22 @@ export function matchInfoCalculateErrors(matchInfo: MatchInfo, prefix?: string):
   const errors = [];
   if (matchInfo == null ) return errors;
 
+  if (isBlank(matchInfo.number))
+    addError(errors, prefix, 'Number is required', ['number']);
+  if (isBlank(matchInfo.reasonListed))
+    addError(errors, prefix, 'Reason Listed is required', ['reasonListed']);
+  if (isBlank(matchInfo.name))
+    addError(errors, prefix, 'Name is required', ['name']);
+  if (isBlank(matchInfo.address))
+    addError(errors, prefix, 'Address is required', ['address']);
+  if (isBlank(matchInfo.matchType))
+    addError(errors, prefix, 'Match Type is required', ['matchType']);
+  if (isBlank(matchInfo.score))
+    addError(errors, prefix, 'Score is required', ['score']);
+  if (isBlank(matchInfo.nameMatchScore))
+    addError(errors, prefix, 'Name Match Score is required', ['nameMatchScore']);
+  if (isBlank(matchInfo.addressMatchScore))
+    addError(errors, prefix, 'Address Match Score is required', ['addressMatchScore']);
 
   return errors;
 }

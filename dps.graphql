@@ -73,15 +73,25 @@ type Hit {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 type MatchInfo {
+  number: Int!
   reasonListed: String!
   name: String!
   address: String!
-  ids: String!
-  matchType: String!
-  nameMatchScore: Float
-  addressMatchScore: Float
+  matchType: MatchTypeEnum!
+  score: Int!
+  nameMatchScore: Int!
+  addressMatchScore: Int!
   comments: String!
   recordSource: String!
+  toStringRepresentation: String!
+  sources: [MatchInfoSource!]!
+  id: String!
+  hashcode: Int!
+}
+
+"A match info source - just a URL"
+type MatchInfoSource {
+  url: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -108,6 +118,8 @@ type Mutation {
   createOrUpdateHit(hit: HitInput!): String!
   "Creates a new Attachment or updates an existing one, depending on the value of attachment.id"
   createOrUpdateAttachment(attachment: AttachmentInput!): String!
+  "Creates a new MatchInfoSource or updates an existing one, depending on the value of matchInfoSource.id"
+  createOrUpdateMatchInfoSource(matchInfoSource: MatchInfoSourceInput!): String!
   "Creates a new Port or updates an existing one, depending on the value of port.id"
   createOrUpdatePort(port: PortInput!): String!
   "Creates a new MatchInfo or updates an existing one, depending on the value of matchInfo.id"
@@ -167,6 +179,10 @@ type Query {
   attachment("The id of the Attachment." id: String!): Attachment!
   "Gets all Attachments.\n\n\n**Returns:**\nAll Attachments."
   attachments(where: AttachmentFilter order_by: AttachmentSort): [Attachment!]!
+  "Retrieve a MatchInfoSource by id\n\n\n**Returns:**\nThe MatchInfoSource."
+  matchInfoSource("The id of the MatchInfoSource." id: String!): MatchInfoSource!
+  "Gets all MatchInfoSources.\n\n\n**Returns:**\nAll MatchInfoSources."
+  matchInfoSources(where: MatchInfoSourceFilter order_by: MatchInfoSourceSort): [MatchInfoSource!]!
   "Retrieve a Port by id\n\n\n**Returns:**\nThe Port."
   port("The id of the Port." id: String!): Port!
   "Gets all Ports.\n\n\n**Returns:**\nAll Ports."
@@ -797,6 +813,18 @@ input HitSort {
 input MatchInfoFilter {
   AND: [MatchInfoFilter!]
   OR: [MatchInfoFilter!]
+  number: Int
+  number_not: Int
+  number_in: [Int!]
+  number_not_in: [Int!]
+  number_gt: Int
+  number_not_gt: Int
+  number_gte: Int
+  number_not_gte: Int
+  number_lt: Int
+  number_not_lt: Int
+  number_lte: Int
+  number_not_lte: Int
   reasonListed: String
   reasonListed_not: String
   reasonListed_contains: String
@@ -827,50 +855,54 @@ input MatchInfoFilter {
   address_not_ends_with: String
   address_in: [String!]
   address_not_in: [String!]
-  ids: String
-  ids_not: String
-  ids_contains: String
-  ids_not_contains: String
-  ids_starts_with: String
-  ids_not_starts_with: String
-  ids_ends_with: String
-  ids_not_ends_with: String
-  ids_in: [String!]
-  ids_not_in: [String!]
-  matchType: String
-  matchType_not: String
-  matchType_contains: String
-  matchType_not_contains: String
-  matchType_starts_with: String
-  matchType_not_starts_with: String
-  matchType_ends_with: String
-  matchType_not_ends_with: String
-  matchType_in: [String!]
-  matchType_not_in: [String!]
-  nameMatchScore: Float
-  nameMatchScore_not: Float
-  nameMatchScore_in: [Float]
-  nameMatchScore_not_in: [Float]
-  nameMatchScore_gt: Float
-  nameMatchScore_not_gt: Float
-  nameMatchScore_gte: Float
-  nameMatchScore_not_gte: Float
-  nameMatchScore_lt: Float
-  nameMatchScore_not_lt: Float
-  nameMatchScore_lte: Float
-  nameMatchScore_not_lte: Float
-  addressMatchScore: Float
-  addressMatchScore_not: Float
-  addressMatchScore_in: [Float]
-  addressMatchScore_not_in: [Float]
-  addressMatchScore_gt: Float
-  addressMatchScore_not_gt: Float
-  addressMatchScore_gte: Float
-  addressMatchScore_not_gte: Float
-  addressMatchScore_lt: Float
-  addressMatchScore_not_lt: Float
-  addressMatchScore_lte: Float
-  addressMatchScore_not_lte: Float
+  matchType: MatchTypeEnum
+  matchType_not: MatchTypeEnum
+  matchType_in: [MatchTypeEnum!]
+  matchType_not_in: [MatchTypeEnum!]
+  matchType_gt: MatchTypeEnum
+  matchType_not_gt: MatchTypeEnum
+  matchType_gte: MatchTypeEnum
+  matchType_not_gte: MatchTypeEnum
+  matchType_lt: MatchTypeEnum
+  matchType_not_lt: MatchTypeEnum
+  matchType_lte: MatchTypeEnum
+  matchType_not_lte: MatchTypeEnum
+  score: Int
+  score_not: Int
+  score_in: [Int!]
+  score_not_in: [Int!]
+  score_gt: Int
+  score_not_gt: Int
+  score_gte: Int
+  score_not_gte: Int
+  score_lt: Int
+  score_not_lt: Int
+  score_lte: Int
+  score_not_lte: Int
+  nameMatchScore: Int
+  nameMatchScore_not: Int
+  nameMatchScore_in: [Int!]
+  nameMatchScore_not_in: [Int!]
+  nameMatchScore_gt: Int
+  nameMatchScore_not_gt: Int
+  nameMatchScore_gte: Int
+  nameMatchScore_not_gte: Int
+  nameMatchScore_lt: Int
+  nameMatchScore_not_lt: Int
+  nameMatchScore_lte: Int
+  nameMatchScore_not_lte: Int
+  addressMatchScore: Int
+  addressMatchScore_not: Int
+  addressMatchScore_in: [Int!]
+  addressMatchScore_not_in: [Int!]
+  addressMatchScore_gt: Int
+  addressMatchScore_not_gt: Int
+  addressMatchScore_gte: Int
+  addressMatchScore_not_gte: Int
+  addressMatchScore_lt: Int
+  addressMatchScore_not_lt: Int
+  addressMatchScore_lte: Int
+  addressMatchScore_not_lte: Int
   comments: String
   comments_not: String
   comments_contains: String
@@ -891,6 +923,93 @@ input MatchInfoFilter {
   recordSource_not_ends_with: String
   recordSource_in: [String!]
   recordSource_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  sources_some: MatchInfoSourceFilter
+  sources_none: MatchInfoSourceFilter
+  sources_all: MatchInfoSourceFilter
+  sources_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+input MatchInfoInput {
+  number: Int!
+  reasonListed: String!
+  name: String!
+  address: String!
+  matchType: MatchTypeEnum!
+  score: Int!
+  nameMatchScore: Int!
+  addressMatchScore: Int!
+  comments: String!
+  recordSource: String!
+  toStringRepresentation: String!
+  sources: [MatchInfoSourceInput!]!
+  id: String!
+  hashcode: Int!
+}
+
+"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
+input MatchInfoSort {
+  number: SortOperationKind
+  reasonListed: SortOperationKind
+  name: SortOperationKind
+  address: SortOperationKind
+  matchType: SortOperationKind
+  score: SortOperationKind
+  nameMatchScore: SortOperationKind
+  addressMatchScore: SortOperationKind
+  comments: SortOperationKind
+  recordSource: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A match info source - just a URL"
+input MatchInfoSourceFilter {
+  AND: [MatchInfoSourceFilter!]
+  OR: [MatchInfoSourceFilter!]
+  url: String
+  url_not: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  url_in: [String!]
+  url_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -925,33 +1044,17 @@ input MatchInfoFilter {
   hashcode_not_lte: Int
 }
 
-"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
-input MatchInfoInput {
-  reasonListed: String!
-  name: String!
-  address: String!
-  ids: String!
-  matchType: String!
-  nameMatchScore: Float
-  addressMatchScore: Float
-  comments: String!
-  recordSource: String!
+"A match info source - just a URL"
+input MatchInfoSourceInput {
+  url: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
 
-"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
-input MatchInfoSort {
-  reasonListed: SortOperationKind
-  name: SortOperationKind
-  address: SortOperationKind
-  ids: SortOperationKind
-  matchType: SortOperationKind
-  nameMatchScore: SortOperationKind
-  addressMatchScore: SortOperationKind
-  comments: SortOperationKind
-  recordSource: SortOperationKind
+"A match info source - just a URL"
+input MatchInfoSourceSort {
+  url: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
@@ -1609,6 +1712,12 @@ enum HitStatusEnum {
   UNRESOLVED
   CLEARED
   DENIED
+}
+
+enum MatchTypeEnum {
+  BUSINESS
+  INDIVIDUAL
+  VESSEL
 }
 
 enum PriorityEnum {

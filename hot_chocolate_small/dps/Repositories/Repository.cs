@@ -10,6 +10,7 @@ namespace x10.hotchoc.dps.Repositories {
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
     private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
+    private Dictionary<int, MatchInfoSource> _matchInfoSources = new Dictionary<int, MatchInfoSource>();
     private Dictionary<int, Port> _ports = new Dictionary<int, Port>();
     private Dictionary<int, MatchInfo> _matchInfos = new Dictionary<int, MatchInfo>();
     private Dictionary<int, OldHit> _oldHits = new Dictionary<int, OldHit>();
@@ -27,6 +28,7 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(CompanyEntity),
         typeof(Hit),
         typeof(Attachment),
+        typeof(MatchInfoSource),
         typeof(Port),
         typeof(MatchInfo),
         typeof(OldHit),
@@ -45,6 +47,7 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
       if (instance is Hit hit) _hits[id] = hit;
       if (instance is Attachment attachment) _attachments[id] = attachment;
+      if (instance is MatchInfoSource matchInfoSource) _matchInfoSources[id] = matchInfoSource;
       if (instance is Port port) _ports[id] = port;
       if (instance is MatchInfo matchInfo) _matchInfos[id] = matchInfo;
       if (instance is OldHit oldHit) _oldHits[id] = oldHit;
@@ -84,6 +87,14 @@ namespace x10.hotchoc.dps.Repositories {
     public Attachment GetAttachment(int id) { return _attachments[id]; }
     public int AddOrUpdateAttachment(int? dbid, Attachment attachment) {
       return RepositoryUtils.AddOrUpdate(dbid, attachment, _attachments);
+    }
+    #endregion
+
+    #region MatchInfoSources
+    public IQueryable<MatchInfoSource> GetMatchInfoSources() => _matchInfoSources.Values.AsQueryable();
+    public MatchInfoSource GetMatchInfoSource(int id) { return _matchInfoSources[id]; }
+    public int AddOrUpdateMatchInfoSource(int? dbid, MatchInfoSource matchInfoSource) {
+      return RepositoryUtils.AddOrUpdate(dbid, matchInfoSource, _matchInfoSources);
     }
     #endregion
 

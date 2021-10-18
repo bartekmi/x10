@@ -8,16 +8,18 @@ import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
+import EnumDisplay from 'react_lib/display/EnumDisplay';
+import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
-import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
+import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
-import { createDefaultMatchInfo } from 'dps/entities/MatchInfo';
+import { MatchTypeEnumPairs } from 'dps/entities/MatchInfo';
 import ClearanceForm from 'dps/ui/ClearanceForm';
 
 import { type HitDetailsTab_hit } from './__generated__/HitDetailsTab_hit.graphql';
@@ -76,9 +78,7 @@ function HitDetailsTab(props: Props): React.Node {
           </DisplayField>
         </Group>
       </DisplayForm>
-      <Separator
-        orientation='vertical'
-      />
+      <Separator/>
       <Expander
         headerFunc={ () => (
           <Text
@@ -88,64 +88,68 @@ function HitDetailsTab(props: Props): React.Node {
           />
         ) }
       >
-        <MultiStacker
-          items={ hit?.matches }
-          itemDisplayFunc={ (data, onChange) => (
-            <DisplayForm>
-              <Text
-                scale='title'
-                weight='bold'
-                children='Match details'
-              />
-              <Group
-                alignItems='center'
-              >
-                <DisplayField
-                  label='Name'
-                >
-                  <TextDisplay
-                    value={ data?.name }
+        <Table
+          data={ hit?.matches }
+          columns={
+            [
+              {
+                id: '_0',
+                Header: 'No.',
+                width: 140,
+                accessor: (data) => data?.number,
+                Cell: ({ value }) =>
+                  <FloatDisplay
+                    value={ value }
                   />
-                </DisplayField>
-                <DisplayField
-                  label='Address'
-                >
-                  <TextDisplay
-                    value={ data?.address }
+                ,
+              },
+              {
+                id: '_1',
+                Header: 'Score',
+                width: 140,
+                accessor: (data) => data?.score,
+                Cell: ({ value }) =>
+                  <FloatDisplay
+                    value={ value }
                   />
-                </DisplayField>
-                <DisplayField
-                  label='Match Type'
-                >
+                ,
+              },
+              {
+                id: '_2',
+                Header: 'Name',
+                width: 140,
+                accessor: (data) => data?.name,
+                Cell: ({ value }) =>
                   <TextDisplay
-                    value={ data?.matchType }
+                    value={ value }
                   />
-                </DisplayField>
-              </Group>
-              <DisplayField
-                label='Reason Listed'
-              >
-                <TextDisplay
-                  value={ data?.reasonListed }
-                />
-              </DisplayField>
-              <DisplayField
-                label='Comments'
-              >
-                <TextDisplay
-                  value={ data?.comments }
-                />
-              </DisplayField>
-              <DisplayField
-                label='Record Source'
-              >
-                <TextDisplay
-                  value={ data?.recordSource }
-                />
-              </DisplayField>
-            </DisplayForm>
-          ) }
-          addNewItem={ createDefaultMatchInfo }
+                ,
+              },
+              {
+                id: '_3',
+                Header: 'Address',
+                width: 140,
+                accessor: (data) => data?.address,
+                Cell: ({ value }) =>
+                  <TextDisplay
+                    value={ value }
+                  />
+                ,
+              },
+              {
+                id: '_4',
+                Header: 'Type',
+                width: 140,
+                accessor: (data) => data?.matchType,
+                Cell: ({ value }) =>
+                  <EnumDisplay
+                    value={ value }
+                    options={ MatchTypeEnumPairs }
+                  />
+                ,
+              },
+            ]
+          }
         />
       </Expander>
       <Separator/>
@@ -184,8 +188,9 @@ export default createFragmentContainer(HitDetailsTab, {
         comments
         matchType
         name
+        number
         reasonListed
-        recordSource
+        score
       }
     }
   `,

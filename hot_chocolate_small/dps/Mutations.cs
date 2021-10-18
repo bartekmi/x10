@@ -64,6 +64,19 @@ namespace x10.hotchoc.dps {
     }
     #endregion
 
+    #region MatchInfoSource
+    /// <summary>
+    /// Creates a new MatchInfoSource or updates an existing one, depending on the value of matchInfoSource.id
+    /// </summary>
+    public string CreateOrUpdateMatchInfoSource(
+      MatchInfoSource matchInfoSource,
+      [Service] IRepository repository) {
+        matchInfoSource.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateMatchInfoSource(IdUtils.FromRelayId(matchInfoSource.Id), matchInfoSource);
+        return IdUtils.ToRelayId<MatchInfoSource>(dbid);
+    }
+    #endregion
+
     #region Port
     /// <summary>
     /// Creates a new Port or updates an existing one, depending on the value of port.id

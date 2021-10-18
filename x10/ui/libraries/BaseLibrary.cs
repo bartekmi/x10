@@ -726,6 +726,12 @@ namespace x10.ui.libraries {
             Description = "An optional header area connected to the table. It appears above the column headings. Typical use is for pagination controls.",
             ComplexAttributeType = ClassDefNative.Visual,
           },
+          new UiAttributeDefinitionComplex() {
+            Name = "ExpandedContent",
+            Description = "If specified, clicking on a table row will show this extra content for the row inline, immediately under the row",
+            ComplexAttributeType = ClassDefNative.Visual,
+            ReducesManyToOne = true,
+          },
             new UiAttributeDefinitionAtomic() {
               Name = "selected",
               Description = "Read/Write list of items which are currently selected",

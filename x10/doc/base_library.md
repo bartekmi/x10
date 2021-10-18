@@ -5672,6 +5672,10 @@ If specified, element will have a border of this color and some small padding
 If specified, element will have a border of this thickness and some small padding
 
 - Data Type: Float
+### Attribute 'ExpandedContent'
+
+If specified, clicking on a table row will show this extra content for the row inline, immediately under the row
+
 ### Attribute 'fillColor'
 
 Specifies background color of element

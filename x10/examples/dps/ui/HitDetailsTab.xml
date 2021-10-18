@@ -14,26 +14,34 @@
       </Row>
     </DisplayForm>
 
-    <VerticalDivider/>
+    <HorizontalDivider/>
 
     <Expander>
       <Expander.Header>
         <Heading3 text="Match information"/>
       </Expander.Header>
       <Expander.Body>
-        <List path="matches">
-          <DisplayForm>
-            <Heading3 text="Match details"/>
-            <Row>
-              <name/>
-              <address/>
-              <matchType/>
-            </Row>
-            <reasonListed/>
-            <comments/>
-            <recordSource/>
-          </DisplayForm>
-        </List>
+        <Table path="matches">
+          <Table.ExpandedContent>
+            <VerticalStackPanel>
+              <Text weight="bold">Match details</Text>
+              <DisplayForm>
+                <reasonListed/>
+                <HorizontalDivider/>
+                <comments/>
+              </DisplayForm>
+              <HorizontalDivider/>
+              <Heading1>TBD - Sources</Heading1>
+
+            </VerticalStackPanel>
+          </Table.ExpandedContent>
+
+          <number/>
+          <score/>
+          <name/>
+          <address/>
+          <matchType label="Type"/>
+        </Table>
       </Expander.Body>
     </Expander>
 

@@ -107,6 +107,30 @@ namespace x10.hotchoc.dps {
           repository.GetAttachments();
     #endregion
 
+    #region MatchInfoSource
+    /// <summary>
+    /// Retrieve a MatchInfoSource by id
+    /// </summary>
+    /// <param name="id">The id of the MatchInfoSource.</param>
+    /// <param name="repository"></param>
+    /// <returns>The MatchInfoSource.</returns>
+    public MatchInfoSource GetMatchInfoSource(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetMatchInfoSource(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all MatchInfoSources.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All MatchInfoSources.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<MatchInfoSource> GetMatchInfoSources(
+        [Service] IRepository repository) =>
+          repository.GetMatchInfoSources();
+    #endregion
+
     #region Port
     /// <summary>
     /// Retrieve a Port by id
