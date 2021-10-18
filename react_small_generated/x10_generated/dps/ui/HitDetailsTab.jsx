@@ -11,9 +11,11 @@ import Text from 'latitude/Text';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import Embed from 'react_lib/Embed';
 import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
+import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
@@ -21,6 +23,7 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
 import { matchInfoIsAddressMatch, matchInfoIsNameMatch, MatchTypeEnumPairs } from 'dps/entities/MatchInfo';
+import { createDefaultMatchInfoSource } from 'dps/entities/MatchInfoSource';
 import hasAddressMatches from 'dps/hasAddressMatches';
 import hasNameMatches from 'dps/hasNameMatches';
 import ClearanceForm from 'dps/ui/ClearanceForm';
@@ -196,10 +199,18 @@ function HitDetailsTab(props: Props): React.Node {
                 </DisplayField>
               </DisplayForm>
               <Separator/>
-              <Text
-                scale='display'
-                weight='bold'
-                children='TBD - Sources'
+              <TextDisplay
+                value='Related resource'
+              />
+              <MultiStacker
+                items={ data?.sources }
+                itemDisplayFunc={ (data, onChange) => (
+                  <Embed
+                    url={ data?.url }
+                  />
+                ) }
+                layout='wrap'
+                addNewItem={ createDefaultMatchInfoSource }
               />
             </Group>
           ) }
@@ -246,6 +257,10 @@ export default createFragmentContainer(HitDetailsTab, {
         number
         reasonListed
         score
+        sources {
+          id
+          url
+        }
       }
     }
   `,

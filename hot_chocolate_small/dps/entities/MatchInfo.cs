@@ -53,6 +53,7 @@ namespace x10.hotchoc.dps.Entities {
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+      Sources?.ForEach(x => x.EnsureUniqueDbid());
     }
 
     internal override void SetNonOwnedAssociations(IRepository repository) {

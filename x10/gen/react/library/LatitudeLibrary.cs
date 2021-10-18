@@ -521,6 +521,7 @@ namespace x10.gen.react.library {
             },
           },
           new JavaScriptAttributeDynamic("addItemLabel", "addItemLabel"),
+          new JavaScriptAttributeDynamic("layout", "layout"),
           new JavaScriptAttributeByFunc() {
             PlatformName = "addNewItem",
             IsCodeSnippet = true,
@@ -875,6 +876,15 @@ namespace x10.gen.react.library {
         PlatformName = "HelpTooltip",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("text", "text"),
+        },
+      },
+
+      new PlatformClassDef() {
+        LogicalName = "Embed",
+        PlatformName = "Embed",
+        ImportDir = "react_lib",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("url", "url"),
         },
       },
 

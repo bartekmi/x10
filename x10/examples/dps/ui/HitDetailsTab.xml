@@ -31,7 +31,10 @@
                 <comments/>
               </DisplayForm>
               <HorizontalDivider/>
-              <Heading1>TBD - Sources</Heading1>
+              <Text>Related resource</Text>
+              <List path="sources" layout="wrap">
+                <Embed url="=url"/>
+              </List>
 
             </VerticalStackPanel>
           </Table.ExpandedContent>

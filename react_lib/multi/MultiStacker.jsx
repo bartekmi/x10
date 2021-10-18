@@ -17,17 +17,39 @@ type TItem = {
 type Props<T: TItem> = {|
   +items: $ReadOnlyArray < T >,
   +itemDisplayFunc: (data: T, onChange: (data: T) => void) => React.Node,
-    +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
-    +addNewItem: () => T,
-      +addItemLabel ?: string,
+  +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
+  +addNewItem: () => T,
+  +addItemLabel ?: string,
+  +layout?: "vertical" | "wrap",
 |};
 
-export default function MultiStacker<T: TItem>({
+export default function MultiStacker<T: TItem>(props: Props<T>): React.Node {
+  const {layout} = props;
+  if (layout == "wrap") {
+    return WrapPanel(props);
+  }
+
+  return VerticalList(props);
+}
+
+function WrapPanel<T: TItem>({
+  items,
+  itemDisplayFunc
+}: Props<T>) {
+  return (
+    <Group gap={12}>
+      {items.map(item => itemDisplayFunc(item, () => {}))}
+    </Group>
+  );
+}
+
+function VerticalList<T: TItem>({
   items,
   itemDisplayFunc,
   onChange,
   addNewItem,
   addItemLabel = "Add",
+  layout = "wrap",
 }: Props<T>): React.Node {
   return (
     <Group gap={20} flexDirection="column">

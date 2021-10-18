@@ -662,6 +662,12 @@ namespace x10.ui.libraries {
             DataType = DataTypes.Singleton.Boolean,
             DefaultValue = true,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "layout",
+            Description = "How items in the list are laid out",
+            DataType = new DataTypeEnum("ListLayout", new string[] {"vertical", "wrap" }),
+            DefaultValue = "vertical",
+          },
         },
       },
       #endregion
@@ -732,13 +738,13 @@ namespace x10.ui.libraries {
             ComplexAttributeType = ClassDefNative.Visual,
             ReducesManyToOne = true,
           },
-            new UiAttributeDefinitionAtomic() {
-              Name = "selected",
-              Description = "Read/Write list of items which are currently selected",
-              IsMany = true,
-              // TODO: Add "MustBeFormula" - DataType irrelevant
-              DataType = DataTypes.Singleton.String,
-            },
+          new UiAttributeDefinitionAtomic() {
+            Name = "selected",
+            Description = "Read/Write list of items which are currently selected",
+            IsMany = true,
+            // TODO: Add "MustBeFormula" - DataType irrelevant
+            DataType = DataTypes.Singleton.String,
+          },
           new UiAttributeDefinitionAtomic() {
             Name = "selectionStyle",
             Description = "The way in which table selection is shown",
@@ -1126,6 +1132,20 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "text",
             Description = "The text of the help info.",
+            DataType = DataTypes.Singleton.String,
+            IsMandatory = true,
+            IsPrimary = true,
+          },
+        },
+      },
+      new ClassDefNative() {
+        Name = "Embed",
+        Description = "Embed the contents of a url into the application",
+        InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "url",
+            Description = "The url of the website to embed",
             DataType = DataTypes.Singleton.String,
             IsMandatory = true,
             IsPrimary = true,

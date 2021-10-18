@@ -67,6 +67,7 @@ associations:
   - name: sources
     dataType: MatchInfoSource
     many: true
+    owns: true
     datagen_quantity: 1..3
 
 enums:

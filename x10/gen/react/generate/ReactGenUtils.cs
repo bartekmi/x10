@@ -113,13 +113,7 @@ namespace x10.gen.react.generate {
     }
 
     internal string GetReadOnlyBindingPath(Instance instance) {
-      string expressionString = GetBindingPath(instance);
-
-      IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
-      if (path.Count() > 0 && path.Last().IsNonOwnedAssociation)
-        expressionString += ".toStringRepresentation";
-
-      return expressionString;
+      return GetBindingPath(instance);
     }
 
     // Though currently not used, this is likely to come in handy.
