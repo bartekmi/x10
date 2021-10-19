@@ -147,10 +147,12 @@ namespace x10.gen.react {
       string importPath = null;
 
       DataType dataType = exp.Expression.DataType.DataType;
-      if (dataType == DataTypes.Singleton.Date) {
+      if (dataType == DataTypes.Singleton.Date || dataType == DataTypes.Singleton.Timestamp) {
         importPath = "react_lib/type_helpers/dateFunctions";
         if (exp.MemberName == "year") {
-          functionName = "getYear";
+           functionName = "getYear";
+        } else if (exp.MemberName == "date") {
+          functionName = "getDate";
         }
       }
 

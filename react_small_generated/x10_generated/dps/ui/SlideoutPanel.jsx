@@ -8,6 +8,7 @@ import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 
+import DateDisplay from 'react_lib/display/DateDisplay';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
@@ -18,6 +19,7 @@ import Button from 'react_lib/latitude_wrappers/Button';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
+import { getDate } from 'react_lib/type_helpers/dateFunctions';
 import toEnum from 'react_lib/utils/toEnum';
 import toNum from 'react_lib/utils/toNum';
 
@@ -114,12 +116,13 @@ function SlideoutPanel(props: Props): React.Node {
             <Group
               alignItems='center'
             >
-              <Icon
-                iconName='attention'
-              />
               <TextDisplay
                 weight='bold'
                 value='Denied party screening'
+              />
+              <Icon
+                iconName='attention'
+                color='red30'
               />
             </Group>
             <TextDisplay
@@ -161,6 +164,23 @@ function SlideoutPanel(props: Props): React.Node {
                   <TextDisplay
                     value={ data?.resolvedBy?.name }
                   />
+                </DisplayField>
+                <DisplayField
+                  label='Whitelisting time'
+                >
+                  <Group
+                    alignItems='center'
+                  >
+                    <DateDisplay
+                      value={ getDate(data?.resolutionTimestamp) }
+                    />
+                    <TextDisplay
+                      value='―'
+                    />
+                    <DateDisplay
+                      value={ getDate(data?.whiteListUntil) }
+                    />
+                  </Group>
                 </DisplayField>
                 <StyleControl
                   visible={ toEnum(data?.status) != "denied" }
@@ -241,6 +261,7 @@ export default createFragmentContainer(SlideoutPanel, {
           name
         }
         status
+        whiteListUntil
       }
     }
   `,

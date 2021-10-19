@@ -30,10 +30,24 @@ namespace x10.model {
 
     // Data Types can have properties - see class DataTypeProperty and its explanation
     // Here, we find all properties defined for enum values (e.g. label/icon) 
+    private Entity _enumProperties;
     private void SetDataTypeProperties(DataTypeEnum theEnum) {
-      theEnum.SetProperties(ModelAttributeDefinitions.Find(AppliesTo.EnumValue)
-        .OfType<ModelAttributeDefinitionAtomic>()
-        .Select(x => new DataTypeProperty(x.Name, x.DataType)));
+      // TODO... Create a single Entity with these properties and re-use it here
+      if (_enumProperties == null) {
+        IEnumerable<ModelAttributeDefinitionAtomic> enumAttributes = 
+          ModelAttributeDefinitions.Find(AppliesTo.EnumValue).OfType<ModelAttributeDefinitionAtomic>();
+
+        _enumProperties = new Entity() {
+          Name = "DataTypeAllEnums",
+          IsNonFetchable = true,
+          LocalMembers = enumAttributes.Select(x => 
+            new X10RegularAttribute() {
+              Name = x.Name,
+              DataType = x.DataType,
+            }).OfType<Member>().ToList(),
+        };
+      }
+      theEnum.SetProperties(_enumProperties);
     }
 
     public IEnumerable<DataTypeEnum> All {

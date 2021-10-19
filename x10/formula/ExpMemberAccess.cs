@@ -69,9 +69,9 @@ namespace x10.formula {
 
     internal static X10DataType GetMemberAccessDataTypeStatic(X10DataType type, string memberName) {
       if (type.IsPrimitive) {
-        DataTypeProperty property = type.DataType.FindProperty(memberName);
-        if (property?.Type != null)
-          return new X10DataType(property.Type);
+        X10Attribute attribute = type.DataType.FindProperty(memberName);
+        if (attribute != null)
+          return new X10DataType(attribute);
       } else if (type.IsEntity) {
         if (type.IsMany)
           return GetIsManyDataType(type, memberName);

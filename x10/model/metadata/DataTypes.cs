@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using x10.model.definition;
+
 namespace x10.model.metadata {
 
   public class DataTypes {
@@ -60,20 +62,48 @@ namespace x10.model.metadata {
           Description = "A calendar date",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s).Date),
           Examples = "2020-01-31",
-          PropertiesInit = () => new List<DataTypeProperty>() {
-            new DataTypeProperty("year", Integer),
-            new DataTypeProperty("dayOfMonth", Integer),
-            new DataTypeProperty("monthName", String),
+          PropertiesInit = () => new Entity() {
+            Name = "DataTypeDate",
+            LocalMembers = new List<Member>() {
+              new X10RegularAttribute() {
+                Name = "year",
+                DataType = Integer,
+              },
+              new X10RegularAttribute() {
+                Name = "dayOfMonth",
+                DataType = Integer,
+              },
+              new X10RegularAttribute() {
+                Name = "monthName",
+                DataType = String,
+              },
+            },
           }
         },
         new DataType() {
           Name = "Timestamp",
           Description = "A unique point in time, expressed in UTC time",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s)),
-          PropertiesInit = () => new List<DataTypeProperty>() {
-            new DataTypeProperty("year", Integer),
-            new DataTypeProperty("dayOfMonth", Integer),
-            new DataTypeProperty("monthName", String),
+          PropertiesInit = () => new Entity() {
+            Name = "DataTypeDate",
+            LocalMembers = new List<Member>() {
+              new X10RegularAttribute() {
+                Name = "year",
+                DataType = Integer,
+              },
+              new X10RegularAttribute() {
+                Name = "dayOfMonth",
+                DataType = Integer,
+              },
+              new X10RegularAttribute() {
+                Name = "monthName",
+                DataType = String,
+              },
+              new X10RegularAttribute() {
+                Name = "date",
+                DataType = Date,
+              },
+            },
           }
         },
         new DataType() {

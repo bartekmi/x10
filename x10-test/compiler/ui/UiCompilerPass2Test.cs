@@ -736,6 +736,26 @@ namespace x10.compiler {
 ", result);
     }
 
+    [Fact]
+    public void Path_Success_Subcomponent_of_DataType() { //+++
+      ClassDefX10 definition = RunTest(@"
+<MyComponent model='Building'>
+  <occupancyDate.year/>
+</MyComponent>
+");
+
+      Assert.Empty(_messages.Messages);
+      string result = Print(definition, new PrintConfig() {
+        AlwaysPrintRenderAs = true,
+        PrintModelMember = true,
+      });
+
+      Assert.Equal(@"<MyComponent model='Building'>
+  <occupancyDate.year renderAs='MyIntDisplay' pathComps='occupancyDate, year'/>
+</MyComponent>
+", result);
+    }
+
 
     // I've struggled long and hard with this - should 'path' affect its peer
     // attributes - i.e. attributes declared for the same Instance?
@@ -790,6 +810,7 @@ namespace x10.compiler {
 </MyComponent>
 ", result);
     }
+    
     [Fact]
     public void Path_Success_PathResolution() {
       ClassDefX10 definition = RunTest(@"

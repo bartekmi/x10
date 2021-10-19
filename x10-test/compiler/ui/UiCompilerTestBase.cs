@@ -59,6 +59,9 @@ attributes:
   - name: hasUndergroundParking
     description: dummy
     dataType: Boolean
+  - name: occupancyDate
+    description: dummy
+    dataType: Date
 
 derivedAttributes:
   - name: derived

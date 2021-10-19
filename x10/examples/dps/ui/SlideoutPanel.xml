@@ -10,7 +10,6 @@
           <primaryContactEmail/>
           <mainNumber/>
           <segment/>
-          <!-- TODO: Link -->
           <Label label="Website">
             <Button label="=website" url="=website"/>
           </Label>
@@ -28,8 +27,8 @@
       <Expander.Body>
         <RepellingRow>
           <Row>
-            <Icon icon="attention"/>
             <Text weight="bold">Denied party screening</Text>
+            <Icon icon="attention" color="red"/>
           </Row>
           <Text>Detected as a hit, waiting for review</Text>
         </RepellingRow>
@@ -48,6 +47,15 @@
             <createdAt label="Screened as a hit"/>
             <resolutionTimestamp  label="=status == 'denied' ? 'Denied time' : 'Clearance time'"/>
             <resolvedBy.name  label="=status == 'denied' ? 'Denied by' : 'Cleared by'"/>
+
+            <Label label="Whitelisting time">
+              <Row>
+                <resolutionTimestamp.date/>
+                <Text>―</Text>
+                <whiteListUntil.date/>
+              </Row>
+            </Label>
+
             <reasonForClearance label="Reason for clearance" visible="=status != 'denied'"/>
             <notes/>
 

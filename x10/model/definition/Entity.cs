@@ -21,6 +21,11 @@ namespace x10.model.definition {
     public String InheritsFromName { get; set; }
     public string UiName { get; set; }
     public bool IsAbstract { get; set; }
+
+    // If true, this entity represents something that is NOT fetched from the database.
+    // Examples include "Entities" associated with DataType for things like year/month/etc of DateTime.
+    public bool IsNonFetchable {get;set;}
+
     public ExpBase StringRepresentation { get; set; }
 
     // Derived

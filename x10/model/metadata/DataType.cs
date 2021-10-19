@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using x10.parsing;
+using x10.model.definition;
 
 // This unpleasant circular dependency is due to the fact that DataType must have a default
 // UI element if none is specified by Member or InstanceModelReference
@@ -24,30 +25,16 @@ namespace x10.model.metadata {
     }
   }
 
-  // Data Types themselves can have properties, accessible via the member-access
-  // syntax. For example, the 'Date' DataType has accessors for day/month/year.
-  // Enum data types have accessors for icon and label.
-  public class DataTypeProperty {
-    public string Name { get; set; }
-    public DataType Type { get; set; }
-
-    public DataTypeProperty(string name, DataType type) {
-      Name = name;
-      Type = type;
-    }
-  }
-
-
   public class DataType {
     public string Name { get; set; }
     public string Description { get; set; }
     public Func<string, ParseResult> ParseFunction { get; set; }
     public string Examples { get; set; }
-    public IEnumerable<DataTypeProperty> Properties { get; private set; }
+    public Entity Properties { get; private set; }
 
     // Initializer for properties - we do this in a deferred way so that initialization
     // of things like DataTypes.Integer, etc, has a chance to happen beforehand
-    public Func<List<DataTypeProperty>> PropertiesInit { get; set; }
+    public Func<Entity> PropertiesInit { get; set; }
 
     // Derived
     public bool IsEnum { get { return this is DataTypeEnum; } }
@@ -82,11 +69,11 @@ namespace x10.model.metadata {
       messages.AddError(element, completeMessage);
     }
 
-    public DataTypeProperty FindProperty(string name) {
+    public X10Attribute FindProperty(string name) {
       if (Properties == null)
         return null;
 
-      return Properties.SingleOrDefault(x => x.Name == name);
+      return (X10Attribute)Properties.FindMemberByName(name);
     }
 
     public override string ToString() {
@@ -98,8 +85,11 @@ namespace x10.model.metadata {
         SetProperties(PropertiesInit());
     }
 
-    internal void SetProperties(IEnumerable<DataTypeProperty> properties) {
+    internal void SetProperties(Entity properties) {
       Properties = properties;
+      properties.IsNonFetchable = true;   // We do not fetch these sub-type fields
+      if (properties.Members.Any(x => !(x is X10Attribute)))
+        throw new Exception(string.Format("Some properties of DataType {0} ore not simple attributes", Name));
     }
   }
 }

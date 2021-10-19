@@ -75,8 +75,8 @@ namespace x10.compiler {
     //   - The "this" if only leaves were added (plural in the case of derived attribute)
     //   - The added or found node if an association was passed in
     internal MemberWrapper FindOrCreate(Member member) {
-      // Context is not part of fetchable data
-      if (member.Owner.IsContext)  
+      if (member.Owner.IsNonFetchable ||  // DataType Entities
+          member.Owner.IsContext)         // Context is not part of fetchable data
         return this;
 
       // Treat derived attributes in a special way - they need to be decomposed
