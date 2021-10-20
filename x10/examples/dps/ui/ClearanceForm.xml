@@ -15,7 +15,7 @@
     <notes maxWidth="800"/>
     <SubmitButton label="=status != 'denied' ? 'Clear the hit' : 'Confirm'" marginTop="30">
       <SubmitButton.Action>
-        <Action backEndTarget="/tenants/create" successUrl="/tenants"/>
+        <Action backEndTarget="/hits/update"/>
       </SubmitButton.Action>
     </SubmitButton>
   </Form>

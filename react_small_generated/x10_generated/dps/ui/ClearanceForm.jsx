@@ -137,7 +137,6 @@ function ClearanceForm(props: Props): React.Node {
           onClick={ () => save(hit) }
           action={
             {
-              successUrl: '/tenants',
             }
           }
           label={ toEnum(hit?.status) != "denied" ? 'Clear the hit' : 'Confirm' }
