@@ -8,8 +8,10 @@ using x10.ui.metadata;
 namespace x10.ui.libraries {
   public class IconLibrary {
 
+    // Source: https://www.flexport.com/design/components/iconography/system-icons
     private static readonly string[] iconNames = new string[] {
       "airport",
+      "attach",
       "attention",
       "callout",
       "check",

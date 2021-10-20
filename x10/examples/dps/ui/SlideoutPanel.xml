@@ -60,7 +60,7 @@
             <notes/>
 
             <List path="attachments" visible="=attachments.count > 0" layout="wrap">
-              <Button label="=filename" url="=url"/>
+              <AttachmentComponent/>
             </List>
           </DisplayForm>
         </List>

@@ -1,0 +1,6 @@
+<AttachmentComponent model="Attachment">
+  <Row borderColor="silver" padding="10">
+    <Icon icon="attach"/>
+    <Button label="=filename" url="=url"/>
+  </Row>
+</AttachmentComponent>

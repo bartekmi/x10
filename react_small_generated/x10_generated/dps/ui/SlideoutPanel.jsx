@@ -27,6 +27,7 @@ import { createDefaultAttachment } from 'dps/entities/Attachment';
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultOldHit } from 'dps/entities/OldHit';
 import { ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
+import AttachmentComponent from 'dps/ui/AttachmentComponent';
 
 import { type SlideoutPanel_hit } from './__generated__/SlideoutPanel_hit.graphql';
 
@@ -207,10 +208,7 @@ function SlideoutPanel(props: Props): React.Node {
                   <MultiStacker
                     items={ data?.attachments }
                     itemDisplayFunc={ (data, onChange) => (
-                      <Button
-                        label={ data?.filename }
-                        url={ data?.url }
-                      />
+                      <AttachmentComponent attachment={ data }/>
                     ) }
                     layout='wrap'
                     addNewItem={ createDefaultAttachment }
@@ -248,8 +246,7 @@ export default createFragmentContainer(SlideoutPanel, {
         id
         attachments {
           id
-          filename
-          url
+          ...AttachmentComponent_attachment
         }
         createdAt
         notes
