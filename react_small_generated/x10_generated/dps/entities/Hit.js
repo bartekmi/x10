@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toEnum from 'react_lib/utils/toEnum';
 
 import { type Attachment } from 'dps/entities/Attachment';
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
@@ -90,6 +91,9 @@ export function hitCalculateErrors(hit: Hit, prefix?: string): $ReadOnlyArray<Fo
     addError(errors, prefix, 'Whitelist Time is required', ['whitelistTime']);
   if (isBlank(hit.companyEntity))
     addError(errors, prefix, 'Company Entity is required', ['companyEntity']);
+
+  if (toEnum(hit?.status) == "unresolved")
+    addError(errors, prefix, 'Please select one of the choices above', ['status']);
 
   return errors;
 }

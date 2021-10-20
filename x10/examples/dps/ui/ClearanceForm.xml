@@ -2,7 +2,7 @@
   <Form>
     <Row gap="100">
       <Text>Is this a denid party?</Text>
-      <RadioButtonGroup path="status" excludeItems="unresolved"/>
+      <status excludeItems="unresolved" ui="RadioButtonGroup"/>
     </Row>
     <Row visible="=status == 'denied'" borderColor="red" padding="10" width="800" borderWidth="1.5">
       <Icon icon="attention" color="red"/>

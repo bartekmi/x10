@@ -58,6 +58,9 @@ associations:
     owns: true
     datagen_quantity: 0..2
 
+validations:
+  - message: Please select one of the choices above
+    trigger: =status == 'unresolved'
 
 enums:
   - name: Priority

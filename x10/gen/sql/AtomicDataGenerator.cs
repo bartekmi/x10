@@ -96,6 +96,9 @@ namespace x10.gen.sql {
       } else
         _messages.AddError(x10Attr.TreeElement, "Unknown data type: " + x10Attr.DataType.Name);
 
+      if (value == null && x10Attr is X10RegularAttribute regular && regular.DefaultValue != null)
+        value = regular.DefaultValue;
+
       return value;
     }
 

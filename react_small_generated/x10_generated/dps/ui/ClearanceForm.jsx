@@ -42,15 +42,20 @@ function ClearanceForm(props: Props): React.Node {
         <TextDisplay
           value='Is this a denid party?'
         />
-        <RadioGroup
-          value={ hit?.status }
-          onChange={ (value) => {
-            // $FlowExpectedError
-            onChange({ ...hit, status: value })
-          } }
-          excludeItems='unresolved'
-          options={ HitStatusEnumPairs }
-        />
+        <FormField
+          editorFor='status'
+          label='Status'
+        >
+          <RadioGroup
+            value={ hit?.status }
+            onChange={ (value) => {
+              // $FlowExpectedError
+              onChange({ ...hit, status: value })
+            } }
+            excludeItems='unresolved'
+            options={ HitStatusEnumPairs }
+          />
+        </FormField>
       </Group>
       <StyleControl
         visible={ toEnum(hit?.status) == "denied" }
