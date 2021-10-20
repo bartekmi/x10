@@ -20,6 +20,7 @@ import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
+import toEnum from 'react_lib/utils/toEnum';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { type Hit } from 'dps/entities/Hit';
@@ -48,18 +49,44 @@ function HitDetailsTab(props: Props): React.Node {
         weight='bold'
         children='Match details'
       />
-      <Group
-        alignItems='center'
+      <StyleControl
+        visible={ toEnum(hit?.status) != "cleared" }
+        padding={ 10 }
+        borderColor='orange'
       >
-        <Icon
-          iconName='attention'
-        />
-        <Text
-          scale='title'
-          weight='bold'
-          children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
-        />
-      </Group>
+        <Group
+          alignItems='center'
+        >
+          <Icon
+            iconName='attention'
+            color='orange30'
+          />
+          <Text
+            scale='title'
+            weight='bold'
+            children={ 'Please review ' + x10toString(hit?.matches.length) + ' matches' }
+          />
+        </Group>
+      </StyleControl>
+      <StyleControl
+        visible={ toEnum(hit?.status) == "cleared" }
+        padding={ 10 }
+        borderColor='green'
+      >
+        <Group
+          alignItems='center'
+        >
+          <Icon
+            iconName='check'
+            color='green40'
+          />
+          <Text
+            scale='title'
+            weight='bold'
+            children={ 'You have reviewed ' + x10toString(hit?.matches.length) + ' matches' }
+          />
+        </Group>
+      </StyleControl>
       <DisplayForm>
         <Text
           scale='title'
@@ -274,6 +301,7 @@ export default createFragmentContainer(HitDetailsTab, {
           url
         }
       }
+      status
     }
   `,
 });

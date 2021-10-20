@@ -149,7 +149,8 @@ namespace x10.model.metadata {
     }
 
     private readonly string[] COLOR_NAMES = 
-      new string[] {"white", "silver", "gray", "black", "red", "maroon", "yellow", "olive", "lime", "green", "aqua", "teal", "blue", "navy", "fuchsia", "purple"};
+      new string[] {"white", "silver", "gray", "black", "red", "maroon", "yellow", "olive", "lime", "green", "aqua", "teal", "blue", "navy", "fuchsia", "purple",
+                    "orange"};  // Non-web colors
 
     private string ParseColor(string color) {
       color = color.ToLower();

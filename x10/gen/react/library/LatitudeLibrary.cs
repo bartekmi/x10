@@ -241,15 +241,18 @@ namespace x10.gen.react.library {
               new EnumConversion("red", "red30"),
               new EnumConversion("maroon", "orange60"),
               new EnumConversion("yellow", "orange20"),
-              new EnumConversion("olive", "green40"),
+              new EnumConversion("olive", "green60"),
               new EnumConversion("lime", "green40"),    // No actual lime color
-              new EnumConversion("green", "green60"),
+              new EnumConversion("green", "green40"),
               new EnumConversion("aqua", "green30"),
               new EnumConversion("teal", "greey60"),
               new EnumConversion("blue", "indigo40"),
               new EnumConversion("navy", "blue60"),
               new EnumConversion("fuchsia", "purple40"),
               new EnumConversion("purple", "purple60"),
+
+              // Non-Web colors
+              new EnumConversion("orange", "orange30"),
             },
           },
         },

@@ -1,9 +1,13 @@
 <HitDetailsTab model="Hit">
   <VerticalStackPanel>
     <Heading2 text="Match details"/>
-    <Row>
-      <Icon icon="attention"/>
+    <Row visible="=status != 'cleared'" borderColor="orange" padding="10">
+      <Icon icon="attention" color="orange"/>
       <Heading3 text="='Please review ' + matches.count + ' matches'"/>
+    </Row>
+    <Row visible="=status == 'cleared'" borderColor="green" padding="10">
+      <Icon icon="check" color="green"/>
+      <Heading3 text="='You have reviewed ' + matches.count + ' matches'"/>
     </Row>
 
     <DisplayForm>
