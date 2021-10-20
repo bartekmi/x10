@@ -162,6 +162,11 @@ namespace x10.ui.libraries {
             DataType = DataTypes.Singleton.Float,
             IsPrimary = true,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "decimalPlaces",
+            Description = "Optionally, specify to how many decimal place to round the value",
+            DataType = DataTypes.Singleton.Integer,
+          },
         }
       },
       new ClassDefNative() {

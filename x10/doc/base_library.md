@@ -2229,6 +2229,11 @@ If specified, element will have a border of this color and some small padding
 If specified, element will have a border of this thickness and some small padding
 
 - Data Type: Float
+### Attribute 'decimalPlaces'
+
+Optionally, specify to how many decimal place to round the value
+
+- Data Type: Integer
 ### Attribute 'fillColor'
 
 Specifies background color of element

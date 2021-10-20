@@ -152,6 +152,7 @@ namespace x10.gen.react.library {
             LogicalName = "value",
             PlatformName = "value",
           },
+          new JavaScriptAttributeDynamic("decimalPlaces", "decimalPlaces"),
         },
       },
       new PlatformClassDef() {

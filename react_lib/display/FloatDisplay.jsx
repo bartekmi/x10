@@ -7,11 +7,15 @@ import Text from "latitude/Text";
 type Props = {|
   +value: ?number,
   +weight?: "bold",
+  +decimalPlaces?: number,
 |};
 export default function FloatDisplay(props: Props): React.Node {
-  const {value, weight} = props;
+  let {value, weight, decimalPlaces} = props;
 
-  // TODO: Format to precision
+  if (decimalPlaces && value) {
+    const tenToN = 10 ** decimalPlaces;
+    value = Math.round(value * tenToN) / tenToN;  
+  }
 
   return (
     <Text weight={weight || "regular"}>
