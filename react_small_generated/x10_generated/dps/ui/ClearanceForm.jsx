@@ -55,8 +55,6 @@ function ClearanceForm(props: Props): React.Node {
       <StyleControl
         visible={ toEnum(hit?.status) == "denied" }
         width={ 800 }
-        marginTop={ 10 }
-        marginBottom={ 10 }
         padding={ 10 }
         borderColor='red'
         borderWidth={ 1.5 }

@@ -1,0 +1,8 @@
+﻿name: __Context__
+description: This special entity defines data that is available globally
+
+attributes:
+  # - name: whitelistTimes
+  #   dataType: Integer
+  #   many: true
+  #   mandatory: true

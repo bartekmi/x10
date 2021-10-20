@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import Group from "latitude/Group";
+
 export type FormError = {|
   +error: string,
   +paths: $ReadOnlyArray<string>, // Paths of fields that this error is for (multiple for cross-validations)
@@ -34,4 +36,18 @@ export const FormContext: React.Context<FormContextType> = React.createContext({
 });
 const FormProvider = FormContext.Provider
 
-export default FormProvider;
+type Props = {|
+  +children: React.Node,
+  +value: any,
+|};
+export default function EditForm(props: Props): React.Node {
+  const { children, value } = props
+
+  return (
+    <FormContext.Provider value={value}>
+      <Group flexDirection="column" gap={20}>
+        { children }
+      </Group>
+    </FormContext.Provider>    
+  );
+}

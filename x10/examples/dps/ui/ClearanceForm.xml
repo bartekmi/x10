@@ -4,8 +4,7 @@
       <Text>Is this a denid party?</Text>
       <RadioButtonGroup path="status" excludeItems="unresolved"/>
     </Row>
-    <Row visible="=status == 'denied'" borderColor="red" marginBottom="10" marginTop="10" 
-        padding="10" width="800" borderWidth="1.5">
+    <Row visible="=status == 'denied'" borderColor="red" padding="10" width="800" borderWidth="1.5">
       <Icon icon="attention" color="red"/>
       <Text>Shipments related to this entity will remain blocked</Text>
     </Row>
