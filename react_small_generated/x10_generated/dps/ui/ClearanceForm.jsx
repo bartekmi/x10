@@ -44,7 +44,7 @@ function ClearanceForm(props: Props): React.Node {
         />
         <FormField
           editorFor='status'
-          label='Status'
+          label=''
         >
           <RadioGroup
             value={ hit?.status }
