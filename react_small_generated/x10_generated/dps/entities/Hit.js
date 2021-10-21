@@ -15,6 +15,7 @@ import { type Message } from 'dps/entities/Message';
 import { type OldHit } from 'dps/entities/OldHit';
 import { type Shipment } from 'dps/entities/Shipment';
 import { type User } from 'dps/entities/User';
+import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
 
@@ -25,7 +26,6 @@ export type Hit = {
   +status: ?HitStatusEnum,
   +reasonForClearance: ?ReasonForCleranceEnum,
   +notes: string,
-  +whitelistTime: ?number,
   +companyEntity: ?CompanyEntity,
   +user: ?User,
   +attachments: $ReadOnlyArray<Attachment>,
@@ -33,6 +33,7 @@ export type Hit = {
   +shipments: $ReadOnlyArray<Shipment>,
   +messages: $ReadOnlyArray<Message>,
   +oldHits: $ReadOnlyArray<OldHit>,
+  +whitelistDays: ?WhitelistDuration,
 };
 
 
@@ -65,8 +66,6 @@ export function createDefaultHit(): Hit {
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
     notes: '',
-    // $FlowExpectedError Required field, but no default value
-    whitelistTime: null,
     companyEntity: null,
     user: null,
     attachments: [],
@@ -74,6 +73,7 @@ export function createDefaultHit(): Hit {
     shipments: [],
     messages: [],
     oldHits: [],
+    whitelistDays: null,
   };
 }
 
@@ -87,10 +87,10 @@ export function hitCalculateErrors(hit: Hit, prefix?: string): $ReadOnlyArray<Fo
     addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance']);
   if (isBlank(hit.notes))
     addError(errors, prefix, 'Notes is required', ['notes']);
-  if (isBlank(hit.whitelistTime))
-    addError(errors, prefix, 'Whitelist Time is required', ['whitelistTime']);
   if (isBlank(hit.companyEntity))
     addError(errors, prefix, 'Company Entity is required', ['companyEntity']);
+  if (isBlank(hit.whitelistDays))
+    addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays']);
 
   if (toEnum(hit?.status) == "unresolved")
     addError(errors, prefix, 'Please select one of the choices above', ['status']);

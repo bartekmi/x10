@@ -8,6 +8,7 @@ namespace x10.hotchoc.dps.Repositories {
   public class Repository : RepositoryBase, IRepository {
     private Dictionary<int, Company> _companies = new Dictionary<int, Company>();
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
+    private Dictionary<int, WhitelistDuration> _whitelistDurations = new Dictionary<int, WhitelistDuration>();
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
     private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
     private Dictionary<int, MatchInfoSource> _matchInfoSources = new Dictionary<int, MatchInfoSource>();
@@ -26,6 +27,7 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(Mutations),
         typeof(Company),
         typeof(CompanyEntity),
+        typeof(WhitelistDuration),
         typeof(Hit),
         typeof(Attachment),
         typeof(MatchInfoSource),
@@ -45,6 +47,7 @@ namespace x10.hotchoc.dps.Repositories {
 
       if (instance is Company company) _companies[id] = company;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
+      if (instance is WhitelistDuration whitelistDuration) _whitelistDurations[id] = whitelistDuration;
       if (instance is Hit hit) _hits[id] = hit;
       if (instance is Attachment attachment) _attachments[id] = attachment;
       if (instance is MatchInfoSource matchInfoSource) _matchInfoSources[id] = matchInfoSource;
@@ -71,6 +74,14 @@ namespace x10.hotchoc.dps.Repositories {
     public CompanyEntity GetCompanyEntity(int id) { return _companyEntities[id]; }
     public int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity) {
       return RepositoryUtils.AddOrUpdate(dbid, companyEntity, _companyEntities);
+    }
+    #endregion
+
+    #region WhitelistDurations
+    public IQueryable<WhitelistDuration> GetWhitelistDurations() => _whitelistDurations.Values.AsQueryable();
+    public WhitelistDuration GetWhitelistDuration(int id) { return _whitelistDurations[id]; }
+    public int AddOrUpdateWhitelistDuration(int? dbid, WhitelistDuration whitelistDuration) {
+      return RepositoryUtils.AddOrUpdate(dbid, whitelistDuration, _whitelistDurations);
     }
     #endregion
 

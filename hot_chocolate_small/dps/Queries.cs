@@ -59,6 +59,30 @@ namespace x10.hotchoc.dps {
           repository.GetCompanyEntities();
     #endregion
 
+    #region WhitelistDuration
+    /// <summary>
+    /// Retrieve a WhitelistDuration by id
+    /// </summary>
+    /// <param name="id">The id of the WhitelistDuration.</param>
+    /// <param name="repository"></param>
+    /// <returns>The WhitelistDuration.</returns>
+    public WhitelistDuration GetWhitelistDuration(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetWhitelistDuration(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all WhitelistDurations.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All WhitelistDurations.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<WhitelistDuration> GetWhitelistDurations(
+        [Service] IRepository repository) =>
+          repository.GetWhitelistDurations();
+    #endregion
+
     #region Hit
     /// <summary>
     /// Retrieve a Hit by id

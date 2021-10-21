@@ -38,6 +38,19 @@ namespace x10.hotchoc.dps {
     }
     #endregion
 
+    #region WhitelistDuration
+    /// <summary>
+    /// Creates a new WhitelistDuration or updates an existing one, depending on the value of whitelistDuration.id
+    /// </summary>
+    public string CreateOrUpdateWhitelistDuration(
+      WhitelistDuration whitelistDuration,
+      [Service] IRepository repository) {
+        whitelistDuration.SetNonOwnedAssociations(repository);
+        int dbid = repository.AddOrUpdateWhitelistDuration(IdUtils.FromRelayId(whitelistDuration.Id), whitelistDuration);
+        return IdUtils.ToRelayId<WhitelistDuration>(dbid);
+    }
+    #endregion
+
     #region Hit
     /// <summary>
     /// Creates a new Hit or updates an existing one, depending on the value of hit.id

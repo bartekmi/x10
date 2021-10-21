@@ -17,10 +17,6 @@ attributes:
     dataType: String
     mandatory: true
     ui: TextArea
-  - name: whitelistTime
-#TODO: Select from a list
-    dataType: Integer
-    mandatory: true
 
 associations:
   - name: companyEntity
@@ -57,6 +53,10 @@ associations:
     many: true
     owns: true
     datagen_quantity: 0..2
+  - name: whitelistDays
+    dataType: WhitelistDuration
+    owns: false
+    mandatory: true
 
 validations:
   - message: Please select one of the choices above

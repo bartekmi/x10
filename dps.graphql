@@ -58,7 +58,6 @@ type Hit {
   status: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum!
   notes: String!
-  whitelistTime: Int!
   toStringRepresentation: String!
   companyEntity: CompanyEntity!
   user: User
@@ -67,6 +66,7 @@ type Hit {
   shipments: [Shipment!]!
   messages: [Message!]!
   oldHits: [OldHit!]!
+  whitelistDays: WhitelistDuration!
   id: String!
   hashcode: Int!
 }
@@ -114,6 +114,8 @@ type Mutation {
   createOrUpdateCompany(company: CompanyInput!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
   createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
+  "Creates a new WhitelistDuration or updates an existing one, depending on the value of whitelistDuration.id"
+  createOrUpdateWhitelistDuration(whitelistDuration: WhitelistDurationInput!): String!
   "Creates a new Hit or updates an existing one, depending on the value of hit.id"
   createOrUpdateHit(hit: HitInput!): String!
   "Creates a new Attachment or updates an existing one, depending on the value of attachment.id"
@@ -171,6 +173,10 @@ type Query {
   companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
   "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
   companyEntities(where: CompanyEntityFilter order_by: CompanyEntitySort): [CompanyEntity!]!
+  "Retrieve a WhitelistDuration by id\n\n\n**Returns:**\nThe WhitelistDuration."
+  whitelistDuration("The id of the WhitelistDuration." id: String!): WhitelistDuration!
+  "Gets all WhitelistDurations.\n\n\n**Returns:**\nAll WhitelistDurations."
+  whitelistDurations(where: WhitelistDurationFilter order_by: WhitelistDurationSort): [WhitelistDuration!]!
   "Retrieve a Hit by id\n\n\n**Returns:**\nThe Hit."
   hit("The id of the Hit." id: String!): Hit!
   "Gets all Hits.\n\n\n**Returns:**\nAll Hits."
@@ -248,6 +254,15 @@ type User {
   email: String!
   phone: String!
   location: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A port of a shipment"
+type WhitelistDuration {
+  value: Int
+  label: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -708,18 +723,6 @@ input HitFilter {
   notes_not_ends_with: String
   notes_in: [String!]
   notes_not_in: [String!]
-  whitelistTime: Int
-  whitelistTime_not: Int
-  whitelistTime_in: [Int!]
-  whitelistTime_not_in: [Int!]
-  whitelistTime_gt: Int
-  whitelistTime_not_gt: Int
-  whitelistTime_gte: Int
-  whitelistTime_not_gte: Int
-  whitelistTime_lt: Int
-  whitelistTime_not_lt: Int
-  whitelistTime_lte: Int
-  whitelistTime_not_lte: Int
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -752,6 +755,7 @@ input HitFilter {
   oldHits_none: OldHitFilter
   oldHits_all: OldHitFilter
   oldHits_any: Boolean
+  whitelistDays: WhitelistDurationFilter
   id: String
   id_not: String
   id_contains: String
@@ -782,7 +786,6 @@ input HitInput {
   status: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum!
   notes: String!
-  whitelistTime: Int!
   toStringRepresentation: String!
   companyEntity: CompanyEntityInput!
   user: UserInput
@@ -791,6 +794,7 @@ input HitInput {
   shipments: [ShipmentInput!]!
   messages: [MessageInput!]!
   oldHits: [OldHitInput!]!
+  whitelistDays: WhitelistDurationInput!
   id: String!
   hashcode: Int!
 }
@@ -801,10 +805,10 @@ input HitSort {
   status: SortOperationKind
   reasonForClearance: SortOperationKind
   notes: SortOperationKind
-  whitelistTime: SortOperationKind
   toStringRepresentation: SortOperationKind
   companyEntity: CompanyEntitySort
   user: UserSort
+  whitelistDays: WhitelistDurationSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -1703,6 +1707,84 @@ input UserSort {
   email: SortOperationKind
   phone: SortOperationKind
   location: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A port of a shipment"
+input WhitelistDurationFilter {
+  AND: [WhitelistDurationFilter!]
+  OR: [WhitelistDurationFilter!]
+  value: Int
+  value_not: Int
+  value_in: [Int]
+  value_not_in: [Int]
+  value_gt: Int
+  value_not_gt: Int
+  value_gte: Int
+  value_not_gte: Int
+  value_lt: Int
+  value_not_lt: Int
+  value_lte: Int
+  value_not_lte: Int
+  label: String
+  label_not: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
+  label_in: [String!]
+  label_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A port of a shipment"
+input WhitelistDurationInput {
+  value: Int
+  label: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A port of a shipment"
+input WhitelistDurationSort {
+  value: SortOperationKind
+  label: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind

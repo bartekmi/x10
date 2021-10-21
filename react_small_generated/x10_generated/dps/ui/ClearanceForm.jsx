@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
 import SelectInput from 'latitude/select/SelectInput';
@@ -15,6 +14,7 @@ import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import StyleControl from 'react_lib/StyleControl';
 import toEnum from 'react_lib/utils/toEnum';
@@ -98,16 +98,19 @@ function ClearanceForm(props: Props): React.Node {
             />
           </FormField>
           <FormField
-            editorFor='whitelistTime'
+            editorFor='whitelistDays'
             indicateRequired={ true }
             label='Whitelist time'
           >
-            <FloatInput
-              value={ hit?.whitelistTime }
+            <AssociationEditor
+              id={ hit?.whitelistDays?.id }
               onChange={ (value) => {
                 // $FlowExpectedError
-                onChange({ ...hit, whitelistTime: value })
+                onChange({ ...hit, whitelistDays: value == null ? null : { id: value } })
               } }
+              isNullable={ false }
+              query={ whitelistDurationsQuery }
+              toString={ x => x.toStringRepresentation }
             />
           </FormField>
         </Group>
@@ -186,8 +189,20 @@ export default createFragmentContainer(ClearanceFormStateful, {
       notes
       reasonForClearance
       status
-      whitelistTime
+      whitelistDays {
+        id
+        toStringRepresentation
+      }
     }
   `,
 });
+
+const whitelistDurationsQuery = graphql`
+  query ClearanceForm_whitelistDurationsQuery {
+    entities: whitelistDurations {
+      id
+      toStringRepresentation
+    }
+  }
+`;
 

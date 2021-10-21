@@ -9,6 +9,7 @@ namespace x10.hotchoc.dps.Repositories {
     // Queries
     Company GetCompany(int id);
     CompanyEntity GetCompanyEntity(int id);
+    WhitelistDuration GetWhitelistDuration(int id);
     Hit GetHit(int id);
     Attachment GetAttachment(int id);
     MatchInfoSource GetMatchInfoSource(int id);
@@ -23,6 +24,7 @@ namespace x10.hotchoc.dps.Repositories {
 
     IQueryable<Company> GetCompanies();
     IQueryable<CompanyEntity> GetCompanyEntities();
+    IQueryable<WhitelistDuration> GetWhitelistDurations();
     IQueryable<Hit> GetHits();
     IQueryable<Attachment> GetAttachments();
     IQueryable<MatchInfoSource> GetMatchInfoSources();
@@ -38,6 +40,7 @@ namespace x10.hotchoc.dps.Repositories {
     // Mutations
     int AddOrUpdateCompany(int? dbid, Company company);
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
+    int AddOrUpdateWhitelistDuration(int? dbid, WhitelistDuration whitelistDuration);
     int AddOrUpdateHit(int? dbid, Hit hit);
     int AddOrUpdateAttachment(int? dbid, Attachment attachment);
     int AddOrUpdateMatchInfoSource(int? dbid, MatchInfoSource matchInfoSource);

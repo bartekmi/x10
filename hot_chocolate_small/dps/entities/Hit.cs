@@ -25,8 +25,6 @@ namespace x10.hotchoc.dps.Entities {
     public ReasonForCleranceEnum? ReasonForClearance { get; set; }
     [GraphQLNonNullType]
     public string? Notes { get; set; }
-    [GraphQLNonNullType]
-    public int? WhitelistTime { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
@@ -49,6 +47,8 @@ namespace x10.hotchoc.dps.Entities {
     public List<Message>? Messages { get; set; }
     [GraphQLNonNullType]
     public List<OldHit>? OldHits { get; set; }
+    [GraphQLNonNullType]
+    public WhitelistDuration? WhitelistDays { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
@@ -87,6 +87,9 @@ namespace x10.hotchoc.dps.Entities {
       if (OldHits != null)
         foreach (OldHit oldHits in OldHits)
           oldHits.SetNonOwnedAssociations(repository);
+
+      int? whitelistDays = IdUtils.FromRelayId(WhitelistDays?.Id);
+      WhitelistDays = whitelistDays == null ? null : repository.GetWhitelistDuration(whitelistDays.Value);
     }
   }
 }
