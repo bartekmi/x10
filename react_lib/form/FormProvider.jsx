@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import Group from "latitude/Group";
+import VerticalStackPanel from "../layout/VerticalStackPanel";
 
 export type FormError = {|
   +error: string,
@@ -45,9 +45,9 @@ export default function EditForm(props: Props): React.Node {
 
   return (
     <FormContext.Provider value={value}>
-      <Group flexDirection="column" gap={20}>
+      <VerticalStackPanel gap={20}>
         { children }
-      </Group>
+      </VerticalStackPanel>
     </FormContext.Provider>    
   );
 }
