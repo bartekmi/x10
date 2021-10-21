@@ -12,6 +12,7 @@ import TimestampDisplay from 'react_lib/display/TimestampDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Dialog from 'react_lib/modal/Dialog';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import StyleControl from 'react_lib/StyleControl';
@@ -30,8 +31,7 @@ function EscalationTab(props: Props): React.Node {
   const { hit } = props;
 
   return (
-    <Group
-      flexDirection='column'
+    <VerticalStackPanel
       gap={ 20 }
     >
       <Group
@@ -47,8 +47,7 @@ function EscalationTab(props: Props): React.Node {
       <MultiStacker
         items={ hit?.messages }
         itemDisplayFunc={ (data, onChange) => (
-          <Group
-            flexDirection='column'
+          <VerticalStackPanel
             gap={ 4 }
           >
             <Group
@@ -67,9 +66,7 @@ function EscalationTab(props: Props): React.Node {
                 <StyleControl
                   width={ 350 }
                 >
-                  <Group
-                    flexDirection='column'
-                  >
+                  <VerticalStackPanel>
                     <DisplayForm>
                       <DisplayField
                         label='Phone'
@@ -93,7 +90,7 @@ function EscalationTab(props: Props): React.Node {
                         />
                       </DisplayField>
                     </DisplayForm>
-                  </Group>
+                  </VerticalStackPanel>
                 </StyleControl>
               </Dialog>
               <TimestampDisplay
@@ -107,11 +104,11 @@ function EscalationTab(props: Props): React.Node {
               label={ messageFlexId(data) }
               url={ messageShipmentUrl(data) }
             />
-          </Group>
+          </VerticalStackPanel>
         ) }
         addNewItem={ createDefaultMessage }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

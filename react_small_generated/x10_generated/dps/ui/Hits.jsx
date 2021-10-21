@@ -10,6 +10,7 @@ import Text from 'latitude/Text';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
@@ -26,9 +27,7 @@ function Hits(props: Props): React.Node {
   const { hits } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='display'
         weight='bold'
@@ -84,7 +83,7 @@ function Hits(props: Props): React.Node {
           ]
         }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

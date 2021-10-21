@@ -16,6 +16,7 @@ import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
@@ -43,9 +44,7 @@ function SlideoutPanel(props: Props): React.Node {
     <StyleControl
       width={ 520 }
     >
-      <Group
-        flexDirection='column'
-      >
+      <VerticalStackPanel>
         <Expander
           headerFunc={ () => (
             <Text
@@ -219,7 +218,7 @@ function SlideoutPanel(props: Props): React.Node {
             addNewItem={ createDefaultOldHit }
           />
         </Expander>
-      </Group>
+      </VerticalStackPanel>
     </StyleControl>
   );
 }

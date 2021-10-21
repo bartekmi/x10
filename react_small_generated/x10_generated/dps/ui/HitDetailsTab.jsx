@@ -16,6 +16,7 @@ import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
@@ -41,9 +42,7 @@ function HitDetailsTab(props: Props): React.Node {
   const { hit } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='headline'
         weight='bold'
@@ -202,9 +201,7 @@ function HitDetailsTab(props: Props): React.Node {
             ]
           }
           expandedContentFunc={ (data) => (
-            <Group
-              flexDirection='column'
-            >
+            <VerticalStackPanel>
               <TextDisplay
                 weight='bold'
                 value='Match details'
@@ -251,7 +248,7 @@ function HitDetailsTab(props: Props): React.Node {
                   url='https://chrome.google.com/webstore/detail/ignore-x-frame-headers/gleekbfjekiniecknbkamfmkohkpodhe'
                 />
               </Group>
-            </Group>
+            </VerticalStackPanel>
           ) }
         />
       </Expander>
@@ -267,7 +264,7 @@ function HitDetailsTab(props: Props): React.Node {
       >
         <ClearanceForm hit={ hit }/>
       </Expander>
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

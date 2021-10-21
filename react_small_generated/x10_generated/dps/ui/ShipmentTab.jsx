@@ -12,6 +12,7 @@ import DateDisplay from 'react_lib/display/DateDisplay';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import toEnum from 'react_lib/utils/toEnum';
@@ -32,9 +33,7 @@ function ShipmentTab(props: Props): React.Node {
   const { hit } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='title'
         weight='bold'
@@ -108,8 +107,7 @@ function ShipmentTab(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group
-                  flexDirection='column'
+                <VerticalStackPanel
                   gap={ 0 }
                 >
                   <EnumDisplay
@@ -120,7 +118,7 @@ function ShipmentTab(props: Props): React.Node {
                   <TextDisplay
                     value={ shipmentModeSubtext(value) }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
@@ -183,8 +181,7 @@ function ShipmentTab(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group
-                  flexDirection='column'
+                <VerticalStackPanel
                   gap={ 0 }
                 >
                   <DateDisplay
@@ -193,7 +190,7 @@ function ShipmentTab(props: Props): React.Node {
                   <TextDisplay
                     value={ portCityAndCountry(value?.departurePort) }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
@@ -202,8 +199,7 @@ function ShipmentTab(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group
-                  flexDirection='column'
+                <VerticalStackPanel
                   gap={ 0 }
                 >
                   <DateDisplay
@@ -212,7 +208,7 @@ function ShipmentTab(props: Props): React.Node {
                   <TextDisplay
                     value={ portCityAndCountry(value?.arrivalPort) }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
@@ -221,8 +217,7 @@ function ShipmentTab(props: Props): React.Node {
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group
-                  flexDirection='column'
+                <VerticalStackPanel
                   gap={ 0 }
                 >
                   <TextDisplay
@@ -232,13 +227,13 @@ function ShipmentTab(props: Props): React.Node {
                     weight='bold'
                     value={ value?.dueDate }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
           ]
         }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 
