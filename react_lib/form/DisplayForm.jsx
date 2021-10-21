@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import Group from "latitude/Group";
+import VerticalStackPanel from "../layout/VerticalStackPanel";
 
 type Props = {|
   +children: React.Node,
@@ -11,8 +11,8 @@ export default function DisplayForm(props: Props): React.Node {
   const { children } = props
 
   return (
-    <Group flexDirection="column" gap={20}>
+    <VerticalStackPanel gap={20}>
       { children }
-    </Group>
+    </VerticalStackPanel>
   );
 }
