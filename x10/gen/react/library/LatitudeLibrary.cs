@@ -453,7 +453,14 @@ namespace x10.gen.react.library {
         LogicalName = "Row",
         PlatformName = "Group",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("alignItems", "center"),
+          new JavaScriptAttributeDynamic("align", "alignItems") {
+            EnumConversions = new List<EnumConversion>() {
+              new EnumConversion("top", "flexStart"),
+              new EnumConversion("center", "center"),
+              new EnumConversion("bottom", "flexEnd"),
+            },
+            DefaultValue = "center",
+          },
           new JavaScriptAttributeDynamic("gap", "gap"),
         },
       },

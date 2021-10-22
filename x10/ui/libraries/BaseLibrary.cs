@@ -527,6 +527,15 @@ namespace x10.ui.libraries {
             Description = "If present, specifies gap between items in pixels.",
             DataType = DataTypes.Singleton.Integer,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "align",
+            Description = "Specify vertical alignment of items in the row.",
+            DataType = new DataTypeEnum() {
+              Name = "VerticalAlignment",
+              EnumValueValues = new string[] { "top", "center", "botom" },
+            },
+            IsAttached = true,
+          },
         }
       },
       new ClassDefNative() {

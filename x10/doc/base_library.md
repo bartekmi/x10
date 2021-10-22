@@ -5077,6 +5077,12 @@ A layout panel which arranges its children horizontally, touching each other.
 The contents/children of the panel.
 
 - Expects Array of Values: Yes
+### Attribute 'align'
+
+Specify vertical alignment of items in the row.
+
+- Data Type: VerticalAlignment
+- Attached Attribute: Yes
 ### Attribute 'borderColor'
 
 If specified, element will have a border of this color and some small padding

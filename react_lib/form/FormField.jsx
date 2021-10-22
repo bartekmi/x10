@@ -7,6 +7,7 @@ import HelpTooltip from "latitude/HelpTooltip";
 import InputValidationMessage from "latitude/InputValidationMessage";
 
 import { errorMessageForPath } from "./FormProvider";
+import isBlank from "../utils/isBlank";
 
 type Props = {|
   +children: React.Node,
@@ -25,6 +26,10 @@ export default function FormField(props: Props): React.Node {
 
   const errorMessage = errorMessageForPath(editorFor);
 
+  if (isBlank(label)) {
+    return <RawField errorMessage={errorMessage} style={style} children={children}/>
+  }
+
   return (
     <Label 
       value={label} 
@@ -37,11 +42,24 @@ export default function FormField(props: Props): React.Node {
           text={toolTip}
         /> : null}
     >
-      <InputValidationMessage errorText={errorMessage || null} showError={errorMessage != null}>
-        <div style={style}>
-          {children}
-        </div>
-      </InputValidationMessage>
+      <RawField errorMessage={errorMessage} style={style} children={children}/>
     </Label>
+  );
+}
+
+type RawFieldProps = {|
+  +children: React.Node,
+  +errorMessage: ?string,
+  +style: any,
+|};
+function RawField(props: RawFieldProps): React.Node {
+  const { errorMessage, style, children } = props;
+
+  return (
+  <InputValidationMessage errorText={errorMessage || null} showError={errorMessage != null}>
+    <div style={style}>
+      {children}
+    </div>
+  </InputValidationMessage>
   );
 }

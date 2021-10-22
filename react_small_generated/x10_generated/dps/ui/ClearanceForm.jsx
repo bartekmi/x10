@@ -35,7 +35,7 @@ function ClearanceForm(props: Props): React.Node {
       value={ { errors: hitCalculateErrors(hit) } }
     >
       <Group
-        alignItems='center'
+        alignItems='flexStart'
         gap={ 100 }
       >
         <TextDisplay
