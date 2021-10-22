@@ -455,7 +455,7 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("align", "alignItems") {
             EnumConversions = new List<EnumConversion>() {
-              new EnumConversion("top", "flexStart"),
+              new EnumConversion("top", "flex-start"),
               new EnumConversion("center", "center"),
               new EnumConversion("bottom", "flexEnd"),
             },
