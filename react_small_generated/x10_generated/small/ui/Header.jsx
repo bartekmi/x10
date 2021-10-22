@@ -4,8 +4,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 
-import Group from 'latitude/Group';
-
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Menu from 'react_lib/menu/Menu';
 import MenuItem from 'react_lib/menu/MenuItem';
 import SpaContent from 'react_lib/SpaContent';
@@ -26,9 +25,7 @@ export default function Header(props: Props): React.Node {
   const {  } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Menu>
         <MenuItem
           label='All Buildings'
@@ -69,7 +66,7 @@ export default function Header(props: Props): React.Node {
         <Route exact path='/tenants/edit/:id' component={ TenantFormInterface } />
         <Route exact path='/tenants/new' component={ TenantFormInterface } />
       </SpaContent>
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

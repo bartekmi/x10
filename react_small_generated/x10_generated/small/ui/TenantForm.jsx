@@ -14,7 +14,6 @@ import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
-import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import isExistingObject from 'react_lib/utils/isExistingObject';
@@ -46,6 +45,7 @@ function TenantForm(props: Props): React.Node {
       >
         <FormField
           editorFor='name'
+          indicateRequired={ true }
           label='Name'
         >
           <TextInput
@@ -70,6 +70,7 @@ function TenantForm(props: Props): React.Node {
         </FormField>
         <FormField
           editorFor='email'
+          indicateRequired={ true }
           label='Email'
         >
           <TextInput
@@ -86,6 +87,7 @@ function TenantForm(props: Props): React.Node {
       >
         <FormField
           editorFor='permanentMailingAddress.theAddress'
+          indicateRequired={ true }
           label='The Address'
         >
           <TextInput
@@ -102,6 +104,7 @@ function TenantForm(props: Props): React.Node {
         >
           <FormField
             editorFor='permanentMailingAddress.city'
+            indicateRequired={ true }
             label='City'
           >
             <TextInput
@@ -119,6 +122,7 @@ function TenantForm(props: Props): React.Node {
         >
           <FormField
             editorFor='permanentMailingAddress.stateOrProvince'
+            indicateRequired={ true }
             label='State Or Province'
           >
             <TextInput
@@ -136,6 +140,7 @@ function TenantForm(props: Props): React.Node {
         >
           <FormField
             editorFor='permanentMailingAddress.zip'
+            indicateRequired={ true }
             label='Zip or Postal Code'
           >
             <TextInput
@@ -150,6 +155,7 @@ function TenantForm(props: Props): React.Node {
         </StyleControl>
         <FormField
           editorFor='permanentMailingAddress.country'
+          indicateRequired={ true }
           label='Country'
         >
           <AssociationEditor
@@ -172,12 +178,8 @@ function TenantForm(props: Props): React.Node {
           value='* Required'
         />
         <FormSubmitButton
-          onClick={ () => save(tenant) }
-          action={
-            {
-              successUrl: '/tenants',
-            }
-          }
+          mutation={ mutation }
+          variables={ tenant }
           label='Save'
         />
       </Group>
@@ -201,10 +203,6 @@ function relayToInternal(relay: any): Tenant {
   return {
     ...relay,
   };
-}
-
-function save(tenant: Tenant) {
-  basicCommitMutation(mutation, { tenant });
 }
 
 const mutation = graphql`

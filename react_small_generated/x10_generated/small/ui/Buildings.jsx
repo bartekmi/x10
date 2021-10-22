@@ -12,6 +12,7 @@ import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import isBlank from 'react_lib/utils/isBlank';
@@ -31,9 +32,7 @@ function Buildings(props: Props): React.Node {
   const { buildings } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='display'
         weight='bold'
@@ -44,7 +43,7 @@ function Buildings(props: Props): React.Node {
         columns={
           [
             {
-              id: 0,
+              id: '_0',
               Header: 'Name',
               width: 200,
               accessor: (data) => data,
@@ -70,7 +69,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 1,
+              id: '_1',
               Header: 'The Address',
               width: 140,
               accessor: (data) => data?.physicalAddress?.theAddress,
@@ -81,7 +80,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 2,
+              id: '_2',
               Header: 'City / Province',
               width: 140,
               accessor: (data) => addressSecondAddressLine(data?.physicalAddress),
@@ -92,7 +91,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 3,
+              id: '_3',
               Header: 'Age In Years',
               width: 140,
               accessor: (data) => buildingAgeInYears(data),
@@ -103,7 +102,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 4,
+              id: '_4',
               Header: 'Pet Policy',
               width: 140,
               accessor: (data) => data?.petPolicy,
@@ -115,7 +114,7 @@ function Buildings(props: Props): React.Node {
               ,
             },
             {
-              id: 5,
+              id: '_5',
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
@@ -136,7 +135,7 @@ function Buildings(props: Props): React.Node {
           ]
         }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

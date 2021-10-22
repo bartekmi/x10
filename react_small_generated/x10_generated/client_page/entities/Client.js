@@ -31,91 +31,91 @@ export type Client = {
 // Enums
 export const ClientStatusEnumPairs = [
   {
-    value: 'LEAD',
+    value: 'lead',
     label: 'Lead',
   },
   {
-    value: 'TEST',
+    value: 'test',
     label: 'Test',
   },
   {
-    value: 'DEMO',
+    value: 'demo',
     label: 'Demo',
   },
   {
-    value: 'ACTIVE',
+    value: 'active',
     label: 'Active',
   },
   {
-    value: 'CHURNED',
+    value: 'churned',
     label: 'Churned',
   },
   {
-    value: 'DEACTIVATED',
+    value: 'deactivated',
     label: 'Deactivated',
   },
 ];
 
-export type ClientStatusEnum = 'LEAD' | 'TEST' | 'DEMO' | 'ACTIVE' | 'CHURNED' | 'DEACTIVATED';
+export type ClientStatusEnum = 'lead' | 'test' | 'demo' | 'active' | 'churned' | 'deactivated';
 
 export const ClientSegmentEnumPairs = [
   {
-    value: 'EMERGING',
+    value: 'emerging',
     label: 'Emerging',
   },
   {
-    value: 'SMB',
+    value: 'smb',
     label: 'Smb',
   },
   {
-    value: 'MID_MARKET',
+    value: 'mid_market',
     label: 'Mid Market',
   },
   {
-    value: 'NOT_QUALIFIED',
+    value: 'not_qualified',
     label: 'Not Qualified',
   },
   {
-    value: 'UNKNOWN',
+    value: 'unknown',
     label: 'Unknown',
   },
   {
-    value: 'ENTERPRISE',
+    value: 'enterprise',
     label: 'Enterprise',
   },
 ];
 
-export type ClientSegmentEnum = 'EMERGING' | 'SMB' | 'MID_MARKET' | 'NOT_QUALIFIED' | 'UNKNOWN' | 'ENTERPRISE';
+export type ClientSegmentEnum = 'emerging' | 'smb' | 'mid_market' | 'not_qualified' | 'unknown' | 'enterprise';
 
 export const ClientPurchasingBehaviorEnumPairs = [
   {
-    value: 'PRICE',
+    value: 'price',
     label: 'Price',
   },
   {
-    value: 'VALUE',
+    value: 'value',
     label: 'Value',
   },
 ];
 
-export type ClientPurchasingBehaviorEnum = 'PRICE' | 'VALUE';
+export type ClientPurchasingBehaviorEnum = 'price' | 'value';
 
 export const ClientPrimaryShipmentRoleEnumPairs = [
   {
-    value: 'UNKNOWN',
+    value: 'unknown',
     label: 'Unknown',
   },
   {
-    value: 'SHIPPER',
+    value: 'shipper',
     label: 'Shipper',
   },
   {
-    value: 'CONSIGNEE',
+    value: 'consignee',
     label: 'Consignee',
   },
 ];
 
-export type ClientPrimaryShipmentRoleEnum = 'UNKNOWN' | 'SHIPPER' | 'CONSIGNEE';
+export type ClientPrimaryShipmentRoleEnum = 'unknown' | 'shipper' | 'consignee';
 
 
 

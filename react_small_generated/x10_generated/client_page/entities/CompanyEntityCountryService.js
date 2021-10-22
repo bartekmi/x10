@@ -7,13 +7,15 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { type Country } from 'client_page/entities/Country';
+
 
 // Type Definition
 export type CompanyEntityCountryService = {
   +id: string,
   +importCustoms: boolean,
   +exportCustoms: boolean,
-  +country: ?{ id: string },
+  +country: ?Country,
 };
 
 

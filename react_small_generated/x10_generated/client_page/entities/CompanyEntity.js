@@ -8,9 +8,12 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'client_page/entities/Address';
+import { type Country } from 'client_page/entities/Country';
 import { createDefaultCtpatReview, ctpatReviewCalculateErrors, type CtpatReview } from 'client_page/entities/CtpatReview';
+import { type Currency } from 'client_page/entities/Currency';
 import { type Document } from 'client_page/entities/Document';
 import { type HkspPartnerUse } from 'client_page/entities/HkspPartnerUse';
+import { type NetsuiteVendor } from 'client_page/entities/NetsuiteVendor';
 import { type VatNumber } from 'client_page/entities/VatNumber';
 
 
@@ -46,11 +49,11 @@ export type CompanyEntity = {
   +mailingAddress: Address,
   +physicalAddress: Address,
   +vatNumbers: $ReadOnlyArray<VatNumber>,
-  +netsuiteVendorId: ?{ id: string },
+  +netsuiteVendorId: ?NetsuiteVendor,
   +ctpatReview: CtpatReview,
   +documents: $ReadOnlyArray<Document>,
-  +countryOfBusinessRegistration: ?{ id: string },
-  +invoiceCurrencyDefault: ?{ id: string },
+  +countryOfBusinessRegistration: ?Country,
+  +invoiceCurrencyDefault: ?Currency,
   +hkspPartners: $ReadOnlyArray<HkspPartnerUse>,
 };
 
@@ -58,97 +61,98 @@ export type CompanyEntity = {
 // Enums
 export const CompanyEntityTypeEnumPairs = [
   {
-    value: 'CORPORATION',
+    value: 'corporation',
     label: 'Corporation',
   },
   {
-    value: 'INDIVIDUAL',
+    value: 'individual',
     label: 'Individual',
   },
   {
-    value: 'LIMITED_LIABILITY_COMPANY',
+    value: 'limited_liability_company',
     label: 'Limited Liability Company',
   },
   {
-    value: 'LIMITED_LIABILITY_PARTNERSHIP',
+    value: 'limited_liability_partnership',
     label: 'Limited Liability Partnership',
   },
   {
-    value: 'NON_RESIDENT_CORPORATION',
+    value: 'non_resident_corporation',
     label: 'Non Resident Corporation',
   },
   {
-    value: 'PARTNERSHIP',
+    value: 'partnership',
     label: 'Partnership',
   },
   {
-    value: 'SOLE_PROPRIETORSHIP',
+    value: 'sole_proprietorship',
     label: 'Sole Proprietorship',
   },
   {
-    value: 'UNKNOWN',
+    value: 'unknown',
     label: 'Unknown',
   },
   {
-    value: 'UNLIMITED_LIABILITY_CORPORATION',
+    value: 'unlimited_liability_corporation',
     label: 'Unlimited Liability Corporation',
   },
 ];
 
-export type CompanyEntityTypeEnum = 'CORPORATION' | 'INDIVIDUAL' | 'LIMITED_LIABILITY_COMPANY' | 'LIMITED_LIABILITY_PARTNERSHIP' | 'NON_RESIDENT_CORPORATION' | 'PARTNERSHIP' | 'SOLE_PROPRIETORSHIP' | 'UNKNOWN' | 'UNLIMITED_LIABILITY_CORPORATION';
+export type CompanyEntityTypeEnum = 'corporation' | 'individual' | 'limited_liability_company' | 'limited_liability_partnership' | 'non_resident_corporation' | 'partnership' | 'sole_proprietorship' | 'unknown' | 'unlimited_liability_corporation';
 
 export const VendorCategoryEnumPairs = [
   {
-    value: 'UNASSIGNED',
+    value: 'unassigned',
     label: 'Unassigned',
   },
   {
-    value: 'FREIGHT_UNAPPROVED',
+    value: 'freight_unapproved',
     label: 'Freight - Unapproved',
   },
   {
-    value: 'FREIGHT_APPROVED',
+    value: 'freight_approved',
     label: 'Freight - Approved',
   },
   {
-    value: 'ARRIVAL_NOTICE',
+    value: 'arrival_notice',
     label: 'Arrival Notice',
   },
   {
-    value: 'ARRIVAL_NOTICE_TERMS',
+    value: 'arrival_notice_terms',
     label: 'Arrival Notice Terms',
   },
   {
-    value: 'PASSTHROUGH_APPROVED',
+    value: 'passthrough_approved',
     label: 'Passthrough Approved',
   },
 ];
 
-export type VendorCategoryEnum = 'UNASSIGNED' | 'FREIGHT_UNAPPROVED' | 'FREIGHT_APPROVED' | 'ARRIVAL_NOTICE' | 'ARRIVAL_NOTICE_TERMS' | 'PASSTHROUGH_APPROVED';
+export type VendorCategoryEnum = 'unassigned' | 'freight_unapproved' | 'freight_approved' | 'arrival_notice' | 'arrival_notice_terms' | 'passthrough_approved';
 
 export const HkspFlexportEnumPairs = [
   {
-    value: 'KNOWN_CONSIGNOR',
+    value: 'known_consignor',
     label: 'Known Consignor',
   },
   {
-    value: 'ACCCOUNT_CONSIGNOR',
+    value: 'acccount_consignor',
     label: 'Acccount Consignor',
   },
   {
-    value: 'UNKNOWN',
+    value: 'unknown',
     label: 'Unknown',
   },
 ];
 
-export type HkspFlexportEnum = 'KNOWN_CONSIGNOR' | 'ACCCOUNT_CONSIGNOR' | 'UNKNOWN';
+export type HkspFlexportEnum = 'known_consignor' | 'acccount_consignor' | 'unknown';
 
 
 
 // Derived Attribute Functions
-export function companyEntityApplicableWhenForPhysicalAddress(companyEntity: {
+export function companyEntityApplicableWhenForPhysicalAddress(companyEntity: ?{
   +mailingAddressIsPhysicalAddress: boolean,
 }): boolean {
+  if (companyEntity == null) return false;
   const result = !companyEntity?.mailingAddressIsPhysicalAddress;
   return result;
 }

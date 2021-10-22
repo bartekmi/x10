@@ -13,6 +13,7 @@ import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 
 import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'small/entities/Building';
@@ -29,9 +30,7 @@ function BuildingView(props: Props): React.Node {
 
   return (
     <DisplayForm>
-      <Group
-        flexDirection='column'
-      >
+      <VerticalStackPanel>
         <Group
           gap={ 40 }
         >
@@ -94,7 +93,7 @@ function BuildingView(props: Props): React.Node {
             />
           </DisplayField>
         </Group>
-      </Group>
+      </VerticalStackPanel>
     </DisplayForm>
   );
 }

@@ -20,8 +20,8 @@ import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
-import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import x10toString from 'react_lib/utils/x10toString';
@@ -43,9 +43,7 @@ function BuildingForm(props: Props): React.Node {
     <FormProvider
       value={ { errors: buildingCalculateErrors(building) } }
     >
-      <Group
-        flexDirection='column'
-      >
+      <VerticalStackPanel>
         <Text
           scale='display'
           weight='bold'
@@ -73,6 +71,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <FormField
               editorFor='name'
+              indicateRequired={ true }
               toolTip='A short and memorable name of the Building'
               label='Name'
             >
@@ -105,6 +104,7 @@ function BuildingForm(props: Props): React.Node {
         >
           <FormField
             editorFor='physicalAddress.theAddress'
+            indicateRequired={ true }
             label='The Address'
           >
             <TextInput
@@ -121,6 +121,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <FormField
               editorFor='physicalAddress.city'
+              indicateRequired={ true }
               label='City'
             >
               <TextInput
@@ -138,6 +139,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <FormField
               editorFor='physicalAddress.stateOrProvince'
+              indicateRequired={ true }
               label='State Or Province'
             >
               <TextInput
@@ -155,6 +157,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <FormField
               editorFor='physicalAddress.zip'
+              indicateRequired={ true }
               label='Zip or Postal Code'
             >
               <TextInput
@@ -182,11 +185,10 @@ function BuildingForm(props: Props): React.Node {
           <StyleControl
             visible={ buildingApplicableWhenForMailingAddress(building) }
           >
-            <Group
-              flexDirection='column'
-            >
+            <VerticalStackPanel>
               <FormField
                 editorFor='mailingAddress.theAddress'
+                indicateRequired={ true }
                 label='Address or Post Office (PO) Box'
               >
                 <TextInput
@@ -203,6 +205,7 @@ function BuildingForm(props: Props): React.Node {
               >
                 <FormField
                   editorFor='mailingAddress.city'
+                  indicateRequired={ true }
                   label='City'
                 >
                   <TextInput
@@ -220,6 +223,7 @@ function BuildingForm(props: Props): React.Node {
               >
                 <FormField
                   editorFor='mailingAddress.stateOrProvince'
+                  indicateRequired={ true }
                   label='State Or Province'
                 >
                   <TextInput
@@ -237,6 +241,7 @@ function BuildingForm(props: Props): React.Node {
               >
                 <FormField
                   editorFor='mailingAddress.zip'
+                  indicateRequired={ true }
                   label='Zip or Postal Code'
                 >
                   <TextInput
@@ -249,7 +254,7 @@ function BuildingForm(props: Props): React.Node {
                   />
                 </FormField>
               </StyleControl>
-            </Group>
+            </VerticalStackPanel>
           </StyleControl>
         </FormSection>
         <FormSection
@@ -260,6 +265,7 @@ function BuildingForm(props: Props): React.Node {
           >
             <FormField
               editorFor='dateOfOccupancy'
+              indicateRequired={ true }
               label='Date Of Occupancy'
             >
               <CalendarDateInput
@@ -282,6 +288,7 @@ function BuildingForm(props: Props): React.Node {
           </Group>
           <FormField
             editorFor='mailboxType'
+            indicateRequired={ true }
             label='Mailbox Type'
           >
             <RadioGroup
@@ -317,14 +324,13 @@ function BuildingForm(props: Props): React.Node {
               onChange({ ...building, units: value })
             } }
             itemDisplayFunc={ (data, onChange) => (
-              <Group
-                flexDirection='column'
-              >
+              <VerticalStackPanel>
                 <Group
                   alignItems='center'
                 >
                   <FormField
                     editorFor='number'
+                    indicateRequired={ true }
                     toolTip='Unit number corresponding to mailing address'
                     label='Number'
                   >
@@ -351,6 +357,7 @@ function BuildingForm(props: Props): React.Node {
                   </FormField>
                   <FormField
                     editorFor='hasBalcony'
+                    indicateRequired={ true }
                     label='Unit has Blacony?'
                   >
                     <Checkbox
@@ -367,6 +374,7 @@ function BuildingForm(props: Props): React.Node {
                 >
                   <FormField
                     editorFor='numberOfBedrooms'
+                    indicateRequired={ true }
                     label='Number Of Bedrooms'
                   >
                     <FloatInput
@@ -379,6 +387,7 @@ function BuildingForm(props: Props): React.Node {
                   </FormField>
                   <FormField
                     editorFor='numberOfBathrooms'
+                    indicateRequired={ true }
                     label='Number Of Bathrooms'
                   >
                     <SelectInput
@@ -391,7 +400,7 @@ function BuildingForm(props: Props): React.Node {
                     />
                   </FormField>
                 </Group>
-              </Group>
+              </VerticalStackPanel>
             ) }
             addItemLabel='Add Unit'
             addNewItem={ createDefaultUnit }
@@ -404,16 +413,12 @@ function BuildingForm(props: Props): React.Node {
             value='* Required'
           />
           <FormSubmitButton
-            onClick={ () => save(building) }
-            action={
-              {
-                successUrl: '/buildings',
-              }
-            }
+            mutation={ mutation }
+            variables={ building }
             label='Save'
           />
         </Group>
-      </Group>
+      </VerticalStackPanel>
     </FormProvider>
   );
 }
@@ -435,10 +440,6 @@ function relayToInternal(relay: any): Building {
     ...relay,
     mailingAddress: relay.mailingAddress || createDefaultAddress(),
   };
-}
-
-function save(building: Building) {
-  basicCommitMutation(mutation, { building });
 }
 
 const mutation = graphql`

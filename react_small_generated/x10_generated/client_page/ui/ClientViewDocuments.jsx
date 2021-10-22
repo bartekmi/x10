@@ -4,11 +4,10 @@
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import Group from 'latitude/Group';
-
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import TimestampDisplay from 'react_lib/display/TimestampDisplay';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Table from 'react_lib/table/Table';
 
 import { type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -31,13 +30,12 @@ function ClientViewDocuments(props: Props): React.Node {
       columns={
         [
           {
-            id: 0,
+            id: '_0',
             Header: 'Name',
             width: 140,
             accessor: (data) => data,
             Cell: ({ value }) =>
-              <Group
-                flexDirection='column'
+              <VerticalStackPanel
                 gap={ 0 }
               >
                 <EnumDisplay
@@ -50,11 +48,11 @@ function ClientViewDocuments(props: Props): React.Node {
                 <TextDisplay
                   value={ value?.name }
                 />
-              </Group>
+              </VerticalStackPanel>
             ,
           },
           {
-            id: 1,
+            id: '_1',
             Header: 'Uploaded By',
             width: 140,
             accessor: (data) => userName(data?.uploadedBy),
@@ -65,7 +63,7 @@ function ClientViewDocuments(props: Props): React.Node {
             ,
           },
           {
-            id: 2,
+            id: '_2',
             Header: 'Uploaded',
             width: 140,
             accessor: (data) => data?.uploadedTimestamp,

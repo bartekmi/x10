@@ -10,6 +10,7 @@ import Text from 'latitude/Text';
 import DateDisplay from 'react_lib/display/DateDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
@@ -27,9 +28,7 @@ function Moves(props: Props): React.Node {
   const { moves } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='display'
         weight='bold'
@@ -40,7 +39,7 @@ function Moves(props: Props): React.Node {
         columns={
           [
             {
-              id: 0,
+              id: '_0',
               Header: 'Date',
               width: 140,
               accessor: (data) => data?.date,
@@ -51,7 +50,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 1,
+              id: '_1',
               Header: 'From',
               width: 140,
               accessor: (data) => data,
@@ -66,7 +65,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 2,
+              id: '_2',
               Header: 'To',
               width: 140,
               accessor: (data) => data,
@@ -81,7 +80,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 3,
+              id: '_3',
               Header: 'Tenant',
               width: 140,
               accessor: (data) => data?.tenant?.name,
@@ -92,7 +91,7 @@ function Moves(props: Props): React.Node {
               ,
             },
             {
-              id: 4,
+              id: '_4',
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
@@ -114,7 +113,7 @@ function Moves(props: Props): React.Node {
           ]
         }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

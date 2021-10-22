@@ -12,6 +12,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 
@@ -50,8 +51,7 @@ function ClientView(props: Props): React.Node {
         <DisplayField
           label='Primary Contact'
         >
-          <Group
-            flexDirection='column'
+          <VerticalStackPanel
             gap={ 0 }
           >
             <TextDisplay
@@ -63,13 +63,12 @@ function ClientView(props: Props): React.Node {
             <TextDisplay
               value={ client?.primaryContact?.phone }
             />
-          </Group>
+          </VerticalStackPanel>
         </DisplayField>
         <DisplayField
           label='Saleforce Account Ref:'
         >
-          <Group
-            flexDirection='column'
+          <VerticalStackPanel
             gap={ 0 }
           >
             <TextDisplay
@@ -78,7 +77,7 @@ function ClientView(props: Props): React.Node {
             <Button
               label='Force Outbound Salesforce Sync'
             />
-          </Group>
+          </VerticalStackPanel>
         </DisplayField>
         <DisplayField
           label='Referred By'
@@ -122,9 +121,8 @@ function ClientView(props: Props): React.Node {
             value={ client?.company?.website }
           />
         </DisplayField>
-        <Group
-          flexDirection='column'
-          alignItems='flex-end'
+        <VerticalStackPanel
+          align='right'
         >
           <Button
             label='Solicit RFQ'
@@ -135,9 +133,10 @@ function ClientView(props: Props): React.Node {
           <Button
             label='App Features'
           />
-        </Group>
+        </VerticalStackPanel>
       </Group>
       <Group
+        alignItems='center'
         gap={ 80 }
       >
         <DisplayField
@@ -153,9 +152,12 @@ function ClientView(props: Props): React.Node {
           label='Shipment History'
         >
           <Group
+            alignItems='center'
             gap={ 28 }
           >
-            <Group>
+            <Group
+              alignItems='center'
+            >
               <TextDisplay
                 weight='bold'
                 value={ client?.shipmentsAsClient }
@@ -164,7 +166,9 @@ function ClientView(props: Props): React.Node {
                 value='as Client'
               />
             </Group>
-            <Group>
+            <Group
+              alignItems='center'
+            >
               <TextDisplay
                 weight='bold'
                 value={ client?.shipmentsAsShipper }
@@ -173,7 +177,9 @@ function ClientView(props: Props): React.Node {
                 value='as Shipper'
               />
             </Group>
-            <Group>
+            <Group
+              alignItems='center'
+            >
               <TextDisplay
                 weight='bold'
                 value={ client?.shipmentsAsConsignee }
@@ -188,6 +194,7 @@ function ClientView(props: Props): React.Node {
       <Separator/>
       <Text
         scale='title'
+        weight='bold'
         children='COMPANY ENTITIES'
       />
       <MultiStacker

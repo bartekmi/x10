@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 
 
 // Type Definition
@@ -19,11 +20,12 @@ export type User = {
 
 
 // Derived Attribute Functions
-export function userName(user: {
+export function userName(user: ?{
   +firstName: string,
   +lastName: string,
 }): string {
-  const result = user?.firstName + ' ' + user?.lastName;
+  if (user == null) return '';
+  const result = x10toString(user?.firstName) + ' ' + x10toString(user?.lastName);
   return result;
 }
 

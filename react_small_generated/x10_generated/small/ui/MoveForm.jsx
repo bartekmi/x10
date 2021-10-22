@@ -13,7 +13,6 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
-import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
 
 import { moveCalculateErrors, type Move } from 'small/entities/Move';
@@ -39,6 +38,7 @@ function MoveForm(props: Props): React.Node {
       <Separator/>
       <FormField
         editorFor='date'
+        indicateRequired={ true }
         label='Date'
       >
         <CalendarDateInput
@@ -51,6 +51,7 @@ function MoveForm(props: Props): React.Node {
       </FormField>
       <FormField
         editorFor='from'
+        indicateRequired={ true }
         label='From'
       >
         <AssociationEditor
@@ -66,6 +67,7 @@ function MoveForm(props: Props): React.Node {
       </FormField>
       <FormField
         editorFor='to'
+        indicateRequired={ true }
         label='To'
       >
         <AssociationEditor
@@ -81,6 +83,7 @@ function MoveForm(props: Props): React.Node {
       </FormField>
       <FormField
         editorFor='tenant'
+        indicateRequired={ true }
         label='Tenant'
       >
         <AssociationEditor
@@ -101,12 +104,8 @@ function MoveForm(props: Props): React.Node {
           value='* Required'
         />
         <FormSubmitButton
-          onClick={ () => save(move) }
-          action={
-            {
-              successUrl: '/moves',
-            }
-          }
+          mutation={ mutation }
+          variables={ move }
           label='Save'
         />
       </Group>
@@ -130,10 +129,6 @@ function relayToInternal(relay: any): Move {
   return {
     ...relay,
   };
-}
-
-function save(move: Move) {
-  basicCommitMutation(mutation, { move });
 }
 
 const mutation = graphql`

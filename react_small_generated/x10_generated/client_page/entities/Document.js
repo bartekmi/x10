@@ -7,6 +7,8 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { type User } from 'client_page/entities/User';
+
 
 // Type Definition
 export type Document = {
@@ -15,31 +17,31 @@ export type Document = {
   +fileName: string,
   +documentType: ?DocumentTypeEnum,
   +uploadedTimestamp: ?string,
-  +uploadedBy: ?{ id: string },
+  +uploadedBy: ?User,
 };
 
 
 // Enums
 export const DocumentTypeEnumPairs = [
   {
-    value: 'BUSINESS_LICENSE',
+    value: 'business_license',
     label: 'Business License',
   },
   {
-    value: 'BUSINESS_REGISTRATION',
+    value: 'business_registration',
     label: 'Business Registration',
   },
   {
-    value: 'POWER_OF_ATTORNEY',
+    value: 'power_of_attorney',
     label: 'Power Of Attorney',
   },
   {
-    value: 'ETC',
+    value: 'etc',
     label: 'Etc',
   },
 ];
 
-export type DocumentTypeEnum = 'BUSINESS_LICENSE' | 'BUSINESS_REGISTRATION' | 'POWER_OF_ATTORNEY' | 'ETC';
+export type DocumentTypeEnum = 'business_license' | 'business_registration' | 'power_of_attorney' | 'etc';
 
 
 

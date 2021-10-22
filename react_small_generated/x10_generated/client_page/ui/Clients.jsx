@@ -10,7 +10,9 @@ import Text from 'latitude/Text';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Table from 'react_lib/table/Table';
+import x10toString from 'react_lib/utils/x10toString';
 
 import { ClientPrimaryShipmentRoleEnumPairs, ClientSegmentEnumPairs, ClientStatusEnumPairs, type Client } from 'client_page/entities/Client';
 
@@ -25,11 +27,10 @@ function Clients(props: Props): React.Node {
   const { clients } = props;
 
   return (
-    <Group
-      flexDirection='column'
-    >
+    <VerticalStackPanel>
       <Text
         scale='display'
+        weight='bold'
         children='Clients'
       />
       <Table
@@ -37,7 +38,7 @@ function Clients(props: Props): React.Node {
         columns={
           [
             {
-              id: 0,
+              id: '_0',
               Header: 'Legal Name',
               width: 140,
               accessor: (data) => data?.company?.primaryEntity?.legalName,
@@ -48,7 +49,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 1,
+              id: '_1',
               Header: 'Status',
               width: 140,
               accessor: (data) => data?.status,
@@ -60,7 +61,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 2,
+              id: '_2',
               Header: 'Segment',
               width: 140,
               accessor: (data) => data?.segment,
@@ -72,7 +73,7 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 3,
+              id: '_3',
               Header: 'Primary Shipment Role',
               width: 140,
               accessor: (data) => data?.primaryShipmentRole,
@@ -84,15 +85,17 @@ function Clients(props: Props): React.Node {
               ,
             },
             {
-              id: 4,
+              id: '_4',
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>
-                <Group>
+                <Group
+                  alignItems='center'
+                >
                   <Button
                     label='View'
-                    url={ '/clients/view/' + value?.id }
+                    url={ '/clients/view/' + x10toString(value?.id) }
                   />
                 </Group>
               ,
@@ -100,7 +103,7 @@ function Clients(props: Props): React.Node {
           ]
         }
       />
-    </Group>
+    </VerticalStackPanel>
   );
 }
 

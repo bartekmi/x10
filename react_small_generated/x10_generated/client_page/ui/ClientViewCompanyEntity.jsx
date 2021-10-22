@@ -18,6 +18,7 @@ import Expander from 'react_lib/Expander';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Dialog from 'react_lib/modal/Dialog';
 import StyleControl from 'react_lib/StyleControl';
 
@@ -46,12 +47,14 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         <Group
           justifyContent='space-between'
         >
-          <Group>
+          <Group
+            alignItems='center'
+          >
             <Group
+              alignItems='center'
               gap={ 20 }
             >
-              <Group
-                flexDirection='column'
+              <VerticalStackPanel
                 gap={ 0 }
               >
                 <TextDisplay
@@ -61,7 +64,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                   value={ companyEntity?.companyType }
                   options={ CompanyEntityTypeEnumPairs }
                 />
-              </Group>
+              </VerticalStackPanel>
               <BooleanBanner
                 value={ companyEntity?.isPrimary }
                 label='Primary Entity'
@@ -81,7 +84,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
               </StyleControl>
             </Group>
           </Group>
-          <Group>
+          <Group
+            alignItems='center'
+          >
             <Dialog
               title='Company Entity Documents'
               openButton={
@@ -106,11 +111,11 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         </Group>
       ) }
     >
-      <Group
-        flexDirection='column'
+      <VerticalStackPanel
         gap={ 20 }
       >
         <Group
+          alignItems='center'
           gap={ 80 }
         >
           <DisplayField
@@ -138,12 +143,14 @@ function ClientViewCompanyEntity(props: Props): React.Node {
         <Group
           justifyContent='space-between'
         >
-          <Group>
+          <Group
+            alignItems='center'
+          >
             <Checkbox
-              checked={ companyEntity?.isPrimary }
+              checked={ companyEntity?.isPrimary?.isPrimary }
               label='Primary Entity'
-              disabled={ companyEntity?.isPrimary }
-              onChange={ setCompanyEntityAsPrimary(companyEntity?.id) }
+              disabled={ companyEntity?.isPrimary?.isPrimary }
+              onChange={ setCompanyEntityAsPrimary(companyEntity?.isPrimary?.id) }
             />
             <StyleControl
               visible={ companyEntity?.isPrimary }
@@ -182,7 +189,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
             <Group
               justifyContent='space-between'
             >
-              <Group>
+              <Group
+                alignItems='center'
+              >
                 <Checkbox
                   checked={ companyEntity?.ctpatReview?.complianceScreenRequired }
                   label='Compliance Screen Required'
@@ -214,7 +223,9 @@ function ClientViewCompanyEntity(props: Props): React.Node {
                   value={ companyEntity?.ctpatReview?.complianceContactEmail }
                 />
               </DisplayField>
-              <Group>
+              <Group
+                alignItems='center'
+              >
                 <Button
                   label='Request Screen'
                 />
@@ -225,7 +236,7 @@ function ClientViewCompanyEntity(props: Props): React.Node {
             </Group>
           </StyleControl>
         </DisplayForm>
-      </Group>
+      </VerticalStackPanel>
     </Expander>
   );
 }
@@ -257,6 +268,7 @@ export default createFragmentContainer(ClientViewCompanyEntity, {
         ...AddressDisplay_address
       }
       ...ClientViewDocuments_companyEntity
+      ...CompanyEntityForm_companyEntity
     }
   `,
 });

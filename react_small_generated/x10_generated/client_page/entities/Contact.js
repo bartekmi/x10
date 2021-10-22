@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import x10toString from 'react_lib/utils/x10toString';
 
 
 // Type Definition
@@ -19,11 +20,12 @@ export type Contact = {
 
 
 // Derived Attribute Functions
-export function contactName(contact: {
+export function contactName(contact: ?{
   +firstName: string,
   +lastName: string,
 }): string {
-  const result = contact?.firstName + ' ' + contact?.lastName;
+  if (contact == null) return '';
+  const result = x10toString(contact?.firstName) + ' ' + x10toString(contact?.lastName);
   return result;
 }
 

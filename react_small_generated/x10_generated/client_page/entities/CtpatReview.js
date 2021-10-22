@@ -21,24 +21,24 @@ export type CtpatReview = {
 // Enums
 export const CtpatReviewStatusEnumPairs = [
   {
-    value: 'COMPLIANT',
+    value: 'compliant',
     label: 'Compliant',
   },
   {
-    value: 'GRACE_PERIOD',
+    value: 'grace_period',
     label: 'Grace Period',
   },
   {
-    value: 'NON_COMPLIANT',
+    value: 'non_compliant',
     label: 'Non Compliant',
   },
   {
-    value: 'PROVISIONAL',
+    value: 'provisional',
     label: 'Provisional',
   },
 ];
 
-export type CtpatReviewStatusEnum = 'COMPLIANT' | 'GRACE_PERIOD' | 'NON_COMPLIANT' | 'PROVISIONAL';
+export type CtpatReviewStatusEnum = 'compliant' | 'grace_period' | 'non_compliant' | 'provisional';
 
 
 

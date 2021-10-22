@@ -9,6 +9,8 @@ import HelpTooltip from 'latitude/HelpTooltip';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Button from 'react_lib/latitude_wrappers/Button';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
+import StyleControl from 'react_lib/StyleControl';
 
 import { type Address } from 'client_page/entities/Address';
 
@@ -23,8 +25,7 @@ function AddressDisplay(props: Props): React.Node {
   const { address } = props;
 
   return (
-    <Group
-      flexDirection='column'
+    <VerticalStackPanel
       gap={ 0 }
     >
       <TextDisplay
@@ -33,22 +34,30 @@ function AddressDisplay(props: Props): React.Node {
       <TextDisplay
         value={ address?.theAddress2 }
       />
-      <TextDisplay
-        value={ address?.city }
-      />
-      <TextDisplay
-        value={ address?.postalCode }
-      />
+      <StyleControl
+        maxWidth={ 400 }
+      >
+        <TextDisplay
+          value={ address?.city }
+        />
+      </StyleControl>
+      <StyleControl
+        maxWidth={ 150 }
+      >
+        <TextDisplay
+          value={ address?.postalCode }
+        />
+      </StyleControl>
       <TextDisplay
         value={ address?.country?.name }
       />
-      <Group
-        flexDirection='column'
-      >
+      <VerticalStackPanel>
         <Button
           label='Verify'
         />
-        <Group>
+        <Group
+          alignItems='center'
+        >
           <Button
             label='Make Location'
           />
@@ -56,8 +65,8 @@ function AddressDisplay(props: Props): React.Node {
             text='Create a location with this address...'
           />
         </Group>
-      </Group>
-    </Group>
+      </VerticalStackPanel>
+    </VerticalStackPanel>
   );
 }
 

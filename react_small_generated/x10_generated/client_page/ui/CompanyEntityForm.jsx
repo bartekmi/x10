@@ -6,24 +6,24 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Checkbox from 'latitude/Checkbox';
 import Group from 'latitude/Group';
-import RadioGroup from 'latitude/radio/RadioGroup';
 import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
+import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import CalendarDateInput from 'react_lib/latitude_wrappers/CalendarDateInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
+import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import CancelDialogButton from 'react_lib/modal/CancelDialogButton';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import MultiStacker from 'react_lib/multi/MultiStacker';
-import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import Separator from 'react_lib/Separator';
-import TabbedPane from 'react_lib/tab/TabbedPane';
 import StyleControl from 'react_lib/StyleControl';
+import TabbedPane from 'react_lib/tab/TabbedPane';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, HkspFlexportEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -45,11 +45,13 @@ function CompanyEntityForm(props: Props): React.Node {
     >
       <FormField
         editorFor='legalName'
+        indicateRequired={ true }
         label='Legal Name'
       >
         <TextInput
-          value={ companyEntity.legalName }
+          value={ companyEntity?.legalName }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, legalName: value })
           } }
         />
@@ -59,19 +61,22 @@ function CompanyEntityForm(props: Props): React.Node {
         label='Doing Business As'
       >
         <TextInput
-          value={ companyEntity.doingBusinessAs }
+          value={ companyEntity?.doingBusinessAs }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, doingBusinessAs: value })
           } }
         />
       </FormField>
       <FormField
         editorFor='companyType'
+        indicateRequired={ true }
         label='Type of Business'
       >
         <SelectInput
-          value={ companyEntity.companyType }
+          value={ companyEntity?.companyType }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, companyType: value })
           } }
           options={ CompanyEntityTypeEnumPairs }
@@ -82,8 +87,9 @@ function CompanyEntityForm(props: Props): React.Node {
         label='Country / Region of Business Registration'
       >
         <AssociationEditor
-          id={ companyEntity.countryOfBusinessRegistration?.id }
+          id={ companyEntity?.countryOfBusinessRegistration?.id }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, countryOfBusinessRegistration: value == null ? null : { id: value } })
           } }
           isNullable={ true }
@@ -96,8 +102,9 @@ function CompanyEntityForm(props: Props): React.Node {
         label='State / Region of Business Registration'
       >
         <TextInput
-          value={ companyEntity.stateOfBusinessRegistration }
+          value={ companyEntity?.stateOfBusinessRegistration }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, stateOfBusinessRegistration: value })
           } }
         />
@@ -108,8 +115,9 @@ function CompanyEntityForm(props: Props): React.Node {
         label='US Tax Id'
       >
         <TextInput
-          value={ companyEntity.usTaxId }
+          value={ companyEntity?.usTaxId }
           onChange={ (value) => {
+            // $FlowExpectedError
             onChange({ ...companyEntity, usTaxId: value })
           } }
         />
@@ -121,25 +129,22 @@ function CompanyEntityForm(props: Props): React.Node {
               id: 0,
               label: 'Address',
               displayFunc: () =>
-                <Group
-                  flexDirection='column'
-                >
-                  <Group
-                    flexDirection='column'
-                  >
+                <VerticalStackPanel>
+                  <VerticalStackPanel>
                     <TextDisplay
                       value='Mailing Address'
                     />
                     <Separator/>
                     <FormField
                       editorFor='mailingAddress.theAddress'
+                      indicateRequired={ true }
                       label='Address'
                     >
                       <TextInput
-                        value={ companyEntity.mailingAddress.theAddress }
+                        value={ companyEntity?.mailingAddress?.theAddress }
                         onChange={ (value) => {
                           let newObj = JSON.parse(JSON.stringify(companyEntity));
-                          newObj.mailingAddress.theAddress = value;
+                          newObj.companyEntity.mailingAddress.theAddress = value;
                           onChange(newObj);
                         } }
                       />
@@ -149,24 +154,27 @@ function CompanyEntityForm(props: Props): React.Node {
                       label='Address 2'
                     >
                       <TextInput
-                        value={ companyEntity.mailingAddress.theAddress2 }
+                        value={ companyEntity?.mailingAddress?.theAddress2 }
                         onChange={ (value) => {
                           let newObj = JSON.parse(JSON.stringify(companyEntity));
-                          newObj.mailingAddress.theAddress2 = value;
+                          newObj.companyEntity.mailingAddress.theAddress2 = value;
                           onChange(newObj);
                         } }
                       />
                     </FormField>
-                    <Group>
+                    <Group
+                      alignItems='center'
+                    >
                       <FormField
                         editorFor='mailingAddress.country'
+                        indicateRequired={ true }
                         label='Country/Region'
                       >
                         <AssociationEditor
-                          id={ companyEntity.mailingAddress.country?.id }
+                          id={ companyEntity?.mailingAddress?.country?.id }
                           onChange={ (value) => {
                             let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.mailingAddress.country = value == null ? null : { id: value };
+                            newObj.companyEntity.mailingAddress.country = value == null ? null : { id: value };
                             onChange(newObj);
                           } }
                           isNullable={ false }
@@ -176,13 +184,14 @@ function CompanyEntityForm(props: Props): React.Node {
                       </FormField>
                       <FormField
                         editorFor='mailingAddress.stateOrProvince'
+                        indicateRequired={ true }
                         label='State Or Province'
                       >
                         <AssociationEditor
-                          id={ companyEntity.mailingAddress.stateOrProvince?.id }
+                          id={ companyEntity?.mailingAddress?.stateOrProvince?.id }
                           onChange={ (value) => {
                             let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.mailingAddress.stateOrProvince = value == null ? null : { id: value };
+                            newObj.companyEntity.mailingAddress.stateOrProvince = value == null ? null : { id: value };
                             onChange(newObj);
                           } }
                           isNullable={ false }
@@ -191,40 +200,50 @@ function CompanyEntityForm(props: Props): React.Node {
                         />
                       </FormField>
                     </Group>
-                    <Group>
-                      <FormField
-                        editorFor='mailingAddress.city'
-                        label='City/Town'
+                    <Group
+                      alignItems='center'
+                    >
+                      <StyleControl
                         maxWidth={ 400 }
                       >
-                        <TextInput
-                          value={ companyEntity.mailingAddress.city }
-                          onChange={ (value) => {
-                            let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.mailingAddress.city = value;
-                            onChange(newObj);
-                          } }
-                        />
-                      </FormField>
-                      <FormField
-                        editorFor='mailingAddress.postalCode'
-                        label='Zip or Postal Code'
+                        <FormField
+                          editorFor='mailingAddress.city'
+                          indicateRequired={ true }
+                          label='City/Town'
+                        >
+                          <TextInput
+                            value={ companyEntity?.mailingAddress?.city }
+                            onChange={ (value) => {
+                              let newObj = JSON.parse(JSON.stringify(companyEntity));
+                              newObj.companyEntity.mailingAddress.city = value;
+                              onChange(newObj);
+                            } }
+                          />
+                        </FormField>
+                      </StyleControl>
+                      <StyleControl
                         maxWidth={ 150 }
                       >
-                        <TextInput
-                          value={ companyEntity.mailingAddress.postalCode }
-                          onChange={ (value) => {
-                            let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.mailingAddress.postalCode = value;
-                            onChange(newObj);
-                          } }
-                        />
-                      </FormField>
+                        <FormField
+                          editorFor='mailingAddress.postalCode'
+                          label='Zip or Postal Code'
+                        >
+                          <TextInput
+                            value={ companyEntity?.mailingAddress?.postalCode }
+                            onChange={ (value) => {
+                              let newObj = JSON.parse(JSON.stringify(companyEntity));
+                              newObj.companyEntity.mailingAddress.postalCode = value;
+                              onChange(newObj);
+                            } }
+                          />
+                        </FormField>
+                      </StyleControl>
                     </Group>
-                  </Group>
+                  </VerticalStackPanel>
                   <Checkbox
-                    checked={ companyEntity.mailingAddressIsPhysicalAddress }
+                    checked={ companyEntity?.mailingAddressIsPhysicalAddress }
                     onChange={ (value) => {
+                      // $FlowExpectedError
                       onChange({ ...companyEntity, mailingAddressIsPhysicalAddress: value })
                     } }
                     label='Mailing Address is Physical Address'
@@ -232,22 +251,21 @@ function CompanyEntityForm(props: Props): React.Node {
                   <StyleControl
                     visible={ companyEntityApplicableWhenForPhysicalAddress(companyEntity) }
                   >
-                    <Group
-                      flexDirection='column'
-                    >
+                    <VerticalStackPanel>
                       <TextDisplay
                         value='Physical Address'
                       />
                       <Separator/>
                       <FormField
                         editorFor='physicalAddress.theAddress'
+                        indicateRequired={ true }
                         label='Address'
                       >
                         <TextInput
-                          value={ companyEntity.physicalAddress.theAddress }
+                          value={ companyEntity?.physicalAddress?.theAddress }
                           onChange={ (value) => {
                             let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.physicalAddress.theAddress = value;
+                            newObj.companyEntity.physicalAddress.theAddress = value;
                             onChange(newObj);
                           } }
                         />
@@ -257,24 +275,27 @@ function CompanyEntityForm(props: Props): React.Node {
                         label='Address 2'
                       >
                         <TextInput
-                          value={ companyEntity.physicalAddress.theAddress2 }
+                          value={ companyEntity?.physicalAddress?.theAddress2 }
                           onChange={ (value) => {
                             let newObj = JSON.parse(JSON.stringify(companyEntity));
-                            newObj.physicalAddress.theAddress2 = value;
+                            newObj.companyEntity.physicalAddress.theAddress2 = value;
                             onChange(newObj);
                           } }
                         />
                       </FormField>
-                      <Group>
+                      <Group
+                        alignItems='center'
+                      >
                         <FormField
                           editorFor='physicalAddress.country'
+                          indicateRequired={ true }
                           label='Country/Region'
                         >
                           <AssociationEditor
-                            id={ companyEntity.physicalAddress.country?.id }
+                            id={ companyEntity?.physicalAddress?.country?.id }
                             onChange={ (value) => {
                               let newObj = JSON.parse(JSON.stringify(companyEntity));
-                              newObj.physicalAddress.country = value == null ? null : { id: value };
+                              newObj.companyEntity.physicalAddress.country = value == null ? null : { id: value };
                               onChange(newObj);
                             } }
                             isNullable={ false }
@@ -284,13 +305,14 @@ function CompanyEntityForm(props: Props): React.Node {
                         </FormField>
                         <FormField
                           editorFor='physicalAddress.stateOrProvince'
+                          indicateRequired={ true }
                           label='State Or Province'
                         >
                           <AssociationEditor
-                            id={ companyEntity.physicalAddress.stateOrProvince?.id }
+                            id={ companyEntity?.physicalAddress?.stateOrProvince?.id }
                             onChange={ (value) => {
                               let newObj = JSON.parse(JSON.stringify(companyEntity));
-                              newObj.physicalAddress.stateOrProvince = value == null ? null : { id: value };
+                              newObj.companyEntity.physicalAddress.stateOrProvince = value == null ? null : { id: value };
                               onChange(newObj);
                             } }
                             isNullable={ false }
@@ -299,55 +321,63 @@ function CompanyEntityForm(props: Props): React.Node {
                           />
                         </FormField>
                       </Group>
-                      <Group>
-                        <FormField
-                          editorFor='physicalAddress.city'
-                          label='City/Town'
+                      <Group
+                        alignItems='center'
+                      >
+                        <StyleControl
                           maxWidth={ 400 }
                         >
-                          <TextInput
-                            value={ companyEntity.physicalAddress.city }
-                            onChange={ (value) => {
-                              let newObj = JSON.parse(JSON.stringify(companyEntity));
-                              newObj.physicalAddress.city = value;
-                              onChange(newObj);
-                            } }
-                          />
-                        </FormField>
-                        <FormField
-                          editorFor='physicalAddress.postalCode'
-                          label='Zip or Postal Code'
+                          <FormField
+                            editorFor='physicalAddress.city'
+                            indicateRequired={ true }
+                            label='City/Town'
+                          >
+                            <TextInput
+                              value={ companyEntity?.physicalAddress?.city }
+                              onChange={ (value) => {
+                                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                                newObj.companyEntity.physicalAddress.city = value;
+                                onChange(newObj);
+                              } }
+                            />
+                          </FormField>
+                        </StyleControl>
+                        <StyleControl
                           maxWidth={ 150 }
                         >
-                          <TextInput
-                            value={ companyEntity.physicalAddress.postalCode }
-                            onChange={ (value) => {
-                              let newObj = JSON.parse(JSON.stringify(companyEntity));
-                              newObj.physicalAddress.postalCode = value;
-                              onChange(newObj);
-                            } }
-                          />
-                        </FormField>
+                          <FormField
+                            editorFor='physicalAddress.postalCode'
+                            label='Zip or Postal Code'
+                          >
+                            <TextInput
+                              value={ companyEntity?.physicalAddress?.postalCode }
+                              onChange={ (value) => {
+                                let newObj = JSON.parse(JSON.stringify(companyEntity));
+                                newObj.companyEntity.physicalAddress.postalCode = value;
+                                onChange(newObj);
+                              } }
+                            />
+                          </FormField>
+                        </StyleControl>
                       </Group>
-                    </Group>
+                    </VerticalStackPanel>
                   </StyleControl>
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
               id: 1,
               label: 'Tax Information',
               displayFunc: () =>
-                <Group
-                  flexDirection='column'
-                >
+                <VerticalStackPanel>
                   <FormField
                     editorFor='usFccNumber'
                     label='US FCC Number'
                   >
                     <TextInput
-                      value={ companyEntity.usFccNumber }
+                      value={ companyEntity?.usFccNumber }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, usFccNumber: value })
                       } }
                     />
@@ -357,8 +387,9 @@ function CompanyEntityForm(props: Props): React.Node {
                     label='EORI Number (EU Countries / UK)'
                   >
                     <TextInput
-                      value={ companyEntity.eoriNumber }
+                      value={ companyEntity?.eoriNumber }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, eoriNumber: value })
                       } }
                     />
@@ -368,26 +399,32 @@ function CompanyEntityForm(props: Props): React.Node {
                     label='USCI Number (China)'
                   >
                     <TextInput
-                      value={ companyEntity.usciNumber }
+                      value={ companyEntity?.usciNumber }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, usciNumber: value })
                       } }
                     />
                   </FormField>
                   <MultiStacker
-                    items={ companyEntity.vatNumbers }
+                    items={ companyEntity?.vatNumbers }
                     onChange={ (value) => {
+                      // $FlowExpectedError
                       onChange({ ...companyEntity, vatNumbers: value })
                     } }
                     itemDisplayFunc={ (data, onChange) => (
-                      <Group>
+                      <Group
+                        alignItems='center'
+                      >
                         <FormField
                           editorFor='countryRegion'
+                          indicateRequired={ true }
                           label='Country / Region'
                         >
                           <AssociationEditor
-                            id={ data.countryRegion?.id }
+                            id={ data?.countryRegion?.id }
                             onChange={ (value) => {
+                              // $FlowExpectedError
                               onChange({ ...data, countryRegion: value == null ? null : { id: value } })
                             } }
                             isNullable={ false }
@@ -397,11 +434,13 @@ function CompanyEntityForm(props: Props): React.Node {
                         </FormField>
                         <FormField
                           editorFor='number'
+                          indicateRequired={ true }
                           label='Number'
                         >
                           <TextInput
-                            value={ data.number }
+                            value={ data?.number }
                             onChange={ (value) => {
+                              // $FlowExpectedError
                               onChange({ ...data, number: value })
                             } }
                           />
@@ -411,23 +450,22 @@ function CompanyEntityForm(props: Props): React.Node {
                     addItemLabel='Add Country'
                     addNewItem={ createDefaultVatNumber }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
               id: 2,
               label: 'Identifiers',
               displayFunc: () =>
-                <Group
-                  flexDirection='column'
-                >
+                <VerticalStackPanel>
                   <FormField
                     editorFor='agentIataCode'
                     label='Agent IATA Code'
                   >
                     <TextInput
-                      value={ companyEntity.agentIataCode }
+                      value={ companyEntity?.agentIataCode }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, agentIataCode: value })
                       } }
                     />
@@ -437,14 +475,16 @@ function CompanyEntityForm(props: Props): React.Node {
                     label='HK RA Number'
                   >
                     <TextInput
-                      value={ companyEntity.hkRaNumber }
+                      value={ companyEntity?.hkRaNumber }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, hkRaNumber: value })
                       } }
                     />
                   </FormField>
                   <Text
                     scale='title'
+                    weight='bold'
                     children='HK Security Program Status'
                   />
                   <FormField
@@ -452,21 +492,25 @@ function CompanyEntityForm(props: Props): React.Node {
                     label='Flexport'
                   >
                     <RadioGroup
-                      value={ companyEntity.hkspFlexport }
+                      value={ companyEntity?.hkspFlexport }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, hkspFlexport: value })
                       } }
                       options={ HkspFlexportEnumPairs }
                     />
                   </FormField>
-                  <Group>
+                  <Group
+                    alignItems='center'
+                  >
                     <FormField
                       editorFor='hkspKnownConsignorNumber'
                       label='Known Consignor Number'
                     >
                       <TextInput
-                        value={ companyEntity.hkspKnownConsignorNumber }
+                        value={ companyEntity?.hkspKnownConsignorNumber }
                         onChange={ (value) => {
+                          // $FlowExpectedError
                           onChange({ ...companyEntity, hkspKnownConsignorNumber: value })
                         } }
                       />
@@ -476,8 +520,9 @@ function CompanyEntityForm(props: Props): React.Node {
                       label='Status Expiration Date'
                     >
                       <CalendarDateInput
-                        value={ companyEntity.hkspStatusExpirationDate }
+                        value={ companyEntity?.hkspStatusExpirationDate }
                         onChange={ (value) => {
+                          // $FlowExpectedError
                           onChange({ ...companyEntity, hkspStatusExpirationDate: value })
                         } }
                       />
@@ -487,8 +532,9 @@ function CompanyEntityForm(props: Props): React.Node {
                       label='KC Responsible Person'
                     >
                       <TextInput
-                        value={ companyEntity.hkspKcResponsiblePerson }
+                        value={ companyEntity?.hkspKcResponsiblePerson }
                         onChange={ (value) => {
+                          // $FlowExpectedError
                           onChange({ ...companyEntity, hkspKcResponsiblePerson: value })
                         } }
                       />
@@ -498,19 +544,24 @@ function CompanyEntityForm(props: Props): React.Node {
                     value='Partners'
                   />
                   <MultiStacker
-                    items={ companyEntity.hkspPartners }
+                    items={ companyEntity?.hkspPartners }
                     onChange={ (value) => {
+                      // $FlowExpectedError
                       onChange({ ...companyEntity, hkspPartners: value })
                     } }
                     itemDisplayFunc={ (data, onChange) => (
-                      <Group>
+                      <Group
+                        alignItems='center'
+                      >
                         <FormField
                           editorFor='partner'
+                          indicateRequired={ true }
                           label='Partner'
                         >
                           <AssociationEditor
-                            id={ data.partner?.id }
+                            id={ data?.partner?.id }
                             onChange={ (value) => {
+                              // $FlowExpectedError
                               onChange({ ...data, partner: value == null ? null : { id: value } })
                             } }
                             isNullable={ false }
@@ -520,22 +571,26 @@ function CompanyEntityForm(props: Props): React.Node {
                         </FormField>
                         <FormField
                           editorFor='kcNumber'
+                          indicateRequired={ true }
                           label='KC Number'
                         >
                           <TextInput
-                            value={ data.kcNumber }
+                            value={ data?.kcNumber }
                             onChange={ (value) => {
+                              // $FlowExpectedError
                               onChange({ ...data, kcNumber: value })
                             } }
                           />
                         </FormField>
                         <FormField
                           editorFor='expirationDate'
+                          indicateRequired={ true }
                           label='Expiration Date'
                         >
                           <CalendarDateInput
-                            value={ data.expirationDate }
+                            value={ data?.expirationDate }
                             onChange={ (value) => {
+                              // $FlowExpectedError
                               onChange({ ...data, expirationDate: value })
                             } }
                           />
@@ -544,36 +599,33 @@ function CompanyEntityForm(props: Props): React.Node {
                     ) }
                     addNewItem={ createDefaultHkspPartnerUse }
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
               id: 3,
               label: 'Compliance',
               displayFunc: () =>
-                <Group
-                  flexDirection='column'
-                >
+                <VerticalStackPanel>
                   <TextDisplay
                     value='Wants to use Flexport Service:'
                   />
-                </Group>
+                </VerticalStackPanel>
               ,
             },
             {
               id: 4,
               label: 'Billing',
               displayFunc: () =>
-                <Group
-                  flexDirection='column'
-                >
+                <VerticalStackPanel>
                   <FormField
                     editorFor='netsuiteVendorId'
                     label='Netsuite Vendor Id'
                   >
                     <AssociationEditor
-                      id={ companyEntity.netsuiteVendorId?.id }
+                      id={ companyEntity?.netsuiteVendorId?.id }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, netsuiteVendorId: value == null ? null : { id: value } })
                       } }
                       isNullable={ true }
@@ -586,14 +638,15 @@ function CompanyEntityForm(props: Props): React.Node {
                     label='Vendor Category'
                   >
                     <SelectInput
-                      value={ companyEntity.vendorCategory }
+                      value={ companyEntity?.vendorCategory }
                       onChange={ (value) => {
+                        // $FlowExpectedError
                         onChange({ ...companyEntity, vendorCategory: value })
                       } }
                       options={ VendorCategoryEnumPairs }
                     />
                   </FormField>
-                </Group>
+                </VerticalStackPanel>
               ,
             },
           ]
@@ -604,10 +657,14 @@ function CompanyEntityForm(props: Props): React.Node {
         justifyContent='space-between'
       >
         <FormErrorDisplay/>
-        <Group>
+        <Group
+          alignItems='center'
+        >
           <CancelDialogButton/>
           <FormSubmitButton
-            onClick={ () => save(companyEntity) }
+            mutation={ mutation }
+            variables={ companyEntity }
+            label='Save'
           />
         </Group>
       </Group>
@@ -632,10 +689,6 @@ function relayToInternal(relay: any): CompanyEntity {
     ...relay,
     physicalAddress: relay.physicalAddress || createDefaultAddress(),
   };
-}
-
-function save(companyEntity: CompanyEntity) {
-  basicCommitMutation(mutation, { companyEntity });
 }
 
 const mutation = graphql`

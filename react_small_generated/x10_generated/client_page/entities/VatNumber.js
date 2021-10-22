@@ -7,12 +7,14 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { type Country } from 'client_page/entities/Country';
+
 
 // Type Definition
 export type VatNumber = {
   +id: string,
   +number: string,
-  +countryRegion: ?{ id: string },
+  +countryRegion: ?Country,
 };
 
 

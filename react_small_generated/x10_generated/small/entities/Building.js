@@ -74,6 +74,7 @@ export type PetPolicyEnum = 'no_pets' | 'all_pets_ok' | 'cats_only' | 'dogs_only
 
 // Derived Attribute Functions
 export function buildingAgeInYears(building: ?{
+  +year: ?number,
   +dateOfOccupancy: ?string,
 }): ?number {
   if (building == null) return null;
