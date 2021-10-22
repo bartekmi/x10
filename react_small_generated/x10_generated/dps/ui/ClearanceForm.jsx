@@ -15,7 +15,6 @@ import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
-import basicCommitMutation from 'react_lib/relay/basicCommitMutation';
 import StyleControl from 'react_lib/StyleControl';
 import toEnum from 'react_lib/utils/toEnum';
 
@@ -137,11 +136,11 @@ function ClearanceForm(props: Props): React.Node {
         marginTop={ 30 }
       >
         <FormSubmitButton
+          mutation={ mutation }
+          variables={ hit }
           label={ toEnum(hit?.status) != "denied" ? 'Clear the hit' : 'Confirm' }
-          mutation={mutation}
-          variables={hit}
-          successMessage="Hit updated successfully."
-          errorMessage="There was a problem. Hit not saved."
+          successMessage='Hit updated successfully.'
+          errorMessage='There was a problem. Hit not saved.'
         />
       </StyleControl>
     </FormProvider>

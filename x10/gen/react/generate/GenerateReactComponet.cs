@@ -48,7 +48,6 @@ namespace x10.gen.react.generate {
       if (isForm) {
         GenerateStatefulWrapper(classDef, model);
         GenerateFormRelayToInternal(model, dataInventory);
-        GenerateSave(model);
         GenerateGraphqlMutation(classDef, model);
       }
 
@@ -351,32 +350,9 @@ namespace x10.gen.react.generate {
       foreach (ClassDefX10 classDef in wrapper.ComponentReferences)
         WriteLine(indent, "...{0}", FragmentName(classDef));
     }
-    #endregion
 
     #endregion
 
-    #region Generate Save
-    private void GenerateSave(Entity model) {
-      string variableName = VariableName(model);
-      string modelName = model.Name;
-
-      WriteLine(0, "function save({0}: {1}) {", variableName, modelName);
-      WriteLine(1, "basicCommitMutation(mutation, { {0} });", variableName);
-      WriteLine(0, "}");
-
-      ImportsPlaceholder.ImportDefault("react_lib/relay/basicCommitMutation", ImportLevel.ThirdParty);
-
-      WriteLine();
-    }
-
-    private bool IncludeInMutation(Member member) {
-      if (member is X10RegularAttribute regular && regular.IsId)
-        return true;
-
-      return
-        !member.IsReadOnly &&
-        !(member is X10DerivedAttribute);
-    }
     #endregion
 
     #region Generate Mutation

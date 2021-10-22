@@ -1088,6 +1088,18 @@ namespace x10.ui.libraries {
         Name = "SubmitButton",
         Description = "A button which triggers validation and submits user input",
         InheritsFromName = "Button",
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "successMessage",
+            Description = "Message to display upon success",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "errorMessage",
+            Description = "Message to display upon error",
+            DataType = DataTypes.Singleton.String,
+          },
+        }
       },
       #endregion
 

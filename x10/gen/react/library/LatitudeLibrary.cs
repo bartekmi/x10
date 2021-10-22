@@ -765,15 +765,17 @@ namespace x10.gen.react.library {
         PlatformName = "FormSubmitButton",
         ImportDir = "react_lib/form",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeByFunc() {
-            PlatformName = "onClick",
+          new PlatformAttributeStatic("mutation", "mutation") {
             IsCodeSnippet = true,
-            Function = (generator, instance) => {
-              return string.Format("() => save({0})", generator.SourceVariableName);
-            },
           },
-          new JavaScriptAttributeDynamic("Action", "action"),
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "variables",
+            Function = (generator, instance) => generator.SourceVariableName,
+            IsCodeSnippet = true,
+          },
           new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("successMessage", "successMessage"),
+          new JavaScriptAttributeDynamic("errorMessage", "errorMessage"),
         },
       },
       new PlatformClassDef() {

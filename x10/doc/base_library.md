@@ -5553,6 +5553,11 @@ If specified, element will have a border of this color and some small padding
 If specified, element will have a border of this thickness and some small padding
 
 - Data Type: Float
+### Attribute 'errorMessage'
+
+Message to display upon error
+
+- Data Type: String
 ### Attribute 'fillColor'
 
 Specifies background color of element
@@ -5623,6 +5628,11 @@ Padding on top of the component (in pixels)
 The visual style of the button
 
 - Data Type: ButtonStyle
+### Attribute 'successMessage'
+
+Message to display upon success
+
+- Data Type: String
 ### Attribute 'url'
 
 Application Url to jump to (either url or Action must be provided).

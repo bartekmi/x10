@@ -22,7 +22,7 @@ associations:
   - name: companyEntity
     description: For a Comapny-Entity hit, this is it. For a User hit, this is the primary company entity of the user's Company.
     dataType: CompanyEntity
-    mandatory: true
+# At present, making this mandatory produces a failing validation - since it's not part of the edit form    
     owns: false
   - name: user
     description: The potentially bad User, if this is a User hit
