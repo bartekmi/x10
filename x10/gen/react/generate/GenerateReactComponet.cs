@@ -76,7 +76,7 @@ namespace x10.gen.react.generate {
         }
       }
 
-      // Other pre-processing operations can go here...
+      // Other pre-processing operations can go here:
     }
 
     private void GenerateImports(Entity model) {
@@ -275,7 +275,7 @@ namespace x10.gen.react.generate {
       WriteLine(1, "return {");
       WriteLine(2, "...relay,");
 
-      // TODO... Not recursive at this time
+      // TODO: Not recursive at this time
       foreach (Association association in model.Associations) {
         bool isNullableSingleOwned = !association.IsMandatory && !association.IsMany && association.Owns;
         bool formHasData = dataInventory.RecursivelyContainsMember(association);
@@ -327,6 +327,7 @@ namespace x10.gen.react.generate {
         VariableName(classDef.ComponentDataModel, classDef.IsMany));
     }
 
+    #region Printing of GraphQL
     public void PrintGraphQL(int indent, MemberWrapper wrapper) {
       if (wrapper.RootEntity != null)
         PrintGraphQL_Children(indent, wrapper);
@@ -348,9 +349,9 @@ namespace x10.gen.react.generate {
           PrintGraphQL(indent, child);
 
       foreach (ClassDefX10 classDef in wrapper.ComponentReferences)
-        if (!IsForm(classDef))
-          WriteLine(indent, "...{0}", FragmentName(classDef));
+        WriteLine(indent, "...{0}", FragmentName(classDef));
     }
+    #endregion
 
     #endregion
 

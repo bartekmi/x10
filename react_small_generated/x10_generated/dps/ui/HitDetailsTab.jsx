@@ -299,6 +299,7 @@ export default createFragmentContainer(HitDetailsTab, {
         }
       }
       status
+      ...ClearanceForm_hit
     }
   `,
 });
