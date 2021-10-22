@@ -2,43 +2,53 @@
 
 import * as React from "react";
 import { useHistory } from "react-router-dom";
+import { type GraphQLTaggedNode } from "relay-runtime/query/GraphQLTag";
+import { commitMutation } from "react-relay";
 
-import Text from "latitude/Text";
-import Group from "latitude/Group";
 import Button from "latitude/button/Button";
 import ToastActions from "latitude/toast/ToastActions";
 
 import {FormContext} from "./FormProvider";
 import { string } from "prop-types";
+import environment from "../relay/environment";
+
 
 type Props = {|
   +label?: string,
-  +action?: {
-    +successUrl?: string,
-  },
-  +onClick: () => mixed,
+  +mutation: GraphQLTaggedNode,
+  +variables: any,
+  +successMessage?: string,
+  +errorMessage?: string,
+  +url?: string,
 |};
 export default function FormSubmitButton(props: Props): React.Node {
   const history = useHistory();
   const formContext = React.useContext(FormContext);
-  const { label, onClick, action: {successUrl} = {} } = props
+
+  const { 
+    label, 
+    mutation, 
+    variables, 
+    successMessage = "Saved successfully.", 
+    errorMessage = "Failed!!!", 
+    url 
+  } = props
 
   const handleOnClick = () => {
-    onClick();
-
-    // TODO: Obviously, onClick() should return a promise, and depending on its state
-    // we should show an appropriate Toast message and only navigate on success
-    ToastActions.show(
+    commitMutation(
+      environment,
       {
-        intent: "success",
-        message: "Saved successfully!",
-      },
-      3000
+        mutation,
+        variables,
+        onCompleted: () => {
+          ShowMessage(successMessage, "success");
+          if (url) {
+            history.push(url);
+          }
+        },
+        onError: () => ShowMessage(errorMessage, "danger"),
+      }
     );
-  
-    if (successUrl != null) {
-      history.push(successUrl);
-    }
   }
 
   return (
@@ -52,3 +62,13 @@ export default function FormSubmitButton(props: Props): React.Node {
   );
 }
 
+function ShowMessage(message: string, intent: string) {
+  ToastActions.show(
+    {
+      intent,
+      message
+    },
+    3000
+  );
+
+}

@@ -137,12 +137,11 @@ function ClearanceForm(props: Props): React.Node {
         marginTop={ 30 }
       >
         <FormSubmitButton
-          onClick={ () => save(hit) }
-          action={
-            {
-            }
-          }
           label={ toEnum(hit?.status) != "denied" ? 'Clear the hit' : 'Confirm' }
+          mutation={mutation}
+          variables={hit}
+          successMessage="Hit updated successfully."
+          errorMessage="There was a problem. Hit not saved."
         />
       </StyleControl>
     </FormProvider>
@@ -165,10 +164,6 @@ function relayToInternal(relay: any): Hit {
   return {
     ...relay,
   };
-}
-
-function save(hit: Hit) {
-  basicCommitMutation(mutation, { hit });
 }
 
 const mutation = graphql`

@@ -87,8 +87,6 @@ export function hitCalculateErrors(hit: Hit, prefix?: string): $ReadOnlyArray<Fo
     addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance']);
   if (isBlank(hit.notes))
     addError(errors, prefix, 'Notes is required', ['notes']);
-  if (isBlank(hit.companyEntity))
-    addError(errors, prefix, 'Company Entity is required', ['companyEntity']);
   if (isBlank(hit.whitelistDays))
     addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays']);
 
