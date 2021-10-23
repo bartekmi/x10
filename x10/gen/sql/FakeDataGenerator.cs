@@ -232,9 +232,10 @@ namespace x10.gen.sql {
         if (AllowMultipleReverseAssociationsToSameEntity) {
           X10Attribute attribute = memberAndOwner.Attribute;
           Association assoc = memberAndOwner.Association;
-          if (attribute != null)
-            row.Values.Add(_atomicDataGenerator.Generate(_random, context, attribute, externalRow));
-          else if (assoc?.Owns == true) {
+          if (attribute != null) {
+            if (ShouldCreateBasedOnProbability(attribute))
+              row.Values.Add(_atomicDataGenerator.Generate(_random, context, attribute, externalRow));
+          } else if (assoc?.Owns == true) {
             // Do nothing
           } else if (assoc?.Owns == false) {
             row.Values.Add(CreateNonOwnedAssociationValue(assoc));
@@ -304,15 +305,13 @@ namespace x10.gen.sql {
     }
 
     private bool ShouldCreateBasedOnProbability(Member member) {
-      if (member.IsMandatory)
-        return true;
-
       object probabilityObj = member.FindValue(DataGenLibrary.PROBABILITY);
-      if (probabilityObj == null)
-        return true;  // Default is to create
-
-      double probability = (double)probabilityObj;
-      return _random.NextDouble() < probability;
+      if (probabilityObj != null) {
+        double probability = (double)probabilityObj;
+        return _random.NextDouble() < probability;
+      }
+     
+      return true;  // Default is to create
     }
 
     private int GetCount(Entity entity) {

@@ -79,7 +79,7 @@ function ClearanceForm(props: Props): React.Node {
         visible={ toEnum(hit?.status) != "denied" }
       >
         <Group
-          alignItems='center'
+          alignItems='flex-start'
           gap={ 32 }
         >
           <FormField

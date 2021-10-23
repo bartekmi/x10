@@ -19,7 +19,6 @@ namespace x10.hotchoc.dps.Entities {
   /// </summary>
   public class MatchInfo : Base {
     // Regular Attributes
-    [GraphQLNonNullType]
     public int? Number { get; set; }
     [GraphQLNonNullType]
     public string? ReasonListed { get; set; }
@@ -27,13 +26,9 @@ namespace x10.hotchoc.dps.Entities {
     public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? Address { get; set; }
-    [GraphQLNonNullType]
     public MatchTypeEnum? MatchType { get; set; }
-    [GraphQLNonNullType]
     public int? Score { get; set; }
-    [GraphQLNonNullType]
     public int? NameMatchScore { get; set; }
-    [GraphQLNonNullType]
     public int? AddressMatchScore { get; set; }
     [GraphQLNonNullType]
     public string? Comments { get; set; }

@@ -56,10 +56,10 @@ type CompanyEntity {
 type Hit {
   priority: PriorityEnum
   status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum!
+  reasonForClearance: ReasonForCleranceEnum
   notes: String!
   toStringRepresentation: String!
-  companyEntity: CompanyEntity!
+  companyEntity: CompanyEntity
   user: User
   attachments: [Attachment!]!
   matches: [MatchInfo!]!
@@ -73,14 +73,14 @@ type Hit {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 type MatchInfo {
-  number: Int!
+  number: Int
   reasonListed: String!
   name: String!
   address: String!
-  matchType: MatchTypeEnum!
-  score: Int!
-  nameMatchScore: Int!
-  addressMatchScore: Int!
+  matchType: MatchTypeEnum
+  score: Int
+  nameMatchScore: Int
+  addressMatchScore: Int
   comments: String!
   recordSource: String!
   toStringRepresentation: String!
@@ -142,8 +142,8 @@ type Mutation {
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 type OldHit {
-  status: HitStatusEnum!
-  reasonForClearance: ReasonForCleranceEnum!
+  status: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum
   whiteListUntil: DateTime
   notes: String!
   createdAt: DateTime
@@ -228,8 +228,8 @@ type Shipment {
   dbid: Int
   flexId: String!
   name: String!
-  priority: ShipmentPriorityEnum!
-  transportationMode: TransportationModeEnum!
+  priority: ShipmentPriorityEnum
+  transportationMode: TransportationModeEnum
   status: String!
   cargoReadyDate: DateTime
   actualDepartureDate: DateTime
@@ -703,8 +703,8 @@ input HitFilter {
   status_not_lte: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum
   reasonForClearance_not: ReasonForCleranceEnum
-  reasonForClearance_in: [ReasonForCleranceEnum!]
-  reasonForClearance_not_in: [ReasonForCleranceEnum!]
+  reasonForClearance_in: [ReasonForCleranceEnum]
+  reasonForClearance_not_in: [ReasonForCleranceEnum]
   reasonForClearance_gt: ReasonForCleranceEnum
   reasonForClearance_not_gt: ReasonForCleranceEnum
   reasonForClearance_gte: ReasonForCleranceEnum
@@ -784,10 +784,10 @@ input HitFilter {
 input HitInput {
   priority: PriorityEnum
   status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum!
+  reasonForClearance: ReasonForCleranceEnum
   notes: String!
   toStringRepresentation: String!
-  companyEntity: CompanyEntityInput!
+  companyEntity: CompanyEntityInput
   user: UserInput
   attachments: [AttachmentInput!]!
   matches: [MatchInfoInput!]!
@@ -819,8 +819,8 @@ input MatchInfoFilter {
   OR: [MatchInfoFilter!]
   number: Int
   number_not: Int
-  number_in: [Int!]
-  number_not_in: [Int!]
+  number_in: [Int]
+  number_not_in: [Int]
   number_gt: Int
   number_not_gt: Int
   number_gte: Int
@@ -861,8 +861,8 @@ input MatchInfoFilter {
   address_not_in: [String!]
   matchType: MatchTypeEnum
   matchType_not: MatchTypeEnum
-  matchType_in: [MatchTypeEnum!]
-  matchType_not_in: [MatchTypeEnum!]
+  matchType_in: [MatchTypeEnum]
+  matchType_not_in: [MatchTypeEnum]
   matchType_gt: MatchTypeEnum
   matchType_not_gt: MatchTypeEnum
   matchType_gte: MatchTypeEnum
@@ -873,8 +873,8 @@ input MatchInfoFilter {
   matchType_not_lte: MatchTypeEnum
   score: Int
   score_not: Int
-  score_in: [Int!]
-  score_not_in: [Int!]
+  score_in: [Int]
+  score_not_in: [Int]
   score_gt: Int
   score_not_gt: Int
   score_gte: Int
@@ -885,8 +885,8 @@ input MatchInfoFilter {
   score_not_lte: Int
   nameMatchScore: Int
   nameMatchScore_not: Int
-  nameMatchScore_in: [Int!]
-  nameMatchScore_not_in: [Int!]
+  nameMatchScore_in: [Int]
+  nameMatchScore_not_in: [Int]
   nameMatchScore_gt: Int
   nameMatchScore_not_gt: Int
   nameMatchScore_gte: Int
@@ -897,8 +897,8 @@ input MatchInfoFilter {
   nameMatchScore_not_lte: Int
   addressMatchScore: Int
   addressMatchScore_not: Int
-  addressMatchScore_in: [Int!]
-  addressMatchScore_not_in: [Int!]
+  addressMatchScore_in: [Int]
+  addressMatchScore_not_in: [Int]
   addressMatchScore_gt: Int
   addressMatchScore_not_gt: Int
   addressMatchScore_gte: Int
@@ -967,14 +967,14 @@ input MatchInfoFilter {
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 input MatchInfoInput {
-  number: Int!
+  number: Int
   reasonListed: String!
   name: String!
   address: String!
-  matchType: MatchTypeEnum!
-  score: Int!
-  nameMatchScore: Int!
-  addressMatchScore: Int!
+  matchType: MatchTypeEnum
+  score: Int
+  nameMatchScore: Int
+  addressMatchScore: Int
   comments: String!
   recordSource: String!
   toStringRepresentation: String!
@@ -1170,8 +1170,8 @@ input OldHitFilter {
   OR: [OldHitFilter!]
   status: HitStatusEnum
   status_not: HitStatusEnum
-  status_in: [HitStatusEnum!]
-  status_not_in: [HitStatusEnum!]
+  status_in: [HitStatusEnum]
+  status_not_in: [HitStatusEnum]
   status_gt: HitStatusEnum
   status_not_gt: HitStatusEnum
   status_gte: HitStatusEnum
@@ -1182,8 +1182,8 @@ input OldHitFilter {
   status_not_lte: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum
   reasonForClearance_not: ReasonForCleranceEnum
-  reasonForClearance_in: [ReasonForCleranceEnum!]
-  reasonForClearance_not_in: [ReasonForCleranceEnum!]
+  reasonForClearance_in: [ReasonForCleranceEnum]
+  reasonForClearance_not_in: [ReasonForCleranceEnum]
   reasonForClearance_gt: ReasonForCleranceEnum
   reasonForClearance_not_gt: ReasonForCleranceEnum
   reasonForClearance_gte: ReasonForCleranceEnum
@@ -1279,8 +1279,8 @@ input OldHitFilter {
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 input OldHitInput {
-  status: HitStatusEnum!
-  reasonForClearance: ReasonForCleranceEnum!
+  status: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum
   whiteListUntil: DateTime
   notes: String!
   createdAt: DateTime
@@ -1420,8 +1420,8 @@ input ShipmentFilter {
   name_not_in: [String!]
   priority: ShipmentPriorityEnum
   priority_not: ShipmentPriorityEnum
-  priority_in: [ShipmentPriorityEnum!]
-  priority_not_in: [ShipmentPriorityEnum!]
+  priority_in: [ShipmentPriorityEnum]
+  priority_not_in: [ShipmentPriorityEnum]
   priority_gt: ShipmentPriorityEnum
   priority_not_gt: ShipmentPriorityEnum
   priority_gte: ShipmentPriorityEnum
@@ -1432,8 +1432,8 @@ input ShipmentFilter {
   priority_not_lte: ShipmentPriorityEnum
   transportationMode: TransportationModeEnum
   transportationMode_not: TransportationModeEnum
-  transportationMode_in: [TransportationModeEnum!]
-  transportationMode_not_in: [TransportationModeEnum!]
+  transportationMode_in: [TransportationModeEnum]
+  transportationMode_not_in: [TransportationModeEnum]
   transportationMode_gt: TransportationModeEnum
   transportationMode_not_gt: TransportationModeEnum
   transportationMode_gte: TransportationModeEnum
@@ -1567,8 +1567,8 @@ input ShipmentInput {
   dbid: Int
   flexId: String!
   name: String!
-  priority: ShipmentPriorityEnum!
-  transportationMode: TransportationModeEnum!
+  priority: ShipmentPriorityEnum
+  transportationMode: TransportationModeEnum
   status: String!
   cargoReadyDate: DateTime
   actualDepartureDate: DateTime

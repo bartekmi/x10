@@ -301,9 +301,8 @@ namespace x10.hotchoc.{0} {{
         Entity refedEntity = association.ReferencedEntity;
         if (association.IsMany)
           return string.Format("IEnumerable<{0}>", refedEntity.Name);
-        else
-          if (association.Owns)
-          return refedEntity.Name + NullableMarker(association.IsMandatory);
+        else if (association.Owns)
+            return refedEntity.Name + NullableMarker(association.IsMandatory);
         else
           return "string" + NullableMarker(association.IsMandatory);
       } else
@@ -517,11 +516,16 @@ namespace x10.hotchoc.{0} {{
           dataType == DataTypes.Singleton.Boolean)
         return true;
 
-      return attribute.IsMandatory;
+      // See note on NullableMarker()
+      return false;
+      //return attribute.IsMandatory;
     }
 
     private static string NullableMarker(bool isMandatory) {
-      return isMandatory ? "" : "?";
+      // For now, making all fields optional because we do not distinguish between
+      // 'mandatory' for UI purposes vs. in the model. This is TBD.
+      return "?";
+      //return isMandatory ? "" : "?";
     }
 
     private static string DataType(DataType dataType, bool isMandatory) {

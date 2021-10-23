@@ -7,12 +7,16 @@ datagen_quantity: 10
 attributes:
   - name: priority
     dataType: Priority
+
   - name: status
     dataType: HitStatus
     default: unresolved
+
   - name: reasonForClearance
     dataType: ReasonForClerance
     mandatory: true
+    datagen_probability: 0
+
   - name: notes
     dataType: String
     mandatory: true
@@ -55,8 +59,8 @@ associations:
     datagen_quantity: 0..2
   - name: whitelistDays
     dataType: WhitelistDuration
-    owns: false
     mandatory: true
+    owns: false
 
 validations:
   - message: Please select one of the choices above

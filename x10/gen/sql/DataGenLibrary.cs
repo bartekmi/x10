@@ -116,8 +116,8 @@ namespace x10.gen.sql {
       // TODO: In the future, generalize this for all optional values
       new ModelAttributeDefinitionAtomic() {
         Name = PROBABILITY,
-        Description = @"For single, non-mandatory associations, if present, determines the probability that a child entity will be generated. Must be between 0.0 and 1.0 inclusive.",
-        AppliesTo = AppliesTo.Association,
+        Description = @"For attrributes and single associations, determines the probability that data will be generated. Must be between 0.0 and 1.0 inclusive.",
+        AppliesTo = AppliesTo.Association | AppliesTo.RegularAttribute,
         DataType = DataTypes.Singleton.Float,
         ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
           double probability = double.Parse(scalarNode.Value.ToString());
@@ -125,8 +125,8 @@ namespace x10.gen.sql {
             messages.AddError(scalarNode, "Probability most be between 0.0 and 1.0 inclusive.");
 
           if (modelComponent is Association assoc)
-            if (assoc.IsMany || assoc.IsMandatory)
-              messages.AddError(scalarNode, "Probability can only be applied to Single, Non-Mandatory Associations.");
+            if (assoc.IsMany)
+              messages.AddError(scalarNode, "Probability cannot be applied to 'many' Associations.");
         }
       },
     };

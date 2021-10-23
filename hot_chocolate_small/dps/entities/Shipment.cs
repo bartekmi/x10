@@ -33,9 +33,7 @@ namespace x10.hotchoc.dps.Entities {
     public string? FlexId { get; set; }
     [GraphQLNonNullType]
     public string? Name { get; set; }
-    [GraphQLNonNullType]
     public ShipmentPriorityEnum? Priority { get; set; }
-    [GraphQLNonNullType]
     public TransportationModeEnum? TransportationMode { get; set; }
     [GraphQLNonNullType]
     public string? Status { get; set; }

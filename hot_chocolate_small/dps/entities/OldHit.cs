@@ -11,9 +11,7 @@ namespace x10.hotchoc.dps.Entities {
   /// </summary>
   public class OldHit : Base {
     // Regular Attributes
-    [GraphQLNonNullType]
     public HitStatusEnum? Status { get; set; }
-    [GraphQLNonNullType]
     public ReasonForCleranceEnum? ReasonForClearance { get; set; }
     public DateTime? WhiteListUntil { get; set; }
     [GraphQLNonNullType]

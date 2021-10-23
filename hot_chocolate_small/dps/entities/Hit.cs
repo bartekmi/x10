@@ -21,7 +21,6 @@ namespace x10.hotchoc.dps.Entities {
     // Regular Attributes
     public PriorityEnum? Priority { get; set; }
     public HitStatusEnum? Status { get; set; }
-    [GraphQLNonNullType]
     public ReasonForCleranceEnum? ReasonForClearance { get; set; }
     [GraphQLNonNullType]
     public string? Notes { get; set; }
@@ -34,7 +33,6 @@ namespace x10.hotchoc.dps.Entities {
     }
 
     // Associations
-    [GraphQLNonNullType]
     public CompanyEntity? CompanyEntity { get; set; }
     public User? User { get; set; }
     [GraphQLNonNullType]

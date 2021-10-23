@@ -8,7 +8,7 @@
       <Icon icon="attention" color="red"/>
       <Text>Shipments related to this entity will remain blocked</Text>
     </Row>
-    <Row visible="=status != 'denied'" gap="32">
+    <Row visible="=status != 'denied'" gap="32" align="top">
       <reasonForClearance/>
       <whitelistDays label="Whitelist time"/>
     </Row>
