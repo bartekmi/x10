@@ -24,7 +24,7 @@ namespace x10.hotchoc.dps.Repositories {
     public override IEnumerable<Type> Types() {
       return new Type[] {
         typeof(Queries),
-        typeof(Mutations),
+        typeof(CustomMutations),
         typeof(Company),
         typeof(CompanyEntity),
         typeof(WhitelistDuration),

@@ -110,6 +110,8 @@ type Message {
 }
 
 type Mutation {
+  "Update a hit from the Clearance Form"
+  clearanceFormUpdateHit(data: ClearanceFormHitInput!): Hit!
   "Creates a new Company or updates an existing one, depending on the value of company.id"
   createOrUpdateCompany(company: CompanyInput!): String!
   "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
@@ -406,6 +408,16 @@ input AttachmentSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
+}
+
+"Input Data Type for ClearanceFormHit"
+input ClearanceFormHitInput {
+  notes: String!
+  reasonForClearance: ReasonForCleranceEnum!
+  status: HitStatusEnum!
+  whitelistDays: WhitelistDurationInput!
+  id: String!
+  hashcode: Int!
 }
 
 "Corresponds to Core Client"
