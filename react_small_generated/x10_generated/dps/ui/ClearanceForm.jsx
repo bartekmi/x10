@@ -137,7 +137,15 @@ function ClearanceForm(props: Props): React.Node {
       >
         <FormSubmitButton
           mutation={ mutation }
-          variables={ {hit} }
+          variables={ 
+            {
+              hit: {
+                ...hit,
+                status: hit?.status?.toUpperCase(),
+                reasonForClearance: hit?.reasonForClearance?.toUpperCase(),
+              }
+            }
+          }
           label={ toEnum(hit?.status) != "denied" ? 'Clear the hit' : 'Confirm' }
           successMessage='Hit updated successfully.'
           errorMessage='There was a problem. Hit not saved.'
