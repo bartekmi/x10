@@ -21,7 +21,7 @@ namespace x10.hotchoc {
     }
 
     internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {
-      var builder = services
+      IRequestExecutorBuilder builder = services
         .AddGraphQLServer()
         .AddQueryType(d => d.Name("Query"))
         .AddMutationType(d => d.Name("Mutation"));
@@ -34,6 +34,7 @@ namespace x10.hotchoc {
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
       app
+        .UseDeveloperExceptionPage()
         .UseCors(policy => {
           policy.AllowAnyHeader();
           policy.AllowAnyMethod();

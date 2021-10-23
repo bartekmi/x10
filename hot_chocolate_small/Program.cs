@@ -1,18 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using HotChocolate;
 using HotChocolate.Execution;
+using HotChocolate.Execution.Configuration;
 
 using x10.ui.metadata;
 using x10.ui.libraries;
@@ -113,17 +114,25 @@ namespace x10.hotchoc {
         Config.PostInitializeAction();
 
       // https://hotchocolategraphql.slack.com/archives/CD9TNKT8T/p1604414586468700
-      ISchema schema = await Startup.BuildSchema(new ServiceCollection()).BuildSchemaAsync();
+      IRequestExecutorBuilder reBuilder = Startup.BuildSchema(new ServiceCollection());
+      ISchema schema = await reBuilder.BuildSchemaAsync();
       File.WriteAllText(Config.SchemaOutputFile, schema.ToString());
 
-      CreateHostBuilder(args)
-        .Build()
-        .Run();
+      IHost host = CreateHostBuilder(args).Build();
+
+      reBuilder.AddDiagnosticEventListener(sp =>
+        new ConsoleQueryLogger(
+          sp.GetApplicationService<ILogger<ConsoleQueryLogger>>()
+        ));
+
+      host.Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+    public static IHostBuilder CreateHostBuilder(string[] args) {
+      return Host.CreateDefaultBuilder(args)
+          .ConfigureLogging(c => c.AddConsole())
+          .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+    }
 
     private static HotChocConfig ExtractConfig(string[] args) {
       if (args.Length != 1)
