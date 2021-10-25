@@ -43,6 +43,41 @@ namespace x10 {
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
       new GenConfig() {
+        // DPS
+        Name = "DPS - React",
+        CommandLine = "dps",
+        SourceDir = "examples/dps",
+        ProjectDir = "../react_small_generated",
+        TargetDir = "x10_generated/dps",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "dps",
+        },
+        PostGenerationScript = new ScriptInfo() {
+          Script = "yarn",
+          Args = "relay-dps",
+        }
+      },
+      new GenConfig() {
+        Name = "DPS - Hot Chocolate",
+        CommandLine = "dpshot",
+        SourceDir = "examples/dps",
+        ProjectDir = "../hot_chocolate_small",
+        TargetDir = "dps",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new HotchocCodeGenerator() {
+          GenerateAbstractEntities = true,
+          PackageName = "dps",
+          DoGeneratePerEntityMutations = false,
+          DoGenerateSpecificUpdateMutations = true,
+          CustomMutationsClass = "CustomMutations",
+        },
+      },
+
+      // Small (Building, etc)
+      new GenConfig() {
         Name = "Small Project - React",
         CommandLine = "small",
         SourceDir = "examples/small",
@@ -59,24 +94,22 @@ namespace x10 {
           Args = "relay-small",
         }
       },
-
       new GenConfig() {
-        Name = "DPS - React",
-        CommandLine = "dps",
-        SourceDir = "examples/dps",
-        ProjectDir = "../react_small_generated",
-        TargetDir = "x10_generated/dps",
+        Name = "Small Project - Hot Chocolate",
+        CommandLine = "smallhot",
+        SourceDir = "examples/small",
+        ProjectDir = "../hot_chocolate_small",
+        TargetDir = "SmallSample",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
-          GeneratedCodeSubdir = "dps",
+        Generator = new HotchocCodeGenerator() {
+          GenerateAbstractEntities = true,
+          PackageName = "SmallSample",
+          DoGeneratePerEntityMutations = true,
         },
-        PostGenerationScript = new ScriptInfo() {
-          Script = "yarn",
-          Args = "relay-dps",
-        }
       },
 
+      // Client Page
       new GenConfig() {
         Name = "Client Page Project - React",
         CommandLine = "cp",
@@ -94,35 +127,6 @@ namespace x10 {
           Args = "relay-cp",
         }
       },
-
-      new GenConfig() {
-        Name = "Small Project - Hot Chocolate",
-        CommandLine = "smallhot",
-        SourceDir = "examples/small",
-        ProjectDir = "../hot_chocolate_small",
-        TargetDir = "SmallSample",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new HotchocCodeGenerator() {
-          GenerateAbstractEntities = true,
-          PackageName = "SmallSample",
-        },
-      },
-
-      new GenConfig() {
-        Name = "DPS - Hot Chocolate",
-        CommandLine = "dpshot",
-        SourceDir = "examples/dps",
-        ProjectDir = "../hot_chocolate_small",
-        TargetDir = "dps",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new HotchocCodeGenerator() {
-          GenerateAbstractEntities = true,
-          PackageName = "dps",
-        },
-      },
-
       new GenConfig() {
         Name = "Client Page Project - Hot Chocolate",
         CommandLine = "cphot",
@@ -134,6 +138,7 @@ namespace x10 {
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "ClientPage",
+          DoGeneratePerEntityMutations = true,
         },
       },
     };

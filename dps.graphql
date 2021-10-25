@@ -112,34 +112,6 @@ type Message {
 type Mutation {
   "Update a hit from the Clearance Form"
   clearanceFormUpdateHit(data: ClearanceFormHitInput!): Hit!
-  "Creates a new Company or updates an existing one, depending on the value of company.id"
-  createOrUpdateCompany(company: CompanyInput!): String!
-  "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
-  createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
-  "Creates a new WhitelistDuration or updates an existing one, depending on the value of whitelistDuration.id"
-  createOrUpdateWhitelistDuration(whitelistDuration: WhitelistDurationInput!): String!
-  "Creates a new Hit or updates an existing one, depending on the value of hit.id"
-  createOrUpdateHit(hit: HitInput!): String!
-  "Creates a new Attachment or updates an existing one, depending on the value of attachment.id"
-  createOrUpdateAttachment(attachment: AttachmentInput!): String!
-  "Creates a new MatchInfoSource or updates an existing one, depending on the value of matchInfoSource.id"
-  createOrUpdateMatchInfoSource(matchInfoSource: MatchInfoSourceInput!): String!
-  "Creates a new Port or updates an existing one, depending on the value of port.id"
-  createOrUpdatePort(port: PortInput!): String!
-  "Creates a new MatchInfo or updates an existing one, depending on the value of matchInfo.id"
-  createOrUpdateMatchInfo(matchInfo: MatchInfoInput!): String!
-  "Creates a new OldHit or updates an existing one, depending on the value of oldHit.id"
-  createOrUpdateOldHit(oldHit: OldHitInput!): String!
-  "Creates a new User or updates an existing one, depending on the value of user.id"
-  createOrUpdateUser(user: UserInput!): String!
-  "Creates a new Shipment or updates an existing one, depending on the value of shipment.id"
-  createOrUpdateShipment(shipment: ShipmentInput!): String!
-  "Creates a new Client or updates an existing one, depending on the value of client.id"
-  createOrUpdateClient(client: ClientInput!): String!
-  "Creates a new AddressType or updates an existing one, depending on the value of addressType.id"
-  createOrUpdateAddressType(addressType: AddressTypeInput!): String!
-  "Creates a new Message or updates an existing one, depending on the value of message.id"
-  createOrUpdateMessage(message: MessageInput!): String!
 }
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
@@ -319,14 +291,6 @@ input AddressTypeFilter {
 }
 
 "An Address of a Company Entity"
-input AddressTypeInput {
-  address: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
-"An Address of a Company Entity"
 input AddressTypeSort {
   address: SortOperationKind
   toStringRepresentation: SortOperationKind
@@ -393,15 +357,6 @@ input AttachmentFilter {
 }
 
 "Reflects a hit clearance attachment - typically screenshot jpg's"
-input AttachmentInput {
-  filename: String!
-  url: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
-"Reflects a hit clearance attachment - typically screenshot jpg's"
 input AttachmentSort {
   filename: SortOperationKind
   url: SortOperationKind
@@ -410,12 +365,12 @@ input AttachmentSort {
   hashcode: SortOperationKind
 }
 
-"Input Data Type for ClearanceFormHit"
+"Input Data Type for ClearanceFormUpdateHit Mutation"
 input ClearanceFormHitInput {
-  notes: String!
-  reasonForClearance: ReasonForCleranceEnum!
-  status: HitStatusEnum!
+  status: HitStatusEnum
+  reasonForClearance: ReasonForCleranceEnum
   whitelistDaysId: String!
+  notes: String!
   id: String!
   hashcode: Int!
 }
@@ -468,14 +423,6 @@ input ClientFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"Corresponds to Core Client"
-input ClientInput {
-  dbid: Int
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "Corresponds to Core Client"
@@ -599,22 +546,6 @@ input CompanyEntityFilter {
 }
 
 "A portion of Core CompanyEntity entity"
-input CompanyEntityInput {
-  clientId: Int
-  name: String!
-  primaryContact: String!
-  primaryContactEmail: String!
-  mainNumber: String!
-  segment: String!
-  website: String!
-  toStringRepresentation: String!
-  physicalAddress: AddressTypeInput!
-  company: CompanyInput!
-  id: String!
-  hashcode: Int!
-}
-
-"A portion of Core CompanyEntity entity"
 input CompanyEntitySort {
   clientId: SortOperationKind
   name: SortOperationKind
@@ -667,14 +598,6 @@ input CompanyFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"Corresponds to Core Company"
-input CompanyInput {
-  toStringRepresentation: String!
-  client: ClientInput
-  id: String!
-  hashcode: Int!
 }
 
 "Corresponds to Core Company"
@@ -790,25 +713,6 @@ input HitFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"A \"hit\" on a User or Company Entity as reported by LexisNexis"
-input HitInput {
-  priority: PriorityEnum
-  status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
-  notes: String!
-  toStringRepresentation: String!
-  companyEntity: CompanyEntityInput
-  user: UserInput
-  attachments: [AttachmentInput!]!
-  matches: [MatchInfoInput!]!
-  shipments: [ShipmentInput!]!
-  messages: [MessageInput!]!
-  oldHits: [OldHitInput!]!
-  whitelistDays: WhitelistDurationInput!
-  id: String!
-  hashcode: Int!
 }
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
@@ -978,24 +882,6 @@ input MatchInfoFilter {
 }
 
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
-input MatchInfoInput {
-  number: Int
-  reasonListed: String!
-  name: String!
-  address: String!
-  matchType: MatchTypeEnum
-  score: Int
-  nameMatchScore: Int
-  addressMatchScore: Int
-  comments: String!
-  recordSource: String!
-  toStringRepresentation: String!
-  sources: [MatchInfoSourceInput!]!
-  id: String!
-  hashcode: Int!
-}
-
-"A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 input MatchInfoSort {
   number: SortOperationKind
   reasonListed: SortOperationKind
@@ -1058,14 +944,6 @@ input MatchInfoSourceFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"A match info source - just a URL"
-input MatchInfoSourceInput {
-  url: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "A match info source - just a URL"
@@ -1151,18 +1029,6 @@ input MessageFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"An escalation message - logically identical to Core \"Internal Message\""
-input MessageInput {
-  timestamp: DateTime
-  text: String!
-  coreShipmentId: Int
-  toStringRepresentation: String!
-  user: UserInput!
-  attachments: [AttachmentInput!]!
-  id: String!
-  hashcode: Int!
 }
 
 "An escalation message - logically identical to Core \"Internal Message\""
@@ -1290,21 +1156,6 @@ input OldHitFilter {
 }
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
-input OldHitInput {
-  status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
-  whiteListUntil: DateTime
-  notes: String!
-  createdAt: DateTime
-  resolutionTimestamp: DateTime
-  toStringRepresentation: String!
-  resolvedBy: UserInput
-  attachments: [AttachmentInput!]!
-  id: String!
-  hashcode: Int!
-}
-
-"A \"hit\" on a User or Company Entity as reported by LexisNexis"
 input OldHitSort {
   status: SortOperationKind
   reasonForClearance: SortOperationKind
@@ -1374,15 +1225,6 @@ input PortFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"A port of a shipment"
-input PortInput {
-  city: String!
-  countryName: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "A port of a shipment"
@@ -1575,31 +1417,6 @@ input ShipmentFilter {
 }
 
 "A portion of Core Shipment entity"
-input ShipmentInput {
-  dbid: Int
-  flexId: String!
-  name: String!
-  priority: ShipmentPriorityEnum
-  transportationMode: TransportationModeEnum
-  status: String!
-  cargoReadyDate: DateTime
-  actualDepartureDate: DateTime
-  arrivalDate: DateTime
-  isLcl: Boolean!
-  isLtl: Boolean!
-  customs: String!
-  dueDate: DateTime
-  dueDateTask: String!
-  toStringRepresentation: String!
-  consignee: CompanyEntityInput
-  shipper: CompanyEntityInput
-  departurePort: PortInput
-  arrivalPort: PortInput
-  id: String!
-  hashcode: Int!
-}
-
-"A portion of Core Shipment entity"
 input ShipmentSort {
   dbid: SortOperationKind
   flexId: SortOperationKind
@@ -1703,17 +1520,6 @@ input UserFilter {
 }
 
 "A portion of Core User entity"
-input UserInput {
-  name: String!
-  email: String!
-  phone: String!
-  location: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
-"A portion of Core User entity"
 input UserSort {
   name: SortOperationKind
   email: SortOperationKind
@@ -1782,15 +1588,6 @@ input WhitelistDurationFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"A port of a shipment"
-input WhitelistDurationInput {
-  value: Int
-  label: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "A port of a shipment"

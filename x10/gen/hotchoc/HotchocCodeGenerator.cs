@@ -4,17 +4,22 @@ using System.IO;
 using System.Linq;
 
 using FileInfo = x10.parsing.FileInfo;
+using x10.utils;
+using x10.formula;
+using x10.gen.wpf;
 using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
-using x10.utils;
-using x10.formula;
-using x10.gen.wpf;
+using x10.ui.libraries;
+using x10.compiler;
 
 namespace x10.gen.hotchoc {
   public class HotchocCodeGenerator : CodeGenerator {
     public string PackageName { get; set; }
+    public bool DoGeneratePerEntityMutations { get; set; }
+    public bool DoGenerateSpecificUpdateMutations { get; set; }
+    public string CustomMutationsClass { get; set; }
 
     public override void Generate(ClassDefX10 classDef) { }
 
@@ -23,7 +28,10 @@ namespace x10.gen.hotchoc {
       GenerateRepositoryInterface();
       GenerateRepository();
       GenerateQueries();
-      GenerateMutations();
+      if (DoGeneratePerEntityMutations)
+        GeneratePerEntityMutations();
+      if (DoGenerateSpecificUpdateMutations)
+        GenerateSpecificUpdateMutations();
     }
 
     #region Generate Repository - Interface
@@ -109,7 +117,7 @@ namespace x10.gen.hotchoc {
       WriteLine(2, "public override IEnumerable<Type> Types() {");
       WriteLine(3, "return new Type[] {");
       WriteLine(4, "typeof(Queries),");
-      WriteLine(4, "typeof(Mutations),");
+      WriteLine(4, "typeof({0}),", CustomMutationsClass ?? "Mutations");
 
       foreach (Entity entity in ConcreteEntities())
         WriteLine(4, "typeof({0}),", entity.Name);
@@ -238,8 +246,8 @@ namespace x10.hotchoc.{0} {{
     }
     #endregion
 
-    #region Generation Mutations
-    private void GenerateMutations() {
+    #region Generation Per-Entity Mutations
+    private void GeneratePerEntityMutations() {
       Begin("Mutations.cs");
 
       GenerateMutationsHeader();
@@ -302,13 +310,82 @@ namespace x10.hotchoc.{0} {{
         if (association.IsMany)
           return string.Format("IEnumerable<{0}>", refedEntity.Name);
         else if (association.Owns)
-            return refedEntity.Name + NullableMarker(association.IsMandatory);
+          return refedEntity.Name + NullableMarker(association.IsMandatory);
         else
           return "string" + NullableMarker(association.IsMandatory);
       } else
         throw new NotImplementedException("Neither attribute nor association");
     }
     #endregion
+
+    #region Generate Specific Update Mutations
+    private void GenerateSpecificUpdateMutations() {
+      Begin("MutationsSpecificUpdate.cs");
+
+      GenerateMutationsHeader();
+
+      foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
+        Entity model = classDef.ComponentDataModel;
+        if (IsForm(classDef) && model != null) {
+          WriteLine(2, "#region {0}", classDef.Name);
+          GenerateSpecificUpdateInputType(classDef, model);
+          WriteLine();
+          GenerateSpecificUpdateMethodPrototype(classDef, model);
+          WriteLine(2, "#endregion");
+          WriteLine();
+        }
+      }
+
+      WriteLine(1, "}");
+      WriteLine(0, "}");
+
+      End();
+    }
+
+    internal static bool IsForm(ClassDefX10 classDef) {
+      return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
+    }
+
+    private void GenerateSpecificUpdateInputType(ClassDefX10 classDef, Entity model) {
+      MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(classDef);
+
+      WriteLine(2, "/// <summary>");
+      WriteLine(2, "/// Input Data Type for {0}Update{1} Mutation", classDef.Name, model.Name);
+      WriteLine(2, "/// </summary>");
+      WriteLine(2, "public class ClearanceFormHit : Base {");
+
+      foreach (MemberWrapper wrapper in dataInventory.Children) {
+        Member member = wrapper.Member;
+        if (member is X10RegularAttribute regular) {
+          GenerateRegularAttribute(3, regular);
+        } else if (member is Association association && !association.Owns) {
+          if (member.IsMandatory)
+            WriteLine(3, "[GraphQLNonNullType]");
+          WriteLine(3, "public string {0}Id { get; set; }", PropName(member));
+        } else
+          throw new NotImplementedException("Please write the code");
+      }
+
+      WriteLine(2, "}");
+    }
+
+    private void GenerateSpecificUpdateMethodPrototype(ClassDefX10 classDef, Entity model) {
+      WriteRaw(
+@"    /// <summary>
+    /// Update mutation for the {0} component
+    /// </summary>
+    public virtual {1} {0}Update{1}(
+      {0}{1} data,
+      [Service] IRepository repository) {{
+        throw new NotImplementedException(""Manually override this method"");
+    }}
+",
+      classDef.Name,
+      model.Name);
+    }
+
+    #endregion
+
     #endregion
 
     #region Generate Entity
@@ -379,15 +456,19 @@ namespace x10.hotchoc.{0} {{
 
       WriteLine(2, "// Regular Attributes");
 
-      foreach (X10RegularAttribute attribute in attributes) {
-        if (NonNull(attribute))
-          WriteLine(2, "[GraphQLNonNullType]");
-        WriteLine(2, "public {0} {1} { get; set; }",
-          DataType(attribute.DataType, false),
-          PropName(attribute));
-      }
+      foreach (X10RegularAttribute attribute in attributes)
+        GenerateRegularAttribute(2, attribute);
 
       WriteLine();
+    }
+
+    private void GenerateRegularAttribute(int level, X10RegularAttribute attribute) {
+      if (NonNull(attribute))
+        WriteLine(level, "[GraphQLNonNullType]");
+
+      WriteLine(level, "public {0} {1} { get; set; }",
+        DataType(attribute.DataType, false),
+        PropName(attribute));
     }
 
     private void GenerateToStringRepresentation(Entity entity) {

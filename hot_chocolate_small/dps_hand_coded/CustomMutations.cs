@@ -9,27 +9,12 @@ using x10.hotchoc.dps.Entities;
 using x10.hotchoc.dps.Repositories;
 
 namespace x10.hotchoc.dps {
-  /// <summary>
-  /// Input Data Type for ClearanceFormHit 
-  /// </summary>
-  public class ClearanceFormHit : Base {
-    // Regular Attributes
-    [GraphQLNonNullType]
-    public string Notes { get; set; }
-    [GraphQLNonNullType]
-    public ReasonForCleranceEnum ReasonForClearance { get; set; }
-    [GraphQLNonNullType]
-    public HitStatusEnum Status { get; set; }
-    [GraphQLNonNullType]
-    public string WhitelistDaysId { get; set; }
-  }
-
   [ExtendObjectType(Name = "Mutation")]
   public class CustomMutations : Mutations {
     /// <summary>
     /// Update a hit from the Clearance Form
     /// </summary>
-    public Hit ClearanceFormUpdateHit(
+    public override Hit ClearanceFormUpdateHit(
       ClearanceFormHit data,
       [Service] IRepository repository) {
         int? id = IdUtils.FromRelayId(data.Id);
