@@ -785,7 +785,7 @@ namespace x10.gen.react.library {
                 generator.WriteLine(indent, "variables={");
                 generator.WriteLine(indent + 1, "{");
                 generator.WriteLine(indent + 2, "{0}: {", generator.SourceVariableName);
-                generator.WriteLine(indent + 3, "...{0},", generator.SourceVariableName);
+                generator.WriteLine(indent + 3, "id: {0}.id,", generator.SourceVariableName);
 
                 // TODO... Make this recursive
                 foreach (MemberWrapper wrapper in dataInventory.Children) {
@@ -798,6 +798,10 @@ namespace x10.gen.react.library {
                       generator.SourceVariableName);
                   } else if (member is Association association && !association.Owns)
                     generator.WriteLine(indent + 3, "{0}Id: {1}.{0}?.id,", 
+                      member.Name, 
+                      generator.SourceVariableName);
+                  else
+                    generator.WriteLine(indent + 3, "{0}: {1}.{0},", 
                       member.Name, 
                       generator.SourceVariableName);
                 }
