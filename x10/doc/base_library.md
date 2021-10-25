@@ -3600,6 +3600,11 @@ A horizontal divider line running the entire width of its container - typically,
 
 - Inherits From: ClassDefVisual
 
+### Attribute 'label' (Primary)
+
+Optional label embedded in divider
+
+- Data Type: String
 ### Attribute 'borderColor'
 
 If specified, element will have a border of this color and some small padding

@@ -1,0 +1,19 @@
+name: HitEdit
+inheritsFrom: Base
+description: Records an edit to a Hit after the initial resolution
+
+attributes:
+  - name: editedFields
+    dataType: String
+    mandatory: true
+    datagen_pattern: (Notes | Notes, Whitelist time | Whitelist time | Reason for clearance)
+  - name: timestamp
+    dataType: Timestamp
+    mandatory: true
+
+associations:
+  - name: user
+    description: Who made the edit?
+    dataType: User
+    mandatory: true
+    owns: false

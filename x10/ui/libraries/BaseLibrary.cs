@@ -59,6 +59,14 @@ namespace x10.ui.libraries {
         Name = "HorizontalDivider",
         Description = "A horizontal divider line running the entire width of its container - typically, the entire page",
         InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            IsPrimary = true,
+            Name = "label",
+            Description = "Optional label embedded in divider",
+            DataType = DataTypes.Singleton.String,
+          },
+        }
       },
       new ClassDefNative() {
         Name = "VerticalDivider",
@@ -679,7 +687,7 @@ namespace x10.ui.libraries {
           new UiAttributeDefinitionAtomic() {
             Name = "layout",
             Description = "How items in the list are laid out",
-            DataType = new DataTypeEnum("ListLayout", new string[] {"vertical", "wrap" }),
+            DataType = new DataTypeEnum("ListLayout", new string[] {"vertical", "verticalCompact", "wrap" }),
             DefaultValue = "vertical",
           },
         },

@@ -71,6 +71,16 @@ type Hit {
   hashcode: Int!
 }
 
+"Records an edit to a Hit after the initial resolution"
+type HitEdit {
+  editedFields: String!
+  timestamp: DateTime
+  toStringRepresentation: String!
+  user: User!
+  id: String!
+  hashcode: Int!
+}
+
 "A \"Hit\" may have many matches from LexisNexis from multiple lists. Each such match is represented by this entity."
 type MatchInfo {
   number: Int
@@ -124,6 +134,7 @@ type OldHit {
   resolutionTimestamp: DateTime
   toStringRepresentation: String!
   resolvedBy: User
+  changeLog: [HitEdit!]!
   attachments: [Attachment!]!
   id: String!
   hashcode: Int!
@@ -139,6 +150,10 @@ type Port {
 }
 
 type Query {
+  "Retrieve a HitEdit by id\n\n\n**Returns:**\nThe HitEdit."
+  hitEdit("The id of the HitEdit." id: String!): HitEdit!
+  "Gets all HitEdits.\n\n\n**Returns:**\nAll HitEdits."
+  hitEdits(where: HitEditFilter order_by: HitEditSort): [HitEdit!]!
   "Retrieve a Company by id\n\n\n**Returns:**\nThe Company."
   company("The id of the Company." id: String!): Company!
   "Gets all Companies.\n\n\n**Returns:**\nAll Companies."
@@ -604,6 +619,77 @@ input CompanyFilter {
 input CompanySort {
   toStringRepresentation: SortOperationKind
   client: ClientSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Records an edit to a Hit after the initial resolution"
+input HitEditFilter {
+  AND: [HitEditFilter!]
+  OR: [HitEditFilter!]
+  editedFields: String
+  editedFields_not: String
+  editedFields_contains: String
+  editedFields_not_contains: String
+  editedFields_starts_with: String
+  editedFields_not_starts_with: String
+  editedFields_ends_with: String
+  editedFields_not_ends_with: String
+  editedFields_in: [String!]
+  editedFields_not_in: [String!]
+  timestamp: DateTime
+  timestamp_not: DateTime
+  timestamp_in: [DateTime]
+  timestamp_not_in: [DateTime]
+  timestamp_gt: DateTime
+  timestamp_not_gt: DateTime
+  timestamp_gte: DateTime
+  timestamp_not_gte: DateTime
+  timestamp_lt: DateTime
+  timestamp_not_lt: DateTime
+  timestamp_lte: DateTime
+  timestamp_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  user: UserFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Records an edit to a Hit after the initial resolution"
+input HitEditSort {
+  editedFields: SortOperationKind
+  timestamp: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  user: UserSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -1127,6 +1213,10 @@ input OldHitFilter {
   toStringRepresentation_in: [String!]
   toStringRepresentation_not_in: [String!]
   resolvedBy: UserFilter
+  changeLog_some: HitEditFilter
+  changeLog_none: HitEditFilter
+  changeLog_all: HitEditFilter
+  changeLog_any: Boolean
   attachments_some: AttachmentFilter
   attachments_none: AttachmentFilter
   attachments_all: AttachmentFilter

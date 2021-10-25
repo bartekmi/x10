@@ -7,6 +7,7 @@ using x10.hotchoc.dps.Entities;
 namespace x10.hotchoc.dps.Repositories {
   public interface IRepository {
     // Queries
+    HitEdit GetHitEdit(int id);
     Company GetCompany(int id);
     CompanyEntity GetCompanyEntity(int id);
     WhitelistDuration GetWhitelistDuration(int id);
@@ -22,6 +23,7 @@ namespace x10.hotchoc.dps.Repositories {
     AddressType GetAddressType(int id);
     Message GetMessage(int id);
 
+    IQueryable<HitEdit> GetHitEdits();
     IQueryable<Company> GetCompanies();
     IQueryable<CompanyEntity> GetCompanyEntities();
     IQueryable<WhitelistDuration> GetWhitelistDurations();
@@ -38,6 +40,7 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<Message> GetMessages();
 
     // Mutations
+    int AddOrUpdateHitEdit(int? dbid, HitEdit hitEdit);
     int AddOrUpdateCompany(int? dbid, Company company);
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
     int AddOrUpdateWhitelistDuration(int? dbid, WhitelistDuration whitelistDuration);

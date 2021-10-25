@@ -76,6 +76,9 @@ namespace x10.gen.react.library {
         LogicalName = "HorizontalDivider",
         PlatformName = "Separator",
         ImportDir = "react_lib",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("label", "label"),
+        },
       },
       new PlatformClassDef() {
         LogicalName = "VerticalDivider",

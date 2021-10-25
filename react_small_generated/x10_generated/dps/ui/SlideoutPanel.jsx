@@ -26,6 +26,7 @@ import toNum from 'react_lib/utils/toNum';
 
 import { createDefaultAttachment } from 'dps/entities/Attachment';
 import { type Hit } from 'dps/entities/Hit';
+import { createDefaultHitEdit } from 'dps/entities/HitEdit';
 import { createDefaultOldHit } from 'dps/entities/OldHit';
 import { ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
 import AttachmentComponent from 'dps/ui/AttachmentComponent';
@@ -213,6 +214,43 @@ function SlideoutPanel(props: Props): React.Node {
                     addNewItem={ createDefaultAttachment }
                   />
                 </StyleControl>
+                <StyleControl
+                  visible={ toNum(data?.changeLog.length) > toNum(0) }
+                >
+                  <VerticalStackPanel>
+                    <Separator
+                      label='Change log'
+                    />
+                    <MultiStacker
+                      items={ data?.changeLog }
+                      itemDisplayFunc={ (data, onChange) => (
+                        <Group
+                          alignItems='center'
+                        >
+                          <TextDisplay
+                            weight='bold'
+                            value={ data?.user?.name }
+                          />
+                          <TextDisplay
+                            value='updated'
+                          />
+                          <TextDisplay
+                            weight='bold'
+                            value={ data?.editedFields }
+                          />
+                          <TextDisplay
+                            value='on'
+                          />
+                          <TimestampDisplay
+                            value={ data?.timestamp }
+                          />
+                        </Group>
+                      ) }
+                      layout='verticalCompact'
+                      addNewItem={ createDefaultHitEdit }
+                    />
+                  </VerticalStackPanel>
+                </StyleControl>
               </DisplayForm>
             ) }
             addNewItem={ createDefaultOldHit }
@@ -246,6 +284,16 @@ export default createFragmentContainer(SlideoutPanel, {
         attachments {
           id
           ...AttachmentComponent_attachment
+        }
+        changeLog {
+          id
+          editedFields
+          timestamp
+          user {
+            id
+            toStringRepresentation
+            name
+          }
         }
         createdAt
         notes

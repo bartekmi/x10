@@ -27,6 +27,11 @@ associations:
     dataType: User
     mandatory: false
     owns: false
+  - name: changeLog
+    dataType: HitEdit
+    many: true
+    owns: true
+    datagen_quantity: 0..3
   - name: attachments
     dataType: Attachment
     many: true

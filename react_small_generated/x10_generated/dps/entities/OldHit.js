@@ -8,6 +8,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
 import { type Attachment } from 'dps/entities/Attachment';
+import { type HitEdit } from 'dps/entities/HitEdit';
 import { type User } from 'dps/entities/User';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
 
@@ -22,6 +23,7 @@ export type OldHit = {
   +createdAt: ?string,
   +resolutionTimestamp: ?string,
   +resolvedBy: ?User,
+  +changeLog: $ReadOnlyArray<HitEdit>,
   +attachments: $ReadOnlyArray<Attachment>,
 };
 
@@ -38,6 +40,7 @@ export function createDefaultOldHit(): OldHit {
     createdAt: null,
     resolutionTimestamp: null,
     resolvedBy: null,
+    changeLog: [],
     attachments: [],
   };
 }

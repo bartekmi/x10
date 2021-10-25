@@ -6,6 +6,7 @@ using x10.hotchoc.dps.Entities;
 
 namespace x10.hotchoc.dps.Repositories {
   public class Repository : RepositoryBase, IRepository {
+    private Dictionary<int, HitEdit> _hitEdits = new Dictionary<int, HitEdit>();
     private Dictionary<int, Company> _companies = new Dictionary<int, Company>();
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
     private Dictionary<int, WhitelistDuration> _whitelistDurations = new Dictionary<int, WhitelistDuration>();
@@ -25,6 +26,7 @@ namespace x10.hotchoc.dps.Repositories {
       return new Type[] {
         typeof(Queries),
         typeof(CustomMutations),
+        typeof(HitEdit),
         typeof(Company),
         typeof(CompanyEntity),
         typeof(WhitelistDuration),
@@ -45,6 +47,7 @@ namespace x10.hotchoc.dps.Repositories {
     public override void Add(PrimordialEntityBase instance) {
       int id = instance.DbidHotChoc;
 
+      if (instance is HitEdit hitEdit) _hitEdits[id] = hitEdit;
       if (instance is Company company) _companies[id] = company;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
       if (instance is WhitelistDuration whitelistDuration) _whitelistDurations[id] = whitelistDuration;
@@ -60,6 +63,14 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is AddressType addressType) _addressTypes[id] = addressType;
       if (instance is Message message) _messages[id] = message;
     }
+
+    #region HitEdits
+    public IQueryable<HitEdit> GetHitEdits() => _hitEdits.Values.AsQueryable();
+    public HitEdit GetHitEdit(int id) { return _hitEdits[id]; }
+    public int AddOrUpdateHitEdit(int? dbid, HitEdit hitEdit) {
+      return RepositoryUtils.AddOrUpdate(dbid, hitEdit, _hitEdits);
+    }
+    #endregion
 
     #region Companies
     public IQueryable<Company> GetCompanies() => _companies.Values.AsQueryable();

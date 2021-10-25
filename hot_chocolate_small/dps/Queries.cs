@@ -11,6 +11,30 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Query")]
   public partial class Queries {
 
+    #region HitEdit
+    /// <summary>
+    /// Retrieve a HitEdit by id
+    /// </summary>
+    /// <param name="id">The id of the HitEdit.</param>
+    /// <param name="repository"></param>
+    /// <returns>The HitEdit.</returns>
+    public HitEdit GetHitEdit(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetHitEdit(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all HitEdits.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All HitEdits.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<HitEdit> GetHitEdits(
+        [Service] IRepository repository) =>
+          repository.GetHitEdits();
+    #endregion
+
     #region Company
     /// <summary>
     /// Retrieve a Company by id

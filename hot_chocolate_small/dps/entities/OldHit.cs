@@ -29,10 +29,13 @@ namespace x10.hotchoc.dps.Entities {
     // Associations
     public User? ResolvedBy { get; set; }
     [GraphQLNonNullType]
+    public List<HitEdit>? ChangeLog { get; set; }
+    [GraphQLNonNullType]
     public List<Attachment>? Attachments { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
+      ChangeLog?.ForEach(x => x.EnsureUniqueDbid());
       Attachments?.ForEach(x => x.EnsureUniqueDbid());
     }
 
@@ -41,6 +44,10 @@ namespace x10.hotchoc.dps.Entities {
 
       int? resolvedBy = IdUtils.FromRelayId(ResolvedBy?.Id);
       ResolvedBy = resolvedBy == null ? null : repository.GetUser(resolvedBy.Value);
+
+      if (ChangeLog != null)
+        foreach (HitEdit changeLog in ChangeLog)
+          changeLog.SetNonOwnedAssociations(repository);
 
       if (Attachments != null)
         foreach (Attachment attachments in Attachments)

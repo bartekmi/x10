@@ -20,11 +20,10 @@ type Props<T: TItem> = {|
   +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
   +addNewItem: () => T,
   +addItemLabel ?: string,
-  +layout?: "vertical" | "wrap",
+  +layout?: "vertical" | "verticalCompact" | "wrap",
 |};
-
 export default function MultiStacker<T: TItem>(props: Props<T>): React.Node {
-  const {layout} = props;
+  const {layout = "vertical"} = props;
   if (layout == "wrap") {
     return WrapPanel(props);
   }
@@ -49,10 +48,12 @@ function VerticalList<T: TItem>({
   onChange,
   addNewItem,
   addItemLabel = "Add",
-  layout = "wrap",
+  layout,
 }: Props<T>): React.Node {
+  const isCompact = layout == "verticalCompact";
+
   return (
-    <Group gap={20} flexDirection="column">
+    <Group gap={isCompact ? 0 : 20} flexDirection="column">
       {items.map(item => (
         <>
           <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
@@ -75,7 +76,7 @@ function VerticalList<T: TItem>({
               />
             ) : null}
           </div>
-          <div className={css(styles.divider)}/>
+          {isCompact ? null : <div className={css(styles.divider)}/>}
         </>
       ))}
       {onChange ? (
