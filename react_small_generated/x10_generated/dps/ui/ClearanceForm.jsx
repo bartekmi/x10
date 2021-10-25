@@ -17,6 +17,7 @@ import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import StyleControl from 'react_lib/StyleControl';
 import toEnum from 'react_lib/utils/toEnum';
+import toGraphqlEnum from 'react_lib/utils/toGraphqlEnum';
 
 import { hitCalculateErrors, type Hit } from 'dps/entities/Hit';
 import { HitStatusEnumPairs, ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
@@ -137,12 +138,14 @@ function ClearanceForm(props: Props): React.Node {
       >
         <FormSubmitButton
           mutation={ mutation }
-          variables={ 
+          variables={
             {
               hit: {
-                ...hit,
-                status: hit?.status?.toUpperCase(),
-                reasonForClearance: hit?.reasonForClearance?.toUpperCase(),
+                id: hit.id,
+                notes: hit.notes,
+                status: toGraphqlEnum(hit.status),
+                reasonForClearance: toGraphqlEnum(hit.reasonForClearance),
+                whitelistDaysId: hit.whitelistDays?.id,
               }
             }
           }
@@ -177,7 +180,7 @@ const mutation = graphql`
   mutation ClearanceFormMutation(
     $hit: ClearanceFormHitInput!
   ) {
-    clearanceFormUpdateHit (
+    clearanceFormUpdateHit(
       data: $hit
     ) {
       id

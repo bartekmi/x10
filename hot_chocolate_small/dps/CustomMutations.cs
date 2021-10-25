@@ -21,7 +21,7 @@ namespace x10.hotchoc.dps {
     [GraphQLNonNullType]
     public HitStatusEnum Status { get; set; }
     [GraphQLNonNullType]
-    public WhitelistDuration WhitelistDays { get; set; }
+    public string WhitelistDaysId { get; set; }
   }
 
   [ExtendObjectType(Name = "Mutation")]
@@ -41,9 +41,10 @@ namespace x10.hotchoc.dps {
         hit.Notes = data.Notes;
         hit.ReasonForClearance = data.ReasonForClearance;
         hit.Status = data.Status;
-        hit.WhitelistDays = data.WhitelistDays;
 
-        hit.SetNonOwnedAssociations(repository);
+        int? whitelistDurationId = IdUtils.FromRelayId(data.WhitelistDaysId);
+        if (whitelistDurationId != null)
+          hit.WhitelistDays = repository.GetWhitelistDuration( whitelistDurationId.Value);
 
         return hit;
     }

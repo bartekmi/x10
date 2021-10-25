@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using x10.utils;
 using x10.model.definition;
 using x10.model.metadata;
-using x10.ui;
 using x10.compiler;
+using x10.ui;
 using x10.ui.composition;
 using x10.ui.platform;
 using x10.ui.metadata;
-using x10.ui.libraries;
 using x10.gen.react.placeholder;
 using x10.gen.react.attribute;
 
@@ -48,7 +48,7 @@ namespace x10.gen.react.generate {
       if (isForm) {
         GenerateStatefulWrapper(classDef, model);
         GenerateFormRelayToInternal(model, dataInventory);
-        GenerateGraphqlMutation(classDef, model);
+        GenerateGraphqlMutation(classDef, model, dataInventory);
       }
 
       if (model != null)
@@ -356,17 +356,23 @@ namespace x10.gen.react.generate {
     #endregion
 
     #region Generate Mutation
-    private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model) {
+    private void GenerateGraphqlMutation(ClassDefX10 classDef, Entity model, MemberWrapper dataInventory) {
       string variableName = VariableName(model);
       string classDefName = classDef.Name;
 
       WriteLine(0, "const mutation = graphql`");
       WriteLine(1, "mutation {0}Mutation(", classDefName);
-      WriteLine(2, "${0}: {1}Input!", variableName, model.Name);
+      WriteLine(2, "${0}: {1}{2}Input!", variableName, classDef.Name, model.Name);
       WriteLine(1, ") {");
-      WriteLine(2, "createOrUpdate{0}(", model.Name);
-      WriteLine(3, "{0}: ${0}", variableName);
-      WriteLine(2, ")");
+      WriteLine(2, "{0}Update{1}(", 
+        NameUtils.UncapitalizeFirstLetter(classDef.Name), 
+        model.Name);
+      WriteLine(3, "data: ${0}", variableName);
+      WriteLine(2, ") {");
+
+      PrintGraphQL(3, dataInventory);
+
+      WriteLine(2, "}");
       WriteLine(1, "}");
       WriteLine(0, "`;");
 

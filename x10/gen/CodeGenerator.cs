@@ -33,6 +33,9 @@ namespace x10.gen {
 
     private IEnumerable<PlatformLibrary> _platformLibraries;
 
+    // Transient Data
+    public ClassDefX10 CurrentClassDef { get; private set; }
+
     public void Generate(
       MessageBucket messages,
       string rootGenerateDir,
@@ -57,8 +60,10 @@ namespace x10.gen {
         Generate(entity);
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
+        CurrentClassDef = classDef;
         Generate(classDef);
         PrintIntermediateFile(classDef);
+        CurrentClassDef = null;
       }
 
       GenerateEnumFiles();

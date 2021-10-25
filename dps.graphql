@@ -415,7 +415,7 @@ input ClearanceFormHitInput {
   notes: String!
   reasonForClearance: ReasonForCleranceEnum!
   status: HitStatusEnum!
-  whitelistDays: WhitelistDurationInput!
+  whitelistDaysId: String!
   id: String!
   hashcode: Int!
 }

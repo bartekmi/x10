@@ -6,11 +6,11 @@
   "configurations": [
     // Code Generation - Small Example
     {
-      "name": "Gen Small - Hot Choc",
+      "name": "Small-Gen Hot Choc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["smallhot"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
@@ -20,11 +20,11 @@
       }
     },
     {
-      "name": "Gen Small - React",
+      "name": "Small-Gen React",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["small"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
@@ -36,11 +36,11 @@
 
     // Dps Example
     {
-      "name": "Gen Dps - Hot Choc",
+      "name": "Dps-Gen Hot Choc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["dpshot"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
@@ -50,7 +50,7 @@
       }
     },
     {
-      "name": "Run Dps - Hot Choc",
+      "name": "Dps-Run Hot Choc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
@@ -64,11 +64,11 @@
       }
     },
     {
-      "name": "Gen Dps - React",
+      "name": "Dps-Gen React",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["dps"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
@@ -80,11 +80,11 @@
 
     // Code Generation - Client Page
     {
-      "name": "Gen CP - Hot Choc",
+      "name": "CP-Gen Hot Choc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["cphot"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
@@ -94,11 +94,11 @@
       }
     },
     {
-      "name": "Gen CP - React",
+      "name": "CP-Gen React",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build_x10",
-      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp3.1/x10.dll",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
       "args": ["cp"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",

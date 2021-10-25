@@ -14,6 +14,9 @@ namespace x10.gen.react {
     internal static readonly Function ToEnum = new Function() {
       Name = "toEnum",
     };
+    internal static readonly Function ToGraphqlEnum = new Function() {
+      Name = "toGraphqlEnum",
+    };
     internal static readonly Function ToDate = new Function() {
       Name = "toDate",
     };

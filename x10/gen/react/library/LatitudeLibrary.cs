@@ -1,13 +1,13 @@
-﻿using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
+using x10.compiler;
 using x10.compiler.ui;
-using x10.model.definition;
 using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
 using x10.ui.composition;
+using x10.model.definition;
 using x10.model.metadata;
 using x10.gen.react.attribute;
 using x10.gen.react.generate;
@@ -777,8 +777,36 @@ namespace x10.gen.react.library {
           },
           new JavaScriptAttributeByFunc() {
             PlatformName = "variables",
-            Function = (generator, instance) => generator.SourceVariableName,
             IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(generator.CurrentClassDef);
+
+                generator.WriteLine(indent, "variables={");
+                generator.WriteLine(indent + 1, "{");
+                generator.WriteLine(indent + 2, "{0}: {", generator.SourceVariableName);
+                generator.WriteLine(indent + 3, "...{0},", generator.SourceVariableName);
+
+                // TODO... Make this recursive
+                foreach (MemberWrapper wrapper in dataInventory.Children) {
+                  Member member = wrapper.Member;
+                  if (member is X10RegularAttribute regular && regular.IsEnum) {
+                    generator.ImportsPlaceholder.ImportFunction(HelperFunctions.ToGraphqlEnum);
+                    generator.WriteLine(indent + 3, "{0}: {1}({2}.{0}),", 
+                      member.Name, 
+                      HelperFunctions.ToGraphqlEnum.Name,
+                      generator.SourceVariableName);
+                  } else if (member is Association association && !association.Owns)
+                    generator.WriteLine(indent + 3, "{0}Id: {1}.{0}?.id,", 
+                      member.Name, 
+                      generator.SourceVariableName);
+                }
+
+                generator.WriteLine(indent + 2, "}");
+                generator.WriteLine(indent + 1, "}");
+                generator.WriteLine(indent, "}");
+              });
+            },
           },
           new JavaScriptAttributeDynamic("label", "label"),
           new JavaScriptAttributeDynamic("successMessage", "successMessage"),
