@@ -97,7 +97,7 @@ function HitDetailsTab(props: Props): React.Node {
           gap={ 52 }
         >
           <StyleControl
-            borderColor={ hasNameMatches(hit?.matches) ? '#FFA07A' : null }
+            borderColor={ hasNameMatches(hit?.matches) && hit?.user == null ? '#FFA07A' : null }
           >
             <DisplayField
               label='Name'
@@ -119,6 +119,33 @@ function HitDetailsTab(props: Props): React.Node {
             </DisplayField>
           </StyleControl>
         </Group>
+        <StyleControl
+          visible={ hit?.user != null }
+        >
+          <Group
+            alignItems='center'
+            gap={ 52 }
+          >
+            <StyleControl
+              borderColor={ hasNameMatches(hit?.matches) ? '#FFA07A' : null }
+            >
+              <DisplayField
+                label='User name'
+              >
+                <TextDisplay
+                  value={ hit?.user?.name }
+                />
+              </DisplayField>
+            </StyleControl>
+            <DisplayField
+              label='User email'
+            >
+              <TextDisplay
+                value={ hit?.user?.email }
+              />
+            </DisplayField>
+          </Group>
+        </StyleControl>
       </DisplayForm>
       <Separator/>
       <Expander
@@ -299,6 +326,12 @@ export default createFragmentContainer(HitDetailsTab, {
         }
       }
       status
+      user {
+        id
+        toStringRepresentation
+        email
+        name
+      }
       ...ClearanceForm_hit
     }
   `,

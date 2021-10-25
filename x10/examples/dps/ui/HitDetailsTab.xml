@@ -13,8 +13,12 @@
     <DisplayForm>
       <Heading3 text="Company information"/>
       <Row gap="52">
-        <companyEntity.name borderColor="=HasNameMatches(matches) ? '#FFA07A' : null"/>
+        <companyEntity.name borderColor="=HasNameMatches(matches) &#038;&#038; user == null ? '#FFA07A' : null"/>
         <companyEntity.physicalAddress.address borderColor="=HasAddressMatches(matches) ? '#FFD700' : null"/>
+      </Row>
+      <Row gap="52" visible="=user != null">
+        <user.name label="User name" borderColor="=HasNameMatches(matches) ? '#FFA07A' : null"/>
+        <user.email label="User email"/>
       </Row>
     </DisplayForm>
 

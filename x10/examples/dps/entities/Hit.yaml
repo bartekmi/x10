@@ -33,6 +33,7 @@ associations:
     dataType: User
     mandatory: false
     owns: false
+    datagen_probability: 0.5
   - name: attachments
     dataType: Attachment
     many: true
