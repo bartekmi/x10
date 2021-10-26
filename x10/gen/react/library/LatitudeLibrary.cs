@@ -277,6 +277,8 @@ namespace x10.gen.react.library {
             PlatformName = "readOnly",
             AttributeUnnecessaryWhen = false,
           },
+          new JavaScriptAttributeDynamic("prefix", "prefix"),
+          new JavaScriptAttributeDynamic("suffix", "suffix"),
         },
       },
       new PlatformClassDef() {
@@ -317,6 +319,8 @@ namespace x10.gen.react.library {
             PlatformName = "readOnly",
             AttributeUnnecessaryWhen = false,
           },
+          new JavaScriptAttributeDynamic("prefix", "prefix"),
+          new JavaScriptAttributeDynamic("suffix", "suffix"),
           new PlatformAttributeStatic("decimalPrecision", 0),
         },
       },
@@ -333,6 +337,8 @@ namespace x10.gen.react.library {
             PlatformName = "readOnly",
             AttributeUnnecessaryWhen = false,
           },
+          new JavaScriptAttributeDynamic("prefix", "prefix"),
+          new JavaScriptAttributeDynamic("suffix", "suffix"),
         },
       },
       new PlatformClassDef() {

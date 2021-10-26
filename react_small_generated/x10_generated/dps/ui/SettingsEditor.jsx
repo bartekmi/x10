@@ -20,6 +20,7 @@ import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
+import StyleControl from 'react_lib/StyleControl';
 
 import { settingsCalculateErrors, type Settings } from 'dps/entities/Settings';
 import { createDefaultWhitelistDuration } from 'dps/entities/WhitelistDuration';
@@ -64,68 +65,92 @@ function SettingsEditor(props: Props): React.Node {
           />
           <Group
             alignItems='center'
-            gap={ 80 }
+            gap={ 20 }
           >
-            <FormField
-              editorFor='highUrgencyShipments'
-              label='Shipments'
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.highUrgencyShipments }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, highUrgencyShipments: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='highUrgencyQuotes'
-              label='Quotes'
+              <FormField
+                editorFor='highUrgencyShipments'
+                label='Shipments'
+              >
+                <FloatInput
+                  value={ settings?.highUrgencyShipments }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, highUrgencyShipments: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.highUrgencyQuotes }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, highUrgencyQuotes: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='highUrgencyBookings'
-              label='Bookings'
+              <FormField
+                editorFor='highUrgencyQuotes'
+                label='Quotes'
+              >
+                <FloatInput
+                  value={ settings?.highUrgencyQuotes }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, highUrgencyQuotes: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.highUrgencyBookings }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, highUrgencyBookings: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='highUrgencyDaysBeforeShipment'
-              label='Days before shipment'
+              <FormField
+                editorFor='highUrgencyBookings'
+                label='Bookings'
+              >
+                <FloatInput
+                  value={ settings?.highUrgencyBookings }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, highUrgencyBookings: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.highUrgencyDaysBeforeShipment }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, highUrgencyDaysBeforeShipment: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='highUrgencyEscalated'
-              label='Escalated by Operations'
+              <FormField
+                editorFor='highUrgencyDaysBeforeShipment'
+                label='Days before shipment'
+              >
+                <FloatInput
+                  value={ settings?.highUrgencyDaysBeforeShipment }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, highUrgencyDaysBeforeShipment: value })
+                  } }
+                  prefix='≤'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              marginLeft={ 80 }
             >
-              <Checkbox
-                checked={ settings?.highUrgencyEscalated }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, highUrgencyEscalated: value })
-                } }
-              />
-            </FormField>
+              <FormField
+                editorFor='highUrgencyEscalated'
+                label='Escalated by Operations'
+              >
+                <Checkbox
+                  checked={ settings?.highUrgencyEscalated }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, highUrgencyEscalated: value })
+                  } }
+                />
+              </FormField>
+            </StyleControl>
           </Group>
           <Separator/>
           <Group
@@ -145,56 +170,76 @@ function SettingsEditor(props: Props): React.Node {
           />
           <Group
             alignItems='center'
-            gap={ 80 }
+            gap={ 20 }
           >
-            <FormField
-              editorFor='mediumUrgencyShipments'
-              label='Shipments'
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.mediumUrgencyShipments }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, mediumUrgencyShipments: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mediumUrgencyQuotes'
-              label='Quotes'
+              <FormField
+                editorFor='mediumUrgencyShipments'
+                label='Shipments'
+              >
+                <FloatInput
+                  value={ settings?.mediumUrgencyShipments }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, mediumUrgencyShipments: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.mediumUrgencyQuotes }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, mediumUrgencyQuotes: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mediumUrgencyBookings'
-              label='Bookings'
+              <FormField
+                editorFor='mediumUrgencyQuotes'
+                label='Quotes'
+              >
+                <FloatInput
+                  value={ settings?.mediumUrgencyQuotes }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, mediumUrgencyQuotes: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.mediumUrgencyBookings }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, mediumUrgencyBookings: value })
-                } }
-              />
-            </FormField>
-            <FormField
-              editorFor='mediumUrgencyDaysBeforeShipment'
-              label='Days before shipment'
+              <FormField
+                editorFor='mediumUrgencyBookings'
+                label='Bookings'
+              >
+                <FloatInput
+                  value={ settings?.mediumUrgencyBookings }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, mediumUrgencyBookings: value })
+                  } }
+                  prefix='≥'
+                />
+              </FormField>
+            </StyleControl>
+            <StyleControl
+              width={ 80 }
             >
-              <FloatInput
-                value={ settings?.mediumUrgencyDaysBeforeShipment }
-                onChange={ (value) => {
-                  // $FlowExpectedError
-                  onChange({ ...settings, mediumUrgencyDaysBeforeShipment: value })
-                } }
-              />
-            </FormField>
+              <FormField
+                editorFor='mediumUrgencyDaysBeforeShipment'
+                label='Days before shipment'
+              >
+                <FloatInput
+                  value={ settings?.mediumUrgencyDaysBeforeShipment }
+                  onChange={ (value) => {
+                    // $FlowExpectedError
+                    onChange({ ...settings, mediumUrgencyDaysBeforeShipment: value })
+                  } }
+                  prefix='≤'
+                />
+              </FormField>
+            </StyleControl>
           </Group>
           <Separator/>
           <Group

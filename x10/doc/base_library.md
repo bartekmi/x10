@@ -2410,6 +2410,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'prefix'
+
+Prefix string to display before the edited text - e.g. '$'
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -2417,6 +2422,11 @@ Padding on top of the component (in pixels)
 - Data Type: Boolean
 - Default Value: False
 - Attached Attribute: Yes
+### Attribute 'suffix'
+
+Suffix string to display after the edited text - e.g. 'kg'
+
+- Data Type: String
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -3992,6 +4002,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'prefix'
+
+Prefix string to display before the edited text - e.g. '$'
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -3999,6 +4014,11 @@ Padding on top of the component (in pixels)
 - Data Type: Boolean
 - Default Value: False
 - Attached Attribute: Yes
+### Attribute 'suffix'
+
+Suffix string to display after the edited text - e.g. 'kg'
+
+- Data Type: String
 ### Attribute 'visible'
 
 Is the object visible on the UI?
@@ -6355,6 +6375,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'prefix'
+
+Prefix string to display before the edited text - e.g. '$'
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -6362,6 +6387,11 @@ Padding on top of the component (in pixels)
 - Data Type: Boolean
 - Default Value: False
 - Attached Attribute: Yes
+### Attribute 'suffix'
+
+Suffix string to display after the edited text - e.g. 'kg'
+
+- Data Type: String
 ### Attribute 'visible'
 
 Is the object visible on the UI?

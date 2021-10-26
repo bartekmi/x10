@@ -13,12 +13,12 @@
             <Icon icon="dot" color="red"/>
           </Row>
           <Text>The hit is of high urgency if ANY of these conditiona are met.</Text>
-          <Row gap="80">
-            <highUrgencyShipments label="Shipments"/>
-            <highUrgencyQuotes label="Quotes"/>
-            <highUrgencyBookings label="Bookings"/>
-            <highUrgencyDaysBeforeShipment label="Days before shipment"/>
-            <highUrgencyEscalated label="Escalated by Operations"/>
+          <Row gap="20">
+            <highUrgencyShipments label="Shipments" width="80" prefix="≥"/>
+            <highUrgencyQuotes label="Quotes" width="80" prefix="≥"/>
+            <highUrgencyBookings label="Bookings" width="80" prefix="≥"/>
+            <highUrgencyDaysBeforeShipment label="Days before shipment" width="80" prefix="≤"/>
+            <highUrgencyEscalated label="Escalated by Operations" marginLeft="80"/>
           </Row>
 
           <!-- Medium urgency -->
@@ -29,11 +29,11 @@
             <Icon icon="dot" color="orange"/>
           </Row>
           <Text>The hit is of medium urgency if ANY of these conditions are met (excluding hits classified as high urgency)</Text>
-          <Row gap="80">
-            <mediumUrgencyShipments label="Shipments"/>
-            <mediumUrgencyQuotes label="Quotes"/>
-            <mediumUrgencyBookings label="Bookings"/>
-            <mediumUrgencyDaysBeforeShipment label="Days before shipment"/>
+          <Row gap="20">
+            <mediumUrgencyShipments label="Shipments" width="80" prefix="≥"/>
+            <mediumUrgencyQuotes label="Quotes" width="80" prefix="≥"/>
+            <mediumUrgencyBookings label="Bookings" width="80" prefix="≥"/>
+            <mediumUrgencyDaysBeforeShipment label="Days before shipment" width="80" prefix="≤"/>
           </Row>
 
           <!-- Low urgency -->

@@ -283,6 +283,18 @@ namespace x10.ui.libraries {
         Description = "One-line editor for text",
         InheritsFrom = ClassDefNative.Editable,
         AtomicDataModel = DataTypes.Singleton.String,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "prefix",
+            Description = "Prefix string to display before the edited text - e.g. '$'",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "suffix",
+            Description = "Suffix string to display after the edited text - e.g. 'kg'",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
       },
       new ClassDefNative() {
         Name = "TextArea",
@@ -295,12 +307,36 @@ namespace x10.ui.libraries {
         Description = "Editor for an Integer. Proper validation is built-in.",
         InheritsFrom = ClassDefNative.Editable,
         AtomicDataModel = DataTypes.Singleton.Integer,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "prefix",
+            Description = "Prefix string to display before the edited text - e.g. '$'",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "suffix",
+            Description = "Suffix string to display after the edited text - e.g. 'kg'",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
       },
       new ClassDefNative() {
         Name = "FloatEdit",
         Description = "Editor for a Floating-point number. Proper validation is built-in.",
         InheritsFrom = ClassDefNative.Editable,
         AtomicDataModel = DataTypes.Singleton.Float,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "prefix",
+            Description = "Prefix string to display before the edited text - e.g. '$'",
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
+            Name = "suffix",
+            Description = "Suffix string to display after the edited text - e.g. 'kg'",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
       },
       new ClassDefNative() {
         Name = "Checkbox",
