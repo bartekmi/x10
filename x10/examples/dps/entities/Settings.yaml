@@ -45,7 +45,7 @@ attributes:
 # Automated internal messages
   - name: messageHitDetected
     dataType: String
-    default: This shipment, quote orbooking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.   
+    default: This shipment, quote or booking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.   
     mandatory: true
     ui: TextArea
     label: Hit detected

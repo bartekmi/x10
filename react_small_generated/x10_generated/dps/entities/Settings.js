@@ -44,7 +44,7 @@ export function createDefaultSettings(): Settings {
     mediumUrgencyQuotes: null,
     mediumUrgencyBookings: null,
     mediumUrgencyDaysBeforeShipment: null,
-    messageHitDetected: 'This shipment, quote orbooking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.',
+    messageHitDetected: 'This shipment, quote or booking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.',
     messageHitCleared: 'The denied party hit has been cleared by Compliance team. This shipment, quote or booking is unblocked.',
     whitelistDurations: [],
     defaultWhitelistDuration: null,

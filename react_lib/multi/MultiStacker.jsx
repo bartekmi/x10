@@ -56,7 +56,7 @@ function VerticalList<T: TItem>({
     <Group gap={isCompact ? 0 : 20} flexDirection="column">
       {items.map(item => (
         <>
-          <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
+          <div key={item.id} style={{ display: "flex", alignItems: "flex-end"}}>
             {itemDisplayFunc(
               item,
               (newItem) => {
@@ -67,13 +67,15 @@ function VerticalList<T: TItem>({
               },
             )}
             {onChange ? (
-              <IconButton
-                iconName="trash"
-                type="button"
-                onClick={() =>
-                  onChange(items.filter(x => x.id !== item.id))
-                }
-              />
+              <div style={{marginLeft: "20px"}}>
+                <IconButton
+                  iconName="trash"
+                  type="button"
+                  onClick={() =>
+                    onChange(items.filter(x => x.id !== item.id))
+                  }
+                />
+              </div>
             ) : null}
           </div>
           {isCompact ? null : <div className={css(styles.divider)}/>}

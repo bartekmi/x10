@@ -270,7 +270,8 @@ function SettingsEditor(props: Props): React.Node {
         ) }
       >
         <Group
-          alignItems='center'
+          alignItems='flex-start'
+          gap={ 100 }
         >
           <MultiStacker
             items={ settings?.whitelistDurations }
@@ -280,20 +281,25 @@ function SettingsEditor(props: Props): React.Node {
             } }
             itemDisplayFunc={ (data, onChange) => (
               <Group
-                alignItems='center'
+                alignItems='flex-start'
+                gap={ 20 }
               >
-                <FormField
-                  editorFor='value'
-                  label='Value'
+                <StyleControl
+                  width={ 80 }
                 >
-                  <FloatInput
-                    value={ data?.value }
-                    onChange={ (value) => {
-                      // $FlowExpectedError
-                      onChange({ ...data, value: value })
-                    } }
-                  />
-                </FormField>
+                  <FormField
+                    editorFor='value'
+                    label='Value'
+                  >
+                    <FloatInput
+                      value={ data?.value }
+                      onChange={ (value) => {
+                        // $FlowExpectedError
+                        onChange({ ...data, value: value })
+                      } }
+                    />
+                  </FormField>
+                </StyleControl>
                 <FormField
                   editorFor='label'
                   label='Label'
@@ -308,6 +314,7 @@ function SettingsEditor(props: Props): React.Node {
                 </FormField>
               </Group>
             ) }
+            layout='verticalCompact'
             addNewItem={ createDefaultWhitelistDuration }
           />
           <FormField

@@ -56,10 +56,10 @@
         <Heading3 text="Whitelisting"/>
       </Expander.Header>
       <Expander.Body>
-        <Row>
-          <List path="whitelistDurations">
-            <Row>
-              <value/>
+        <Row align="top" gap="100">
+          <List path="whitelistDurations" layout="verticalCompact">
+            <Row gap="20">
+              <value width="80"/>
               <label/>
             </Row>
           </List>
