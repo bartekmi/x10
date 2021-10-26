@@ -150,6 +150,10 @@ type Port {
 }
 
 type Query {
+  "Retrieve a Settings by id\n\n\n**Returns:**\nThe Settings."
+  settings("The id of the Settings." id: String!): Settings!
+  "Gets all Settingses.\n\n\n**Returns:**\nAll Settingses."
+  settingses(where: SettingsFilter order_by: SettingsSort): [Settings!]!
   "Retrieve a HitEdit by id\n\n\n**Returns:**\nThe HitEdit."
   hitEdit("The id of the HitEdit." id: String!): HitEdit!
   "Gets all HitEdits.\n\n\n**Returns:**\nAll HitEdits."
@@ -162,6 +166,10 @@ type Query {
   companyEntity("The id of the CompanyEntity." id: String!): CompanyEntity!
   "Gets all CompanyEntities.\n\n\n**Returns:**\nAll CompanyEntities."
   companyEntities(where: CompanyEntityFilter order_by: CompanyEntitySort): [CompanyEntity!]!
+  "Retrieve a SettingsAutoAssignment by id\n\n\n**Returns:**\nThe SettingsAutoAssignment."
+  settingsAutoAssignment("The id of the SettingsAutoAssignment." id: String!): SettingsAutoAssignment!
+  "Gets all SettingsAutoAssignments.\n\n\n**Returns:**\nAll SettingsAutoAssignments."
+  settingsAutoAssignments(where: SettingsAutoAssignmentFilter order_by: SettingsAutoAssignmentSort): [SettingsAutoAssignment!]!
   "Retrieve a WhitelistDuration by id\n\n\n**Returns:**\nThe WhitelistDuration."
   whitelistDuration("The id of the WhitelistDuration." id: String!): WhitelistDuration!
   "Gets all WhitelistDurations.\n\n\n**Returns:**\nAll WhitelistDurations."
@@ -210,6 +218,37 @@ type Query {
   message("The id of the Message." id: String!): Message!
   "Gets all Messages.\n\n\n**Returns:**\nAll Messages."
   messages(where: MessageFilter order_by: MessageSort): [Message!]!
+}
+
+"Settings for the DPS application. This is a singleton."
+type Settings {
+  highUrgencyShipments: Int
+  highUrgencyQuotes: Int
+  highUrgencyBookings: Int
+  highUrgencyDaysBeforeShipment: Int
+  highUrgencyEscalated: Boolean!
+  mediumUrgencyShipments: Int
+  mediumUrgencyQuotes: Int
+  mediumUrgencyBookings: Int
+  mediumUrgencyDaysBeforeShipment: Int
+  messageHitDetected: String!
+  messageHitCleared: String!
+  toStringRepresentation: String!
+  whitelistDurations: [WhitelistDuration!]!
+  defaultWhitelistDuration: WhitelistDuration!
+  autoAssignments: [SettingsAutoAssignment!]!
+  id: String!
+  hashcode: Int!
+}
+
+"Part of Settings. Determines who gets auto-assigned to Hit based on time."
+type SettingsAutoAssignment {
+  from: TimeSpan
+  to: TimeSpan
+  toStringRepresentation: String!
+  user: User!
+  id: String!
+  hashcode: Int!
 }
 
 "A portion of Core Shipment entity"
@@ -1326,6 +1365,263 @@ input PortSort {
   hashcode: SortOperationKind
 }
 
+"Part of Settings. Determines who gets auto-assigned to Hit based on time."
+input SettingsAutoAssignmentFilter {
+  AND: [SettingsAutoAssignmentFilter!]
+  OR: [SettingsAutoAssignmentFilter!]
+  from: TimeSpan
+  from_not: TimeSpan
+  from_in: [TimeSpan]
+  from_not_in: [TimeSpan]
+  from_gt: TimeSpan
+  from_not_gt: TimeSpan
+  from_gte: TimeSpan
+  from_not_gte: TimeSpan
+  from_lt: TimeSpan
+  from_not_lt: TimeSpan
+  from_lte: TimeSpan
+  from_not_lte: TimeSpan
+  to: TimeSpan
+  to_not: TimeSpan
+  to_in: [TimeSpan]
+  to_not_in: [TimeSpan]
+  to_gt: TimeSpan
+  to_not_gt: TimeSpan
+  to_gte: TimeSpan
+  to_not_gte: TimeSpan
+  to_lt: TimeSpan
+  to_not_lt: TimeSpan
+  to_lte: TimeSpan
+  to_not_lte: TimeSpan
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  user: UserFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Part of Settings. Determines who gets auto-assigned to Hit based on time."
+input SettingsAutoAssignmentSort {
+  from: SortOperationKind
+  to: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  user: UserSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Settings for the DPS application. This is a singleton."
+input SettingsFilter {
+  AND: [SettingsFilter!]
+  OR: [SettingsFilter!]
+  highUrgencyShipments: Int
+  highUrgencyShipments_not: Int
+  highUrgencyShipments_in: [Int]
+  highUrgencyShipments_not_in: [Int]
+  highUrgencyShipments_gt: Int
+  highUrgencyShipments_not_gt: Int
+  highUrgencyShipments_gte: Int
+  highUrgencyShipments_not_gte: Int
+  highUrgencyShipments_lt: Int
+  highUrgencyShipments_not_lt: Int
+  highUrgencyShipments_lte: Int
+  highUrgencyShipments_not_lte: Int
+  highUrgencyQuotes: Int
+  highUrgencyQuotes_not: Int
+  highUrgencyQuotes_in: [Int]
+  highUrgencyQuotes_not_in: [Int]
+  highUrgencyQuotes_gt: Int
+  highUrgencyQuotes_not_gt: Int
+  highUrgencyQuotes_gte: Int
+  highUrgencyQuotes_not_gte: Int
+  highUrgencyQuotes_lt: Int
+  highUrgencyQuotes_not_lt: Int
+  highUrgencyQuotes_lte: Int
+  highUrgencyQuotes_not_lte: Int
+  highUrgencyBookings: Int
+  highUrgencyBookings_not: Int
+  highUrgencyBookings_in: [Int]
+  highUrgencyBookings_not_in: [Int]
+  highUrgencyBookings_gt: Int
+  highUrgencyBookings_not_gt: Int
+  highUrgencyBookings_gte: Int
+  highUrgencyBookings_not_gte: Int
+  highUrgencyBookings_lt: Int
+  highUrgencyBookings_not_lt: Int
+  highUrgencyBookings_lte: Int
+  highUrgencyBookings_not_lte: Int
+  highUrgencyDaysBeforeShipment: Int
+  highUrgencyDaysBeforeShipment_not: Int
+  highUrgencyDaysBeforeShipment_in: [Int]
+  highUrgencyDaysBeforeShipment_not_in: [Int]
+  highUrgencyDaysBeforeShipment_gt: Int
+  highUrgencyDaysBeforeShipment_not_gt: Int
+  highUrgencyDaysBeforeShipment_gte: Int
+  highUrgencyDaysBeforeShipment_not_gte: Int
+  highUrgencyDaysBeforeShipment_lt: Int
+  highUrgencyDaysBeforeShipment_not_lt: Int
+  highUrgencyDaysBeforeShipment_lte: Int
+  highUrgencyDaysBeforeShipment_not_lte: Int
+  highUrgencyEscalated: Boolean
+  highUrgencyEscalated_not: Boolean
+  mediumUrgencyShipments: Int
+  mediumUrgencyShipments_not: Int
+  mediumUrgencyShipments_in: [Int]
+  mediumUrgencyShipments_not_in: [Int]
+  mediumUrgencyShipments_gt: Int
+  mediumUrgencyShipments_not_gt: Int
+  mediumUrgencyShipments_gte: Int
+  mediumUrgencyShipments_not_gte: Int
+  mediumUrgencyShipments_lt: Int
+  mediumUrgencyShipments_not_lt: Int
+  mediumUrgencyShipments_lte: Int
+  mediumUrgencyShipments_not_lte: Int
+  mediumUrgencyQuotes: Int
+  mediumUrgencyQuotes_not: Int
+  mediumUrgencyQuotes_in: [Int]
+  mediumUrgencyQuotes_not_in: [Int]
+  mediumUrgencyQuotes_gt: Int
+  mediumUrgencyQuotes_not_gt: Int
+  mediumUrgencyQuotes_gte: Int
+  mediumUrgencyQuotes_not_gte: Int
+  mediumUrgencyQuotes_lt: Int
+  mediumUrgencyQuotes_not_lt: Int
+  mediumUrgencyQuotes_lte: Int
+  mediumUrgencyQuotes_not_lte: Int
+  mediumUrgencyBookings: Int
+  mediumUrgencyBookings_not: Int
+  mediumUrgencyBookings_in: [Int]
+  mediumUrgencyBookings_not_in: [Int]
+  mediumUrgencyBookings_gt: Int
+  mediumUrgencyBookings_not_gt: Int
+  mediumUrgencyBookings_gte: Int
+  mediumUrgencyBookings_not_gte: Int
+  mediumUrgencyBookings_lt: Int
+  mediumUrgencyBookings_not_lt: Int
+  mediumUrgencyBookings_lte: Int
+  mediumUrgencyBookings_not_lte: Int
+  mediumUrgencyDaysBeforeShipment: Int
+  mediumUrgencyDaysBeforeShipment_not: Int
+  mediumUrgencyDaysBeforeShipment_in: [Int]
+  mediumUrgencyDaysBeforeShipment_not_in: [Int]
+  mediumUrgencyDaysBeforeShipment_gt: Int
+  mediumUrgencyDaysBeforeShipment_not_gt: Int
+  mediumUrgencyDaysBeforeShipment_gte: Int
+  mediumUrgencyDaysBeforeShipment_not_gte: Int
+  mediumUrgencyDaysBeforeShipment_lt: Int
+  mediumUrgencyDaysBeforeShipment_not_lt: Int
+  mediumUrgencyDaysBeforeShipment_lte: Int
+  mediumUrgencyDaysBeforeShipment_not_lte: Int
+  messageHitDetected: String
+  messageHitDetected_not: String
+  messageHitDetected_contains: String
+  messageHitDetected_not_contains: String
+  messageHitDetected_starts_with: String
+  messageHitDetected_not_starts_with: String
+  messageHitDetected_ends_with: String
+  messageHitDetected_not_ends_with: String
+  messageHitDetected_in: [String!]
+  messageHitDetected_not_in: [String!]
+  messageHitCleared: String
+  messageHitCleared_not: String
+  messageHitCleared_contains: String
+  messageHitCleared_not_contains: String
+  messageHitCleared_starts_with: String
+  messageHitCleared_not_starts_with: String
+  messageHitCleared_ends_with: String
+  messageHitCleared_not_ends_with: String
+  messageHitCleared_in: [String!]
+  messageHitCleared_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  whitelistDurations_some: WhitelistDurationFilter
+  whitelistDurations_none: WhitelistDurationFilter
+  whitelistDurations_all: WhitelistDurationFilter
+  whitelistDurations_any: Boolean
+  defaultWhitelistDuration: WhitelistDurationFilter
+  autoAssignments_some: SettingsAutoAssignmentFilter
+  autoAssignments_none: SettingsAutoAssignmentFilter
+  autoAssignments_all: SettingsAutoAssignmentFilter
+  autoAssignments_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Settings for the DPS application. This is a singleton."
+input SettingsSort {
+  highUrgencyShipments: SortOperationKind
+  highUrgencyQuotes: SortOperationKind
+  highUrgencyBookings: SortOperationKind
+  highUrgencyDaysBeforeShipment: SortOperationKind
+  highUrgencyEscalated: SortOperationKind
+  mediumUrgencyShipments: SortOperationKind
+  mediumUrgencyQuotes: SortOperationKind
+  mediumUrgencyBookings: SortOperationKind
+  mediumUrgencyDaysBeforeShipment: SortOperationKind
+  messageHitDetected: SortOperationKind
+  messageHitCleared: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  defaultWhitelistDuration: WhitelistDurationSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "A portion of Core Shipment entity"
 input ShipmentFilter {
   AND: [ShipmentFilter!]
@@ -1754,3 +2050,6 @@ directive @stream("If this argument label has a value other than null, it will b
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+"The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
+scalar TimeSpan

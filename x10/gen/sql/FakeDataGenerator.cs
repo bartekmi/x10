@@ -156,10 +156,11 @@ namespace x10.gen.sql {
         DataType dataType = x10Attribute.DataType;
 
         if (dataType == DataTypes.Singleton.Date ||
-        dataType == DataTypes.Singleton.String ||
-        dataType == DataTypes.Singleton.Timestamp ||
-        dataType is DataTypeEnum)
-          quote = true;
+            dataType == DataTypes.Singleton.Time ||
+            dataType == DataTypes.Singleton.String ||
+            dataType == DataTypes.Singleton.Timestamp ||
+            dataType is DataTypeEnum)
+              quote = true;
       }
 
       if (quote)

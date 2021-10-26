@@ -615,6 +615,7 @@ namespace x10.hotchoc.{0} {{
 
       string type = null;
       if (dataType == DataTypes.Singleton.Date) type = "DateTime";
+      if (dataType == DataTypes.Singleton.Time) type = "TimeSpan";
       if (dataType == DataTypes.Singleton.Float) type = "double";
       if (dataType == DataTypes.Singleton.Integer) type = "int";
       if (dataType == DataTypes.Singleton.String) type = "string";

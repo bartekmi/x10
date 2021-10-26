@@ -192,6 +192,20 @@ namespace x10.ui.libraries {
         }
       },
       new ClassDefNative() {
+        Name = "TimeDisplay",
+        Description = "Display an Time on the User Interface.",
+        InheritsFromName = "TextualDisplay",
+        AtomicDataModel = DataTypes.Singleton.Time,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "value",
+            Description = "The value to display",
+            DataType = DataTypes.Singleton.Time,
+            IsPrimary = true,
+          },
+        }
+      },
+      new ClassDefNative() {
         Name = "TimestampDisplay",
         Description = "Display an Timestamp on the User Interface.",
         InheritsFromName = "TextualDisplay",
@@ -344,6 +358,12 @@ namespace x10.ui.libraries {
         Description = "Editor for a date.",
         InheritsFrom = ClassDefNative.Editable,
         AtomicDataModel = DataTypes.Singleton.Date,
+      },
+      new ClassDefNative() {
+        Name = "TimeEditor",
+        Description = "Editor for a time.",
+        InheritsFrom = ClassDefNative.Editable,
+        AtomicDataModel = DataTypes.Singleton.Time,
       },
       new ClassDefNative() {
         Name = "TimestampEditor",

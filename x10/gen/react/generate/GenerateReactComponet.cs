@@ -411,6 +411,7 @@ namespace x10.gen.react.generate {
     private string GetAtomicGraphqlType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "Boolean";
       if (dataType == DataTypes.Singleton.Date) return "DateTime";
+      if (dataType == DataTypes.Singleton.Time) return "TimeSpan";
       if (dataType == DataTypes.Singleton.Float) return "Float";
       if (dataType == DataTypes.Singleton.Integer) return "Int";
       if (dataType == DataTypes.Singleton.String) return "String";

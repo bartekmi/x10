@@ -361,6 +361,7 @@ namespace x10.gen.react.generate {
       // a DateInput UI can have a state where no value has been specified, and so for all
       // the other types.
       if (dataType == DataTypes.Singleton.Date) return false;
+      if (dataType == DataTypes.Singleton.Time) return false;
       if (dataType == DataTypes.Singleton.Float) return false;
       if (dataType == DataTypes.Singleton.Integer) return false;
       if (dataType == DataTypes.Singleton.Timestamp) return false;
@@ -373,6 +374,7 @@ namespace x10.gen.react.generate {
     private string GetAtomicFlowType(Entity entity, DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "boolean";
       if (dataType == DataTypes.Singleton.Date) return "string";
+      if (dataType == DataTypes.Singleton.Time) return "string";
       if (dataType == DataTypes.Singleton.Timestamp) return "string";
       if (dataType == DataTypes.Singleton.Float) return "number";
       if (dataType == DataTypes.Singleton.Integer) return "number";
@@ -387,12 +389,6 @@ namespace x10.gen.react.generate {
       }
 
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
-    }
-
-    internal static bool IsDateType(DataType dataType) {
-      return
-        dataType == DataTypes.Singleton.Date ||
-        dataType == DataTypes.Singleton.Timestamp;
     }
     #endregion
   }

@@ -11,6 +11,30 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Query")]
   public partial class Queries {
 
+    #region Settings
+    /// <summary>
+    /// Retrieve a Settings by id
+    /// </summary>
+    /// <param name="id">The id of the Settings.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Settings.</returns>
+    public Settings GetSettings(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetSettings(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Settingses.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Settingses.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Settings> GetSettingses(
+        [Service] IRepository repository) =>
+          repository.GetSettingses();
+    #endregion
+
     #region HitEdit
     /// <summary>
     /// Retrieve a HitEdit by id
@@ -81,6 +105,30 @@ namespace x10.hotchoc.dps {
     public IEnumerable<CompanyEntity> GetCompanyEntities(
         [Service] IRepository repository) =>
           repository.GetCompanyEntities();
+    #endregion
+
+    #region SettingsAutoAssignment
+    /// <summary>
+    /// Retrieve a SettingsAutoAssignment by id
+    /// </summary>
+    /// <param name="id">The id of the SettingsAutoAssignment.</param>
+    /// <param name="repository"></param>
+    /// <returns>The SettingsAutoAssignment.</returns>
+    public SettingsAutoAssignment GetSettingsAutoAssignment(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetSettingsAutoAssignment(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all SettingsAutoAssignments.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All SettingsAutoAssignments.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<SettingsAutoAssignment> GetSettingsAutoAssignments(
+        [Service] IRepository repository) =>
+          repository.GetSettingsAutoAssignments();
     #endregion
 
     #region WhitelistDuration

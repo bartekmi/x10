@@ -7,9 +7,11 @@ using x10.hotchoc.dps.Entities;
 namespace x10.hotchoc.dps.Repositories {
   public interface IRepository {
     // Queries
+    Settings GetSettings(int id);
     HitEdit GetHitEdit(int id);
     Company GetCompany(int id);
     CompanyEntity GetCompanyEntity(int id);
+    SettingsAutoAssignment GetSettingsAutoAssignment(int id);
     WhitelistDuration GetWhitelistDuration(int id);
     Hit GetHit(int id);
     Attachment GetAttachment(int id);
@@ -23,9 +25,11 @@ namespace x10.hotchoc.dps.Repositories {
     AddressType GetAddressType(int id);
     Message GetMessage(int id);
 
+    IQueryable<Settings> GetSettingses();
     IQueryable<HitEdit> GetHitEdits();
     IQueryable<Company> GetCompanies();
     IQueryable<CompanyEntity> GetCompanyEntities();
+    IQueryable<SettingsAutoAssignment> GetSettingsAutoAssignments();
     IQueryable<WhitelistDuration> GetWhitelistDurations();
     IQueryable<Hit> GetHits();
     IQueryable<Attachment> GetAttachments();
@@ -40,9 +44,11 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<Message> GetMessages();
 
     // Mutations
+    int AddOrUpdateSettings(int? dbid, Settings settings);
     int AddOrUpdateHitEdit(int? dbid, HitEdit hitEdit);
     int AddOrUpdateCompany(int? dbid, Company company);
     int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity);
+    int AddOrUpdateSettingsAutoAssignment(int? dbid, SettingsAutoAssignment settingsAutoAssignment);
     int AddOrUpdateWhitelistDuration(int? dbid, WhitelistDuration whitelistDuration);
     int AddOrUpdateHit(int? dbid, Hit hit);
     int AddOrUpdateAttachment(int? dbid, Attachment attachment);

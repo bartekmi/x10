@@ -1,0 +1,72 @@
+name: Settings
+inheritsFrom: Base
+description: Settings for the DPS application. This is a singleton.
+datagen_quantity: 1
+
+attributes:
+# High Urgency
+  - name: highUrgencyShipments
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: highUrgencyQuotes
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: highUrgencyBookings
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: highUrgencyDaysBeforeShipment
+    dataType: Integer
+    datagen_min: 2
+    datagen_max: 2
+  - name: highUrgencyEscalated
+    dataType: Boolean
+
+# Medium (Middle) Urgency
+  - name: mediumUrgencyShipments
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: mediumUrgencyQuotes
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: mediumUrgencyBookings
+    dataType: Integer
+    datagen_min: 5
+    datagen_max: 5
+  - name: mediumUrgencyDaysBeforeShipment
+    dataType: Integer
+    datagen_min: 2
+    datagen_max: 2
+
+# Automated internal messages
+  - name: messageHitDetected
+    dataType: String
+    default: This shipment, quote orbooking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.   
+    mandatory: true
+  - name: messageHitCleared
+    dataType: String
+    default: The denied party hit has been cleared by Compliance team. This shipment, quote or booking is unblocked.
+    mandatory: true
+
+associations:
+# Whitelisting
+  - name: whitelistDurations
+    dataType: WhitelistDuration
+    owns: true
+    many: true
+    datagen_quantity: 4  
+  - name: defaultWhitelistDuration
+    dataType: WhitelistDuration
+    owns: false
+    mandatory: true
+
+# Auto Assignment
+  - name: autoAssignments
+    dataType: SettingsAutoAssignment
+    owns: true
+    many: true
+    datagen_quantity: 4  

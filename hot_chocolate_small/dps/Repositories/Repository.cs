@@ -6,9 +6,11 @@ using x10.hotchoc.dps.Entities;
 
 namespace x10.hotchoc.dps.Repositories {
   public class Repository : RepositoryBase, IRepository {
+    private Dictionary<int, Settings> _settingses = new Dictionary<int, Settings>();
     private Dictionary<int, HitEdit> _hitEdits = new Dictionary<int, HitEdit>();
     private Dictionary<int, Company> _companies = new Dictionary<int, Company>();
     private Dictionary<int, CompanyEntity> _companyEntities = new Dictionary<int, CompanyEntity>();
+    private Dictionary<int, SettingsAutoAssignment> _settingsAutoAssignments = new Dictionary<int, SettingsAutoAssignment>();
     private Dictionary<int, WhitelistDuration> _whitelistDurations = new Dictionary<int, WhitelistDuration>();
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
     private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
@@ -26,9 +28,11 @@ namespace x10.hotchoc.dps.Repositories {
       return new Type[] {
         typeof(Queries),
         typeof(CustomMutations),
+        typeof(Settings),
         typeof(HitEdit),
         typeof(Company),
         typeof(CompanyEntity),
+        typeof(SettingsAutoAssignment),
         typeof(WhitelistDuration),
         typeof(Hit),
         typeof(Attachment),
@@ -47,9 +51,11 @@ namespace x10.hotchoc.dps.Repositories {
     public override void Add(PrimordialEntityBase instance) {
       int id = instance.DbidHotChoc;
 
+      if (instance is Settings settings) _settingses[id] = settings;
       if (instance is HitEdit hitEdit) _hitEdits[id] = hitEdit;
       if (instance is Company company) _companies[id] = company;
       if (instance is CompanyEntity companyEntity) _companyEntities[id] = companyEntity;
+      if (instance is SettingsAutoAssignment settingsAutoAssignment) _settingsAutoAssignments[id] = settingsAutoAssignment;
       if (instance is WhitelistDuration whitelistDuration) _whitelistDurations[id] = whitelistDuration;
       if (instance is Hit hit) _hits[id] = hit;
       if (instance is Attachment attachment) _attachments[id] = attachment;
@@ -63,6 +69,14 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is AddressType addressType) _addressTypes[id] = addressType;
       if (instance is Message message) _messages[id] = message;
     }
+
+    #region Settingses
+    public IQueryable<Settings> GetSettingses() => _settingses.Values.AsQueryable();
+    public Settings GetSettings(int id) { return _settingses[id]; }
+    public int AddOrUpdateSettings(int? dbid, Settings settings) {
+      return RepositoryUtils.AddOrUpdate(dbid, settings, _settingses);
+    }
+    #endregion
 
     #region HitEdits
     public IQueryable<HitEdit> GetHitEdits() => _hitEdits.Values.AsQueryable();
@@ -85,6 +99,14 @@ namespace x10.hotchoc.dps.Repositories {
     public CompanyEntity GetCompanyEntity(int id) { return _companyEntities[id]; }
     public int AddOrUpdateCompanyEntity(int? dbid, CompanyEntity companyEntity) {
       return RepositoryUtils.AddOrUpdate(dbid, companyEntity, _companyEntities);
+    }
+    #endregion
+
+    #region SettingsAutoAssignments
+    public IQueryable<SettingsAutoAssignment> GetSettingsAutoAssignments() => _settingsAutoAssignments.Values.AsQueryable();
+    public SettingsAutoAssignment GetSettingsAutoAssignment(int id) { return _settingsAutoAssignments[id]; }
+    public int AddOrUpdateSettingsAutoAssignment(int? dbid, SettingsAutoAssignment settingsAutoAssignment) {
+      return RepositoryUtils.AddOrUpdate(dbid, settingsAutoAssignment, _settingsAutoAssignments);
     }
     #endregion
 

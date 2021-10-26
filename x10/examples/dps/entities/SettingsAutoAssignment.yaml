@@ -1,0 +1,17 @@
+name: SettingsAutoAssignment
+inheritsFrom: Base
+description: Part of Settings. Determines who gets auto-assigned to Hit based on time.
+
+attributes:
+  - name: from
+    dataType: Time
+    mandatory: true
+  - name: to
+    dataType: Time
+    mandatory: true
+
+associations:
+  - name: user
+    dataType: User
+    owns: false
+    mandatory: true

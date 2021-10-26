@@ -23,6 +23,7 @@ namespace x10.model.metadata {
     public readonly DataType String;
     public readonly DataType Boolean;
     public readonly DataType Date;
+    public readonly DataType Time;
     public readonly DataType Timestamp;
     public readonly DataType Color;
 
@@ -81,6 +82,12 @@ namespace x10.model.metadata {
           }
         },
         new DataType() {
+          Name = "Time",
+          Description = "A time of day",
+          ParseFunction = (s) => new ParseResult(TimeSpan.Parse(s)),
+          Examples = "13:05:01",
+        },
+        new DataType() {
           Name = "Timestamp",
           Description = "A unique point in time, expressed in UTC time",
           ParseFunction = (s) => new ParseResult(DateTime.Parse(s)),
@@ -124,6 +131,7 @@ namespace x10.model.metadata {
       // Constants for the "regular" data types
       Boolean = Find("Boolean");
       Date = Find("Date");
+      Time = Find("Time");
       Float = Find("Float");
       Integer = Find("Integer");
       Money = Find("Money");

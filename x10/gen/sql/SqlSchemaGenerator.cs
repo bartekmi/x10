@@ -123,6 +123,7 @@ namespace x10.gen.sql {
     private static string GetType(DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "BOOLEAN";
       if (dataType == DataTypes.Singleton.Date) return "DATE";
+      if (dataType == DataTypes.Singleton.Time) return "TIME";
       if (dataType == DataTypes.Singleton.Float) return "DOUBLE PRECISION";
       if (dataType == DataTypes.Singleton.Integer) return "INTEGER";
       if (dataType == DataTypes.Singleton.String) return "VARCHAR";
