@@ -1,0 +1,106 @@
+<SettingsEditor model="Settings" url="/settings">
+  <Form>
+    <!-- Hit urgency -->
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Hit urgency"/>
+      </Expander.Header>
+      <Expander.Body>
+        <VerticalStackPanel>
+          <!-- High Urgency -->
+          <Row>
+            <Text weight="bold">High urgency</Text>
+            <Icon icon="dot" color="red"/>
+          </Row>
+          <Text>The hit is of high urgency if ANY of these conditiona are met.</Text>
+          <Row gap="80">
+            <highUrgencyShipments label="Shipments"/>
+            <highUrgencyQuotes label="Quotes"/>
+            <highUrgencyBookings label="Bookings"/>
+            <highUrgencyDaysBeforeShipment label="Days before shipment"/>
+            <highUrgencyEscalated label="Escalated by Operations"/>
+          </Row>
+
+          <!-- Medium urgency -->
+          <HorizontalDivider/>
+
+          <Row>
+            <Text weight="bold">Medium urgency</Text>
+            <Icon icon="dot" color="orange"/>
+          </Row>
+          <Text>The hit is of medium urgency if ANY of these conditions are met (excluding hits classified as high urgency)</Text>
+          <Row gap="80">
+            <mediumUrgencyShipments label="Shipments"/>
+            <mediumUrgencyQuotes label="Quotes"/>
+            <mediumUrgencyBookings label="Bookings"/>
+            <mediumUrgencyDaysBeforeShipment label="Days before shipment"/>
+          </Row>
+
+          <!-- Low urgency -->
+          <HorizontalDivider/>
+
+          <Row>
+            <Text weight="bold">Low urgency</Text>
+            <Icon icon="dot" color="yellow"/>
+          </Row>
+          <Text>The hit is of low urgency if it’s not classified as either high or medium</Text>
+        </VerticalStackPanel>
+      </Expander.Body>
+    </Expander>
+
+    <HorizontalDivider/>
+    
+    <!-- Whitelisting -->
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Whitelisting"/>
+      </Expander.Header>
+      <Expander.Body>
+        <Row>
+          <List path="whitelistDurations">
+            <Row>
+              <value/>
+              <label/>
+            </Row>
+          </List>
+          <defaultWhitelistDuration/>
+        </Row>
+      </Expander.Body>
+    </Expander>
+
+    <HorizontalDivider/>
+    
+    <!-- Automated Internal Message -->
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Automated internal messages"/>
+      </Expander.Header>
+      <Expander.Body>
+        <VerticalStackPanel>
+          <messageHitDetected/>
+          <messageHitCleared/>
+        </VerticalStackPanel>
+      </Expander.Body>
+    </Expander>
+
+    <HorizontalDivider/>
+    
+    <!-- Auto assignment -->
+    <Expander>
+      <Expander.Header>
+        <Heading3 text="Auto assignment"/>
+      </Expander.Header>
+      <Expander.Body>
+        <VerticalStackPanel>
+          <Text>The time configuration is based on UTC+0 time zone (Pacific time is UTC-7)</Text>
+          <List path="whitelistDurations">
+            <Row>
+              <value/>
+              <label/>
+            </Row>
+          </List>
+        </VerticalStackPanel>
+      </Expander.Body>
+    </Expander>
+  </Form>
+</SettingsEditor>

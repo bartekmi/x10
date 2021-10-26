@@ -352,7 +352,7 @@ namespace x10.hotchoc.{0} {{
       WriteLine(2, "/// <summary>");
       WriteLine(2, "/// Input Data Type for {0}Update{1} Mutation", classDef.Name, model.Name);
       WriteLine(2, "/// </summary>");
-      WriteLine(2, "public class ClearanceFormHit : Base {");
+      WriteLine(2, "public class {0}{1} : Base {", classDef.Name, model.Name);
 
       foreach (MemberWrapper wrapper in dataInventory.Children) {
         Member member = wrapper.Member;

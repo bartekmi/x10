@@ -18,6 +18,7 @@ namespace x10.ui.libraries {
       "credit-card",
       "dollar-sign",
       "dont",
+      "dot",
       "draft",
       "factory",
       "human",

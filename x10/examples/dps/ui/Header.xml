@@ -2,6 +2,7 @@
   <VerticalStackPanel>
     <Menu>
       <MenuItem label="Hits" url="/hits"/>
+      <MenuItem label="Settings" url="/settings"/>
     </Menu>
     <SpaContent rootComponent="Hits"/>
   </VerticalStackPanel>

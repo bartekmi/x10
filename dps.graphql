@@ -122,6 +122,8 @@ type Message {
 type Mutation {
   "Update a hit from the Clearance Form"
   clearanceFormUpdateHit(data: ClearanceFormHitInput!): Hit!
+  "Update mutation for the SettingsEditor component"
+  settingsEditorUpdateSettings(data: SettingsEditorSettingsInput!): Settings!
 }
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
@@ -1436,6 +1438,12 @@ input SettingsAutoAssignmentSort {
   user: UserSort
   id: SortOperationKind
   hashcode: SortOperationKind
+}
+
+"Input Data Type for SettingsEditorUpdateSettings Mutation"
+input SettingsEditorSettingsInput {
+  id: String!
+  hashcode: Int!
 }
 
 "Settings for the DPS application. This is a singleton."

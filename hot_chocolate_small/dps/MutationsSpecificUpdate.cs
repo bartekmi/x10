@@ -12,6 +12,23 @@ namespace x10.hotchoc.dps {
   [ExtendObjectType(Name = "Mutation")]
   public partial class Mutations {
 
+    #region SettingsEditor
+    /// <summary>
+    /// Input Data Type for SettingsEditorUpdateSettings Mutation
+    /// </summary>
+    public class SettingsEditorSettings : Base {
+    }
+
+    /// <summary>
+    /// Update mutation for the SettingsEditor component
+    /// </summary>
+    public virtual Settings SettingsEditorUpdateSettings(
+      SettingsEditorSettings data,
+      [Service] IRepository repository) {
+        throw new NotImplementedException("Manually override this method");
+    }
+    #endregion
+
     #region ClearanceForm
     /// <summary>
     /// Input Data Type for ClearanceFormUpdateHit Mutation
