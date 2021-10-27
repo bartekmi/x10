@@ -93,14 +93,20 @@
       <Expander.Body>
         <VerticalStackPanel>
           <Text>The time configuration is based on UTC+0 time zone (Pacific time is UTC-7)</Text>
-          <List path="whitelistDurations">
+          <List path="autoAssignments" layout="verticalCompact">
             <Row>
-              <value/>
-              <label/>
+              <from/>
+              <to/>
+              <user/>
             </Row>
           </List>
         </VerticalStackPanel>
       </Expander.Body>
     </Expander>
+
+    <SubmitButton label="Save Settings" marginTop="30"
+      successMessage="Settings updated successfully."
+      errorMessage="There was a problem. Settings not saved."
+    />
   </Form>
 </SettingsEditor>

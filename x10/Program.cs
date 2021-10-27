@@ -70,8 +70,6 @@ namespace x10 {
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "dps",
-          DoGeneratePerEntityMutations = false,
-          DoGenerateSpecificUpdateMutations = true,
           CustomMutationsClass = "CustomMutations",
         },
       },
@@ -105,7 +103,6 @@ namespace x10 {
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "SmallSample",
-          DoGeneratePerEntityMutations = true,
         },
       },
 
@@ -138,7 +135,6 @@ namespace x10 {
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "ClientPage",
-          DoGeneratePerEntityMutations = true,
         },
       },
     };

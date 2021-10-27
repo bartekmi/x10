@@ -17,8 +17,6 @@ using x10.compiler;
 namespace x10.gen.hotchoc {
   public class HotchocCodeGenerator : CodeGenerator {
     public string PackageName { get; set; }
-    public bool DoGeneratePerEntityMutations { get; set; }
-    public bool DoGenerateSpecificUpdateMutations { get; set; }
     public string CustomMutationsClass { get; set; }
 
     public override void Generate(ClassDefX10 classDef) { }
@@ -28,10 +26,7 @@ namespace x10.gen.hotchoc {
       GenerateRepositoryInterface();
       GenerateRepository();
       GenerateQueries();
-      if (DoGeneratePerEntityMutations)
-        GeneratePerEntityMutations();
-      if (DoGenerateSpecificUpdateMutations)
-        GenerateSpecificUpdateMutations();
+      GenerateMutations();
     }
 
     #region Generate Repository - Interface
@@ -246,17 +241,22 @@ namespace x10.hotchoc.{0} {{
     }
     #endregion
 
-    #region Generation Per-Entity Mutations
-    private void GeneratePerEntityMutations() {
-      Begin("Mutations.cs");
+    #region Generate Mutations
+    private void GenerateMutations() {
+      Begin("MutationsSpecificUpdate.cs");
 
       GenerateMutationsHeader();
 
-      foreach (Entity entity in ConcreteEntities()) {
-        WriteLine(2, "#region {0}", entity.Name);
-        GenerateCreateOrUpdate(entity);
-        WriteLine(2, "#endregion");
-        WriteLine();
+      foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
+        Entity model = classDef.ComponentDataModel;
+        if (IsForm(classDef) && model != null) {
+          WriteLine(2, "#region {0}", classDef.Name);
+          GenerateSpecificUpdateInputType(classDef, model);
+          WriteLine();
+          GenerateSpecificUpdateMethodPrototype(classDef, model);
+          WriteLine(2, "#endregion");
+          WriteLine();
+        }
       }
 
       WriteLine(1, "}");
@@ -284,63 +284,6 @@ namespace x10.hotchoc.{0} {{
 ", PackageName);
     }
 
-    private void GenerateCreateOrUpdate(Entity entity) {
-      string entityName = entity.Name;
-      string varName = NameUtils.UncapitalizeFirstLetter(entityName);
-
-      WriteRaw(
-@"    /// <summary>
-    /// Creates a new {0} or updates an existing one, depending on the value of {1}.id
-    /// </summary>
-    public string CreateOrUpdate{0}(
-      {0} {1},
-      [Service] IRepository repository) {{
-        {1}.SetNonOwnedAssociations(repository);
-        int dbid = repository.AddOrUpdate{0}(IdUtils.FromRelayId({1}.Id), {1});
-        return IdUtils.ToRelayId<{0}>(dbid);
-    }}
-", entityName, varName);
-    }
-
-    private static string GetDataType(Member member) {
-      if (member is X10Attribute attribute)
-        return DataType(attribute.DataType, attribute.IsMandatory);
-      else if (member is Association association) {
-        Entity refedEntity = association.ReferencedEntity;
-        if (association.IsMany)
-          return string.Format("IEnumerable<{0}>", refedEntity.Name);
-        else if (association.Owns)
-          return refedEntity.Name + NullableMarker(association.IsMandatory);
-        else
-          return "string" + NullableMarker(association.IsMandatory);
-      } else
-        throw new NotImplementedException("Neither attribute nor association");
-    }
-    #endregion
-
-    #region Generate Specific Update Mutations
-    private void GenerateSpecificUpdateMutations() {
-      Begin("MutationsSpecificUpdate.cs");
-
-      GenerateMutationsHeader();
-
-      foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
-        Entity model = classDef.ComponentDataModel;
-        if (IsForm(classDef) && model != null) {
-          WriteLine(2, "#region {0}", classDef.Name);
-          GenerateSpecificUpdateInputType(classDef, model);
-          WriteLine();
-          GenerateSpecificUpdateMethodPrototype(classDef, model);
-          WriteLine(2, "#endregion");
-          WriteLine();
-        }
-      }
-
-      WriteLine(1, "}");
-      WriteLine(0, "}");
-
-      End();
-    }
 
     internal static bool IsForm(ClassDefX10 classDef) {
       return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
@@ -358,12 +301,29 @@ namespace x10.hotchoc.{0} {{
         Member member = wrapper.Member;
         if (member is X10RegularAttribute regular) {
           GenerateRegularAttribute(3, regular);
-        } else if (member is Association association && !association.Owns) {
-          if (member.IsMandatory)
+        } else if (member is Association association) {
+          string propName = PropName(association);
+
+          if (association.IsMany) {
+            if (!association.Owns)
+              // A work-around is to strucutre your data model to created an owned child entity
+              // which then links to the non-owned entity
+              throw new NotImplementedException("Non-owned 'many' association");
+
+            Entity refedEntity = association.ReferencedEntity;
             WriteLine(3, "[GraphQLNonNullType]");
-          WriteLine(3, "public string {0}Id { get; set; }", PropName(member));
+            WriteLine(3, "public List<{0}>? {1} { get; set; }", refedEntity.Name, propName);
+          } else {
+            if (association.IsMandatory)
+              WriteLine(3, "[GraphQLNonNullType]");
+
+            if (association.Owns)
+              WriteLine(3, "public string {0}Id { get; set; }", propName);
+            else
+              WriteLine(3, "public string {0}Id { get; set; }", propName);
+          }
         } else
-          throw new NotImplementedException("Please write the code");
+          throw new NotImplementedException("Anything coming back from MemberWrapper should be regular attr or association");
       }
 
       WriteLine(2, "}");
@@ -615,7 +575,7 @@ namespace x10.hotchoc.{0} {{
 
       string type = null;
       if (dataType == DataTypes.Singleton.Date) type = "DateTime";
-      if (dataType == DataTypes.Singleton.Time) type = "TimeSpan";
+      if (dataType == DataTypes.Singleton.Time) type = "string";
       if (dataType == DataTypes.Singleton.Float) type = "double";
       if (dataType == DataTypes.Singleton.Integer) type = "int";
       if (dataType == DataTypes.Singleton.String) type = "string";

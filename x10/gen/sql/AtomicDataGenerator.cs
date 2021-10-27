@@ -74,8 +74,8 @@ namespace x10.gen.sql {
         }
       } else if (x10Attr.DataType == DataTypes.Singleton.Time) {
         double dayFraction = random.NextDouble();
-        long ticks = (long)(dayFraction * 24 * 3600 * 10000000);
-        value = new TimeSpan(ticks);
+        long ticks = (long)(dayFraction * 24 * 3600) * 10000000;
+        value = DataTypes.ToTimeString(new TimeSpan(ticks));
       } else if (x10Attr.DataType == DataTypes.Singleton.Timestamp) {
         // For date, min/max is offset from today's date
         // TODO... This is wrong! min/max will never be double - they are constrained to be same type as field

@@ -375,6 +375,22 @@ namespace x10.gen.react.library {
           },
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "TimeEditor",
+        PlatformName = "TimeInput",
+        ImportDir = "react_lib/latitude_wrappers",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            PlatformName = "value",
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "readOnly",
+            PlatformName = "readOnly",
+            AttributeUnnecessaryWhen = false,
+          },
+        },
+      },
       // Need to create my own control in lib which converts the Text property to DateTime
       //new PlatformClassDef() {
       //  LogicalName = "TimestampEditor",

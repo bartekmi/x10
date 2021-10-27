@@ -11,8 +11,8 @@ namespace x10.hotchoc.dps.Entities {
   /// </summary>
   public class SettingsAutoAssignment : Base {
     // Regular Attributes
-    public TimeSpan? From { get; set; }
-    public TimeSpan? To { get; set; }
+    public string? From { get; set; }
+    public string? To { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

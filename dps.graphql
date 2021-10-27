@@ -245,8 +245,8 @@ type Settings {
 
 "Part of Settings. Determines who gets auto-assigned to Hit based on time."
 type SettingsAutoAssignment {
-  from: TimeSpan
-  to: TimeSpan
+  from: String
+  to: String
   toStringRepresentation: String!
   user: User!
   id: String!
@@ -1371,30 +1371,26 @@ input PortSort {
 input SettingsAutoAssignmentFilter {
   AND: [SettingsAutoAssignmentFilter!]
   OR: [SettingsAutoAssignmentFilter!]
-  from: TimeSpan
-  from_not: TimeSpan
-  from_in: [TimeSpan]
-  from_not_in: [TimeSpan]
-  from_gt: TimeSpan
-  from_not_gt: TimeSpan
-  from_gte: TimeSpan
-  from_not_gte: TimeSpan
-  from_lt: TimeSpan
-  from_not_lt: TimeSpan
-  from_lte: TimeSpan
-  from_not_lte: TimeSpan
-  to: TimeSpan
-  to_not: TimeSpan
-  to_in: [TimeSpan]
-  to_not_in: [TimeSpan]
-  to_gt: TimeSpan
-  to_not_gt: TimeSpan
-  to_gte: TimeSpan
-  to_not_gte: TimeSpan
-  to_lt: TimeSpan
-  to_not_lt: TimeSpan
-  to_lte: TimeSpan
-  to_not_lte: TimeSpan
+  from: String
+  from_not: String
+  from_contains: String
+  from_not_contains: String
+  from_starts_with: String
+  from_not_starts_with: String
+  from_ends_with: String
+  from_not_ends_with: String
+  from_in: [String]
+  from_not_in: [String]
+  to: String
+  to_not: String
+  to_contains: String
+  to_not_contains: String
+  to_starts_with: String
+  to_not_starts_with: String
+  to_ends_with: String
+  to_not_ends_with: String
+  to_in: [String]
+  to_not_in: [String]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1431,6 +1427,16 @@ input SettingsAutoAssignmentFilter {
 }
 
 "Part of Settings. Determines who gets auto-assigned to Hit based on time."
+input SettingsAutoAssignmentInput {
+  from: String
+  to: String
+  toStringRepresentation: String!
+  user: UserInput!
+  id: String!
+  hashcode: Int!
+}
+
+"Part of Settings. Determines who gets auto-assigned to Hit based on time."
 input SettingsAutoAssignmentSort {
   from: SortOperationKind
   to: SortOperationKind
@@ -1442,6 +1448,20 @@ input SettingsAutoAssignmentSort {
 
 "Input Data Type for SettingsEditorUpdateSettings Mutation"
 input SettingsEditorSettingsInput {
+  highUrgencyShipments: Int
+  highUrgencyQuotes: Int
+  highUrgencyBookings: Int
+  highUrgencyDaysBeforeShipment: Int
+  highUrgencyEscalated: Boolean!
+  mediumUrgencyShipments: Int
+  mediumUrgencyQuotes: Int
+  mediumUrgencyBookings: Int
+  mediumUrgencyDaysBeforeShipment: Int
+  whitelistDurations: [WhitelistDurationInput!]!
+  defaultWhitelistDurationId: String!
+  messageHitDetected: String!
+  messageHitCleared: String!
+  autoAssignments: [SettingsAutoAssignmentInput!]!
   id: String!
   hashcode: Int!
 }
@@ -1914,6 +1934,17 @@ input UserFilter {
 }
 
 "A portion of Core User entity"
+input UserInput {
+  name: String!
+  email: String!
+  phone: String!
+  location: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"A portion of Core User entity"
 input UserSort {
   name: SortOperationKind
   email: SortOperationKind
@@ -1982,6 +2013,15 @@ input WhitelistDurationFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
+}
+
+"A port of a shipment"
+input WhitelistDurationInput {
+  value: Int
+  label: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
 }
 
 "A port of a shipment"
@@ -2058,6 +2098,3 @@ directive @stream("If this argument label has a value other than null, it will b
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
-
-"The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
-scalar TimeSpan

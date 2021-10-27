@@ -15,7 +15,9 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
+import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
+import TimeInput from 'react_lib/latitude_wrappers/TimeInput';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import MultiStacker from 'react_lib/multi/MultiStacker';
@@ -23,6 +25,7 @@ import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 
 import { settingsCalculateErrors, type Settings } from 'dps/entities/Settings';
+import { createDefaultSettingsAutoAssignment } from 'dps/entities/SettingsAutoAssignment';
 import { createDefaultWhitelistDuration } from 'dps/entities/WhitelistDuration';
 
 
@@ -391,45 +394,95 @@ function SettingsEditor(props: Props): React.Node {
             value='The time configuration is based on UTC+0 time zone (Pacific time is UTC-7)'
           />
           <MultiStacker
-            items={ settings?.whitelistDurations }
+            items={ settings?.autoAssignments }
             onChange={ (value) => {
               // $FlowExpectedError
-              onChange({ ...settings, whitelistDurations: value })
+              onChange({ ...settings, autoAssignments: value })
             } }
             itemDisplayFunc={ (data, onChange) => (
               <Group
                 alignItems='center'
               >
                 <FormField
-                  editorFor='value'
-                  label='Value'
+                  editorFor='from'
+                  indicateRequired={ true }
+                  label='From'
                 >
-                  <FloatInput
-                    value={ data?.value }
+                  <TimeInput
+                    value={ data?.from }
                     onChange={ (value) => {
                       // $FlowExpectedError
-                      onChange({ ...data, value: value })
+                      onChange({ ...data, from: value })
                     } }
                   />
                 </FormField>
                 <FormField
-                  editorFor='label'
-                  label='Label'
+                  editorFor='to'
+                  indicateRequired={ true }
+                  label='To'
                 >
-                  <TextInput
-                    value={ data?.label }
+                  <TimeInput
+                    value={ data?.to }
                     onChange={ (value) => {
                       // $FlowExpectedError
-                      onChange({ ...data, label: value })
+                      onChange({ ...data, to: value })
                     } }
+                  />
+                </FormField>
+                <FormField
+                  editorFor='user'
+                  indicateRequired={ true }
+                  label='User'
+                >
+                  <AssociationEditor
+                    id={ data?.user?.id }
+                    onChange={ (value) => {
+                      // $FlowExpectedError
+                      onChange({ ...data, user: value == null ? null : { id: value } })
+                    } }
+                    isNullable={ false }
+                    query={ usersQuery }
+                    toString={ x => x.toStringRepresentation }
                   />
                 </FormField>
               </Group>
             ) }
-            addNewItem={ createDefaultWhitelistDuration }
+            layout='verticalCompact'
+            addNewItem={ createDefaultSettingsAutoAssignment }
           />
         </VerticalStackPanel>
       </Expander>
+      <StyleControl
+        marginTop={ 30 }
+      >
+        <FormSubmitButton
+          mutation={ mutation }
+          variables={
+            {
+              settings: {
+                id: settings.id,
+                highUrgencyShipments: settings.highUrgencyShipments,
+                highUrgencyQuotes: settings.highUrgencyQuotes,
+                highUrgencyBookings: settings.highUrgencyBookings,
+                highUrgencyDaysBeforeShipment: settings.highUrgencyDaysBeforeShipment,
+                highUrgencyEscalated: settings.highUrgencyEscalated,
+                mediumUrgencyShipments: settings.mediumUrgencyShipments,
+                mediumUrgencyQuotes: settings.mediumUrgencyQuotes,
+                mediumUrgencyBookings: settings.mediumUrgencyBookings,
+                mediumUrgencyDaysBeforeShipment: settings.mediumUrgencyDaysBeforeShipment,
+                whitelistDurations: settings.whitelistDurations,
+                defaultWhitelistDurationId: settings.defaultWhitelistDuration?.id,
+                messageHitDetected: settings.messageHitDetected,
+                messageHitCleared: settings.messageHitCleared,
+                autoAssignments: settings.autoAssignments,
+              }
+            }
+          }
+          label='Save Settings'
+          successMessage='Settings updated successfully.'
+          errorMessage='There was a problem. Settings not saved.'
+        />
+      </StyleControl>
     </FormProvider>
   );
 }
@@ -460,6 +513,15 @@ const mutation = graphql`
       data: $settings
     ) {
       id
+      autoAssignments {
+        id
+        from
+        to
+        user {
+          id
+          toStringRepresentation
+        }
+      }
       defaultWhitelistDuration {
         id
         toStringRepresentation
@@ -489,6 +551,15 @@ export default createFragmentContainer(SettingsEditorStateful, {
   settings: graphql`
     fragment SettingsEditor_settings on Settings {
       id
+      autoAssignments {
+        id
+        from
+        to
+        user {
+          id
+          toStringRepresentation
+        }
+      }
       defaultWhitelistDuration {
         id
         toStringRepresentation
@@ -512,6 +583,15 @@ export default createFragmentContainer(SettingsEditorStateful, {
     }
   `,
 });
+
+const usersQuery = graphql`
+  query SettingsEditor_usersQuery {
+    entities: users {
+      id
+      toStringRepresentation
+    }
+  }
+`;
 
 const whitelistDurationsQuery = graphql`
   query SettingsEditor_whitelistDurationsQuery {

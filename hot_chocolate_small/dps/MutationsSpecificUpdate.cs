@@ -17,6 +17,26 @@ namespace x10.hotchoc.dps {
     /// Input Data Type for SettingsEditorUpdateSettings Mutation
     /// </summary>
     public class SettingsEditorSettings : Base {
+      public int? HighUrgencyShipments { get; set; }
+      public int? HighUrgencyQuotes { get; set; }
+      public int? HighUrgencyBookings { get; set; }
+      public int? HighUrgencyDaysBeforeShipment { get; set; }
+      [GraphQLNonNullType]
+      public bool HighUrgencyEscalated { get; set; }
+      public int? MediumUrgencyShipments { get; set; }
+      public int? MediumUrgencyQuotes { get; set; }
+      public int? MediumUrgencyBookings { get; set; }
+      public int? MediumUrgencyDaysBeforeShipment { get; set; }
+      [GraphQLNonNullType]
+      public List<WhitelistDuration>? WhitelistDurations { get; set; }
+      [GraphQLNonNullType]
+      public string DefaultWhitelistDurationId { get; set; }
+      [GraphQLNonNullType]
+      public string? MessageHitDetected { get; set; }
+      [GraphQLNonNullType]
+      public string? MessageHitCleared { get; set; }
+      [GraphQLNonNullType]
+      public List<SettingsAutoAssignment>? AutoAssignments { get; set; }
     }
 
     /// <summary>

@@ -84,7 +84,7 @@ namespace x10.model.metadata {
         new DataType() {
           Name = "Time",
           Description = "A time of day",
-          ParseFunction = (s) => new ParseResult(TimeSpan.Parse(s)),
+          ParseFunction = (s) => new ParseResult(ToTimeString(TimeSpan.Parse(s))),
           Examples = "13:05:01",
         },
         new DataType() {
@@ -184,6 +184,16 @@ namespace x10.model.metadata {
         return;
 
       throw new Exception(string.Format("Hash (#) Color expression {0} must only contain hexadecimal characters: 0-9 and a-f (case insensitive)", color));
+    }
+
+    public static string ToTimeString(TimeSpan span) {
+      string time = string.Format("{0,2:D2}:{1,2:D2}:{2,2:D2}.{3,3:D3}",
+        span.Hours,
+        span.Minutes,
+        span.Seconds,
+        span.Milliseconds);
+
+      return time;
     }
   }
 }
