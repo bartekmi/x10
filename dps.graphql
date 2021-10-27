@@ -1458,7 +1458,7 @@ input SettingsEditorSettingsInput {
   mediumUrgencyBookings: Int
   mediumUrgencyDaysBeforeShipment: Int
   whitelistDurations: [WhitelistDurationInput!]!
-  defaultWhitelistDurationId: String!
+  defaultWhitelistDuration: WhitelistDurationInput!
   messageHitDetected: String!
   messageHitCleared: String!
   autoAssignments: [SettingsAutoAssignmentInput!]!

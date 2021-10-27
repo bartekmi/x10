@@ -53,7 +53,7 @@
       "name": "Dps-Run Hot Choc",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build_x10",
+      "preLaunchTask": "build_hot_chocolate",
       "program": "${workspaceFolder}/hot_chocolate_small/bin/Debug/netcoreapp5.0/HotChocolateSmall.dll",
       "args": ["dps"],
       "cwd": "${workspaceFolder}/hot_chocolate_small",

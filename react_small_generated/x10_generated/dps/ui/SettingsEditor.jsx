@@ -471,7 +471,7 @@ function SettingsEditor(props: Props): React.Node {
                 mediumUrgencyBookings: settings.mediumUrgencyBookings,
                 mediumUrgencyDaysBeforeShipment: settings.mediumUrgencyDaysBeforeShipment,
                 whitelistDurations: settings.whitelistDurations,
-                defaultWhitelistDurationId: settings.defaultWhitelistDuration?.id,
+                defaultWhitelistDuration: settings.defaultWhitelistDuration,
                 messageHitDetected: settings.messageHitDetected,
                 messageHitCleared: settings.messageHitCleared,
                 autoAssignments: settings.autoAssignments,
