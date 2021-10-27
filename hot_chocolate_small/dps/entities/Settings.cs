@@ -25,6 +25,8 @@ namespace x10.hotchoc.dps.Entities {
     public string? MessageHitDetected { get; set; }
     [GraphQLNonNullType]
     public string? MessageHitCleared { get; set; }
+    [GraphQLNonNullType]
+    public string? DefaultWhitelistDurationId { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
@@ -36,8 +38,6 @@ namespace x10.hotchoc.dps.Entities {
     // Associations
     [GraphQLNonNullType]
     public List<WhitelistDuration>? WhitelistDurations { get; set; }
-    [GraphQLNonNullType]
-    public WhitelistDuration? DefaultWhitelistDuration { get; set; }
     [GraphQLNonNullType]
     public List<SettingsAutoAssignment>? AutoAssignments { get; set; }
 
@@ -53,9 +53,6 @@ namespace x10.hotchoc.dps.Entities {
       if (WhitelistDurations != null)
         foreach (WhitelistDuration whitelistDurations in WhitelistDurations)
           whitelistDurations.SetNonOwnedAssociations(repository);
-
-      int? defaultWhitelistDuration = IdUtils.FromRelayId(DefaultWhitelistDuration?.Id);
-      DefaultWhitelistDuration = defaultWhitelistDuration == null ? null : repository.GetWhitelistDuration(defaultWhitelistDuration.Value);
 
       if (AutoAssignments != null)
         foreach (SettingsAutoAssignment autoAssignments in AutoAssignments)

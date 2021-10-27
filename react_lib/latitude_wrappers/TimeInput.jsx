@@ -19,8 +19,8 @@ export default function TimeInput(props: Props): React.Node {
       <LatitudeTimeInput
         options={getTimeIntervals(ZERO_OCLOCK, EOD_OCLOCK, 30)}
         value={toWallTime(value || null)} // Convert null or undefined to null
-        // $FlowIgnoreError 
-        onChange={onChange} 
+        // $FlowIgnoreError
+        onChange={onChange}
         disabled={readOnly}
         
       />

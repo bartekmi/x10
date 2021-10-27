@@ -235,9 +235,9 @@ type Settings {
   mediumUrgencyDaysBeforeShipment: Int
   messageHitDetected: String!
   messageHitCleared: String!
+  defaultWhitelistDurationId: String!
   toStringRepresentation: String!
   whitelistDurations: [WhitelistDuration!]!
-  defaultWhitelistDuration: WhitelistDuration!
   autoAssignments: [SettingsAutoAssignment!]!
   id: String!
   hashcode: Int!
@@ -1458,7 +1458,7 @@ input SettingsEditorSettingsInput {
   mediumUrgencyBookings: Int
   mediumUrgencyDaysBeforeShipment: Int
   whitelistDurations: [WhitelistDurationInput!]!
-  defaultWhitelistDuration: WhitelistDurationInput!
+  defaultWhitelistDurationId: String!
   messageHitDetected: String!
   messageHitCleared: String!
   autoAssignments: [SettingsAutoAssignmentInput!]!
@@ -1588,6 +1588,16 @@ input SettingsFilter {
   messageHitCleared_not_ends_with: String
   messageHitCleared_in: [String!]
   messageHitCleared_not_in: [String!]
+  defaultWhitelistDurationId: String
+  defaultWhitelistDurationId_not: String
+  defaultWhitelistDurationId_contains: String
+  defaultWhitelistDurationId_not_contains: String
+  defaultWhitelistDurationId_starts_with: String
+  defaultWhitelistDurationId_not_starts_with: String
+  defaultWhitelistDurationId_ends_with: String
+  defaultWhitelistDurationId_not_ends_with: String
+  defaultWhitelistDurationId_in: [String!]
+  defaultWhitelistDurationId_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1602,7 +1612,6 @@ input SettingsFilter {
   whitelistDurations_none: WhitelistDurationFilter
   whitelistDurations_all: WhitelistDurationFilter
   whitelistDurations_any: Boolean
-  defaultWhitelistDuration: WhitelistDurationFilter
   autoAssignments_some: SettingsAutoAssignmentFilter
   autoAssignments_none: SettingsAutoAssignmentFilter
   autoAssignments_all: SettingsAutoAssignmentFilter
@@ -1644,8 +1653,8 @@ input SettingsSort {
   mediumUrgencyDaysBeforeShipment: SortOperationKind
   messageHitDetected: SortOperationKind
   messageHitCleared: SortOperationKind
+  defaultWhitelistDurationId: SortOperationKind
   toStringRepresentation: SortOperationKind
-  defaultWhitelistDuration: WhitelistDurationSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }

@@ -63,7 +63,7 @@
               <label/>
             </Row>
           </List>
-          <defaultWhitelistDuration/>
+          <defaultWhitelistDurationId/>
         </Row>
       </Expander.Body>
     </Expander>

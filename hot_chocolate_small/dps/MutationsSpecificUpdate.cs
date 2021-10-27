@@ -30,7 +30,7 @@ namespace x10.hotchoc.dps {
       [GraphQLNonNullType]
       public List<WhitelistDuration>? WhitelistDurations { get; set; }
       [GraphQLNonNullType]
-      public WhitelistDuration DefaultWhitelistDuration { get; set; }
+      public string? DefaultWhitelistDurationId { get; set; }
       [GraphQLNonNullType]
       public string? MessageHitDetected { get; set; }
       [GraphQLNonNullType]

@@ -55,6 +55,9 @@ attributes:
     mandatory: true
     ui: TextArea
     label: Hit cleared
+  - name: defaultWhitelistDurationId
+    dataType: String
+    mandatory: true
 
 associations:
 # Whitelisting
@@ -63,10 +66,6 @@ associations:
     owns: true
     many: true
     datagen_quantity: 4  
-  - name: defaultWhitelistDuration
-    dataType: WhitelistDuration
-    owns: false
-    mandatory: true
 
 # Auto Assignment
   - name: autoAssignments

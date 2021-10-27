@@ -10,6 +10,7 @@ import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
+import SelectInput from 'latitude/select/SelectInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
@@ -321,20 +322,21 @@ function SettingsEditor(props: Props): React.Node {
             addNewItem={ createDefaultWhitelistDuration }
           />
           <FormField
-            editorFor='defaultWhitelistDuration'
+            editorFor='defaultWhitelistDurationId'
             indicateRequired={ true }
-            label='Default Whitelist Duration'
+            label='Default Whitelist Duration Id'
           >
-            <AssociationEditor
-              id={ settings?.defaultWhitelistDuration?.id }
-              onChange={ (value) => {
-                // $FlowExpectedError
-                onChange({ ...settings, defaultWhitelistDuration: value == null ? null : { id: value } })
-              } }
-              isNullable={ false }
-              query={ whitelistDurationsQuery }
-              toString={ x => x.toStringRepresentation }
-            />
+           <SelectInput
+             value={ settings?.defaultWhitelistDurationId }
+             onChange={ (value) => {
+               // $FlowExpectedError
+               onChange({ ...settings, defaultWhitelistDurationId: value })
+             } }
+             options={ settings.whitelistDurations.map(x => ({ 
+               value: x.value.toString(), 
+               label: x.label
+             })) }
+           />
           </FormField>
         </Group>
       </Expander>
@@ -471,7 +473,7 @@ function SettingsEditor(props: Props): React.Node {
                 mediumUrgencyBookings: settings.mediumUrgencyBookings,
                 mediumUrgencyDaysBeforeShipment: settings.mediumUrgencyDaysBeforeShipment,
                 whitelistDurations: settings.whitelistDurations,
-                defaultWhitelistDuration: settings.defaultWhitelistDuration,
+                defaultWhitelistDurationId: settings.defaultWhitelistDurationId,
                 messageHitDetected: settings.messageHitDetected,
                 messageHitCleared: settings.messageHitCleared,
                 autoAssignments: settings.autoAssignments,
@@ -522,10 +524,7 @@ const mutation = graphql`
           toStringRepresentation
         }
       }
-      defaultWhitelistDuration {
-        id
-        toStringRepresentation
-      }
+      defaultWhitelistDurationId
       highUrgencyBookings
       highUrgencyDaysBeforeShipment
       highUrgencyEscalated
@@ -560,10 +559,7 @@ export default createFragmentContainer(SettingsEditorStateful, {
           toStringRepresentation
         }
       }
-      defaultWhitelistDuration {
-        id
-        toStringRepresentation
-      }
+      defaultWhitelistDurationId
       highUrgencyBookings
       highUrgencyDaysBeforeShipment
       highUrgencyEscalated
@@ -587,15 +583,6 @@ export default createFragmentContainer(SettingsEditorStateful, {
 const usersQuery = graphql`
   query SettingsEditor_usersQuery {
     entities: users {
-      id
-      toStringRepresentation
-    }
-  }
-`;
-
-const whitelistDurationsQuery = graphql`
-  query SettingsEditor_whitelistDurationsQuery {
-    entities: whitelistDurations {
       id
       toStringRepresentation
     }
