@@ -8,7 +8,7 @@ import {type WallTime, ZERO_OCLOCK, EOD_OCLOCK} from "latitude/date/wallTime";
 
 type Props = {|
   +value: ?string,
-  +onChange: (time: WallTime | null) => void,
+  +onChange: (time: string | null) => void,
   +readOnly?: boolean,
 |};
 export default function TimeInput(props: Props): React.Node {
@@ -19,7 +19,8 @@ export default function TimeInput(props: Props): React.Node {
       <LatitudeTimeInput
         options={getTimeIntervals(ZERO_OCLOCK, EOD_OCLOCK, 30)}
         value={toWallTime(value || null)} // Convert null or undefined to null
-        onChange={onChange}
+        // $FlowIgnoreError 
+        onChange={onChange} 
         disabled={readOnly}
         
       />
