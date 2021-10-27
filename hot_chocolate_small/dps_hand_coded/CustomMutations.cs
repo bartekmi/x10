@@ -24,11 +24,9 @@ namespace x10.hotchoc.dps {
         hit.Notes = data.Notes;
         hit.ReasonForClearance = data.ReasonForClearance;
         hit.Status = data.Status;
+        hit.WhitelistDays = data.WhitelistDays;
 
-        int? whitelistDurationId = IdUtils.FromRelayId(data.WhitelistDaysId);
-        if (whitelistDurationId != null)
-          hit.WhitelistDays = repository.GetWhitelistDuration( whitelistDurationId.Value);
-
+        hit.SetNonOwnedAssociations(repository);
         return hit;
     }
 

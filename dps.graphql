@@ -425,7 +425,7 @@ input AttachmentSort {
 input ClearanceFormHitInput {
   status: HitStatusEnum
   reasonForClearance: ReasonForCleranceEnum
-  whitelistDaysId: String!
+  whitelistDays: WhitelistDurationInput!
   notes: String!
   id: String!
   hashcode: Int!

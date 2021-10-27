@@ -251,9 +251,9 @@ namespace x10.hotchoc.{0} {{
         Entity model = classDef.ComponentDataModel;
         if (IsForm(classDef) && model != null) {
           WriteLine(2, "#region {0}", classDef.Name);
-          GenerateSpecificUpdateInputType(classDef, model);
+          GenerateMutationInputType(classDef, model);
           WriteLine();
-          GenerateSpecificUpdateMethodPrototype(classDef, model);
+          GenerateMutationMethodPrototype(classDef, model);
           WriteLine(2, "#endregion");
           WriteLine();
         }
@@ -289,7 +289,7 @@ namespace x10.hotchoc.{0} {{
       return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
     }
 
-    private void GenerateSpecificUpdateInputType(ClassDefX10 classDef, Entity model) {
+    private void GenerateMutationInputType(ClassDefX10 classDef, Entity model) {
       MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(classDef);
 
       WriteLine(2, "/// <summary>");
@@ -303,6 +303,7 @@ namespace x10.hotchoc.{0} {{
           GenerateRegularAttribute(3, regular);
         } else if (member is Association association) {
           string propName = PropName(association);
+          Entity refedEntity = association.ReferencedEntity;
 
           if (association.IsMany) {
             if (!association.Owns)
@@ -310,17 +311,12 @@ namespace x10.hotchoc.{0} {{
               // which then links to the non-owned entity
               throw new NotImplementedException("Non-owned 'many' association");
 
-            Entity refedEntity = association.ReferencedEntity;
             WriteLine(3, "[GraphQLNonNullType]");
             WriteLine(3, "public List<{0}>? {1} { get; set; }", refedEntity.Name, propName);
           } else {
             if (association.IsMandatory)
               WriteLine(3, "[GraphQLNonNullType]");
-
-            if (association.Owns)
-              WriteLine(3, "public string {0}Id { get; set; }", propName);
-            else
-              WriteLine(3, "public string {0}Id { get; set; }", propName);
+            WriteLine(3, "public {0} {1} { get; set; }", refedEntity.Name, propName);
           }
         } else
           throw new NotImplementedException("Anything coming back from MemberWrapper should be regular attr or association");
@@ -329,7 +325,7 @@ namespace x10.hotchoc.{0} {{
       WriteLine(2, "}");
     }
 
-    private void GenerateSpecificUpdateMethodPrototype(ClassDefX10 classDef, Entity model) {
+    private void GenerateMutationMethodPrototype(ClassDefX10 classDef, Entity model) {
       WriteRaw(
 @"    /// <summary>
     /// Update mutation for the {0} component

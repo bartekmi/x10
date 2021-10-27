@@ -144,7 +144,7 @@ function ClearanceForm(props: Props): React.Node {
                 id: hit.id,
                 status: toGraphqlEnum(hit.status),
                 reasonForClearance: toGraphqlEnum(hit.reasonForClearance),
-                whitelistDaysId: hit.whitelistDays?.id,
+                whitelistDays: hit.whitelistDays,
                 notes: hit.notes,
               }
             }

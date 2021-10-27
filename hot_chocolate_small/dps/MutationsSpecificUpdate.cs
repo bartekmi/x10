@@ -57,7 +57,7 @@ namespace x10.hotchoc.dps {
       public HitStatusEnum? Status { get; set; }
       public ReasonForCleranceEnum? ReasonForClearance { get; set; }
       [GraphQLNonNullType]
-      public string WhitelistDaysId { get; set; }
+      public WhitelistDuration WhitelistDays { get; set; }
       [GraphQLNonNullType]
       public string? Notes { get; set; }
     }
