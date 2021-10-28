@@ -32,9 +32,7 @@ namespace x10.hotchoc.SmallSample.Entities {
     public string? Name { get; set; }
     [GraphQLNonNullType]
     public string? Description { get; set; }
-    [GraphQLNonNullType]
     public DateTime? DateOfOccupancy { get; set; }
-    [GraphQLNonNullType]
     public MailboxTypeEnum? MailboxType { get; set; }
     public PetPolicyEnum? PetPolicy { get; set; }
     [GraphQLNonNullType]

@@ -92,11 +92,6 @@ namespace x10.hotchoc {
           BaseLibrary.Singleton();
           FlexportSpecialLibrary.Singleton();
         },
-        PostInitializeAction = () => {
-          var repository = (x10.hotchoc.ClientPage.Repositories.Repository)Config.Repository;
-          string json = JsonConvert.SerializeObject(repository.GetClients(), Formatting.Indented);
-          File.WriteAllText(System.IO.Path.Combine(Config.IntermediateOutputDir, "hotchoc", "clients.json"), json);
-        }
       },
     };
 

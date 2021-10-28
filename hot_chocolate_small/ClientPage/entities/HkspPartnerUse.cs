@@ -13,7 +13,6 @@ namespace x10.hotchoc.ClientPage.Entities {
     // Regular Attributes
     [GraphQLNonNullType]
     public string? KcNumber { get; set; }
-    [GraphQLNonNullType]
     public DateTime? ExpirationDate { get; set; }
 
     // To String Representation

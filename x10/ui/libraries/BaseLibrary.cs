@@ -411,7 +411,7 @@ namespace x10.ui.libraries {
         Name = "EnumSelection",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFrom = ClassDefNative.Editable,
-        AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
+        // AtomicDataModel is not set because this component can handle any type
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
             Name = "order",
@@ -462,13 +462,13 @@ namespace x10.ui.libraries {
         Name = "DropDown",
         Description = "Editor for a fixed list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
-        AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
+        // AtomicDataModel is not set because this component can handle any type
       },
       new ClassDefNative() {
         Name = "RadioButtonGroup",
         Description = "A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'",
         InheritsFromName = "EnumSelection",
-        AtomicDataModel = DataTypeEnum.DATA_TYPE_ENUM_ANY,
+        // AtomicDataModel is not set because this component can handle any type
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
           new UiAttributeDefinitionAtomic() {
             Name = "layout",

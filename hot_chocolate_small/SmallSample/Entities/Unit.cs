@@ -25,9 +25,7 @@ namespace x10.hotchoc.SmallSample.Entities {
     [GraphQLNonNullType]
     public string? Number { get; set; }
     public double? SquareFeet { get; set; }
-    [GraphQLNonNullType]
     public int? NumberOfBedrooms { get; set; }
-    [GraphQLNonNullType]
     public NumberOfBathroomsEnum? NumberOfBathrooms { get; set; }
     [GraphQLNonNullType]
     public bool HasBalcony { get; set; }

@@ -9,7 +9,7 @@ namespace x10.hotchoc.dps.Entities {
   // Enums
   public enum PriorityEnum {
     Low,
-    Middle,
+    Medium,
     High,
   }
 

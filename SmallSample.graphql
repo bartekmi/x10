@@ -21,8 +21,8 @@ type Building {
   moniker: String!
   name: String!
   description: String!
-  dateOfOccupancy: DateTime!
-  mailboxType: MailboxTypeEnum!
+  dateOfOccupancy: DateTime
+  mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
   toStringRepresentation: String!
@@ -44,7 +44,7 @@ type Country {
 
 "Somewhat contrived move event from one apartment to another"
 type Move {
-  date: DateTime!
+  date: DateTime
   toStringRepresentation: String!
   from: Building!
   to: Building!
@@ -54,18 +54,12 @@ type Move {
 }
 
 type Mutation {
-  "Creates a new Building or updates an existing one, depending on the value of building.id"
-  createOrUpdateBuilding(building: BuildingInput!): String!
-  "Creates a new Move or updates an existing one, depending on the value of move.id"
-  createOrUpdateMove(move: MoveInput!): String!
-  "Creates a new Tenant or updates an existing one, depending on the value of tenant.id"
-  createOrUpdateTenant(tenant: TenantInput!): String!
-  "Creates a new Address or updates an existing one, depending on the value of address.id"
-  createOrUpdateAddress(address: AddressInput!): String!
-  "Creates a new Country or updates an existing one, depending on the value of country.id"
-  createOrUpdateCountry(country: CountryInput!): String!
-  "Creates a new Unit or updates an existing one, depending on the value of unit.id"
-  createOrUpdateUnit(unit: UnitInput!): String!
+  "Update mutation for the MoveForm component"
+  moveFormUpdateMove(data: MoveFormMoveInput!): Move!
+  "Update mutation for the BuildingForm component"
+  buildingFormUpdateBuilding(data: BuildingFormBuildingInput!): Building!
+  "Update mutation for the TenantForm component"
+  tenantFormUpdateTenant(data: TenantFormTenantInput!): Tenant!
 }
 
 type Query {
@@ -110,8 +104,8 @@ type Tenant {
 type Unit {
   number: String!
   squareFeet: Float
-  numberOfBedrooms: Int!
-  numberOfBathrooms: NumberOfBathroomsEnum!
+  numberOfBedrooms: Int
+  numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
   toStringRepresentation: String!
   id: String!
@@ -269,8 +263,8 @@ input BuildingFilter {
   description_not_in: [String!]
   dateOfOccupancy: DateTime
   dateOfOccupancy_not: DateTime
-  dateOfOccupancy_in: [DateTime!]
-  dateOfOccupancy_not_in: [DateTime!]
+  dateOfOccupancy_in: [DateTime]
+  dateOfOccupancy_not_in: [DateTime]
   dateOfOccupancy_gt: DateTime
   dateOfOccupancy_not_gt: DateTime
   dateOfOccupancy_gte: DateTime
@@ -281,8 +275,8 @@ input BuildingFilter {
   dateOfOccupancy_not_lte: DateTime
   mailboxType: MailboxTypeEnum
   mailboxType_not: MailboxTypeEnum
-  mailboxType_in: [MailboxTypeEnum!]
-  mailboxType_not_in: [MailboxTypeEnum!]
+  mailboxType_in: [MailboxTypeEnum]
+  mailboxType_not_in: [MailboxTypeEnum]
   mailboxType_gt: MailboxTypeEnum
   mailboxType_not_gt: MailboxTypeEnum
   mailboxType_gte: MailboxTypeEnum
@@ -345,13 +339,29 @@ input BuildingFilter {
   hashcode_not_lte: Int
 }
 
+"Input Data Type for BuildingFormUpdateBuilding Mutation"
+input BuildingFormBuildingInput {
+  physicalAddress: AddressInput!
+  dateOfOccupancy: DateTime
+  moniker: String!
+  name: String!
+  description: String!
+  mailingAddressSameAsPhysical: Boolean!
+  mailingAddress: AddressInput!
+  mailboxType: MailboxTypeEnum
+  petPolicy: PetPolicyEnum
+  units: [UnitInput!]!
+  id: String!
+  hashcode: Int!
+}
+
 "A physical building which contains rental units"
 input BuildingInput {
   moniker: String!
   name: String!
   description: String!
-  dateOfOccupancy: DateTime!
-  mailboxType: MailboxTypeEnum!
+  dateOfOccupancy: DateTime
+  mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
   toStringRepresentation: String!
@@ -460,8 +470,8 @@ input MoveFilter {
   OR: [MoveFilter!]
   date: DateTime
   date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
+  date_in: [DateTime]
+  date_not_in: [DateTime]
   date_gt: DateTime
   date_not_gt: DateTime
   date_gte: DateTime
@@ -507,10 +517,9 @@ input MoveFilter {
   hashcode_not_lte: Int
 }
 
-"Somewhat contrived move event from one apartment to another"
-input MoveInput {
-  date: DateTime!
-  toStringRepresentation: String!
+"Input Data Type for MoveFormUpdateMove Mutation"
+input MoveFormMoveInput {
+  date: DateTime
   from: BuildingInput!
   to: BuildingInput!
   tenant: TenantInput!
@@ -598,6 +607,16 @@ input TenantFilter {
   hashcode_not_lte: Int
 }
 
+"Input Data Type for TenantFormUpdateTenant Mutation"
+input TenantFormTenantInput {
+  id: String!
+  name: String!
+  phone: String!
+  email: String!
+  permanentMailingAddress: AddressInput!
+  hashcode: Int!
+}
+
 "Tenant of a Unit"
 input TenantInput {
   name: String!
@@ -648,8 +667,8 @@ input UnitFilter {
   squareFeet_not_lte: Float
   numberOfBedrooms: Int
   numberOfBedrooms_not: Int
-  numberOfBedrooms_in: [Int!]
-  numberOfBedrooms_not_in: [Int!]
+  numberOfBedrooms_in: [Int]
+  numberOfBedrooms_not_in: [Int]
   numberOfBedrooms_gt: Int
   numberOfBedrooms_not_gt: Int
   numberOfBedrooms_gte: Int
@@ -660,8 +679,8 @@ input UnitFilter {
   numberOfBedrooms_not_lte: Int
   numberOfBathrooms: NumberOfBathroomsEnum
   numberOfBathrooms_not: NumberOfBathroomsEnum
-  numberOfBathrooms_in: [NumberOfBathroomsEnum!]
-  numberOfBathrooms_not_in: [NumberOfBathroomsEnum!]
+  numberOfBathrooms_in: [NumberOfBathroomsEnum]
+  numberOfBathrooms_not_in: [NumberOfBathroomsEnum]
   numberOfBathrooms_gt: NumberOfBathroomsEnum
   numberOfBathrooms_not_gt: NumberOfBathroomsEnum
   numberOfBathrooms_gte: NumberOfBathroomsEnum
@@ -710,8 +729,8 @@ input UnitFilter {
 input UnitInput {
   number: String!
   squareFeet: Float
-  numberOfBedrooms: Int!
-  numberOfBathrooms: NumberOfBathroomsEnum!
+  numberOfBedrooms: Int
+  numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
   toStringRepresentation: String!
   id: String!

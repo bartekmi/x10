@@ -11,7 +11,6 @@ namespace x10.hotchoc.SmallSample.Entities {
   /// </summary>
   public class Move : Base {
     // Regular Attributes
-    [GraphQLNonNullType]
     public DateTime? Date { get; set; }
 
     // To String Representation

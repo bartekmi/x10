@@ -46,18 +46,12 @@ namespace x10.hotchoc.ClientPage.Entities {
     public string? SalesforceAccountRef { get; set; }
     [GraphQLNonNullType]
     public string? ReferredBy { get; set; }
-    [GraphQLNonNullType]
     public ClientStatusEnum? Status { get; set; }
-    [GraphQLNonNullType]
     public ClientSegmentEnum? Segment { get; set; }
     public ClientPurchasingBehaviorEnum? PurchasingBehavior { get; set; }
-    [GraphQLNonNullType]
     public ClientPrimaryShipmentRoleEnum? PrimaryShipmentRole { get; set; }
-    [GraphQLNonNullType]
     public int? ShipmentsAsClient { get; set; }
-    [GraphQLNonNullType]
     public int? ShipmentsAsShipper { get; set; }
-    [GraphQLNonNullType]
     public int? ShipmentsAsConsignee { get; set; }
 
     // To String Representation

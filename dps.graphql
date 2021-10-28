@@ -2056,7 +2056,7 @@ enum MatchTypeEnum {
 
 enum PriorityEnum {
   LOW
-  MIDDLE
+  MEDIUM
   HIGH
 }
 

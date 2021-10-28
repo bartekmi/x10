@@ -22,7 +22,6 @@ namespace x10.hotchoc.ClientPage.Entities {
     // Regular Attributes
     [GraphQLNonNullType]
     public bool ComplianceScreenRequired { get; set; }
-    [GraphQLNonNullType]
     public CtpatReviewStatusEnum? Status { get; set; }
     public DateTime? ExpiresAt { get; set; }
     [GraphQLNonNullType]

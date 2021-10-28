@@ -1673,7 +1673,6 @@ Exact width that the object should have in the UI (in pixels)
 Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: EnumSelection
-- Expects Data Type: EnumType
 
 ### Attribute 'borderColor'
 
@@ -1997,7 +1996,6 @@ Exact width that the object should have in the UI (in pixels)
 Editor for a fixed list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: ClassDefEditable
-- Expects Data Type: EnumType
 
 ### Attribute 'borderColor'
 
@@ -4787,7 +4785,6 @@ Exact width that the object should have in the UI (in pixels)
 A list of radio (mutually exclusive) buttons to select one choice from list of choices - a.k.a. 'Enumeration'
 
 - Inherits From: EnumSelection
-- Expects Data Type: EnumType
 
 ### Attribute 'borderColor'
 

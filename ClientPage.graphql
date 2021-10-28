@@ -21,13 +21,13 @@ type Address {
 type Client {
   salesforceAccountRef: String!
   referredBy: String!
-  status: ClientStatusEnum!
-  segment: ClientSegmentEnum!
+  status: ClientStatusEnum
+  segment: ClientSegmentEnum
   purchasingBehavior: ClientPurchasingBehaviorEnum
-  primaryShipmentRole: ClientPrimaryShipmentRoleEnum!
-  shipmentsAsClient: Int!
-  shipmentsAsShipper: Int!
-  shipmentsAsConsignee: Int!
+  primaryShipmentRole: ClientPrimaryShipmentRoleEnum
+  shipmentsAsClient: Int
+  shipmentsAsShipper: Int
+  shipmentsAsConsignee: Int
   toStringRepresentation: String!
   company: Company!
   primaryContact: Contact!
@@ -53,7 +53,7 @@ type CompanyEntity {
   doingBusinessAs: String!
   coreId: Int
   adminEmail: String!
-  companyType: CompanyEntityTypeEnum!
+  companyType: CompanyEntityTypeEnum
   stateOfBusinessRegistration: String!
   usTaxId: String!
   isPrimary: Boolean!
@@ -123,7 +123,7 @@ type Country {
 "Status of the current CTPAT review"
 type CtpatReview {
   complianceScreenRequired: Boolean!
-  status: CtpatReviewStatusEnum!
+  status: CtpatReviewStatusEnum
   expiresAt: DateTime
   complianceContactEmail: String!
   toStringRepresentation: String!
@@ -144,7 +144,7 @@ type Currency {
 type Document {
   name: String!
   fileName: String!
-  documentType: DocumentTypeEnum!
+  documentType: DocumentTypeEnum
   uploadedTimestamp: DateTime
   toStringRepresentation: String!
   uploadedBy: User!
@@ -163,7 +163,7 @@ type HkspPartner {
 "Our partner in the HK Security Program"
 type HkspPartnerUse {
   kcNumber: String!
-  expirationDate: DateTime!
+  expirationDate: DateTime
   toStringRepresentation: String!
   partner: HkspPartner!
   id: String!
@@ -176,38 +176,8 @@ type IdAndIsPrimary {
 }
 
 type Mutation {
-  "Creates a new NetsuiteVendor or updates an existing one, depending on the value of netsuiteVendor.id"
-  createOrUpdateNetsuiteVendor(netsuiteVendor: NetsuiteVendorInput!): String!
-  "Creates a new HkspPartner or updates an existing one, depending on the value of hkspPartner.id"
-  createOrUpdateHkspPartner(hkspPartner: HkspPartnerInput!): String!
-  "Creates a new Company or updates an existing one, depending on the value of company.id"
-  createOrUpdateCompany(company: CompanyInput!): String!
-  "Creates a new StateOrProvince or updates an existing one, depending on the value of stateOrProvince.id"
-  createOrUpdateStateOrProvince(stateOrProvince: StateOrProvinceInput!): String!
-  "Creates a new CtpatReview or updates an existing one, depending on the value of ctpatReview.id"
-  createOrUpdateCtpatReview(ctpatReview: CtpatReviewInput!): String!
-  "Creates a new HkspPartnerUse or updates an existing one, depending on the value of hkspPartnerUse.id"
-  createOrUpdateHkspPartnerUse(hkspPartnerUse: HkspPartnerUseInput!): String!
-  "Creates a new CompanyEntity or updates an existing one, depending on the value of companyEntity.id"
-  createOrUpdateCompanyEntity(companyEntity: CompanyEntityInput!): String!
-  "Creates a new Currency or updates an existing one, depending on the value of currency.id"
-  createOrUpdateCurrency(currency: CurrencyInput!): String!
-  "Creates a new Address or updates an existing one, depending on the value of address.id"
-  createOrUpdateAddress(address: AddressInput!): String!
-  "Creates a new User or updates an existing one, depending on the value of user.id"
-  createOrUpdateUser(user: UserInput!): String!
-  "Creates a new Document or updates an existing one, depending on the value of document.id"
-  createOrUpdateDocument(document: DocumentInput!): String!
-  "Creates a new Client or updates an existing one, depending on the value of client.id"
-  createOrUpdateClient(client: ClientInput!): String!
-  "Creates a new VatNumber or updates an existing one, depending on the value of vatNumber.id"
-  createOrUpdateVatNumber(vatNumber: VatNumberInput!): String!
-  "Creates a new Country or updates an existing one, depending on the value of country.id"
-  createOrUpdateCountry(country: CountryInput!): String!
-  "Creates a new Contact or updates an existing one, depending on the value of contact.id"
-  createOrUpdateContact(contact: ContactInput!): String!
-  "Creates a new CompanyEntityCountryService or updates an existing one, depending on the value of companyEntityCountryService.id"
-  createOrUpdateCompanyEntityCountryService(companyEntityCountryService: CompanyEntityCountryServiceInput!): String!
+  "Update mutation for the CompanyEntityForm component"
+  companyEntityFormUpdateCompanyEntity(data: CompanyEntityFormCompanyEntityInput!): CompanyEntity!
   "Set a particular Company Entity as the \"Primary\" - and sets all others to false."
   setCompanyEntityAsPrimary(companyEntityId: String!): [IdAndIsPrimary!]!
 }
@@ -451,8 +421,8 @@ input ClientFilter {
   referredBy_not_in: [String!]
   status: ClientStatusEnum
   status_not: ClientStatusEnum
-  status_in: [ClientStatusEnum!]
-  status_not_in: [ClientStatusEnum!]
+  status_in: [ClientStatusEnum]
+  status_not_in: [ClientStatusEnum]
   status_gt: ClientStatusEnum
   status_not_gt: ClientStatusEnum
   status_gte: ClientStatusEnum
@@ -463,8 +433,8 @@ input ClientFilter {
   status_not_lte: ClientStatusEnum
   segment: ClientSegmentEnum
   segment_not: ClientSegmentEnum
-  segment_in: [ClientSegmentEnum!]
-  segment_not_in: [ClientSegmentEnum!]
+  segment_in: [ClientSegmentEnum]
+  segment_not_in: [ClientSegmentEnum]
   segment_gt: ClientSegmentEnum
   segment_not_gt: ClientSegmentEnum
   segment_gte: ClientSegmentEnum
@@ -487,8 +457,8 @@ input ClientFilter {
   purchasingBehavior_not_lte: ClientPurchasingBehaviorEnum
   primaryShipmentRole: ClientPrimaryShipmentRoleEnum
   primaryShipmentRole_not: ClientPrimaryShipmentRoleEnum
-  primaryShipmentRole_in: [ClientPrimaryShipmentRoleEnum!]
-  primaryShipmentRole_not_in: [ClientPrimaryShipmentRoleEnum!]
+  primaryShipmentRole_in: [ClientPrimaryShipmentRoleEnum]
+  primaryShipmentRole_not_in: [ClientPrimaryShipmentRoleEnum]
   primaryShipmentRole_gt: ClientPrimaryShipmentRoleEnum
   primaryShipmentRole_not_gt: ClientPrimaryShipmentRoleEnum
   primaryShipmentRole_gte: ClientPrimaryShipmentRoleEnum
@@ -499,8 +469,8 @@ input ClientFilter {
   primaryShipmentRole_not_lte: ClientPrimaryShipmentRoleEnum
   shipmentsAsClient: Int
   shipmentsAsClient_not: Int
-  shipmentsAsClient_in: [Int!]
-  shipmentsAsClient_not_in: [Int!]
+  shipmentsAsClient_in: [Int]
+  shipmentsAsClient_not_in: [Int]
   shipmentsAsClient_gt: Int
   shipmentsAsClient_not_gt: Int
   shipmentsAsClient_gte: Int
@@ -511,8 +481,8 @@ input ClientFilter {
   shipmentsAsClient_not_lte: Int
   shipmentsAsShipper: Int
   shipmentsAsShipper_not: Int
-  shipmentsAsShipper_in: [Int!]
-  shipmentsAsShipper_not_in: [Int!]
+  shipmentsAsShipper_in: [Int]
+  shipmentsAsShipper_not_in: [Int]
   shipmentsAsShipper_gt: Int
   shipmentsAsShipper_not_gt: Int
   shipmentsAsShipper_gte: Int
@@ -523,8 +493,8 @@ input ClientFilter {
   shipmentsAsShipper_not_lte: Int
   shipmentsAsConsignee: Int
   shipmentsAsConsignee_not: Int
-  shipmentsAsConsignee_in: [Int!]
-  shipmentsAsConsignee_not_in: [Int!]
+  shipmentsAsConsignee_in: [Int]
+  shipmentsAsConsignee_not_in: [Int]
   shipmentsAsConsignee_gt: Int
   shipmentsAsConsignee_not_gt: Int
   shipmentsAsConsignee_gte: Int
@@ -567,24 +537,6 @@ input ClientFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"More information about a company that we do business with as a client (we sell them stuff)"
-input ClientInput {
-  salesforceAccountRef: String!
-  referredBy: String!
-  status: ClientStatusEnum!
-  segment: ClientSegmentEnum!
-  purchasingBehavior: ClientPurchasingBehaviorEnum
-  primaryShipmentRole: ClientPrimaryShipmentRoleEnum!
-  shipmentsAsClient: Int!
-  shipmentsAsShipper: Int!
-  shipmentsAsConsignee: Int!
-  toStringRepresentation: String!
-  company: CompanyInput!
-  primaryContact: ContactInput!
-  id: String!
-  hashcode: Int!
 }
 
 "More information about a company that we do business with as a client (we sell them stuff)"
@@ -649,16 +601,6 @@ input CompanyEntityCountryServiceFilter {
 }
 
 "A country and an indication wherther either of import\/export services are required"
-input CompanyEntityCountryServiceInput {
-  importCustoms: Boolean!
-  exportCustoms: Boolean!
-  toStringRepresentation: String!
-  country: CountryInput!
-  id: String!
-  hashcode: Int!
-}
-
-"A country and an indication wherther either of import\/export services are required"
 input CompanyEntityCountryServiceSort {
   importCustoms: SortOperationKind
   exportCustoms: SortOperationKind
@@ -716,8 +658,8 @@ input CompanyEntityFilter {
   adminEmail_not_in: [String!]
   companyType: CompanyEntityTypeEnum
   companyType_not: CompanyEntityTypeEnum
-  companyType_in: [CompanyEntityTypeEnum!]
-  companyType_not_in: [CompanyEntityTypeEnum!]
+  companyType_in: [CompanyEntityTypeEnum]
+  companyType_not_in: [CompanyEntityTypeEnum]
   companyType_gt: CompanyEntityTypeEnum
   companyType_not_gt: CompanyEntityTypeEnum
   companyType_gte: CompanyEntityTypeEnum
@@ -962,44 +904,30 @@ input CompanyEntityFilter {
   hashcode_not_lte: Int
 }
 
-"A legal entity - typically a corporation - which belongs to a [Company]"
-input CompanyEntityInput {
+"Input Data Type for CompanyEntityFormUpdateCompanyEntity Mutation"
+input CompanyEntityFormCompanyEntityInput {
   legalName: String!
   doingBusinessAs: String!
-  coreId: Int
-  adminEmail: String!
-  companyType: CompanyEntityTypeEnum!
+  companyType: CompanyEntityTypeEnum
+  countryOfBusinessRegistration: CountryInput!
   stateOfBusinessRegistration: String!
   usTaxId: String!
-  isPrimary: Boolean!
-  dgDisclaimerAgreed: Boolean!
+  mailingAddress: AddressInput!
   mailingAddressIsPhysicalAddress: Boolean!
-  brBlCompanyName: String!
-  isArchived: Boolean!
-  brBlRegistrationNumber: String!
-  brBlAddress: String!
-  brBlLegalRepChinese: String!
-  brBlLegalRepPinyin: String!
+  physicalAddress: AddressInput!
   usFccNumber: String!
   eoriNumber: String!
   usciNumber: String!
+  vatNumbers: [VatNumberInput!]!
   agentIataCode: String!
   hkRaNumber: String!
   hkspFlexport: HkspFlexportEnum
   hkspKnownConsignorNumber: String!
   hkspStatusExpirationDate: DateTime
   hkspKcResponsiblePerson: String!
-  vendorCategory: VendorCategoryEnum
-  toStringRepresentation: String!
-  mailingAddress: AddressInput!
-  physicalAddress: AddressInput
-  vatNumbers: [VatNumberInput!]!
-  netsuiteVendorId: NetsuiteVendorInput
-  ctpatReview: CtpatReviewInput
-  documents: [DocumentInput!]!
-  countryOfBusinessRegistration: CountryInput
-  invoiceCurrencyDefault: CurrencyInput
   hkspPartners: [HkspPartnerUseInput!]!
+  netsuiteVendorId: NetsuiteVendorInput!
+  vendorCategory: VendorCategoryEnum
   id: String!
   hashcode: Int!
 }
@@ -1102,18 +1030,6 @@ input CompanyFilter {
 }
 
 "An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
-input CompanyInput {
-  website: String!
-  toStringRepresentation: String!
-  primaryEntity: CompanyEntityInput!
-  entities: [CompanyEntityInput!]!
-  primaryContact: ContactInput!
-  users: [UserInput!]!
-  id: String!
-  hashcode: Int!
-}
-
-"An entity we do business with - mostly an umbrella for [CompanyEntity]'s"
 input CompanySort {
   website: SortOperationKind
   toStringRepresentation: SortOperationKind
@@ -1199,17 +1115,6 @@ input ContactFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"Basic contact info"
-input ContactInput {
-  firstName: String!
-  lastName: String!
-  phone: String!
-  email: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "Basic contact info"
@@ -1312,8 +1217,8 @@ input CtpatReviewFilter {
   complianceScreenRequired_not: Boolean
   status: CtpatReviewStatusEnum
   status_not: CtpatReviewStatusEnum
-  status_in: [CtpatReviewStatusEnum!]
-  status_not_in: [CtpatReviewStatusEnum!]
+  status_in: [CtpatReviewStatusEnum]
+  status_not_in: [CtpatReviewStatusEnum]
   status_gt: CtpatReviewStatusEnum
   status_not_gt: CtpatReviewStatusEnum
   status_gte: CtpatReviewStatusEnum
@@ -1376,17 +1281,6 @@ input CtpatReviewFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"Status of the current CTPAT review"
-input CtpatReviewInput {
-  complianceScreenRequired: Boolean!
-  status: CtpatReviewStatusEnum!
-  expiresAt: DateTime
-  complianceContactEmail: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "Status of the current CTPAT review"
@@ -1459,15 +1353,6 @@ input CurrencyFilter {
 }
 
 "Type of money\/currency"
-input CurrencyInput {
-  symbol: String!
-  name: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
-"Type of money\/currency"
 input CurrencySort {
   symbol: SortOperationKind
   name: SortOperationKind
@@ -1502,8 +1387,8 @@ input DocumentFilter {
   fileName_not_in: [String!]
   documentType: DocumentTypeEnum
   documentType_not: DocumentTypeEnum
-  documentType_in: [DocumentTypeEnum!]
-  documentType_not_in: [DocumentTypeEnum!]
+  documentType_in: [DocumentTypeEnum]
+  documentType_not_in: [DocumentTypeEnum]
   documentType_gt: DocumentTypeEnum
   documentType_not_gt: DocumentTypeEnum
   documentType_gte: DocumentTypeEnum
@@ -1557,18 +1442,6 @@ input DocumentFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"Metadata about a document"
-input DocumentInput {
-  name: String!
-  fileName: String!
-  documentType: DocumentTypeEnum!
-  uploadedTimestamp: DateTime
-  toStringRepresentation: String!
-  uploadedBy: UserInput!
-  id: String!
-  hashcode: Int!
 }
 
 "Metadata about a document"
@@ -1663,8 +1536,8 @@ input HkspPartnerUseFilter {
   kcNumber_not_in: [String!]
   expirationDate: DateTime
   expirationDate_not: DateTime
-  expirationDate_in: [DateTime!]
-  expirationDate_not_in: [DateTime!]
+  expirationDate_in: [DateTime]
+  expirationDate_not_in: [DateTime]
   expirationDate_gt: DateTime
   expirationDate_not_gt: DateTime
   expirationDate_gte: DateTime
@@ -1711,7 +1584,7 @@ input HkspPartnerUseFilter {
 "Our partner in the HK Security Program"
 input HkspPartnerUseInput {
   kcNumber: String!
-  expirationDate: DateTime!
+  expirationDate: DateTime
   toStringRepresentation: String!
   partner: HkspPartnerInput!
   id: String!
@@ -1932,17 +1805,6 @@ input UserFilter {
   hashcode_not_lt: Int
   hashcode_lte: Int
   hashcode_not_lte: Int
-}
-
-"A user account within our system"
-input UserInput {
-  firstName: String!
-  lastName: String!
-  phone: String!
-  email: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
 }
 
 "A user account within our system"
