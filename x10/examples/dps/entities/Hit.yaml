@@ -69,5 +69,5 @@ validations:
 
 enums:
   - name: Priority
-    values: low, middle, high
+    values: low, medium, high
         
