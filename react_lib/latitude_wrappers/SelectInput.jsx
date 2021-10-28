@@ -9,7 +9,7 @@ type Option = {
   +label: string,
 };
 type Props = {|
-  +value: ?string,
+  +value: ?string | ?number,
   +readOnly?: boolean,
   +options: $ReadOnlyArray<Option>,
   +onChange: (string | number) => void,
