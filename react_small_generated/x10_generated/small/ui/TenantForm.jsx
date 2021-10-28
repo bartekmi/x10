@@ -179,7 +179,18 @@ function TenantForm(props: Props): React.Node {
         />
         <FormSubmitButton
           mutation={ mutation }
-          variables={ tenant }
+          variables={
+            {
+              tenant: {
+                id: tenant.id,
+                id: tenant.id,
+                name: tenant.name,
+                phone: tenant.phone,
+                email: tenant.email,
+                permanentMailingAddress: tenant.permanentMailingAddress,
+              }
+            }
+          }
           label='Save'
         />
       </Group>
@@ -207,11 +218,27 @@ function relayToInternal(relay: any): Tenant {
 
 const mutation = graphql`
   mutation TenantFormMutation(
-    $tenant: TenantInput!
+    $tenant: TenantFormTenantInput!
   ) {
-    createOrUpdateTenant(
-      tenant: $tenant
-    )
+    tenantFormUpdateTenant(
+      data: $tenant
+    ) {
+      id
+      email
+      name
+      permanentMailingAddress {
+        id
+        city
+        country {
+          id
+          toStringRepresentation
+        }
+        stateOrProvince
+        theAddress
+        zip
+      }
+      phone
+    }
   }
 `;
 

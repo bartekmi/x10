@@ -24,6 +24,7 @@ import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import TabbedPane from 'react_lib/tab/TabbedPane';
+import toGraphqlEnum from 'react_lib/utils/toGraphqlEnum';
 
 import { createDefaultAddress } from 'client_page/entities/Address';
 import { companyEntityApplicableWhenForPhysicalAddress, companyEntityCalculateErrors, CompanyEntityTypeEnumPairs, HkspFlexportEnumPairs, VendorCategoryEnumPairs, type CompanyEntity } from 'client_page/entities/CompanyEntity';
@@ -663,7 +664,35 @@ function CompanyEntityForm(props: Props): React.Node {
           <CancelDialogButton/>
           <FormSubmitButton
             mutation={ mutation }
-            variables={ companyEntity }
+            variables={
+              {
+                companyEntity: {
+                  id: companyEntity.id,
+                  legalName: companyEntity.legalName,
+                  doingBusinessAs: companyEntity.doingBusinessAs,
+                  companyType: toGraphqlEnum(companyEntity.companyType),
+                  countryOfBusinessRegistration: companyEntity.countryOfBusinessRegistration,
+                  stateOfBusinessRegistration: companyEntity.stateOfBusinessRegistration,
+                  usTaxId: companyEntity.usTaxId,
+                  mailingAddress: companyEntity.mailingAddress,
+                  mailingAddressIsPhysicalAddress: companyEntity.mailingAddressIsPhysicalAddress,
+                  physicalAddress: companyEntity.physicalAddress,
+                  usFccNumber: companyEntity.usFccNumber,
+                  eoriNumber: companyEntity.eoriNumber,
+                  usciNumber: companyEntity.usciNumber,
+                  vatNumbers: companyEntity.vatNumbers,
+                  agentIataCode: companyEntity.agentIataCode,
+                  hkRaNumber: companyEntity.hkRaNumber,
+                  hkspFlexport: toGraphqlEnum(companyEntity.hkspFlexport),
+                  hkspKnownConsignorNumber: companyEntity.hkspKnownConsignorNumber,
+                  hkspStatusExpirationDate: companyEntity.hkspStatusExpirationDate,
+                  hkspKcResponsiblePerson: companyEntity.hkspKcResponsiblePerson,
+                  hkspPartners: companyEntity.hkspPartners,
+                  netsuiteVendorId: companyEntity.netsuiteVendorId,
+                  vendorCategory: toGraphqlEnum(companyEntity.vendorCategory),
+                }
+              }
+            }
             label='Save'
           />
         </Group>
@@ -693,11 +722,84 @@ function relayToInternal(relay: any): CompanyEntity {
 
 const mutation = graphql`
   mutation CompanyEntityFormMutation(
-    $companyEntity: CompanyEntityInput!
+    $companyEntity: CompanyEntityFormCompanyEntityInput!
   ) {
-    createOrUpdateCompanyEntity(
-      companyEntity: $companyEntity
-    )
+    companyEntityFormUpdateCompanyEntity(
+      data: $companyEntity
+    ) {
+      id
+      agentIataCode
+      companyType
+      countryOfBusinessRegistration {
+        id
+        toStringRepresentation
+      }
+      doingBusinessAs
+      eoriNumber
+      hkRaNumber
+      hkspFlexport
+      hkspKcResponsiblePerson
+      hkspKnownConsignorNumber
+      hkspPartners {
+        id
+        expirationDate
+        kcNumber
+        partner {
+          id
+          toStringRepresentation
+        }
+      }
+      hkspStatusExpirationDate
+      legalName
+      mailingAddress {
+        id
+        city
+        country {
+          id
+          toStringRepresentation
+        }
+        postalCode
+        stateOrProvince {
+          id
+          toStringRepresentation
+        }
+        theAddress
+        theAddress2
+      }
+      mailingAddressIsPhysicalAddress
+      netsuiteVendorId {
+        id
+        toStringRepresentation
+      }
+      physicalAddress {
+        id
+        city
+        country {
+          id
+          toStringRepresentation
+        }
+        postalCode
+        stateOrProvince {
+          id
+          toStringRepresentation
+        }
+        theAddress
+        theAddress2
+      }
+      stateOfBusinessRegistration
+      usciNumber
+      usFccNumber
+      usTaxId
+      vatNumbers {
+        id
+        countryRegion {
+          id
+          toStringRepresentation
+        }
+        number
+      }
+      vendorCategory
+    }
   }
 `;
 

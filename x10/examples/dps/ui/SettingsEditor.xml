@@ -63,7 +63,7 @@
               <label/>
             </Row>
           </List>
-          <defaultWhitelistDurationId/>
+          <DropDown path="defaultWhitelistDurationId"/>
         </Row>
       </Expander.Body>
     </Expander>

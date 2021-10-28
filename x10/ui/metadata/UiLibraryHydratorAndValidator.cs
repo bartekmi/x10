@@ -53,7 +53,12 @@ namespace x10.ui.metadata {
 
     private void HydrateAndValidateBaseClass(UiLibrary library, ClassDef classDef) {
       string description = string.Format("Inherits-From parent of Class Definition {0}", classDef.Name);
-      classDef.InheritsFrom = HydrateAndValidateClassDef(library, description, classDef.InheritsFrom, classDef.InheritsFromName, true);
+      
+      classDef.InheritsFrom = HydrateAndValidateClassDef(library, 
+        description, 
+        classDef.InheritsFrom, 
+        classDef.InheritsFromName, 
+        true);
     }
 
     private ClassDef HydrateAndValidateClassDef(UiLibrary library, string description, ClassDef theObject, string name, bool isMandatory) {

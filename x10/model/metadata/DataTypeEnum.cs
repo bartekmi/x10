@@ -12,7 +12,7 @@ using x10.model.definition;
 namespace x10.model.metadata {
   public class DataTypeEnum : DataType, IAcceptsModelAttributeValues {
 
-    public static readonly DataTypeEnum DATA_TYPE_ENUM_ANY = new DataTypeEnum();
+    public static readonly DataTypeEnum DATA_TYPE_ENUM_ANY = new DataTypeEnum("EnumType", new string[] {});
 
     public List<EnumValue> EnumValues { get; private set; }
     // The default UI Tool Tipe for this type of item. Not yet implemented.

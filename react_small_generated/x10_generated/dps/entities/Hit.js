@@ -44,8 +44,8 @@ export const PriorityEnumPairs = [
     label: 'Low',
   },
   {
-    value: 'middle',
-    label: 'Middle',
+    value: 'medium',
+    label: 'Medium',
   },
   {
     value: 'high',
@@ -53,7 +53,7 @@ export const PriorityEnumPairs = [
   },
 ];
 
-export type PriorityEnum = 'low' | 'middle' | 'high';
+export type PriorityEnum = 'low' | 'medium' | 'high';
 
 
 

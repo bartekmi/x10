@@ -8,9 +8,9 @@ import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
+import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
-import SelectInput from 'latitude/select/SelectInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
@@ -321,23 +321,13 @@ function SettingsEditor(props: Props): React.Node {
             layout='verticalCompact'
             addNewItem={ createDefaultWhitelistDuration }
           />
-          <FormField
-            editorFor='defaultWhitelistDurationId'
-            indicateRequired={ true }
-            label='Default Whitelist Duration Id'
-          >
-           <SelectInput
-             value={ settings?.defaultWhitelistDurationId }
-             onChange={ (value) => {
-               // $FlowExpectedError
-               onChange({ ...settings, defaultWhitelistDurationId: value })
-             } }
-             options={ settings.whitelistDurations.map(x => ({ 
-               value: x.value.toString(), 
-               label: x.label
-             })) }
-           />
-          </FormField>
+          <SelectInput
+            value={ settings?.defaultWhitelistDurationId }
+            onChange={ (value) => {
+              // $FlowExpectedError
+              onChange({ ...settings, defaultWhitelistDurationId: value })
+            } }
+          />
         </Group>
       </Expander>
       <Separator/>

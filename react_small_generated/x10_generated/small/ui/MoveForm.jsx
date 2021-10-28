@@ -105,7 +105,17 @@ function MoveForm(props: Props): React.Node {
         />
         <FormSubmitButton
           mutation={ mutation }
-          variables={ move }
+          variables={
+            {
+              move: {
+                id: move.id,
+                date: move.date,
+                from: move.from,
+                to: move.to,
+                tenant: move.tenant,
+              }
+            }
+          }
           label='Save'
         />
       </Group>
@@ -133,11 +143,26 @@ function relayToInternal(relay: any): Move {
 
 const mutation = graphql`
   mutation MoveFormMutation(
-    $move: MoveInput!
+    $move: MoveFormMoveInput!
   ) {
-    createOrUpdateMove(
-      move: $move
-    )
+    moveFormUpdateMove(
+      data: $move
+    ) {
+      id
+      date
+      from {
+        id
+        toStringRepresentation
+      }
+      tenant {
+        id
+        toStringRepresentation
+      }
+      to {
+        id
+        toStringRepresentation
+      }
+    }
   }
 `;
 

@@ -24,6 +24,7 @@ import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
+import toGraphqlEnum from 'react_lib/utils/toGraphqlEnum';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { addressSecondAddressLine, createDefaultAddress } from 'small/entities/Address';
@@ -414,7 +415,23 @@ function BuildingForm(props: Props): React.Node {
           />
           <FormSubmitButton
             mutation={ mutation }
-            variables={ building }
+            variables={
+              {
+                building: {
+                  id: building.id,
+                  physicalAddress: building.physicalAddress,
+                  dateOfOccupancy: building.dateOfOccupancy,
+                  moniker: building.moniker,
+                  name: building.name,
+                  description: building.description,
+                  mailingAddressSameAsPhysical: building.mailingAddressSameAsPhysical,
+                  mailingAddress: building.mailingAddress,
+                  mailboxType: toGraphqlEnum(building.mailboxType),
+                  petPolicy: toGraphqlEnum(building.petPolicy),
+                  units: building.units,
+                }
+              }
+            }
             label='Save'
           />
         </Group>
@@ -444,11 +461,42 @@ function relayToInternal(relay: any): Building {
 
 const mutation = graphql`
   mutation BuildingFormMutation(
-    $building: BuildingInput!
+    $building: BuildingFormBuildingInput!
   ) {
-    createOrUpdateBuilding(
-      building: $building
-    )
+    buildingFormUpdateBuilding(
+      data: $building
+    ) {
+      id
+      dateOfOccupancy
+      description
+      mailboxType
+      mailingAddress {
+        id
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      mailingAddressSameAsPhysical
+      moniker
+      name
+      petPolicy
+      physicalAddress {
+        id
+        city
+        stateOrProvince
+        theAddress
+        zip
+      }
+      units {
+        id
+        hasBalcony
+        number
+        numberOfBathrooms
+        numberOfBedrooms
+        squareFeet
+      }
+    }
   }
 `;
 
