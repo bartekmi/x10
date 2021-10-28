@@ -63,7 +63,7 @@
               <label/>
             </Row>
           </List>
-          <defaultWhitelistDurationId ui="DropDown" label="Default whitelisting days" itemsSource="whitelistDurations"/>
+          <defaultWhitelistDurationDays ui="DropDown" label="Default whitelisting days" itemsSource="whitelistDurations"/>
         </Row>
       </Expander.Body>
     </Expander>

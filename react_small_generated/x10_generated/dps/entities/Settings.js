@@ -25,7 +25,7 @@ export type Settings = {
   +mediumUrgencyDaysBeforeShipment: ?number,
   +messageHitDetected: string,
   +messageHitCleared: string,
-  +defaultWhitelistDurationId: string,
+  +defaultWhitelistDurationDays: ?number,
   +whitelistDurations: $ReadOnlyArray<WhitelistDuration>,
   +autoAssignments: $ReadOnlyArray<SettingsAutoAssignment>,
 };
@@ -46,7 +46,8 @@ export function createDefaultSettings(): Settings {
     mediumUrgencyDaysBeforeShipment: null,
     messageHitDetected: 'This shipment, quote or booking is blocked due to possible denied party matches. Non-messaging functions are disabled pending Compliance review.',
     messageHitCleared: 'The denied party hit has been cleared by Compliance team. This shipment, quote or booking is unblocked.',
-    defaultWhitelistDurationId: '',
+    // $FlowExpectedError Required field, but no default value
+    defaultWhitelistDurationDays: null,
     whitelistDurations: [],
     autoAssignments: [],
   };
@@ -62,8 +63,8 @@ export function settingsCalculateErrors(settings: Settings, prefix?: string): $R
     addError(errors, prefix, 'Message Hit Detected is required', ['messageHitDetected']);
   if (isBlank(settings.messageHitCleared))
     addError(errors, prefix, 'Message Hit Cleared is required', ['messageHitCleared']);
-  if (isBlank(settings.defaultWhitelistDurationId))
-    addError(errors, prefix, 'Default Whitelist Duration Id is required', ['defaultWhitelistDurationId']);
+  if (isBlank(settings.defaultWhitelistDurationDays))
+    addError(errors, prefix, 'Default Whitelist Duration Days is required', ['defaultWhitelistDurationDays']);
 
   return errors;
 }

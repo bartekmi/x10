@@ -1,7 +1,7 @@
 <ClearanceForm model="Hit">
   <Form>
     <Row gap="100" align="top">
-      <Text>Is this a denid party?</Text>
+      <Text>Is this a denied party?</Text>
       <status excludeItems="unresolved" ui="RadioButtonGroup" label=""/>
     </Row>
     <Row visible="=status == 'denied'" borderColor="red" padding="10" width="800" borderWidth="1.5">

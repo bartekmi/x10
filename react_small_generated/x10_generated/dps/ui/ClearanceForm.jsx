@@ -40,7 +40,7 @@ function ClearanceForm(props: Props): React.Node {
         gap={ 100 }
       >
         <TextDisplay
-          value='Is this a denid party?'
+          value='Is this a denied party?'
         />
         <FormField
           editorFor='status'

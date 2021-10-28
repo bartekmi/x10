@@ -25,8 +25,7 @@ namespace x10.hotchoc.dps.Entities {
     public string? MessageHitDetected { get; set; }
     [GraphQLNonNullType]
     public string? MessageHitCleared { get; set; }
-    [GraphQLNonNullType]
-    public string? DefaultWhitelistDurationId { get; set; }
+    public int? DefaultWhitelistDurationDays { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

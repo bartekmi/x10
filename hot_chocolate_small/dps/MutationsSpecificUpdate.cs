@@ -29,8 +29,7 @@ namespace x10.hotchoc.dps {
       public int? MediumUrgencyDaysBeforeShipment { get; set; }
       [GraphQLNonNullType]
       public List<WhitelistDuration>? WhitelistDurations { get; set; }
-      [GraphQLNonNullType]
-      public string? DefaultWhitelistDurationId { get; set; }
+      public int? DefaultWhitelistDurationDays { get; set; }
       [GraphQLNonNullType]
       public string? MessageHitDetected { get; set; }
       [GraphQLNonNullType]

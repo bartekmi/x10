@@ -54,7 +54,7 @@ namespace x10.hotchoc.dps {
         settings.MediumUrgencyDaysBeforeShipment = data.MediumUrgencyDaysBeforeShipment;
 
         settings.WhitelistDurations = data.WhitelistDurations;
-        settings.DefaultWhitelistDurationId = data.DefaultWhitelistDurationId;
+        settings.DefaultWhitelistDurationDays = data.DefaultWhitelistDurationDays;
 
         settings.MessageHitDetected = data.MessageHitDetected;
         settings.MessageHitCleared = data.MessageHitCleared;

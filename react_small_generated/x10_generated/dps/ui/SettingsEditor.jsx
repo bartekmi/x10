@@ -322,15 +322,15 @@ function SettingsEditor(props: Props): React.Node {
             addNewItem={ createDefaultWhitelistDuration }
           />
           <FormField
-            editorFor='defaultWhitelistDurationId'
+            editorFor='defaultWhitelistDurationDays'
             indicateRequired={ true }
             label='Default whitelisting days'
           >
             <SelectInput
-              value={ settings?.defaultWhitelistDurationId }
+              value={ settings?.defaultWhitelistDurationDays }
               onChange={ (value) => {
                 // $FlowExpectedError
-                onChange({ ...settings, defaultWhitelistDurationId: value })
+                onChange({ ...settings, defaultWhitelistDurationDays: value })
               } }
               options={ settings.whitelistDurations }
             />
@@ -470,7 +470,7 @@ function SettingsEditor(props: Props): React.Node {
                 mediumUrgencyBookings: settings.mediumUrgencyBookings,
                 mediumUrgencyDaysBeforeShipment: settings.mediumUrgencyDaysBeforeShipment,
                 whitelistDurations: settings.whitelistDurations,
-                defaultWhitelistDurationId: settings.defaultWhitelistDurationId,
+                defaultWhitelistDurationDays: settings.defaultWhitelistDurationDays,
                 messageHitDetected: settings.messageHitDetected,
                 messageHitCleared: settings.messageHitCleared,
                 autoAssignments: settings.autoAssignments,
@@ -521,7 +521,7 @@ const mutation = graphql`
           toStringRepresentation
         }
       }
-      defaultWhitelistDurationId
+      defaultWhitelistDurationDays
       highUrgencyBookings
       highUrgencyDaysBeforeShipment
       highUrgencyEscalated
@@ -556,7 +556,7 @@ export default createFragmentContainer(SettingsEditorStateful, {
           toStringRepresentation
         }
       }
-      defaultWhitelistDurationId
+      defaultWhitelistDurationDays
       highUrgencyBookings
       highUrgencyDaysBeforeShipment
       highUrgencyEscalated

@@ -55,12 +55,15 @@ attributes:
     mandatory: true
     ui: TextArea
     label: Hit cleared
-  - name: defaultWhitelistDurationId
-    dataType: String
+
+# Whitelisting - atomic
+  - name: defaultWhitelistDurationDays
+    dataType: Integer
     mandatory: true
+    datagen_probability: 0.0
 
 associations:
-# Whitelisting
+# Whitelisting - association
   - name: whitelistDurations
     dataType: WhitelistDuration
     owns: true
