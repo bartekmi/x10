@@ -1699,6 +1699,11 @@ Specifies background color of element
 Id for any purpose - e.g. debugging
 
 - Data Type: String
+### Attribute 'itemsSource'
+
+If present, this must be a formula which gives the list of options for the drop-down (or similar selector).
+
+- Data Type: String
 ### Attribute 'mandatory'
 
 
@@ -2020,6 +2025,11 @@ Specifies background color of element
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
+
+- Data Type: String
+### Attribute 'itemsSource'
+
+If present, this must be a formula which gives the list of options for the drop-down (or similar selector).
 
 - Data Type: String
 ### Attribute 'mandatory'
@@ -4809,6 +4819,11 @@ Specifies background color of element
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging
+
+- Data Type: String
+### Attribute 'itemsSource'
+
+If present, this must be a formula which gives the list of options for the drop-down (or similar selector).
 
 - Data Type: String
 ### Attribute 'layout'

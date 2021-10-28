@@ -208,7 +208,7 @@ namespace x10.ui.metadata {
       Write(writer, "Expects Array of Values", attrDef.IsMany ? "Yes" : null);
 
       if (attrDef is UiAttributeDefinitionAtomic attrDefAtomic) {
-        Write(writer, "Data Type", attrDefAtomic.DataType.Name);
+        Write(writer, "Data Type", attrDefAtomic.DataType?.Name);
         Write(writer, "Default Value", attrDefAtomic.DefaultValue?.ToString());
         Write(writer, "Attached Attribute", attrDefAtomic.IsAttached ? "Yes" : null);
       }

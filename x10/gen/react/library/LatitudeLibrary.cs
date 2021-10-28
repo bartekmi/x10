@@ -427,16 +427,22 @@ namespace x10.gen.react.library {
             PlatformName = "options",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
-              DataTypeEnum dataType = (instance.ModelMember as X10Attribute)?.DataType as DataTypeEnum;
-              if (dataType == null) {
-                generator.Messages.AddError(instance.XmlElement, "Expected data type to be an enum");
-                return null;
+              UiAttributeValueAtomic itemsSource = instance.FindAttributeValue("itemsSource") as UiAttributeValueAtomic;
+              if (itemsSource == null) {
+                DataTypeEnum dataType = (instance.ModelMember as X10Attribute)?.DataType as DataTypeEnum;
+                if (dataType == null) {
+                  generator.Messages.AddError(instance.XmlElement, "Expected data type to be an enum");
+                  return null;
+                }
+
+                string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
+                generator.ImportsPlaceholder.Import(pairsConstant, dataType);
+
+                return pairsConstant;
+              } else {
+                // See Issue #39
+                return string.Format("{0}.{1}", generator.SourceVariableName, itemsSource.Value);
               }
-
-              string pairsConstant = ReactCodeGenerator.EnumToPairsConstant(dataType);
-              generator.ImportsPlaceholder.Import(pairsConstant, dataType);
-
-              return pairsConstant;
             },
           },
         },
@@ -445,7 +451,7 @@ namespace x10.gen.react.library {
         LogicalName = "DropDown",
         PlatformName = "SelectInput",
         InheritsFromName = "EnumSelection",
-        ImportDir = "latitude/select",
+        ImportDir = "react_lib/latitude_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
         }
       },

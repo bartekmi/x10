@@ -423,6 +423,12 @@ namespace x10.ui.libraries {
             DefaultValue = "sameAsDefined"
           },
           new UiAttributeDefinitionAtomic() {
+            Name = "itemsSource",
+            Description = "If present, this must be a formula which gives the list of options for the drop-down (or similar selector).",
+            // See Issue #39
+            DataType = DataTypes.Singleton.String,
+          },
+          new UiAttributeDefinitionAtomic() {
             Name = "excludeItems",
             Description = "Optional comma-separated list of (enum) items that should be excluded",
             DataType = DataTypes.Singleton.String,

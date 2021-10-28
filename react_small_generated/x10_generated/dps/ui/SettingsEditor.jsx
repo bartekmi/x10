@@ -8,15 +8,16 @@ import Checkbox from 'latitude/Checkbox';
 import FloatInput from 'latitude/FloatInput';
 import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
-import SelectInput from 'latitude/select/SelectInput';
 import Text from 'latitude/Text';
 import TextareaInput from 'latitude/TextareaInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
+import DisplayField from 'react_lib/form/DisplayField';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import SelectInput from 'react_lib/latitude_wrappers/SelectInput';
 import TextInput from 'react_lib/latitude_wrappers/TextInput';
 import TimeInput from 'react_lib/latitude_wrappers/TimeInput';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
@@ -321,13 +322,18 @@ function SettingsEditor(props: Props): React.Node {
             layout='verticalCompact'
             addNewItem={ createDefaultWhitelistDuration }
           />
-          <SelectInput
-            value={ settings?.defaultWhitelistDurationId }
-            onChange={ (value) => {
-              // $FlowExpectedError
-              onChange({ ...settings, defaultWhitelistDurationId: value })
-            } }
-          />
+          <DisplayField
+            label='Default whitelisting days'
+          >
+            <SelectInput
+              value={ settings?.defaultWhitelistDurationId }
+              onChange={ (value) => {
+                // $FlowExpectedError
+                onChange({ ...settings, defaultWhitelistDurationId: value })
+              } }
+              options={ settings.whitelistDurations }
+            />
+          </DisplayField>
         </Group>
       </Expander>
       <Separator/>

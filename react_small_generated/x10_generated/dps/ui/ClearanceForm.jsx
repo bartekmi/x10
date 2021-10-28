@@ -6,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Group from 'latitude/Group';
 import Icon from 'latitude/Icon';
-import SelectInput from 'latitude/select/SelectInput';
 import TextareaInput from 'latitude/TextareaInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
@@ -14,6 +13,7 @@ import RadioGroup from 'react_lib/enum/RadioGroup';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import SelectInput from 'react_lib/latitude_wrappers/SelectInput';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import StyleControl from 'react_lib/StyleControl';
 import toEnum from 'react_lib/utils/toEnum';
