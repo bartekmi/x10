@@ -13,7 +13,6 @@ import TextareaInput from 'latitude/TextareaInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
-import DisplayField from 'react_lib/form/DisplayField';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -322,7 +321,9 @@ function SettingsEditor(props: Props): React.Node {
             layout='verticalCompact'
             addNewItem={ createDefaultWhitelistDuration }
           />
-          <DisplayField
+          <FormField
+            editorFor='defaultWhitelistDurationId'
+            indicateRequired={ true }
             label='Default whitelisting days'
           >
             <SelectInput
@@ -333,7 +334,7 @@ function SettingsEditor(props: Props): React.Node {
               } }
               options={ settings.whitelistDurations }
             />
-          </DisplayField>
+          </FormField>
         </Group>
       </Expander>
       <Separator/>

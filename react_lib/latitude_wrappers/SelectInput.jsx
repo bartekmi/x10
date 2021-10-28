@@ -20,7 +20,7 @@ export default function SelectInput(props: Props): React.Node {
 
   return (
     <LatitudeSelectInput
-      value={value || ""}
+      value={value?.toString()}
       readOnly={readOnly}
       options={options.map(x => ({
         value: x.value?.toString() || "",
@@ -28,6 +28,7 @@ export default function SelectInput(props: Props): React.Node {
       }))}
       // $FlowIgnoreError
       onChange={newValue => onChange(valueIsNumber ? parseInt(newValue) : newValue) }
+      isNullable={true}
     />
   );
 }
