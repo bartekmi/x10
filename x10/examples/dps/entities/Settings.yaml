@@ -27,20 +27,20 @@ attributes:
 # Medium (Middle) Urgency
   - name: mediumUrgencyShipments
     dataType: Integer
-    datagen_min: 5
-    datagen_max: 5
+    datagen_min: 4
+    datagen_max: 4
   - name: mediumUrgencyQuotes
     dataType: Integer
-    datagen_min: 5
-    datagen_max: 5
+    datagen_min: 4
+    datagen_max: 4
   - name: mediumUrgencyBookings
     dataType: Integer
-    datagen_min: 5
-    datagen_max: 5
+    datagen_min: 4
+    datagen_max: 4
   - name: mediumUrgencyDaysBeforeShipment
     dataType: Integer
-    datagen_min: 2
-    datagen_max: 2
+    datagen_min: 3
+    datagen_max: 3
 
 # Automated internal messages
   - name: messageHitDetected
@@ -76,3 +76,13 @@ associations:
     owns: true
     many: true
     datagen_quantity: 4  
+
+validations:
+  - message: High urgency shipments must be greater than medium
+    trigger: =highUrgencyShipments <= mediumUrgencyShipments
+  - message: High urgency quotes must be greater than medium
+    trigger: =highUrgencyQuotes <= mediumUrgencyQuotes
+  - message: High urgency bookings must be greater than medium
+    trigger: =highUrgencyBookings <= mediumUrgencyBookings
+  - message: High urgency days before shipment must be less than medium
+    trigger: =highUrgencyDaysBeforeShipment >= mediumUrgencyDaysBeforeShipment

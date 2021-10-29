@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toNum from 'react_lib/utils/toNum';
 
 import { type SettingsAutoAssignment } from 'dps/entities/SettingsAutoAssignment';
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
@@ -65,6 +66,15 @@ export function settingsCalculateErrors(settings: Settings, prefix?: string): $R
     addError(errors, prefix, 'Message Hit Cleared is required', ['messageHitCleared']);
   if (isBlank(settings.defaultWhitelistDurationDays))
     addError(errors, prefix, 'Default Whitelist Duration Days is required', ['defaultWhitelistDurationDays']);
+
+  if (toNum(settings?.highUrgencyShipments) <= toNum(settings?.mediumUrgencyShipments))
+    addError(errors, prefix, 'High urgency shipments must be greater than medium', ['highUrgencyShipments', 'mediumUrgencyShipments']);
+  if (toNum(settings?.highUrgencyQuotes) <= toNum(settings?.mediumUrgencyQuotes))
+    addError(errors, prefix, 'High urgency quotes must be greater than medium', ['highUrgencyQuotes', 'mediumUrgencyQuotes']);
+  if (toNum(settings?.highUrgencyBookings) <= toNum(settings?.mediumUrgencyBookings))
+    addError(errors, prefix, 'High urgency bookings must be greater than medium', ['highUrgencyBookings', 'mediumUrgencyBookings']);
+  if (toNum(settings?.highUrgencyDaysBeforeShipment) >= toNum(settings?.mediumUrgencyDaysBeforeShipment))
+    addError(errors, prefix, 'High urgency days before shipment must be less than medium', ['highUrgencyDaysBeforeShipment', 'mediumUrgencyDaysBeforeShipment']);
 
   return errors;
 }
