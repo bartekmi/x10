@@ -13,3 +13,15 @@
     - name: value
       dataType: MatchInfo
       many: true
+
+
+
+- name: HasDuplicates
+  returnDataType: Boolean
+  importDir: dps
+  arguments:
+    - name: items
+      dataType: WhitelistDuration
+      many: true    
+    - name: field
+      dataType: String

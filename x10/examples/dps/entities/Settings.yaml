@@ -86,3 +86,7 @@ validations:
     trigger: =highUrgencyBookings <= mediumUrgencyBookings
   - message: High urgency days before shipment must be less than medium
     trigger: =highUrgencyDaysBeforeShipment >= mediumUrgencyDaysBeforeShipment
+  - message: Whitelist days must be unique
+    trigger: =HasDuplicates(whitelistDurations, "value")
+  - message: Whitelist day labels must be unique
+    trigger: =HasDuplicates(whitelistDurations, "label")

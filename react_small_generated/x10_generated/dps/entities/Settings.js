@@ -10,6 +10,7 @@ import toNum from 'react_lib/utils/toNum';
 
 import { type SettingsAutoAssignment } from 'dps/entities/SettingsAutoAssignment';
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
+import hasDuplicates from 'dps/hasDuplicates';
 
 
 // Type Definition
@@ -75,6 +76,10 @@ export function settingsCalculateErrors(settings: Settings, prefix?: string): $R
     addError(errors, prefix, 'High urgency bookings must be greater than medium', ['highUrgencyBookings', 'mediumUrgencyBookings']);
   if (toNum(settings?.highUrgencyDaysBeforeShipment) >= toNum(settings?.mediumUrgencyDaysBeforeShipment))
     addError(errors, prefix, 'High urgency days before shipment must be less than medium', ['highUrgencyDaysBeforeShipment', 'mediumUrgencyDaysBeforeShipment']);
+  if (hasDuplicates(settings?.whitelistDurations, 'value'))
+    addError(errors, prefix, 'Whitelist days must be unique', ['whitelistDurations']);
+  if (hasDuplicates(settings?.whitelistDurations, 'label'))
+    addError(errors, prefix, 'Whitelist day labels must be unique', ['whitelistDurations']);
 
   return errors;
 }
