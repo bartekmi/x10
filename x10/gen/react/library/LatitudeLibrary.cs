@@ -797,6 +797,9 @@ namespace x10.gen.react.library {
         LogicalName = "FormErrorDisplay",
         PlatformName = "FormErrorDisplay",
         ImportDir = "react_lib/form",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("paths", "paths"),
+        },
       },
       new PlatformClassDef() {
         LogicalName = "SubmitButton",

@@ -2627,6 +2627,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'paths'
+
+Optional comma-separated list of paths of form element - only these errors will be shown
+
+- Data Type: String
 ### Attribute 'visible'
 
 Is the object visible on the UI?

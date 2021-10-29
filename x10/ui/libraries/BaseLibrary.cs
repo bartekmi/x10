@@ -1102,6 +1102,13 @@ namespace x10.ui.libraries {
         Name = "FormErrorDisplay",
         Description = "Can only exist embedded in a <Form>. Displays all errors. Typicall, located next to the Submit button.",
         InheritsFrom = ClassDefNative.Visual,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "paths",
+            Description = "Optional comma-separated list of paths of form element - only these errors will be shown",
+            DataType = DataTypes.Singleton.String,
+          },
+        },
       },
       new ClassDefNative() {
         Name = "FormRow",

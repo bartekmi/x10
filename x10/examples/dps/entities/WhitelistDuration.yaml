@@ -8,6 +8,7 @@ defaultStringRepresentation: =label
 attributes:
   - name: value
     dataType: Integer
+    label: "# of days"
     datagen_min: 1
     datagen_max: 100
   - name: label

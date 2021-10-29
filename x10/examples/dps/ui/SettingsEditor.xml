@@ -57,12 +57,15 @@
       </Expander.Header>
       <Expander.Body>
         <Row align="top" gap="100">
-          <List path="whitelistDurations" layout="verticalCompact">
-            <Row gap="20">
-              <value width="80"/>
-              <label/>
-            </Row>
-          </List>
+          <VerticalStackPanel>
+            <List path="whitelistDurations" layout="verticalCompact">
+              <Row gap="20">
+                <value width="80"/>
+                <label/>
+              </Row>
+            </List>
+            <FormErrorDisplay paths="whitelistDurations"/>
+          </VerticalStackPanel>
           <defaultWhitelistDurationDays ui="DropDown" label="Default whitelisting days" itemsSource="whitelistDurations"/>
         </Row>
       </Expander.Body>

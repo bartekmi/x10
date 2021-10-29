@@ -13,6 +13,7 @@ import TextareaInput from 'latitude/TextareaInput';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Expander from 'react_lib/Expander';
+import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
@@ -277,50 +278,55 @@ function SettingsEditor(props: Props): React.Node {
           alignItems='flex-start'
           gap={ 100 }
         >
-          <MultiStacker
-            items={ settings?.whitelistDurations }
-            onChange={ (value) => {
-              // $FlowExpectedError
-              onChange({ ...settings, whitelistDurations: value })
-            } }
-            itemDisplayFunc={ (data, onChange) => (
-              <Group
-                alignItems='flex-start'
-                gap={ 20 }
-              >
-                <StyleControl
-                  width={ 80 }
+          <VerticalStackPanel>
+            <MultiStacker
+              items={ settings?.whitelistDurations }
+              onChange={ (value) => {
+                // $FlowExpectedError
+                onChange({ ...settings, whitelistDurations: value })
+              } }
+              itemDisplayFunc={ (data, onChange) => (
+                <Group
+                  alignItems='flex-start'
+                  gap={ 20 }
                 >
-                  <FormField
-                    editorFor='value'
-                    label='Value'
+                  <StyleControl
+                    width={ 80 }
                   >
-                    <FloatInput
-                      value={ data?.value }
+                    <FormField
+                      editorFor='value'
+                      label='# of days'
+                    >
+                      <FloatInput
+                        value={ data?.value }
+                        onChange={ (value) => {
+                          // $FlowExpectedError
+                          onChange({ ...data, value: value })
+                        } }
+                      />
+                    </FormField>
+                  </StyleControl>
+                  <FormField
+                    editorFor='label'
+                    label='Label'
+                  >
+                    <TextInput
+                      value={ data?.label }
                       onChange={ (value) => {
                         // $FlowExpectedError
-                        onChange({ ...data, value: value })
+                        onChange({ ...data, label: value })
                       } }
                     />
                   </FormField>
-                </StyleControl>
-                <FormField
-                  editorFor='label'
-                  label='Label'
-                >
-                  <TextInput
-                    value={ data?.label }
-                    onChange={ (value) => {
-                      // $FlowExpectedError
-                      onChange({ ...data, label: value })
-                    } }
-                  />
-                </FormField>
-              </Group>
-            ) }
-            layout='verticalCompact'
-            addNewItem={ createDefaultWhitelistDuration }
-          />
+                </Group>
+              ) }
+              layout='verticalCompact'
+              addNewItem={ createDefaultWhitelistDuration }
+            />
+            <FormErrorDisplay
+              paths='whitelistDurations'
+            />
+          </VerticalStackPanel>
           <FormField
             editorFor='defaultWhitelistDurationDays'
             indicateRequired={ true }
