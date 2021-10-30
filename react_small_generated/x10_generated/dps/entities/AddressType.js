@@ -25,7 +25,7 @@ export function createDefaultAddressType(): AddressType {
 
 
 // Validations
-export function addressTypeCalculateErrors(addressType: AddressType, prefix?: string): $ReadOnlyArray<FormError> {
+export function addressTypeCalculateErrors(addressType: AddressType, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (addressType == null ) return errors;
 

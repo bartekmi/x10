@@ -13,8 +13,9 @@ namespace x10.gen {
   public static class CodeGenUtils {
 
 
-    public static string GetBindingPathAsString(Instance instance) {
-      return string.Join(".", UiCompilerUtils.GetBindingPath(instance).Select(x => x.Name));
+    public static string GetBindingPathAsString(Instance instance, bool stopOnList = true) {
+      return string.Join(".", 
+        UiCompilerUtils.GetBindingPath(instance, stopOnList).Select(x => x.Name));
     }
 
     public static ExpBase PathToExpression(IEnumerable<Member> path) {

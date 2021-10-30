@@ -256,7 +256,7 @@ function HitDetailsTab(props: Props): React.Node {
               />
               <MultiStacker
                 items={ data?.sources }
-                itemDisplayFunc={ (data, onChange) => (
+                itemDisplayFunc={ (data, onChange, inListIndex) => (
                   <Embed
                     url={ data?.url }
                   />

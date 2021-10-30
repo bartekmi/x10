@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using x10.compiler;
 using x10.compiler.ui;
+using x10.ui;
 using x10.ui.libraries;
 using x10.ui.metadata;
 using x10.ui.platform;
@@ -545,7 +547,7 @@ namespace x10.gen.react.library {
             CodeSnippet = (generator, indent, platClassDef, instance) => {
               Instance inner = instance.PrimaryValueInstance;
 
-              generator.WriteLine(indent, "itemDisplayFunc={ (data, onChange) => (");
+              generator.WriteLine(indent, "itemDisplayFunc={ (data, onChange, inListIndex) => (");
 
               generator.PushSourceVariableName("data");
               generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
@@ -782,7 +784,16 @@ namespace x10.gen.react.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
             PlatformName = "editorFor",
-            Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance.Unwrap()),
+            Function = (generator, instance) => CodeGenUtils.GetBindingPathAsString(instance.Unwrap(), false),
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "inListIndex",
+            Function = (generator, instance) => {
+              bool isInList = UiUtils.ListSelfAndAncestors(instance)
+                .Any(x => x.RenderAs.Name == BaseLibrary.CLASS_DEF_LIST);
+              return isInList ? "inListIndex" : null;
+            },
+            IsCodeSnippet = true,
           },
           new JavaScriptAttributeDynamic() {
             LogicalName = "mandatoryIndicator",

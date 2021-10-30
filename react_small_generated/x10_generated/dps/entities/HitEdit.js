@@ -32,16 +32,16 @@ export function createDefaultHitEdit(): HitEdit {
 
 
 // Validations
-export function hitEditCalculateErrors(hitEdit: HitEdit, prefix?: string): $ReadOnlyArray<FormError> {
+export function hitEditCalculateErrors(hitEdit: HitEdit, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (hitEdit == null ) return errors;
 
   if (isBlank(hitEdit.editedFields))
-    addError(errors, prefix, 'Edited Fields is required', ['editedFields']);
+    addError(errors, prefix, 'Edited Fields is required', ['editedFields'], inListIndex);
   if (isBlank(hitEdit.timestamp))
-    addError(errors, prefix, 'Timestamp is required', ['timestamp']);
+    addError(errors, prefix, 'Timestamp is required', ['timestamp'], inListIndex);
   if (isBlank(hitEdit.user))
-    addError(errors, prefix, 'User is required', ['user']);
+    addError(errors, prefix, 'User is required', ['user'], inListIndex);
 
   return errors;
 }

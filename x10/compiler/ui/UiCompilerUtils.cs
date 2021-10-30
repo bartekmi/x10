@@ -12,7 +12,7 @@ namespace x10.compiler.ui {
   public static class UiCompilerUtils {
 
     // Get the binding path of an instance as a list of members
-    public static IEnumerable<Member> GetBindingPath(Instance startInstance) {
+    public static IEnumerable<Member> GetBindingPath(Instance startInstance, bool stopOnList = true) {
       List<Member> members = new List<Member>();
 
       foreach (Instance instance in UiUtils.ListSelfAndAncestors(startInstance)) {
@@ -21,8 +21,9 @@ namespace x10.compiler.ui {
           // in forward order, so we must revere it.
           members.AddRange(instance.PathComponents.ToArray().Reverse());
 
-        // Stop the binding path if parent display a list items
-        if (instance.ParentInstance?.RenderAs?.PrimaryAttributeDef is UiAttributeDefinitionComplex complex &&
+        // Stop the binding path if parent renders item in a list
+        if (stopOnList &&
+          instance.ParentInstance?.RenderAs?.PrimaryAttributeDef is UiAttributeDefinitionComplex complex &&
           complex.ReducesManyToOne)
           break;
       }
@@ -39,7 +40,8 @@ namespace x10.compiler.ui {
         return true;
 
       // Second, check if this instance or any above it have the Read Only attribute
-      UiAttributeValueAtomic readOnlyAttr = instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ)
+      UiAttributeValueAtomic readOnlyAttr = 
+        instance.FindAttributeValueRespectInheritable(ClassDefNative.ATTR_READ_ONLY_OBJ)
         as UiAttributeValueAtomic;
 
       if (readOnlyAttr != null)

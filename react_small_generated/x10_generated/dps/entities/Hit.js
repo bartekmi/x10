@@ -8,12 +8,12 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import toEnum from 'react_lib/utils/toEnum';
 
-import { type Attachment } from 'dps/entities/Attachment';
+import { attachmentCalculateErrors, type Attachment } from 'dps/entities/Attachment';
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
-import { type MatchInfo } from 'dps/entities/MatchInfo';
-import { type Message } from 'dps/entities/Message';
-import { type OldHit } from 'dps/entities/OldHit';
-import { type Shipment } from 'dps/entities/Shipment';
+import { matchInfoCalculateErrors, type MatchInfo } from 'dps/entities/MatchInfo';
+import { messageCalculateErrors, type Message } from 'dps/entities/Message';
+import { oldHitCalculateErrors, type OldHit } from 'dps/entities/OldHit';
+import { shipmentCalculateErrors, type Shipment } from 'dps/entities/Shipment';
 import { type User } from 'dps/entities/User';
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
 import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
@@ -79,19 +79,25 @@ export function createDefaultHit(): Hit {
 
 
 // Validations
-export function hitCalculateErrors(hit: Hit, prefix?: string): $ReadOnlyArray<FormError> {
+export function hitCalculateErrors(hit: Hit, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (hit == null ) return errors;
 
   if (isBlank(hit.reasonForClearance))
-    addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance']);
+    addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance'], inListIndex);
   if (isBlank(hit.notes))
-    addError(errors, prefix, 'Notes is required', ['notes']);
+    addError(errors, prefix, 'Notes is required', ['notes'], inListIndex);
   if (isBlank(hit.whitelistDays))
-    addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays']);
+    addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays'], inListIndex);
+
+  hit.attachments.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  hit.matches.forEach((x, ii) => errors.push(...matchInfoCalculateErrors(x, 'matches', ii)));
+  hit.shipments.forEach((x, ii) => errors.push(...shipmentCalculateErrors(x, 'shipments', ii)));
+  hit.messages.forEach((x, ii) => errors.push(...messageCalculateErrors(x, 'messages', ii)));
+  hit.oldHits.forEach((x, ii) => errors.push(...oldHitCalculateErrors(x, 'oldHits', ii)));
 
   if (toEnum(hit?.status) == "unresolved")
-    addError(errors, prefix, 'Please select one of the choices above', ['status']);
+    addError(errors, prefix, 'Please select one of the choices above', ['status'], inListIndex);
 
   return errors;
 }

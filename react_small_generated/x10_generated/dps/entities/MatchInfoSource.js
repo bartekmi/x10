@@ -25,7 +25,7 @@ export function createDefaultMatchInfoSource(): MatchInfoSource {
 
 
 // Validations
-export function matchInfoSourceCalculateErrors(matchInfoSource: MatchInfoSource, prefix?: string): $ReadOnlyArray<FormError> {
+export function matchInfoSourceCalculateErrors(matchInfoSource: MatchInfoSource, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (matchInfoSource == null ) return errors;
 

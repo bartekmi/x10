@@ -56,7 +56,7 @@ export function createDefaultCompanyEntity(): CompanyEntity {
 
 
 // Validations
-export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefix?: string): $ReadOnlyArray<FormError> {
+export function companyEntityCalculateErrors(companyEntity: CompanyEntity, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (companyEntity == null ) return errors;
 

@@ -184,7 +184,7 @@ namespace x10.gen.react.generate {
       string entityName = entity.Name;
 
       ImportsPlaceholder.ImportType("FormError", "react_lib/form/FormProvider", ImportLevel.ThirdParty);
-      WriteLine(0, "export function {0}({1}: {2}, prefix?: string): $ReadOnlyArray<FormError> { ",
+      WriteLine(0, "export function {0}({1}: {2}, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> { ",
         CalculateErrorsFuncName(entity),
         varName,
         entityName);
@@ -215,7 +215,7 @@ namespace x10.gen.react.generate {
 
         if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
           WriteLine(1, "if (isBlank({0}.{1}))", varName, member.Name);
-          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}']);", humanName, member.Name);
+          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}'], inListIndex);", humanName, member.Name);
         }
       }
     }
@@ -233,16 +233,25 @@ namespace x10.gen.react.generate {
     }
 
     private void GenerateValidationsOwnedAssociations(Entity entity) {
-      IEnumerable<Association> ownedAssociations = entity.Associations.Where(x => x.Owns && !x.IsMany);
+      IEnumerable<Association> ownedAssociations = entity.Associations.Where(x => x.Owns);
       if (ownedAssociations.Any()) {
         WriteLine();
         foreach (Association association in ownedAssociations) {
           string varName = VariableName(entity);
           bool applicableWhen = GenerateApplicableWhen(association, varName);
-          WriteLine(1 + (applicableWhen ? 1 : 0), "errors.push(...{0}({1}.{2}, '{2}'));", 
-            CalculateErrorsFuncName(association.ReferencedEntity),
-            varName,
-            association.Name);
+
+          if (association.IsMany) {
+            // parent.association.forEach((x, ii) => errors.push(...entityCalculateErrors(x, 'association', ii)));
+            WriteLine(1, "{0}.{1}.forEach((x, ii) => errors.push(...{2}(x, '{1}', ii)));", 
+              varName,
+              association.Name,
+              CalculateErrorsFuncName(association.ReferencedEntity));
+          } else {
+            WriteLine(1 + (applicableWhen ? 1 : 0), "errors.push(...{0}({1}.{2}, '{2}'));", 
+              CalculateErrorsFuncName(association.ReferencedEntity),
+              varName,
+              association.Name);
+          }
           ImportsPlaceholder.ImportCalculateErrorsFunc(association.ReferencedEntity);
         }
       }
@@ -278,7 +287,7 @@ namespace x10.gen.react.generate {
 
           WriteLine(1, "if ({0})", ExpressionToString(expression));
 
-          WriteLine(2, "addError(errors, prefix, '{0}', {1});", validation.Message, JS.ToArray(memberNames));
+          WriteLine(2, "addError(errors, prefix, '{0}', {1}, inListIndex);", validation.Message, JS.ToArray(memberNames));
         }
 
         PopSourceVariableName();

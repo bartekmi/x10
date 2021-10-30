@@ -27,7 +27,7 @@ export function createDefaultAttachment(): Attachment {
 
 
 // Validations
-export function attachmentCalculateErrors(attachment: Attachment, prefix?: string): $ReadOnlyArray<FormError> {
+export function attachmentCalculateErrors(attachment: Attachment, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (attachment == null ) return errors;
 

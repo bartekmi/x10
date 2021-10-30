@@ -328,7 +328,7 @@ function SettingsEditor(props: Props): React.Node {
               addNewItem={ createDefaultWhitelistDuration }
             />
             <FormErrorDisplay
-              // paths='whitelistDurations'
+              paths='whitelistDurations'
             />
           </VerticalStackPanel>
           <FormField
@@ -413,9 +413,9 @@ function SettingsEditor(props: Props): React.Node {
                 alignItems='center'
               >
                 <FormField
-                  editorFor='from'
-                  indicateRequired={ true }
+                  editorFor='autoAssignments.from'
                   inListIndex={ inListIndex }
+                  indicateRequired={ true }
                   label='From'
                 >
                   <TimeInput
@@ -427,9 +427,9 @@ function SettingsEditor(props: Props): React.Node {
                   />
                 </FormField>
                 <FormField
-                  editorFor='to'
-                  indicateRequired={ true }
+                  editorFor='autoAssignments.to'
                   inListIndex={ inListIndex }
+                  indicateRequired={ true }
                   label='To'
                 >
                   <TimeInput
@@ -441,7 +441,8 @@ function SettingsEditor(props: Props): React.Node {
                   />
                 </FormField>
                 <FormField
-                  editorFor='user'
+                  editorFor='autoAssignments.user'
+                  inListIndex={ inListIndex }
                   indicateRequired={ true }
                   label='User'
                 >

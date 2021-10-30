@@ -27,7 +27,7 @@ export function createDefaultCompany(): Company {
 
 
 // Validations
-export function companyCalculateErrors(company: Company, prefix?: string): $ReadOnlyArray<FormError> {
+export function companyCalculateErrors(company: Company, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (company == null ) return errors;
 

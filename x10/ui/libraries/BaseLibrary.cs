@@ -11,6 +11,7 @@ namespace x10.ui.libraries {
   public class BaseLibrary {
 
     public const string CLASS_DEF_FORM = "Form";
+    public const string CLASS_DEF_LIST = "List";
     private const string MANDATORY_INDICATOR = "mandatoryIndicator";
 
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
@@ -720,7 +721,7 @@ namespace x10.ui.libraries {
 
       #region List
       new ClassDefNative() {
-        Name = "List",
+        Name = CLASS_DEF_LIST,
         Description = "A vertical list of repeated content. The content can be as simple as a string or a complicated panel.",
         ComponentDataModel = Entity.Object,
         IsMany = true,

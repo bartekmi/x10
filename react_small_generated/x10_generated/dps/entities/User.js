@@ -31,14 +31,14 @@ export function createDefaultUser(): User {
 
 
 // Validations
-export function userCalculateErrors(user: User, prefix?: string): $ReadOnlyArray<FormError> {
+export function userCalculateErrors(user: User, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (user == null ) return errors;
 
   if (isBlank(user.name))
-    addError(errors, prefix, 'Name is required', ['name']);
+    addError(errors, prefix, 'Name is required', ['name'], inListIndex);
   if (isBlank(user.email))
-    addError(errors, prefix, 'Email is required', ['email']);
+    addError(errors, prefix, 'Email is required', ['email'], inListIndex);
 
   return errors;
 }

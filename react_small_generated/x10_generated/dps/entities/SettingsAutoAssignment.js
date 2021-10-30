@@ -33,16 +33,16 @@ export function createDefaultSettingsAutoAssignment(): SettingsAutoAssignment {
 
 
 // Validations
-export function settingsAutoAssignmentCalculateErrors(settingsAutoAssignment: SettingsAutoAssignment, prefix?: string): $ReadOnlyArray<FormError> {
+export function settingsAutoAssignmentCalculateErrors(settingsAutoAssignment: SettingsAutoAssignment, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (settingsAutoAssignment == null ) return errors;
 
   if (isBlank(settingsAutoAssignment.from))
-    addError(errors, prefix, 'From is required', ['from']);
+    addError(errors, prefix, 'From is required', ['from'], inListIndex);
   if (isBlank(settingsAutoAssignment.to))
-    addError(errors, prefix, 'To is required', ['to']);
+    addError(errors, prefix, 'To is required', ['to'], inListIndex);
   if (isBlank(settingsAutoAssignment.user))
-    addError(errors, prefix, 'User is required', ['user']);
+    addError(errors, prefix, 'User is required', ['user'], inListIndex);
 
   return errors;
 }

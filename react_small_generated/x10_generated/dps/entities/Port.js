@@ -40,7 +40,7 @@ export function createDefaultPort(): Port {
 
 
 // Validations
-export function portCalculateErrors(port: Port, prefix?: string): $ReadOnlyArray<FormError> {
+export function portCalculateErrors(port: Port, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (port == null ) return errors;
 

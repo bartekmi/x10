@@ -25,7 +25,7 @@ export function createDefaultClient(): Client {
 
 
 // Validations
-export function clientCalculateErrors(client: Client, prefix?: string): $ReadOnlyArray<FormError> {
+export function clientCalculateErrors(client: Client, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (client == null ) return errors;
 

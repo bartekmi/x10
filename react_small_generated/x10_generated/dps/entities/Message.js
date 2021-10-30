@@ -8,7 +8,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
-import { type Attachment } from 'dps/entities/Attachment';
+import { attachmentCalculateErrors, type Attachment } from 'dps/entities/Attachment';
 import { type User } from 'dps/entities/User';
 
 
@@ -56,12 +56,14 @@ export function createDefaultMessage(): Message {
 
 
 // Validations
-export function messageCalculateErrors(message: Message, prefix?: string): $ReadOnlyArray<FormError> {
+export function messageCalculateErrors(message: Message, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (message == null ) return errors;
 
   if (isBlank(message.user))
-    addError(errors, prefix, 'User is required', ['user']);
+    addError(errors, prefix, 'User is required', ['user'], inListIndex);
+
+  message.attachments.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
 
   return errors;
 }

@@ -143,7 +143,7 @@ function SlideoutPanel(props: Props): React.Node {
         >
           <MultiStacker
             items={ hit?.oldHits }
-            itemDisplayFunc={ (data, onChange) => (
+            itemDisplayFunc={ (data, onChange, inListIndex) => (
               <DisplayForm>
                 <DisplayField
                   label='Screened as a hit'
@@ -207,7 +207,7 @@ function SlideoutPanel(props: Props): React.Node {
                 >
                   <MultiStacker
                     items={ data?.attachments }
-                    itemDisplayFunc={ (data, onChange) => (
+                    itemDisplayFunc={ (data, onChange, inListIndex) => (
                       <AttachmentComponent attachment={ data }/>
                     ) }
                     layout='wrap'
@@ -223,7 +223,7 @@ function SlideoutPanel(props: Props): React.Node {
                     />
                     <MultiStacker
                       items={ data?.changeLog }
-                      itemDisplayFunc={ (data, onChange) => (
+                      itemDisplayFunc={ (data, onChange, inListIndex) => (
                         <Group
                           alignItems='center'
                         >

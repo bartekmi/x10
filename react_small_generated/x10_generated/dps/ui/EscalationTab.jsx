@@ -46,7 +46,7 @@ function EscalationTab(props: Props): React.Node {
       </Group>
       <MultiStacker
         items={ hit?.messages }
-        itemDisplayFunc={ (data, onChange) => (
+        itemDisplayFunc={ (data, onChange, inListIndex) => (
           <VerticalStackPanel
             gap={ 4 }
           >

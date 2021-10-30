@@ -143,14 +143,14 @@ export function createDefaultShipment(): Shipment {
 
 
 // Validations
-export function shipmentCalculateErrors(shipment: Shipment, prefix?: string): $ReadOnlyArray<FormError> {
+export function shipmentCalculateErrors(shipment: Shipment, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (shipment == null ) return errors;
 
   if (isBlank(shipment.priority))
-    addError(errors, prefix, 'Priority is required', ['priority']);
+    addError(errors, prefix, 'Priority is required', ['priority'], inListIndex);
   if (isBlank(shipment.transportationMode))
-    addError(errors, prefix, 'Transportation Mode is required', ['transportationMode']);
+    addError(errors, prefix, 'Transportation Mode is required', ['transportationMode'], inListIndex);
 
   return errors;
 }
