@@ -20,6 +20,7 @@ export type WhitelistDuration = {
 export function createDefaultWhitelistDuration(): WhitelistDuration {
   return {
     id: uuid(),
+    // $FlowExpectedError Required field, but no default value
     value: null,
     label: '',
   };
@@ -27,10 +28,14 @@ export function createDefaultWhitelistDuration(): WhitelistDuration {
 
 
 // Validations
-export function whitelistDurationCalculateErrors(whitelistDuration: WhitelistDuration, prefix?: string): $ReadOnlyArray<FormError> {
+export function whitelistDurationCalculateErrors(whitelistDuration: WhitelistDuration, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
   if (whitelistDuration == null ) return errors;
 
+  if (isBlank(whitelistDuration.value))
+    addError(errors, prefix, 'Value is required', ['value'], inListIndex);
+  if (isBlank(whitelistDuration.label))
+    addError(errors, prefix, 'Label is required', ['label'], inListIndex);
 
   return errors;
 }

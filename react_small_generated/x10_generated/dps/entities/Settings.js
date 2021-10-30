@@ -12,6 +12,7 @@ import { type SettingsAutoAssignment } from 'dps/entities/SettingsAutoAssignment
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
 import hasDuplicates from 'dps/hasDuplicates';
 
+import { whitelistDurationCalculateErrors } from 'dps/entities/WhitelistDuration';
 
 // Type Definition
 export type Settings = {
@@ -67,6 +68,8 @@ export function settingsCalculateErrors(settings: Settings, prefix?: string): $R
     addError(errors, prefix, 'Message Hit Cleared is required', ['messageHitCleared']);
   if (isBlank(settings.defaultWhitelistDurationDays))
     addError(errors, prefix, 'Default Whitelist Duration Days is required', ['defaultWhitelistDurationDays']);
+
+  settings.whitelistDurations.forEach((x, ii) => errors.push(...whitelistDurationCalculateErrors(x, 'whitelistDurations', ii)));
 
   if (toNum(settings?.highUrgencyShipments) <= toNum(settings?.mediumUrgencyShipments))
     addError(errors, prefix, 'High urgency shipments must be greater than medium', ['highUrgencyShipments', 'mediumUrgencyShipments']);

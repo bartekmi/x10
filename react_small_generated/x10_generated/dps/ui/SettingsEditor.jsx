@@ -285,7 +285,7 @@ function SettingsEditor(props: Props): React.Node {
                 // $FlowExpectedError
                 onChange({ ...settings, whitelistDurations: value })
               } }
-              itemDisplayFunc={ (data, onChange) => (
+              itemDisplayFunc={ (data, onChange, inListIndex) => (
                 <Group
                   alignItems='flex-start'
                   gap={ 20 }
@@ -294,7 +294,9 @@ function SettingsEditor(props: Props): React.Node {
                     width={ 80 }
                   >
                     <FormField
-                      editorFor='value'
+                      editorFor='whitelistDurations.value'
+                      inListIndex={ inListIndex }
+                      indicateRequired={ true }
                       label='# of days'
                     >
                       <FloatInput
@@ -307,7 +309,9 @@ function SettingsEditor(props: Props): React.Node {
                     </FormField>
                   </StyleControl>
                   <FormField
-                    editorFor='label'
+                    editorFor='whitelistDurations.label'
+                    inListIndex={ inListIndex }
+                    indicateRequired={ true }
                     label='Label'
                   >
                     <TextInput
@@ -324,7 +328,7 @@ function SettingsEditor(props: Props): React.Node {
               addNewItem={ createDefaultWhitelistDuration }
             />
             <FormErrorDisplay
-              paths='whitelistDurations'
+              // paths='whitelistDurations'
             />
           </VerticalStackPanel>
           <FormField
@@ -404,13 +408,14 @@ function SettingsEditor(props: Props): React.Node {
               // $FlowExpectedError
               onChange({ ...settings, autoAssignments: value })
             } }
-            itemDisplayFunc={ (data, onChange) => (
+            itemDisplayFunc={ (data, onChange, inListIndex) => (
               <Group
                 alignItems='center'
               >
                 <FormField
                   editorFor='from'
                   indicateRequired={ true }
+                  inListIndex={ inListIndex }
                   label='From'
                 >
                   <TimeInput
@@ -424,6 +429,7 @@ function SettingsEditor(props: Props): React.Node {
                 <FormField
                   editorFor='to'
                   indicateRequired={ true }
+                  inListIndex={ inListIndex }
                   label='To'
                 >
                   <TimeInput

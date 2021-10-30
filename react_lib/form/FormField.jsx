@@ -6,25 +6,34 @@ import Label from "latitude/Label";
 import HelpTooltip from "latitude/HelpTooltip";
 import InputValidationMessage from "latitude/InputValidationMessage";
 
-import { errorMessageForPath } from "./FormProvider";
 import isBlank from "../utils/isBlank";
+import { FormContext } from "./FormProvider";
 
 type Props = {|
   +children: React.Node,
-  +editorFor: string, // Path of field that this field represents. Used for error display.
+  +editorFor: string,     // Path of field that this field represents. Used for error display.
+  +inListIndex?: number,  // If this for field is in a list, the index of the item
   +label: string,
   +indicateRequired?: boolean,
   +toolTip?: string,
   +maxWidth?: number,
 |};
 export default function FormField(props: Props): React.Node {
-  const {children, editorFor, label, indicateRequired = false, toolTip, maxWidth} = props;
+  const {
+    children, 
+    editorFor, 
+    inListIndex, 
+    label, 
+    indicateRequired = false, 
+    toolTip, 
+    maxWidth
+  } = props;
 
   const style = maxWidth ? {
     maxWidth: maxWidth + "px"
   } : {};
 
-  const errorMessage = errorMessageForPath(editorFor);
+  const errorMessage = errorMessageForPath(editorFor, inListIndex);
 
   if (isBlank(label)) {
     return <RawField errorMessage={errorMessage} style={style} children={children}/>
@@ -45,6 +54,17 @@ export default function FormField(props: Props): React.Node {
       <RawField errorMessage={errorMessage} style={style} children={children}/>
     </Label>
   );
+}
+
+function errorMessageForPath(path: string, index?: number): string | null {
+  const context = React.useContext(FormContext);
+  let errors = context.errors.filter(x => x.paths.includes(path));
+
+  if (index != null) {
+    errors = errors.filter(x => x.inListIndex == index);
+  }
+
+  return errors.length == 0 ? null : errors.map(x => x.error).join("\n");
 }
 
 type RawFieldProps = {|

@@ -9,8 +9,10 @@ attributes:
   - name: value
     dataType: Integer
     label: "# of days"
+    mandatory: true
     datagen_min: 1
     datagen_max: 100
   - name: label
     dataType: String
+    mandatory: true
     datagen_pattern: (~N~ months | ~NN~ days)

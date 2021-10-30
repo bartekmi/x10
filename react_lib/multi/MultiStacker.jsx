@@ -16,7 +16,7 @@ type TItem = {
 
 type Props<T: TItem> = {|
   +items: $ReadOnlyArray < T >,
-  +itemDisplayFunc: (data: T, onChange: (data: T) => void) => React.Node,
+  +itemDisplayFunc: (data: T, onChange: (data: T) => void, inListIndex?: number) => React.Node,
   +onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
   +addNewItem: () => T,
   +addItemLabel ?: string,
@@ -35,9 +35,10 @@ function WrapPanel<T: TItem>({
   items,
   itemDisplayFunc
 }: Props<T>) {
+  // TODO: Currently, not editable
   return (
     <Group gap={12}>
-      {items.map(item => itemDisplayFunc(item, () => {}))}
+      {items.map((item, index) => itemDisplayFunc(item, () => {}, index))}
     </Group>
   );
 }
@@ -54,7 +55,7 @@ function VerticalList<T: TItem>({
 
   return (
     <Group gap={isCompact ? 0 : 20} flexDirection="column">
-      {items.map(item => (
+      {items.map((item, index) => (
         <>
           <div key={item.id} style={{ display: "flex", alignItems: "flex-end"}}>
             {itemDisplayFunc(
@@ -65,6 +66,7 @@ function VerticalList<T: TItem>({
                   onChange(newArray);
                 }
               },
+              index
             )}
             {onChange ? (
               <div style={{marginLeft: "20px"}}>
