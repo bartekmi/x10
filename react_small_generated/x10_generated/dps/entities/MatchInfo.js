@@ -113,7 +113,7 @@ export function matchInfoCalculateErrors(matchInfo: MatchInfo, prefix?: string, 
   if (isBlank(matchInfo.addressMatchScore))
     addError(errors, prefix, 'Address Match Score is required', ['addressMatchScore'], inListIndex);
 
-  matchInfo.sources.forEach((x, ii) => errors.push(...matchInfoSourceCalculateErrors(x, 'sources', ii)));
+  matchInfo.sources?.forEach((x, ii) => errors.push(...matchInfoSourceCalculateErrors(x, 'sources', ii)));
 
   return errors;
 }

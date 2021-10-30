@@ -90,11 +90,11 @@ export function hitCalculateErrors(hit: Hit, prefix?: string, inListIndex?: numb
   if (isBlank(hit.whitelistDays))
     addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays'], inListIndex);
 
-  hit.attachments.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
-  hit.matches.forEach((x, ii) => errors.push(...matchInfoCalculateErrors(x, 'matches', ii)));
-  hit.shipments.forEach((x, ii) => errors.push(...shipmentCalculateErrors(x, 'shipments', ii)));
-  hit.messages.forEach((x, ii) => errors.push(...messageCalculateErrors(x, 'messages', ii)));
-  hit.oldHits.forEach((x, ii) => errors.push(...oldHitCalculateErrors(x, 'oldHits', ii)));
+  hit.attachments?.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  hit.matches?.forEach((x, ii) => errors.push(...matchInfoCalculateErrors(x, 'matches', ii)));
+  hit.shipments?.forEach((x, ii) => errors.push(...shipmentCalculateErrors(x, 'shipments', ii)));
+  hit.messages?.forEach((x, ii) => errors.push(...messageCalculateErrors(x, 'messages', ii)));
+  hit.oldHits?.forEach((x, ii) => errors.push(...oldHitCalculateErrors(x, 'oldHits', ii)));
 
   if (toEnum(hit?.status) == "unresolved")
     addError(errors, prefix, 'Please select one of the choices above', ['status'], inListIndex);

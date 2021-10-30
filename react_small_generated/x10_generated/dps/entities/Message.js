@@ -63,7 +63,7 @@ export function messageCalculateErrors(message: Message, prefix?: string, inList
   if (isBlank(message.user))
     addError(errors, prefix, 'User is required', ['user'], inListIndex);
 
-  message.attachments.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  message.attachments?.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
 
   return errors;
 }

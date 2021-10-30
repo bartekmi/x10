@@ -241,8 +241,8 @@ namespace x10.gen.react.generate {
           bool applicableWhen = GenerateApplicableWhen(association, varName);
 
           if (association.IsMany) {
-            // parent.association.forEach((x, ii) => errors.push(...entityCalculateErrors(x, 'association', ii)));
-            WriteLine(1, "{0}.{1}.forEach((x, ii) => errors.push(...{2}(x, '{1}', ii)));", 
+            // parent.association?.forEach((x, ii) => errors.push(...entityCalculateErrors(x, 'association', ii)));
+            WriteLine(1, "{0}.{1}?.forEach((x, ii) => errors.push(...{2}(x, '{1}', ii)));", 
               varName,
               association.Name,
               CalculateErrorsFuncName(association.ReferencedEntity));

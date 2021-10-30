@@ -56,8 +56,8 @@ export function oldHitCalculateErrors(oldHit: OldHit, prefix?: string, inListInd
   if (isBlank(oldHit.reasonForClearance))
     addError(errors, prefix, 'Reason For Clearance is required', ['reasonForClearance'], inListIndex);
 
-  oldHit.changeLog.forEach((x, ii) => errors.push(...hitEditCalculateErrors(x, 'changeLog', ii)));
-  oldHit.attachments.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  oldHit.changeLog?.forEach((x, ii) => errors.push(...hitEditCalculateErrors(x, 'changeLog', ii)));
+  oldHit.attachments?.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
 
   return errors;
 }

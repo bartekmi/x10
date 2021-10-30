@@ -68,8 +68,8 @@ export function settingsCalculateErrors(settings: Settings, prefix?: string, inL
   if (isBlank(settings.defaultWhitelistDurationDays))
     addError(errors, prefix, 'Default Whitelist Duration Days is required', ['defaultWhitelistDurationDays'], inListIndex);
 
-  settings.whitelistDurations.forEach((x, ii) => errors.push(...whitelistDurationCalculateErrors(x, 'whitelistDurations', ii)));
-  settings.autoAssignments.forEach((x, ii) => errors.push(...settingsAutoAssignmentCalculateErrors(x, 'autoAssignments', ii)));
+  settings.whitelistDurations?.forEach((x, ii) => errors.push(...whitelistDurationCalculateErrors(x, 'whitelistDurations', ii)));
+  settings.autoAssignments?.forEach((x, ii) => errors.push(...settingsAutoAssignmentCalculateErrors(x, 'autoAssignments', ii)));
 
   if (toNum(settings?.highUrgencyShipments) <= toNum(settings?.mediumUrgencyShipments))
     addError(errors, prefix, 'High urgency shipments must be greater than medium', ['highUrgencyShipments', 'mediumUrgencyShipments'], inListIndex);
