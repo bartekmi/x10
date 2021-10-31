@@ -67,6 +67,11 @@ namespace x10.ui.libraries {
             Description = "Optional label embedded in divider",
             DataType = DataTypes.Singleton.String,
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "color",
+            Description = "Optional color for the divider",
+            DataType = DataTypes.Singleton.Color,
+          },
         }
       },
       new ClassDefNative() {

@@ -264,7 +264,9 @@ function SettingsEditor(props: Props): React.Node {
           />
         </VerticalStackPanel>
       </Expander>
-      <Separator/>
+      <Separator
+        color='#4b5564'
+      />
       <Expander
         headerFunc={ () => (
           <Text
@@ -347,7 +349,9 @@ function SettingsEditor(props: Props): React.Node {
           </FormField>
         </Group>
       </Expander>
-      <Separator/>
+      <Separator
+        color='#4b5564'
+      />
       <Expander
         headerFunc={ () => (
           <Text
@@ -388,7 +392,9 @@ function SettingsEditor(props: Props): React.Node {
           </FormField>
         </VerticalStackPanel>
       </Expander>
-      <Separator/>
+      <Separator
+        color='#4b5564'
+      />
       <Expander
         headerFunc={ () => (
           <Text

@@ -3640,6 +3640,11 @@ If specified, element will have a border of this color and some small padding
 If specified, element will have a border of this thickness and some small padding
 
 - Data Type: Float
+### Attribute 'color'
+
+Optional color for the divider
+
+- Data Type: Color
 ### Attribute 'fillColor'
 
 Specifies background color of element

@@ -80,6 +80,7 @@ namespace x10.gen.react.library {
         ImportDir = "react_lib",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("label", "label"),
+          new JavaScriptAttributeDynamic("color", "color"),
         },
       },
       new PlatformClassDef() {

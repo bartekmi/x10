@@ -48,7 +48,7 @@
       </Expander.Body>
     </Expander>
 
-    <HorizontalDivider/>
+    <HorizontalDivider color="#4B5564"/>
     
     <!-- Whitelisting -->
     <Expander>
@@ -71,7 +71,7 @@
       </Expander.Body>
     </Expander>
 
-    <HorizontalDivider/>
+    <HorizontalDivider color="#4B5564"/>
     
     <!-- Automated Internal Message -->
     <Expander>
@@ -86,7 +86,7 @@
       </Expander.Body>
     </Expander>
 
-    <HorizontalDivider/>
+    <HorizontalDivider color="#4B5564"/>
     
     <!-- Auto assignment -->
     <Expander>
