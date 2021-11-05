@@ -52,8 +52,6 @@ attributes:
     dataType: String
     datagen_random_text: 3..7 sentences
 
-  - name: recordSource
-    dataType: String
 
 derivedAttributes:
   - name: isNameMatch

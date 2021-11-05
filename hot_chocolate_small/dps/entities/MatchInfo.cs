@@ -32,8 +32,6 @@ namespace x10.hotchoc.dps.Entities {
     public int? AddressMatchScore { get; set; }
     [GraphQLNonNullType]
     public string? Comments { get; set; }
-    [GraphQLNonNullType]
-    public string? RecordSource { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

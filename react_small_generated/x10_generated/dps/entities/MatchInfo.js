@@ -23,7 +23,6 @@ export type MatchInfo = {
   +nameMatchScore: ?number,
   +addressMatchScore: ?number,
   +comments: string,
-  +recordSource: string,
   +sources: $ReadOnlyArray<MatchInfoSource>,
 };
 
@@ -85,7 +84,6 @@ export function createDefaultMatchInfo(): MatchInfo {
     // $FlowExpectedError Required field, but no default value
     addressMatchScore: null,
     comments: '',
-    recordSource: '',
     sources: [],
   };
 }

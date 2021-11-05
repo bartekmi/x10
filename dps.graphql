@@ -104,7 +104,6 @@ type MatchInfo {
   nameMatchScore: Int
   addressMatchScore: Int
   comments: String!
-  recordSource: String!
   toStringRepresentation: String!
   sources: [MatchInfoSource!]!
   id: String!
@@ -1048,16 +1047,6 @@ input MatchInfoFilter {
   comments_not_ends_with: String
   comments_in: [String!]
   comments_not_in: [String!]
-  recordSource: String
-  recordSource_not: String
-  recordSource_contains: String
-  recordSource_not_contains: String
-  recordSource_starts_with: String
-  recordSource_not_starts_with: String
-  recordSource_ends_with: String
-  recordSource_not_ends_with: String
-  recordSource_in: [String!]
-  recordSource_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1107,7 +1096,6 @@ input MatchInfoSort {
   nameMatchScore: SortOperationKind
   addressMatchScore: SortOperationKind
   comments: SortOperationKind
-  recordSource: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
