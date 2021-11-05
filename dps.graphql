@@ -11,15 +11,6 @@ type AddressType {
   hashcode: Int!
 }
 
-"Reflects a hit clearance attachment - typically screenshot jpg's"
-type Attachment {
-  filename: String!
-  url: String!
-  toStringRepresentation: String!
-  id: String!
-  hashcode: Int!
-}
-
 "Corresponds to Core Client"
 type Client {
   dbid: Int
@@ -52,19 +43,40 @@ type CompanyEntity {
   hashcode: Int!
 }
 
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+type DpsAttachment {
+  filename: String!
+  url: String!
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+type DpsMessage {
+  timestamp: DateTime
+  text: String!
+  coreShipmentId: Int
+  toStringRepresentation: String!
+  user: User!
+  attachments: [DpsAttachment!]!
+  id: String!
+  hashcode: Int!
+}
+
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 type Hit {
-  priority: PriorityEnum
+  urgency: UrgencyEnum
   status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
+  reasonForClearance: ReasonForClearanceEnum
   notes: String!
   toStringRepresentation: String!
   companyEntity: CompanyEntity
   user: User
-  attachments: [Attachment!]!
+  attachments: [DpsAttachment!]!
   matches: [MatchInfo!]!
   shipments: [Shipment!]!
-  messages: [Message!]!
+  messages: [DpsMessage!]!
   oldHits: [OldHit!]!
   whitelistDays: WhitelistDuration!
   id: String!
@@ -107,18 +119,6 @@ type MatchInfoSource {
   hashcode: Int!
 }
 
-"An escalation message - logically identical to Core \"Internal Message\""
-type Message {
-  timestamp: DateTime
-  text: String!
-  coreShipmentId: Int
-  toStringRepresentation: String!
-  user: User!
-  attachments: [Attachment!]!
-  id: String!
-  hashcode: Int!
-}
-
 type Mutation {
   "Update a hit from the Clearance Form"
   clearanceFormUpdateHit(data: ClearanceFormHitInput!): Hit!
@@ -129,7 +129,7 @@ type Mutation {
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 type OldHit {
   status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
+  reasonForClearance: ReasonForClearanceEnum
   whiteListUntil: DateTime
   notes: String!
   createdAt: DateTime
@@ -137,7 +137,7 @@ type OldHit {
   toStringRepresentation: String!
   resolvedBy: User
   changeLog: [HitEdit!]!
-  attachments: [Attachment!]!
+  attachments: [DpsAttachment!]!
   id: String!
   hashcode: Int!
 }
@@ -180,10 +180,6 @@ type Query {
   hit("The id of the Hit." id: String!): Hit!
   "Gets all Hits.\n\n\n**Returns:**\nAll Hits."
   hits(where: HitFilter order_by: HitSort): [Hit!]!
-  "Retrieve a Attachment by id\n\n\n**Returns:**\nThe Attachment."
-  attachment("The id of the Attachment." id: String!): Attachment!
-  "Gets all Attachments.\n\n\n**Returns:**\nAll Attachments."
-  attachments(where: AttachmentFilter order_by: AttachmentSort): [Attachment!]!
   "Retrieve a MatchInfoSource by id\n\n\n**Returns:**\nThe MatchInfoSource."
   matchInfoSource("The id of the MatchInfoSource." id: String!): MatchInfoSource!
   "Gets all MatchInfoSources.\n\n\n**Returns:**\nAll MatchInfoSources."
@@ -196,6 +192,10 @@ type Query {
   matchInfo("The id of the MatchInfo." id: String!): MatchInfo!
   "Gets all MatchInfos.\n\n\n**Returns:**\nAll MatchInfos."
   matchInfos(where: MatchInfoFilter order_by: MatchInfoSort): [MatchInfo!]!
+  "Retrieve a DpsAttachment by id\n\n\n**Returns:**\nThe DpsAttachment."
+  dpsAttachment("The id of the DpsAttachment." id: String!): DpsAttachment!
+  "Gets all DpsAttachments.\n\n\n**Returns:**\nAll DpsAttachments."
+  dpsAttachments(where: DpsAttachmentFilter order_by: DpsAttachmentSort): [DpsAttachment!]!
   "Retrieve a OldHit by id\n\n\n**Returns:**\nThe OldHit."
   oldHit("The id of the OldHit." id: String!): OldHit!
   "Gets all OldHits.\n\n\n**Returns:**\nAll OldHits."
@@ -216,10 +216,10 @@ type Query {
   addressType("The id of the AddressType." id: String!): AddressType!
   "Gets all AddressTypes.\n\n\n**Returns:**\nAll AddressTypes."
   addressTypes(where: AddressTypeFilter order_by: AddressTypeSort): [AddressType!]!
-  "Retrieve a Message by id\n\n\n**Returns:**\nThe Message."
-  message("The id of the Message." id: String!): Message!
-  "Gets all Messages.\n\n\n**Returns:**\nAll Messages."
-  messages(where: MessageFilter order_by: MessageSort): [Message!]!
+  "Retrieve a DpsMessage by id\n\n\n**Returns:**\nThe DpsMessage."
+  dpsMessage("The id of the DpsMessage." id: String!): DpsMessage!
+  "Gets all DpsMessages.\n\n\n**Returns:**\nAll DpsMessages."
+  dpsMessages(where: DpsMessageFilter order_by: DpsMessageSort): [DpsMessage!]!
 }
 
 "Settings for the DPS application. This is a singleton."
@@ -354,77 +354,10 @@ input AddressTypeSort {
   hashcode: SortOperationKind
 }
 
-"Reflects a hit clearance attachment - typically screenshot jpg's"
-input AttachmentFilter {
-  AND: [AttachmentFilter!]
-  OR: [AttachmentFilter!]
-  filename: String
-  filename_not: String
-  filename_contains: String
-  filename_not_contains: String
-  filename_starts_with: String
-  filename_not_starts_with: String
-  filename_ends_with: String
-  filename_not_ends_with: String
-  filename_in: [String!]
-  filename_not_in: [String!]
-  url: String
-  url_not: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  url_in: [String!]
-  url_not_in: [String!]
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
-  id: String
-  id_not: String
-  id_contains: String
-  id_not_contains: String
-  id_starts_with: String
-  id_not_starts_with: String
-  id_ends_with: String
-  id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
-}
-
-"Reflects a hit clearance attachment - typically screenshot jpg's"
-input AttachmentSort {
-  filename: SortOperationKind
-  url: SortOperationKind
-  toStringRepresentation: SortOperationKind
-  id: SortOperationKind
-  hashcode: SortOperationKind
-}
-
 "Input Data Type for ClearanceFormUpdateHit Mutation"
 input ClearanceFormHitInput {
   status: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
+  reasonForClearance: ReasonForClearanceEnum
   whitelistDays: WhitelistDurationInput!
   notes: String!
   id: String!
@@ -664,6 +597,161 @@ input CompanySort {
   hashcode: SortOperationKind
 }
 
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+input DpsAttachmentFilter {
+  AND: [DpsAttachmentFilter!]
+  OR: [DpsAttachmentFilter!]
+  filename: String
+  filename_not: String
+  filename_contains: String
+  filename_not_contains: String
+  filename_starts_with: String
+  filename_not_starts_with: String
+  filename_ends_with: String
+  filename_not_ends_with: String
+  filename_in: [String!]
+  filename_not_in: [String!]
+  url: String
+  url_not: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  url_in: [String!]
+  url_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Reflects a hit clearance attachment - typically screenshot jpg's"
+input DpsAttachmentSort {
+  filename: SortOperationKind
+  url: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+input DpsMessageFilter {
+  AND: [DpsMessageFilter!]
+  OR: [DpsMessageFilter!]
+  timestamp: DateTime
+  timestamp_not: DateTime
+  timestamp_in: [DateTime]
+  timestamp_not_in: [DateTime]
+  timestamp_gt: DateTime
+  timestamp_not_gt: DateTime
+  timestamp_gte: DateTime
+  timestamp_not_gte: DateTime
+  timestamp_lt: DateTime
+  timestamp_not_lt: DateTime
+  timestamp_lte: DateTime
+  timestamp_not_lte: DateTime
+  text: String
+  text_not: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  text_in: [String!]
+  text_not_in: [String!]
+  coreShipmentId: Int
+  coreShipmentId_not: Int
+  coreShipmentId_in: [Int]
+  coreShipmentId_not_in: [Int]
+  coreShipmentId_gt: Int
+  coreShipmentId_not_gt: Int
+  coreShipmentId_gte: Int
+  coreShipmentId_not_gte: Int
+  coreShipmentId_lt: Int
+  coreShipmentId_not_lt: Int
+  coreShipmentId_lte: Int
+  coreShipmentId_not_lte: Int
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  user: UserFilter
+  attachments_some: DpsAttachmentFilter
+  attachments_none: DpsAttachmentFilter
+  attachments_all: DpsAttachmentFilter
+  attachments_any: Boolean
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"An escalation message - logically identical to Core \"Internal Message\""
+input DpsMessageSort {
+  timestamp: SortOperationKind
+  text: SortOperationKind
+  coreShipmentId: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  user: UserSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "Records an edit to a Hit after the initial resolution"
 input HitEditFilter {
   AND: [HitEditFilter!]
@@ -739,18 +827,18 @@ input HitEditSort {
 input HitFilter {
   AND: [HitFilter!]
   OR: [HitFilter!]
-  priority: PriorityEnum
-  priority_not: PriorityEnum
-  priority_in: [PriorityEnum]
-  priority_not_in: [PriorityEnum]
-  priority_gt: PriorityEnum
-  priority_not_gt: PriorityEnum
-  priority_gte: PriorityEnum
-  priority_not_gte: PriorityEnum
-  priority_lt: PriorityEnum
-  priority_not_lt: PriorityEnum
-  priority_lte: PriorityEnum
-  priority_not_lte: PriorityEnum
+  urgency: UrgencyEnum
+  urgency_not: UrgencyEnum
+  urgency_in: [UrgencyEnum]
+  urgency_not_in: [UrgencyEnum]
+  urgency_gt: UrgencyEnum
+  urgency_not_gt: UrgencyEnum
+  urgency_gte: UrgencyEnum
+  urgency_not_gte: UrgencyEnum
+  urgency_lt: UrgencyEnum
+  urgency_not_lt: UrgencyEnum
+  urgency_lte: UrgencyEnum
+  urgency_not_lte: UrgencyEnum
   status: HitStatusEnum
   status_not: HitStatusEnum
   status_in: [HitStatusEnum]
@@ -763,18 +851,18 @@ input HitFilter {
   status_not_lt: HitStatusEnum
   status_lte: HitStatusEnum
   status_not_lte: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
-  reasonForClearance_not: ReasonForCleranceEnum
-  reasonForClearance_in: [ReasonForCleranceEnum]
-  reasonForClearance_not_in: [ReasonForCleranceEnum]
-  reasonForClearance_gt: ReasonForCleranceEnum
-  reasonForClearance_not_gt: ReasonForCleranceEnum
-  reasonForClearance_gte: ReasonForCleranceEnum
-  reasonForClearance_not_gte: ReasonForCleranceEnum
-  reasonForClearance_lt: ReasonForCleranceEnum
-  reasonForClearance_not_lt: ReasonForCleranceEnum
-  reasonForClearance_lte: ReasonForCleranceEnum
-  reasonForClearance_not_lte: ReasonForCleranceEnum
+  reasonForClearance: ReasonForClearanceEnum
+  reasonForClearance_not: ReasonForClearanceEnum
+  reasonForClearance_in: [ReasonForClearanceEnum]
+  reasonForClearance_not_in: [ReasonForClearanceEnum]
+  reasonForClearance_gt: ReasonForClearanceEnum
+  reasonForClearance_not_gt: ReasonForClearanceEnum
+  reasonForClearance_gte: ReasonForClearanceEnum
+  reasonForClearance_not_gte: ReasonForClearanceEnum
+  reasonForClearance_lt: ReasonForClearanceEnum
+  reasonForClearance_not_lt: ReasonForClearanceEnum
+  reasonForClearance_lte: ReasonForClearanceEnum
+  reasonForClearance_not_lte: ReasonForClearanceEnum
   notes: String
   notes_not: String
   notes_contains: String
@@ -797,9 +885,9 @@ input HitFilter {
   toStringRepresentation_not_in: [String!]
   companyEntity: CompanyEntityFilter
   user: UserFilter
-  attachments_some: AttachmentFilter
-  attachments_none: AttachmentFilter
-  attachments_all: AttachmentFilter
+  attachments_some: DpsAttachmentFilter
+  attachments_none: DpsAttachmentFilter
+  attachments_all: DpsAttachmentFilter
   attachments_any: Boolean
   matches_some: MatchInfoFilter
   matches_none: MatchInfoFilter
@@ -809,9 +897,9 @@ input HitFilter {
   shipments_none: ShipmentFilter
   shipments_all: ShipmentFilter
   shipments_any: Boolean
-  messages_some: MessageFilter
-  messages_none: MessageFilter
-  messages_all: MessageFilter
+  messages_some: DpsMessageFilter
+  messages_none: DpsMessageFilter
+  messages_all: DpsMessageFilter
   messages_any: Boolean
   oldHits_some: OldHitFilter
   oldHits_none: OldHitFilter
@@ -844,7 +932,7 @@ input HitFilter {
 
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 input HitSort {
-  priority: SortOperationKind
+  urgency: SortOperationKind
   status: SortOperationKind
   reasonForClearance: SortOperationKind
   notes: SortOperationKind
@@ -1081,94 +1169,6 @@ input MatchInfoSourceSort {
   hashcode: SortOperationKind
 }
 
-"An escalation message - logically identical to Core \"Internal Message\""
-input MessageFilter {
-  AND: [MessageFilter!]
-  OR: [MessageFilter!]
-  timestamp: DateTime
-  timestamp_not: DateTime
-  timestamp_in: [DateTime]
-  timestamp_not_in: [DateTime]
-  timestamp_gt: DateTime
-  timestamp_not_gt: DateTime
-  timestamp_gte: DateTime
-  timestamp_not_gte: DateTime
-  timestamp_lt: DateTime
-  timestamp_not_lt: DateTime
-  timestamp_lte: DateTime
-  timestamp_not_lte: DateTime
-  text: String
-  text_not: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  text_in: [String!]
-  text_not_in: [String!]
-  coreShipmentId: Int
-  coreShipmentId_not: Int
-  coreShipmentId_in: [Int]
-  coreShipmentId_not_in: [Int]
-  coreShipmentId_gt: Int
-  coreShipmentId_not_gt: Int
-  coreShipmentId_gte: Int
-  coreShipmentId_not_gte: Int
-  coreShipmentId_lt: Int
-  coreShipmentId_not_lt: Int
-  coreShipmentId_lte: Int
-  coreShipmentId_not_lte: Int
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
-  user: UserFilter
-  attachments_some: AttachmentFilter
-  attachments_none: AttachmentFilter
-  attachments_all: AttachmentFilter
-  attachments_any: Boolean
-  id: String
-  id_not: String
-  id_contains: String
-  id_not_contains: String
-  id_starts_with: String
-  id_not_starts_with: String
-  id_ends_with: String
-  id_not_ends_with: String
-  id_in: [String!]
-  id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
-}
-
-"An escalation message - logically identical to Core \"Internal Message\""
-input MessageSort {
-  timestamp: SortOperationKind
-  text: SortOperationKind
-  coreShipmentId: SortOperationKind
-  toStringRepresentation: SortOperationKind
-  user: UserSort
-  id: SortOperationKind
-  hashcode: SortOperationKind
-}
-
 "A \"hit\" on a User or Company Entity as reported by LexisNexis"
 input OldHitFilter {
   AND: [OldHitFilter!]
@@ -1185,18 +1185,18 @@ input OldHitFilter {
   status_not_lt: HitStatusEnum
   status_lte: HitStatusEnum
   status_not_lte: HitStatusEnum
-  reasonForClearance: ReasonForCleranceEnum
-  reasonForClearance_not: ReasonForCleranceEnum
-  reasonForClearance_in: [ReasonForCleranceEnum]
-  reasonForClearance_not_in: [ReasonForCleranceEnum]
-  reasonForClearance_gt: ReasonForCleranceEnum
-  reasonForClearance_not_gt: ReasonForCleranceEnum
-  reasonForClearance_gte: ReasonForCleranceEnum
-  reasonForClearance_not_gte: ReasonForCleranceEnum
-  reasonForClearance_lt: ReasonForCleranceEnum
-  reasonForClearance_not_lt: ReasonForCleranceEnum
-  reasonForClearance_lte: ReasonForCleranceEnum
-  reasonForClearance_not_lte: ReasonForCleranceEnum
+  reasonForClearance: ReasonForClearanceEnum
+  reasonForClearance_not: ReasonForClearanceEnum
+  reasonForClearance_in: [ReasonForClearanceEnum]
+  reasonForClearance_not_in: [ReasonForClearanceEnum]
+  reasonForClearance_gt: ReasonForClearanceEnum
+  reasonForClearance_not_gt: ReasonForClearanceEnum
+  reasonForClearance_gte: ReasonForClearanceEnum
+  reasonForClearance_not_gte: ReasonForClearanceEnum
+  reasonForClearance_lt: ReasonForClearanceEnum
+  reasonForClearance_not_lt: ReasonForClearanceEnum
+  reasonForClearance_lte: ReasonForClearanceEnum
+  reasonForClearance_not_lte: ReasonForClearanceEnum
   whiteListUntil: DateTime
   whiteListUntil_not: DateTime
   whiteListUntil_in: [DateTime]
@@ -1258,9 +1258,9 @@ input OldHitFilter {
   changeLog_none: HitEditFilter
   changeLog_all: HitEditFilter
   changeLog_any: Boolean
-  attachments_some: AttachmentFilter
-  attachments_none: AttachmentFilter
-  attachments_all: AttachmentFilter
+  attachments_some: DpsAttachmentFilter
+  attachments_none: DpsAttachmentFilter
+  attachments_all: DpsAttachmentFilter
   attachments_any: Boolean
   id: String
   id_not: String
@@ -2056,13 +2056,7 @@ enum MatchTypeEnum {
   VESSEL
 }
 
-enum PriorityEnum {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-enum ReasonForCleranceEnum {
+enum ReasonForClearanceEnum {
   PERSON_NOT_ENTITY
   PARTIAL_NAME
   PARTIAL_ADDRESS
@@ -2087,6 +2081,12 @@ enum TransportationModeEnum {
   UNKNOWN_TRANSPORTATION
   TRUCK_INTL
   WAREHOUSE_STORAGE
+}
+
+enum UrgencyEnum {
+  LOW
+  MEDIUM
+  HIGH
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."

@@ -54,7 +54,7 @@ namespace x10.hotchoc.dps {
     /// </summary>
     public class ClearanceFormHit : Base {
       public HitStatusEnum? Status { get; set; }
-      public ReasonForCleranceEnum? ReasonForClearance { get; set; }
+      public ReasonForClearanceEnum? ReasonForClearance { get; set; }
       [GraphQLNonNullType]
       public WhitelistDuration WhitelistDays { get; set; }
       [GraphQLNonNullType]

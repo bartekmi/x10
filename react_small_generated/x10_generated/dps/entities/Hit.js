@@ -8,37 +8,37 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import toEnum from 'react_lib/utils/toEnum';
 
-import { attachmentCalculateErrors, type Attachment } from 'dps/entities/Attachment';
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
+import { dpsAttachmentCalculateErrors, type DpsAttachment } from 'dps/entities/DpsAttachment';
+import { dpsMessageCalculateErrors, type DpsMessage } from 'dps/entities/DpsMessage';
 import { matchInfoCalculateErrors, type MatchInfo } from 'dps/entities/MatchInfo';
-import { messageCalculateErrors, type Message } from 'dps/entities/Message';
 import { oldHitCalculateErrors, type OldHit } from 'dps/entities/OldHit';
 import { shipmentCalculateErrors, type Shipment } from 'dps/entities/Shipment';
 import { type User } from 'dps/entities/User';
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
-import { type HitStatusEnum, type ReasonForCleranceEnum } from 'dps/sharedEnums';
+import { type HitStatusEnum, type ReasonForClearanceEnum } from 'dps/sharedEnums';
 
 
 // Type Definition
 export type Hit = {
   +id: string,
-  +priority: ?PriorityEnum,
+  +urgency: ?UrgencyEnum,
   +status: ?HitStatusEnum,
-  +reasonForClearance: ?ReasonForCleranceEnum,
+  +reasonForClearance: ?ReasonForClearanceEnum,
   +notes: string,
   +companyEntity: ?CompanyEntity,
   +user: ?User,
-  +attachments: $ReadOnlyArray<Attachment>,
+  +attachments: $ReadOnlyArray<DpsAttachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +shipments: $ReadOnlyArray<Shipment>,
-  +messages: $ReadOnlyArray<Message>,
+  +messages: $ReadOnlyArray<DpsMessage>,
   +oldHits: $ReadOnlyArray<OldHit>,
   +whitelistDays: ?WhitelistDuration,
 };
 
 
 // Enums
-export const PriorityEnumPairs = [
+export const UrgencyEnumPairs = [
   {
     value: 'low',
     label: 'Low',
@@ -53,7 +53,7 @@ export const PriorityEnumPairs = [
   },
 ];
 
-export type PriorityEnum = 'low' | 'medium' | 'high';
+export type UrgencyEnum = 'low' | 'medium' | 'high';
 
 
 
@@ -61,7 +61,7 @@ export type PriorityEnum = 'low' | 'medium' | 'high';
 export function createDefaultHit(): Hit {
   return {
     id: uuid(),
-    priority: null,
+    urgency: null,
     status: 'unresolved',
     // $FlowExpectedError Required field, but no default value
     reasonForClearance: null,
@@ -90,10 +90,10 @@ export function hitCalculateErrors(hit: Hit, prefix?: string, inListIndex?: numb
   if (isBlank(hit.whitelistDays))
     addError(errors, prefix, 'Whitelist Days is required', ['whitelistDays'], inListIndex);
 
-  hit.attachments?.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  hit.attachments?.forEach((x, ii) => errors.push(...dpsAttachmentCalculateErrors(x, 'attachments', ii)));
   hit.matches?.forEach((x, ii) => errors.push(...matchInfoCalculateErrors(x, 'matches', ii)));
   hit.shipments?.forEach((x, ii) => errors.push(...shipmentCalculateErrors(x, 'shipments', ii)));
-  hit.messages?.forEach((x, ii) => errors.push(...messageCalculateErrors(x, 'messages', ii)));
+  hit.messages?.forEach((x, ii) => errors.push(...dpsMessageCalculateErrors(x, 'messages', ii)));
   hit.oldHits?.forEach((x, ii) => errors.push(...oldHitCalculateErrors(x, 'oldHits', ii)));
 
   if (toEnum(hit?.status) == "unresolved")

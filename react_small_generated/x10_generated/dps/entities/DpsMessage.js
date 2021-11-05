@@ -8,42 +8,42 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
-import { attachmentCalculateErrors, type Attachment } from 'dps/entities/Attachment';
+import { dpsAttachmentCalculateErrors, type DpsAttachment } from 'dps/entities/DpsAttachment';
 import { type User } from 'dps/entities/User';
 
 
 // Type Definition
-export type Message = {
+export type DpsMessage = {
   +id: string,
   +timestamp: ?string,
   +text: string,
   +coreShipmentId: ?number,
   +user: ?User,
-  +attachments: $ReadOnlyArray<Attachment>,
+  +attachments: $ReadOnlyArray<DpsAttachment>,
 };
 
 
 // Derived Attribute Functions
-export function messageShipmentUrl(message: ?{
+export function dpsMessageShipmentUrl(dpsMessage: ?{
   +coreShipmentId: ?number,
 }): string {
-  if (message == null) return '';
-  const result = '/shipments/' + x10toString(message?.coreShipmentId);
+  if (dpsMessage == null) return '';
+  const result = '/shipments/' + x10toString(dpsMessage?.coreShipmentId);
   return result;
 }
 
-export function messageFlexId(message: ?{
+export function dpsMessageFlexId(dpsMessage: ?{
   +coreShipmentId: ?number,
 }): string {
-  if (message == null) return '';
-  const result = 'Flex-' + x10toString(message?.coreShipmentId);
+  if (dpsMessage == null) return '';
+  const result = 'Flex-' + x10toString(dpsMessage?.coreShipmentId);
   return result;
 }
 
 
 
 // Create Default Function
-export function createDefaultMessage(): Message {
+export function createDefaultDpsMessage(): DpsMessage {
   return {
     id: uuid(),
     timestamp: null,
@@ -56,14 +56,14 @@ export function createDefaultMessage(): Message {
 
 
 // Validations
-export function messageCalculateErrors(message: Message, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
+export function dpsMessageCalculateErrors(dpsMessage: DpsMessage, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
-  if (message == null ) return errors;
+  if (dpsMessage == null ) return errors;
 
-  if (isBlank(message.user))
+  if (isBlank(dpsMessage.user))
     addError(errors, prefix, 'User is required', ['user'], inListIndex);
 
-  message.attachments?.forEach((x, ii) => errors.push(...attachmentCalculateErrors(x, 'attachments', ii)));
+  dpsMessage.attachments?.forEach((x, ii) => errors.push(...dpsAttachmentCalculateErrors(x, 'attachments', ii)));
 
   return errors;
 }

@@ -9,7 +9,7 @@ namespace x10.hotchoc.dps.Entities {
   /// <summary>
   /// An escalation message - logically identical to Core "Internal Message"
   /// </summary>
-  public class Message : Base {
+  public class DpsMessage : Base {
     // Regular Attributes
     public DateTime? Timestamp { get; set; }
     [GraphQLNonNullType]
@@ -19,7 +19,7 @@ namespace x10.hotchoc.dps.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Message: " + DbidHotChoc; }
+      get { return "DpsMessage: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 
@@ -27,7 +27,7 @@ namespace x10.hotchoc.dps.Entities {
     [GraphQLNonNullType]
     public User? User { get; set; }
     [GraphQLNonNullType]
-    public List<Attachment>? Attachments { get; set; }
+    public List<DpsAttachment>? Attachments { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
@@ -41,7 +41,7 @@ namespace x10.hotchoc.dps.Entities {
       User = user == null ? null : repository.GetUser(user.Value);
 
       if (Attachments != null)
-        foreach (Attachment attachments in Attachments)
+        foreach (DpsAttachment attachments in Attachments)
           attachments.SetNonOwnedAssociations(repository);
     }
   }

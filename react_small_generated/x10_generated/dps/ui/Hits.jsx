@@ -14,7 +14,7 @@ import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
-import { PriorityEnumPairs, type Hit } from 'dps/entities/Hit';
+import { UrgencyEnumPairs, type Hit } from 'dps/entities/Hit';
 
 import { type Hits_hits } from './__generated__/Hits_hits.graphql';
 
@@ -50,13 +50,13 @@ function Hits(props: Props): React.Node {
             },
             {
               id: '_1',
-              Header: 'Priority',
+              Header: 'Urgency',
               width: 140,
-              accessor: (data) => data?.priority,
+              accessor: (data) => data?.urgency,
               Cell: ({ value }) =>
                 <EnumDisplay
                   value={ value }
-                  options={ PriorityEnumPairs }
+                  options={ UrgencyEnumPairs }
                 />
               ,
             },
@@ -97,7 +97,7 @@ export default createFragmentContainer(Hits, {
         toStringRepresentation
         name
       }
-      priority
+      urgency
     }
   `,
 });

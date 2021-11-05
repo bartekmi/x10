@@ -12,7 +12,7 @@ namespace x10.hotchoc.dps.Entities {
   public class OldHit : Base {
     // Regular Attributes
     public HitStatusEnum? Status { get; set; }
-    public ReasonForCleranceEnum? ReasonForClearance { get; set; }
+    public ReasonForClearanceEnum? ReasonForClearance { get; set; }
     public DateTime? WhiteListUntil { get; set; }
     [GraphQLNonNullType]
     public string? Notes { get; set; }
@@ -31,7 +31,7 @@ namespace x10.hotchoc.dps.Entities {
     [GraphQLNonNullType]
     public List<HitEdit>? ChangeLog { get; set; }
     [GraphQLNonNullType]
-    public List<Attachment>? Attachments { get; set; }
+    public List<DpsAttachment>? Attachments { get; set; }
 
     public override void EnsureUniqueDbid() {
       base.EnsureUniqueDbid();
@@ -50,7 +50,7 @@ namespace x10.hotchoc.dps.Entities {
           changeLog.SetNonOwnedAssociations(repository);
 
       if (Attachments != null)
-        foreach (Attachment attachments in Attachments)
+        foreach (DpsAttachment attachments in Attachments)
           attachments.SetNonOwnedAssociations(repository);
     }
   }

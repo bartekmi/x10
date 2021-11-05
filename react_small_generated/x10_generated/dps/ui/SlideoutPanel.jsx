@@ -24,11 +24,11 @@ import { getDate } from 'react_lib/type_helpers/dateFunctions';
 import toEnum from 'react_lib/utils/toEnum';
 import toNum from 'react_lib/utils/toNum';
 
-import { createDefaultAttachment } from 'dps/entities/Attachment';
+import { createDefaultDpsAttachment } from 'dps/entities/DpsAttachment';
 import { type Hit } from 'dps/entities/Hit';
 import { createDefaultHitEdit } from 'dps/entities/HitEdit';
 import { createDefaultOldHit } from 'dps/entities/OldHit';
-import { ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
+import { ReasonForClearanceEnumPairs } from 'dps/sharedEnums';
 import AttachmentComponent from 'dps/ui/AttachmentComponent';
 
 import { type SlideoutPanel_hit } from './__generated__/SlideoutPanel_hit.graphql';
@@ -123,7 +123,7 @@ function SlideoutPanel(props: Props): React.Node {
               />
               <Icon
                 iconName='attention'
-                color='red30'
+                color='red40'
               />
             </Group>
             <TextDisplay
@@ -191,7 +191,7 @@ function SlideoutPanel(props: Props): React.Node {
                   >
                     <EnumDisplay
                       value={ data?.reasonForClearance }
-                      options={ ReasonForCleranceEnumPairs }
+                      options={ ReasonForClearanceEnumPairs }
                     />
                   </DisplayField>
                 </StyleControl>
@@ -208,10 +208,10 @@ function SlideoutPanel(props: Props): React.Node {
                   <MultiStacker
                     items={ data?.attachments }
                     itemDisplayFunc={ (data, onChange, inListIndex) => (
-                      <AttachmentComponent attachment={ data }/>
+                      <AttachmentComponent dpsAttachment={ data }/>
                     ) }
                     layout='wrap'
-                    addNewItem={ createDefaultAttachment }
+                    addNewItem={ createDefaultDpsAttachment }
                   />
                 </StyleControl>
                 <StyleControl
@@ -283,7 +283,7 @@ export default createFragmentContainer(SlideoutPanel, {
         id
         attachments {
           id
-          ...AttachmentComponent_attachment
+          ...AttachmentComponent_dpsAttachment
         }
         changeLog {
           id

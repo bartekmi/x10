@@ -10,7 +10,7 @@ attributes:
     default: cleared
     mandatory: true
   - name: reasonForClearance
-    dataType: ReasonForClerance
+    dataType: ReasonForClearance
     mandatory: true
   - name: whiteListUntil
     dataType: Timestamp
@@ -33,7 +33,7 @@ associations:
     owns: true
     datagen_quantity: 0..3
   - name: attachments
-    dataType: Attachment
+    dataType: DpsAttachment
     many: true
     owns: true
         

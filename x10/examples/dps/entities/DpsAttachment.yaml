@@ -1,4 +1,4 @@
-name: Attachment
+name: DpsAttachment
 inheritsFrom: Base
 description: Reflects a hit clearance attachment - typically screenshot jpg's
 

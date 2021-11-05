@@ -9,7 +9,7 @@ namespace x10.hotchoc.dps.Entities {
   /// <summary>
   /// Reflects a hit clearance attachment - typically screenshot jpg's
   /// </summary>
-  public class Attachment : Base {
+  public class DpsAttachment : Base {
     // Regular Attributes
     [GraphQLNonNullType]
     public string? Filename { get; set; }
@@ -19,7 +19,7 @@ namespace x10.hotchoc.dps.Entities {
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Attachment: " + DbidHotChoc; }
+      get { return "DpsAttachment: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

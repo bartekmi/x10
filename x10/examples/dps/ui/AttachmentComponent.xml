@@ -1,4 +1,4 @@
-<AttachmentComponent model="Attachment">
+<AttachmentComponent model="DpsAttachment">
   <Row borderColor="silver" padding="10">
     <Icon icon="attach"/>
     <Button label="=filename" url="=url"/>

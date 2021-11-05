@@ -17,8 +17,8 @@ import Dialog from 'react_lib/modal/Dialog';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import StyleControl from 'react_lib/StyleControl';
 
+import { createDefaultDpsMessage, dpsMessageFlexId, dpsMessageShipmentUrl } from 'dps/entities/DpsMessage';
 import { type Hit } from 'dps/entities/Hit';
-import { createDefaultMessage, messageFlexId, messageShipmentUrl } from 'dps/entities/Message';
 
 import { type EscalationTab_hit } from './__generated__/EscalationTab_hit.graphql';
 
@@ -101,12 +101,12 @@ function EscalationTab(props: Props): React.Node {
               value={ data?.text }
             />
             <Button
-              label={ messageFlexId(data) }
-              url={ messageShipmentUrl(data) }
+              label={ dpsMessageFlexId(data) }
+              url={ dpsMessageShipmentUrl(data) }
             />
           </VerticalStackPanel>
         ) }
-        addNewItem={ createDefaultMessage }
+        addNewItem={ createDefaultDpsMessage }
       />
     </VerticalStackPanel>
   );

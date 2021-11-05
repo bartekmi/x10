@@ -19,7 +19,7 @@ export const HitStatusEnumPairs = [
 
 export type HitStatusEnum = 'unresolved' | 'cleared' | 'denied';
 
-export const ReasonForCleranceEnumPairs = [
+export const ReasonForClearanceEnumPairs = [
   {
     value: 'person_not_entity',
     label: 'Person is not an Entity/Business',
@@ -38,5 +38,5 @@ export const ReasonForCleranceEnumPairs = [
   },
 ];
 
-export type ReasonForCleranceEnum = 'person_not_entity' | 'partial_name' | 'partial_address' | 'other';
+export type ReasonForClearanceEnum = 'person_not_entity' | 'partial_name' | 'partial_address' | 'other';
 

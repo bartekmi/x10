@@ -10,17 +10,17 @@ import Icon from 'latitude/Icon';
 import Button from 'react_lib/latitude_wrappers/Button';
 import StyleControl from 'react_lib/StyleControl';
 
-import { type Attachment } from 'dps/entities/Attachment';
+import { type DpsAttachment } from 'dps/entities/DpsAttachment';
 
-import { type AttachmentComponent_attachment } from './__generated__/AttachmentComponent_attachment.graphql';
+import { type AttachmentComponent_dpsAttachment } from './__generated__/AttachmentComponent_dpsAttachment.graphql';
 
 
 
 type Props = {|
-  +attachment: AttachmentComponent_attachment,
+  +dpsAttachment: AttachmentComponent_dpsAttachment,
 |};
 function AttachmentComponent(props: Props): React.Node {
-  const { attachment } = props;
+  const { dpsAttachment } = props;
 
   return (
     <StyleControl
@@ -34,8 +34,8 @@ function AttachmentComponent(props: Props): React.Node {
           iconName='attach'
         />
         <Button
-          label={ attachment?.filename }
-          url={ attachment?.url }
+          label={ dpsAttachment?.filename }
+          url={ dpsAttachment?.url }
         />
       </Group>
     </StyleControl>
@@ -44,8 +44,8 @@ function AttachmentComponent(props: Props): React.Node {
 
 // $FlowExpectedError
 export default createFragmentContainer(AttachmentComponent, {
-  attachment: graphql`
-    fragment AttachmentComponent_attachment on Attachment {
+  dpsAttachment: graphql`
+    fragment AttachmentComponent_dpsAttachment on DpsAttachment {
       id
       filename
       url

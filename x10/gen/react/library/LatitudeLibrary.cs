@@ -244,7 +244,7 @@ namespace x10.gen.react.library {
               new EnumConversion("silver", "grey40"),
               new EnumConversion("gray", "grey60"),
               new EnumConversion("black", "black"),
-              new EnumConversion("red", "red30"),
+              new EnumConversion("red", "red40"),
               new EnumConversion("maroon", "orange60"),
               new EnumConversion("yellow", "orange20"),
               new EnumConversion("olive", "green60"),

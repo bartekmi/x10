@@ -5,15 +5,15 @@ datagen_quantity: 10
 
 
 attributes:
-  - name: priority
-    dataType: Priority
+  - name: urgency
+    dataType: Urgency
 
   - name: status
     dataType: HitStatus
     default: unresolved
 
   - name: reasonForClearance
-    dataType: ReasonForClerance
+    dataType: ReasonForClearance
     mandatory: true
     datagen_probability: 0
 
@@ -35,7 +35,7 @@ associations:
     owns: false
     datagen_probability: 0.5
   - name: attachments
-    dataType: Attachment
+    dataType: DpsAttachment
     many: true
     owns: true
   - name: matches
@@ -49,7 +49,7 @@ associations:
     owns: true
     datagen_quantity: 1..10
   - name: messages
-    dataType: Message
+    dataType: DpsMessage
     many: true
     owns: true
     datagen_quantity: 0..5
@@ -68,6 +68,6 @@ validations:
     trigger: =status == 'unresolved'
 
 enums:
-  - name: Priority
+  - name: Urgency
     values: low, medium, high
         

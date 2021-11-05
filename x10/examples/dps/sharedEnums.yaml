@@ -8,7 +8,7 @@
       label: No           # No, it's not a denied party
     - value: denied
       label: Yes          # Yes, it is a denied party
-- name: ReasonForClerance
+- name: ReasonForClearance
   values: 
     - value: personNotEntity
       label: "Person is not an Entity/Business"

@@ -4,7 +4,7 @@ public enum HitStatusEnum {
   Denied,
 }
 
-public enum ReasonForCleranceEnum {
+public enum ReasonForClearanceEnum {
   PersonNotEntity,
   PartialName,
   PartialAddress,

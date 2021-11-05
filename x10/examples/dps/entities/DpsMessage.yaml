@@ -1,4 +1,4 @@
-name: Message
+name: DpsMessage
 inheritsFrom: Base
 description: An escalation message - logically identical to Core "Internal Message"
 
@@ -26,6 +26,6 @@ associations:
     mandatory: true
     owns: false  
   - name: attachments
-    dataType: Attachment
+    dataType: DpsAttachment
     many: true
     owns: true

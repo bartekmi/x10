@@ -7,7 +7,7 @@ using x10.hotchoc.dps.Repositories;
 
 namespace x10.hotchoc.dps.Entities {
   // Enums
-  public enum PriorityEnum {
+  public enum UrgencyEnum {
     Low,
     Medium,
     High,
@@ -19,9 +19,9 @@ namespace x10.hotchoc.dps.Entities {
   /// </summary>
   public class Hit : Base {
     // Regular Attributes
-    public PriorityEnum? Priority { get; set; }
+    public UrgencyEnum? Urgency { get; set; }
     public HitStatusEnum? Status { get; set; }
-    public ReasonForCleranceEnum? ReasonForClearance { get; set; }
+    public ReasonForClearanceEnum? ReasonForClearance { get; set; }
     [GraphQLNonNullType]
     public string? Notes { get; set; }
 
@@ -36,13 +36,13 @@ namespace x10.hotchoc.dps.Entities {
     public CompanyEntity? CompanyEntity { get; set; }
     public User? User { get; set; }
     [GraphQLNonNullType]
-    public List<Attachment>? Attachments { get; set; }
+    public List<DpsAttachment>? Attachments { get; set; }
     [GraphQLNonNullType]
     public List<MatchInfo>? Matches { get; set; }
     [GraphQLNonNullType]
     public List<Shipment>? Shipments { get; set; }
     [GraphQLNonNullType]
-    public List<Message>? Messages { get; set; }
+    public List<DpsMessage>? Messages { get; set; }
     [GraphQLNonNullType]
     public List<OldHit>? OldHits { get; set; }
     [GraphQLNonNullType]
@@ -67,7 +67,7 @@ namespace x10.hotchoc.dps.Entities {
       User = user == null ? null : repository.GetUser(user.Value);
 
       if (Attachments != null)
-        foreach (Attachment attachments in Attachments)
+        foreach (DpsAttachment attachments in Attachments)
           attachments.SetNonOwnedAssociations(repository);
 
       if (Matches != null)
@@ -79,7 +79,7 @@ namespace x10.hotchoc.dps.Entities {
           shipments.SetNonOwnedAssociations(repository);
 
       if (Messages != null)
-        foreach (Message messages in Messages)
+        foreach (DpsMessage messages in Messages)
           messages.SetNonOwnedAssociations(repository);
 
       if (OldHits != null)

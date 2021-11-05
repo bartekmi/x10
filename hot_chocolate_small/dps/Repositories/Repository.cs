@@ -13,16 +13,16 @@ namespace x10.hotchoc.dps.Repositories {
     private Dictionary<int, SettingsAutoAssignment> _settingsAutoAssignments = new Dictionary<int, SettingsAutoAssignment>();
     private Dictionary<int, WhitelistDuration> _whitelistDurations = new Dictionary<int, WhitelistDuration>();
     private Dictionary<int, Hit> _hits = new Dictionary<int, Hit>();
-    private Dictionary<int, Attachment> _attachments = new Dictionary<int, Attachment>();
     private Dictionary<int, MatchInfoSource> _matchInfoSources = new Dictionary<int, MatchInfoSource>();
     private Dictionary<int, Port> _ports = new Dictionary<int, Port>();
     private Dictionary<int, MatchInfo> _matchInfos = new Dictionary<int, MatchInfo>();
+    private Dictionary<int, DpsAttachment> _dpsAttachments = new Dictionary<int, DpsAttachment>();
     private Dictionary<int, OldHit> _oldHits = new Dictionary<int, OldHit>();
     private Dictionary<int, User> _users = new Dictionary<int, User>();
     private Dictionary<int, Shipment> _shipments = new Dictionary<int, Shipment>();
     private Dictionary<int, Client> _clients = new Dictionary<int, Client>();
     private Dictionary<int, AddressType> _addressTypes = new Dictionary<int, AddressType>();
-    private Dictionary<int, Message> _messages = new Dictionary<int, Message>();
+    private Dictionary<int, DpsMessage> _dpsMessages = new Dictionary<int, DpsMessage>();
 
     public override IEnumerable<Type> Types() {
       return new Type[] {
@@ -35,16 +35,16 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(SettingsAutoAssignment),
         typeof(WhitelistDuration),
         typeof(Hit),
-        typeof(Attachment),
         typeof(MatchInfoSource),
         typeof(Port),
         typeof(MatchInfo),
+        typeof(DpsAttachment),
         typeof(OldHit),
         typeof(User),
         typeof(Shipment),
         typeof(Client),
         typeof(AddressType),
-        typeof(Message),
+        typeof(DpsMessage),
       };
     }
 
@@ -58,16 +58,16 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is SettingsAutoAssignment settingsAutoAssignment) _settingsAutoAssignments[id] = settingsAutoAssignment;
       if (instance is WhitelistDuration whitelistDuration) _whitelistDurations[id] = whitelistDuration;
       if (instance is Hit hit) _hits[id] = hit;
-      if (instance is Attachment attachment) _attachments[id] = attachment;
       if (instance is MatchInfoSource matchInfoSource) _matchInfoSources[id] = matchInfoSource;
       if (instance is Port port) _ports[id] = port;
       if (instance is MatchInfo matchInfo) _matchInfos[id] = matchInfo;
+      if (instance is DpsAttachment dpsAttachment) _dpsAttachments[id] = dpsAttachment;
       if (instance is OldHit oldHit) _oldHits[id] = oldHit;
       if (instance is User user) _users[id] = user;
       if (instance is Shipment shipment) _shipments[id] = shipment;
       if (instance is Client client) _clients[id] = client;
       if (instance is AddressType addressType) _addressTypes[id] = addressType;
-      if (instance is Message message) _messages[id] = message;
+      if (instance is DpsMessage dpsMessage) _dpsMessages[id] = dpsMessage;
     }
 
     #region Settingses
@@ -126,14 +126,6 @@ namespace x10.hotchoc.dps.Repositories {
     }
     #endregion
 
-    #region Attachments
-    public IQueryable<Attachment> GetAttachments() => _attachments.Values.AsQueryable();
-    public Attachment GetAttachment(int id) { return _attachments[id]; }
-    public int AddOrUpdateAttachment(int? dbid, Attachment attachment) {
-      return RepositoryUtils.AddOrUpdate(dbid, attachment, _attachments);
-    }
-    #endregion
-
     #region MatchInfoSources
     public IQueryable<MatchInfoSource> GetMatchInfoSources() => _matchInfoSources.Values.AsQueryable();
     public MatchInfoSource GetMatchInfoSource(int id) { return _matchInfoSources[id]; }
@@ -155,6 +147,14 @@ namespace x10.hotchoc.dps.Repositories {
     public MatchInfo GetMatchInfo(int id) { return _matchInfos[id]; }
     public int AddOrUpdateMatchInfo(int? dbid, MatchInfo matchInfo) {
       return RepositoryUtils.AddOrUpdate(dbid, matchInfo, _matchInfos);
+    }
+    #endregion
+
+    #region DpsAttachments
+    public IQueryable<DpsAttachment> GetDpsAttachments() => _dpsAttachments.Values.AsQueryable();
+    public DpsAttachment GetDpsAttachment(int id) { return _dpsAttachments[id]; }
+    public int AddOrUpdateDpsAttachment(int? dbid, DpsAttachment dpsAttachment) {
+      return RepositoryUtils.AddOrUpdate(dbid, dpsAttachment, _dpsAttachments);
     }
     #endregion
 
@@ -198,11 +198,11 @@ namespace x10.hotchoc.dps.Repositories {
     }
     #endregion
 
-    #region Messages
-    public IQueryable<Message> GetMessages() => _messages.Values.AsQueryable();
-    public Message GetMessage(int id) { return _messages[id]; }
-    public int AddOrUpdateMessage(int? dbid, Message message) {
-      return RepositoryUtils.AddOrUpdate(dbid, message, _messages);
+    #region DpsMessages
+    public IQueryable<DpsMessage> GetDpsMessages() => _dpsMessages.Values.AsQueryable();
+    public DpsMessage GetDpsMessage(int id) { return _dpsMessages[id]; }
+    public int AddOrUpdateDpsMessage(int? dbid, DpsMessage dpsMessage) {
+      return RepositoryUtils.AddOrUpdate(dbid, dpsMessage, _dpsMessages);
     }
     #endregion
 

@@ -9,7 +9,7 @@ import isBlank from 'react_lib/utils/isBlank';
 
 
 // Type Definition
-export type Attachment = {
+export type DpsAttachment = {
   +id: string,
   +filename: string,
   +url: string,
@@ -17,7 +17,7 @@ export type Attachment = {
 
 
 // Create Default Function
-export function createDefaultAttachment(): Attachment {
+export function createDefaultDpsAttachment(): DpsAttachment {
   return {
     id: uuid(),
     filename: '',
@@ -27,9 +27,9 @@ export function createDefaultAttachment(): Attachment {
 
 
 // Validations
-export function attachmentCalculateErrors(attachment: Attachment, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
+export function dpsAttachmentCalculateErrors(dpsAttachment: DpsAttachment, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> {
   const errors = [];
-  if (attachment == null ) return errors;
+  if (dpsAttachment == null ) return errors;
 
 
   return errors;

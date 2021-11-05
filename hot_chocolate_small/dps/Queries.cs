@@ -179,30 +179,6 @@ namespace x10.hotchoc.dps {
           repository.GetHits();
     #endregion
 
-    #region Attachment
-    /// <summary>
-    /// Retrieve a Attachment by id
-    /// </summary>
-    /// <param name="id">The id of the Attachment.</param>
-    /// <param name="repository"></param>
-    /// <returns>The Attachment.</returns>
-    public Attachment GetAttachment(
-        string id,
-        [Service] IRepository repository) =>
-          repository.GetAttachment(IdUtils.FromRelayIdMandatory(id));
-
-    /// <summary>
-    /// Gets all Attachments.
-    /// </summary>
-    /// <param name="repository"></param>
-    /// <returns>All Attachments.</returns>
-    [UseFiltering]
-    [UseSorting]
-    public IEnumerable<Attachment> GetAttachments(
-        [Service] IRepository repository) =>
-          repository.GetAttachments();
-    #endregion
-
     #region MatchInfoSource
     /// <summary>
     /// Retrieve a MatchInfoSource by id
@@ -273,6 +249,30 @@ namespace x10.hotchoc.dps {
     public IEnumerable<MatchInfo> GetMatchInfos(
         [Service] IRepository repository) =>
           repository.GetMatchInfos();
+    #endregion
+
+    #region DpsAttachment
+    /// <summary>
+    /// Retrieve a DpsAttachment by id
+    /// </summary>
+    /// <param name="id">The id of the DpsAttachment.</param>
+    /// <param name="repository"></param>
+    /// <returns>The DpsAttachment.</returns>
+    public DpsAttachment GetDpsAttachment(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetDpsAttachment(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all DpsAttachments.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All DpsAttachments.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<DpsAttachment> GetDpsAttachments(
+        [Service] IRepository repository) =>
+          repository.GetDpsAttachments();
     #endregion
 
     #region OldHit
@@ -395,28 +395,28 @@ namespace x10.hotchoc.dps {
           repository.GetAddressTypes();
     #endregion
 
-    #region Message
+    #region DpsMessage
     /// <summary>
-    /// Retrieve a Message by id
+    /// Retrieve a DpsMessage by id
     /// </summary>
-    /// <param name="id">The id of the Message.</param>
+    /// <param name="id">The id of the DpsMessage.</param>
     /// <param name="repository"></param>
-    /// <returns>The Message.</returns>
-    public Message GetMessage(
+    /// <returns>The DpsMessage.</returns>
+    public DpsMessage GetDpsMessage(
         string id,
         [Service] IRepository repository) =>
-          repository.GetMessage(IdUtils.FromRelayIdMandatory(id));
+          repository.GetDpsMessage(IdUtils.FromRelayIdMandatory(id));
 
     /// <summary>
-    /// Gets all Messages.
+    /// Gets all DpsMessages.
     /// </summary>
     /// <param name="repository"></param>
-    /// <returns>All Messages.</returns>
+    /// <returns>All DpsMessages.</returns>
     [UseFiltering]
     [UseSorting]
-    public IEnumerable<Message> GetMessages(
+    public IEnumerable<DpsMessage> GetDpsMessages(
         [Service] IRepository repository) =>
-          repository.GetMessages();
+          repository.GetDpsMessages();
     #endregion
 
   }

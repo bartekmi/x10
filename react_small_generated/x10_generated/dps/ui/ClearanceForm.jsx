@@ -20,7 +20,7 @@ import toEnum from 'react_lib/utils/toEnum';
 import toGraphqlEnum from 'react_lib/utils/toGraphqlEnum';
 
 import { hitCalculateErrors, type Hit } from 'dps/entities/Hit';
-import { HitStatusEnumPairs, ReasonForCleranceEnumPairs } from 'dps/sharedEnums';
+import { HitStatusEnumPairs, ReasonForClearanceEnumPairs } from 'dps/sharedEnums';
 
 
 
@@ -69,7 +69,7 @@ function ClearanceForm(props: Props): React.Node {
         >
           <Icon
             iconName='attention'
-            color='red30'
+            color='red40'
           />
           <TextDisplay
             value='Shipments related to this entity will remain blocked'
@@ -94,7 +94,7 @@ function ClearanceForm(props: Props): React.Node {
                 // $FlowExpectedError
                 onChange({ ...hit, reasonForClearance: value })
               } }
-              options={ ReasonForCleranceEnumPairs }
+              options={ ReasonForClearanceEnumPairs }
             />
           </FormField>
           <FormField

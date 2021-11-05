@@ -13,7 +13,7 @@
       <!-- Columns -->
       <Table.Columns>
         <companyEntity.name/>
-        <priority/>
+        <urgency/>
         <TableColumn label="Go-To">
           <Row>
             <Button label="Tabs" url="='/hits/' + id"/>

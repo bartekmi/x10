@@ -62,7 +62,7 @@ function SettingsEditor(props: Props): React.Node {
             />
             <Icon
               iconName='dot'
-              color='red30'
+              color='red40'
             />
           </Group>
           <TextDisplay
