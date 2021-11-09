@@ -48,6 +48,9 @@ derivedAttributes:
   - name: ageInYears
     dataType: Integer
     formula: = __Context__.today.year - myDate.year
+  - name: fromChild
+    dataType: Integer
+    formula: =myInteger1 + nested.myNestedInteger1
 associations:
   - name: nested
     dataType: NestedEntity

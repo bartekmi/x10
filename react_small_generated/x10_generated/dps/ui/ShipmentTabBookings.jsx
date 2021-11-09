@@ -16,7 +16,7 @@ import Table from 'react_lib/table/Table';
 import { getDate } from 'react_lib/type_helpers/dateFunctions';
 
 import { BookingStgeEnumPairs, bookingTransportationMode, type Booking } from 'dps/entities/Booking';
-import { companyEntityUrl } from 'dps/entities/CompanyEntity';
+import { clientUrl } from 'dps/entities/Client';
 import { shipmentUrl } from 'dps/entities/Shipment';
 import { TransportationModeEnumPairs } from 'dps/sharedEnums';
 
@@ -62,30 +62,6 @@ function ShipmentTabBookings(props: Props): React.Node {
             },
             {
               id: '_1',
-              Header: 'Shipper',
-              width: 140,
-              accessor: (data) => data,
-              Cell: ({ value }) =>
-                <Button
-                  label={ value?.shipper_entity?.name }
-                  url={ companyEntityUrl(value?.shipper_entity) }
-                />
-              ,
-            },
-            {
-              id: '_2',
-              Header: 'Consignee',
-              width: 140,
-              accessor: (data) => data,
-              Cell: ({ value }) =>
-                <Button
-                  label={ value?.consignee_entity?.name }
-                  url={ companyEntityUrl(value?.consignee_entity) }
-                />
-              ,
-            },
-            {
-              id: '_3',
               Header: 'Mode',
               width: 140,
               accessor: (data) => bookingTransportationMode(data),
@@ -97,51 +73,66 @@ function ShipmentTabBookings(props: Props): React.Node {
               ,
             },
             {
-              id: '_4',
+              id: '_2',
+              Header: 'Cargo Ready Date',
+              width: 140,
+              accessor: (data) => data?.cargo_ready_date,
+              Cell: ({ value }) =>
+                <DateDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: '_3',
               Header: 'Shipper',
               width: 140,
-              accessor: (data) => data?.shipper_entity?.name,
+              accessor: (data) => data,
               Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
+                <Button
+                  label={ value?.shipper_entity?.name }
+                  url={ clientUrl(value?.shipper_entity?.company?.client) }
+                />
+              ,
+            },
+            {
+              id: '_4',
+              Header: 'Consignee',
+              width: 140,
+              accessor: (data) => data,
+              Cell: ({ value }) =>
+                <Button
+                  label={ value?.consignee_entity?.name }
+                  url={ clientUrl(value?.consignee_entity?.company?.client) }
                 />
               ,
             },
             {
               id: '_5',
-              Header: 'Consignee',
-              width: 140,
-              accessor: (data) => data?.consignee_entity?.name,
-              Cell: ({ value }) =>
-                <TextDisplay
-                  value={ value }
-                />
-              ,
-            },
-            {
-              id: '_6',
               Header: 'Weight (kg)',
               width: 140,
               accessor: (data) => data?.cargo?.metric_weight,
               Cell: ({ value }) =>
                 <FloatDisplay
                   value={ value }
+                  decimalPlaces={ 2 }
                 />
               ,
             },
             {
-              id: '_7',
+              id: '_6',
               Header: 'volume (cm)',
               width: 140,
               accessor: (data) => data?.cargo?.metric_volume,
               Cell: ({ value }) =>
                 <FloatDisplay
                   value={ value }
+                  decimalPlaces={ 3 }
                 />
               ,
             },
             {
-              id: '_8',
+              id: '_7',
               Header: 'Creation Date',
               width: 140,
               accessor: (data) => getDate(data?.createdAt),
@@ -152,7 +143,7 @@ function ShipmentTabBookings(props: Props): React.Node {
               ,
             },
             {
-              id: '_9',
+              id: '_8',
               Header: 'Status',
               width: 140,
               accessor: (data) => data?.booking_stage,
@@ -182,10 +173,17 @@ export default createFragmentContainer(ShipmentTabBookings, {
         metric_volume
         metric_weight
       }
+      cargo_ready_date
       consignee_entity {
         id
         toStringRepresentation
-        dbid
+        company {
+          id
+          client {
+            id
+            dbid
+          }
+        }
         name
       }
       createdAt
@@ -200,7 +198,13 @@ export default createFragmentContainer(ShipmentTabBookings, {
       shipper_entity {
         id
         toStringRepresentation
-        dbid
+        company {
+          id
+          client {
+            id
+            dbid
+          }
+        }
         name
       }
       truck_ftl

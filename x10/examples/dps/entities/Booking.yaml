@@ -25,6 +25,8 @@ attributes:
   - name: createdAt
     dataType: Timestamp
     mandatory: true
+  - name: cargo_ready_date
+    dataType: Date
 
 
 derivedAttributes:

@@ -193,6 +193,23 @@ myDate
       RunTest(xml, gql);
     }
 
+    [Fact(Skip = "See Issue https://github.com/bartekmi/x10/issues/40")]
+    public void DerivedAttrWithChildAttr() {
+      string xml = @"
+<MyClassDef model='Entity'>
+  <Group>
+    <fromChild/>
+  </Group>
+</MyClassDef>
+";
+
+      string gql = @"
+
+";
+
+      RunTest(xml, gql);
+    }
+
     [Fact]
     public void RecursivelyContainsMember() {
       string xml = @"

@@ -17,7 +17,7 @@ import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import toEnum from 'react_lib/utils/toEnum';
 
-import { companyEntityUrl } from 'dps/entities/CompanyEntity';
+import { clientUrl } from 'dps/entities/Client';
 import { portCityAndCountry } from 'dps/entities/Port';
 import { shipmentModeSubtext, shipmentUrl, type Shipment } from 'dps/entities/Shipment';
 import { TransportationModeEnumPairs } from 'dps/sharedEnums';
@@ -85,7 +85,7 @@ function ShipmentTabShipments(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Button
                   label={ value?.consignee?.name }
-                  url={ companyEntityUrl(value?.consignee) }
+                  url={ clientUrl(value?.consignee?.company?.client) }
                 />
               ,
             },
@@ -97,7 +97,7 @@ function ShipmentTabShipments(props: Props): React.Node {
               Cell: ({ value }) =>
                 <Button
                   label={ value?.shipper?.name }
-                  url={ companyEntityUrl(value?.shipper) }
+                  url={ clientUrl(value?.shipper?.company?.client) }
                 />
               ,
             },
@@ -254,7 +254,13 @@ export default createFragmentContainer(ShipmentTabShipments, {
       consignee {
         id
         toStringRepresentation
-        dbid
+        company {
+          id
+          client {
+            id
+            dbid
+          }
+        }
         name
       }
       customs
@@ -275,7 +281,13 @@ export default createFragmentContainer(ShipmentTabShipments, {
       shipper {
         id
         toStringRepresentation
-        dbid
+        company {
+          id
+          client {
+            id
+            dbid
+          }
+        }
         name
       }
       status

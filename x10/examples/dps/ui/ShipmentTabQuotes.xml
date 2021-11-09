@@ -8,7 +8,7 @@
       </TableColumn>
 
       <client.name label="Client Name"/>
-      <name/>
+      <name label="Shipment Name"/>
       <transportationMode hideLabelIfIconPresent="true" label="Mode"/>
 
       <TableColumn label="From" path="departurePort">

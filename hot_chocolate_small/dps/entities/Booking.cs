@@ -35,6 +35,7 @@ namespace x10.hotchoc.dps.Entities {
     public bool Air { get; set; }
     public BookingStgeEnum? Booking_stage { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public DateTime? Cargo_ready_date { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

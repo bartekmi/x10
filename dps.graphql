@@ -21,6 +21,7 @@ type Booking {
   air: Boolean!
   booking_stage: BookingStgeEnum
   createdAt: DateTime
+  cargo_ready_date: DateTime
   toStringRepresentation: String!
   shipper_entity: CompanyEntity!
   consignee_entity: CompanyEntity!
@@ -458,6 +459,18 @@ input BookingFilter {
   createdAt_not_lt: DateTime
   createdAt_lte: DateTime
   createdAt_not_lte: DateTime
+  cargo_ready_date: DateTime
+  cargo_ready_date_not: DateTime
+  cargo_ready_date_in: [DateTime]
+  cargo_ready_date_not_in: [DateTime]
+  cargo_ready_date_gt: DateTime
+  cargo_ready_date_not_gt: DateTime
+  cargo_ready_date_gte: DateTime
+  cargo_ready_date_not_gte: DateTime
+  cargo_ready_date_lt: DateTime
+  cargo_ready_date_not_lt: DateTime
+  cargo_ready_date_lte: DateTime
+  cargo_ready_date_not_lte: DateTime
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -506,6 +519,7 @@ input BookingSort {
   air: SortOperationKind
   booking_stage: SortOperationKind
   createdAt: SortOperationKind
+  cargo_ready_date: SortOperationKind
   toStringRepresentation: SortOperationKind
   shipper_entity: CompanyEntitySort
   consignee_entity: CompanyEntitySort

@@ -11,10 +11,10 @@
       </TableColumn>
       <name/>
       <TableColumn label="Consignee" path="consignee">
-        <Button label="=name" url="=url"/>
+        <Button label="=name" url="=company.client.url"/>
       </TableColumn>
       <TableColumn label="Shipper" path="shipper">
-        <Button label="=name" url="=url"/>
+        <Button label="=name" url="=company.client.url"/>
       </TableColumn>
 
       <TableColumn label="Mode">

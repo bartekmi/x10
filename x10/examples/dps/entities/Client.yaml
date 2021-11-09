@@ -13,3 +13,9 @@ attributes:
     mandatory: true
     datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
     datagen_capitalization: wordCaps
+
+
+derivedAttributes:
+  - name: url
+    dataType: String
+    formula: "='/clients/' + dbid"

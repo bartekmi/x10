@@ -6,7 +6,6 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
-import x10toString from 'react_lib/utils/x10toString';
 
 import { addressTypeCalculateErrors, createDefaultAddressType, type AddressType } from 'dps/entities/AddressType';
 import { companyCalculateErrors, createDefaultCompany, type Company } from 'dps/entities/Company';
@@ -24,17 +23,6 @@ export type CompanyEntity = {
   +physicalAddress: AddressType,
   +company: Company,
 };
-
-
-// Derived Attribute Functions
-export function companyEntityUrl(companyEntity: ?{
-  +dbid: ?number,
-}): string {
-  if (companyEntity == null) return '';
-  const result = '/clients/' + x10toString(companyEntity?.company?.client?.dbid);
-  return result;
-}
-
 
 
 // Create Default Function

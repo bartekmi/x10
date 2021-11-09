@@ -9,20 +9,19 @@
           <Button label="=shipment.flexId" url="=shipment.url"/>
         </VerticalStackPanel>
       </TableColumn>
-      
-      <TableColumn label="Shipper" path="shipper_entity">
-        <Button label="=name" url="=url"/>
-      </TableColumn>
-      <TableColumn label="Consignee" path="consignee_entity">
-        <Button label="=name" url="=url"/>
-      </TableColumn>
 
       <transportationMode label="Mode"/>
-      <shipper_entity.name label="Shipper"/>
-      <consignee_entity.name label="Consignee"/>
+      <cargo_ready_date label="Cargo Ready Date"/>
+      
+      <TableColumn label="Shipper" path="shipper_entity">
+        <Button label="=name" url="=company.client.url"/>
+      </TableColumn>
+      <TableColumn label="Consignee" path="consignee_entity">
+        <Button label="=name" url="=company.client.url"/>
+      </TableColumn>
 
-      <cargo.metric_weight label="Weight (kg)"/>
-      <cargo.metric_volume label="volume (cm)"/>
+      <cargo.metric_weight label="Weight (kg)" decimalPlaces="2"/>
+      <cargo.metric_volume label="volume (cm)" decimalPlaces="3"/>
 
       <createdAt.date label="Creation Date"/>
       <booking_stage label="Status"/>

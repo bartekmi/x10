@@ -24,6 +24,7 @@ export type Booking = {
   +air: boolean,
   +booking_stage: ?BookingStgeEnum,
   +createdAt: ?string,
+  +cargo_ready_date: ?string,
   +shipper_entity: ?CompanyEntity,
   +consignee_entity: ?CompanyEntity,
   +cargo: Cargo,
@@ -88,6 +89,7 @@ export function createDefaultBooking(): Booking {
     booking_stage: null,
     // $FlowExpectedError Required field, but no default value
     createdAt: null,
+    cargo_ready_date: null,
     shipper_entity: null,
     consignee_entity: null,
     cargo: createDefaultCargo(),
