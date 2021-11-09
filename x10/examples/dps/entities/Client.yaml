@@ -7,3 +7,9 @@ attributes:
     dataType: Integer
     datagen_min: 1
     datagen_max: 50000
+    
+  - name: name
+    dataType: String
+    mandatory: true
+    datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
+    datagen_capitalization: wordCaps

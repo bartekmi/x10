@@ -12,6 +12,7 @@ import isBlank from 'react_lib/utils/isBlank';
 export type Client = {
   +id: string,
   +dbid: ?number,
+  +name: string,
 };
 
 
@@ -20,6 +21,7 @@ export function createDefaultClient(): Client {
   return {
     id: uuid(),
     dbid: null,
+    name: '',
   };
 }
 
@@ -29,6 +31,8 @@ export function clientCalculateErrors(client: Client, prefix?: string, inListInd
   const errors = [];
   if (client == null ) return errors;
 
+  if (isBlank(client.name))
+    addError(errors, prefix, 'Name is required', ['name'], inListIndex);
 
   return errors;
 }

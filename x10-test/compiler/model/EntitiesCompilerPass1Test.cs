@@ -168,7 +168,7 @@ attributes:
     description: Description...
     dataType: String
 ",
-        "Invalid Attribute name: 'MyAttribute'. Must be lower-cased camelCase: e.g. 'age', 'firstName'. Numbers are also allowed.", 6, 11);
+        "Invalid Attribute name: 'MyAttribute'. Must be lower-cased camelCase or snake_case: e.g. 'age', 'firstName', 'first_name'. Numbers are also allowed.", 6, 11);
     }
 
     [Fact]
@@ -182,7 +182,7 @@ associations:
     description: Description...
     dataType: Blurg
 ",
-        "Invalid Association name: 'MyAssociation'. Must be lower-cased camelCase: e.g. 'sender', 'purchaseOrders'. Numbers are also allowed.", 6, 11);
+        "Invalid Association name: 'MyAssociation'. Must be lower-cased camelCase or snake_case: e.g. 'sender', 'purchaseOrders', 'purchase_orders'. Numbers are also allowed.", 6, 11);
     }
 
     [Fact]

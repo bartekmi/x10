@@ -11,14 +11,18 @@ namespace x10.model {
     public const string CONTEXT_ENTITY_NAME = "__Context__";
 
     private enum Style {
-      UpperCamelCase,
-      LowerCamelCase,
-      LowerCamelCaseOrAllCaps,
+      UpperCamelCase,               // likeThis
+      LowerCamelCase,               // LikeThis
+      SnakeCase,                    // like_this
+
+      LowerCamelCaseOrAllCaps,      // likeThis or LIKETHIS or LIKE_THIS
+      SnakeCaseOrLowerCamelCase,    // like_this or likeThis
     }
 
     private readonly static Regex UPPER_CASE_CAMEL_REGEX = new Regex("^[A-Z][a-zA-Z0-9]*$");
     private readonly static Regex LOWER_CASE_CAMEL_REGEX = new Regex("^[a-z][a-zA-Z0-9]*$");
     private readonly static Regex ALL_CAPS = new Regex("^[A-Z][A-Z0-9_]*$");
+    private readonly static Regex SNAKE_CASE = new Regex("^[a-z]+(_[a-z]+)*$");
 
     public static bool ValidateEntityName(string entityName, IParseElement element, MessageBucket messages) {
       if (entityName == CONTEXT_ENTITY_NAME)
@@ -55,17 +59,17 @@ namespace x10.model {
     }
 
     public static bool IsMemberName(string name) {
-      return Is(Style.LowerCamelCase, name);
+      return Is(Style.SnakeCaseOrLowerCamelCase, name);
     }
 
     public static bool ValidateAttributeName(string attributeName, IParseElement element, MessageBucket messages) {
-      string examples = "'age', 'firstName'";
-      return Validate(Style.LowerCamelCase, attributeName, "Attribute name", examples, element, messages);
+      string examples = "'age', 'firstName', 'first_name'";
+      return Validate(Style.SnakeCaseOrLowerCamelCase, attributeName, "Attribute name", examples, element, messages);
     }
 
     public static bool ValidateAssociationName(string associationName, IParseElement element, MessageBucket messages) {
-      string examples = "'sender', 'purchaseOrders'";
-      return Validate(Style.LowerCamelCase, associationName, "Association name", examples, element, messages);
+      string examples = "'sender', 'purchaseOrders', 'purchase_orders'";
+      return Validate(Style.SnakeCaseOrLowerCamelCase, associationName, "Association name", examples, element, messages);
     }
 
     public static bool ValidateEnumName(string enumName, IParseElement element, MessageBucket messages) {
@@ -108,6 +112,10 @@ namespace x10.model {
         case Style.LowerCamelCaseOrAllCaps:
           regexes = new Regex[] { LOWER_CASE_CAMEL_REGEX, ALL_CAPS };
           errorMessage = string.Format("Must be lower-cased camelCase or ALL_CAPS: e.g. {0}. Numbers are also allowed.", examples);
+          break;
+        case Style.SnakeCaseOrLowerCamelCase:
+          regexes = new Regex[] { LOWER_CASE_CAMEL_REGEX, SNAKE_CASE };
+          errorMessage = string.Format("Must be lower-cased camelCase or snake_case: e.g. {0}. Numbers are also allowed.", examples);
           break;
         default:
           throw new Exception("Unknown style: " + style);
