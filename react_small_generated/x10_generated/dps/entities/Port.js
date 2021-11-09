@@ -13,17 +13,18 @@ import x10toString from 'react_lib/utils/x10toString';
 export type Port = {
   +id: string,
   +city: string,
-  +countryName: string,
+  +country_name: string,
+  +name: string,
 };
 
 
 // Derived Attribute Functions
 export function portCityAndCountry(port: ?{
   +city: string,
-  +countryName: string,
+  +country_name: string,
 }): string {
   if (port == null) return '';
-  const result = x10toString(port?.city) + ', ' + x10toString(port?.countryName);
+  const result = x10toString(port?.city) + ', ' + x10toString(port?.country_name);
   return result;
 }
 
@@ -34,7 +35,8 @@ export function createDefaultPort(): Port {
   return {
     id: uuid(),
     city: '',
-    countryName: '',
+    country_name: '',
+    name: '',
   };
 }
 

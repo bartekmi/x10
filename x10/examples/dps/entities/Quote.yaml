@@ -1,0 +1,43 @@
+name: Quote
+inheritsFrom: Base
+description: A quote for a shipment - it might become one
+
+attributes:
+  - name: dbid
+    dataType: Integer
+    description: Just reflects back the dbid of the quote requested
+
+  - name: name
+    dataType: String
+    datagen_pattern: <adjective> <noun>
+    datagen_capitalization: wordCaps
+
+  - name: transportationMode
+    dataType: TransportationMode
+    mandatory: true
+
+  - name: status
+    dataType: String
+    mandatory: true
+    datagen_pattern: (50% => accepted | 50% => in progress)
+
+derivedAttributes:
+  - name: flexId
+    dataType: String
+    formula: "='FLEX-' + dbid"
+  - name: url
+    dataType: String
+    formula: "='/quotes/' + dbid"
+
+associations:
+  - name: client
+    dataType: Client
+    mandatory: false
+    owns: false
+  - name: departurePort
+    dataType: Port
+    owns: false
+  - name: arrivalPort
+    dataType: Port
+    owns: false
+

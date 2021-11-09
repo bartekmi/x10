@@ -251,6 +251,30 @@ namespace x10.hotchoc.dps {
           repository.GetMatchInfos();
     #endregion
 
+    #region Booking
+    /// <summary>
+    /// Retrieve a Booking by id
+    /// </summary>
+    /// <param name="id">The id of the Booking.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Booking.</returns>
+    public Booking GetBooking(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetBooking(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Bookings.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Bookings.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Booking> GetBookings(
+        [Service] IRepository repository) =>
+          repository.GetBookings();
+    #endregion
+
     #region DpsAttachment
     /// <summary>
     /// Retrieve a DpsAttachment by id
@@ -321,6 +345,54 @@ namespace x10.hotchoc.dps {
     public IEnumerable<User> GetUsers(
         [Service] IRepository repository) =>
           repository.GetUsers();
+    #endregion
+
+    #region Quote
+    /// <summary>
+    /// Retrieve a Quote by id
+    /// </summary>
+    /// <param name="id">The id of the Quote.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Quote.</returns>
+    public Quote GetQuote(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetQuote(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Quotes.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Quotes.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Quote> GetQuotes(
+        [Service] IRepository repository) =>
+          repository.GetQuotes();
+    #endregion
+
+    #region Cargo
+    /// <summary>
+    /// Retrieve a Cargo by id
+    /// </summary>
+    /// <param name="id">The id of the Cargo.</param>
+    /// <param name="repository"></param>
+    /// <returns>The Cargo.</returns>
+    public Cargo GetCargo(
+        string id,
+        [Service] IRepository repository) =>
+          repository.GetCargo(IdUtils.FromRelayIdMandatory(id));
+
+    /// <summary>
+    /// Gets all Cargos.
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <returns>All Cargos.</returns>
+    [UseFiltering]
+    [UseSorting]
+    public IEnumerable<Cargo> GetCargos(
+        [Service] IRepository repository) =>
+          repository.GetCargos();
     #endregion
 
     #region Shipment

@@ -16,9 +16,12 @@ namespace x10.hotchoc.dps.Repositories {
     private Dictionary<int, MatchInfoSource> _matchInfoSources = new Dictionary<int, MatchInfoSource>();
     private Dictionary<int, Port> _ports = new Dictionary<int, Port>();
     private Dictionary<int, MatchInfo> _matchInfos = new Dictionary<int, MatchInfo>();
+    private Dictionary<int, Booking> _bookings = new Dictionary<int, Booking>();
     private Dictionary<int, DpsAttachment> _dpsAttachments = new Dictionary<int, DpsAttachment>();
     private Dictionary<int, OldHit> _oldHits = new Dictionary<int, OldHit>();
     private Dictionary<int, User> _users = new Dictionary<int, User>();
+    private Dictionary<int, Quote> _quotes = new Dictionary<int, Quote>();
+    private Dictionary<int, Cargo> _cargos = new Dictionary<int, Cargo>();
     private Dictionary<int, Shipment> _shipments = new Dictionary<int, Shipment>();
     private Dictionary<int, Client> _clients = new Dictionary<int, Client>();
     private Dictionary<int, AddressType> _addressTypes = new Dictionary<int, AddressType>();
@@ -38,9 +41,12 @@ namespace x10.hotchoc.dps.Repositories {
         typeof(MatchInfoSource),
         typeof(Port),
         typeof(MatchInfo),
+        typeof(Booking),
         typeof(DpsAttachment),
         typeof(OldHit),
         typeof(User),
+        typeof(Quote),
+        typeof(Cargo),
         typeof(Shipment),
         typeof(Client),
         typeof(AddressType),
@@ -61,9 +67,12 @@ namespace x10.hotchoc.dps.Repositories {
       if (instance is MatchInfoSource matchInfoSource) _matchInfoSources[id] = matchInfoSource;
       if (instance is Port port) _ports[id] = port;
       if (instance is MatchInfo matchInfo) _matchInfos[id] = matchInfo;
+      if (instance is Booking booking) _bookings[id] = booking;
       if (instance is DpsAttachment dpsAttachment) _dpsAttachments[id] = dpsAttachment;
       if (instance is OldHit oldHit) _oldHits[id] = oldHit;
       if (instance is User user) _users[id] = user;
+      if (instance is Quote quote) _quotes[id] = quote;
+      if (instance is Cargo cargo) _cargos[id] = cargo;
       if (instance is Shipment shipment) _shipments[id] = shipment;
       if (instance is Client client) _clients[id] = client;
       if (instance is AddressType addressType) _addressTypes[id] = addressType;
@@ -150,6 +159,14 @@ namespace x10.hotchoc.dps.Repositories {
     }
     #endregion
 
+    #region Bookings
+    public IQueryable<Booking> GetBookings() => _bookings.Values.AsQueryable();
+    public Booking GetBooking(int id) { return _bookings[id]; }
+    public int AddOrUpdateBooking(int? dbid, Booking booking) {
+      return RepositoryUtils.AddOrUpdate(dbid, booking, _bookings);
+    }
+    #endregion
+
     #region DpsAttachments
     public IQueryable<DpsAttachment> GetDpsAttachments() => _dpsAttachments.Values.AsQueryable();
     public DpsAttachment GetDpsAttachment(int id) { return _dpsAttachments[id]; }
@@ -171,6 +188,22 @@ namespace x10.hotchoc.dps.Repositories {
     public User GetUser(int id) { return _users[id]; }
     public int AddOrUpdateUser(int? dbid, User user) {
       return RepositoryUtils.AddOrUpdate(dbid, user, _users);
+    }
+    #endregion
+
+    #region Quotes
+    public IQueryable<Quote> GetQuotes() => _quotes.Values.AsQueryable();
+    public Quote GetQuote(int id) { return _quotes[id]; }
+    public int AddOrUpdateQuote(int? dbid, Quote quote) {
+      return RepositoryUtils.AddOrUpdate(dbid, quote, _quotes);
+    }
+    #endregion
+
+    #region Cargos
+    public IQueryable<Cargo> GetCargos() => _cargos.Values.AsQueryable();
+    public Cargo GetCargo(int id) { return _cargos[id]; }
+    public int AddOrUpdateCargo(int? dbid, Cargo cargo) {
+      return RepositoryUtils.AddOrUpdate(dbid, cargo, _cargos);
     }
     #endregion
 

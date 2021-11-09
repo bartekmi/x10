@@ -91,22 +91,5 @@ associations:
     owns: false
 
 enums:
-  - name: TransportationMode
-    values: 
-      - value: air
-        icon: plane
-      - value: ocean
-        icon: ship
-      - value: truck
-        icon: truck
-      - value: rail
-        icon: rail
-      - value: unknownTransportation
-        icon: question
-      - value: truckIntl
-        icon: truck
-      - value: warehouseStorage
-        icon: warehouse
-
   - name: ShipmentPriority
     values: standard, high

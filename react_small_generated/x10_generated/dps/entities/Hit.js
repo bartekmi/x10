@@ -8,11 +8,13 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import toEnum from 'react_lib/utils/toEnum';
 
+import { bookingCalculateErrors, type Booking } from 'dps/entities/Booking';
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
 import { dpsAttachmentCalculateErrors, type DpsAttachment } from 'dps/entities/DpsAttachment';
 import { dpsMessageCalculateErrors, type DpsMessage } from 'dps/entities/DpsMessage';
 import { matchInfoCalculateErrors, type MatchInfo } from 'dps/entities/MatchInfo';
 import { oldHitCalculateErrors, type OldHit } from 'dps/entities/OldHit';
+import { quoteCalculateErrors, type Quote } from 'dps/entities/Quote';
 import { shipmentCalculateErrors, type Shipment } from 'dps/entities/Shipment';
 import { type User } from 'dps/entities/User';
 import { type WhitelistDuration } from 'dps/entities/WhitelistDuration';
@@ -31,6 +33,8 @@ export type Hit = {
   +attachments: $ReadOnlyArray<DpsAttachment>,
   +matches: $ReadOnlyArray<MatchInfo>,
   +shipments: $ReadOnlyArray<Shipment>,
+  +quotes: $ReadOnlyArray<Quote>,
+  +bookings: $ReadOnlyArray<Booking>,
   +messages: $ReadOnlyArray<DpsMessage>,
   +oldHits: $ReadOnlyArray<OldHit>,
   +whitelistDays: ?WhitelistDuration,
@@ -71,6 +75,8 @@ export function createDefaultHit(): Hit {
     attachments: [],
     matches: [],
     shipments: [],
+    quotes: [],
+    bookings: [],
     messages: [],
     oldHits: [],
     whitelistDays: null,
@@ -93,6 +99,8 @@ export function hitCalculateErrors(hit: Hit, prefix?: string, inListIndex?: numb
   hit.attachments?.forEach((x, ii) => errors.push(...dpsAttachmentCalculateErrors(x, 'attachments', ii)));
   hit.matches?.forEach((x, ii) => errors.push(...matchInfoCalculateErrors(x, 'matches', ii)));
   hit.shipments?.forEach((x, ii) => errors.push(...shipmentCalculateErrors(x, 'shipments', ii)));
+  hit.quotes?.forEach((x, ii) => errors.push(...quoteCalculateErrors(x, 'quotes', ii)));
+  hit.bookings?.forEach((x, ii) => errors.push(...bookingCalculateErrors(x, 'bookings', ii)));
   hit.messages?.forEach((x, ii) => errors.push(...dpsMessageCalculateErrors(x, 'messages', ii)));
   hit.oldHits?.forEach((x, ii) => errors.push(...oldHitCalculateErrors(x, 'oldHits', ii)));
 

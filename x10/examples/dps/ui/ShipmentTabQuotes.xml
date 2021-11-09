@@ -1,0 +1,35 @@
+<ShipmentTabQuotes model="Quote" many="true">
+  <VerticalStackPanel>
+    <Heading3 text="Quotes"/>
+
+    <Table>
+      <TableColumn label="Id">
+        <Button label="=flexId" url="=url"/>
+      </TableColumn>
+
+      <client.name label="Client Name"/>
+      <name/>
+      <transportationMode hideLabelIfIconPresent="true" label="Mode"/>
+
+      <TableColumn label="From" path="departurePort">
+        <VerticalStackPanel gap="0">
+          <name/>
+          <country_name/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="From" path="arrivalPort">
+        <VerticalStackPanel gap="0">
+          <name/>
+          <country_name/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="Status">
+        <status fillColor="#B22222" textColor="white" weight="bold" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
+      </TableColumn>
+
+    </Table>
+
+  </VerticalStackPanel>
+</ShipmentTabQuotes>

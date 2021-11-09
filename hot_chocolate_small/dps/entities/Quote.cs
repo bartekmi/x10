@@ -6,50 +6,27 @@ using HotChocolate;
 using x10.hotchoc.dps.Repositories;
 
 namespace x10.hotchoc.dps.Entities {
-  // Enums
-  public enum ShipmentPriorityEnum {
-    Standard,
-    High,
-  }
-
-
   /// <summary>
-  /// A portion of Core Shipment entity
+  /// A quote for a shipment - it might become one
   /// </summary>
-  public class Shipment : Base {
+  public class Quote : Base {
     // Regular Attributes
     public int? Dbid { get; set; }
     [GraphQLNonNullType]
-    public string? FlexId { get; set; }
-    [GraphQLNonNullType]
     public string? Name { get; set; }
-    public ShipmentPriorityEnum? Priority { get; set; }
     public TransportationModeEnum? TransportationMode { get; set; }
     [GraphQLNonNullType]
     public string? Status { get; set; }
-    public DateTime? CargoReadyDate { get; set; }
-    public DateTime? ActualDepartureDate { get; set; }
-    public DateTime? ArrivalDate { get; set; }
-    [GraphQLNonNullType]
-    public bool IsLcl { get; set; }
-    [GraphQLNonNullType]
-    public bool IsLtl { get; set; }
-    [GraphQLNonNullType]
-    public string? Customs { get; set; }
-    public DateTime? DueDate { get; set; }
-    [GraphQLNonNullType]
-    public string? DueDateTask { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Shipment: " + DbidHotChoc; }
+      get { return "Quote: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 
     // Associations
-    public CompanyEntity? Consignee { get; set; }
-    public CompanyEntity? Shipper { get; set; }
+    public Client? Client { get; set; }
     public Port? DeparturePort { get; set; }
     public Port? ArrivalPort { get; set; }
 
@@ -60,11 +37,8 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? consignee = IdUtils.FromRelayId(Consignee?.Id);
-      Consignee = consignee == null ? null : repository.GetCompanyEntity(consignee.Value);
-
-      int? shipper = IdUtils.FromRelayId(Shipper?.Id);
-      Shipper = shipper == null ? null : repository.GetCompanyEntity(shipper.Value);
+      int? client = IdUtils.FromRelayId(Client?.Id);
+      Client = client == null ? null : repository.GetClient(client.Value);
 
       int? departurePort = IdUtils.FromRelayId(DeparturePort?.Id);
       DeparturePort = departurePort == null ? null : repository.GetPort(departurePort.Value);

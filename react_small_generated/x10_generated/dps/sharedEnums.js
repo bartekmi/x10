@@ -40,3 +40,43 @@ export const ReasonForClearanceEnumPairs = [
 
 export type ReasonForClearanceEnum = 'person_not_entity' | 'partial_name' | 'partial_address' | 'other';
 
+export const TransportationModeEnumPairs = [
+  {
+    value: 'air',
+    label: 'Air',
+    icon: 'plane'
+  },
+  {
+    value: 'ocean',
+    label: 'Ocean',
+    icon: 'ship'
+  },
+  {
+    value: 'truck',
+    label: 'Truck',
+    icon: 'truck'
+  },
+  {
+    value: 'rail',
+    label: 'Rail',
+    icon: 'rail'
+  },
+  {
+    value: 'unknown_transportation',
+    label: 'Unknown Transportation',
+    icon: 'question'
+  },
+  {
+    value: 'truck_intl',
+    label: 'Truck Intl',
+    icon: 'truck'
+  },
+  {
+    value: 'warehouse_storage',
+    label: 'Warehouse Storage',
+    icon: 'warehouse'
+  },
+];
+
+export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unknown_transportation' | 'truck_intl' | 'warehouse_storage';
+

@@ -11,3 +11,13 @@ public enum ReasonForClearanceEnum {
   Other,
 }
 
+public enum TransportationModeEnum {
+  Air,
+  Ocean,
+  Truck,
+  Rail,
+  UnknownTransportation,
+  TruckIntl,
+  WarehouseStorage,
+}
+

@@ -1,0 +1,16 @@
+name: Cargo
+inheritsFrom: Base
+description: Holds weight and volume
+
+attributes:
+  - name: metric_weight
+    dataType: Float
+    datagen_min: 10000
+    datagen_max: 10000
+    description: Weight in kilograms
+
+  - name: metric_volume
+    dataType: Float
+    datagen_min: 10
+    datagen_max: 50
+    description: Volume in cubic meters

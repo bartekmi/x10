@@ -11,9 +11,38 @@ type AddressType {
   hashcode: Int!
 }
 
+"Will eventually become a full-fledged Shipment"
+type Booking {
+  name: String!
+  ocean_fcl: Boolean!
+  ocean_lcl: Boolean!
+  truck_ftl: Boolean!
+  truck_ltl: Boolean!
+  air: Boolean!
+  booking_stage: BookingStgeEnum
+  createdAt: DateTime
+  toStringRepresentation: String!
+  shipper_entity: CompanyEntity!
+  consignee_entity: CompanyEntity!
+  cargo: Cargo!
+  shipment: Shipment!
+  id: String!
+  hashcode: Int!
+}
+
+"Holds weight and volume"
+type Cargo {
+  metric_weight: Float
+  metric_volume: Float
+  toStringRepresentation: String!
+  id: String!
+  hashcode: Int!
+}
+
 "Corresponds to Core Client"
 type Client {
   dbid: Int
+  name: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -76,6 +105,8 @@ type Hit {
   attachments: [DpsAttachment!]!
   matches: [MatchInfo!]!
   shipments: [Shipment!]!
+  quotes: [Quote!]!
+  bookings: [Booking!]!
   messages: [DpsMessage!]!
   oldHits: [OldHit!]!
   whitelistDays: WhitelistDuration!
@@ -144,7 +175,8 @@ type OldHit {
 "A port of a shipment"
 type Port {
   city: String!
-  countryName: String!
+  country_name: String!
+  name: String!
   toStringRepresentation: String!
   id: String!
   hashcode: Int!
@@ -191,6 +223,10 @@ type Query {
   matchInfo("The id of the MatchInfo." id: String!): MatchInfo!
   "Gets all MatchInfos.\n\n\n**Returns:**\nAll MatchInfos."
   matchInfos(where: MatchInfoFilter order_by: MatchInfoSort): [MatchInfo!]!
+  "Retrieve a Booking by id\n\n\n**Returns:**\nThe Booking."
+  booking("The id of the Booking." id: String!): Booking!
+  "Gets all Bookings.\n\n\n**Returns:**\nAll Bookings."
+  bookings(where: BookingFilter order_by: BookingSort): [Booking!]!
   "Retrieve a DpsAttachment by id\n\n\n**Returns:**\nThe DpsAttachment."
   dpsAttachment("The id of the DpsAttachment." id: String!): DpsAttachment!
   "Gets all DpsAttachments.\n\n\n**Returns:**\nAll DpsAttachments."
@@ -203,6 +239,14 @@ type Query {
   user("The id of the User." id: String!): User!
   "Gets all Users.\n\n\n**Returns:**\nAll Users."
   users(where: UserFilter order_by: UserSort): [User!]!
+  "Retrieve a Quote by id\n\n\n**Returns:**\nThe Quote."
+  quote("The id of the Quote." id: String!): Quote!
+  "Gets all Quotes.\n\n\n**Returns:**\nAll Quotes."
+  quotes(where: QuoteFilter order_by: QuoteSort): [Quote!]!
+  "Retrieve a Cargo by id\n\n\n**Returns:**\nThe Cargo."
+  cargo("The id of the Cargo." id: String!): Cargo!
+  "Gets all Cargos.\n\n\n**Returns:**\nAll Cargos."
+  cargos(where: CargoFilter order_by: CargoSort): [Cargo!]!
   "Retrieve a Shipment by id\n\n\n**Returns:**\nThe Shipment."
   shipment("The id of the Shipment." id: String!): Shipment!
   "Gets all Shipments.\n\n\n**Returns:**\nAll Shipments."
@@ -219,6 +263,20 @@ type Query {
   dpsMessage("The id of the DpsMessage." id: String!): DpsMessage!
   "Gets all DpsMessages.\n\n\n**Returns:**\nAll DpsMessages."
   dpsMessages(where: DpsMessageFilter order_by: DpsMessageSort): [DpsMessage!]!
+}
+
+"A quote for a shipment - it might become one"
+type Quote {
+  dbid: Int
+  name: String!
+  transportationMode: TransportationModeEnum
+  status: String!
+  toStringRepresentation: String!
+  client: Client
+  departurePort: Port
+  arrivalPort: Port
+  id: String!
+  hashcode: Int!
 }
 
 "Settings for the DPS application. This is a singleton."
@@ -353,6 +411,182 @@ input AddressTypeSort {
   hashcode: SortOperationKind
 }
 
+"Will eventually become a full-fledged Shipment"
+input BookingFilter {
+  AND: [BookingFilter!]
+  OR: [BookingFilter!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  ocean_fcl: Boolean
+  ocean_fcl_not: Boolean
+  ocean_lcl: Boolean
+  ocean_lcl_not: Boolean
+  truck_ftl: Boolean
+  truck_ftl_not: Boolean
+  truck_ltl: Boolean
+  truck_ltl_not: Boolean
+  air: Boolean
+  air_not: Boolean
+  booking_stage: BookingStgeEnum
+  booking_stage_not: BookingStgeEnum
+  booking_stage_in: [BookingStgeEnum]
+  booking_stage_not_in: [BookingStgeEnum]
+  booking_stage_gt: BookingStgeEnum
+  booking_stage_not_gt: BookingStgeEnum
+  booking_stage_gte: BookingStgeEnum
+  booking_stage_not_gte: BookingStgeEnum
+  booking_stage_lt: BookingStgeEnum
+  booking_stage_not_lt: BookingStgeEnum
+  booking_stage_lte: BookingStgeEnum
+  booking_stage_not_lte: BookingStgeEnum
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime]
+  createdAt_not_in: [DateTime]
+  createdAt_gt: DateTime
+  createdAt_not_gt: DateTime
+  createdAt_gte: DateTime
+  createdAt_not_gte: DateTime
+  createdAt_lt: DateTime
+  createdAt_not_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_not_lte: DateTime
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  shipper_entity: CompanyEntityFilter
+  consignee_entity: CompanyEntityFilter
+  cargo: CargoFilter
+  shipment: ShipmentFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Will eventually become a full-fledged Shipment"
+input BookingSort {
+  name: SortOperationKind
+  ocean_fcl: SortOperationKind
+  ocean_lcl: SortOperationKind
+  truck_ftl: SortOperationKind
+  truck_ltl: SortOperationKind
+  air: SortOperationKind
+  booking_stage: SortOperationKind
+  createdAt: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  shipper_entity: CompanyEntitySort
+  consignee_entity: CompanyEntitySort
+  cargo: CargoSort
+  shipment: ShipmentSort
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"Holds weight and volume"
+input CargoFilter {
+  AND: [CargoFilter!]
+  OR: [CargoFilter!]
+  metric_weight: Float
+  metric_weight_not: Float
+  metric_weight_in: [Float]
+  metric_weight_not_in: [Float]
+  metric_weight_gt: Float
+  metric_weight_not_gt: Float
+  metric_weight_gte: Float
+  metric_weight_not_gte: Float
+  metric_weight_lt: Float
+  metric_weight_not_lt: Float
+  metric_weight_lte: Float
+  metric_weight_not_lte: Float
+  metric_volume: Float
+  metric_volume_not: Float
+  metric_volume_in: [Float]
+  metric_volume_not_in: [Float]
+  metric_volume_gt: Float
+  metric_volume_not_gt: Float
+  metric_volume_gte: Float
+  metric_volume_not_gte: Float
+  metric_volume_lt: Float
+  metric_volume_not_lt: Float
+  metric_volume_lte: Float
+  metric_volume_not_lte: Float
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"Holds weight and volume"
+input CargoSort {
+  metric_weight: SortOperationKind
+  metric_volume: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
 "Input Data Type for ClearanceFormUpdateHit Mutation"
 input ClearanceFormHitInput {
   status: HitStatusEnum
@@ -379,6 +613,16 @@ input ClientFilter {
   dbid_not_lt: Int
   dbid_lte: Int
   dbid_not_lte: Int
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -416,6 +660,7 @@ input ClientFilter {
 "Corresponds to Core Client"
 input ClientSort {
   dbid: SortOperationKind
+  name: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
@@ -896,6 +1141,14 @@ input HitFilter {
   shipments_none: ShipmentFilter
   shipments_all: ShipmentFilter
   shipments_any: Boolean
+  quotes_some: QuoteFilter
+  quotes_none: QuoteFilter
+  quotes_all: QuoteFilter
+  quotes_any: Boolean
+  bookings_some: BookingFilter
+  bookings_none: BookingFilter
+  bookings_all: BookingFilter
+  bookings_any: Boolean
   messages_some: DpsMessageFilter
   messages_none: DpsMessageFilter
   messages_all: DpsMessageFilter
@@ -1302,16 +1555,26 @@ input PortFilter {
   city_not_ends_with: String
   city_in: [String!]
   city_not_in: [String!]
-  countryName: String
-  countryName_not: String
-  countryName_contains: String
-  countryName_not_contains: String
-  countryName_starts_with: String
-  countryName_not_starts_with: String
-  countryName_ends_with: String
-  countryName_not_ends_with: String
-  countryName_in: [String!]
-  countryName_not_in: [String!]
+  country_name: String
+  country_name_not: String
+  country_name_contains: String
+  country_name_not_contains: String
+  country_name_starts_with: String
+  country_name_not_starts_with: String
+  country_name_ends_with: String
+  country_name_not_ends_with: String
+  country_name_in: [String!]
+  country_name_not_in: [String!]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1349,8 +1612,108 @@ input PortFilter {
 "A port of a shipment"
 input PortSort {
   city: SortOperationKind
-  countryName: SortOperationKind
+  country_name: SortOperationKind
+  name: SortOperationKind
   toStringRepresentation: SortOperationKind
+  id: SortOperationKind
+  hashcode: SortOperationKind
+}
+
+"A quote for a shipment - it might become one"
+input QuoteFilter {
+  AND: [QuoteFilter!]
+  OR: [QuoteFilter!]
+  dbid: Int
+  dbid_not: Int
+  dbid_in: [Int]
+  dbid_not_in: [Int]
+  dbid_gt: Int
+  dbid_not_gt: Int
+  dbid_gte: Int
+  dbid_not_gte: Int
+  dbid_lt: Int
+  dbid_not_lt: Int
+  dbid_lte: Int
+  dbid_not_lte: Int
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_in: [String!]
+  name_not_in: [String!]
+  transportationMode: TransportationModeEnum
+  transportationMode_not: TransportationModeEnum
+  transportationMode_in: [TransportationModeEnum]
+  transportationMode_not_in: [TransportationModeEnum]
+  transportationMode_gt: TransportationModeEnum
+  transportationMode_not_gt: TransportationModeEnum
+  transportationMode_gte: TransportationModeEnum
+  transportationMode_not_gte: TransportationModeEnum
+  transportationMode_lt: TransportationModeEnum
+  transportationMode_not_lt: TransportationModeEnum
+  transportationMode_lte: TransportationModeEnum
+  transportationMode_not_lte: TransportationModeEnum
+  status: String
+  status_not: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  status_in: [String!]
+  status_not_in: [String!]
+  toStringRepresentation: String
+  toStringRepresentation_not: String
+  toStringRepresentation_contains: String
+  toStringRepresentation_not_contains: String
+  toStringRepresentation_starts_with: String
+  toStringRepresentation_not_starts_with: String
+  toStringRepresentation_ends_with: String
+  toStringRepresentation_not_ends_with: String
+  toStringRepresentation_in: [String!]
+  toStringRepresentation_not_in: [String!]
+  client: ClientFilter
+  departurePort: PortFilter
+  arrivalPort: PortFilter
+  id: String
+  id_not: String
+  id_contains: String
+  id_not_contains: String
+  id_starts_with: String
+  id_not_starts_with: String
+  id_ends_with: String
+  id_not_ends_with: String
+  id_in: [String!]
+  id_not_in: [String!]
+  hashcode: Int
+  hashcode_not: Int
+  hashcode_in: [Int!]
+  hashcode_not_in: [Int!]
+  hashcode_gt: Int
+  hashcode_not_gt: Int
+  hashcode_gte: Int
+  hashcode_not_gte: Int
+  hashcode_lt: Int
+  hashcode_not_lt: Int
+  hashcode_lte: Int
+  hashcode_not_lte: Int
+}
+
+"A quote for a shipment - it might become one"
+input QuoteSort {
+  dbid: SortOperationKind
+  name: SortOperationKind
+  transportationMode: SortOperationKind
+  status: SortOperationKind
+  toStringRepresentation: SortOperationKind
+  client: ClientSort
+  departurePort: PortSort
+  arrivalPort: PortSort
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -2030,6 +2393,14 @@ input WhitelistDurationSort {
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
+}
+
+enum BookingStgeEnum {
+  ARCHIVED
+  BOOKED
+  DRAFT
+  SHIPMENT
+  SUBMITTED
 }
 
 enum HitStatusEnum {

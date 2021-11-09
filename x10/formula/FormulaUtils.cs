@@ -46,7 +46,7 @@ namespace x10.formula {
 
       IEnumerable<ExpBase> subExpressions = FormulaUtils.ListAll(root);
       foreach (ExpBase expression in subExpressions) 
-        if (expression.DataType.Member is X10Attribute attr)
+        if (expression.DataType?.Member is X10Attribute attr)
           attributes.Add(attr);
 
       return attributes;

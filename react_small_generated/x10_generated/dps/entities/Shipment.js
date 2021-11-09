@@ -11,6 +11,7 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type CompanyEntity } from 'dps/entities/CompanyEntity';
 import { type Port } from 'dps/entities/Port';
+import { type TransportationModeEnum } from 'dps/sharedEnums';
 
 
 // Type Definition
@@ -38,46 +39,6 @@ export type Shipment = {
 
 
 // Enums
-export const TransportationModeEnumPairs = [
-  {
-    value: 'air',
-    label: 'Air',
-    icon: 'plane'
-  },
-  {
-    value: 'ocean',
-    label: 'Ocean',
-    icon: 'ship'
-  },
-  {
-    value: 'truck',
-    label: 'Truck',
-    icon: 'truck'
-  },
-  {
-    value: 'rail',
-    label: 'Rail',
-    icon: 'rail'
-  },
-  {
-    value: 'unknown_transportation',
-    label: 'Unknown Transportation',
-    icon: 'question'
-  },
-  {
-    value: 'truck_intl',
-    label: 'Truck Intl',
-    icon: 'truck'
-  },
-  {
-    value: 'warehouse_storage',
-    label: 'Warehouse Storage',
-    icon: 'warehouse'
-  },
-];
-
-export type TransportationModeEnum = 'air' | 'ocean' | 'truck' | 'rail' | 'unknown_transportation' | 'truck_intl' | 'warehouse_storage';
-
 export const ShipmentPriorityEnumPairs = [
   {
     value: 'standard',

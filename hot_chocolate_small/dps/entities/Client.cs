@@ -12,6 +12,8 @@ namespace x10.hotchoc.dps.Entities {
   public class Client : Base {
     // Regular Attributes
     public int? Dbid { get; set; }
+    [GraphQLNonNullType]
+    public string? Name { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]

@@ -1,0 +1,60 @@
+<ShipmentTabShipments model="Shipment" many="true">
+  <VerticalStackPanel>
+    <Heading3 text="Shipments"/>
+
+    <Table>
+      <TableColumn label="Id">
+        <Row>
+          <Button label="=flexId" url="=url"/>
+          <Icon icon="lightning" visible="=priority == 'high'"/>
+        </Row>
+      </TableColumn>
+      <name/>
+      <TableColumn label="Consignee" path="consignee">
+        <Button label="=name" url="=url"/>
+      </TableColumn>
+      <TableColumn label="Shipper" path="shipper">
+        <Button label="=name" url="=url"/>
+      </TableColumn>
+
+      <TableColumn label="Mode">
+        <VerticalStackPanel gap="0">
+          <transportationMode hideLabelIfIconPresent="true"/>
+          <modeSubtext/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="Status">
+        <status fillColor="black" textColor="white" weight="bold" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20"/>
+      </TableColumn>
+
+      <TableColumn label="Customs">
+        <customs fillColor="#B22222" textColor="white" weight="bold" paddingTop="5" paddingBottom="5" paddingLeft="20" paddingRight="20" visible="=customs != ''"/>
+      </TableColumn>
+
+      <cargoReadyDate/>
+
+      <TableColumn label="Departs">
+        <VerticalStackPanel gap="0">
+          <actualDepartureDate/>
+          <departurePort.cityAndCountry/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="Arrives">
+        <VerticalStackPanel gap="0">
+          <arrivalDate/>
+          <arrivalPort.cityAndCountry/>
+        </VerticalStackPanel>
+      </TableColumn>
+
+      <TableColumn label="Due Date">
+        <VerticalStackPanel gap="0">
+          <dueDateTask/>
+          <dueDate weight="bold"/>
+        </VerticalStackPanel>
+      </TableColumn>
+    </Table>
+
+  </VerticalStackPanel>
+</ShipmentTabShipments>

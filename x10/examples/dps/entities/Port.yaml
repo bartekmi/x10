@@ -7,12 +7,15 @@ attributes:
   - name: city
     dataType: String
     datagen_pattern: <city>
-  - name: countryName
+  - name: country_name
     dataType: String
     datagen_pattern: <country>
+  - name: name
+    dataType: String
+    datagen_pattern: <city>
 
 derivedAttributes:
   - name: cityAndCountry
     dataType: String
-    formula: "=city + ', ' + countryName"
+    formula: "=city + ', ' + country_name"
 

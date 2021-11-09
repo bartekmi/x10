@@ -7,21 +7,17 @@ using x10.hotchoc.dps.Repositories;
 
 namespace x10.hotchoc.dps.Entities {
   /// <summary>
-  /// A port of a shipment
+  /// Holds weight and volume
   /// </summary>
-  public class Port : Base {
+  public class Cargo : Base {
     // Regular Attributes
-    [GraphQLNonNullType]
-    public string? City { get; set; }
-    [GraphQLNonNullType]
-    public string? Country_name { get; set; }
-    [GraphQLNonNullType]
-    public string? Name { get; set; }
+    public double? Metric_weight { get; set; }
+    public double? Metric_volume { get; set; }
 
     // To String Representation
     [GraphQLNonNullType]
     public string? ToStringRepresentation {
-      get { return "Port: " + DbidHotChoc; }
+      get { return "Cargo: " + DbidHotChoc; }
       set { /* Needed to make Hot Chocolate happy */ }
     }
 

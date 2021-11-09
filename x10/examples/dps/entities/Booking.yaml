@@ -1,0 +1,61 @@
+name: Booking
+inheritsFrom: Base
+description: Will eventually become a full-fledged Shipment
+
+attributes:
+  - name: name
+    dataType: String
+    datagen_pattern: <adjective> <noun>
+    datagen_capitalization: wordCaps
+
+  - name: ocean_fcl
+    dataType: Boolean
+  - name: ocean_lcl
+    dataType: Boolean
+  - name: truck_ftl
+    dataType: Boolean
+  - name: truck_ltl
+    dataType: Boolean
+  - name: air
+    dataType: Boolean
+
+  - name: booking_stage
+    dataType: BookingStge
+    mandatory: true
+  - name: createdAt
+    dataType: Timestamp
+    mandatory: true
+
+
+derivedAttributes:
+  - name: transportationMode
+    description: FCL/LCL/FTL/LTL - as appropriate
+    dataType: TransportationMode
+    formula: "=ocean_fcl || ocean_lcl ? TransportationMode.ocean :
+               truck_ftl || truck_ltl ? TransportationMode.truck :
+               air ? TransportationMode.air :
+               TransportationMode.unknownTransportation"
+
+associations:
+  - name: shipper_entity
+    dataType: CompanyEntity
+    mandatory: true
+    owns: false
+    label: Shipper
+  - name: consignee_entity
+    dataType: CompanyEntity
+    mandatory: true
+    owns: false
+    label: Consignee
+  - name: cargo
+    dataType: Cargo
+    mandatory: true
+    owns: true
+  - name: shipment
+    dataType: Shipment
+    mandatory: true
+    owns: true
+
+enums:
+  - name: BookingStge
+    values: archived, booked, draft, shipment, submitted

@@ -48,6 +48,16 @@ associations:
     many: true
     owns: true
     datagen_quantity: 1..10
+  - name: quotes
+    dataType: Quote
+    many: true
+    owns: true
+    datagen_quantity: 1..2
+  - name: bookings
+    dataType: Booking
+    many: true
+    owns: true
+    datagen_quantity: 1..2
   - name: messages
     dataType: DpsMessage
     many: true

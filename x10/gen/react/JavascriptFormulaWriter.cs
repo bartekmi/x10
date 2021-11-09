@@ -92,12 +92,12 @@ namespace x10.gen.react {
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
+      if (WriteEnum(exp, exp.MemberName))
+        return;
+
       // If Expression corresponds to a primitive type (e.g. Date), we are accessing a "member" of
       // the type - e.g. Date.year. This requires special handling
       if (WriteDataTypeMemberAccess(exp))
-        return;
-
-      if (WriteEnum(exp, exp.MemberName))
         return;
 
       if (WriteDerivedAttribute(exp))
@@ -196,8 +196,6 @@ namespace x10.gen.react {
     }
 
     private bool WriteEnum(ExpBase expression, object nameOrNull) {
-      X10DataType dataType = expression.DataType;
-
       if (expression.IsEnumLiteral) {
         string text = nameOrNull == null ? "null" : String.Format("\"{0}\"", nameOrNull);
         _writer.Write(text);

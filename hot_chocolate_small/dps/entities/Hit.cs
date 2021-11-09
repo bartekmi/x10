@@ -42,6 +42,10 @@ namespace x10.hotchoc.dps.Entities {
     [GraphQLNonNullType]
     public List<Shipment>? Shipments { get; set; }
     [GraphQLNonNullType]
+    public List<Quote>? Quotes { get; set; }
+    [GraphQLNonNullType]
+    public List<Booking>? Bookings { get; set; }
+    [GraphQLNonNullType]
     public List<DpsMessage>? Messages { get; set; }
     [GraphQLNonNullType]
     public List<OldHit>? OldHits { get; set; }
@@ -53,6 +57,8 @@ namespace x10.hotchoc.dps.Entities {
       Attachments?.ForEach(x => x.EnsureUniqueDbid());
       Matches?.ForEach(x => x.EnsureUniqueDbid());
       Shipments?.ForEach(x => x.EnsureUniqueDbid());
+      Quotes?.ForEach(x => x.EnsureUniqueDbid());
+      Bookings?.ForEach(x => x.EnsureUniqueDbid());
       Messages?.ForEach(x => x.EnsureUniqueDbid());
       OldHits?.ForEach(x => x.EnsureUniqueDbid());
     }
@@ -77,6 +83,14 @@ namespace x10.hotchoc.dps.Entities {
       if (Shipments != null)
         foreach (Shipment shipments in Shipments)
           shipments.SetNonOwnedAssociations(repository);
+
+      if (Quotes != null)
+        foreach (Quote quotes in Quotes)
+          quotes.SetNonOwnedAssociations(repository);
+
+      if (Bookings != null)
+        foreach (Booking bookings in Bookings)
+          bookings.SetNonOwnedAssociations(repository);
 
       if (Messages != null)
         foreach (DpsMessage messages in Messages)

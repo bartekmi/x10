@@ -17,9 +17,12 @@ namespace x10.hotchoc.dps.Repositories {
     MatchInfoSource GetMatchInfoSource(int id);
     Port GetPort(int id);
     MatchInfo GetMatchInfo(int id);
+    Booking GetBooking(int id);
     DpsAttachment GetDpsAttachment(int id);
     OldHit GetOldHit(int id);
     User GetUser(int id);
+    Quote GetQuote(int id);
+    Cargo GetCargo(int id);
     Shipment GetShipment(int id);
     Client GetClient(int id);
     AddressType GetAddressType(int id);
@@ -35,9 +38,12 @@ namespace x10.hotchoc.dps.Repositories {
     IQueryable<MatchInfoSource> GetMatchInfoSources();
     IQueryable<Port> GetPorts();
     IQueryable<MatchInfo> GetMatchInfos();
+    IQueryable<Booking> GetBookings();
     IQueryable<DpsAttachment> GetDpsAttachments();
     IQueryable<OldHit> GetOldHits();
     IQueryable<User> GetUsers();
+    IQueryable<Quote> GetQuotes();
+    IQueryable<Cargo> GetCargos();
     IQueryable<Shipment> GetShipments();
     IQueryable<Client> GetClients();
     IQueryable<AddressType> GetAddressTypes();
@@ -54,9 +60,12 @@ namespace x10.hotchoc.dps.Repositories {
     int AddOrUpdateMatchInfoSource(int? dbid, MatchInfoSource matchInfoSource);
     int AddOrUpdatePort(int? dbid, Port port);
     int AddOrUpdateMatchInfo(int? dbid, MatchInfo matchInfo);
+    int AddOrUpdateBooking(int? dbid, Booking booking);
     int AddOrUpdateDpsAttachment(int? dbid, DpsAttachment dpsAttachment);
     int AddOrUpdateOldHit(int? dbid, OldHit oldHit);
     int AddOrUpdateUser(int? dbid, User user);
+    int AddOrUpdateQuote(int? dbid, Quote quote);
+    int AddOrUpdateCargo(int? dbid, Cargo cargo);
     int AddOrUpdateShipment(int? dbid, Shipment shipment);
     int AddOrUpdateClient(int? dbid, Client client);
     int AddOrUpdateAddressType(int? dbid, AddressType addressType);
