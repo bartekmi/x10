@@ -68,7 +68,7 @@ export function bookingTransportationMode(booking: ?{
   +air: boolean,
 }): ?TransportationModeEnum {
   if (booking == null) return null;
-  const result = booking?.ocean_fcl || booking?.ocean_lcl ? "ocean" : booking?.truck_ftl || booking?.truck_ltl ? "truck" : booking?.air ? "air" : "unknownTransportation";
+  const result = booking?.ocean_fcl || booking?.ocean_lcl ? "ocean" : booking?.truck_ftl || booking?.truck_ltl ? "truck" : booking?.air ? "air" : "unknown_transportation";
   return result;
 }
 

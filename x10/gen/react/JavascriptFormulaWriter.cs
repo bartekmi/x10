@@ -197,7 +197,10 @@ namespace x10.gen.react {
 
     private bool WriteEnum(ExpBase expression, object nameOrNull) {
       if (expression.IsEnumLiteral) {
-        string text = nameOrNull == null ? "null" : String.Format("\"{0}\"", nameOrNull);
+        string text = nameOrNull == null ? 
+          "null" : 
+          String.Format("\"{0}\"", ReactCodeGenerator.ToEnumValueString(nameOrNull));
+
         _writer.Write(text);
         return true;
       }
