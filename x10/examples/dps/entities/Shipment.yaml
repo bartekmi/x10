@@ -10,7 +10,7 @@ attributes:
 
   - name: flexId
     dataType: String
-    datagen_pattern: ~FLEX-DDDDDDD~
+    datagen_pattern: FLEX-~DDDDDDD~
 
   - name: name
     dataType: String

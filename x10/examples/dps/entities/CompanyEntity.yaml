@@ -5,11 +5,6 @@ datagen_quantity: 50
 datagen_sources: (world_cities.csv AS city)
 
 attributes:
-  - name: clientId
-    dataType: Integer
-    datagen_min: 1
-    datagen_max: 50000
-
   - name: name
     dataType: String
     datagen_pattern: <adjective> <noun> (Inc | Company | Ltd)
@@ -38,7 +33,7 @@ attributes:
 derivedAttributes:
   - name: url
     dataType: String
-    formula: "='/clients/' + clientId"
+    formula: "='/clients/' + company.client.dbid"
 
 associations:
   - name: physicalAddress

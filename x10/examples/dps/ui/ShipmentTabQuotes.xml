@@ -18,7 +18,7 @@
         </VerticalStackPanel>
       </TableColumn>
 
-      <TableColumn label="From" path="arrivalPort">
+      <TableColumn label="To" path="arrivalPort">
         <VerticalStackPanel gap="0">
           <name/>
           <country_name/>

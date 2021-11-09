@@ -104,7 +104,7 @@ function ShipmentTabQuotes(props: Props): React.Node {
             },
             {
               id: '_5',
-              Header: 'From',
+              Header: 'To',
               width: 140,
               accessor: (data) => data,
               Cell: ({ value }) =>

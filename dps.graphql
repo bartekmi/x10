@@ -58,7 +58,6 @@ type Company {
 
 "A portion of Core CompanyEntity entity"
 type CompanyEntity {
-  clientId: Int
   name: String!
   primaryContact: String!
   primaryContactEmail: String!
@@ -670,18 +669,6 @@ input ClientSort {
 input CompanyEntityFilter {
   AND: [CompanyEntityFilter!]
   OR: [CompanyEntityFilter!]
-  clientId: Int
-  clientId_not: Int
-  clientId_in: [Int]
-  clientId_not_in: [Int]
-  clientId_gt: Int
-  clientId_not_gt: Int
-  clientId_gte: Int
-  clientId_not_gte: Int
-  clientId_lt: Int
-  clientId_not_lt: Int
-  clientId_lte: Int
-  clientId_not_lte: Int
   name: String
   name_not: String
   name_contains: String
@@ -780,7 +767,6 @@ input CompanyEntityFilter {
 
 "A portion of Core CompanyEntity entity"
 input CompanyEntitySort {
-  clientId: SortOperationKind
   name: SortOperationKind
   primaryContact: SortOperationKind
   primaryContactEmail: SortOperationKind

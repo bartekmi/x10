@@ -185,7 +185,7 @@ export default createFragmentContainer(ShipmentTabBookings, {
       consignee_entity {
         id
         toStringRepresentation
-        clientId
+        dbid
         name
       }
       createdAt
@@ -200,7 +200,7 @@ export default createFragmentContainer(ShipmentTabBookings, {
       shipper_entity {
         id
         toStringRepresentation
-        clientId
+        dbid
         name
       }
       truck_ftl

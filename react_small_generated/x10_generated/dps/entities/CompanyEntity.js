@@ -15,7 +15,6 @@ import { companyCalculateErrors, createDefaultCompany, type Company } from 'dps/
 // Type Definition
 export type CompanyEntity = {
   +id: string,
-  +clientId: ?number,
   +name: string,
   +primaryContact: string,
   +primaryContactEmail: string,
@@ -29,10 +28,10 @@ export type CompanyEntity = {
 
 // Derived Attribute Functions
 export function companyEntityUrl(companyEntity: ?{
-  +clientId: ?number,
+  +dbid: ?number,
 }): string {
   if (companyEntity == null) return '';
-  const result = '/clients/' + x10toString(companyEntity?.clientId);
+  const result = '/clients/' + x10toString(companyEntity?.company?.client?.dbid);
   return result;
 }
 
@@ -42,7 +41,6 @@ export function companyEntityUrl(companyEntity: ?{
 export function createDefaultCompanyEntity(): CompanyEntity {
   return {
     id: uuid(),
-    clientId: null,
     name: '',
     primaryContact: '',
     primaryContactEmail: '',

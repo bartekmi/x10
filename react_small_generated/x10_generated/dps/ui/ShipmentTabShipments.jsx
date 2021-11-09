@@ -254,7 +254,7 @@ export default createFragmentContainer(ShipmentTabShipments, {
       consignee {
         id
         toStringRepresentation
-        clientId
+        dbid
         name
       }
       customs
@@ -275,7 +275,7 @@ export default createFragmentContainer(ShipmentTabShipments, {
       shipper {
         id
         toStringRepresentation
-        clientId
+        dbid
         name
       }
       status

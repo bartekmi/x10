@@ -11,7 +11,6 @@ namespace x10.hotchoc.dps.Entities {
   /// </summary>
   public class CompanyEntity : Base {
     // Regular Attributes
-    public int? ClientId { get; set; }
     [GraphQLNonNullType]
     public string? Name { get; set; }
     [GraphQLNonNullType]
