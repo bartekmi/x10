@@ -25,9 +25,9 @@ function ShipmentTab(props: Props): React.Node {
     <VerticalStackPanel
       gap={ 32 }
     >
-      <ShipmentTabShipments shipment={ hit.shipments }/>
-      <ShipmentTabQuotes quote={ hit.quotes }/>
-      <ShipmentTabBookings booking={ hit.bookings }/>
+      <ShipmentTabShipments shipments={ hit.shipments }/>
+      <ShipmentTabQuotes quotes={ hit.quotes }/>
+      <ShipmentTabBookings bookings={ hit.bookings }/>
     </VerticalStackPanel>
   );
 }

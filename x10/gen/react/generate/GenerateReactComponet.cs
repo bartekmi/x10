@@ -210,7 +210,7 @@ namespace x10.gen.react.generate {
 
       WriteLine(level, "<{0} {1}={ {2}{3} }/>",
         classDefX10.Name,
-        VariableName(classDefX10.ComponentDataModel),
+        VariableName(classDefX10.ComponentDataModel, classDefX10.IsMany),
         SourceVariableName,
         path);
     }

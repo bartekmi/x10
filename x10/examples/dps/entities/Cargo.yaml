@@ -6,7 +6,7 @@ attributes:
   - name: metric_weight
     dataType: Float
     datagen_min: 10000
-    datagen_max: 10000
+    datagen_max: 35000
     description: Weight in kilograms
 
   - name: metric_volume
