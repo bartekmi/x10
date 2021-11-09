@@ -62,7 +62,7 @@ function ShipmentTabQuotes(props: Props): React.Node {
             },
             {
               id: '_2',
-              Header: 'Name',
+              Header: 'Shipment Name',
               width: 140,
               accessor: (data) => data?.name,
               Cell: ({ value }) =>

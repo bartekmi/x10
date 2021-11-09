@@ -33,7 +33,18 @@
           <Table.ExpandedContent>
             <VerticalStackPanel>
               <Text weight="bold">Match details</Text>
-              <DisplayForm>
+              <DisplayForm gap="8">
+                <Row gap="40">
+                  <name/>
+                  <address/>
+                  <matchType/>
+                  <Row visible="=matchType == MatchType.individual" gap="40">
+                    <dob/>
+                    <gender/>
+                    <idNumbers/>
+                  </Row>
+                </Row>
+                <HorizontalDivider/>
                 <reasonListed/>
                 <HorizontalDivider/>
                 <comments/>

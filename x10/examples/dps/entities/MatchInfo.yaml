@@ -52,6 +52,19 @@ attributes:
     dataType: String
     datagen_random_text: 3..7 sentences
 
+  - name: dob
+    label: Date of birth
+    dataType: String
+    datagen_pattern: ~19DD/DD/DD~
+
+  - name: gender
+    dataType: String
+    datagen_pattern: (70% => male | 30% => female)
+
+  - name: idNumbers
+    dataType: String
+    datagen_pattern: (50% => ~DDDDDDDD~ - DL Number | ) (50% => ~LLDDDDDD~ - Passport Number | )
+
 
 derivedAttributes:
   - name: isNameMatch

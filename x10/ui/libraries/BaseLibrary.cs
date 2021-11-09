@@ -1077,6 +1077,11 @@ namespace x10.ui.libraries {
             ComplexAttributeType = ClassDefNative.Visual,
             ModelRefWrapperComponentName = "Label",
           },
+          new UiAttributeDefinitionAtomic() {
+            Name = "gap",
+            Description = "Change default gap between items in built-in VerticalStackPanel",
+            DataType = DataTypes.Singleton.Integer,
+          },
         },
         DefaultAttachedAttributes = new List<UiAttributeValue>() {
           new UiAttributeValueAtomic(ClassDefNative.ATTR_READ_ONLY_OBJ, true),

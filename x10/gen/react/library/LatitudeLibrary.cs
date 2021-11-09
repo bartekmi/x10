@@ -739,6 +739,9 @@ namespace x10.gen.react.library {
         LogicalName = "DisplayForm",
         PlatformName = "DisplayForm",
         ImportDir = "react_lib/form",
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic("gap", "gap"),
+        },
       },
       new PlatformClassDef() {
         LogicalName = "Label",

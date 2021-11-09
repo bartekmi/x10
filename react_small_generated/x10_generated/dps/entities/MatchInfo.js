@@ -23,6 +23,9 @@ export type MatchInfo = {
   +nameMatchScore: ?number,
   +addressMatchScore: ?number,
   +comments: string,
+  +dob: string,
+  +gender: string,
+  +idNumbers: string,
   +sources: $ReadOnlyArray<MatchInfoSource>,
 };
 
@@ -84,6 +87,9 @@ export function createDefaultMatchInfo(): MatchInfo {
     // $FlowExpectedError Required field, but no default value
     addressMatchScore: null,
     comments: '',
+    dob: '',
+    gender: '',
+    idNumbers: '',
     sources: [],
   };
 }

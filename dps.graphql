@@ -135,6 +135,9 @@ type MatchInfo {
   nameMatchScore: Int
   addressMatchScore: Int
   comments: String!
+  dob: String!
+  gender: String!
+  idNumbers: String!
   toStringRepresentation: String!
   sources: [MatchInfoSource!]!
   id: String!
@@ -1300,6 +1303,36 @@ input MatchInfoFilter {
   comments_not_ends_with: String
   comments_in: [String!]
   comments_not_in: [String!]
+  dob: String
+  dob_not: String
+  dob_contains: String
+  dob_not_contains: String
+  dob_starts_with: String
+  dob_not_starts_with: String
+  dob_ends_with: String
+  dob_not_ends_with: String
+  dob_in: [String!]
+  dob_not_in: [String!]
+  gender: String
+  gender_not: String
+  gender_contains: String
+  gender_not_contains: String
+  gender_starts_with: String
+  gender_not_starts_with: String
+  gender_ends_with: String
+  gender_not_ends_with: String
+  gender_in: [String!]
+  gender_not_in: [String!]
+  idNumbers: String
+  idNumbers_not: String
+  idNumbers_contains: String
+  idNumbers_not_contains: String
+  idNumbers_starts_with: String
+  idNumbers_not_starts_with: String
+  idNumbers_ends_with: String
+  idNumbers_not_ends_with: String
+  idNumbers_in: [String!]
+  idNumbers_not_in: [String!]
   toStringRepresentation: String
   toStringRepresentation_not: String
   toStringRepresentation_contains: String
@@ -1349,6 +1382,9 @@ input MatchInfoSort {
   nameMatchScore: SortOperationKind
   addressMatchScore: SortOperationKind
   comments: SortOperationKind
+  dob: SortOperationKind
+  gender: SortOperationKind
+  idNumbers: SortOperationKind
   toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind

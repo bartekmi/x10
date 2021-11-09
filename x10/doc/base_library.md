@@ -1597,6 +1597,11 @@ If specified, element will have a border of this thickness and some small paddin
 Specifies background color of element
 
 - Data Type: Color
+### Attribute 'gap'
+
+Change default gap between items in built-in VerticalStackPanel
+
+- Data Type: Integer
 ### Attribute 'id'
 
 Id for any purpose - e.g. debugging

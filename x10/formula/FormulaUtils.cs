@@ -57,7 +57,7 @@ namespace x10.formula {
       List<IEnumerable<Member>> paths = new List<IEnumerable<Member>>();
 
       foreach (ExpBase expression in subExpressions) 
-        if (expression.DataType.Member != null)
+        if (expression.DataType?.Member != null)
           paths.Add(ExtractMemberPath(expression));
 
       return paths;

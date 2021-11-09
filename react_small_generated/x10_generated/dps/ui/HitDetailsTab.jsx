@@ -233,7 +233,67 @@ function HitDetailsTab(props: Props): React.Node {
                 weight='bold'
                 value='Match details'
               />
-              <DisplayForm>
+              <DisplayForm
+                gap={ 8 }
+              >
+                <Group
+                  alignItems='center'
+                  gap={ 40 }
+                >
+                  <DisplayField
+                    label='Name'
+                  >
+                    <TextDisplay
+                      value={ data?.name }
+                    />
+                  </DisplayField>
+                  <DisplayField
+                    label='Address'
+                  >
+                    <TextDisplay
+                      value={ data?.address }
+                    />
+                  </DisplayField>
+                  <DisplayField
+                    label='Match Type'
+                  >
+                    <EnumDisplay
+                      value={ data?.matchType }
+                      options={ MatchTypeEnumPairs }
+                    />
+                  </DisplayField>
+                  <StyleControl
+                    visible={ toEnum(data?.matchType) == toEnum("individual") }
+                  >
+                    <Group
+                      alignItems='center'
+                      gap={ 40 }
+                    >
+                      <DisplayField
+                        label='Date of birth'
+                      >
+                        <TextDisplay
+                          value={ data?.dob }
+                        />
+                      </DisplayField>
+                      <DisplayField
+                        label='Gender'
+                      >
+                        <TextDisplay
+                          value={ data?.gender }
+                        />
+                      </DisplayField>
+                      <DisplayField
+                        label='Id Numbers'
+                      >
+                        <TextDisplay
+                          value={ data?.idNumbers }
+                        />
+                      </DisplayField>
+                    </Group>
+                  </StyleControl>
+                </Group>
+                <Separator/>
                 <DisplayField
                   label='Reason Listed'
                 >
@@ -314,6 +374,9 @@ export default createFragmentContainer(HitDetailsTab, {
         address
         addressMatchScore
         comments
+        dob
+        gender
+        idNumbers
         matchType
         name
         nameMatchScore
