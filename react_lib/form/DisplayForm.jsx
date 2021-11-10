@@ -6,12 +6,13 @@ import VerticalStackPanel from "../layout/VerticalStackPanel";
 
 type Props = {|
   +children: React.Node,
+  +gap?: number,
 |};
 export default function DisplayForm(props: Props): React.Node {
-  const { children } = props
+  const { children, gap = 20 } = props
 
   return (
-    <VerticalStackPanel gap={20}>
+    <VerticalStackPanel gap={gap}>
       { children }
     </VerticalStackPanel>
   );
