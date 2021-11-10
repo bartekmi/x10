@@ -19,7 +19,6 @@ namespace x10.gen.react.generate {
     private void GenerateInterface(ClassDefX10 classDef, Entity model, bool isForm) {
       Begin(classDef.XmlElement.FileInfo, "Interface.jsx");
 
-      GenerateFileHeader();
       GenerateImports(classDef);
 
       if (classDef.IsMany) {

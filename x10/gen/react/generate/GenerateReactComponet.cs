@@ -41,7 +41,6 @@ namespace x10.gen.react.generate {
 
       Begin(classDef.XmlElement.FileInfo, ".jsx");
 
-      GenerateFileHeader();
       GenerateImports(model);
       GenerateComponent(classDef, model, isForm);
 

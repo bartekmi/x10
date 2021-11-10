@@ -10,9 +10,6 @@ namespace x10.gen.react.generate {
     public override void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums) {
       Begin(fileInfo, ".js", false);
 
-      GenerateFileHeader();
-      WriteLine();
-
       foreach (DataTypeEnum anEnum in enums)
         GenerateEnum(anEnum);
 

@@ -53,6 +53,7 @@ namespace x10 {
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
         Generator = new ReactCodeGenerator() {
           GeneratedCodeSubdir = "dps",
+          FileHeader = "// TEAM: compliance\n// @flow\n",
         },
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",

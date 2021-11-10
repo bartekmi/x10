@@ -21,8 +21,6 @@ namespace x10.gen.react.generate {
 
       Begin(fileInfo, ".js");
 
-      GenerateFileHeader();
-      WriteLine();
       InsertImportsPlaceholder();
 
       GenerateType(entity, isContext);

@@ -26,6 +26,7 @@ namespace x10.gen {
     public abstract void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums);
 
     public string RootGenerateDir;
+    public string FileHeader;       // If present, every file generated will have this at the top
     public AllEntities AllEntities;
     public AllEnums AllEnums;
     public AllUiDefinitions AllUiDefinitions;
@@ -111,6 +112,9 @@ namespace x10.gen {
         throw new Exception("Someone before me did not End() after Being()");
       _writer = CreateIntermediateDirs(absolutePath);
       _outputs = new List<Output>();
+
+      if (FileHeader != null)
+        _writer.WriteLine(FileHeader);
     }
 
     protected void End() {
