@@ -36,15 +36,16 @@ namespace x10 {
     public UiLibrary[] LogicalLibraries { get; set; }
     public CodeGenerator Generator { get; set; }
     public ScriptInfo PostGenerationScript { get; set; }
+    public Action CustomConfig { get; set; }
   }
 
   public class Program {
     private const string INTERMEDIATE_FILES_DIR = "temp/x10";
 
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
-      new GenConfig() {
         // DPS
-        Name = "DPS - React",
+      new GenConfig() {
+        Name = "DPS - React - x10",
         CommandLine = "dps",
         SourceDir = "examples/dps",
         ProjectDir = "../react_small_generated",
@@ -58,6 +59,23 @@ namespace x10 {
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
           Args = "relay-dps",
+        }
+      },
+      new GenConfig() {
+        Name = "DPS - React - Monorepo",
+        CommandLine = "dpsmono",
+        SourceDir = "examples/dps",
+        ProjectDir = "../../../flexport",
+        TargetDir = "webpack/assets/javascripts/compliance/components/dps/x10",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "compliance/components/dps/x10",
+          FileHeader = "// TEAM: compliance\n// @flow\n",
+          ReactLibImport = "compliance/react_lib",
+        },
+        CustomConfig = () => {
+          LatitudeLibrary.Singleton().NonDefaultImportPath = "compliance";
         }
       },
       new GenConfig() {
@@ -152,6 +170,8 @@ namespace x10 {
     }
 
     private static void CompileAndGenerate(GenConfig config) {
+      if (config.CustomConfig != null)
+        config.CustomConfig();
       HydrateUiLibraries(config.LogicalLibraries);
       HydratePlatformLibraries(config.PlatformLibraries);
 

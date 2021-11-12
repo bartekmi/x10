@@ -10,7 +10,13 @@ namespace x10.ui.platform {
   public class PlatformLibrary {
     public string Name { get; set; }
     public string Description { get; set; }
-    public string ImportPath { get; set; }
+
+    // Use this path if the PlatformClassDef does not specify a particular import path
+    public string DefaultImportPath { get; set; }
+
+    // If present, pre-pend this to the specific import path declared by any PlatformClassDef
+    // Useful for generating code where the helper library (e.g. react_lib) is mounted in a custom location
+    public string NonDefaultImportPath { get; set; }
 
     public UiLibrary LogicalLibrary { get; private set; }
     private readonly Dictionary<string, PlatformClassDef> _definitionsByLogicalName;

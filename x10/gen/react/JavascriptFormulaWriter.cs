@@ -3,7 +3,6 @@ using System.Linq;
 using System.IO;
 
 using x10.formula;
-using x10.utils;
 using x10.model;
 using x10.model.metadata;
 using x10.model.definition;
@@ -148,7 +147,7 @@ namespace x10.gen.react {
 
       DataType dataType = exp.Expression.DataType.DataType;
       if (dataType == DataTypes.Singleton.Date || dataType == DataTypes.Singleton.Timestamp) {
-        importPath = "react_lib/type_helpers/dateFunctions";
+        importPath = "type_helpers/dateFunctions";
         if (exp.MemberName == "year") {
            functionName = "getYear";
         } else if (exp.MemberName == "date") {
@@ -158,7 +157,7 @@ namespace x10.gen.react {
 
       if (functionName != null) {
         WriteFunctionAroundExpression(exp.Expression, functionName);
-        _imports.Import(functionName, importPath, ImportLevel.ThirdParty);
+        _imports.ImportFromReactLib(functionName, importPath);
         return true;
       }
 

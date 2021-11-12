@@ -181,7 +181,7 @@ namespace x10.gen.react.generate {
       string varName = VariableName(entity);
       string entityName = entity.Name;
 
-      ImportsPlaceholder.ImportType("FormError", "react_lib/form/FormProvider", ImportLevel.ThirdParty);
+      ImportsPlaceholder.ImportTypeFromReactLib("FormError", "form/FormProvider");
       WriteLine(0, "export function {0}({1}: {2}, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> { ",
         CalculateErrorsFuncName(entity),
         varName,
@@ -209,7 +209,7 @@ namespace x10.gen.react.generate {
         bool canBeEmpty = CanBeEmpty(member);
 
         ImportsPlaceholder.ImportFunction(HelperFunctions.IsBlank);
-        ImportsPlaceholder.Import("addError", "react_lib/form/FormProvider", ImportLevel.ThirdParty);
+        ImportsPlaceholder.ImportFromReactLib("addError", "form/FormProvider");
 
         if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
           WriteLine(1, "if (isBlank({0}.{1}))", varName, member.Name);

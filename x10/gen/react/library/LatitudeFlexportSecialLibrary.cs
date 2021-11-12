@@ -31,7 +31,7 @@ namespace x10.gen.react.library {
       if (_singleton == null)
         _singleton = new PlatformLibrary(FlexportSpecialLibrary.Singleton(), definitions) {
           Name = "Latitude Flexport Special",
-          ImportPath = "latitude",
+          DefaultImportPath = "latitude",
         };
       return _singleton;
     }

@@ -1,14 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using x10.utils;
-using x10.formula;
 using x10.model.definition;
-using x10.ui;
 using x10.ui.composition;
-using x10.ui.platform;
-using x10.ui.metadata;
 using x10.gen.react.placeholder;
 
 namespace x10.gen.react.generate {
@@ -81,7 +72,7 @@ namespace x10.gen.react.generate {
       WriteLine(1, ");");
       WriteLine(0, "}");
 
-      ImportsPlaceholder.ImportDefault("react_lib/relay/EntityQueryRenderer", ImportLevel.ThirdParty);
+      ImportsPlaceholder.ImportDefaultFromReactLib("relay/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
   
       WriteLine();
@@ -123,7 +114,7 @@ namespace x10.gen.react.generate {
       classDefName,       // Index 0
       variableName);      // Index 1
 
-      ImportsPlaceholder.ImportDefault("react_lib/relay/MultiEntityQueryRenderer", ImportLevel.ThirdParty);
+      ImportsPlaceholder.ImportDefaultFromReactLib("relay/MultiEntityQueryRenderer");
 
       WriteLine();
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 using x10.ui.metadata;
 using x10.ui.composition;
@@ -80,7 +81,13 @@ namespace x10.ui.platform {
     }
     public string ImportPath {
       get {
-        string dir = ImportDir == null ? Owner.ImportPath : ImportDir;
+        string dir = null;
+        if (ImportDir == null)
+          dir = Owner.DefaultImportPath;
+        else {
+          dir = Owner.NonDefaultImportPath == null ? ImportDir : Path.Combine(Owner.NonDefaultImportPath, ImportDir);
+        }
+        
         return string.Format("{0}/{1}", dir, PlatformName);
       }
     }

@@ -21,8 +21,9 @@ namespace x10.gen.react.generate {
     internal ImportsPlaceholder ImportsPlaceholder;
     internal string GeneratedCodeSubdir;
     internal string AppContextImport;
+    internal string ReactLibImport = "react_lib";   // Changing this makes it possible to mount rect_lib elsewhere
     internal void InsertImportsPlaceholder() {
-      ImportsPlaceholder = new ImportsPlaceholder(GeneratedCodeSubdir, AppContextImport);
+      ImportsPlaceholder = new ImportsPlaceholder(GeneratedCodeSubdir, AppContextImport, ReactLibImport);
       AddPlaceholder(ImportsPlaceholder);
     }
     #endregion

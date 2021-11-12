@@ -77,6 +77,20 @@
         // "engineLogging": true
       }
     },
+    {
+      "name": "Dps-Gen Monorepo",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_x10",
+      "program": "${workspaceFolder}/x10/bin/Debug/netcoreapp5.0/x10.dll",
+      "args": ["dpsmono"],
+      "cwd": "${workspaceFolder}/x10",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        // "engineLogging": true
+      }
+    },
 
     // Code Generation - Client Page
     {

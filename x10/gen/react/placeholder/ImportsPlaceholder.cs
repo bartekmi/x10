@@ -51,12 +51,14 @@ namespace x10.gen.react.placeholder {
     private List<ImportData> _imports = new List<ImportData>();
     private string _generatedCodeSubdir;
     private string _appContextImport;
+    private string _reactLibImport;
 
     // generatedCodeSubdir is the directory into which code is generated RELATIVE TO "x10_generated".
     // We will pre-pend this to all paths accessing generated components
-    public ImportsPlaceholder(string generatedCodeSubdir, string appContextImport) {
+    public ImportsPlaceholder(string generatedCodeSubdir, string appContextImport, string reactLibImport) {
       _generatedCodeSubdir = generatedCodeSubdir;
       _appContextImport = appContextImport;
+      _reactLibImport = reactLibImport;
     }
     #endregion
 
@@ -79,6 +81,11 @@ namespace x10.gen.react.placeholder {
 
       ImportDefault(path, ImportLevel.Project);
     }
+
+    public void ImportDefaultFromReactLib(string pathNoExtension) {
+      string withReactLibDir = string.Format("{0}/{1}", _reactLibImport, pathNoExtension);
+      ImportDefault(withReactLibDir, ImportLevel.ThirdParty);
+    }
     #endregion
 
     #region Import (non-default)
@@ -88,6 +95,10 @@ namespace x10.gen.react.placeholder {
         Path = pathNoExtension,
         ImportLevel = level,
       });
+    }
+
+    public void ImportFromReactLib(string functionOrConstant, string path) {
+      Import(functionOrConstant, string.Format("{0}/{1}", _reactLibImport, path), ImportLevel.ThirdParty);
     }
 
     public void Import(string functionOrConstant, IAcceptsModelAttributeValues entity) {
@@ -109,6 +120,10 @@ namespace x10.gen.react.placeholder {
         ImportLevel = level,
         IsType = true,
       });
+    }
+
+    public void ImportTypeFromReactLib(string type, string path) {
+      ImportType(type, string.Format("{0}/{1}", _reactLibImport, path), ImportLevel.ThirdParty);
     }
 
     public void ImportType(Entity model) {
@@ -148,14 +163,13 @@ namespace x10.gen.react.placeholder {
       });
     }
 
+    // If function.ImportDir is null, this is assumed to be in react_lib
     public void ImportFunction(Function function) {
       string functionName = ReactCodeGenerator.FunctionName(function);
-
-      if (function.ImportDir == null) {
-        string path = "react_lib/utils/" + functionName;
-        ImportDefault(path, ImportLevel.ThirdParty);
-      } else {
-        string path = Path.Combine(function.ImportDir, functionName);
+      if (function.ImportDir == null)
+        ImportDefaultFromReactLib("utils/" + functionName);
+      else {
+        string path = string.Format("{0}/{1}", function.ImportDir, functionName);
         ImportDefault(path, ImportLevel.Project);
       }
     }
@@ -166,7 +180,7 @@ namespace x10.gen.react.placeholder {
       foreach (ImportData import in _imports) {
         if (import.Path.StartsWith("latitude"))
           import.ImportSubLevel = 1;
-        if (import.Path.StartsWith("react_lib"))
+        if (import.Path.StartsWith(_reactLibImport))
           import.ImportSubLevel = 2;
       }
 

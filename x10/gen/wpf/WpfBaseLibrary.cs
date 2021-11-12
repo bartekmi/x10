@@ -488,7 +488,7 @@ namespace x10.gen.wpf {
     public static PlatformLibrary Singleton(MessageBucket errors, UiLibrary logicalLibrary) {
       if (_singleton == null)
         _singleton = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-          ImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
+          DefaultImportPath = "xmlns:lib=\"clr-namespace:wpf_lib.lib;assembly=wpf_lib\"",
         };
       return _singleton;
     }

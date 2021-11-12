@@ -1026,7 +1026,7 @@ namespace x10.gen.react.library {
       if (_singleton == null)
         _singleton = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
           Name = "Latitude",
-          ImportPath = "latitude",
+          DefaultImportPath = "latitude",
         };
       return _singleton;
     }
