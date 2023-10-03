@@ -6,7 +6,9 @@
   "author": "Bartek Muszynski <bartek@flexport.com>",
   "license": "MIT",
   "dependencies": {
+    "aphrodite": "^1.2.5",    
     "latitude": "file:../../../flexport/open_source/latitude/",
+    "moment-timezone": "^0.5.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-relay": "^10.0.1",
