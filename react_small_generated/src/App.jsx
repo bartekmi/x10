@@ -7,7 +7,7 @@ import { graphql, QueryRenderer } from "react-relay";
 import { Route, Router } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 
-import ConnectedToaster from "latitude/toast/ConnectedToaster";
+import ConnectedToaster from "latitude/toast/DeprecatedConnectedToaster";
 import Group from "latitude/Group";
 import Button from "latitude/button/Button";
 import { whitespaceSizeConstants } from "latitude/styles/whitespace";
@@ -22,7 +22,7 @@ export default function App(): React.Node {
   // const [app, setApp] = React.useState(null);
   // const app = "client_page";
   // const app = "small";
-  const app = "dps";
+  const app = "small";
 
   const appContext = {
     today: new Date().toISOString(),
