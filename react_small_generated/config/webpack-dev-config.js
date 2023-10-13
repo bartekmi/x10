@@ -19,10 +19,9 @@ module.exports = merge(common, {
   // see https://webpack.js.org/configuration/devtool/
   // If you find that you need more control of source map generation,
   // see https://webpack.js.org/plugins/source-map-dev-tool-plugin/
-  devtool: "#inline-source-map",
+  devtool: "inline-source-map",
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("development")
@@ -34,6 +33,9 @@ module.exports = merge(common, {
       ]
     }),
   ],
+  optimization: {
+    moduleIds: "named"
+  },
   module: {
     rules: [
       {
