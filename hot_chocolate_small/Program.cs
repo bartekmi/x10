@@ -60,7 +60,7 @@ namespace x10.hotchoc {
         repositoryInterface: typeof(SmallSample.Repositories.IRepository),
         repository: new SmallSample.Repositories.Repository()
       ) {
-        IntermediateOutputDir = "/Users/bmuszynski/temp/small",
+        IntermediateOutputDir = "/Users/bartek/temp/small",
       },
       new HotChocConfig(
         commandLine: "dps",
@@ -69,7 +69,7 @@ namespace x10.hotchoc {
         repositoryInterface: typeof(dps.Repositories.IRepository),
         repository: new dps.Repositories.Repository()
       ) {
-        IntermediateOutputDir = "/Users/bmuszynski/temp/dps",
+        IntermediateOutputDir = "/Users/bartek/temp/dps",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
       },
       new HotChocConfig(
@@ -79,7 +79,7 @@ namespace x10.hotchoc {
         repositoryInterface: typeof(ClientPage.Repositories.IRepository),
         repository: new ClientPage.Repositories.Repository()
       ) {
-        IntermediateOutputDir = "/Users/bmuszynski/temp/client_page",
+        IntermediateOutputDir = "/Users/bartek/temp/client_page",
         PreInitializeAction = () => {
           // This is lame (Tech Debt), but there is the following dependency:
           // DataIngest uses EntityAndEnumCompiler (EEC), EEC loads Functions, Functions have a dependency on
