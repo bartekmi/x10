@@ -16,16 +16,16 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HotChocolate" Version="11.0.2"/>
-    <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.2"/>
-    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="11.0.0-preview.138"/>
-    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="11.0.0-preview.138"/>
-    <PackageReference Include="HotChocolate.Types.Filters" Version="11.0.2"/>
-    <PackageReference Include="HotChocolate.Types.Sorting" Version="11.0.2"/>
-    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="11.0.2"/>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
+    <PackageReference Include="HotChocolate" Version="13.6.0-preview.31" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
+    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="10.5.5" />
+    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="13.5.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\x10\x10.csproj"/>
+    <ProjectReference Include="..\x10\x10.csproj" />
   </ItemGroup>
 </Project>
