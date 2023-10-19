@@ -18,13 +18,6 @@ namespace x10.hotchoc.SmallSample.Entities {
     [GraphQLNonNullType]
     public string? Email { get; set; }
 
-    // To String Representation
-    [GraphQLNonNullType]
-    public string? ToStringRepresentation {
-      get { return Name; }
-      set { /* Needed to make Hot Chocolate happy */ }
-    }
-
     // Associations
     [GraphQLNonNullType]
     public Address? PermanentMailingAddress { get; set; }

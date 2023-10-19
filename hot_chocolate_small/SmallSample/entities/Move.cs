@@ -13,13 +13,6 @@ namespace x10.hotchoc.SmallSample.Entities {
     // Regular Attributes
     public DateTime? Date { get; set; }
 
-    // To String Representation
-    [GraphQLNonNullType]
-    public string? ToStringRepresentation {
-      get { return "Move: " + DbidHotChoc; }
-      set { /* Needed to make Hot Chocolate happy */ }
-    }
-
     // Associations
     [GraphQLNonNullType]
     public Building? From { get; set; }

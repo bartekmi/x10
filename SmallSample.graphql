@@ -10,7 +10,6 @@ type Address {
   city: String!
   stateOrProvince: String!
   zip: String!
-  toStringRepresentation: String!
   country: Country!
   id: String!
   hashcode: Int!
@@ -25,7 +24,6 @@ type Building {
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
-  toStringRepresentation: String!
   units: [Unit!]!
   physicalAddress: Address!
   mailingAddress: Address
@@ -37,7 +35,6 @@ type Building {
 type Country {
   code: String!
   name: String!
-  toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
@@ -45,7 +42,6 @@ type Country {
 "Somewhat contrived move event from one apartment to another"
 type Move {
   date: DateTime
-  toStringRepresentation: String!
   from: Building!
   to: Building!
   tenant: Tenant!
@@ -94,7 +90,6 @@ type Tenant {
   name: String!
   phone: String!
   email: String!
-  toStringRepresentation: String!
   permanentMailingAddress: Address!
   id: String!
   hashcode: Int!
@@ -107,7 +102,6 @@ type Unit {
   numberOfBedrooms: Int
   numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
-  toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
@@ -166,16 +160,6 @@ input AddressFilter {
   zip_not_ends_with: String
   zip_in: [String!]
   zip_not_in: [String!]
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   country: CountryFilter
   id: String
   id_not: String
@@ -208,7 +192,6 @@ input AddressInput {
   city: String!
   stateOrProvince: String!
   zip: String!
-  toStringRepresentation: String!
   country: CountryInput!
   id: String!
   hashcode: Int!
@@ -221,7 +204,6 @@ input AddressSort {
   city: SortOperationKind
   stateOrProvince: SortOperationKind
   zip: SortOperationKind
-  toStringRepresentation: SortOperationKind
   country: CountrySort
   id: SortOperationKind
   hashcode: SortOperationKind
@@ -299,16 +281,6 @@ input BuildingFilter {
   petPolicy_not_lte: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean
   mailingAddressSameAsPhysical_not: Boolean
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   units_some: UnitFilter
   units_none: UnitFilter
   units_all: UnitFilter
@@ -364,7 +336,6 @@ input BuildingInput {
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
-  toStringRepresentation: String!
   units: [UnitInput!]!
   physicalAddress: AddressInput!
   mailingAddress: AddressInput
@@ -381,7 +352,6 @@ input BuildingSort {
   mailboxType: SortOperationKind
   petPolicy: SortOperationKind
   mailingAddressSameAsPhysical: SortOperationKind
-  toStringRepresentation: SortOperationKind
   physicalAddress: AddressSort
   mailingAddress: AddressSort
   id: SortOperationKind
@@ -412,16 +382,6 @@ input CountryFilter {
   name_not_ends_with: String
   name_in: [String!]
   name_not_in: [String!]
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   id: String
   id_not: String
   id_contains: String
@@ -450,7 +410,6 @@ input CountryFilter {
 input CountryInput {
   code: String!
   name: String!
-  toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
@@ -459,7 +418,6 @@ input CountryInput {
 input CountrySort {
   code: SortOperationKind
   name: SortOperationKind
-  toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
 }
@@ -480,16 +438,6 @@ input MoveFilter {
   date_not_lt: DateTime
   date_lte: DateTime
   date_not_lte: DateTime
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   from: BuildingFilter
   to: BuildingFilter
   tenant: TenantFilter
@@ -530,7 +478,6 @@ input MoveFormMoveInput {
 "Somewhat contrived move event from one apartment to another"
 input MoveSort {
   date: SortOperationKind
-  toStringRepresentation: SortOperationKind
   from: BuildingSort
   to: BuildingSort
   tenant: TenantSort
@@ -572,16 +519,6 @@ input TenantFilter {
   email_not_ends_with: String
   email_in: [String!]
   email_not_in: [String!]
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   permanentMailingAddress: AddressFilter
   id: String
   id_not: String
@@ -622,7 +559,6 @@ input TenantInput {
   name: String!
   phone: String!
   email: String!
-  toStringRepresentation: String!
   permanentMailingAddress: AddressInput!
   id: String!
   hashcode: Int!
@@ -633,7 +569,6 @@ input TenantSort {
   name: SortOperationKind
   phone: SortOperationKind
   email: SortOperationKind
-  toStringRepresentation: SortOperationKind
   permanentMailingAddress: AddressSort
   id: SortOperationKind
   hashcode: SortOperationKind
@@ -691,16 +626,6 @@ input UnitFilter {
   numberOfBathrooms_not_lte: NumberOfBathroomsEnum
   hasBalcony: Boolean
   hasBalcony_not: Boolean
-  toStringRepresentation: String
-  toStringRepresentation_not: String
-  toStringRepresentation_contains: String
-  toStringRepresentation_not_contains: String
-  toStringRepresentation_starts_with: String
-  toStringRepresentation_not_starts_with: String
-  toStringRepresentation_ends_with: String
-  toStringRepresentation_not_ends_with: String
-  toStringRepresentation_in: [String!]
-  toStringRepresentation_not_in: [String!]
   id: String
   id_not: String
   id_contains: String
@@ -732,7 +657,6 @@ input UnitInput {
   numberOfBedrooms: Int
   numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
-  toStringRepresentation: String!
   id: String!
   hashcode: Int!
 }
@@ -744,7 +668,6 @@ input UnitSort {
   numberOfBedrooms: SortOperationKind
   numberOfBathrooms: SortOperationKind
   hasBalcony: SortOperationKind
-  toStringRepresentation: SortOperationKind
   id: SortOperationKind
   hashcode: SortOperationKind
 }

@@ -22,13 +22,6 @@ namespace x10.hotchoc.SmallSample.Entities {
     [GraphQLNonNullType]
     public string? Zip { get; set; }
 
-    // To String Representation
-    [GraphQLNonNullType]
-    public string? ToStringRepresentation {
-      get { return "Address: " + DbidHotChoc; }
-      set { /* Needed to make Hot Chocolate happy */ }
-    }
-
     // Associations
     [GraphQLNonNullType]
     public Country? Country { get; set; }

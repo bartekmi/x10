@@ -396,7 +396,18 @@ namespace x10.hotchoc.{0} {{
         entity.InheritsFromName == null ? "PrimordialEntityBase" : entity.InheritsFrom.Name);
 
       GenerateRegularAttributes(entity);
-      GenerateToStringRepresentation(entity);
+
+      // Commenting out for the following reasons: 
+      // * current HotChocolate implementation was embedding this in mutation input gql,
+      //   which is causing issues while trying to execute mutations.
+      // * The original goal of this was to support AssociationEditor, which would 
+      //   make use of it to show a drop-down list of human-readable choices.
+      // * We should have equal success using x10 "derived properties" without introducing
+      //   a new concept, even at the expense of slightly more data transmitted over-
+      //   the wire.
+      // * Keeping this code for now for a potential future optimization.
+      // GenerateToStringRepresentation(entity);
+      
       GenerateAssociations(entity);
       GenerateEnsureUniqueDbid(entity);
       GenerateSetNonOwnedAssociations(entity);
