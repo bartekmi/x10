@@ -1,0 +1,15 @@
+// CAREFUL: Any settings here can be overridden by webpack config files
+// if "options" are specified for babel-loader
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-flow",
+    "@babel/preset-react"
+    ],
+  "plugins": [
+    "relay"
+    // Commenting out to minimize the number of things that can go wrong for now
+    // Note that its successor, "React Fast Refresh" is recommended where possible
+    // ,"react-hot-loader/babel"
+  ]
+}

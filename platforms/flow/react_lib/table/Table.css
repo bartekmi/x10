@@ -1,0 +1,51 @@
+table{
+  border-spacing:0;
+  border:1px solid #ededed
+}
+
+table tr:last-child td{
+  border-bottom:0
+}
+
+table td,table th{
+  margin:0;
+  padding:.5rem;
+  border-bottom:1px solid #ededed;
+  border-right:1px solid #ededed;
+  position:relative
+}
+
+table td:last-child,table th:last-child{
+  border-right:0
+}
+
+table tr:nth-child(2n) {
+  background-color:#fafafa
+}
+
+table tr.expanded {
+  background-color:Seashell
+}
+
+table tr.clickable {
+  cursor: pointer
+}
+
+table th:before{
+  position:absolute;
+  right:15px;
+  top:16px;
+  content:"";
+  width:0;
+  height:0;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent
+}
+
+table th.sort-asc:before{
+  border-bottom:5px solid #22543d
+}
+
+table th.sort-desc:before{
+  border-top:5px solid #22543d
+}

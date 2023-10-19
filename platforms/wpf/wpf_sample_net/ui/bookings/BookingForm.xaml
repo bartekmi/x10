@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="wpf_sample.ui.bookings.BookingForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:wpf_sample" 
+             xmlns:lib="clr-namespace:wpf_lib.lib;assembly=wpf_lib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+  <!-- TODO - The Form Component should be something along the lines of
+  https://stackoverflow.com/questions/9094486/adding-children-to-usercontrol-->
+  <lib:Form>
+    <StackPanel>
+      <TextBlock Style="{StaticResource Heading1}" Text="Create Booking"/>
+      <Separator />
+
+      <lib:EditElementWrapper Label="Shipment Name" IsMandatory="True" MyToolTip="A meaningful and easily identifiable name for this shipment">
+        <TextBox Text="{Binding Model.Name}"/>
+      </lib:EditElementWrapper>
+
+      <lib:FormSection Label="Involved Parties">
+        <lib:Label Text="What is your role in this trade?" IsMandatory="True"/>
+        <StackPanel Orientation="Horizontal">
+          <ToggleButton Content="Shipper" IsChecked="{Binding Model.IsShipperBooking, Mode=OneWay}" 
+                      Checked="SelectShipperBooking" Style="{StaticResource ToggleButton}"/>
+          <ToggleButton Content="Consignee" IsChecked="{Binding Model.IsConsigneeBooking, Mode=OneWay}" 
+                      Checked="SelectConsigneeBooking" Style="{StaticResource ToggleButton}"/>
+        </StackPanel>
+        <lib:EditElementWrapper Label="Shipper" IsMandatory="True">
+          <lib:EntitySelector Entity="{Binding Model.ShipperBindable}" EntitiesSource="{Binding ShipperCompanies}"/>
+        </lib:EditElementWrapper>
+        <lib:EditElementWrapper Label="Consignee" IsMandatory="True">
+          <lib:EntitySelector Entity="{Binding Model.ConsigneeBindable}" EntitiesSource="{Binding ConsigneeCompanies}"/>
+        </lib:EditElementWrapper>
+        <CheckBox Content="Notify party is same as consignee" IsChecked="{Binding NotifyPartySameAsConsignee}"/>
+        <lib:EditElementWrapper Label="Notify Party" MyToolTip="The company entity which should be notified of the arrival of the cargo"
+                               Visibility="{Binding NotifyPartySameAsConsignee, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <TextBox Text="{Binding Model.NotifyParty}"/>
+        </lib:EditElementWrapper>
+
+      </lib:FormSection>
+
+      <!-- Transportation -->
+      <lib:FormSection Label="Transportation">
+        <lib:EditElementWrapper Label="Transportation Mode" IsMandatory="True">
+          <ComboBox SelectedValue="{Binding Model.TransportationMode}"
+                    SelectedValuePath="Value"
+                    ItemsSource="{Binding TransportationModes}"
+                    />
+          <!--<lib:CardSelector Selected="{Binding Model.TransportationMode}"
+                          ItemsSourceEnum="TransportationMode"/>-->
+        </lib:EditElementWrapper>
+
+        <!-- FCL / LCL -->
+        <lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
+                              Visibility="{Binding IsLclVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <lib:BooleanViaButtons Selected="{Binding Model.IsLcl}"
+                               TextForTrue="LCL" TextForFalse="FCL"/>
+        </lib:EditElementWrapper>
+
+        <!-- FTL / LTL -->
+        <lib:EditElementWrapper Label="Shipment Type" IsMandatory="True"
+                              Visibility="{Binding IsLtlVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <lib:BooleanViaButtons Selected="{Binding Model.IsLtl}"
+                               TextForTrue="LTL" TextForFalse="FTL"/>
+        </lib:EditElementWrapper>
+
+        <!--<local:ContainerTypesEditor Visibility="{Binding ContainerTypesEditorVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+      <local:IncotermsSelector Incoterms="{Binding Model.Incoters}"/>-->
+      </lib:FormSection>
+
+      <!-- Origin -->
+      <lib:FormSection Label="Origin">
+        <lib:EditElementWrapper Label="I want Flexport to handle transportation from the origin location to the port." >
+          <CheckBox IsChecked="{Binding Model.WantsOriginService}"/>
+        </lib:EditElementWrapper>
+        <lib:EditElementWrapper Label="Origin Location" IsMandatory="True">
+          <lib:EntitySelector Entity="{Binding Model.OriginLocationBindable}" EntitiesSource="{Binding OriginLocations}"/>
+        </lib:EditElementWrapper>
+        <lib:EditElementWrapper Label="Origin Port" EditorFor="OriginPort"
+                              Visibility="{Binding OriginPortVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <lib:EntitySelector Entity="{Binding Model.OriginPortBindable}" EntitiesSource="{Binding OriginPorts}"/>
+        </lib:EditElementWrapper>
+        <lib:EditElementWrapper Label="Cargo Ready Date" EditorFor="CargoReadyDate">
+          <DatePicker SelectedDate="{Binding Model.CargoReadyDate, Mode=TwoWay}"/>
+        </lib:EditElementWrapper>
+
+      </lib:FormSection>
+
+      <!-- Destination -->
+      <lib:FormSection Label="Destination">
+        <lib:EditElementWrapper Label="Target Delivery Date" EditorFor="TargetDeliveryDate">
+          <DatePicker SelectedDate="{Binding Model.TargetDeliveryDate, Mode=TwoWay}"/>
+        </lib:EditElementWrapper>
+      </lib:FormSection>
+
+
+      <lib:FormErrorDisplay/>
+      
+      <!-- Buttons -->
+      <StackPanel Orientation="Horizontal">
+        <Button Content="Submit" Click="SubmitClick"/>
+      </StackPanel>
+    </StackPanel>
+  </lib:Form>
+</UserControl>
