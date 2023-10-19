@@ -45,7 +45,7 @@ namespace x10 {
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
         // DPS
       new GenConfig() {
-        Name = "DPS - React - x10",
+        Name = "DPS - Flow - x10",
         CommandLine = "dps",
         SourceDir = "examples/dps",
         ProjectDir = "../react_small_generated",
@@ -62,7 +62,7 @@ namespace x10 {
         }
       },
       new GenConfig() {
-        Name = "DPS - React - Monorepo",
+        Name = "DPS - Flow - Monorepo",
         CommandLine = "dpsmono",
         SourceDir = "examples/dps",
         ProjectDir = "../../../flexport",
@@ -93,13 +93,31 @@ namespace x10 {
         },
       },
 
-      // Small (Building, etc)
+      // Small (Building, etc) - Flow/Latitude
       new GenConfig() {
-        Name = "Small Project - React",
-        CommandLine = "small",
+        Name = "Small Project - Flow",
+        CommandLine = "small-flow",
         SourceDir = "examples/small",
-        ProjectDir = "../react_small_generated",
+        ProjectDir = "../platform/flow/react_small_generated",
         TargetDir = "x10_generated/small",
+        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        Generator = new ReactCodeGenerator() {
+          GeneratedCodeSubdir = "small",
+          AppContextImport = "SmallAppContext",
+        },
+        PostGenerationScript = new ScriptInfo() {
+          Script = "yarn",
+          Args = "relay-small",
+        }
+      },
+      // Small (Building, etc) - TypeScript/Chakra UI
+      new GenConfig() {
+        Name = "Small Project - TS",
+        CommandLine = "small-ts",
+        SourceDir = "examples/small",
+        ProjectDir = "../platform/typescript/small",
+        TargetDir = "src/x10_generated/small",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
         Generator = new ReactCodeGenerator() {

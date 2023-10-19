@@ -8,12 +8,9 @@ x10/.DS_Store
 .vs
 *.csproj.user
 
-# copied react_lib
-**/src/react_lib/*
-
 # Node projects
 # dependencies
-*/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
