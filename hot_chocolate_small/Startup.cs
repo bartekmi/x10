@@ -23,6 +23,7 @@ namespace x10.hotchoc {
     internal static IRequestExecutorBuilder BuildSchema(IServiceCollection services) {
       IRequestExecutorBuilder builder = services
         .AddGraphQLServer()
+        .AllowIntrospection(true)
         .AddQueryType(d => d.Name("Query"))
         .AddMutationType(d => d.Name("Mutation"));
 
