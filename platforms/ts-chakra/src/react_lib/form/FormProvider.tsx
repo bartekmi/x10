@@ -11,19 +11,19 @@ export type FormContextType = {
   readonly errors: FormError[],
 };
 
-// export function addError(
-//   errors: Array<FormError>,
-//   error: string, 
-//   paths: string[],
-//   prefix?: string, 
-//   inListIndex?: number,
-// ): void {
-//   errors.push({
-//     error,
-//     paths: paths.map(x => prefix == null ? x : `${prefix}.${x}`),
-//     inListIndex,
-//   });
-// }
+export function addError(
+  errors: Array<FormError>,
+  error: string, 
+  paths: string[],
+  prefix?: string, 
+  inListIndex?: number,
+): void {
+  errors.push({
+    error,
+    paths: paths.map(x => prefix == null ? x : `${prefix}.${x}`),
+    inListIndex,
+  });
+}
 
 export function createError(
   error: string, 

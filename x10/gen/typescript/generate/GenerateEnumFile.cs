@@ -8,7 +8,7 @@ namespace x10.gen.typescript.generate {
   public partial class TypeScriptCodeGenerator : CodeGenerator {
 
     public override void GenerateEnumFile(FileInfo fileInfo, IEnumerable<DataTypeEnum> enums) {
-      Begin(fileInfo, ".js", false);
+      Begin(fileInfo, ".ts", false);
 
       foreach (DataTypeEnum anEnum in enums)
         GenerateEnum(anEnum);
@@ -22,7 +22,10 @@ namespace x10.gen.typescript.generate {
     }
 
     private void GeneratePairs(DataTypeEnum theEnum) {
-      WriteLine(0, "export const {0} = [", EnumToPairsConstant(theEnum));
+      WriteLine(0, "export const {0}: {", EnumToPairsConstant(theEnum));
+      WriteLine(1, "value: {0},", EnumToName(theEnum));
+      WriteLine(1, "label: string");
+      WriteLine(0, "}[] = [");
 
       foreach (EnumValue enumValue in theEnum.EnumValues) {
         WriteLine(1, "{");

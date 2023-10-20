@@ -8,7 +8,7 @@ namespace x10.gen.typescript.generate {
     #region Top Level
     // Model is guaranteed to be non-null
     private void GenerateInterface(ClassDefX10 classDef, Entity model, bool isForm) {
-      Begin(classDef.XmlElement.FileInfo, "Interface.jsx");
+      Begin(classDef.XmlElement.FileInfo, "Interface.tsx");
 
       GenerateImports(classDef);
 
@@ -22,14 +22,14 @@ namespace x10.gen.typescript.generate {
 
       End();
     }
+    #endregion
 
+    #region Generate Imports
     private void GenerateImports(ClassDefX10 classDef) {
       InsertImportsPlaceholder();
 
       ImportsPlaceholder.ImportReact();
-      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
-      ImportsPlaceholder.Import("QueryRenderer", "react-relay", ImportLevel.ThirdParty);
-      ImportsPlaceholder.ImportDefault("environment", ImportLevel.Project);
+      ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);
 
       ImportsPlaceholder.ImportDefault(classDef);
 
@@ -37,15 +37,15 @@ namespace x10.gen.typescript.generate {
     }
     #endregion
 
-    #region Form-Related Generation
+    #region Non-Multi Generation
 
     private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
       WriteLine(0,
 @"type Props = { 
-  +id?: string,      // When invoked from another Component
-  +match?: {         // When invoked via Route
-    +params: { 
-      +id: string
+  readonly id?: string,      // When invoked from another Component
+  readonly match?: {         // When invoked via Route
+    readonly params: { 
+      readonly id: string
     }
   }
 }};");
@@ -54,9 +54,9 @@ namespace x10.gen.typescript.generate {
       string createDefaultFunc = CreateDefaultFuncName(model);
       string variableName = VariableName(model);
 
-      WriteLine(0, "export default function {0}Interface(props: Props): React.Node {", classDefName);
+      WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
       WriteLine(1, "return (");
-      WriteLine(2, "<EntityQueryRenderer");
+      WriteLine(2, "<EntityQueryRenderer<{1}_{0}Fragment>>");
       WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
@@ -83,7 +83,7 @@ namespace x10.gen.typescript.generate {
       string classDefName = classDef.Name;
       string variableName = VariableName(model);
 
-      WriteLine(0, "const query = graphql`");
+      WriteLine(0, "const query = gql`");
       WriteLine(1, "query {0}InterfaceQuery($id: String!) {", classDefName);
       WriteLine(2, "entity: {0}(id: $id) {", variableName);
 
@@ -103,7 +103,7 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model, true);
 
       WriteLine(0,
-@"export default function {0}Interface(props: { }): React.Node { 
+@"export default function {0}Interface(props: { }): React.JSX.Element { 
   return (
     <MultiEntityQueryRenderer
       createComponentFunc={ ({1}) => <{0} {1}={ {1} }/> }
@@ -124,7 +124,7 @@ namespace x10.gen.typescript.generate {
       string classDefName = classDef.Name;
       string variableName = VariableName(model, true);
 
-      WriteLine(0, "const query = graphql`");
+      WriteLine(0, "const query = gql`");
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);
       WriteLine(2, "entities: {0} {", variableName);
 

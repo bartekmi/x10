@@ -19,7 +19,7 @@ namespace x10.gen.typescript.generate {
       FileInfo fileInfo = entity.TreeElement.FileInfo;
       bool isContext = entity.IsContext;
 
-      Begin(fileInfo, ".js");
+      Begin(fileInfo, ".ts");
 
       InsertImportsPlaceholder();
 
@@ -28,7 +28,7 @@ namespace x10.gen.typescript.generate {
       GenerateDerivedAttributes(entity);
 
       if (!isContext) {
-        GenerateDefaultEntity(entity);
+        GenerateDefaultFunction(entity);
         GenerateValidations(entity);
       }
 
@@ -45,7 +45,7 @@ namespace x10.gen.typescript.generate {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else
-          WriteLine(1, "+{0}: {1},", member.Name, GetType(member, false));
+          WriteLine(1, "readonly {0}: {1},", member.Name, GetType(member, false));
 
       WriteLine(0, "};");
       WriteLine();
@@ -53,8 +53,71 @@ namespace x10.gen.typescript.generate {
     }
     #endregion
 
-    #region Generate Default Entity
-    private void GenerateDefaultEntity(Entity model) {
+    #region Generate Enums
+    private void GenerateEnums(Entity entity) {
+      IEnumerable<DataTypeEnum> enums = FindLocalEnums(entity);
+      if (enums.Count() == 0)
+        return;
+
+      WriteLine(0, "// Enums");
+
+      foreach (DataTypeEnum theEnum in enums)
+        GenerateEnum(theEnum);
+
+      WriteLine();
+      WriteLine();
+    }
+    #endregion
+
+    #region Generate Derived Attributes
+    private void GenerateDerivedAttributes(Entity entity) {
+      if (entity.DerivedAttributes.Count() == 0)
+        return;
+
+      WriteLine(0, "// Derived Attribute Functions");
+
+      foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
+        PushSourceVariableName(VariableName(entity));
+        ExpBase expression = attribute.Expression;
+
+        // Method signature
+        WriteLine(0, "export function {0}({1}?: {",
+          DerivedAttrFuncName(attribute),
+          SourceVariableName);
+
+        foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
+          if (!regular.Owner.IsContext)
+            WriteLine(1, "readonly {0}: {1},", regular.Name, GetType(regular, false));
+
+        WriteLine(0, "}): {0} {", GetType(attribute, true));
+
+        // Method Body
+        WriteLine(1, "if ({0} == null) return {1};", 
+          SourceVariableName, 
+          DefaultEmpty(attribute.DataType));
+          
+        WriteAppContextIfNeeded(new ExpBase[] { expression });
+        WriteLine(1, "const result = {0};", ExpressionToString(expression));
+
+        if (IsNumeric(attribute.DataType))
+          WriteLine(1, "return isNaN(result) ? null : result;");
+        else
+          WriteLine(1, "return result;");
+
+        // Method termination
+        WriteLine(0, "}");
+        WriteLine();
+
+        PopSourceVariableName();
+      }
+
+      WriteLine();
+      WriteLine();
+    }
+    #endregion
+
+    #region Generate Default Function
+    private void GenerateDefaultFunction(Entity model) {
       WriteLine(0, "// Create Default Function");
       WriteLine(0, "export function {0}(): {1} {", TypeScriptCodeGenerator.CreateDefaultFuncName(model), model.Name);
       WriteLine(1, "return {");
@@ -64,11 +127,8 @@ namespace x10.gen.typescript.generate {
           // Do not generate derived members
         } else {
           string defaultValue = GetDefaultValue(member, ImportsPlaceholder);
-          if (defaultValue == null) {
-            defaultValue = "null";
-            if (member.IsMandatory)
-              WriteLine(2, "// $FlowExpectedError Required field, but no default value");
-          }
+          if (defaultValue == null)
+            defaultValue = "undefined";
           WriteLine(2, "{0}: {1},", member.Name, defaultValue);
         }
 
@@ -111,69 +171,10 @@ namespace x10.gen.typescript.generate {
     }
     #endregion
 
-    #region Generate Enums
-    private void GenerateEnums(Entity entity) {
-      IEnumerable<DataTypeEnum> enums = FindLocalEnums(entity);
-      if (enums.Count() == 0)
-        return;
-
-      WriteLine(0, "// Enums");
-
-      foreach (DataTypeEnum theEnum in enums)
-        GenerateEnum(theEnum);
-
-      WriteLine();
-      WriteLine();
-    }
-    #endregion
-
-    #region Generate Derived Attributes
-    private void GenerateDerivedAttributes(Entity entity) {
-      if (entity.DerivedAttributes.Count() == 0)
-        return;
-
-      WriteLine(0, "// Derived Attribute Functions");
-
-      foreach (X10DerivedAttribute attribute in entity.DerivedAttributes) {
-        PushSourceVariableName(VariableName(entity));
-        ExpBase expression = attribute.Expression;
-
-        // Method signature
-        WriteLine(0, "export function {0}({1}: ?{",
-          DerivedAttrFuncName(attribute),
-          SourceVariableName);
-
-        foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
-          if (!regular.Owner.IsContext)
-            WriteLine(1, "+{0}: {1},", regular.Name, GetType(regular, false));
-
-        WriteLine(0, "}): {0} {", GetType(attribute, true));
-
-        // Method Body
-        WriteLine(1, "if ({0} == null) return {1};", 
-          SourceVariableName, 
-          DefaultEmpty(attribute.DataType));
-          
-        WriteAppContextIfNeeded(new ExpBase[] { expression });
-        WriteLine(1, "const result = {0};", ExpressionToString(expression));
-
-        if (IsNumeric(attribute.DataType))
-          WriteLine(1, "return isNaN(result) ? null : result;");
-        else
-          WriteLine(1, "return result;");
-
-        // Method termination
-        WriteLine(0, "}");
-        WriteLine();
-
-        PopSourceVariableName();
-      }
-
-      WriteLine();
-      WriteLine();
-    }
-    #endregion
-
+    // TODO: Leaving this code as-is in order to avoid trying to "boil the ocean" during the 
+    // flow => typescript transition. However, the correct way to do this is to write
+    // individual validations, to allow for partial update forms, not just create forms.
+    // Also, we should not use React.useContext() in a non-FC method, even though this seems to work.
     #region Generate Validations
     private void GenerateValidations(Entity entity) {
       WriteLine(0, "// Validations");
@@ -182,13 +183,13 @@ namespace x10.gen.typescript.generate {
       string entityName = entity.Name;
 
       ImportsPlaceholder.ImportTypeFromReactLib("FormError", "form/FormProvider");
-      WriteLine(0, "export function {0}({1}: {2}, prefix?: string, inListIndex?: number): $ReadOnlyArray<FormError> { ",
+      WriteLine(0, "export function {0}({1}: {2}, prefix?: string, inListIndex?: number): FormError[] { ",
         CalculateErrorsFuncName(entity),
         varName,
         entityName);
 
       WriteAppContextIfNeeded(entity.Validations.Select(x => x.TriggerExpression));
-      WriteLine(1, "const errors = [];");
+      WriteLine(1, "const errors: FormError[] = [];");
       WriteLine(1, "if ({0} == null ) return errors;", varName);
       WriteLine();
 
@@ -213,7 +214,7 @@ namespace x10.gen.typescript.generate {
 
         if (!member.IsReadOnly && canBeEmpty && member.IsMandatory) {
           WriteLine(1, "if (isBlank({0}.{1}))", varName, member.Name);
-          WriteLine(2, "addError(errors, prefix, '{0} is required', ['{1}'], inListIndex);", humanName, member.Name);
+          WriteLine(2, "addError(errors, '{0} is required', ['{1}'], prefix, inListIndex);", humanName, member.Name);
         }
       }
     }
@@ -285,7 +286,7 @@ namespace x10.gen.typescript.generate {
 
           WriteLine(1, "if ({0})", ExpressionToString(expression));
 
-          WriteLine(2, "addError(errors, prefix, '{0}', {1}, inListIndex);", validation.Message, JS.ToArray(memberNames));
+          WriteLine(2, "addError(errors, '{0}', {1}, prefix, inListIndex);", validation.Message, JS.ToArray(memberNames));
         }
 
         PopSourceVariableName();
@@ -316,11 +317,8 @@ namespace x10.gen.typescript.generate {
         ImportsPlaceholder.ImportType(refedEntity);
 
         if (association.IsMany)
-          return string.Format("$ReadOnlyArray<{0}>", refedEntity.Name);
+          return string.Format("{0}[]", refedEntity.Name);
         else {
-          if (association.IsNonOwnedAssociation)
-            return "?" + refedEntity.Name;
-          else
             // Generate mandatory even if not mandatory. We ensure that non-mandatory entities
             // are filled with default values when processing the GraphQL results. This ensures
             // that we have default data if the users starts to edit such entities which previously
@@ -332,13 +330,15 @@ namespace x10.gen.typescript.generate {
         if (IsNeverOptional(attribute.DataType))
           optional = false;
 
-        return (optional ? "?" : "") + GetAtomicFlowType(member.Owner, attribute.DataType);
+        return GetAtomicFlowType(member.Owner, attribute.DataType) + 
+          (optional ? " | null | undefined" : "");
+        
       } else
         throw new NotImplementedException("Unknown member type: " + member.GetType());
     }
 
     private bool IsNeverOptional(DataType dataType) {
-      // The mandatory/optional decision is made based on the usual UI used to represent
+      // This mandatory/optional decision is made based on the usual UI used to represent
       // the data type. It is assumed that booleans are represented by CheckBoxes and
       // Strings are represented by TextInput's or similar where the empty string represents
       // no user input

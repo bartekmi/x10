@@ -93,17 +93,17 @@ namespace x10.gen.typescript.generate {
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
       // Props
-      WriteLine(0, "type Props = {{|");
+      WriteLine(0, "type Props = {{");
       if (model != null) {
         if (isForm)
           WriteFormSignature(classDef, model);
         else
           WriteNonFormSignature(classDef);
       }
-      WriteLine(0, "|}};");
+      WriteLine(0, "}};");
 
       // Component Definition
-      WriteLine(0, "{0}function {1}(props: Props): React.Node {",
+      WriteLine(0, "{0}function {1}(props: Props): React.JSX.Element {",
         model == null ? "export default " : "",
         classDef.Name);
 
@@ -122,15 +122,15 @@ namespace x10.gen.typescript.generate {
     }
 
     private void WriteFormSignature(ClassDefX10 classDef, Entity model) {
-      WriteLine(1, "+{0}: {1},", SourceVariableName, model.Name);
-      WriteLine(1, "+onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
+      WriteLine(1, "readonly {0}: {1},", SourceVariableName, model.Name);
+      WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
       ImportsPlaceholder.ImportType(model);
     }
 
     private void WriteNonFormSignature(ClassDefX10 classDef) {
       string fragmentName = FragmentName(classDef);
 
-      WriteLine(1, "+{0}: {1},", SourceVariableName, fragmentName);
+      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentName);
 
       ImportsPlaceholder.ImportType(fragmentName,
         string.Format("./__generated__/{0}.graphql", fragmentName),
@@ -264,33 +264,6 @@ namespace x10.gen.typescript.generate {
       WriteLine();
 
       ImportsPlaceholder.ImportType(model);
-    }
-    #endregion
-
-    #region Generate Relay To Internal
-    private void GenerateFormRelayToInternal(Entity model, MemberWrapper dataInventory) {
-      WriteLine(0, "function relayToInternal(relay: any): {0} {", model.Name);
-      WriteLine(1, "return {");
-      WriteLine(2, "...relay,");
-
-      // TODO: Not recursive at this time
-      foreach (Association association in model.Associations) {
-        bool isNullableSingleOwned = !association.IsMandatory && !association.IsMany && association.Owns;
-        bool formHasData = dataInventory.RecursivelyContainsMember(association);
-
-        if (isNullableSingleOwned && formHasData) {
-          Entity assocModel = association.ReferencedEntity;
-          WriteLine(2, "{0}: relay.{0} || {1}(),",
-            association.Name,
-            TypeScriptCodeGenerator.CreateDefaultFuncName(assocModel));
-
-          ImportsPlaceholder.ImportCreateDefaultFunc(assocModel);
-        } 
-      }
-
-      WriteLine(1, "};");
-      WriteLine(0, "}");
-      WriteLine();
     }
     #endregion
 
