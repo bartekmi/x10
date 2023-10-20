@@ -3,7 +3,7 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: '../x10/SmallSample.graphql',
+  schema: '../../../x10/SmallSample.graphql',
   documents: ['src/**/*.{ts,tsx}'],
   generates: {
     './src/__generated__/': {

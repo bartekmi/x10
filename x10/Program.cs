@@ -118,7 +118,7 @@ namespace x10 {
         Name = "Small Project - TS",
         CommandLine = "small-ts",
         SourceDir = "examples/small",
-        ProjectDir = "../platform/ts-chakra/src/x10_generated/small",
+        ProjectDir = "../platforms/ts-chakra/src/x10_generated/small",
         TargetDir = "src/x10_generated/small",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton() },
