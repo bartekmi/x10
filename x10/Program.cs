@@ -65,7 +65,7 @@ namespace x10 {
       },
       new GenConfig() {
         Name = "DPS - Flow - Monorepo",
-        CommandLine = "dpsmono",
+        CommandLine = "dps-mono",
         SourceDir = "examples/dps",
         ProjectDir = "../../../flexport",
         TargetDir = "webpack/assets/javascripts/compliance/components/dps/x10",
@@ -82,7 +82,7 @@ namespace x10 {
       },
       new GenConfig() {
         Name = "DPS - Hot Chocolate",
-        CommandLine = "dpshot",
+        CommandLine = "dps-hot",
         SourceDir = "examples/dps",
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "dps",
@@ -110,7 +110,7 @@ namespace x10 {
         },
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
-          Args = "relay-small",
+          Args = "gql",
         }
       },
       // Small (Building, etc) - TypeScript/Chakra UI
@@ -133,7 +133,7 @@ namespace x10 {
       },
       new GenConfig() {
         Name = "Small Project - Hot Chocolate",
-        CommandLine = "smallhot",
+        CommandLine = "small-hot",
         SourceDir = "examples/small",
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "SmallSample",
@@ -165,7 +165,7 @@ namespace x10 {
       },
       new GenConfig() {
         Name = "Client Page Project - Hot Chocolate",
-        CommandLine = "cphot",
+        CommandLine = "cp-hot",
         SourceDir = "examples/client_page",
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "ClientPage",
