@@ -22,4 +22,7 @@
     "baseUrl": "./src",
   },
   "include": [ "src" ],
+  "paths": {
+    "@small/*": ["x10_generated/small"],
+  }
 }

@@ -56,7 +56,7 @@ namespace x10.gen.typescript.generate {
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
       WriteLine(1, "return (");
-      WriteLine(2, "<EntityQueryRenderer<{1}_{0}Fragment>>");
+      WriteLine(2, "<EntityQueryRenderer<{0}_{1}Fragment>>", classDefName, model.Name);
       WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);

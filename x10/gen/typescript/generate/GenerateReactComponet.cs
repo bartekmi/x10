@@ -46,7 +46,6 @@ namespace x10.gen.typescript.generate {
 
       if (isForm) {
         GenerateStatefulWrapper(classDef, model);
-        GenerateFormRelayToInternal(model, dataInventory);
         GenerateGraphqlMutation(classDef, model, dataInventory);
       }
 
@@ -93,14 +92,14 @@ namespace x10.gen.typescript.generate {
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
       // Props
-      WriteLine(0, "type Props = {{");
+      WriteLine(0, "type Props = {");
       if (model != null) {
         if (isForm)
           WriteFormSignature(classDef, model);
         else
           WriteNonFormSignature(classDef);
       }
-      WriteLine(0, "}};");
+      WriteLine(0, "};");
 
       // Component Definition
       WriteLine(0, "{0}function {1}(props: Props): React.JSX.Element {",
