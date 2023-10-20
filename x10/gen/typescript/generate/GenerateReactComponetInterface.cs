@@ -52,18 +52,19 @@ namespace x10.gen.typescript.generate {
 
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
+      string fragmentName = CreateFragmentName(classDef, model);
       string variableName = VariableName(model);
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
       WriteLine(1, "return (");
-      WriteLine(2, "<EntityQueryRenderer<{0}_{1}Fragment>>", classDefName, model.Name);
+      WriteLine(2, "<EntityQueryRenderer<{0}>", fragmentName);
       WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
 
       if (IsForm(classDef)) {
         string classDefStateful = classDefName + "Stateful";
-        WriteLine(3, "createComponentFuncNew={ () => <{0} {1}={ {2}() }/> }", classDefStateful, variableName, createDefaultFunc);
+        WriteLine(3, "createEntityFunc={ {0} }", createDefaultFunc);
         ImportsPlaceholder.Import(classDefStateful, classDef);
       }
 
@@ -72,8 +73,9 @@ namespace x10.gen.typescript.generate {
       WriteLine(1, ");");
       WriteLine(0, "}");
 
-      ImportsPlaceholder.ImportDefaultFromReactLib("relay/EntityQueryRenderer");
+      ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
+      ImportsPlaceholder.Import(fragmentName, "__generated__/graphql", ImportLevel.Generated);
   
       WriteLine();
     }
@@ -114,7 +116,7 @@ namespace x10.gen.typescript.generate {
       classDefName,       // Index 0
       variableName);      // Index 1
 
-      ImportsPlaceholder.ImportDefaultFromReactLib("relay/MultiEntityQueryRenderer");
+      ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/MultiEntityQueryRenderer");
 
       WriteLine();
     }

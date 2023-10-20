@@ -81,6 +81,10 @@ namespace x10.gen.typescript.generate {
       return "createDefault" + model.Name;
     }
 
+    internal static string CreateFragmentName(ClassDefX10 classDef, Entity model) {
+      return string.Format("{0}_{1}Fragment", classDef.Name, model.Name);
+    }
+
     internal static string CalculateErrorsFuncName(Entity model) {
       return string.Format("{0}CalculateErrors", NameUtils.UncapitalizeFirstLetter(model.Name));
     }

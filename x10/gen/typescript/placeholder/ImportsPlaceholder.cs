@@ -14,7 +14,7 @@ namespace x10.gen.typescript.placeholder {
   public enum ImportLevel {
     ThirdParty,
     Project,
-    RelayGenerated,
+    Generated,
   }
 
   public class ImportsPlaceholder : CodeGenerator.Output {

@@ -39,7 +39,7 @@ namespace x10.gen.typescript.generate {
       GqlPlaceholder = new GqlPlaceholder(classDef);
       MemberWrapper dataInventory = model == null ? null : UiComponentDataCalculator.ExtractData(classDef);
 
-      Begin(classDef.XmlElement.FileInfo, ".jsx");
+      Begin(classDef.XmlElement.FileInfo, ".tsx");
 
       GenerateImports(model);
       GenerateComponent(classDef, model, isForm);
@@ -133,7 +133,7 @@ namespace x10.gen.typescript.generate {
 
       ImportsPlaceholder.ImportType(fragmentName,
         string.Format("./__generated__/{0}.graphql", fragmentName),
-        ImportLevel.RelayGenerated);
+        ImportLevel.Generated);
     }
     #endregion
 

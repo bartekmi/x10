@@ -20,9 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
+    "paths": {
+      "@small/*": ["x10_generated/small"],
+    }
   },
   "include": [ "src" ],
-  "paths": {
-    "@small/*": ["x10_generated/small"],
-  }
 }
