@@ -15,6 +15,8 @@ using x10.ui.metadata;
 using x10.gen;
 using x10.gen.react.library;
 using x10.gen.react.generate;
+using x10.gen.typescript.library;
+using x10.gen.typescript.generate;
 using x10.gen.hotchoc;
 
 [assembly: InternalsVisibleTo("x10-test")]
@@ -116,11 +118,11 @@ namespace x10 {
         Name = "Small Project - TS",
         CommandLine = "small-ts",
         SourceDir = "examples/small",
-        ProjectDir = "../platform/typescript/small",
+        ProjectDir = "../platform/ts-chakra/src/x10_generated/small",
         TargetDir = "src/x10_generated/small",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
+        PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton() },
+        Generator = new TypeScriptCodeGenerator() {
           GeneratedCodeSubdir = "small",
           AppContextImport = "SmallAppContext",
         },
