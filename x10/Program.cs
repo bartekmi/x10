@@ -110,7 +110,7 @@ namespace x10 {
         },
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
-          Args = "gql",
+          Args = "relay-small",
         }
       },
       // Small (Building, etc) - TypeScript/Chakra UI
@@ -118,7 +118,7 @@ namespace x10 {
         Name = "Small Project - TS",
         CommandLine = "small-ts",
         SourceDir = "examples/small",
-        ProjectDir = "../platforms/ts-chakra/src/x10_generated/small",
+        ProjectDir = "../platforms/ts-chakra/",
         TargetDir = "src/x10_generated/small",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton() },
@@ -128,7 +128,7 @@ namespace x10 {
         },
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
-          Args = "relay-small",
+          Args = "gql",
         }
       },
       new GenConfig() {
