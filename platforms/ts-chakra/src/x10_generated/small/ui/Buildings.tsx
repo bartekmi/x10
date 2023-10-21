@@ -19,7 +19,7 @@ import { buildingAgeInYears, PetPolicyEnumPairs, type Building } from 'x10_gener
 
 
 type Props = {
-  readonly buildings: Building,
+  readonly buildings: Building[],
 };
 export default function Buildings(props: Props): React.JSX.Element {
   const { buildings } = props;
