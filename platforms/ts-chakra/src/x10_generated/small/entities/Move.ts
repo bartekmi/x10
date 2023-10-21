@@ -11,9 +11,9 @@ import { type Tenant } from 'x10_generated/small/entities/Tenant';
 export type Move = {
   readonly id: string,
   readonly date: string | null | undefined,
-  readonly from: Building | null,
-  readonly to: Building | null,
-  readonly tenant: Tenant | null,
+  readonly from: Building,
+  readonly to: Building,
+  readonly tenant: Tenant,
 };
 
 

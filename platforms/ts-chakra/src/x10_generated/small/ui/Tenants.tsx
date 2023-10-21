@@ -17,7 +17,7 @@ import { Tenants_TenantsFragment } from '__generated__/graphql';
 type Props = {
   readonly tenants: Tenants_TenantsFragment,
 };
-function Tenants(props: Props): React.JSX.Element {
+export default function Tenants(props: Props): React.JSX.Element {
   const { tenants } = props;
 
   return (

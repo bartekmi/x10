@@ -100,7 +100,7 @@ namespace x10.gen.typescript.generate {
 
       // Component Definition
       WriteLine(0, "{0}function {1}(props: Props): React.JSX.Element {",
-        model == null ? "export default " : "",
+        isForm ? "" : "export default ",
         classDef.Name);
 
       WriteLine(1, "const { {0}{1} } = props;",

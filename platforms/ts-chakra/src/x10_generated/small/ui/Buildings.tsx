@@ -23,7 +23,7 @@ import { Buildings_BuildingsFragment } from '__generated__/graphql';
 type Props = {
   readonly buildings: Buildings_BuildingsFragment,
 };
-function Buildings(props: Props): React.JSX.Element {
+export default function Buildings(props: Props): React.JSX.Element {
   const { buildings } = props;
 
   return (

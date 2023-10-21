@@ -4,7 +4,7 @@ import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultMove } from 'x10_generated/small/entities/Move';
-import MoveView from 'x10_generated/small/ui/MoveView';
+import { MoveViewStateful } from 'x10_generated/small/ui/MoveView';
 
 import { MoveView_MoveFragment } from '__generated__/graphql';
 
@@ -23,7 +23,7 @@ export default function MoveViewInterface(props: Props): React.JSX.Element {
     <EntityQueryRenderer<MoveView_MoveFragment>
       id={ props.id }
       match={ props.match }
-      createComponentFunc={ (move) => <MoveView move={ move }/> }
+      createComponentFunc={ (move) => <MoveViewStateful move={ move }/> }
       createEntityFunc={ createDefaultMove }
       query={ query }
     />

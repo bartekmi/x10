@@ -19,7 +19,7 @@ import { Moves_MovesFragment } from '__generated__/graphql';
 type Props = {
   readonly moves: Moves_MovesFragment,
 };
-function Moves(props: Props): React.JSX.Element {
+export default function Moves(props: Props): React.JSX.Element {
   const { moves } = props;
 
   return (
