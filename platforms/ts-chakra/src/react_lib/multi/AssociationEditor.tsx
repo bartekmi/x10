@@ -5,7 +5,7 @@ import { Spinner } from '@chakra-ui/react'
 
 
 type Props = {
-  readonly id: string,  // This should be the unique id of an object
+  readonly id?: string,  // This should be the unique id of an object
   readonly query: any,
   readonly toString: (item: any) => string,
   readonly onChange: (value: string) => void,
