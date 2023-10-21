@@ -857,17 +857,9 @@ namespace x10.gen.typescript.library {
                 // lists of) nested elements
                 foreach (MemberWrapper wrapper in dataInventory.Children) {
                   Member member = wrapper.Member;
-                  // TODO: Remove - under typescript, conversion of enum types is not needed
-                  // if (member is X10RegularAttribute regular && regular.IsEnum) {
-                  //   generator.ImportsPlaceholder.ImportFunction(HelperFunctions.ToGraphqlEnum);
-                  //   generator.WriteLine(indent + 3, "{0}: {1}({2}.{0}),", 
-                  //     member.Name, 
-                  //     HelperFunctions.ToGraphqlEnum.Name,
-                  //     generator.SourceVariableName);
-                  // } else
-                    generator.WriteLine(indent + 3, "{0}: {1}.{0},", 
-                      member.Name, 
-                      generator.SourceVariableName);
+                  generator.WriteLine(indent + 3, "{0}: {1}.{0},", 
+                    member.Name, 
+                    generator.SourceVariableName);
                 }
 
                 generator.WriteLine(indent + 2, "}");
@@ -979,6 +971,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "HelpIcon",
         PlatformName = "HelpTooltip",
+        ImportDir = "react_lib/form",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("text", "text"),
         },

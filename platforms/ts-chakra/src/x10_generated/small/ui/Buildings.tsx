@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 import { Flex, Heading } from '@chakra-ui/react';
-import HelpTooltip from '@chakra-ui/react/HelpTooltip';
 import * as React from 'react';
 
 import Button from 'react_lib/chakra_wrappers/Button';
 import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import HelpTooltip from 'react_lib/form/HelpTooltip';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';

@@ -6,7 +6,7 @@ type Props = {
   readonly label: string,
   readonly onClick?: () => unknown,
   readonly url?: string,
-  readonly disabled: boolean,
+  readonly disabled?: boolean,
   // TODO: This does nothing
   readonly style?: "normal" | "link"
 };
