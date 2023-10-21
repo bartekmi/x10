@@ -3,10 +3,8 @@ import * as React from 'react';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
-import { createDefaultMove } from 'x10_generated/small/entities/Move';
+import { createDefaultMove, type Move } from 'x10_generated/small/entities/Move';
 import { MoveFormStateful } from 'x10_generated/small/ui/MoveForm';
-
-import { MoveForm_MoveFragment } from '__generated__/graphql';
 
 
 
@@ -20,7 +18,7 @@ type Props = {
 };
 export default function MoveFormInterface(props: Props): React.JSX.Element {
   return (
-    <EntityQueryRenderer<MoveForm_MoveFragment>
+    <EntityQueryRenderer<Move>
       id={ props.id }
       match={ props.match }
       createComponentFunc={ (move) => <MoveFormStateful move={ move }/> }

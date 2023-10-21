@@ -12,13 +12,11 @@ import Separator from 'react_lib/Separator';
 
 import { moveCalculateErrors, type Move } from 'x10_generated/small/entities/Move';
 
-import { MoveForm_MoveFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly move: MoveForm_MoveFragment,
-  readonly onChange: (move: MoveForm_MoveFragment) => void,
+  readonly move: Move,
+  readonly onChange: (move: Move) => void,
 };
 function MoveForm(props: Props): React.JSX.Element {
   const { move, onChange } = props;
@@ -115,7 +113,7 @@ function MoveForm(props: Props): React.JSX.Element {
 }
 
 type StatefulProps = {
-  readonly move: MoveForm_MoveFragment,
+  readonly move: Move,
 };
 export function MoveFormStateful(props: StatefulProps): React.JSX.Element {
   const [editedMove, setEditedMove] = React.useState(props.move);

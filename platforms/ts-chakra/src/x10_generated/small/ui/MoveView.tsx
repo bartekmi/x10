@@ -11,12 +11,10 @@ import Separator from 'react_lib/Separator';
 import { type Move } from 'x10_generated/small/entities/Move';
 import BuildingView from 'x10_generated/small/ui/BuildingView';
 
-import { MoveView_MoveFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly move: MoveView_MoveFragment,
+  readonly move: Move,
 };
 export default function MoveView(props: Props): React.JSX.Element {
   const { move } = props;

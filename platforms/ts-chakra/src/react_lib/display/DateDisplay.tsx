@@ -3,7 +3,7 @@ import * as React from "react";
 import { Text } from '@chakra-ui/react'
 
 type Props = {
-  readonly value?: string,
+  readonly value?: string | null,
   readonly weight?: "bold",
 };
 export default function DateDisplay(props: Props): React.JSX.Element {
@@ -16,7 +16,7 @@ export default function DateDisplay(props: Props): React.JSX.Element {
   );
 }
 
-function toDisplay(timestamp?: string): string | null {
+function toDisplay(timestamp?: string | null): string | null {
   if (timestamp == null) {
     return null;
   }

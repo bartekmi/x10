@@ -23,7 +23,7 @@ export type Building = {
   readonly mailboxType?: MailboxTypeEnum | null | undefined,
   readonly petPolicy?: PetPolicyEnum | null | undefined,
   readonly mailingAddressSameAsPhysical?: boolean,
-  readonly units?: Unit[],
+  readonly units: Unit[],
   readonly physicalAddress?: Address,
   readonly mailingAddress?: Address,
 };

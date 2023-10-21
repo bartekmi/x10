@@ -3,10 +3,8 @@ import * as React from 'react';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
-import { createDefaultTenant } from 'x10_generated/small/entities/Tenant';
+import { createDefaultTenant, type Tenant } from 'x10_generated/small/entities/Tenant';
 import { TenantFormStateful } from 'x10_generated/small/ui/TenantForm';
-
-import { TenantForm_TenantFragment } from '__generated__/graphql';
 
 
 
@@ -20,7 +18,7 @@ type Props = {
 };
 export default function TenantFormInterface(props: Props): React.JSX.Element {
   return (
-    <EntityQueryRenderer<TenantForm_TenantFragment>
+    <EntityQueryRenderer<Tenant>
       id={ props.id }
       match={ props.match }
       createComponentFunc={ (tenant) => <TenantFormStateful tenant={ tenant }/> }

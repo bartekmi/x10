@@ -94,7 +94,7 @@ namespace x10.gen.typescript.generate {
       // Props
       WriteLine(0, "type Props = {");
       if (model != null) {
-        WriteSignature(classDef, model, isForm);
+        WriteSignature(model, isForm);
       }
       WriteLine(0, "};");
 
@@ -117,13 +117,10 @@ namespace x10.gen.typescript.generate {
       PopSourceVariableName();
     }
 
-    private void WriteSignature(ClassDefX10 classDef, Entity model, bool isForm) {
-      string fragmentType = FragmentType(classDef, model);
-      
-      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentType);
+    private void WriteSignature(Entity model, bool isForm) {
+      WriteLine(1, "readonly {0}: {1},", SourceVariableName, model.Name);
       if (isForm)
-        WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, fragmentType);
-      ImportsPlaceholder.ImportGraphqlType(fragmentType);
+        WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
     }
     #endregion
 
@@ -233,11 +230,10 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model);
       string edited = "edited" + modelName;
       string setEdited = "setEdited" + modelName;
-      string fragmentName = FragmentType(classDef, model);
 
 
       WriteLine(0, "type StatefulProps = {");
-      WriteLine(1, "readonly {0}: {1},", variableName, fragmentName);
+      WriteLine(1, "readonly {0}: {1},", variableName, model.Name);
       WriteLine(0, "};");
 
       WriteLine(0, "export function {0}Stateful(props: StatefulProps): React.JSX.Element {", classDefName);

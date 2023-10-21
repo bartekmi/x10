@@ -16,13 +16,11 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { tenantCalculateErrors, type Tenant } from 'x10_generated/small/entities/Tenant';
 
-import { TenantForm_TenantFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly tenant: TenantForm_TenantFragment,
-  readonly onChange: (tenant: TenantForm_TenantFragment) => void,
+  readonly tenant: Tenant,
+  readonly onChange: (tenant: Tenant) => void,
 };
 function TenantForm(props: Props): React.JSX.Element {
   const { tenant, onChange } = props;
@@ -193,7 +191,7 @@ function TenantForm(props: Props): React.JSX.Element {
 }
 
 type StatefulProps = {
-  readonly tenant: TenantForm_TenantFragment,
+  readonly tenant: Tenant,
 };
 export function TenantFormStateful(props: StatefulProps): React.JSX.Element {
   const [editedTenant, setEditedTenant] = React.useState(props.tenant);

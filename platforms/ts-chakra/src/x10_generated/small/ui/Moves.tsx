@@ -12,12 +12,10 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Move } from 'x10_generated/small/entities/Move';
 
-import { Moves_MovesFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly moves: Moves_MovesFragment,
+  readonly moves: Move,
 };
 export default function Moves(props: Props): React.JSX.Element {
   const { moves } = props;

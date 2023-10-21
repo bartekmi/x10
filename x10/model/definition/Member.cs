@@ -17,6 +17,7 @@ namespace x10.model.definition {
 
     // Derived
     public bool IsNonOwnedAssociation => this is Association assoc && !assoc.Owns;
+    public bool IsManyAssociation => this is Association assoc && assoc.IsMany;
 
     public override string ToString() {
       return string.Format("{0}.{1}", Owner.Name, Name);

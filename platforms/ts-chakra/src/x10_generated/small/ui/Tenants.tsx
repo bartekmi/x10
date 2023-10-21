@@ -10,12 +10,10 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
-import { Tenants_TenantsFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly tenants: Tenants_TenantsFragment,
+  readonly tenants: Tenant,
 };
 export default function Tenants(props: Props): React.JSX.Element {
   const { tenants } = props;

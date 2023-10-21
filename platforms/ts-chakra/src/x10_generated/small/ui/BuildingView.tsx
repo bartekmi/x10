@@ -14,12 +14,10 @@ import StyleControl from 'react_lib/StyleControl';
 
 import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
 
-import { BuildingView_BuildingFragment } from '__generated__/graphql';
-
 
 
 type Props = {
-  readonly building: BuildingView_BuildingFragment,
+  readonly building: Building,
 };
 export default function BuildingView(props: Props): React.JSX.Element {
   const { building } = props;
