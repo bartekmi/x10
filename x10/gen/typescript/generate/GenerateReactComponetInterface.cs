@@ -53,17 +53,25 @@ namespace x10.gen.typescript.generate {
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
       string variableName = VariableName(model);
-      string classDefStateful = classDefName + "Stateful";
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
       WriteLine(1, "return (");
       WriteLine(2, "<EntityQueryRenderer<{0}>", model.Name);
       WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
-      WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefStateful);
+
+      // For Forms, we use the "stateful" version of the component
+      string childElement = null;
+      if (IsForm(classDef)) {
+        childElement = classDefName + "Stateful";
+        ImportsPlaceholder.Import(childElement, classDef);
+      } else {
+        childElement = classDefName;
+        ImportsPlaceholder.ImportDefault(classDef);
+      }
+      WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, childElement);
 
       WriteLine(3, "createEntityFunc={ {0} }", createDefaultFunc);
-      ImportsPlaceholder.Import(classDefStateful, classDef);
 
       WriteLine(3, "query={ query }");
       WriteLine(2, "/>");
