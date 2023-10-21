@@ -50,7 +50,7 @@ export default function Header(props: Props): React.JSX.Element {
         />
       </Menu>
       <SpaContent
-        rootComponent={ BuildingsInterface }
+        rootComponent={ <BuildingsInterface/> }
       >
         <Route path='/moves/edit/:id' element={ <MoveFormInterface/> } />
         <Route path='/moves/new' element={ <MoveFormInterface/> } />

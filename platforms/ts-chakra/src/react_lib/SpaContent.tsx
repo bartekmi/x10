@@ -1,17 +1,22 @@
-// import * as React from "react";
-// import { Route, Router } from "react-router-dom";
+import * as React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// type Props = {
-//   readonly rootComponent: (props: {...}) => React.JSX.Element,
-//   readonly children: React.JSX.Element
-// };
-// export default function SpaContent(props: Props): React.JSX.Element {
-//   const {rootComponent, children} = props;
+type Props = {
+  readonly rootComponent: React.JSX.Element,
+  readonly children: React.JSX.Element | React.JSX.Element[]
+};
+export default function SpaContent(props: Props): React.JSX.Element {
+  const {rootComponent, children} = props;
 
-//   return <Router history={history}>
-//     <Route exact path='/' component={rootComponent}/>
-//     {children}
-//   </Router>
-// }
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={rootComponent}/>
+        {children}
+      </Routes>
+    </Router>
+  )
+}
 
+// Add History
 // TODO: See https://www.geeksforgeeks.org/reactjs-usenavigate-hook/
