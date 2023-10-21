@@ -29,7 +29,8 @@ namespace x10.gen.typescript.placeholder {
         writer.WriteLine("  query {0}_{1}Query {{", _classDef.Name, varName);
         writer.WriteLine("    entities: {0} {{", varName);
         writer.WriteLine("      id");
-        writer.WriteLine("      toStringRepresentation");
+// TODO: See reasons for this elsewhere        
+//        writer.WriteLine("      toStringRepresentation");
         writer.WriteLine("    }");
         writer.WriteLine("  }");
         writer.WriteLine("`;");

@@ -121,8 +121,10 @@ namespace x10.gen.typescript.generate {
     }
 
     private void WriteFormSignature(ClassDefX10 classDef, Entity model) {
-      WriteLine(1, "readonly {0}: {1},", SourceVariableName, model.Name);
-      WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
+      string fragmentName = CreateFragmentName(classDef, model);
+      
+      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentName);
+      WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
       ImportsPlaceholder.ImportType(model);
     }
 
@@ -131,9 +133,10 @@ namespace x10.gen.typescript.generate {
 
       WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentName);
 
-      ImportsPlaceholder.ImportType(fragmentName,
-        string.Format("./__generated__/{0}.graphql", fragmentName),
-        ImportLevel.Generated);
+      // TODO
+      // ImportsPlaceholder.ImportType(fragmentName,
+      //   string.Format("./__generated__/{0}.graphql", fragmentName),
+      //   ImportLevel.Generated);
     }
     #endregion
 
@@ -182,10 +185,7 @@ namespace x10.gen.typescript.generate {
       if (htmlTags.Contains(platClassDef.PlatformName)) {
         // Since this is an HTML tag, no need for import
       } else {
-        if (platClassDef is JavaScriptPlatformClassDef jsPlatClassDef && jsPlatClassDef.IsNonDefaultImport)
-          ImportsPlaceholder.Import(platClassDef.PlatformName, platClassDef.ImportDir, ImportLevel.ThirdParty);
-        else
-          ImportsPlaceholder.ImportDefault(platClassDef.ImportPath, ImportLevel.ThirdParty);
+        ImportsPlaceholder.Import(platClassDef);
       }
 
       WriteLineMaybe(level, "<{0}", platClassDef.EffectivePlatformName); // Open the React tag
@@ -246,14 +246,15 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model);
       string edited = "edited" + modelName;
       string setEdited = "setEdited" + modelName;
+      string fragmentName = CreateFragmentName(classDef, model);
 
-      WriteLine(0, "type StatefulProps = {{|");
-      WriteLine(1, "+{0}: {1},", variableName, modelName);
-      WriteLine(0, "|}};");
 
-      WriteLine(0, "export function {0}Stateful(props: StatefulProps): React.Node {", classDefName);
-      WriteLine(1, "const {0} = relayToInternal(props.{0});", variableName);
-      WriteLine(1, "const [{0}, {1}] = React.useState({2});", edited, setEdited, variableName);
+      WriteLine(0, "type StatefulProps = {");
+      WriteLine(1, "readonly {0}: {1},", variableName, fragmentName);
+      WriteLine(0, "};");
+
+      WriteLine(0, "export function {0}Stateful(props: StatefulProps): React.JSX.Element {", classDefName);
+      WriteLine(1, "const [{0}, {1}] = React.useState(props.{2});", edited, setEdited, variableName);
       WriteLine(1, "return <{0}", classDefName);
       WriteLine(2, "{0}={ {1} } ", variableName, edited);
       WriteLine(2, "onChange={ {0} }", setEdited);
@@ -262,7 +263,7 @@ namespace x10.gen.typescript.generate {
 
       WriteLine();
 
-      ImportsPlaceholder.ImportType(model);
+      ImportsPlaceholder.Import(fragmentName, "__generated__/graphql", ImportLevel.Generated);
     }
     #endregion
 
@@ -270,25 +271,18 @@ namespace x10.gen.typescript.generate {
     private void GenerateFragment(ClassDefX10 classDef, Entity model, MemberWrapper dataInventory, bool isForm) {
       string variableName = VariableName(model, classDef.IsMany);
 
-      WriteLine(0, "// $FlowExpectedError");
-      WriteLine(0, "export default createFragmentContainer({0}{1}, {",
-        classDef.Name,
-        isForm ? "Stateful" : "");
-      WriteLine(1, "{0}: graphql`", variableName);
-      WriteLine(2, "fragment {0} on {1} {2}{",
+      WriteLine(1, "gql`");
+      WriteLine(2, "fragment {0} on {1}{",
         FragmentName(classDef),
-        model.Name,
-        classDef.IsMany ? "@relay(plural: true) " : "");
+        model.Name);
 
       PrintGraphQL(3, dataInventory);
 
       WriteLine(2, "}");
-      WriteLine(1, "`,");
-      WriteLine(0, "});");
+      WriteLine(1, "`");
       WriteLine();
 
-      ImportsPlaceholder.Import("createFragmentContainer", "react-relay", ImportLevel.ThirdParty);
-      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
+      ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);
     }
 
     private static string FragmentName(ClassDefX10 classDef) {
@@ -311,8 +305,9 @@ namespace x10.gen.typescript.generate {
 
     private void PrintGraphQL_Children(int indent, MemberWrapper wrapper) {
       WriteLine(indent, "id");
-      if (wrapper.Member != null && wrapper.Member.IsNonOwnedAssociation)
-        WriteLine(indent, "toStringRepresentation");
+      // More comments why this is removed in hot_chocolate generation
+      // if (wrapper.Member != null && wrapper.Member.IsNonOwnedAssociation)
+      //   WriteLine(indent, "toStringRepresentation");
 
       foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
         if (child.Member.Name != "id")
@@ -331,7 +326,7 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model);
       string classDefName = classDef.Name;
 
-      WriteLine(0, "const mutation = graphql`");
+      WriteLine(0, "const mutation = gql`");
       WriteLine(1, "mutation {0}Mutation(", classDefName);
       WriteLine(2, "${0}: {1}{2}Input!", variableName, classDef.Name, model.Name);
       WriteLine(1, ") {");
@@ -347,7 +342,7 @@ namespace x10.gen.typescript.generate {
       WriteLine(1, "}");
       WriteLine(0, "`;");
 
-      ImportsPlaceholder.Import("graphql", "react-relay", ImportLevel.ThirdParty);
+      ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);
 
       WriteLine();
     }
@@ -388,7 +383,7 @@ namespace x10.gen.typescript.generate {
       if (dataType == DataTypes.Singleton.String) return "String";
       if (dataType == DataTypes.Singleton.Timestamp) return "DateTime";
       if (dataType == DataTypes.Singleton.Money) return "Float";
-      if (dataType is DataTypeEnum enumType) return EnumToName(enumType);
+      if (dataType is DataTypeEnum enumType) return EnumToTypeName(enumType);
 
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }

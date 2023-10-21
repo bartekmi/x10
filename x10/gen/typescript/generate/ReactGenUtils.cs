@@ -30,7 +30,8 @@ namespace x10.gen.typescript.generate {
 
     #region Source Variable Name
     private Stack<string> _sourceVariableNames = new Stack<string>();
-    internal string SourceVariableName { get { return _sourceVariableNames.Peek(); } }
+    internal string SourceVariableName => _sourceVariableNames.Any() ?
+      _sourceVariableNames.Peek() : null; 
     internal bool AlreadyScopedToMember { get; private set;}
 
     internal void PushSourceVariableName(string variableName, bool alreadyScopedToMember = false) {
@@ -136,7 +137,7 @@ namespace x10.gen.typescript.generate {
     #region Enum-Related Helpers
 
 
-    internal static string EnumToName(DataTypeEnum enumType) {
+    internal static string EnumToTypeName(DataTypeEnum enumType) {
       return enumType.Name + "Enum";
     }
 
@@ -146,6 +147,12 @@ namespace x10.gen.typescript.generate {
 
     internal static string ToEnumValueString(object value) {
       return NameUtils.CamelCaseToSnakeCase(value.ToString());
+    }
+
+    internal static string ToEnumValue(DataTypeEnum theEnum, object value) {
+      return string.Format("{0}.{1}",
+        EnumToTypeName(theEnum), 
+        NameUtils.Capitalize(value.ToString()));
     }
 
     #endregion

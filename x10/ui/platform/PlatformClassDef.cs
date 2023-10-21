@@ -41,6 +41,10 @@ namespace x10.ui.platform {
     // If present, import the component from this directory.
     public string ImportDir { get; set; }
 
+    // Applies to JavaScript imports - if true, use "import { name } from 'path'"
+    // ... as opposed to the default import formath: "import name from 'path'"
+    public bool IsNonDefaultImport { get; set; }
+
     // If present, this code will be called to programmatically generate children 
     public Action<CodeGenerator, int /* indent */, PlatformClassDef, Instance> ProgrammaticallyGenerateChildren { get; set; }
 
@@ -88,6 +92,9 @@ namespace x10.ui.platform {
           dir = Owner.NonDefaultImportPath == null ? ImportDir : Path.Combine(Owner.NonDefaultImportPath, ImportDir);
         }
         
+        if (IsNonDefaultImport)
+          return dir;
+          
         return string.Format("{0}/{1}", dir, PlatformName);
       }
     }

@@ -80,7 +80,6 @@ namespace x10.gen.typescript.attribute {
         generator.WriteLine(level, "onChange={ (value) => {");
 
         if (path.Count() == 1) {
-          generator.WriteLine(level + 1, "// $FlowExpectedError");
           generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: {2} })",
             generator.SourceVariableName,
             path.Single().Name,

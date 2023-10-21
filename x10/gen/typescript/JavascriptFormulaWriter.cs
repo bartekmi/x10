@@ -35,7 +35,6 @@ namespace x10.gen.typescript {
       // to proper JavaScript string interpolation... `Foo ${myVar} Bar`, but this is harder to do.
       bool dontWrapWithToString = expression is ExpLiteral || expression is ExpBinary && expression.DataType.IsString;
       if (binary.DataType.IsString && !dontWrapWithToString)
-        // Without converting to string, Flow complains and UI shows "null"
         Wrap(expression, HelperFunctions.X10_ToString);
       else if (binary.IsComparison && !binary.DataType.IsString)
         Wrap(expression, HelperFunctions.ToNum);
@@ -66,8 +65,12 @@ namespace x10.gen.typescript {
           string functionName = TypeScriptCodeGenerator.DerivedAttrFuncName(derivedAttr);
           _writer.Write("{0}({1})", functionName, _variableName);
           _imports.ImportDerivedAttributeFunction(derivedAttr);
-        } else
-          _writer.Write("{0}?.{1}", _variableName, exp.Name);
+        } else {
+          string content = _variableName == null ?
+            exp.Name :
+            string.Format("{0}?.{1}", _variableName, exp.Name);
+          _writer.Write(content);
+        }
       }
     }
 

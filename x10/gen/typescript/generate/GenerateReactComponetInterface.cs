@@ -13,11 +13,11 @@ namespace x10.gen.typescript.generate {
       GenerateImports(classDef);
 
       if (classDef.IsMany) {
-        GenerateMultiQueryRenderer(classDef, model);
+        GenerateMultiInterface(classDef, model);
         GenerateMultiGraphqlQuery(classDef, model);
       } else if (model != null) {
-        GenerateQueryRenderer(classDef, model);
-        GenerateGraphqlQuery(classDef, model);
+        GenerateSingleInterface(classDef, model);
+        GenerateSingleGraphqlQuery(classDef, model);
       }
 
       End();
@@ -31,15 +31,13 @@ namespace x10.gen.typescript.generate {
       ImportsPlaceholder.ImportReact();
       ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);
 
-      ImportsPlaceholder.ImportDefault(classDef);
-
       WriteLine();
     }
     #endregion
 
     #region Non-Multi Generation
 
-    private void GenerateQueryRenderer(ClassDefX10 classDef, Entity model) {
+    private void GenerateSingleInterface(ClassDefX10 classDef, Entity model) {
       WriteLine(0,
 @"type Props = { 
   readonly id?: string,      // When invoked from another Component
@@ -54,19 +52,17 @@ namespace x10.gen.typescript.generate {
       string createDefaultFunc = CreateDefaultFuncName(model);
       string fragmentName = CreateFragmentName(classDef, model);
       string variableName = VariableName(model);
+      string classDefStateful = classDefName + "Stateful";
 
       WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
       WriteLine(1, "return (");
       WriteLine(2, "<EntityQueryRenderer<{0}>", fragmentName);
       WriteLine(3, "id={ props.id }");
       WriteLine(3, "match={ props.match }");
-      WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
+      WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefStateful);
 
-      if (IsForm(classDef)) {
-        string classDefStateful = classDefName + "Stateful";
-        WriteLine(3, "createEntityFunc={ {0} }", createDefaultFunc);
-        ImportsPlaceholder.Import(classDefStateful, classDef);
-      }
+      WriteLine(3, "createEntityFunc={ {0} }", createDefaultFunc);
+      ImportsPlaceholder.Import(classDefStateful, classDef);
 
       WriteLine(3, "query={ query }");
       WriteLine(2, "/>");
@@ -75,12 +71,12 @@ namespace x10.gen.typescript.generate {
 
       ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
-      ImportsPlaceholder.Import(fragmentName, "__generated__/graphql", ImportLevel.Generated);
+      ImportsPlaceholder.ImportGraphqlType(fragmentName);
   
       WriteLine();
     }
 
-    private void GenerateGraphqlQuery(ClassDefX10 classDef, Entity model) {
+    private void GenerateSingleGraphqlQuery(ClassDefX10 classDef, Entity model) {
 
       string classDefName = classDef.Name;
       string variableName = VariableName(model);
@@ -100,7 +96,7 @@ namespace x10.gen.typescript.generate {
     #endregion
 
     #region Multi-Related Generation
-    private void GenerateMultiQueryRenderer(ClassDefX10 classDef, Entity model) {
+    private void GenerateMultiInterface(ClassDefX10 classDef, Entity model) {
       string classDefName = classDef.Name;
       string variableName = VariableName(model, true);
 

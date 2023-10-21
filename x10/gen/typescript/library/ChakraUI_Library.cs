@@ -44,33 +44,55 @@ namespace x10.gen.typescript.library {
           new JavaScriptAttributeDynamic("fillColor", "fillColor"),
         },
       },
+      new PlatformClassDef() {
+        LogicalName = "TextualDisplay",
+        PlatformName = "TextualDisplay",
+        IsAbstract = true,
+        LocalPlatformAttributes = new List<PlatformAttribute>() {
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "weight",
+            PlatformName = "weight",
+            EnumConversions = new List<EnumConversion>() {
+              new EnumConversion("normal", null),
+              new EnumConversion("bold", "bold"),
+            },
+          },
+          new JavaScriptAttributeDynamic() {
+            LogicalName = "textColor",
+            PlatformName = "textColor",
+          },
+        },
+      },
       #endregion
 
       #region No-Data Formatting Components
+      // https://chakra-ui.com/docs/components/heading
       new PlatformClassDef() {
         LogicalName = "Heading1",
-        PlatformName = "Text",
+        PlatformName = "Heading",
+        IsNonDefaultImport = true,
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("scale", "display"),
-          new PlatformAttributeStatic("weight", "bold"),
+          new PlatformAttributeStatic("as", "h1"),
+          new PlatformAttributeStatic("size", "4xl"),
+          new PlatformAttributeStatic("noOfLines", 1),
           new JavaScriptAttributeDynamic("text", "children"),
         },
       },
       new PlatformClassDef() {
         LogicalName = "Heading2",
-        PlatformName = "Text",
+        PlatformName = "Heading",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("scale", "headline"),
-          new PlatformAttributeStatic("weight", "bold"),
+          new PlatformAttributeStatic("as", "h2"),
+          new PlatformAttributeStatic("size", "2xl"),
           new JavaScriptAttributeDynamic("text", "children"),
         },
       },
       new PlatformClassDef() {
         LogicalName = "Heading3",
-        PlatformName = "Text",
+        PlatformName = "Heading",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("scale", "title"),
-          new PlatformAttributeStatic("weight", "bold"),
+          new PlatformAttributeStatic("as", "h3"),
+          new PlatformAttributeStatic("size", "lg"),
           new JavaScriptAttributeDynamic("text", "children"),
         },
       },
@@ -101,25 +123,6 @@ namespace x10.gen.typescript.library {
       #endregion
 
       #region Atomic Display Components
-      new PlatformClassDef() {
-        LogicalName = "TextualDisplay",
-        PlatformName = "TextualDisplay",
-        IsAbstract = true,
-        LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "weight",
-            PlatformName = "weight",
-            EnumConversions = new List<EnumConversion>() {
-              new EnumConversion("normal", null),
-              new EnumConversion("bold", "bold"),
-            },
-          },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "textColor",
-            PlatformName = "textColor",
-          },
-        },
-      },
       new PlatformClassDef() {
         LogicalName = "Text",
         PlatformName = "TextDisplay",
@@ -234,7 +237,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "Icon",
         PlatformName = "Icon",
-        ImportDir = "latitude",
+        ImportDir = "chakra",
         InheritsFromName = "TextualDisplay",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("icon", "iconName"),
@@ -269,7 +272,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "TextEdit",
         PlatformName = "TextInput",
-        ImportDir = "react_lib/latitude_wrappers",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -287,12 +290,13 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "TextArea",
         PlatformName = "TextareaInput",
+        ImportDir = "react_lib/chakra_wrappers",
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
           },
-          new PlatformAttributeStatic("rows", 3),
           new JavaScriptAttributeDynamic() {
             LogicalName = "readOnly",
             PlatformName = "readOnly",
@@ -300,18 +304,20 @@ namespace x10.gen.typescript.library {
           },
           // Must explicitly write "onChange={() => { } }" when read-only since TextareaInput requires it
           // When writeable, this is handled by JavaScriptAttributeDynamic
-          new JavaScriptAttributeByFunc() {
-            PlatformName = "onChange",
-            IsCodeSnippet = true,
-            Function = (generator, instance) =>
-              UiCompilerUtils.IsReadOnly(instance) ? "() => { }" : null,
-          },
+          // new JavaScriptAttributeByFunc() {
+          //   PlatformName = "onChange",
+          //   IsCodeSnippet = true,
+          //   Function = (generator, instance) =>
+          //     UiCompilerUtils.IsReadOnly(instance) ? "() => { }" : null,
+          // },
         },
       },
       new PlatformClassDef() {
         LogicalName = "IntEdit",
         // TODO: Use something more specific
         PlatformName = "FloatInput",
+        ImportDir = "react_lib/chakra_wrappers",
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -330,6 +336,8 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "FloatEdit",
         PlatformName = "FloatInput",
+        ImportDir = "react_lib/chakra_wrappers",
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -347,6 +355,8 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "Checkbox",
         PlatformName = "Checkbox",
+        ImportDir = "react_lib/chakra_wrappers",
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -365,7 +375,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "DateEditor",
         PlatformName = "CalendarDateInput",
-        ImportDir = "react_lib/latitude_wrappers",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -381,7 +391,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "TimeEditor",
         PlatformName = "TimeInput",
-        ImportDir = "react_lib/latitude_wrappers",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
@@ -454,7 +464,7 @@ namespace x10.gen.typescript.library {
         LogicalName = "DropDown",
         PlatformName = "SelectInput",
         InheritsFromName = "EnumSelection",
-        ImportDir = "react_lib/latitude_wrappers",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
         }
       },
@@ -462,7 +472,7 @@ namespace x10.gen.typescript.library {
         LogicalName = "RadioButtonGroup",
         PlatformName = "RadioGroup",
         InheritsFromName = "EnumSelection",
-        ImportDir = "react_lib/enum",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("layout", "isInline") {
             TranslationFunc = (value) => value?.ToString() == "horizontal",
@@ -485,7 +495,9 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "Row",
-        PlatformName = "Group",
+        PlatformName = "Flex",
+        IsNonDefaultImport = true,
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("align", "alignItems") {
             EnumConversions = new List<EnumConversion>() {
@@ -500,7 +512,9 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "RepellingRow",
-        PlatformName = "Group",
+        PlatformName = "Flex",
+        IsNonDefaultImport = true,
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("justifyContent", "space-between"),
         },
@@ -708,7 +722,7 @@ namespace x10.gen.typescript.library {
       new PlatformClassDef() {
         LogicalName = "Button",
         PlatformName = "Button",
-        ImportDir = "react_lib/latitude_wrappers",
+        ImportDir = "react_lib/chakra_wrappers",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic("label", "label"),
           new JavaScriptAttributeDynamic("url", "url"),
@@ -761,7 +775,7 @@ namespace x10.gen.typescript.library {
         ImportDir = "react_lib/form",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeByFunc() {
-            PlatformName = "value",
+            PlatformName = "context",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
               Entity entity = instance.DataModelEntity;
@@ -842,13 +856,14 @@ namespace x10.gen.typescript.library {
                 // lists of) nested elements
                 foreach (MemberWrapper wrapper in dataInventory.Children) {
                   Member member = wrapper.Member;
-                  if (member is X10RegularAttribute regular && regular.IsEnum) {
-                    generator.ImportsPlaceholder.ImportFunction(HelperFunctions.ToGraphqlEnum);
-                    generator.WriteLine(indent + 3, "{0}: {1}({2}.{0}),", 
-                      member.Name, 
-                      HelperFunctions.ToGraphqlEnum.Name,
-                      generator.SourceVariableName);
-                  } else
+                  // TODO: Remove - under typescript, conversion of enum types is not needed
+                  // if (member is X10RegularAttribute regular && regular.IsEnum) {
+                  //   generator.ImportsPlaceholder.ImportFunction(HelperFunctions.ToGraphqlEnum);
+                  //   generator.WriteLine(indent + 3, "{0}: {1}({2}.{0}),", 
+                  //     member.Name, 
+                  //     HelperFunctions.ToGraphqlEnum.Name,
+                  //     generator.SourceVariableName);
+                  // } else
                     generator.WriteLine(indent + 3, "{0}: {1}.{0},", 
                       member.Name, 
                       generator.SourceVariableName);
@@ -875,7 +890,9 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "FormRow",
-        PlatformName = "Group",
+        PlatformName = "Flex",
+        IsNonDefaultImport = true,
+
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("gap", 40),
         },
@@ -934,11 +951,13 @@ namespace x10.gen.typescript.library {
               return varName + "Query"; // Must match query name in GqlPlaceholder
             }
           },
-          new PlatformAttributeStatic() {
-            PlatformName = "toString",
-            IsCodeSnippet = true,
-            Value = "x => x.toStringRepresentation",
-          },
+          // TODO: How to deal with this - ideally, we'd like the top
+          // level x10 definition to specify a derived attribute for this
+          // new PlatformAttributeStatic() {
+          //   PlatformName = "toString",
+          //   IsCodeSnippet = true,
+          //   Value = "x => x.toStringRepresentation",
+          // },
           new JavaScriptAttributeDynamic("order", "order"),
         },
       },
@@ -973,7 +992,7 @@ namespace x10.gen.typescript.library {
         },
       },
 
-      new JavaScriptPlatformClassDef() {
+      new PlatformClassDef() {
         LogicalName = "SpaContent",
         PlatformName = "SpaContent",
         ImportDir = "react_lib",
@@ -1025,8 +1044,8 @@ namespace x10.gen.typescript.library {
     public static PlatformLibrary Singleton() {
       if (_singleton == null)
         _singleton = new PlatformLibrary(BaseLibrary.Singleton(), definitions) {
-          Name = "Latitude",
-          DefaultImportPath = "latitude",
+          Name = "Chakra UI",
+          DefaultImportPath = "@chakra-ui/react",
         };
       return _singleton;
     }

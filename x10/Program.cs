@@ -123,7 +123,7 @@ namespace x10 {
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
         PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton() },
         Generator = new TypeScriptCodeGenerator() {
-          GeneratedCodeSubdir = "small",
+          GeneratedCodeSubdir = "x10_generated/small",
           AppContextImport = "SmallAppContext",
         },
         PostGenerationScript = new ScriptInfo() {

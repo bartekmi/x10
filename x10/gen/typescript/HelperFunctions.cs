@@ -14,9 +14,10 @@ namespace x10.gen.typescript {
     internal static readonly Function ToEnum = new Function() {
       Name = "toEnum",
     };
-    internal static readonly Function ToGraphqlEnum = new Function() {
-      Name = "toGraphqlEnum",
-    };
+    // TODO: Remove
+    // internal static readonly Function ToGraphqlEnum = new Function() {
+    //   Name = "toGraphqlEnum",
+    // };
     internal static readonly Function ToDate = new Function() {
       Name = "toDate",
     };

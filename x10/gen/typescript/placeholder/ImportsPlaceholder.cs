@@ -8,6 +8,8 @@ using x10.model.definition;
 using x10.ui.composition;
 using x10.model;
 using x10.gen.typescript.generate;
+using x10.ui.platform;
+using x10.model.metadata;
 
 namespace x10.gen.typescript.placeholder {
 
@@ -42,9 +44,10 @@ namespace x10.gen.typescript.placeholder {
       }
 
       public override int GetHashCode() {
-        return
-          ImportName.GetHashCode() +
-          Path.GetHashCode();
+        int hash = ImportName.GetHashCode();
+        if (Path != null)
+          hash += Path.GetHashCode();
+        return hash;
       }
     }
 
@@ -53,7 +56,7 @@ namespace x10.gen.typescript.placeholder {
     private string _appContextImport;
     private string _reactLibImport;
 
-    // generatedCodeSubdir is the directory into which code is generated RELATIVE TO "x10_generated".
+    // generatedCodeSubdir is the directory into which code is generated.
     // We will pre-pend this to all paths accessing generated components
     public ImportsPlaceholder(string generatedCodeSubdir, string appContextImport, string reactLibImport) {
       _generatedCodeSubdir = generatedCodeSubdir;
@@ -173,15 +176,32 @@ namespace x10.gen.typescript.placeholder {
         ImportDefault(path, ImportLevel.Project);
       }
     }
+
+    internal void Import(PlatformClassDef platClassDef) {
+      if (platClassDef.IsNonDefaultImport)
+        Import(platClassDef.PlatformName, platClassDef.ImportPath, ImportLevel.ThirdParty);
+      else
+        ImportDefault(platClassDef.ImportPath, ImportLevel.ThirdParty);
+    }
+
+    internal void ImportGraphqlType(string type) {
+      Import(type, "__generated__/graphql", ImportLevel.Generated);
+    }
+
+    internal void ImportGraphqlTypeEnum(DataTypeEnum theEnum) {
+      string enumName = TypeScriptCodeGenerator.EnumToTypeName(theEnum);
+      ImportGraphqlType(enumName);
+    }
+
     #endregion
 
     #region Write Implementation
     public override void Write(TextWriter writer) {
       foreach (ImportData import in _imports) {
-        if (import.Path.StartsWith("latitude"))
-          import.ImportSubLevel = 1;
-        if (import.Path.StartsWith(_reactLibImport))
+        if (import.Path.StartsWith("react_lib"))
           import.ImportSubLevel = 2;
+        if (import.Path.StartsWith(_reactLibImport))
+          import.ImportSubLevel = 1;
       }
 
       IEnumerable<IGrouping<int, ImportData>> orderedImportGroups = _imports
@@ -242,6 +262,7 @@ namespace x10.gen.typescript.placeholder {
         return pathNoExtension;
       return Path.Combine(_generatedCodeSubdir, pathNoExtension);
     }
+
     #endregion
   }
 }

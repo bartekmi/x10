@@ -7,7 +7,7 @@ type Option<T extends string> = {
   readonly label: string,
 };
 type Props<T extends string> = {
-  readonly value?: T,
+  readonly value: T | null | undefined,
   readonly readOnly?: boolean,
   readonly options: Option<T>[],
   readonly onChange: (value?: T) => unknown,

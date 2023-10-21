@@ -46,7 +46,7 @@ type Props = {
   readonly children: React.JSX.Element,
   readonly context: any,
 };
-export default function EditForm(props: Props): React.JSX.Element {
+export default function FormProvider(props: Props): React.JSX.Element {
   const { children, context } = props
 
   return (

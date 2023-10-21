@@ -1,14 +1,11 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite";
 
-// import LatitudeCalendarDateInput from "latitude/date/CalendarDateInput";
-// import {type CalendarDate} from "latitude/date/CalendarDateType";
-
 type CalendarDate = string;
 
 type Props = {
-  readonly value?: string,
-  readonly onChange: (date: CalendarDate | null) => void,
+  readonly value: CalendarDate | null | undefined,
+  readonly onChange: (date: CalendarDate | null | undefined) => void,
   readonly readOnly?: boolean,
 };
 

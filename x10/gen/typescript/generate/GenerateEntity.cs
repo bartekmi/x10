@@ -71,7 +71,7 @@ namespace x10.gen.typescript.generate {
 
     #region Generate Derived Attributes
     private void GenerateDerivedAttributes(Entity entity) {
-      if (entity.DerivedAttributes.Count() == 0)
+      if (!entity.DerivedAttributes.Any())
         return;
 
       WriteLine(0, "// Derived Attribute Functions");
@@ -86,16 +86,16 @@ namespace x10.gen.typescript.generate {
           SourceVariableName);
 
         foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
-          if (!regular.Owner.IsContext)
-            WriteLine(1, "readonly {0}: {1},", regular.Name, GetType(regular, false));
+          if (!(regular.Owner.IsContext || regular.Owner.IsNonFetchable))
+            WriteLine(2, "{0}?: {1},", regular.Name, GetType(regular, false));
 
         WriteLine(0, "}): {0} {", GetType(attribute, true));
 
         // Method Body
-        WriteLine(1, "if ({0} == null) return {1};", 
-          SourceVariableName, 
+        WriteLine(1, "if ({0} == null) return {1};",
+          SourceVariableName,
           DefaultEmpty(attribute.DataType));
-          
+        
         WriteAppContextIfNeeded(new ExpBase[] { expression });
         WriteLine(1, "const result = {0};", ExpressionToString(expression));
 
@@ -126,9 +126,7 @@ namespace x10.gen.typescript.generate {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else {
-          string defaultValue = GetDefaultValue(member, ImportsPlaceholder);
-          if (defaultValue == null)
-            defaultValue = "undefined";
+          string defaultValue = GetDefaultValue(member, ImportsPlaceholder) ?? "undefined";
           WriteLine(2, "{0}: {1},", member.Name, defaultValue);
         }
 
@@ -163,8 +161,11 @@ namespace x10.gen.typescript.generate {
         if (defaultValue == null) {
           if (dataType == DataTypes.Singleton.Boolean) return "false";
           if (dataType == DataTypes.Singleton.String) return "''";
+        } else if (dataType is DataTypeEnum theEnum) {
+          ImportsPlaceholder.ImportGraphqlTypeEnum(theEnum);
+          return ToEnumValue(theEnum, defaultValue);
         } else
-          return TypedLiteralToString(defaultValue, dataType as DataTypeEnum, false);
+          return TypedLiteralToString(defaultValue, null, false);
       }
 
       return null;
@@ -330,7 +331,7 @@ namespace x10.gen.typescript.generate {
         if (IsNeverOptional(attribute.DataType))
           optional = false;
 
-        return GetAtomicFlowType(member.Owner, attribute.DataType) + 
+        return GetAtomicType(member.Owner, attribute.DataType) + 
           (optional ? " | null | undefined" : "");
         
       } else
@@ -378,7 +379,7 @@ namespace x10.gen.typescript.generate {
       throw new NotImplementedException("Unknown data type: " + dataType.Name);
     }
 
-    private string GetAtomicFlowType(Entity entity, DataType dataType) {
+    private string GetAtomicType(Entity entity, DataType dataType) {
       if (dataType == DataTypes.Singleton.Boolean) return "boolean";
       if (dataType == DataTypes.Singleton.Date) return "string";
       if (dataType == DataTypes.Singleton.Time) return "string";
@@ -389,10 +390,10 @@ namespace x10.gen.typescript.generate {
       if (dataType == DataTypes.Singleton.Money) return "number";
       if (dataType is DataTypeEnum enumType) {
         if (entity.TreeElement.FileInfo.RelativePath != enumType.TreeElement.FileInfo.RelativePath) {
-          string enumName = EnumToName(enumType);
+          string enumName = EnumToTypeName(enumType);
           ImportsPlaceholder.ImportType(enumName, enumType);
         }
-        return EnumToName(enumType);
+        return EnumToTypeName(enumType);
       }
 
       throw new NotImplementedException("Unknown data type: " + dataType.Name);

@@ -8,7 +8,7 @@ type OptionObject<T extends string> = {
 }
 
 type Props<T extends string> = {
-  readonly value?: string,
+  readonly value: string | null | undefined,
   readonly onChange: (newValue: T) => void,
   readonly excludeItems?: string,
   readonly layout?: "vertical" | "horizontal",
