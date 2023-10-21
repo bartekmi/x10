@@ -3,7 +3,7 @@ import * as React from "react";
 import VerticalStackPanel from "../layout/VerticalStackPanel";
 
 type Props = {
-  readonly children: React.JSX.Element,
+  readonly children: React.JSX.Element | React.JSX.Element[],
   readonly gap?: number,
 };
 export default function DisplayForm(props: Props): React.JSX.Element {

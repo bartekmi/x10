@@ -1,7 +1,6 @@
-import { StyleSheet, css } from "aphrodite";
 import { ChakraProvider, theme, Flex } from "@chakra-ui/react"
 
-import SmallHeader from "./x10_hand_coded/small/ui/Header";
+import SmallHeader from "./x10_generated/small/ui/Header";
 import { AppContextProvider as SmallAppContextProvider } from "./SmallAppContext";
 
 export default function App() {
@@ -10,7 +9,6 @@ export default function App() {
   };
 
   return (
-    // <div className={css(styles.app)}>
     <ChakraProvider theme={theme}>
       <SmallAppContextProvider value={appContext}>
         <Flex padding={8}>
@@ -19,11 +17,4 @@ export default function App() {
       </SmallAppContextProvider>
     </ChakraProvider>
   )
-    // </div>);
 }
-
-const styles = StyleSheet.create({
-  app: {
-    padding: 12,
-  },
-});
