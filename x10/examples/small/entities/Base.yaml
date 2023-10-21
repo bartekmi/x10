@@ -5,7 +5,7 @@ abstract: true
 attributes:
   - name: id
     dataType: String
-    description: The relay id associated all entities
+    description: The unique id associated posessed by all entries. Used by GQL.
     mandatory: true
     readOnly: true
     idAttribute: true

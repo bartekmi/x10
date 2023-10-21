@@ -175,7 +175,6 @@ function TenantForm(props: Props): React.JSX.Element {
             {
               tenant: {
                 id: tenant.id,
-                id: tenant.id,
                 name: tenant.name,
                 phone: tenant.phone,
                 email: tenant.email,

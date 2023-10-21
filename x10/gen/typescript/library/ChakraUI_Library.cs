@@ -835,12 +835,16 @@ namespace x10.gen.typescript.library {
             IsCodeSnippet = true,
             Function = (generator, instance) => {
               return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
+                // To the best of my knowledge, this is the only explicit "special treatment"
+                // of the id stored in Base.yaml. This is non-ideal, and can be mitigated in 
+                // a number of ways, including moving the concept of id from YAML to code.
+                const string ID = "id";   
                 MemberWrapper dataInventory = UiComponentDataCalculator.ExtractData(generator.CurrentClassDef);
 
                 generator.WriteLine(indent, "variables={");
                 generator.WriteLine(indent + 1, "{");
                 generator.WriteLine(indent + 2, "{0}: {", generator.SourceVariableName);
-                generator.WriteLine(indent + 3, "id: {0}.id,", generator.SourceVariableName);
+                generator.WriteLine(indent + 3, "{0}: {1}.{0},", ID, generator.SourceVariableName);
 
                 // This is deliberately not recursive - we strike a compromise between
                 // not returning reams of unnecessary data if only a few fields are being
@@ -848,6 +852,9 @@ namespace x10.gen.typescript.library {
                 // lists of) nested elements
                 foreach (MemberWrapper wrapper in dataInventory.Children) {
                   Member member = wrapper.Member;
+                  if (member.Name == ID)
+                    continue; // Prevent id from being listed twice, which will happen if used in a formula.
+
                   generator.WriteLine(indent + 3, "{0}: {1}.{0},", 
                     member.Name, 
                     generator.SourceVariableName);
