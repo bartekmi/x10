@@ -92,11 +92,7 @@ namespace x10.gen.typescript.generate {
       PushSourceVariableName(VariableName(model, classDef.IsMany));
 
       // Props
-      WriteLine(0, "type Props = {");
-      if (model != null) {
-        WriteSignature(model, isForm);
-      }
-      WriteLine(0, "};");
+      WriteProps(classDef, model, isForm);
 
       // Component Definition
       WriteLine(0, "{0}function {1}(props: Props): React.JSX.Element {",
@@ -117,10 +113,18 @@ namespace x10.gen.typescript.generate {
       PopSourceVariableName();
     }
 
-    private void WriteSignature(Entity model, bool isForm) {
-      WriteLine(1, "readonly {0}: {1},", SourceVariableName, model.Name);
-      if (isForm)
-        WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
+    private void WriteProps(ClassDefX10 classDef, Entity model, bool isForm) {
+      WriteLine(0, "type Props = {");
+      if (model != null) {
+        WriteLine(1, "readonly {0}: {1}{2},", 
+          SourceVariableName, 
+          model.Name,
+          classDef.IsMany ? "[]" : "");
+
+        if (isForm)
+          WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, model.Name);
+      }
+      WriteLine(0, "};");
     }
     #endregion
 

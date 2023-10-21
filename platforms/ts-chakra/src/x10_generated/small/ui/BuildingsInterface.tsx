@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import MultiEntityQueryRenderer from 'react_lib/client_apollo/MultiEntityQueryRenderer';
 
-import Buildings from 'x10_generated/small/ui/Buildings';
 import { type Building } from 'x10_generated/small/entities/Building';
+import Buildings from 'x10_generated/small/ui/Buildings';
 
 
 

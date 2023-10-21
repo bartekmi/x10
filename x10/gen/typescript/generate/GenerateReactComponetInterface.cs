@@ -20,6 +20,8 @@ namespace x10.gen.typescript.generate {
         GenerateSingleGraphqlQuery(classDef, model);
       }
 
+      ImportsPlaceholder.ImportType(model);
+
       End();
     }
     #endregion
@@ -70,7 +72,6 @@ namespace x10.gen.typescript.generate {
 
       ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/EntityQueryRenderer");
       ImportsPlaceholder.ImportCreateDefaultFunc(model);
-      ImportsPlaceholder.ImportType(model);
   
       WriteLine();
     }
@@ -102,14 +103,15 @@ namespace x10.gen.typescript.generate {
       WriteLine(0,
 @"export default function {0}Interface(props: { }): React.JSX.Element { 
   return (
-    <MultiEntityQueryRenderer
-      createComponentFunc={ ({1}) => <{0} {1}={ {1} }/> }
+    <MultiEntityQueryRenderer<{1}>
+      createComponentFunc={ ({2}) => <{0} {2}={ {2} }/> }
       query={ query }
     />
   );
 }}",
       classDefName,       // Index 0
-      variableName);      // Index 1
+      model.Name,         // Index 1
+      variableName);      // Index 2
 
       ImportsPlaceholder.ImportDefault(classDef);
       ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/MultiEntityQueryRenderer");
