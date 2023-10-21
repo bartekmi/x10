@@ -33,7 +33,7 @@ export default function TenantFormInterface(props: Props): React.JSX.Element {
 const query = gql`
   query TenantFormInterfaceQuery($id: String!) {
     entity: tenant(id: $id) {
-      ...TenantForm_tenant
+      ...TenantForm_Tenant
     }
   }
 `;

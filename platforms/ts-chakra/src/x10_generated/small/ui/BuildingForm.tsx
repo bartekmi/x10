@@ -483,7 +483,7 @@ const mutation = gql`
 `;
 
   gql`
-    fragment BuildingForm_building on Building{
+    fragment BuildingForm_Building on Building {
       id
       dateOfOccupancy
       description

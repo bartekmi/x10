@@ -33,7 +33,7 @@ export default function MoveFormInterface(props: Props): React.JSX.Element {
 const query = gql`
   query MoveFormInterfaceQuery($id: String!) {
     entity: move(id: $id) {
-      ...MoveForm_move
+      ...MoveForm_Move
     }
   }
 `;

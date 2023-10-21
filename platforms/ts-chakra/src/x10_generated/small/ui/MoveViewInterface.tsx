@@ -33,7 +33,7 @@ export default function MoveViewInterface(props: Props): React.JSX.Element {
 const query = gql`
   query MoveViewInterfaceQuery($id: String!) {
     entity: move(id: $id) {
-      ...MoveView_move
+      ...MoveView_Move
     }
   }
 `;

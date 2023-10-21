@@ -17,7 +17,7 @@ export default function MovesInterface(props: { }): React.JSX.Element {
 const query = gql`
   query MovesInterfaceQuery {
     entities: moves {
-      ...Moves_moves
+      ...Moves_Moves
     }
   }
 `;

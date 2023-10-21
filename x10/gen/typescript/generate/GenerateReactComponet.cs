@@ -94,10 +94,7 @@ namespace x10.gen.typescript.generate {
       // Props
       WriteLine(0, "type Props = {");
       if (model != null) {
-        if (isForm)
-          WriteFormSignature(classDef, model);
-        else
-          WriteNonFormSignature(classDef);
+        WriteSignature(classDef, model, isForm);
       }
       WriteLine(0, "};");
 
@@ -120,23 +117,13 @@ namespace x10.gen.typescript.generate {
       PopSourceVariableName();
     }
 
-    private void WriteFormSignature(ClassDefX10 classDef, Entity model) {
-      string fragmentName = CreateFragmentName(classDef, model);
+    private void WriteSignature(ClassDefX10 classDef, Entity model, bool isForm) {
+      string fragmentType = FragmentType(classDef, model);
       
-      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentName);
-      WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, fragmentName);
-      ImportsPlaceholder.ImportType(model);
-    }
-
-    private void WriteNonFormSignature(ClassDefX10 classDef) {
-      string fragmentName = FragmentName(classDef);
-
-      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentName);
-
-      // TODO
-      // ImportsPlaceholder.ImportType(fragmentName,
-      //   string.Format("./__generated__/{0}.graphql", fragmentName),
-      //   ImportLevel.Generated);
+      WriteLine(1, "readonly {0}: {1},", SourceVariableName, fragmentType);
+      if (isForm)
+        WriteLine(1, "readonly onChange: ({0}: {1}) => void,", SourceVariableName, fragmentType);
+      ImportsPlaceholder.ImportGraphqlType(fragmentType);
     }
     #endregion
 
@@ -246,7 +233,7 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model);
       string edited = "edited" + modelName;
       string setEdited = "setEdited" + modelName;
-      string fragmentName = CreateFragmentName(classDef, model);
+      string fragmentName = FragmentType(classDef, model);
 
 
       WriteLine(0, "type StatefulProps = {");
@@ -262,8 +249,6 @@ namespace x10.gen.typescript.generate {
       WriteLine(0, "}");
 
       WriteLine();
-
-      ImportsPlaceholder.Import(fragmentName, "__generated__/graphql", ImportLevel.Generated);
     }
     #endregion
 
@@ -272,7 +257,7 @@ namespace x10.gen.typescript.generate {
       string variableName = VariableName(model, classDef.IsMany);
 
       WriteLine(1, "gql`");
-      WriteLine(2, "fragment {0} on {1}{",
+      WriteLine(2, "fragment {0} on {1} {",
         FragmentName(classDef),
         model.Name);
 
@@ -283,12 +268,6 @@ namespace x10.gen.typescript.generate {
       WriteLine();
 
       ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);
-    }
-
-    private static string FragmentName(ClassDefX10 classDef) {
-      return string.Format("{0}_{1}",
-        classDef.Name,
-        VariableName(classDef.ComponentDataModel, classDef.IsMany));
     }
 
     #region Printing of GraphQL

@@ -11,10 +11,12 @@ import Separator from 'react_lib/Separator';
 import { type Move } from 'x10_generated/small/entities/Move';
 import BuildingView from 'x10_generated/small/ui/BuildingView';
 
+import { MoveView_MoveFragment } from '__generated__/graphql';
+
 
 
 type Props = {
-  readonly move: MoveView_move,
+  readonly move: MoveView_MoveFragment,
 };
 function MoveView(props: Props): React.JSX.Element {
   const { move } = props;
@@ -79,11 +81,11 @@ function MoveView(props: Props): React.JSX.Element {
 }
 
   gql`
-    fragment MoveView_move on Move{
+    fragment MoveView_Move on Move {
       id
       from {
         id
-        ...BuildingView_building
+        ...BuildingView_Building
       }
       tenant {
         id
@@ -97,7 +99,7 @@ function MoveView(props: Props): React.JSX.Element {
       }
       to {
         id
-        ...BuildingView_building
+        ...BuildingView_Building
       }
     }
   `

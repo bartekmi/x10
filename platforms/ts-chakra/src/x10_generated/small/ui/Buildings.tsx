@@ -16,10 +16,12 @@ import x10toString from 'react_lib/utils/x10toString';
 import { addressSecondAddressLine } from 'x10_generated/small/entities/Address';
 import { buildingAgeInYears, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
 
+import { Buildings_BuildingsFragment } from '__generated__/graphql';
+
 
 
 type Props = {
-  readonly buildings: Buildings_buildings,
+  readonly buildings: Buildings_BuildingsFragment,
 };
 function Buildings(props: Props): React.JSX.Element {
   const { buildings } = props;
@@ -134,7 +136,7 @@ function Buildings(props: Props): React.JSX.Element {
 }
 
   gql`
-    fragment Buildings_buildings on Building{
+    fragment Buildings_Buildings on Building {
       id
       dateOfOccupancy
       description

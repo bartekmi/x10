@@ -17,7 +17,7 @@ export default function BuildingsInterface(props: { }): React.JSX.Element {
 const query = gql`
   query BuildingsInterfaceQuery {
     entities: buildings {
-      ...Buildings_buildings
+      ...Buildings_Buildings
     }
   }
 `;

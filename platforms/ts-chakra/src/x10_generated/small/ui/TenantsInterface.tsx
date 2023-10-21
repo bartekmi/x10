@@ -17,7 +17,7 @@ export default function TenantsInterface(props: { }): React.JSX.Element {
 const query = gql`
   query TenantsInterfaceQuery {
     entities: tenants {
-      ...Tenants_tenants
+      ...Tenants_Tenants
     }
   }
 `;

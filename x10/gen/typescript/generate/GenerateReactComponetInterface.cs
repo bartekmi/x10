@@ -50,7 +50,7 @@ namespace x10.gen.typescript.generate {
 
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
-      string fragmentName = CreateFragmentName(classDef, model);
+      string fragmentName = FragmentType(classDef, model);
       string variableName = VariableName(model);
       string classDefStateful = classDefName + "Stateful";
 
@@ -85,7 +85,7 @@ namespace x10.gen.typescript.generate {
       WriteLine(1, "query {0}InterfaceQuery($id: String!) {", classDefName);
       WriteLine(2, "entity: {0}(id: $id) {", variableName);
 
-      WriteLine(3, "...{0}_{1}", classDefName, variableName);
+      WriteLine(3, "...{0}", FragmentName(classDef));
 
       WriteLine(2, "}");
       WriteLine(1, "}");
@@ -126,7 +126,7 @@ namespace x10.gen.typescript.generate {
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);
       WriteLine(2, "entities: {0} {", variableName);
 
-      WriteLine(3, "...{0}_{1}", classDefName, variableName);
+      WriteLine(3, "...{0}", FragmentName(classDef));
 
       WriteLine(2, "}");
       WriteLine(1, "}");

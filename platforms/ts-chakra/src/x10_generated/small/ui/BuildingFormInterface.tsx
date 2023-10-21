@@ -33,7 +33,7 @@ export default function BuildingFormInterface(props: Props): React.JSX.Element {
 const query = gql`
   query BuildingFormInterfaceQuery($id: String!) {
     entity: building(id: $id) {
-      ...BuildingForm_building
+      ...BuildingForm_Building
     }
   }
 `;

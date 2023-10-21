@@ -10,10 +10,12 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
+import { Tenants_TenantsFragment } from '__generated__/graphql';
+
 
 
 type Props = {
-  readonly tenants: Tenants_tenants,
+  readonly tenants: Tenants_TenantsFragment,
 };
 function Tenants(props: Props): React.JSX.Element {
   const { tenants } = props;
@@ -101,7 +103,7 @@ function Tenants(props: Props): React.JSX.Element {
 }
 
   gql`
-    fragment Tenants_tenants on Tenant{
+    fragment Tenants_Tenants on Tenant {
       id
       email
       name

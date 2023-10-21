@@ -229,7 +229,7 @@ const mutation = gql`
 `;
 
   gql`
-    fragment TenantForm_tenant on Tenant{
+    fragment TenantForm_Tenant on Tenant {
       id
       email
       name

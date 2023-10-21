@@ -12,10 +12,12 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { type Move } from 'x10_generated/small/entities/Move';
 
+import { Moves_MovesFragment } from '__generated__/graphql';
+
 
 
 type Props = {
-  readonly moves: Moves_moves,
+  readonly moves: Moves_MovesFragment,
 };
 function Moves(props: Props): React.JSX.Element {
   const { moves } = props;
@@ -112,7 +114,7 @@ function Moves(props: Props): React.JSX.Element {
 }
 
   gql`
-    fragment Moves_moves on Move{
+    fragment Moves_Moves on Move {
       id
       date
       from {

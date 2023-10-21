@@ -148,7 +148,7 @@ const mutation = gql`
 `;
 
   gql`
-    fragment MoveForm_move on Move{
+    fragment MoveForm_Move on Move {
       id
       date
       from {
