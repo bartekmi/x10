@@ -3,7 +3,7 @@ import * as React from "react";
 import { Text } from '@chakra-ui/react'
 
 type Props = {
-  readonly value: string | number | null,
+  readonly value?: string | number | null,
   readonly weight?: "bold",
   readonly textColor?: string,
   // If needed, add bool prop to control behavior when blank (see comment below)

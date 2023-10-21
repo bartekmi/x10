@@ -9,11 +9,11 @@ import { NumberOfBathroomsEnum } from '__generated__/graphql';
 // Type Definition
 export type Unit = {
   readonly id: string,
-  readonly number: string,
-  readonly squareFeet: number | null | undefined,
-  readonly numberOfBedrooms: number | null | undefined,
-  readonly numberOfBathrooms: NumberOfBathroomsEnum | null | undefined,
-  readonly hasBalcony: boolean,
+  readonly number?: string,
+  readonly squareFeet?: number | null | undefined,
+  readonly numberOfBedrooms?: number | null | undefined,
+  readonly numberOfBathrooms?: NumberOfBathroomsEnum | null | undefined,
+  readonly hasBalcony?: boolean,
 };
 
 

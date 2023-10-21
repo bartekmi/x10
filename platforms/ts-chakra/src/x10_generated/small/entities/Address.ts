@@ -10,12 +10,12 @@ import { type Country } from 'x10_generated/small/entities/Country';
 // Type Definition
 export type Address = {
   readonly id: string,
-  readonly unitNumber: string,
-  readonly theAddress: string,
-  readonly city: string,
-  readonly stateOrProvince: string,
-  readonly zip: string,
-  readonly country: Country,
+  readonly unitNumber?: string,
+  readonly theAddress?: string,
+  readonly city?: string,
+  readonly stateOrProvince?: string,
+  readonly zip?: string,
+  readonly country?: Country,
 };
 
 
@@ -29,10 +29,10 @@ export function addressFirstAddressLine(address?: {
   return result;
 }
 
-export function addressSecondAddressLine(address?: {
+export function addressSecondAddressLine(address: {
     city?: string,
     stateOrProvince?: string,
-}): string {
+} | null | undefined): string {
   if (address == null) return '';
   const result = x10toString(address?.city) + ', ' + x10toString(address?.stateOrProvince);
   return result;
@@ -40,7 +40,7 @@ export function addressSecondAddressLine(address?: {
 
 export function addressThirdAddressLine(address?: {
     zip?: string,
-}): string {
+}): string | undefined {
   if (address == null) return '';
   const result = address?.zip;
   return result;
@@ -57,7 +57,7 @@ export function createDefaultAddress(): Address {
     city: '',
     stateOrProvince: '',
     zip: '',
-    country: null,
+    country: undefined,
   };
 }
 

@@ -25,13 +25,13 @@ import { addressSecondAddressLine } from 'x10_generated/small/entities/Address';
 import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
 import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'x10_generated/small/entities/Unit';
 
-import { BuildingForm_BuildingFragment } from '__generated__/graphql';
+// import { BuildingForm_BuildingFragment } from '__generated__/graphql';
 
 
 
 type Props = {
-  readonly building: BuildingForm_BuildingFragment,
-  readonly onChange: (building: BuildingForm_BuildingFragment) => void,
+  readonly building: Building,
+  readonly onChange: (building: Building) => void,
 };
 function BuildingForm(props: Props): React.JSX.Element {
   const { building, onChange } = props;
@@ -431,7 +431,7 @@ function BuildingForm(props: Props): React.JSX.Element {
 }
 
 type StatefulProps = {
-  readonly building: BuildingForm_BuildingFragment,
+  readonly building: Building,
 };
 export function BuildingFormStateful(props: StatefulProps): React.JSX.Element {
   const [editedBuilding, setEditedBuilding] = React.useState(props.building);
