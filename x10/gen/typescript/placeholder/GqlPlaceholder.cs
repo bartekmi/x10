@@ -25,7 +25,7 @@ namespace x10.gen.typescript.placeholder {
     public override void Write(TextWriter writer)  {
       foreach (Entity entity in _associationEditors.OrderBy(x => x.Name)) {
         string varName = TypeScriptCodeGenerator.VariableName(entity, true);
-        writer.WriteLine("const {0}Query = graphql`", varName);
+        writer.WriteLine("const {0}Query = gql`", varName);
         writer.WriteLine("  query {0}_{1}Query {{", _classDef.Name, varName);
         writer.WriteLine("    entities: {0} {{", varName);
         writer.WriteLine("      id");

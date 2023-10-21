@@ -245,7 +245,7 @@ const mutation = gql`
     }
   `
 
-const countriesQuery = graphql`
+const countriesQuery = gql`
   query TenantForm_countriesQuery {
     entities: countries {
       id

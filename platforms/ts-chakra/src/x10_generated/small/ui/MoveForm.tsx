@@ -161,7 +161,7 @@ const mutation = gql`
     }
   `
 
-const buildingsQuery = graphql`
+const buildingsQuery = gql`
   query MoveForm_buildingsQuery {
     entities: buildings {
       id
@@ -169,7 +169,7 @@ const buildingsQuery = graphql`
   }
 `;
 
-const tenantsQuery = graphql`
+const tenantsQuery = gql`
   query MoveForm_tenantsQuery {
     entities: tenants {
       id
