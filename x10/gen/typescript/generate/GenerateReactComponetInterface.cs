@@ -112,6 +112,7 @@ namespace x10.gen.typescript.generate {
       classDefName,       // Index 0
       variableName);      // Index 1
 
+      ImportsPlaceholder.ImportDefault(classDef);
       ImportsPlaceholder.ImportDefaultFromReactLib("client_apollo/MultiEntityQueryRenderer");
 
       WriteLine();
