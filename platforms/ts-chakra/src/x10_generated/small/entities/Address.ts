@@ -15,7 +15,7 @@ export type Address = {
   readonly city: string,
   readonly stateOrProvince: string,
   readonly zip: string,
-  readonly country: Country,
+  readonly country: Country | null,
 };
 
 
@@ -40,7 +40,7 @@ export function addressSecondAddressLine(address?: {
 
 export function addressThirdAddressLine(address?: {
     zip?: string,
-}): string {
+}): string | undefined {
   if (address == null) return '';
   const result = address?.zip;
   return result;

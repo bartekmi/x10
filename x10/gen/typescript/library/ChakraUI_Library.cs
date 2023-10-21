@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 
 using x10.compiler;
-using x10.compiler.ui;
 using x10.ui;
 using x10.ui.libraries;
 using x10.ui.metadata;
@@ -302,14 +301,6 @@ namespace x10.gen.typescript.library {
             PlatformName = "readOnly",
             AttributeUnnecessaryWhen = false,
           },
-          // Must explicitly write "onChange={() => { } }" when read-only since TextareaInput requires it
-          // When writeable, this is handled by JavaScriptAttributeDynamic
-          // new JavaScriptAttributeByFunc() {
-          //   PlatformName = "onChange",
-          //   IsCodeSnippet = true,
-          //   Function = (generator, instance) =>
-          //     UiCompilerUtils.IsReadOnly(instance) ? "() => { }" : null,
-          // },
         },
       },
       new PlatformClassDef() {

@@ -15,7 +15,9 @@ export default function TextInput(props: Props): React.JSX.Element {
       value={value || ""}
       readOnly={readOnly}
       onChange={(event) => {
-        onChange(event.target.value);
+        if (onChange) {
+          onChange(event.target.value);
+        }
       }}
     />
   );

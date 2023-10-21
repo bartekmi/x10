@@ -18,7 +18,7 @@ import { MoveView_MoveFragment } from '__generated__/graphql';
 type Props = {
   readonly move: MoveView_MoveFragment,
 };
-function MoveView(props: Props): React.JSX.Element {
+export default function MoveView(props: Props): React.JSX.Element {
   const { move } = props;
 
   return (
