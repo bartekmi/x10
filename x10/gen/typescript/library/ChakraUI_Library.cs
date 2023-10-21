@@ -1002,7 +1002,7 @@ namespace x10.gen.typescript.library {
             PlatformName = "rootComponent",
             Function = (generator, instance) => {
               string rootComponent = instance.FindValue("rootComponent").ToString();
-              return rootComponent + "Interface";
+              return string.Format("<{0}Interface/>", rootComponent);
             },
             IsCodeSnippet = true,
           },
