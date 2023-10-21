@@ -4,8 +4,8 @@ import {StyleSheet, css} from "aphrodite";
 type CalendarDate = string;
 
 type Props = {
-  readonly value: CalendarDate | null | undefined,
-  readonly onChange: (date: CalendarDate | null | undefined) => void,
+  readonly value?: CalendarDate,
+  readonly onChange: (date: CalendarDate) => void,
   readonly readOnly?: boolean,
 };
 
