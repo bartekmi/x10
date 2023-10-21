@@ -52,16 +52,16 @@ export default function Header(props: Props): React.JSX.Element {
       <SpaContent
         rootComponent={ BuildingsInterface }
       >
-        <Route exact path='/moves/edit/:id' component={ MoveFormInterface } />
-        <Route exact path='/moves/new' component={ MoveFormInterface } />
-        <Route exact path='/tenants' component={ TenantsInterface } />
-        <Route exact path='/moves' component={ MovesInterface } />
-        <Route exact path='/buildings' component={ BuildingsInterface } />
-        <Route exact path='/moves/view/:id' component={ MoveViewInterface } />
-        <Route exact path='/buildings/edit/:id' component={ BuildingFormInterface } />
-        <Route exact path='/buildings/new' component={ BuildingFormInterface } />
-        <Route exact path='/tenants/edit/:id' component={ TenantFormInterface } />
-        <Route exact path='/tenants/new' component={ TenantFormInterface } />
+        <Route path='/moves/edit/:id' element={ <MoveFormInterface/> } />
+        <Route path='/moves/new' element={ <MoveFormInterface/> } />
+        <Route path='/tenants' element={ <TenantsInterface/> } />
+        <Route path='/moves' element={ <MovesInterface/> } />
+        <Route path='/buildings' element={ <BuildingsInterface/> } />
+        <Route path='/moves/view/:id' element={ <MoveViewInterface/> } />
+        <Route path='/buildings/edit/:id' element={ <BuildingFormInterface/> } />
+        <Route path='/buildings/new' element={ <BuildingFormInterface/> } />
+        <Route path='/tenants/edit/:id' element={ <TenantFormInterface/> } />
+        <Route path='/tenants/new' element={ <TenantFormInterface/> } />
       </SpaContent>
     </VerticalStackPanel>
   );

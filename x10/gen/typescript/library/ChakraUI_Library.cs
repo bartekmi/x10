@@ -1019,19 +1019,19 @@ namespace x10.gen.typescript.library {
             generator.ImportsPlaceholder.ImportDefault(classDef, "Interface");
 
             if (classDef.IsMany)
-              generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
+              generator.WriteLine(indent, "<Route path='{0}' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
             else if (TypeScriptCodeGenerator.IsForm(classDef)) {
-              generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
+              generator.WriteLine(indent, "<Route path='{0}/edit/:id' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
 
-              generator.WriteLine(indent, "<Route exact path='{0}/new' component={ {1} } />",
+              generator.WriteLine(indent, "<Route path='{0}/new' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
             } else
-              generator.WriteLine(indent, "<Route exact path='{0}/:id' component={ {1} } />",
+              generator.WriteLine(indent, "<Route path='{0}/:id' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
           }
