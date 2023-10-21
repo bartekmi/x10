@@ -9,10 +9,10 @@ import { addressCalculateErrors, createDefaultAddress, type Address } from 'x10_
 // Type Definition
 export type Tenant = {
   readonly id: string,
-  readonly name: string,
-  readonly phone: string,
-  readonly email: string,
-  readonly permanentMailingAddress: Address,
+  readonly name?: string,
+  readonly phone?: string,
+  readonly email?: string,
+  readonly permanentMailingAddress?: Address,
 };
 
 
@@ -29,7 +29,7 @@ export function createDefaultTenant(): Tenant {
 
 
 // Validations
-export function tenantCalculateErrors(tenant: Tenant, prefix?: string, inListIndex?: number): FormError[] {
+export function tenantCalculateErrors(tenant?: Tenant, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (tenant == null ) return errors;
 

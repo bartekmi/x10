@@ -64,7 +64,7 @@ export function createDefaultUnit(): Unit {
 
 
 // Validations
-export function unitCalculateErrors(unit: Unit, prefix?: string, inListIndex?: number): FormError[] {
+export function unitCalculateErrors(unit?: Unit, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (unit == null ) return errors;
 

@@ -16,16 +16,16 @@ import { MailboxTypeEnum, PetPolicyEnum } from '__generated__/graphql';
 // Type Definition
 export type Building = {
   readonly id: string,
-  readonly moniker?: string,
+  readonly moniker: string,
   readonly name?: string,
   readonly description?: string,
   readonly dateOfOccupancy?: string | null | undefined,
   readonly mailboxType?: MailboxTypeEnum | null | undefined,
   readonly petPolicy?: PetPolicyEnum | null | undefined,
   readonly mailingAddressSameAsPhysical?: boolean,
-  readonly units: Unit[],
-  readonly physicalAddress?: Address | null | undefined,
-  readonly mailingAddress?: Address | null | undefined,
+  readonly units?: Unit[],
+  readonly physicalAddress?: Address,
+  readonly mailingAddress?: Address,
 };
 
 
@@ -75,7 +75,7 @@ export const PetPolicyEnumPairs: {
 // Derived Attribute Functions
 export function buildingAgeInYears(building?: {
     dateOfOccupancy?: string | null | undefined,
-}): number | null | undefined {
+} | null | undefined): number | null | undefined | undefined {
   if (building == null) return null;
   const appContext = React.useContext(AppContext);
   const result = getYear(appContext?.today) - getYear(building?.dateOfOccupancy);
@@ -84,7 +84,7 @@ export function buildingAgeInYears(building?: {
 
 export function buildingApplicableWhenForMailingAddress(building?: {
     mailingAddressSameAsPhysical?: boolean,
-}): boolean {
+} | null | undefined): boolean | undefined {
   if (building == null) return false;
   const result = !building?.mailingAddressSameAsPhysical;
   return result;
@@ -111,7 +111,7 @@ export function createDefaultBuilding(): Building {
 
 
 // Validations
-export function buildingCalculateErrors(building: Building, prefix?: string, inListIndex?: number): FormError[] {
+export function buildingCalculateErrors(building?: Building, prefix?: string, inListIndex?: number): FormError[] {
   const appContext = React.useContext(AppContext);
   const errors: FormError[] = [];
   if (building == null ) return errors;

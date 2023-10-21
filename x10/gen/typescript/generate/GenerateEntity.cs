@@ -45,7 +45,10 @@ namespace x10.gen.typescript.generate {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else
-          WriteLine(1, "readonly {0}: {1},", member.Name, GetType(member, false));
+          WriteLine(1, "readonly {0}{1}: {2},", 
+            member.Name, 
+            member.IsReadOnly ? "" : "?",
+            GetType(member, false));
 
       WriteLine(0, "};");
       WriteLine();
@@ -89,7 +92,7 @@ namespace x10.gen.typescript.generate {
           if (!(regular.Owner.IsContext || regular.Owner.IsNonFetchable))
             WriteLine(2, "{0}?: {1},", regular.Name, GetType(regular, false));
 
-        WriteLine(0, "}): {0} {", GetType(attribute, true));
+        WriteLine(0, "} | null | undefined): {0} | undefined {", GetType(attribute, true));
 
         // Method Body
         WriteLine(1, "if ({0} == null) return {1};",
@@ -126,7 +129,7 @@ namespace x10.gen.typescript.generate {
         if (member is X10DerivedAttribute) {
           // Do not generate derived members
         } else {
-          string defaultValue = GetDefaultValue(member, ImportsPlaceholder) ?? "undefined";
+          string defaultValue = GetDefaultValue(member, ImportsPlaceholder);
           WriteLine(2, "{0}: {1},", member.Name, defaultValue);
         }
 
@@ -146,8 +149,7 @@ namespace x10.gen.typescript.generate {
             string funcName = "createDefault" + entity.Name;
             importsPlaceholder.Import(funcName, entity);
             return funcName + "()";
-          } else
-            return "null";
+          } 
         }
       } else if (member is X10RegularAttribute attribute) {
         if (attribute.IsId) {
@@ -168,7 +170,7 @@ namespace x10.gen.typescript.generate {
           return TypedLiteralToString(defaultValue, null, false);
       }
 
-      return null;
+      return "undefined";
     }
     #endregion
 
@@ -184,7 +186,7 @@ namespace x10.gen.typescript.generate {
       string entityName = entity.Name;
 
       ImportsPlaceholder.ImportTypeFromReactLib("FormError", "form/FormProvider");
-      WriteLine(0, "export function {0}({1}: {2}, prefix?: string, inListIndex?: number): FormError[] { ",
+      WriteLine(0, "export function {0}({1}?: {2}, prefix?: string, inListIndex?: number): FormError[] { ",
         CalculateErrorsFuncName(entity),
         varName,
         entityName);

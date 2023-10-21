@@ -7,8 +7,8 @@ import isBlank from 'react_lib/utils/isBlank';
 // Type Definition
 export type Country = {
   readonly id: string,
-  readonly code: string,
-  readonly name: string,
+  readonly code?: string,
+  readonly name?: string,
 };
 
 
@@ -23,7 +23,7 @@ export function createDefaultCountry(): Country {
 
 
 // Validations
-export function countryCalculateErrors(country: Country, prefix?: string, inListIndex?: number): FormError[] {
+export function countryCalculateErrors(country?: Country, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (country == null ) return errors;
 

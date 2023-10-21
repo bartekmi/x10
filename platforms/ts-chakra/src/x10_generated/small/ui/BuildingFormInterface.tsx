@@ -3,8 +3,11 @@ import * as React from 'react';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
-import { createDefaultBuilding, Building } from 'x10_generated/small/entities/Building';
+import { createDefaultBuilding } from 'x10_generated/small/entities/Building';
 import { BuildingFormStateful } from 'x10_generated/small/ui/BuildingForm';
+
+import { BuildingForm_BuildingFragment } from '__generated__/graphql';
+
 
 
 type Props = { 
@@ -17,7 +20,7 @@ type Props = {
 };
 export default function BuildingFormInterface(props: Props): React.JSX.Element {
   return (
-    <EntityQueryRenderer<Building>
+    <EntityQueryRenderer<BuildingForm_BuildingFragment>
       id={ props.id }
       match={ props.match }
       createComponentFunc={ (building) => <BuildingFormStateful building={ building }/> }

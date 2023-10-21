@@ -10,10 +10,10 @@ import { type Tenant } from 'x10_generated/small/entities/Tenant';
 // Type Definition
 export type Move = {
   readonly id: string,
-  readonly date: string | null | undefined,
-  readonly from: Building,
-  readonly to: Building,
-  readonly tenant: Tenant,
+  readonly date?: string | null | undefined,
+  readonly from?: Building,
+  readonly to?: Building,
+  readonly tenant?: Tenant,
 };
 
 
@@ -22,15 +22,15 @@ export function createDefaultMove(): Move {
   return {
     id: uuid(),
     date: undefined,
-    from: null,
-    to: null,
-    tenant: null,
+    from: undefined,
+    to: undefined,
+    tenant: undefined,
   };
 }
 
 
 // Validations
-export function moveCalculateErrors(move: Move, prefix?: string, inListIndex?: number): FormError[] {
+export function moveCalculateErrors(move?: Move, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (move == null ) return errors;
 

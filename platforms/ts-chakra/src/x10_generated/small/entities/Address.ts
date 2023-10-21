@@ -23,16 +23,16 @@ export type Address = {
 export function addressFirstAddressLine(address?: {
     theAddress?: string,
     unitNumber?: string,
-}): string {
+} | null | undefined): string | undefined {
   if (address == null) return '';
   const result = x10toString(address?.theAddress) + '   Unit ' + x10toString(address?.unitNumber);
   return result;
 }
 
-export function addressSecondAddressLine(address: {
+export function addressSecondAddressLine(address?: {
     city?: string,
     stateOrProvince?: string,
-} | null | undefined): string {
+} | null | undefined): string | undefined {
   if (address == null) return '';
   const result = x10toString(address?.city) + ', ' + x10toString(address?.stateOrProvince);
   return result;
@@ -40,7 +40,7 @@ export function addressSecondAddressLine(address: {
 
 export function addressThirdAddressLine(address?: {
     zip?: string,
-}): string | undefined {
+} | null | undefined): string | undefined {
   if (address == null) return '';
   const result = address?.zip;
   return result;
@@ -63,7 +63,7 @@ export function createDefaultAddress(): Address {
 
 
 // Validations
-export function addressCalculateErrors(address: Address, prefix?: string, inListIndex?: number): FormError[] {
+export function addressCalculateErrors(address?: Address, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (address == null ) return errors;
 
