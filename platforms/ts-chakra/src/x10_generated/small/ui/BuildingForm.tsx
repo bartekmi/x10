@@ -38,7 +38,7 @@ function BuildingForm(props: Props): React.JSX.Element {
 
   return (
     <FormProvider
-      context={ { errors: buildingCalculateErrors(building) } }
+      context={ { errors: buildingCalculateErrors(building as Building) } }
     >
       <VerticalStackPanel>
         <Heading
