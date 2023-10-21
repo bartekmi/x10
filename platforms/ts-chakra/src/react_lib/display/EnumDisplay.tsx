@@ -10,7 +10,7 @@ type Option = {
 };
 
 type Props = {
-  readonly value?: string,
+  readonly value: string | null | undefined,
   readonly options: Option[],
   readonly weight?: "bold",
   readonly hideLabelIfIconPresent?: boolean,
