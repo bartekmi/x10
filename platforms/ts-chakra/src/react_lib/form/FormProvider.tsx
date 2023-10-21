@@ -43,7 +43,7 @@ export const FormContext: React.Context<FormContextType> = React.createContext<F
 });
 
 type Props = {
-  readonly children: React.JSX.Element,
+  readonly children: React.JSX.Element | React.JSX.Element[],
   readonly context: any,
 };
 export default function FormProvider(props: Props): React.JSX.Element {
