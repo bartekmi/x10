@@ -45,7 +45,7 @@ function BuildingForm(props: Props): React.JSX.Element {
           as='h1'
           size='4xl'
           noOfLines={ 1 }
-          children={ 'Editing Building in: ' + x10toString(addressSecondAddressLine(appContext, building?.physicalAddress)) }
+          children={ 'Editing Building in: ' + x10toString(addressSecondAddressLine(building?.physicalAddress)) }
         />
         <Heading
           as='h1'

@@ -64,7 +64,7 @@ export function createDefaultAddress(): Address {
 
 
 // Validations
-export function addressCalculateErrors(address?: Address, prefix?: string, inListIndex?: number): FormError[] {
+export function addressCalculateErrors(appContext: AppContextType, address?: Address, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (address == null ) return errors;
 

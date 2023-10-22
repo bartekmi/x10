@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { AppContextType } from 'SmallAppContext';
 import { type Building } from 'x10_generated/small/entities/Building';
 import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
@@ -30,7 +31,7 @@ export function createDefaultMove(): Move {
 
 
 // Validations
-export function moveCalculateErrors(move?: Move, prefix?: string, inListIndex?: number): FormError[] {
+export function moveCalculateErrors(appContext: AppContextType, move?: Move, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (move == null ) return errors;
 

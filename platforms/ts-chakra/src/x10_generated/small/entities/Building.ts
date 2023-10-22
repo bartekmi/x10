@@ -120,10 +120,10 @@ export function buildingCalculateErrors(appContext: AppContextType, building?: B
   if (isBlank(building.mailboxType))
     addError(errors, 'Mailbox Type is required', ['mailboxType'], prefix, inListIndex);
 
-  building.units?.forEach((x, ii) => errors.push(...unitCalculateErrors(x, 'units', ii)));
-  errors.push(...addressCalculateErrors(building.physicalAddress, 'physicalAddress'));
+  building.units?.forEach((x, ii) => errors.push(...unitCalculateErrors(appContext, x, 'units', ii)));
+  errors.push(...addressCalculateErrors(appContext, building.physicalAddress, 'physicalAddress'));
   if (buildingApplicableWhenForMailingAddress(appContext, building))
-    errors.push(...addressCalculateErrors(building.mailingAddress, 'mailingAddress'));
+    errors.push(...addressCalculateErrors(appContext, building.mailingAddress, 'mailingAddress'));
 
   if (toNum(building?.dateOfOccupancy) > toNum(appContext?.today))
     addError(errors, 'Occupancy date cannot be in the future', ['dateOfOccupancy'], prefix, inListIndex);

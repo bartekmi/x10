@@ -389,7 +389,7 @@ namespace x10.gen.typescript.generate {
     }
 
     private void WriteAttribute(OutputType outputType, int level, object value, PlatformAttribute attribute, bool? isCodeSnippetOverride = null) {
-      value = value ?? attribute.DefaultValue;
+      value ??= attribute.DefaultValue;
       if (value == null ||                                      // No data, no attribute
           value.Equals(attribute.AttributeUnnecessaryWhen))     // Attribute would be unnecessary
         return;

@@ -25,7 +25,7 @@ function MoveForm(props: Props): React.JSX.Element {
 
   return (
     <FormProvider
-      context={ { errors: moveCalculateErrors(move as Move) } }
+      context={ { errors: moveCalculateErrors(appContext, move) } }
     >
       <Heading
         as='h1'

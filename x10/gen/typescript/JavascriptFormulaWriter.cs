@@ -169,7 +169,7 @@ namespace x10.gen.typescript {
 
     private void WriteFunctionAroundExpression(ExpBase expression, string functionName) {
       _writer.Write(functionName);
-      _writer.Write("(");
+      _writer.Write("(");  // NOT HERE
       expression.Accept(this);
       _writer.Write(")");
     }

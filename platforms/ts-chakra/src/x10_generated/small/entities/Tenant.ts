@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { AppContextType } from 'SmallAppContext';
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'x10_generated/small/entities/Address';
 
 
@@ -29,7 +30,7 @@ export function createDefaultTenant(): Tenant {
 
 
 // Validations
-export function tenantCalculateErrors(tenant?: Tenant, prefix?: string, inListIndex?: number): FormError[] {
+export function tenantCalculateErrors(appContext: AppContextType, tenant?: Tenant, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (tenant == null ) return errors;
 
@@ -38,7 +39,7 @@ export function tenantCalculateErrors(tenant?: Tenant, prefix?: string, inListIn
   if (isBlank(tenant.email))
     addError(errors, 'Email is required', ['email'], prefix, inListIndex);
 
-  errors.push(...addressCalculateErrors(tenant.permanentMailingAddress, 'permanentMailingAddress'));
+  errors.push(...addressCalculateErrors(appContext, tenant.permanentMailingAddress, 'permanentMailingAddress'));
 
   return errors;
 }

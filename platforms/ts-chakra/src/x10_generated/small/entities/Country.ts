@@ -3,6 +3,8 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { AppContextType } from 'SmallAppContext';
+
 
 // Type Definition
 export type Country = {
@@ -23,7 +25,7 @@ export function createDefaultCountry(): Country {
 
 
 // Validations
-export function countryCalculateErrors(country?: Country, prefix?: string, inListIndex?: number): FormError[] {
+export function countryCalculateErrors(appContext: AppContextType, country?: Country, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (country == null ) return errors;
 

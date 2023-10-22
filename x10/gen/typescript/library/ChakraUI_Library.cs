@@ -771,10 +771,9 @@ namespace x10.gen.typescript.library {
             Function = (generator, instance) => {
               Entity entity = instance.DataModelEntity;
               generator.ImportsPlaceholder.ImportCalculateErrorsFunc(entity);
-              return string.Format("{{ errors: {0}({1} as {2}) }}",
+              return string.Format("{{ errors: {0}(appContext, {1}) }}",
                 TypeScriptCodeGenerator.CalculateErrorsFuncName(entity),
-                generator.SourceVariableName,
-                entity.Name);
+                generator.SourceVariableName);
             },
           },
         },

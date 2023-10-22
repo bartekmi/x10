@@ -30,6 +30,7 @@ namespace x10.gen.typescript.generate {
       if (!isContext) {
         GenerateDefaultFunction(entity);
         GenerateCalculateErrors(entity);
+        ImportsPlaceholder.ImportAppContextType();
       }
 
       End();
@@ -87,7 +88,6 @@ namespace x10.gen.typescript.generate {
         WriteLine(0, "export function {0}(appContext: AppContextType, {1}?: {",
           DerivedAttrFuncName(attribute),
           SourceVariableName);
-        ImportsPlaceholder.ImportAppContextType();
 
         foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
           if (!(regular.Owner.IsContext || regular.Owner.IsNonFetchable))
@@ -185,7 +185,7 @@ namespace x10.gen.typescript.generate {
       string entityName = entity.Name;
 
       ImportsPlaceholder.ImportTypeFromReactLib("FormError", "form/FormProvider");
-      WriteLine(0, "export function {0}({1}?: {2}, prefix?: string, inListIndex?: number): FormError[] { ",
+      WriteLine(0, "export function {0}(appContext: AppContextType, {1}?: {2}, prefix?: string, inListIndex?: number): FormError[] { ",
         CalculateErrorsFuncName(entity),
         varName,
         entityName);
@@ -238,20 +238,16 @@ namespace x10.gen.typescript.generate {
         WriteLine();
         foreach (Association association in ownedAssociations) {
           string varName = VariableName(entity);
+          string assocErrorFunc = CalculateErrorsFuncName(association.ReferencedEntity);
           bool applicableWhen = GenerateApplicableWhen(association, varName);
 
-          if (association.IsMany) {
-            // parent.association?.forEach((x, ii) => errors.push(...entityCalculateErrors(x, 'association', ii)));
-            WriteLine(1, "{0}.{1}?.forEach((x, ii) => errors.push(...{2}(x, '{1}', ii)));", 
-              varName,
-              association.Name,
-              CalculateErrorsFuncName(association.ReferencedEntity));
-          } else {
-            WriteLine(1 + (applicableWhen ? 1 : 0), "errors.push(...{0}({1}.{2}, '{2}'));", 
-              CalculateErrorsFuncName(association.ReferencedEntity),
-              varName,
-              association.Name);
-          }
+          if (association.IsMany)
+            WriteLine(1, "{0}.{1}?.forEach((x, ii) => errors.push(...{2}(appContext, x, '{1}', ii)));", 
+              varName, association.Name, assocErrorFunc);
+          else
+            WriteLine(1 + (applicableWhen ? 1 : 0), "errors.push(...{0}(appContext, {1}.{2}, '{2}'));", 
+              assocErrorFunc, varName, association.Name);
+
           ImportsPlaceholder.ImportCalculateErrorsFunc(association.ReferencedEntity);
         }
       }
@@ -260,7 +256,7 @@ namespace x10.gen.typescript.generate {
     private bool GenerateApplicableWhen(Member member, string varName) {
       string whenApplicable = WhenApplicableFuncName(member);
       if (whenApplicable != null) {
-        WriteLine(1, "if ({0}({1}))", whenApplicable, varName);
+        WriteLine(1, "if ({0}(appContext, {1}))", whenApplicable, varName);
         return true;
       }
       return false;

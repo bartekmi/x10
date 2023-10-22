@@ -3,6 +3,8 @@ import { v4 as uuid } from 'uuid';
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 
+import { AppContextType } from 'SmallAppContext';
+
 import { NumberOfBathroomsEnum } from '__generated__/graphql';
 
 
@@ -64,7 +66,7 @@ export function createDefaultUnit(): Unit {
 
 
 // Validations
-export function unitCalculateErrors(unit?: Unit, prefix?: string, inListIndex?: number): FormError[] {
+export function unitCalculateErrors(appContext: AppContextType, unit?: Unit, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (unit == null ) return errors;
 

@@ -29,7 +29,7 @@ function TenantForm(props: Props): React.JSX.Element {
 
   return (
     <FormProvider
-      context={ { errors: tenantCalculateErrors(tenant as Tenant) } }
+      context={ { errors: tenantCalculateErrors(appContext, tenant) } }
     >
       <Heading
         as='h1'
