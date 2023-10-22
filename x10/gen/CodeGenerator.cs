@@ -224,7 +224,11 @@ namespace x10.gen {
         if (_args == null)
           writer.Write(_text);
         else
-          writer.Write(_text, _args);
+          try {
+            writer.Write(_text, _args);
+          } catch (FormatException) {
+            throw new Exception("Invalid {} format: " + _text);
+          }
       }
     }
 
@@ -300,41 +304,10 @@ namespace x10.gen {
     // If turned on, this will annotate every single piece of text
     // with the call site. This is a debugging help so we can trace the 
     // generated code to where we generated it.
-    // The method expects to be called through one intermediate level
-    // from the "interesting" code which we want to track - i.e. WriteLine(...), etc.
     private static string Annotate(string text) {
-      if (!ProgramStatics.TraceGenerationSource)
-        return text;
-
-      // I really wanted to use StackTrace(), but it didn't give me any of the info below
-      // try {
-      //   throw new Exception();
-      // } catch (Exception e) {
-      //   using StringReader reader = new StringReader(e.ToString());
-      //   reader.ReadLine();
-      //   reader.ReadLine();
-      //   string secondFrame = reader.ReadLine();
-      //   Console.WriteLine(secondFrame);
-      // }
-
-      using StringReader reader = new StringReader(Environment.StackTrace);
-      reader.ReadLine();
-      reader.ReadLine();
-      reader.ReadLine();
-      string secondFrame = reader.ReadLine();
-
-      string pattern = @".*/(.*):line\s(\d+)$";
-      Match match = Regex.Match(secondFrame, pattern);
-
-      string annotation = " [NO MATCH] ";
-      if (match.Success) {
-        string file = match.Groups[1].Value;
-        string line = match.Groups[2].Value;
-
-        annotation = string.Format(" [{0}:{1}] ", file, line);
-      }      
-      
-      return text + annotation;
+      return ProgramStatics.AnnotateWriteLine ?
+        DebugUtils.StampWithCallerSource(text, 2) :   // Skip this method and the one above it
+        text;
     }
 
     #endregion

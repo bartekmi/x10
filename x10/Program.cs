@@ -183,7 +183,8 @@ namespace x10 {
     public static int Main(string[] args) {
       IEnumerable<GenConfig> configs = ExtractConfigs(args);
 
-      ProgramStatics.TraceGenerationSource = ArgBool(args, "-trace");
+      ProgramStatics.AnnotateWriteLine = ArgBool(args, "-l");
+      ProgramStatics.AnnotateFormulas = ArgBool(args, "-f");
 
       foreach (GenConfig config in configs) {
         Console.WriteLine("********************************************* Generating and Compiling: " + config.Name);

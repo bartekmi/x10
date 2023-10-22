@@ -79,7 +79,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               id: '_2',
               Header: 'City / Province',
               width: 140,
-              accessor: (data) => addressSecondAddressLine(data?.physicalAddress),
+              accessor: (data) => addressSecondAddressLine(appContext, data?.physicalAddress),
               Cell: ({ value }) =>
                 <TextDisplay
                   value={ value }

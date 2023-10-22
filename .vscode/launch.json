@@ -39,7 +39,7 @@
       "request": "launch",
       "preLaunchTask": "build_x10",
       "program": "${workspaceFolder}/x10/bin/Debug/net7.0/x10.dll",
-      "args": ["small-ts", "-trace"],
+      "args": ["small-ts", "-f"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
       "stopAtEntry": false,

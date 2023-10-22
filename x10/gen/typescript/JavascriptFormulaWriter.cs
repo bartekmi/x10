@@ -8,6 +8,7 @@ using x10.model.metadata;
 using x10.model.definition;
 using x10.gen.typescript.placeholder;
 using x10.gen.typescript.generate;
+using x10.utils;
 
 namespace x10.gen.typescript {
   internal class JavaScriptFormulaWriter : IVisitor {
@@ -26,7 +27,7 @@ namespace x10.gen.typescript {
 
     public void VisitBinary(ExpBinary exp) {
       PossiblyWrap(exp, exp.Left);
-      _writer.Write(" {0} ", exp.Token);
+      Write(" {0} ", exp.Token);
       PossiblyWrap(exp, exp.Right);
     }
 
@@ -46,9 +47,9 @@ namespace x10.gen.typescript {
     }
 
     private void Wrap(ExpBase expression, Function function) {
-      _writer.Write("{0}(", function);
+      Write("{0}(", function);
       expression.Accept(this);
-      _writer.Write(")");
+      Write(")");
 
       _imports.ImportFunction(function);
     }
@@ -59,30 +60,30 @@ namespace x10.gen.typescript {
         return;
 
       if (exp.IsContext)
-        _writer.Write(CONTEXT_VARIABLE);
+        Write(CONTEXT_VARIABLE);
       else {
         if (exp.DataType.Member is X10DerivedAttribute derivedAttr) { // Derived Attrs become function calls
           string functionName = TypeScriptCodeGenerator.DerivedAttrFuncName(derivedAttr);
-          _writer.Write("{0}(appContext, {1})", functionName, _variableName);
+          Write("{0}({1}, {2})", functionName, CONTEXT_VARIABLE, _variableName);
           _imports.ImportDerivedAttributeFunction(derivedAttr);
         } else {
           string content = _variableName == null ?
             exp.Name :
             string.Format("{0}?.{1}", _variableName, exp.Name);
-          _writer.Write(content);
+          Write(content);
         }
       }
     }
 
     public void VisitInvocation(ExpInvocation exp) {
-      _writer.Write(TypeScriptCodeGenerator.FunctionName(exp.FunctionName));
-      _writer.Write("(");
+      Write(TypeScriptCodeGenerator.FunctionName(exp.FunctionName));
+      Write("(");
       foreach (ExpBase argument in exp.Arguments) {
         argument.Accept(this);
         if (argument != exp.Arguments.Last())
-          _writer.Write(", ");
+          Write(", ");
       }
-      _writer.Write(")");
+      Write(")");
 
       _imports.ImportFunction(exp.Function);
     }
@@ -90,7 +91,7 @@ namespace x10.gen.typescript {
     public void VisitLiteral(ExpLiteral exp) {
       if (WriteEnum(exp, exp.Value))
         return;
-      _writer.Write(TypeScriptCodeGenerator.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum, false));
+      Write(TypeScriptCodeGenerator.TypedLiteralToString(exp.Value, exp.DataType.DataTypeAsEnum, false));
     }
 
     public void VisitMemberAccess(ExpMemberAccess exp) {
@@ -109,8 +110,8 @@ namespace x10.gen.typescript {
         return;
 
       exp.Expression.Accept(this);
-      _writer.Write("?.");
-      _writer.Write(exp.MemberName);
+      Write("?.");
+      Write(exp.MemberName);
     }
 
     private bool WriteArrayIntrinsicMember(ExpMemberAccess exp) {
@@ -118,7 +119,7 @@ namespace x10.gen.typescript {
         switch (exp.MemberName) {
           case "count":
             exp.Expression.Accept(this);
-            _writer.Write(".length");
+            Write(".length");
             break;
           default:
             throw new NotImplementedException("Unimplemented array member access: " + exp.MemberName);
@@ -133,7 +134,7 @@ namespace x10.gen.typescript {
     private bool WriteDerivedAttribute(ExpMemberAccess exp) {
       if (exp.DataType.Member is X10DerivedAttribute derivedAttr) {
         string functionName = TypeScriptCodeGenerator.DerivedAttrFuncName(derivedAttr);
-        WriteFunctionAroundExpression(exp.Expression, functionName);
+        WriteFunctionAroundExpression(exp.Expression, functionName, true);
         _imports.ImportDerivedAttributeFunction(derivedAttr);
         return true;
       }
@@ -159,7 +160,7 @@ namespace x10.gen.typescript {
       }
 
       if (functionName != null) {
-        WriteFunctionAroundExpression(exp.Expression, functionName);
+        WriteFunctionAroundExpression(exp.Expression, functionName, false); // These helper func's don't need context
         _imports.ImportFromReactLib(functionName, importPath);
         return true;
       }
@@ -167,29 +168,34 @@ namespace x10.gen.typescript {
       return false;
     }
 
-    private void WriteFunctionAroundExpression(ExpBase expression, string functionName) {
-      _writer.Write(functionName);
-      _writer.Write("(");  // NOT HERE
+    private void WriteFunctionAroundExpression(ExpBase expression, string functionName, bool includeContext) {
+      Write(functionName);
+
+      if (includeContext)
+        Write("({0}, ", CONTEXT_VARIABLE);
+      else
+        Write("(");
+
       expression.Accept(this);
-      _writer.Write(")");
+      Write(")");
     }
 
     public void VisitParenthesized(ExpParenthesized exp) {
-      _writer.Write("(");
+      Write("(");
       exp.Expression.Accept(this);
-      _writer.Write(")");
+      Write(")");
     }
 
     public void VisitUnary(ExpUnary exp) {
-      _writer.Write(exp.Token);
+      Write(exp.Token);
       exp.Expression.Accept(this);
     }
 
     public void VisitConditional(ExpConditional exp) {
       exp.Conditional.Accept(this);
-      _writer.Write(" ? ");
+      Write(" ? ");
       exp.WhenTrue.Accept(this);
-      _writer.Write(" : ");
+      Write(" : ");
       exp.WhenFalse.Accept(this);
     }
 
@@ -203,11 +209,24 @@ namespace x10.gen.typescript {
           "null" : 
           String.Format("\"{0}\"", TypeScriptCodeGenerator.ToEnumValueString(nameOrNull));
 
-        _writer.Write(text);
+        Write(text);
         return true;
       }
 
       return false;
     }
+
+    // If turned on, this will annotate every single piece of text
+    // with the call site. This is a debugging help so we can trace the 
+    // generated code to where we generated it.
+    private void Write(string pattern, params object[] args) {
+      string text = string.Format(pattern, args);
+      
+      if (ProgramStatics.AnnotateFormulas)
+        text = DebugUtils.StampWithCallerSource(text, 1, true);
+        
+      _writer.Write(text, 1, true);   // Just skip this method
+    }
+
   }
 }
