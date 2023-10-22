@@ -51,7 +51,7 @@ function BuildingForm(props: Props): React.JSX.Element {
           as='h1'
           size='4xl'
           noOfLines={ 1 }
-          children={ 'Age in Years: ' + x10toString(buildingAgeInYears(building)) }
+          children={ 'Age in Years: ' + x10toString(buildingAgeInYears(appContext, building)) }
         />
         <Separator/>
         <FormSection
@@ -178,7 +178,7 @@ function BuildingForm(props: Props): React.JSX.Element {
             label='Mailing Address Same as Physical Address'
           />
           <StyleControl
-            visible={ buildingApplicableWhenForMailingAddress(building) }
+            visible={ buildingApplicableWhenForMailingAddress(appContext, building) }
           >
             <VerticalStackPanel>
               <FormField
@@ -276,7 +276,7 @@ function BuildingForm(props: Props): React.JSX.Element {
               label='Age In Years'
             >
               <FloatDisplay
-                value={ buildingAgeInYears(building) }
+                value={ buildingAgeInYears(appContext, building) }
               />
             </FormField>
           </Flex>

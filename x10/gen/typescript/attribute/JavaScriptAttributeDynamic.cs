@@ -64,7 +64,7 @@ namespace x10.gen.typescript.attribute {
 
       if (UiCompilerUtils.IsReadOnly(instance)) {
         string expressionString = generator.GetReadOnlyBindingPath(instance);
-        generator.WriteLine(level, "{0}={ {1} }", dataBind.PlatformName, expressionString);
+        generator.WriteLine(level, "{0}={ {1} } ", dataBind.PlatformName, expressionString);
       } else {
         string pathExpression = generator.GetBindingPath(instance);
 

@@ -63,7 +63,7 @@ namespace x10.gen.typescript {
       else {
         if (exp.DataType.Member is X10DerivedAttribute derivedAttr) { // Derived Attrs become function calls
           string functionName = TypeScriptCodeGenerator.DerivedAttrFuncName(derivedAttr);
-          _writer.Write("{0}({1})", functionName, _variableName);
+          _writer.Write("{0}(appContext, {1})", functionName, _variableName);
           _imports.ImportDerivedAttributeFunction(derivedAttr);
         } else {
           string content = _variableName == null ?
@@ -76,7 +76,7 @@ namespace x10.gen.typescript {
 
     public void VisitInvocation(ExpInvocation exp) {
       _writer.Write(TypeScriptCodeGenerator.FunctionName(exp.FunctionName));
-      _writer.Write("(******************");
+      _writer.Write("(");
       foreach (ExpBase argument in exp.Arguments) {
         argument.Accept(this);
         if (argument != exp.Arguments.Last())

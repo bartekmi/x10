@@ -44,6 +44,7 @@ namespace x10 {
   public class Program {
     private const string INTERMEDIATE_FILES_DIR = "temp/x10";
 
+    #region Configs
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
         // DPS
       new GenConfig() {
@@ -177,21 +178,25 @@ namespace x10 {
         },
       },
     };
+    #endregion
 
     public static int Main(string[] args) {
       IEnumerable<GenConfig> configs = ExtractConfigs(args);
 
+      ProgramStatics.TraceGenerationSource = ArgBool(args, "-trace");
+
       foreach (GenConfig config in configs) {
         Console.WriteLine("********************************************* Generating and Compiling: " + config.Name);
+        config.TargetDir = ArgString(args, "-out", config.TargetDir);
         CompileAndGenerate(config);
       }
 
       return 0;
     }
 
+    #region Compile and Generate
     private static void CompileAndGenerate(GenConfig config) {
-      if (config.CustomConfig != null)
-        config.CustomConfig();
+      config.CustomConfig?.Invoke();
       HydrateUiLibraries(config.LogicalLibraries);
       HydratePlatformLibraries(config.PlatformLibraries);
 
@@ -263,6 +268,7 @@ namespace x10 {
         Environment.Exit(1);
       }
     }
+    #endregion
 
     #region Generate Library Docs
     private const string DOC_DIR = "doc";
@@ -309,7 +315,7 @@ namespace x10 {
     }
     #endregion
 
-    #region Utils
+    #region Utils / Arg Parsing
 
     private static IEnumerable<GenConfig> ExtractConfigs(string[] args) {
       if (args.Length == 0)
@@ -319,7 +325,7 @@ namespace x10 {
         return CONFIGS;
 
       List<GenConfig> configs = new List<GenConfig>();
-      foreach (string arg in args) {
+      foreach (string arg in args.Where(x => !x.StartsWith("-"))) {
         GenConfig config = CONFIGS.SingleOrDefault(x => x.CommandLine == arg);
         if (config == null)
           PrintUsageAndExit();
@@ -329,9 +335,33 @@ namespace x10 {
       return configs;
     }
 
-    private static void PrintUsageAndExit() {
+    private static bool ArgBool(string[] args, string arg) {
+      return args.Any(x => x == arg);
+    }
+
+    private static string ArgString(string[] args, string arg, string theDefault) {
+      string replacement = args.FirstOrDefault(x => x.StartsWith(arg));
+      if (replacement == null)
+        return theDefault;
+
+      int index = replacement.IndexOf('=');
+      if (index == -1)
+        PrintUsageAndExit(string.Format("Argument {0} expects format {0}=some-value", arg));
+
+      string value = replacement.Substring(index + 1);
+      return value;
+    }
+
+    private static void PrintUsageAndExit(string message = null) {
       Console.WriteLine("Usage: dotnet run -- <{0}>",
         string.Join(" | ", CONFIGS.Select(x => x.CommandLine)));
+
+      if (message != null) {
+        Console.WriteLine("--------------------------------------");
+        Console.WriteLine(message);
+        Console.WriteLine("--------------------------------------");
+      }
+
       Environment.Exit(1);
     }
 

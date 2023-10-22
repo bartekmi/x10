@@ -90,7 +90,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               id: '_3',
               Header: 'Age In Years',
               width: 140,
-              accessor: (data) => buildingAgeInYears(data),
+              accessor: (data) => buildingAgeInYears(appContext, data),
               Cell: ({ value }) =>
                 <FloatDisplay
                   value={ value }

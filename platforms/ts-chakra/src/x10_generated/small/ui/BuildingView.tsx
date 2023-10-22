@@ -67,7 +67,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
             label='Age In Years'
           >
             <FloatDisplay
-              value={ buildingAgeInYears(building) }
+              value={ buildingAgeInYears(appContext, building) }
             />
           </DisplayField>
           <DisplayField

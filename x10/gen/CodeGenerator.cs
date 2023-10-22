@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using FileInfo = x10.parsing.FileInfo;
 using x10.compiler;
@@ -127,6 +128,7 @@ namespace x10.gen {
     }
 
     public void WriteLine(int level, string text, params object[] args) {
+      text = Annotate(text);
       WritePrivate(level, text, args);
       WriteLine();
     }
@@ -136,11 +138,13 @@ namespace x10.gen {
     // will be printed on the same line
     private bool _writingLineMaybe = false;
     protected void WriteLineMaybe(int level, string text, params object[] args) {
+      text = Annotate(text);
       WritePrivate(level, text, args);
       _writingLineMaybe = true;
     }
 
     protected void Write(string text, bool includeLeadingSpace, params object[] args) {
+      text = Annotate(text);
       text = EscapeSpaceProtectedBraces(text);
       if (includeLeadingSpace)
         text = " " + text;
@@ -150,6 +154,7 @@ namespace x10.gen {
 
     protected void WriteRaw(string format, params object[] args) {
       string text = string.Format(format, args);
+      text = Annotate(text);
       _outputs.Add(new OutputWrite(text));
     }
 
@@ -291,6 +296,47 @@ namespace x10.gen {
           AlwaysPrintRenderAs = true,
         });
     }
+
+    // If turned on, this will annotate every single piece of text
+    // with the call site. This is a debugging help so we can trace the 
+    // generated code to where we generated it.
+    // The method expects to be called through one intermediate level
+    // from the "interesting" code which we want to track - i.e. WriteLine(...), etc.
+    private static string Annotate(string text) {
+      if (!ProgramStatics.TraceGenerationSource)
+        return text;
+
+      // I really wanted to use StackTrace(), but it didn't give me any of the info below
+      // try {
+      //   throw new Exception();
+      // } catch (Exception e) {
+      //   using StringReader reader = new StringReader(e.ToString());
+      //   reader.ReadLine();
+      //   reader.ReadLine();
+      //   string secondFrame = reader.ReadLine();
+      //   Console.WriteLine(secondFrame);
+      // }
+
+      using StringReader reader = new StringReader(Environment.StackTrace);
+      reader.ReadLine();
+      reader.ReadLine();
+      reader.ReadLine();
+      string secondFrame = reader.ReadLine();
+
+      string pattern = @".*/(.*):line\s(\d+)$";
+      Match match = Regex.Match(secondFrame, pattern);
+
+      string annotation = " [NO MATCH] ";
+      if (match.Success) {
+        string file = match.Groups[1].Value;
+        string line = match.Groups[2].Value;
+
+        annotation = string.Format(" [{0}:{1}] ", file, line);
+      }      
+      
+      return text + annotation;
+    }
+
     #endregion
   }
 }
