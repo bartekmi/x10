@@ -4,6 +4,7 @@ import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
 import x10toString from 'react_lib/utils/x10toString';
 
+import { AppContextType } from 'SmallAppContext';
 import { type Country } from 'x10_generated/small/entities/Country';
 
 
@@ -20,7 +21,7 @@ export type Address = {
 
 
 // Derived Attribute Functions
-export function addressFirstAddressLine(address?: {
+export function addressFirstAddressLine(appContext: AppContextType, address?: {
     theAddress?: string,
     unitNumber?: string,
 } | null | undefined): string | undefined {
@@ -29,7 +30,7 @@ export function addressFirstAddressLine(address?: {
   return result;
 }
 
-export function addressSecondAddressLine(address?: {
+export function addressSecondAddressLine(appContext: AppContextType, address?: {
     city?: string,
     stateOrProvince?: string,
 } | null | undefined): string | undefined {
@@ -38,7 +39,7 @@ export function addressSecondAddressLine(address?: {
   return result;
 }
 
-export function addressThirdAddressLine(address?: {
+export function addressThirdAddressLine(appContext: AppContextType, address?: {
     zip?: string,
 } | null | undefined): string | undefined {
   if (address == null) return '';

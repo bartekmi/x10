@@ -10,6 +10,7 @@ import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Separator from 'react_lib/Separator';
 
+import { AppContext } from 'SmallAppContext';
 import { moveCalculateErrors, type Move } from 'x10_generated/small/entities/Move';
 
 
@@ -20,6 +21,7 @@ type Props = {
 };
 function MoveForm(props: Props): React.JSX.Element {
   const { move, onChange } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <FormProvider

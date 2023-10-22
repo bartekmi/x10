@@ -14,6 +14,7 @@ import StyleControl from 'react_lib/StyleControl';
 import isExistingObject from 'react_lib/utils/isExistingObject';
 import x10toString from 'react_lib/utils/x10toString';
 
+import { AppContext } from 'SmallAppContext';
 import { tenantCalculateErrors, type Tenant } from 'x10_generated/small/entities/Tenant';
 
 
@@ -24,6 +25,7 @@ type Props = {
 };
 function TenantForm(props: Props): React.JSX.Element {
   const { tenant, onChange } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <FormProvider

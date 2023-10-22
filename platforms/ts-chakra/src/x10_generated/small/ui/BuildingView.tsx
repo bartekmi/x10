@@ -12,6 +12,7 @@ import DisplayForm from 'react_lib/form/DisplayForm';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 
+import { AppContext } from 'SmallAppContext';
 import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
 
 
@@ -21,6 +22,7 @@ type Props = {
 };
 export default function BuildingView(props: Props): React.JSX.Element {
   const { building } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <DisplayForm>

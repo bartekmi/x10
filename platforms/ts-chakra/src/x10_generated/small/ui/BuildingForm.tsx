@@ -21,6 +21,7 @@ import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import x10toString from 'react_lib/utils/x10toString';
 
+import { AppContext } from 'SmallAppContext';
 import { addressSecondAddressLine } from 'x10_generated/small/entities/Address';
 import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
 import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'x10_generated/small/entities/Unit';
@@ -33,6 +34,7 @@ type Props = {
 };
 function BuildingForm(props: Props): React.JSX.Element {
   const { building, onChange } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <FormProvider

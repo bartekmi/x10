@@ -6,6 +6,7 @@ import Menu from 'react_lib/menu/Menu';
 import MenuItem from 'react_lib/menu/MenuItem';
 import SpaContent from 'react_lib/SpaContent';
 
+import { AppContext } from 'SmallAppContext';
 import BuildingFormInterface from 'x10_generated/small/ui/BuildingFormInterface';
 import BuildingsInterface from 'x10_generated/small/ui/BuildingsInterface';
 import MoveFormInterface from 'x10_generated/small/ui/MoveFormInterface';
@@ -20,6 +21,7 @@ type Props = {
 };
 export default function Header(props: Props): React.JSX.Element {
   const {  } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <VerticalStackPanel>

@@ -29,7 +29,7 @@ namespace x10.gen.typescript.generate {
 
       if (!isContext) {
         GenerateDefaultFunction(entity);
-        GenerateValidations(entity);
+        GenerateCalculateErrors(entity);
       }
 
       End();
@@ -84,22 +84,22 @@ namespace x10.gen.typescript.generate {
         ExpBase expression = attribute.Expression;
 
         // Method signature
-        WriteLine(0, "export function {0}({1}?: {",
+        WriteLine(0, "export function {0}(appContext: AppContextType, {1}?: {",
           DerivedAttrFuncName(attribute),
           SourceVariableName);
+        ImportsPlaceholder.ImportAppContextType();
 
         foreach (X10RegularAttribute regular in FormulaUtils.ExtractSourceRegularAttributes(expression))
           if (!(regular.Owner.IsContext || regular.Owner.IsNonFetchable))
             WriteLine(2, "{0}?: {1},", regular.Name, GetType(regular, false));
 
-        WriteLine(0, "} | null | undefined): {0} | undefined {", GetType(attribute, true));
+         WriteLine(0, "} | null | undefined): {0} | undefined {", GetType(attribute, true));
 
         // Method Body
         WriteLine(1, "if ({0} == null) return {1};",
           SourceVariableName,
           DefaultEmpty(attribute.DataType));
         
-        WriteAppContextIfNeeded(new ExpBase[] { expression });
         WriteLine(1, "const result = {0};", ExpressionToString(expression));
 
         if (IsNumeric(attribute.DataType))
@@ -177,9 +177,8 @@ namespace x10.gen.typescript.generate {
     // TODO: Leaving this code as-is in order to avoid trying to "boil the ocean" during the 
     // flow => typescript transition. However, the correct way to do this is to write
     // individual validations, to allow for partial update forms, not just create forms.
-    // Also, we should not use React.useContext() in a non-FC method, even though this seems to work.
     #region Generate Validations
-    private void GenerateValidations(Entity entity) {
+    private void GenerateCalculateErrors(Entity entity) {
       WriteLine(0, "// Validations");
 
       string varName = VariableName(entity);
@@ -191,7 +190,7 @@ namespace x10.gen.typescript.generate {
         varName,
         entityName);
 
-      WriteAppContextIfNeeded(entity.Validations.Select(x => x.TriggerExpression));
+
       WriteLine(1, "const errors: FormError[] = [];");
       WriteLine(1, "if ({0} == null ) return errors;", varName);
       WriteLine();
@@ -299,13 +298,6 @@ namespace x10.gen.typescript.generate {
     #endregion
 
     #region Utilities
-
-    private void WriteAppContextIfNeeded(IEnumerable<ExpBase> expressions) {
-      if (expressions.Any(x => x.UsesContext)) {
-        WriteLine(1, "const {0} = React.useContext(AppContext);", JavaScriptFormulaWriter.CONTEXT_VARIABLE);
-        ImportsPlaceholder.ImportAppContext();
-      }
-    }
 
     private bool IsNumeric(DataType dataType) {
       return

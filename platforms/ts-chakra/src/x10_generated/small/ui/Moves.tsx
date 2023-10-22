@@ -10,6 +10,7 @@ import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
+import { AppContext } from 'SmallAppContext';
 import { type Move } from 'x10_generated/small/entities/Move';
 
 
@@ -19,6 +20,7 @@ type Props = {
 };
 export default function Moves(props: Props): React.JSX.Element {
   const { moves } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <VerticalStackPanel>

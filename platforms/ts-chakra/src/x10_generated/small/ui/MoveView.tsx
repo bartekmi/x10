@@ -8,6 +8,7 @@ import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
 import Separator from 'react_lib/Separator';
 
+import { AppContext } from 'SmallAppContext';
 import { type Move } from 'x10_generated/small/entities/Move';
 import BuildingView from 'x10_generated/small/ui/BuildingView';
 
@@ -18,6 +19,7 @@ type Props = {
 };
 export default function MoveView(props: Props): React.JSX.Element {
   const { move } = props;
+  const appContext = React.useContext(AppContext);
 
   return (
     <DisplayForm>

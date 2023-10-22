@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
@@ -6,12 +5,11 @@ import { getYear } from 'react_lib/type_helpers/dateFunctions';
 import isBlank from 'react_lib/utils/isBlank';
 import toNum from 'react_lib/utils/toNum';
 
-import { AppContext } from 'SmallAppContext';
+import { AppContextType } from 'SmallAppContext';
 import { addressCalculateErrors, createDefaultAddress, type Address } from 'x10_generated/small/entities/Address';
 import { unitCalculateErrors, type Unit } from 'x10_generated/small/entities/Unit';
 
 import { MailboxTypeEnum, PetPolicyEnum } from '__generated__/graphql';
-import { AppContextType } from 'SmallAppContext';
 
 
 // Type Definition
@@ -82,7 +80,7 @@ export function buildingAgeInYears(appContext: AppContextType, building?: {
   return isNaN(result) ? null : result;
 }
 
-export function buildingApplicableWhenForMailingAddress(building?: {
+export function buildingApplicableWhenForMailingAddress(appContext: AppContextType, building?: {
     mailingAddressSameAsPhysical?: boolean,
 } | null | undefined): boolean | undefined {
   if (building == null) return false;
@@ -111,7 +109,7 @@ export function createDefaultBuilding(): Building {
 
 
 // Validations
-export function buildingCalculateErrors(appContext: AppContextType, building?: Building, prefix?: string, inListIndex?: number): FormError[] {
+export function buildingCalculateErrors(building?: Building, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (building == null ) return errors;
 

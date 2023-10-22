@@ -153,8 +153,11 @@ namespace x10.gen.typescript.placeholder {
     }
 
     public void ImportAppContext() {
-      ImportReact();
       Import("AppContext", _appContextImport, ImportLevel.Project);
+    }
+
+    public void ImportAppContextType() {
+      Import("AppContextType", _appContextImport, ImportLevel.Project);
     }
 
     public void ImportReact() {

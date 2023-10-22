@@ -95,13 +95,17 @@ namespace x10.gen.typescript.generate {
       WriteProps(classDef, model, isForm);
 
       // Component Definition
-      WriteLine(0, "{0}function {1}(props: Props): React.JSX.Element {",
-        isForm ? "" : "export default ",
-        classDef.Name);
+      if (isForm) {
+        WriteLine(0, "function {0}(props: Props): React.JSX.Element {", classDef.Name);
+        WriteLine(1, "const { {0}, onChange } = props;", SourceVariableName);
+      } else {
+        WriteLine(0, "export default function {0}(props: Props): React.JSX.Element {", classDef.Name);
+        WriteLine(1, "const { {0} } = props;", SourceVariableName);
+      }
 
-      WriteLine(1, "const { {0}{1} } = props;",
-        SourceVariableName,
-        isForm ? ", onChange" : "");
+      WriteLine(1, "const appContext = React.useContext(AppContext);");
+      ImportsPlaceholder.ImportAppContext();
+
       WriteLine();
 
       WriteLine(1, "return (");
