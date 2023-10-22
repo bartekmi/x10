@@ -31,12 +31,12 @@ export default function MoveView(props: Props): React.JSX.Element {
       <FormSection
         label='Moving from location...'
       >
-        <BuildingView building={ move.from }/>
+        <BuildingView building={ move?.from }/>
       </FormSection>
       <FormSection
         label='Moving to location...'
       >
-        <BuildingView building={ move.to }/>
+        <BuildingView building={ move?.to }/>
       </FormSection>
       <FormSection
         label='Tenant details...'

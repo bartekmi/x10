@@ -189,7 +189,7 @@ namespace x10.gen.typescript.generate {
     private void GenerateComponentReference(int level, Instance instance, ClassDefX10 classDefX10) {
       string path = CodeGenUtils.GetBindingPathAsString(instance);
       if (!string.IsNullOrEmpty(path))
-        path = "." + path;
+        path = "?." + path;
 
       // At one point, for Forms, I wanted to embed the Interface (go back through history Oct 7 2021)
       // but changed my mind - data is just passed to form
