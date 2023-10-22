@@ -38,14 +38,14 @@ function BuildingForm(props: Props): React.JSX.Element {
 
   return (
     <FormProvider
-      context={ { errors: buildingCalculateErrors(building as Building) } }
+      context={ { errors: buildingCalculateErrors(appContext, building) } }
     >
       <VerticalStackPanel>
         <Heading
           as='h1'
           size='4xl'
           noOfLines={ 1 }
-          children={ 'Editing Building in: ' + x10toString(addressSecondAddressLine(building?.physicalAddress)) }
+          children={ 'Editing Building in: ' + x10toString(addressSecondAddressLine(appContext, building?.physicalAddress)) }
         />
         <Heading
           as='h1'

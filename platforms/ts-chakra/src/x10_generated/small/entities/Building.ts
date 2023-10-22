@@ -109,7 +109,7 @@ export function createDefaultBuilding(): Building {
 
 
 // Validations
-export function buildingCalculateErrors(building?: Building, prefix?: string, inListIndex?: number): FormError[] {
+export function buildingCalculateErrors(appContext: AppContextType, building?: Building, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (building == null ) return errors;
 
@@ -122,7 +122,7 @@ export function buildingCalculateErrors(building?: Building, prefix?: string, in
 
   building.units?.forEach((x, ii) => errors.push(...unitCalculateErrors(x, 'units', ii)));
   errors.push(...addressCalculateErrors(building.physicalAddress, 'physicalAddress'));
-  if (buildingApplicableWhenForMailingAddress(building))
+  if (buildingApplicableWhenForMailingAddress(appContext, building))
     errors.push(...addressCalculateErrors(building.mailingAddress, 'mailingAddress'));
 
   if (toNum(building?.dateOfOccupancy) > toNum(appContext?.today))
