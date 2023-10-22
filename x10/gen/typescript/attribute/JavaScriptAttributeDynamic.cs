@@ -69,20 +69,23 @@ namespace x10.gen.typescript.attribute {
         string pathExpression = generator.GetBindingPath(instance);
 
         // For non-owned association, we represent the data as as an object containing the single "id" property
-        IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
-        bool isNonOwnedAssociation = path.Last().IsNonOwnedAssociation;
-        string bindingValueExpression = isNonOwnedAssociation ? "value == null ? null : { id: value }" : "value";
+        IEnumerable<Member> bindingPath = UiCompilerUtils.GetBindingPath(instance);
+        Member lastMember = bindingPath.Last();
+        bool isNonOwnedAssociation = lastMember.IsNonOwnedAssociation;
+        bool isMany = lastMember.IsManyAssociation;
+        string bindingValueExpression = isNonOwnedAssociation ? "value == null ? undefined : { id: value }" : "value";
 
-        generator.WriteLine(level, "{0}={ {1}{2} }",
+        generator.WriteLine(level, "{0}={ {1}{2}{3} }",
           dataBind.PlatformName, 
           pathExpression,
-          isNonOwnedAssociation ? "?.id" : "");
+          isNonOwnedAssociation ? "?.id" : "",
+          isMany ? " || []" : "");
         generator.WriteLine(level, "onChange={ (value) => {");
 
-        if (path.Count() == 1) {
+        if (bindingPath.Count() == 1) {
           generator.WriteLine(level + 1, "onChange({ ...{0}, {1}: {2} })",
             generator.SourceVariableName,
-            path.Single().Name,
+            bindingPath.Single().Name,
             bindingValueExpression);
         } else {
           generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", generator.SourceVariableName);

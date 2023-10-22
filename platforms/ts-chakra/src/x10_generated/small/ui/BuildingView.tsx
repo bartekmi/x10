@@ -17,7 +17,7 @@ import { buildingAgeInYears, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Buil
 
 
 type Props = {
-  readonly building?: Building,
+  readonly building: Building,
 };
 export default function BuildingView(props: Props): React.JSX.Element {
   const { building } = props;

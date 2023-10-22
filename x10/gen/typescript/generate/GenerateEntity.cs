@@ -47,7 +47,7 @@ namespace x10.gen.typescript.generate {
         } else
           WriteLine(1, "readonly {0}{1}: {2},", 
             member.Name, 
-            member.IsReadOnly || member.IsManyAssociation ? "" : "?",
+            member is X10Attribute attr && attr.IsId ? "" : "?",
             GetType(member, false));
 
       WriteLine(0, "};");

@@ -116,8 +116,9 @@ namespace x10.gen.typescript.generate {
     private void WriteProps(ClassDefX10 classDef, Entity model, bool isForm) {
       WriteLine(0, "type Props = {");
       if (model != null) {
-        WriteLine(1, "readonly {0}: {1}{2},", 
+        WriteLine(1, "readonly {0}{1}: {2}{3},", 
           SourceVariableName, 
+          "", //isForm ? "" : "?",
           model.Name,
           classDef.IsMany ? "[]" : "");
 
