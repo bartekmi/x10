@@ -15,6 +15,7 @@ import x10toString from 'react_lib/utils/x10toString';
 
 import { addressSecondAddressLine } from 'x10_generated/small/entities/Address';
 import { buildingAgeInYears, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
+import { AppContext } from 'SmallAppContext';
 
 
 
@@ -23,7 +24,7 @@ type Props = {
 };
 export default function Buildings(props: Props): React.JSX.Element {
   const { buildings } = props;
-
+  const appContext = React.useContext(AppContext);
   return (
     <VerticalStackPanel>
       <Heading
@@ -88,7 +89,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               id: '_3',
               Header: 'Age In Years',
               width: 140,
-              accessor: (data) => buildingAgeInYears(data),
+              accessor: (data) => buildingAgeInYears(appContext, data),
               Cell: ({ value }) =>
                 <FloatDisplay
                   value={ value }

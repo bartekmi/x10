@@ -11,6 +11,7 @@ import { addressCalculateErrors, createDefaultAddress, type Address } from 'x10_
 import { unitCalculateErrors, type Unit } from 'x10_generated/small/entities/Unit';
 
 import { MailboxTypeEnum, PetPolicyEnum } from '__generated__/graphql';
+import { AppContextType } from 'SmallAppContext';
 
 
 // Type Definition
@@ -73,11 +74,10 @@ export const PetPolicyEnumPairs: {
 
 
 // Derived Attribute Functions
-export function buildingAgeInYears(building?: {
+export function buildingAgeInYears(appContext: AppContextType, building?: {
     dateOfOccupancy?: string | null | undefined,
 } | null | undefined): number | null | undefined | undefined {
   if (building == null) return null;
-  const appContext = React.useContext(AppContext);
   const result = getYear(appContext?.today) - getYear(building?.dateOfOccupancy);
   return isNaN(result) ? null : result;
 }
@@ -111,8 +111,7 @@ export function createDefaultBuilding(): Building {
 
 
 // Validations
-export function buildingCalculateErrors(building?: Building, prefix?: string, inListIndex?: number): FormError[] {
-  const appContext = React.useContext(AppContext);
+export function buildingCalculateErrors(appContext: AppContextType, building?: Building, prefix?: string, inListIndex?: number): FormError[] {
   const errors: FormError[] = [];
   if (building == null ) return errors;
 
