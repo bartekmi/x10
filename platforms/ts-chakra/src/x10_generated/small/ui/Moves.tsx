@@ -15,7 +15,7 @@ import { type Move } from 'x10_generated/small/entities/Move';
 
 
 type Props = {
-  readonly moves: Move[],
+  readonly moves?: Move[],
 };
 export default function Moves(props: Props): React.JSX.Element {
   const { moves } = props;

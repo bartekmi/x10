@@ -14,7 +14,7 @@ import BuildingView from 'x10_generated/small/ui/BuildingView';
 
 
 type Props = {
-  readonly move: Move,
+  readonly move?: Move,
 };
 export default function MoveView(props: Props): React.JSX.Element {
   const { move } = props;

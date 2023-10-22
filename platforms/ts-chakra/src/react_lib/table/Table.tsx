@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Text } from '@chakra-ui/react'
 
 import {
   Table as ChakraTable,
@@ -19,10 +20,14 @@ type ColumnDef = {
 
 type Props = {
   readonly columns: ColumnDef[],
-  readonly data: any[],
+  readonly data?: any[],
 };
 
 export default function Table({ columns, data }: Props): React.JSX.Element {
+  if (data == null) {
+    return (<Text>No Data</Text>);
+  }
+
   return (
     <ChakraTable>
       <Thead>

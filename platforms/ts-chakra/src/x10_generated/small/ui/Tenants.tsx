@@ -13,7 +13,7 @@ import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
 
 type Props = {
-  readonly tenants: Tenant[],
+  readonly tenants?: Tenant[],
 };
 export default function Tenants(props: Props): React.JSX.Element {
   const { tenants } = props;

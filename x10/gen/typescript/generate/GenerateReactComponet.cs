@@ -118,7 +118,7 @@ namespace x10.gen.typescript.generate {
       if (model != null) {
         WriteLine(1, "readonly {0}{1}: {2}{3},", 
           SourceVariableName, 
-          "", //isForm ? "" : "?",
+          isForm ? "" : "?",
           model.Name,
           classDef.IsMany ? "[]" : "");
 
