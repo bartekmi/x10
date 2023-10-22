@@ -16,14 +16,14 @@ import { MailboxTypeEnum, PetPolicyEnum } from '__generated__/graphql';
 // Type Definition
 export type Building = {
   readonly id: string,
-  readonly moniker: string,
+  readonly moniker?: string,
   readonly name?: string,
   readonly description?: string,
   readonly dateOfOccupancy?: string | null | undefined,
   readonly mailboxType?: MailboxTypeEnum | null | undefined,
   readonly petPolicy?: PetPolicyEnum | null | undefined,
   readonly mailingAddressSameAsPhysical?: boolean,
-  readonly units: Unit[],
+  readonly units?: Unit[],
   readonly physicalAddress?: Address,
   readonly mailingAddress?: Address,
 };

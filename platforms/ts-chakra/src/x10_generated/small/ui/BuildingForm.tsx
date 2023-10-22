@@ -308,7 +308,7 @@ function BuildingForm(props: Props): React.JSX.Element {
           label='Units'
         >
           <MultiStacker
-            items={ building?.units }
+            items={ building?.units || []}
             onChange={ (value) => {
               onChange({ ...building, units: value })
             } }

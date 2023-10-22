@@ -52,7 +52,7 @@ function MoveForm(props: Props): React.JSX.Element {
         <AssociationEditor
           id={ move?.from?.id }
           onChange={ (value) => {
-            onChange({ ...move, from: value == null ? null : { id: value } })
+            onChange({ ...move, from: value == null ? undefined : { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -66,7 +66,7 @@ function MoveForm(props: Props): React.JSX.Element {
         <AssociationEditor
           id={ move?.to?.id }
           onChange={ (value) => {
-            onChange({ ...move, to: value == null ? null : { id: value } })
+            onChange({ ...move, to: value == null ? undefined : { id: value } })
           } }
           isNullable={ false }
           query={ buildingsQuery }
@@ -80,7 +80,7 @@ function MoveForm(props: Props): React.JSX.Element {
         <AssociationEditor
           id={ move?.tenant?.id }
           onChange={ (value) => {
-            onChange({ ...move, tenant: value == null ? null : { id: value } })
+            onChange({ ...move, tenant: value == null ? undefined : { id: value } })
           } }
           isNullable={ false }
           query={ tenantsQuery }
