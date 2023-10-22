@@ -76,7 +76,7 @@ namespace x10.gen.typescript {
 
     public void VisitInvocation(ExpInvocation exp) {
       _writer.Write(TypeScriptCodeGenerator.FunctionName(exp.FunctionName));
-      _writer.Write("(");
+      _writer.Write("(******************");
       foreach (ExpBase argument in exp.Arguments) {
         argument.Accept(this);
         if (argument != exp.Arguments.Last())

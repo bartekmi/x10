@@ -190,7 +190,6 @@ namespace x10.gen.typescript.generate {
         varName,
         entityName);
 
-
       WriteLine(1, "const errors: FormError[] = [];");
       WriteLine(1, "if ({0} == null ) return errors;", varName);
       WriteLine();
