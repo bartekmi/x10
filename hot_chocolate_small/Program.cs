@@ -126,7 +126,10 @@ namespace x10.hotchoc {
     public static IHostBuilder CreateHostBuilder(string[] args) {
       return Host.CreateDefaultBuilder(args)
           .ConfigureLogging(c => c.AddConsole())
-          .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+          .ConfigureWebHostDefaults(webBuilder => {
+            webBuilder.UseStartup<Startup>()
+                      .UseUrls("http://localhost:5001");
+          });
     }
 
     private static HotChocConfig ExtractConfig(string[] args) {
