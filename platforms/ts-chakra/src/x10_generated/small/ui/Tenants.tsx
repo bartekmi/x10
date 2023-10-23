@@ -102,18 +102,18 @@ export default function Tenants(props: Props): React.JSX.Element {
   );
 }
 
-  gql`
-    fragment Tenants_Tenants on Tenant {
+export const TENANTS_TENANTS_FRAGMENT = gql`
+  fragment Tenants_Tenants on Tenant {
+    id
+    email
+    name
+    permanentMailingAddress {
       id
-      email
-      name
-      permanentMailingAddress {
+      country {
         id
-        country {
-          id
-        }
       }
-      phone
     }
-  `
+    phone
+  }
+`
 

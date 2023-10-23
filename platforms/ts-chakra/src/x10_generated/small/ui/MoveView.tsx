@@ -80,27 +80,27 @@ export default function MoveView(props: Props): React.JSX.Element {
   );
 }
 
-  gql`
-    fragment MoveView_Move on Move {
+export const MOVEVIEW_MOVE_FRAGMENT = gql`
+  fragment MoveView_Move on Move {
+    id
+    from {
       id
-      from {
-        id
-        ...BuildingView_Building
-      }
-      tenant {
-        id
-        email
-        name
-        permanentMailingAddress {
-          id
-          theAddress
-        }
-        phone
-      }
-      to {
-        id
-        ...BuildingView_Building
-      }
+      ...BuildingView_Building
     }
-  `
+    tenant {
+      id
+      email
+      name
+      permanentMailingAddress {
+        id
+        theAddress
+      }
+      phone
+    }
+    to {
+      id
+      ...BuildingView_Building
+    }
+  }
+`
 

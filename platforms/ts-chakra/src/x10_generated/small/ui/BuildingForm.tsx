@@ -482,38 +482,38 @@ const mutation = gql`
   }
 `;
 
-  gql`
-    fragment BuildingForm_Building on Building {
+export const BUILDINGFORM_BUILDING_FRAGMENT = gql`
+  fragment BuildingForm_Building on Building {
+    id
+    dateOfOccupancy
+    description
+    mailboxType
+    mailingAddress {
       id
-      dateOfOccupancy
-      description
-      mailboxType
-      mailingAddress {
-        id
-        city
-        stateOrProvince
-        theAddress
-        zip
-      }
-      mailingAddressSameAsPhysical
-      moniker
-      name
-      petPolicy
-      physicalAddress {
-        id
-        city
-        stateOrProvince
-        theAddress
-        zip
-      }
-      units {
-        id
-        hasBalcony
-        number
-        numberOfBathrooms
-        numberOfBedrooms
-        squareFeet
-      }
+      city
+      stateOrProvince
+      theAddress
+      zip
     }
-  `
+    mailingAddressSameAsPhysical
+    moniker
+    name
+    petPolicy
+    physicalAddress {
+      id
+      city
+      stateOrProvince
+      theAddress
+      zip
+    }
+    units {
+      id
+      hasBalcony
+      number
+      numberOfBathrooms
+      numberOfBedrooms
+      squareFeet
+    }
+  }
+`
 

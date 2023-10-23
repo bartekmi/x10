@@ -262,7 +262,7 @@ namespace x10.gen.typescript.generate {
       string fragmentName = FragmentName(classDef);
       string fragmentConst = FragmentConst(classDef);
 
-      WriteLine(0, "export const {0}_FRAGMENT = gql`", fragmentConst);
+      WriteLine(0, "export const {0} = gql`", fragmentConst);
       WriteLine(1, "fragment {0} on {1} {", fragmentName, model.Name);
 
       PrintGraphQL(2, dataInventory);

@@ -4,7 +4,7 @@ import * as React from 'react';
 import MultiEntityQueryRenderer from 'react_lib/client_apollo/MultiEntityQueryRenderer';
 
 import { type Move } from 'x10_generated/small/entities/Move';
-import Moves from 'x10_generated/small/ui/Moves';
+import Moves, { MOVES_MOVES_FRAGMENT } from 'x10_generated/small/ui/Moves';
 
 
 
@@ -23,5 +23,6 @@ const query = gql`
       ...Moves_Moves
     }
   }
+  ${ MOVES_MOVES_FRAGMENT }
 `;
 

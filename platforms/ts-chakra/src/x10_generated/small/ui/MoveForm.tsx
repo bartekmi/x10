@@ -147,21 +147,21 @@ const mutation = gql`
   }
 `;
 
-  gql`
-    fragment MoveForm_Move on Move {
+export const MOVEFORM_MOVE_FRAGMENT = gql`
+  fragment MoveForm_Move on Move {
+    id
+    date
+    from {
       id
-      date
-      from {
-        id
-      }
-      tenant {
-        id
-      }
-      to {
-        id
-      }
     }
-  `
+    tenant {
+      id
+    }
+    to {
+      id
+    }
+  }
+`
 
 const buildingsQuery = gql`
   query MoveForm_buildingsQuery {

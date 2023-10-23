@@ -227,24 +227,24 @@ const mutation = gql`
   }
 `;
 
-  gql`
-    fragment TenantForm_Tenant on Tenant {
+export const TENANTFORM_TENANT_FRAGMENT = gql`
+  fragment TenantForm_Tenant on Tenant {
+    id
+    email
+    name
+    permanentMailingAddress {
       id
-      email
-      name
-      permanentMailingAddress {
+      city
+      country {
         id
-        city
-        country {
-          id
-        }
-        stateOrProvince
-        theAddress
-        zip
       }
-      phone
+      stateOrProvince
+      theAddress
+      zip
     }
-  `
+    phone
+  }
+`
 
 const countriesQuery = gql`
   query TenantForm_countriesQuery {

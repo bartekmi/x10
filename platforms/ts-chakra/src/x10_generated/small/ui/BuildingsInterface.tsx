@@ -4,7 +4,7 @@ import * as React from 'react';
 import MultiEntityQueryRenderer from 'react_lib/client_apollo/MultiEntityQueryRenderer';
 
 import { type Building } from 'x10_generated/small/entities/Building';
-import Buildings from 'x10_generated/small/ui/Buildings';
+import Buildings, { BUILDINGS_BUILDINGS_FRAGMENT } from 'x10_generated/small/ui/Buildings';
 
 
 
@@ -23,5 +23,6 @@ const query = gql`
       ...Buildings_Buildings
     }
   }
+  ${ BUILDINGS_BUILDINGS_FRAGMENT }
 `;
 

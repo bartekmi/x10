@@ -92,14 +92,14 @@ export default function BuildingView(props: Props): React.JSX.Element {
   );
 }
 
-  gql`
-    fragment BuildingView_Building on Building {
-      id
-      dateOfOccupancy
-      description
-      mailboxType
-      name
-      petPolicy
-    }
-  `
+export const BUILDINGVIEW_BUILDING_FRAGMENT = gql`
+  fragment BuildingView_Building on Building {
+    id
+    dateOfOccupancy
+    description
+    mailboxType
+    name
+    petPolicy
+  }
+`
 

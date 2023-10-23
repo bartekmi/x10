@@ -94,7 +94,8 @@ namespace x10.gen.typescript.generate {
     }
 
     private static string FragmentConst(ClassDefX10 classDef) {
-      return FragmentName(classDef).ToUpper();
+      return string.Format("{0}_FRAGMENT", 
+        FragmentName(classDef).ToUpper());
     }
 
     internal static string CalculateErrorsFuncName(Entity model) {

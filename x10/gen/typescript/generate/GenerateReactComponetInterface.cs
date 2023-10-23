@@ -131,18 +131,19 @@ namespace x10.gen.typescript.generate {
 
       string classDefName = classDef.Name;
       string variableName = VariableName(model, true);
+      string fragmentConst = FragmentConst(classDef);
 
       WriteLine(0, "const query = gql`");
       WriteLine(1, "query {0}InterfaceQuery {", classDefName);
       WriteLine(2, "entities: {0} {", variableName);
-
       WriteLine(3, "...{0}", FragmentName(classDef));
-
       WriteLine(2, "}");
       WriteLine(1, "}");
+      WriteLine(1, "${ {0} }", fragmentConst);
       WriteLine(0, "`;");
-
       WriteLine();
+
+      ImportsPlaceholder.Import(fragmentConst, classDef);
     }
     #endregion
   }

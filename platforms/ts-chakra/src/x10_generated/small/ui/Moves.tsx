@@ -113,22 +113,22 @@ export default function Moves(props: Props): React.JSX.Element {
   );
 }
 
-  gql`
-    fragment Moves_Moves on Move {
+export const MOVES_MOVES_FRAGMENT = gql`
+  fragment Moves_Moves on Move {
+    id
+    date
+    from {
       id
-      date
-      from {
-        id
-        name
-      }
-      tenant {
-        id
-        name
-      }
-      to {
-        id
-        name
-      }
+      name
     }
-  `
+    tenant {
+      id
+      name
+    }
+    to {
+      id
+      name
+    }
+  }
+`
 
