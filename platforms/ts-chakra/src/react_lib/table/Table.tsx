@@ -23,9 +23,17 @@ type Props = {
   readonly data?: any[],
 };
 
-export default function Table({ columns, data }: Props): React.JSX.Element {
+export default function Table(props: Props): React.JSX.Element {
+  const { columns, data } = props;
   if (data == null) {
     return (<Text>No Data</Text>);
+  }
+
+  function tdContents(row: any, col: ColumnDef) {
+    const data = col.accessor(row);
+    return data == null ?
+      null :
+      col.Cell(col.accessor(row)) 
   }
 
   return (
@@ -40,7 +48,7 @@ export default function Table({ columns, data }: Props): React.JSX.Element {
           data.map(row => <Tr>
             { 
               columns.map(col => <Td> 
-                { col.Cell(col.accessor(row)) } 
+                { tdContents(row, col) }  
               </Td>)
             }
           </Tr>)
