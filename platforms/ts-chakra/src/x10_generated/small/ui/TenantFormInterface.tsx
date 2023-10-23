@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
@@ -8,19 +9,11 @@ import { TENANTFORM_TENANT_FRAGMENT, TenantFormStateful } from 'x10_generated/sm
 
 
 
-type Props = { 
-  readonly id?: string,      // When invoked from another Component
-  readonly match?: {         // When invoked via Route
-    readonly params: { 
-      readonly id: string
-    }
-  }
-};
-export default function TenantFormInterface(props: Props): React.JSX.Element {
+export default function TenantFormInterface(): React.JSX.Element {
+  const params = useParams()
   return (
     <EntityQueryRenderer<Tenant>
-      id={ props.id }
-      match={ props.match }
+      id={ params.id }
       createComponentFunc={ (tenant) => <TenantFormStateful tenant={ tenant }/> }
       createEntityFunc={ createDefaultTenant }
       query={ query }

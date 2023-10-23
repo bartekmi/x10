@@ -25,9 +25,10 @@ export default function RadioGroup<T extends string>(props: Props<T>): React.JSX
   return (
     <ChakraRadioGroup onChange={ (newValue) => onChange(newValue as T) }>
       {options.map(option => <Radio 
-          value = {option.value}
-          isChecked = {option.value == value}
-        />)}
+        key = {option.value}
+        value = {option.value}
+        isChecked = {option.value == value}
+      />)}
     </ChakraRadioGroup>
   );
 }

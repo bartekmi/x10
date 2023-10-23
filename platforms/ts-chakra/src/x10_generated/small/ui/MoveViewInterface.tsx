@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
@@ -8,19 +9,11 @@ import MoveView, { MOVEVIEW_MOVE_FRAGMENT } from 'x10_generated/small/ui/MoveVie
 
 
 
-type Props = { 
-  readonly id?: string,      // When invoked from another Component
-  readonly match?: {         // When invoked via Route
-    readonly params: { 
-      readonly id: string
-    }
-  }
-};
-export default function MoveViewInterface(props: Props): React.JSX.Element {
+export default function MoveViewInterface(): React.JSX.Element {
+  const params = useParams()
   return (
     <EntityQueryRenderer<Move>
-      id={ props.id }
-      match={ props.match }
+      id={ params.id }
       createComponentFunc={ (move) => <MoveView move={ move }/> }
       createEntityFunc={ createDefaultMove }
       query={ query }

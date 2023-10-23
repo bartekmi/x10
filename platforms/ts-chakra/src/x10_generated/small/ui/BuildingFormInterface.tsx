@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
@@ -8,19 +9,11 @@ import { BUILDINGFORM_BUILDING_FRAGMENT, BuildingFormStateful } from 'x10_genera
 
 
 
-type Props = { 
-  readonly id?: string,      // When invoked from another Component
-  readonly match?: {         // When invoked via Route
-    readonly params: { 
-      readonly id: string
-    }
-  }
-};
-export default function BuildingFormInterface(props: Props): React.JSX.Element {
+export default function BuildingFormInterface(): React.JSX.Element {
+  const params = useParams()
   return (
     <EntityQueryRenderer<Building>
-      id={ props.id }
-      match={ props.match }
+      id={ params.id }
       createComponentFunc={ (building) => <BuildingFormStateful building={ building }/> }
       createEntityFunc={ createDefaultBuilding }
       query={ query }

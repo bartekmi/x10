@@ -1,14 +1,16 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultBuilding, type Building } from 'x10_generated/small/entities/Building';
 import BuildingView, { BUILDINGVIEW_BUILDING_FRAGMENT } from 'x10_generated/small/ui/BuildingView';
 
+
+
 export default function BuildingViewInterface(): React.JSX.Element {
-  const params = useParams();
+  const params = useParams()
   return (
     <EntityQueryRenderer<Building>
       id={ params.id }

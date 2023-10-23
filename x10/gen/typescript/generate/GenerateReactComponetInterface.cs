@@ -40,25 +40,18 @@ namespace x10.gen.typescript.generate {
     #region Non-Multi Generation
 
     private void GenerateSingleInterface(ClassDefX10 classDef, Entity model) {
-      WriteLine(0,
-@"type Props = { 
-  readonly id?: string,      // When invoked from another Component
-  readonly match?: {         // When invoked via Route
-    readonly params: { 
-      readonly id: string
-    }
-  }
-}};");
-
       string classDefName = classDef.Name;
       string createDefaultFunc = CreateDefaultFuncName(model);
       string variableName = VariableName(model);
 
-      WriteLine(0, "export default function {0}Interface(props: Props): React.JSX.Element {", classDefName);
+      WriteLine(0, "export default function {0}Interface(): React.JSX.Element {", classDefName);
+
+      WriteLine(1, "const params = useParams()");
+      ImportsPlaceholder.Import("useParams", "react-router-dom", ImportLevel.ThirdParty);
+
       WriteLine(1, "return (");
       WriteLine(2, "<EntityQueryRenderer<{0}>", model.Name);
-      WriteLine(3, "id={ props.id }");
-      WriteLine(3, "match={ props.match }");
+      WriteLine(3, "id={ params.id }");
 
       // For Forms, we use the "stateful" version of the component
       string childElement = null;

@@ -23,7 +23,12 @@ export default function SelectInput<T extends string>(props: Props<T>): React.JS
       // onChange={newValue => onChange(valueIsNumber ? parseInt(newValue.toString()) : newValue.toString()) }
       onChange={e => onChange(e.target.value as T) }
     >
-      {options.map(option => <option value={option.value}>{option.label}</option>)}
+      {options.map(option => <option 
+        key = {option.value}
+        value={option.value}
+      >
+        {option.label}
+      </option>)}
     </ChakraSelect>
   );
 }
