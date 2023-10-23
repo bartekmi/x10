@@ -9,6 +9,7 @@ import SpaContent from 'react_lib/SpaContent';
 import { AppContext } from 'SmallAppContext';
 import BuildingFormInterface from 'x10_generated/small/ui/BuildingFormInterface';
 import BuildingsInterface from 'x10_generated/small/ui/BuildingsInterface';
+import BuildingViewInterface from 'x10_generated/small/ui/BuildingViewInterface';
 import MoveFormInterface from 'x10_generated/small/ui/MoveFormInterface';
 import MovesInterface from 'x10_generated/small/ui/MovesInterface';
 import MoveViewInterface from 'x10_generated/small/ui/MoveViewInterface';
@@ -64,6 +65,7 @@ export default function Header(props: Props): React.JSX.Element {
         <Route path='/buildings/new' element={ <BuildingFormInterface/> } />
         <Route path='/tenants/edit/:id' element={ <TenantFormInterface/> } />
         <Route path='/tenants/new' element={ <TenantFormInterface/> } />
+        <Route path='/buildings/view/:id' element={ <BuildingViewInterface/> } />
       </SpaContent>
     </VerticalStackPanel>
   );

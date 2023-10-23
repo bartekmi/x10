@@ -1,4 +1,4 @@
-<BuildingView model="Building">
+<BuildingView model="Building" url="/buildings/view">
   <DisplayForm>
     <VerticalStackPanel>
       <FormRow>

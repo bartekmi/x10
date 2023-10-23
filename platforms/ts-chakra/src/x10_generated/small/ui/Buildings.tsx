@@ -121,6 +121,7 @@ export default function Buildings(props: Props): React.JSX.Element {
                 >
                   <Button
                     label='View'
+                    url={ '/buildings/view/' + x10toString(value?.id) }
                   />
                   <Button
                     label='Edit'

@@ -24,7 +24,7 @@
         <petPolicy/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" /> <!-- url is TODO -->
+            <Button label="View" url="='/buildings/view/' + id"/>
             <Button label="Edit" url="='/buildings/edit/' + id"/>
           </Row>
         </TableColumn>
