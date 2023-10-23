@@ -93,6 +93,10 @@ namespace x10.gen.typescript.generate {
         NameUtils.Capitalize(varName));
     }
 
+    private static string FragmentConst(ClassDefX10 classDef) {
+      return FragmentName(classDef).ToUpper();
+    }
+
     internal static string CalculateErrorsFuncName(Entity model) {
       return string.Format("{0}CalculateErrors", NameUtils.UncapitalizeFirstLetter(model.Name));
     }

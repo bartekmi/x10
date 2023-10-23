@@ -259,17 +259,16 @@ namespace x10.gen.typescript.generate {
 
     #region Generate Fragment
     private void GenerateFragment(ClassDefX10 classDef, Entity model, MemberWrapper dataInventory, bool isForm) {
-      string variableName = VariableName(model, classDef.IsMany);
+      string fragmentName = FragmentName(classDef);
+      string fragmentConst = FragmentConst(classDef);
 
-      WriteLine(1, "gql`");
-      WriteLine(2, "fragment {0} on {1} {",
-        FragmentName(classDef),
-        model.Name);
+      WriteLine(0, "export const {0}_FRAGMENT = gql`", fragmentConst);
+      WriteLine(1, "fragment {0} on {1} {", fragmentName, model.Name);
 
-      PrintGraphQL(3, dataInventory);
+      PrintGraphQL(2, dataInventory);
 
-      WriteLine(2, "}");
-      WriteLine(1, "`");
+      WriteLine(1, "}");
+      WriteLine(0, "`");
       WriteLine();
 
       ImportsPlaceholder.Import("gql", "@apollo/client", ImportLevel.ThirdParty);

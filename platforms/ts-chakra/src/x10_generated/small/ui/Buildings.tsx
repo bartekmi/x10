@@ -135,19 +135,19 @@ export default function Buildings(props: Props): React.JSX.Element {
   );
 }
 
-export const BUILDINGS_BUILDINGS_FRAGMENT = gql`
-  fragment Buildings_Buildings on Building {
-    id
-    dateOfOccupancy
-    description
-    name
-    petPolicy
-    physicalAddress {
+  gql`
+    fragment Buildings_Buildings on Building {
       id
-      city
-      stateOrProvince
-      theAddress
+      dateOfOccupancy
+      description
+      name
+      petPolicy
+      physicalAddress {
+        id
+        city
+        stateOrProvince
+        theAddress
+      }
     }
-  }
-`
+  `
 

@@ -29,7 +29,7 @@ namespace x10.gen.typescript.placeholder {
         writer.WriteLine("  query {0}_{1}Query {{", _classDef.Name, varName);
         writer.WriteLine("    entities: {0} {{", varName);
         writer.WriteLine("      id");
-// TODO: See reasons for this elsewhere        
+// TODO: See reasons for removing this in the HotChocolate generation code.     
 //        writer.WriteLine("      toStringRepresentation");
         writer.WriteLine("    }");
         writer.WriteLine("  }");
