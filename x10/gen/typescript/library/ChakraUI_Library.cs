@@ -486,15 +486,15 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "Row",
-        PlatformName = "Flex",
-        IsNonDefaultImport = true,
+        PlatformName = "Group",
+        ImportDir = "react_lib",
 
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic("align", "alignItems") {
+          new JavaScriptAttributeDynamic("align", "align") {
             EnumConversions = new List<EnumConversion>() {
               new EnumConversion("top", "flex-start"),
               new EnumConversion("center", "center"),
-              new EnumConversion("bottom", "flexEnd"),
+              new EnumConversion("bottom", "flex-end"),
             },
             DefaultValue = "center",
           },
@@ -503,8 +503,8 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "RepellingRow",
-        PlatformName = "Flex",
-        IsNonDefaultImport = true,
+        PlatformName = "Group",
+        ImportDir = "react_lib",
 
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("justifyContent", "space-between"),
@@ -876,8 +876,8 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "FormRow",
-        PlatformName = "Flex",
-        IsNonDefaultImport = true,
+        PlatformName = "Group",
+        ImportDir = "react_lib",
 
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("gap", 40),

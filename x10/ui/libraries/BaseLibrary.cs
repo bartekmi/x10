@@ -612,6 +612,8 @@ namespace x10.ui.libraries {
             },
             IsAttached = true,
           },
+          // Other properties to add as passthrough to flex-box:
+          // flexWrap
         }
       },
       new ClassDefNative() {

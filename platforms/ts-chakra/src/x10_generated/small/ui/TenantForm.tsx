@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import TextInput from 'react_lib/chakra_wrappers/TextInput';
@@ -8,6 +8,7 @@ import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import Group from 'react_lib/Group';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
@@ -165,7 +166,7 @@ function TenantForm(props: Props): React.JSX.Element {
           />
         </FormField>
       </FormSection>
-      <Flex
+      <Group
         justifyContent='space-between'
       >
         <TextDisplay
@@ -186,7 +187,7 @@ function TenantForm(props: Props): React.JSX.Element {
           }
           label='Save'
         />
-      </Flex>
+      </Group>
     </FormProvider>
   );
 }

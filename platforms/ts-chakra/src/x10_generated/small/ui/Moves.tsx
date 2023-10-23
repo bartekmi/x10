@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import Button from 'react_lib/chakra_wrappers/Button';
 import DateDisplay from 'react_lib/display/DateDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
@@ -92,8 +93,8 @@ export default function Moves(props: Props): React.JSX.Element {
               width: 140,
               accessor: (data) => data,
               Cell: ( value ) =>
-                <Flex
-                  alignItems='center'
+                <Group
+                  align='center'
                 >
                   <Button
                     label='View'
@@ -103,7 +104,7 @@ export default function Moves(props: Props): React.JSX.Element {
                     label='Edit'
                     url={ '/moves/edit/' + x10toString(value?.id) }
                   />
-                </Flex>
+                </Group>
               ,
             },
           ]

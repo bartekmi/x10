@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import CalendarDateInput from 'react_lib/chakra_wrappers/CalendarDateInput';
@@ -7,6 +7,7 @@ import TextDisplay from 'react_lib/display/TextDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import Group from 'react_lib/Group';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Separator from 'react_lib/Separator';
 
@@ -88,7 +89,7 @@ function MoveForm(props: Props): React.JSX.Element {
           query={ tenantsQuery }
         />
       </FormField>
-      <Flex
+      <Group
         justifyContent='space-between'
       >
         <TextDisplay
@@ -109,7 +110,7 @@ function MoveForm(props: Props): React.JSX.Element {
           }
           label='Save'
         />
-      </Flex>
+      </Group>
     </FormProvider>
   );
 }

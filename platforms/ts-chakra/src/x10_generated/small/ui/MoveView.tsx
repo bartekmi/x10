@@ -1,11 +1,12 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
+import Group from 'react_lib/Group';
 import Separator from 'react_lib/Separator';
 
 import { AppContext } from 'SmallAppContext';
@@ -43,7 +44,7 @@ export default function MoveView(props: Props): React.JSX.Element {
       <FormSection
         label='Tenant details...'
       >
-        <Flex
+        <Group
           gap={ 40 }
         >
           <DisplayField
@@ -74,7 +75,7 @@ export default function MoveView(props: Props): React.JSX.Element {
               value={ move?.tenant?.permanentMailingAddress?.theAddress }
             />
           </DisplayField>
-        </Flex>
+        </Group>
       </FormSection>
     </DisplayForm>
   );

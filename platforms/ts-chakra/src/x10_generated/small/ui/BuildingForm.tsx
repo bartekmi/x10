@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import CalendarDateInput from 'react_lib/chakra_wrappers/CalendarDateInput';
@@ -15,6 +15,7 @@ import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
+import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
@@ -255,7 +256,7 @@ function BuildingForm(props: Props): React.JSX.Element {
         <FormSection
           label='Other Details'
         >
-          <Flex
+          <Group
             gap={ 40 }
           >
             <FormField
@@ -279,7 +280,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                 value={ buildingAgeInYears(appContext, building) }
               />
             </FormField>
-          </Flex>
+          </Group>
           <FormField
             editorFor='mailboxType'
             indicateRequired={ true }
@@ -316,8 +317,8 @@ function BuildingForm(props: Props): React.JSX.Element {
             } }
             itemDisplayFunc={ (data, onChange, inListIndex) => (
               <VerticalStackPanel>
-                <Flex
-                  alignItems='center'
+                <Group
+                  align='center'
                 >
                   <FormField
                     editorFor='units.number'
@@ -359,9 +360,9 @@ function BuildingForm(props: Props): React.JSX.Element {
                       } }
                     />
                   </FormField>
-                </Flex>
-                <Flex
-                  alignItems='center'
+                </Group>
+                <Group
+                  align='center'
                 >
                   <FormField
                     editorFor='units.numberOfBedrooms'
@@ -390,14 +391,14 @@ function BuildingForm(props: Props): React.JSX.Element {
                       options={ NumberOfBathroomsEnumPairs }
                     />
                   </FormField>
-                </Flex>
+                </Group>
               </VerticalStackPanel>
             ) }
             addItemLabel='Add Unit'
             addNewItem={ createDefaultUnit }
           />
         </FormSection>
-        <Flex
+        <Group
           justifyContent='space-between'
         >
           <TextDisplay
@@ -424,7 +425,7 @@ function BuildingForm(props: Props): React.JSX.Element {
             }
             label='Save'
           />
-        </Flex>
+        </Group>
       </VerticalStackPanel>
     </FormProvider>
   );

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { Flex } from '@chakra-ui/react';
 import * as React from 'react';
 
 import TextareaInput from 'react_lib/chakra_wrappers/TextareaInput';
@@ -9,6 +8,7 @@ import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
+import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 
@@ -27,7 +27,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
   return (
     <DisplayForm>
       <VerticalStackPanel>
-        <Flex
+        <Group
           gap={ 40 }
         >
           <StyleControl
@@ -51,8 +51,8 @@ export default function BuildingView(props: Props): React.JSX.Element {
               readOnly={ true }
             />
           </DisplayField>
-        </Flex>
-        <Flex
+        </Group>
+        <Group
           gap={ 40 }
         >
           <DisplayField
@@ -86,7 +86,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
               options={ PetPolicyEnumPairs }
             />
           </DisplayField>
-        </Flex>
+        </Group>
       </VerticalStackPanel>
     </DisplayForm>
   );

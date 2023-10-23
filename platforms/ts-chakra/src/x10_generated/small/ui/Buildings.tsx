@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import Button from 'react_lib/chakra_wrappers/Button';
@@ -7,6 +7,7 @@ import EnumDisplay from 'react_lib/display/EnumDisplay';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import HelpTooltip from 'react_lib/form/HelpTooltip';
+import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import StyleControl from 'react_lib/StyleControl';
 import Table from 'react_lib/table/Table';
@@ -44,8 +45,8 @@ export default function Buildings(props: Props): React.JSX.Element {
               width: 200,
               accessor: (data) => data,
               Cell: ( value ) =>
-                <Flex
-                  alignItems='center'
+                <Group
+                  align='center'
                 >
                   <StyleControl
                     maxWidth={ 350 }
@@ -61,7 +62,7 @@ export default function Buildings(props: Props): React.JSX.Element {
                       text={ value?.description }
                     />
                   </StyleControl>
-                </Flex>
+                </Group>
               ,
             },
             {
@@ -115,8 +116,8 @@ export default function Buildings(props: Props): React.JSX.Element {
               width: 140,
               accessor: (data) => data,
               Cell: ( value ) =>
-                <Flex
-                  alignItems='center'
+                <Group
+                  align='center'
                 >
                   <Button
                     label='View'
@@ -125,7 +126,7 @@ export default function Buildings(props: Props): React.JSX.Element {
                     label='Edit'
                     url={ '/buildings/edit/' + x10toString(value?.id) }
                   />
-                </Flex>
+                </Group>
               ,
             },
           ]

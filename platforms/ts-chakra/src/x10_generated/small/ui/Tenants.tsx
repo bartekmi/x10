@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import Button from 'react_lib/chakra_wrappers/Button';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
 import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
@@ -82,8 +83,8 @@ export default function Tenants(props: Props): React.JSX.Element {
               width: 140,
               accessor: (data) => data,
               Cell: ( value ) =>
-                <Flex
-                  alignItems='center'
+                <Group
+                  align='center'
                 >
                   <Button
                     label='View'
@@ -92,7 +93,7 @@ export default function Tenants(props: Props): React.JSX.Element {
                     label='Edit'
                     url={ '/tenants/edit/' + x10toString(value?.id) }
                   />
-                </Flex>
+                </Group>
               ,
             },
           ]
