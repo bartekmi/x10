@@ -1,26 +1,17 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useParams } from "react-router-dom";
 
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultBuilding, type Building } from 'x10_generated/small/entities/Building';
 import BuildingView, { BUILDINGVIEW_BUILDING_FRAGMENT } from 'x10_generated/small/ui/BuildingView';
 
-
-
-type Props = { 
-  readonly id?: string,      // When invoked from another Component
-  readonly match?: {         // When invoked via Route
-    readonly params: { 
-      readonly id: string
-    }
-  }
-};
-export default function BuildingViewInterface(props: Props): React.JSX.Element {
+export default function BuildingViewInterface(): React.JSX.Element {
+  const params = useParams();
   return (
     <EntityQueryRenderer<Building>
-      id={ props.id }
-      match={ props.match }
+      id={ params.id }
       createComponentFunc={ (building) => <BuildingView building={ building }/> }
       createEntityFunc={ createDefaultBuilding }
       query={ query }
