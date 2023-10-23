@@ -43,7 +43,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'Name',
               width: 200,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <Flex
                   alignItems='center'
                 >
@@ -69,7 +69,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'The Address',
               width: 140,
               accessor: (data) => data?.physicalAddress?.theAddress,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -80,7 +80,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'City / Province',
               width: 140,
               accessor: (data) => addressSecondAddressLine(appContext, data?.physicalAddress),
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -91,7 +91,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'Age In Years',
               width: 140,
               accessor: (data) => buildingAgeInYears(appContext, data),
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <FloatDisplay
                   value={ value }
                 />
@@ -102,7 +102,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'Pet Policy',
               width: 140,
               accessor: (data) => data?.petPolicy,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <EnumDisplay
                   value={ value }
                   options={ PetPolicyEnumPairs }
@@ -114,7 +114,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <Flex
                   alignItems='center'
                 >

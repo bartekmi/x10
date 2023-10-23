@@ -37,7 +37,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Header: 'Name',
               width: 140,
               accessor: (data) => data?.name,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -48,7 +48,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Header: 'Phone',
               width: 140,
               accessor: (data) => data?.phone,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -59,7 +59,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Header: 'Email',
               width: 140,
               accessor: (data) => data?.email,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -70,7 +70,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Header: 'Country',
               width: 140,
               accessor: (data) => data?.permanentMailingAddress?.country,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -81,7 +81,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <Flex
                   alignItems='center'
                 >

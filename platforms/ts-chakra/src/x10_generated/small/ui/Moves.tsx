@@ -39,7 +39,7 @@ export default function Moves(props: Props): React.JSX.Element {
               Header: 'Date',
               width: 140,
               accessor: (data) => data?.date,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <DateDisplay
                   value={ value }
                 />
@@ -50,7 +50,7 @@ export default function Moves(props: Props): React.JSX.Element {
               Header: 'From',
               width: 140,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <StyleControl
                   maxWidth={ 350 }
                 >
@@ -65,7 +65,7 @@ export default function Moves(props: Props): React.JSX.Element {
               Header: 'To',
               width: 140,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <StyleControl
                   maxWidth={ 350 }
                 >
@@ -80,7 +80,7 @@ export default function Moves(props: Props): React.JSX.Element {
               Header: 'Tenant',
               width: 140,
               accessor: (data) => data?.tenant?.name,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <TextDisplay
                   value={ value }
                 />
@@ -91,7 +91,7 @@ export default function Moves(props: Props): React.JSX.Element {
               Header: 'Action',
               width: 140,
               accessor: (data) => data,
-              Cell: ({ value }) =>
+              Cell: ( value ) =>
                 <Flex
                   alignItems='center'
                 >

@@ -33,7 +33,7 @@ export default function Table(props: Props): React.JSX.Element {
     const data = col.accessor(row);
     return data == null ?
       null :
-      col.Cell(col.accessor(row)) 
+      col.Cell(data) 
   }
 
   return (

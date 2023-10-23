@@ -695,7 +695,7 @@ namespace x10.gen.typescript.library {
               Instance inner = instance.PrimaryValueInstance;
               
               return new CodeSnippetGenerator((generator, indent, PlatformClassDef, instance) => {
-                generator.WriteLine(indent, "Cell: ({ value }) =>");
+                generator.WriteLine(indent, "Cell: ( value ) =>");
       
                 generator.PushSourceVariableName("value", inner is InstanceModelRef);
                 generator.GenerateComponentRecursively(OutputType.React, indent + 1, inner);
