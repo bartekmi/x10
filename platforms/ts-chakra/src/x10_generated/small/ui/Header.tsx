@@ -15,6 +15,7 @@ import MovesInterface from 'x10_generated/small/ui/MovesInterface';
 import MoveViewInterface from 'x10_generated/small/ui/MoveViewInterface';
 import TenantFormInterface from 'x10_generated/small/ui/TenantFormInterface';
 import TenantsInterface from 'x10_generated/small/ui/TenantsInterface';
+import TenantViewInterface from 'x10_generated/small/ui/TenantViewInterface';
 
 
 
@@ -63,6 +64,7 @@ export default function Header(props: Props): React.JSX.Element {
         <Route path='/moves/view/:id' element={ <MoveViewInterface/> } />
         <Route path='/buildings/edit/:id' element={ <BuildingFormInterface/> } />
         <Route path='/buildings/new' element={ <BuildingFormInterface/> } />
+        <Route path='/tenants/view/:id' element={ <TenantViewInterface/> } />
         <Route path='/tenants/edit/:id' element={ <TenantFormInterface/> } />
         <Route path='/tenants/new' element={ <TenantFormInterface/> } />
         <Route path='/buildings/view/:id' element={ <BuildingViewInterface/> } />

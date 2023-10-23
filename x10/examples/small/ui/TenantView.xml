@@ -1,0 +1,19 @@
+<TenantView model="Tenant" url="/tenants/view">
+  <DisplayForm>
+    <HorizontalDivider/>
+    <FormSection label="Tenant Info">
+      <name/>
+      <phone/>
+      <email/>
+    </FormSection>
+
+    <FormSection path="permanentMailingAddress" label="Permanent Mailing Address">
+      <theAddress/>
+      <city/>
+      <stateOrProvince/>
+      <zip/>
+      <!-- This does not yet work -->
+      <!-- <country/> -->
+    </FormSection>
+  </DisplayForm>
+</TenantView>

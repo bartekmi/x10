@@ -18,7 +18,7 @@
         <permanentMailingAddress.country/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" /> <!-- url is TODO -->
+            <Button label="View" url="='/tenants/view/' + id"/>
             <Button label="Edit" url="='/tenants/edit/' + id"/>
           </Row>
         </TableColumn>

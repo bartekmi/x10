@@ -88,6 +88,7 @@ export default function Tenants(props: Props): React.JSX.Element {
                 >
                   <Button
                     label='View'
+                    url={ '/tenants/view/' + x10toString(value?.id) }
                   />
                   <Button
                     label='Edit'
