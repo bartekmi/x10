@@ -4,7 +4,7 @@ import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultTenant, type Tenant } from 'x10_generated/small/entities/Tenant';
-import { TenantFormStateful } from 'x10_generated/small/ui/TenantForm';
+import { TENANTFORM_TENANT_FRAGMENT, TenantFormStateful } from 'x10_generated/small/ui/TenantForm';
 
 
 
@@ -34,5 +34,6 @@ const query = gql`
       ...TenantForm_Tenant
     }
   }
+  ${ TENANTFORM_TENANT_FRAGMENT }
 `;
 

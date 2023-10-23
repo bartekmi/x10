@@ -4,7 +4,7 @@ import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultMove, type Move } from 'x10_generated/small/entities/Move';
-import { MoveFormStateful } from 'x10_generated/small/ui/MoveForm';
+import { MOVEFORM_MOVE_FRAGMENT, MoveFormStateful } from 'x10_generated/small/ui/MoveForm';
 
 
 
@@ -34,5 +34,6 @@ const query = gql`
       ...MoveForm_Move
     }
   }
+  ${ MOVEFORM_MOVE_FRAGMENT }
 `;
 

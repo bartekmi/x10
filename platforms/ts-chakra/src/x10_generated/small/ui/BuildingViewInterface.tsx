@@ -4,7 +4,7 @@ import * as React from 'react';
 import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultBuilding, type Building } from 'x10_generated/small/entities/Building';
-import BuildingView from 'x10_generated/small/ui/BuildingView';
+import BuildingView, { BUILDINGVIEW_BUILDING_FRAGMENT } from 'x10_generated/small/ui/BuildingView';
 
 
 
@@ -34,5 +34,6 @@ const query = gql`
       ...BuildingView_Building
     }
   }
+  ${ BUILDINGVIEW_BUILDING_FRAGMENT }
 `;
 
