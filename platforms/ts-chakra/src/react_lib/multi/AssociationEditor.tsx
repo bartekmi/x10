@@ -10,13 +10,13 @@ import SelectInput from "../chakra_wrappers/SelectInput";
 type Props = {
   readonly id?: string,  // This should be the unique id of the currently selected object
   readonly query: any,
-  readonly toString: (item: any) => string,
+  readonly toStringRepresentation?: (item: any) => string,
   readonly onChange: (value?: string) => void,
   readonly isNullable: boolean,
   readonly order?: "sameAsDefined" | "alphabetic",
 };
 export default function AssociationEditor(props: Props): React.JSX.Element {
-  const {id, query, toString, onChange, isNullable, order} = props;
+  const {id, query, toStringRepresentation, onChange, isNullable, order} = props;
 
   const { loading, error, data } = useQuery(
     query, { variables: {} }
@@ -29,7 +29,7 @@ export default function AssociationEditor(props: Props): React.JSX.Element {
 
   let options = data.entities.map((x: any) => ({  
         value: x.id, 
-        label: toString(x)
+        label: toStringRepresentation == null ? x.id : toStringRepresentation(x)
       }));
 
   if (order === "alphabetic") {

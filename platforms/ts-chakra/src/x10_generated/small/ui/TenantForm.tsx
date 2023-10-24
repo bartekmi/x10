@@ -163,6 +163,8 @@ function TenantForm(props: Props): React.JSX.Element {
             } }
             isNullable={ false }
             query={ countriesQuery }
+            toStringRepresentation={ (x) => x.name }
+            order='alphabetic'
           />
         </FormField>
       </FormSection>
@@ -218,6 +220,7 @@ const mutation = gql`
         city
         country {
           id
+          name
         }
         stateOrProvince
         theAddress
@@ -251,6 +254,7 @@ const countriesQuery = gql`
   query TenantForm_countriesQuery {
     entities: countries {
       id
+      name
     }
   }
 `;

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Select as ChakraSelect } from '@chakra-ui/react'
+import { isNull } from "util";
 
 type Option<T extends string> = {
   readonly value?: T,
@@ -14,8 +15,14 @@ type Props<T extends string> = {
   readonly isNullable?: boolean,
 };
 export default function SelectInput<T extends string>(props: Props<T>): React.JSX.Element {
-  const {value, readOnly, options, onChange, isNullable} = props;
+  let {value, readOnly, options, onChange, isNullable} = props;
   //const valueIsNumber = options.length > 0 && typeof options[0].value === "number";
+
+  // TODO...
+  // Even if a field is mandatory, when creating a brand-new object still needs a blank
+  // value to prevent an undesired default.
+  // The caller of this component need to know the context - first-time creation or edit.
+  isNullable = true;
 
   function generateOptions() : Option<T>[] {
     const optionsWithNull: Option<T>[] = [];
