@@ -89,8 +89,11 @@ namespace x10.gen.typescript.attribute {
             bindingValueExpression);
         } else {
           generator.WriteLine(level + 1, "let newObj = JSON.parse(JSON.stringify({0}));", generator.SourceVariableName);
-          pathExpression = pathExpression.Replace("?", "");   // Cannot assign to maybe-null
-          generator.WriteLine(level + 1, "newObj.{0} = {1};", pathExpression, bindingValueExpression);
+
+          string pathAfterRoot = string.Join('.', pathExpression.Split('.').Skip(1));
+          pathAfterRoot = pathAfterRoot.Replace("?", "");   // Cannot assign to maybe-null
+          generator.WriteLine(level + 1, "newObj.{0} = {1};", pathAfterRoot, bindingValueExpression);
+
           generator.WriteLine(level + 1, "onChange(newObj);");
         }
 

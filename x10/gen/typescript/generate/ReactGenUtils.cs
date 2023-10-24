@@ -117,7 +117,7 @@ namespace x10.gen.typescript.generate {
 
     internal string GetBindingPath(Instance instance) {
       IEnumerable<Member> path = UiCompilerUtils.GetBindingPath(instance);
-      if (path.Count() == 0)
+      if (!path.Any())
         return SourceVariableName;
       ExpBase expression = CodeGenUtils.PathToExpression(path);
       string expressionString = ExpressionToString(expression);

@@ -108,7 +108,7 @@ function BuildingForm(props: Props): React.JSX.Element {
               value={ building?.physicalAddress?.theAddress }
               onChange={ (value) => {
                 let newObj = JSON.parse(JSON.stringify(building));
-                newObj.building.physicalAddress.theAddress = value;
+                newObj.physicalAddress.theAddress = value;
                 onChange(newObj);
               } }
             />
@@ -125,7 +125,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                 value={ building?.physicalAddress?.city }
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.building.physicalAddress.city = value;
+                  newObj.physicalAddress.city = value;
                   onChange(newObj);
                 } }
               />
@@ -143,7 +143,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                 value={ building?.physicalAddress?.stateOrProvince }
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.building.physicalAddress.stateOrProvince = value;
+                  newObj.physicalAddress.stateOrProvince = value;
                   onChange(newObj);
                 } }
               />
@@ -161,7 +161,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                 value={ building?.physicalAddress?.zip }
                 onChange={ (value) => {
                   let newObj = JSON.parse(JSON.stringify(building));
-                  newObj.building.physicalAddress.zip = value;
+                  newObj.physicalAddress.zip = value;
                   onChange(newObj);
                 } }
               />
@@ -191,7 +191,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                   value={ building?.mailingAddress?.theAddress }
                   onChange={ (value) => {
                     let newObj = JSON.parse(JSON.stringify(building));
-                    newObj.building.mailingAddress.theAddress = value;
+                    newObj.mailingAddress.theAddress = value;
                     onChange(newObj);
                   } }
                 />
@@ -208,7 +208,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                     value={ building?.mailingAddress?.city }
                     onChange={ (value) => {
                       let newObj = JSON.parse(JSON.stringify(building));
-                      newObj.building.mailingAddress.city = value;
+                      newObj.mailingAddress.city = value;
                       onChange(newObj);
                     } }
                   />
@@ -226,7 +226,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                     value={ building?.mailingAddress?.stateOrProvince }
                     onChange={ (value) => {
                       let newObj = JSON.parse(JSON.stringify(building));
-                      newObj.building.mailingAddress.stateOrProvince = value;
+                      newObj.mailingAddress.stateOrProvince = value;
                       onChange(newObj);
                     } }
                   />
@@ -244,7 +244,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                     value={ building?.mailingAddress?.zip }
                     onChange={ (value) => {
                       let newObj = JSON.parse(JSON.stringify(building));
-                      newObj.building.mailingAddress.zip = value;
+                      newObj.mailingAddress.zip = value;
                       onChange(newObj);
                     } }
                   />

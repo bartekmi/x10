@@ -90,7 +90,7 @@ function TenantForm(props: Props): React.JSX.Element {
             value={ tenant?.permanentMailingAddress?.theAddress }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.tenant.permanentMailingAddress.theAddress = value;
+              newObj.permanentMailingAddress.theAddress = value;
               onChange(newObj);
             } }
           />
@@ -107,7 +107,7 @@ function TenantForm(props: Props): React.JSX.Element {
               value={ tenant?.permanentMailingAddress?.city }
               onChange={ (value) => {
                 let newObj = JSON.parse(JSON.stringify(tenant));
-                newObj.tenant.permanentMailingAddress.city = value;
+                newObj.permanentMailingAddress.city = value;
                 onChange(newObj);
               } }
             />
@@ -125,7 +125,7 @@ function TenantForm(props: Props): React.JSX.Element {
               value={ tenant?.permanentMailingAddress?.stateOrProvince }
               onChange={ (value) => {
                 let newObj = JSON.parse(JSON.stringify(tenant));
-                newObj.tenant.permanentMailingAddress.stateOrProvince = value;
+                newObj.permanentMailingAddress.stateOrProvince = value;
                 onChange(newObj);
               } }
             />
@@ -143,7 +143,7 @@ function TenantForm(props: Props): React.JSX.Element {
               value={ tenant?.permanentMailingAddress?.zip }
               onChange={ (value) => {
                 let newObj = JSON.parse(JSON.stringify(tenant));
-                newObj.tenant.permanentMailingAddress.zip = value;
+                newObj.permanentMailingAddress.zip = value;
                 onChange(newObj);
               } }
             />
@@ -158,7 +158,7 @@ function TenantForm(props: Props): React.JSX.Element {
             id={ tenant?.permanentMailingAddress?.country?.id }
             onChange={ (value) => {
               let newObj = JSON.parse(JSON.stringify(tenant));
-              newObj.tenant.permanentMailingAddress.country = value == null ? undefined : { id: value };
+              newObj.permanentMailingAddress.country = value == null ? undefined : { id: value };
               onChange(newObj);
             } }
             isNullable={ false }
