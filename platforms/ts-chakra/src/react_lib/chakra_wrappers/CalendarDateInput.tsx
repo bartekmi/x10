@@ -1,41 +1,32 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+// CSS Modules, react-datepicker-cssmodules.css
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 type CalendarDate = string;
 
 type Props = {
   readonly value: CalendarDate | null | undefined,
-  readonly onChange: (date: CalendarDate) => void,
+  readonly onChange: (date?: CalendarDate) => void,
   readonly readOnly?: boolean,
 };
 
 export default function CalendarDateInput(props: Props): React.JSX.Element {
   const {value, onChange, readOnly} = props;
+  const dateObject = value == null ? null : new Date(value);
 
   return (
     <div className={css(styles.styling)}>
-      TODO
-      {/* <LatitudeCalendarDateInput
-        value={toCalendarDate(value || null)} // Convert null or undefined to null
-        onChange={onChange}
-        disabled={readOnly}
-      /> */}
+      <DatePicker 
+        selected={dateObject} 
+        onChange={(date) => onChange(date?.toISOString())} 
+      />
     </div>
   );
-}
-
-function toCalendarDate(dateAndMaybeTime: string | null): CalendarDate | null {
-  if (dateAndMaybeTime == null) {
-    return null;
-  }
-
-  const index = dateAndMaybeTime.indexOf("T");
-  if (index == -1) {
-    throw "Invalid date/time format: " + dateAndMaybeTime;
-  }
- 
-  const date = dateAndMaybeTime.substr(0, index);
-  return `${date}T00:00:00Z`;
 }
 
 const styles = StyleSheet.create({
