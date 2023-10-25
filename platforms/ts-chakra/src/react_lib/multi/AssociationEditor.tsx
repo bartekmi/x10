@@ -16,7 +16,7 @@ type Props = {
   readonly order?: "sameAsDefined" | "alphabetic",
 };
 export default function AssociationEditor(props: Props): React.JSX.Element {
-  const {id, query, toStringRepresentation, onChange, isNullable, order} = props;
+  const {id, query, toStringRepresentation, onChange, isNullable, order='alphabetic'} = props;
 
   const { loading, error, data } = useQuery(
     query, { variables: {} }

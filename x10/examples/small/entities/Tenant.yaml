@@ -20,6 +20,10 @@ attributes:
     datagen_pattern: <first_name>(70% => | 10% => ~D~ | 10% => ~DD~ | 10% => ~DDD~)@(gmail.com | yahoo.com | hotmail.com | aol.com)
     datagen_capitalization: allDown
 
+derivedAttributes:
+  - name: toStringRepresentation
+    formula: =name
+
 associations:
   - name: permanentMailingAddress
     dataType: Address

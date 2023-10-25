@@ -13,6 +13,7 @@ import Separator from 'react_lib/Separator';
 
 import { AppContext } from 'SmallAppContext';
 import { moveCalculateErrors, type Move } from 'x10_generated/small/entities/Move';
+import { tenantToStringRepresentation } from 'x10_generated/small/entities/Tenant';
 
 
 
@@ -87,6 +88,7 @@ function MoveForm(props: Props): React.JSX.Element {
           } }
           isNullable={ false }
           query={ tenantsQuery }
+          toStringRepresentation={ tenantToStringRepresentation }
         />
       </FormField>
       <Group
@@ -168,6 +170,7 @@ const buildingsQuery = gql`
   query MoveForm_buildingsQuery {
     entities: buildings {
       id
+      name
     }
   }
 `;
@@ -176,6 +179,7 @@ const tenantsQuery = gql`
   query MoveForm_tenantsQuery {
     entities: tenants {
       id
+      name
     }
   }
 `;

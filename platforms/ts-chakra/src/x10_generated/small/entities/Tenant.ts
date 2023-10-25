@@ -28,6 +28,10 @@ export function createDefaultTenant(): Tenant {
   };
 }
 
+export function tenantToStringRepresentation(tenant?: Tenant): string{
+  return tenant?.name || '';
+}
+
 
 // Validations
 export function tenantCalculateErrors(appContext: AppContextType, tenant?: Tenant, prefix?: string, inListIndex?: number): FormError[] {
