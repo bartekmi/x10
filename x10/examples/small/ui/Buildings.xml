@@ -12,6 +12,7 @@
 
       <!-- Columns -->
       <Table.Columns>
+        <ageInYears/>
         <TableColumn label="Name" width="200">
           <Row>
             <name/>

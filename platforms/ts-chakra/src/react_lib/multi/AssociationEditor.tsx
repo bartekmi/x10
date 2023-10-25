@@ -7,6 +7,11 @@ import { useQuery } from '@apollo/client';
 // import SearchableSelectInput from "latitude/select/SearchableSelectInput";
 import SelectInput from "../chakra_wrappers/SelectInput";
 
+type Option = {
+  value?: string,
+  label: string,
+};
+
 type Props = {
   readonly id?: string,  // This should be the unique id of the currently selected object
   readonly query: any,
@@ -27,14 +32,24 @@ export default function AssociationEditor(props: Props): React.JSX.Element {
   if (error)
     return <div>`Error! ${error.message}`</div>;      
 
-  let options = data.entities.map((x: any) => ({  
+  let options: Option[] = data.entities.map((x: any) => ({  
         value: x.id, 
         label: toStringRepresentation == null ? x.id : toStringRepresentation(x)
       }));
 
-  if (order === "alphabetic") {
-    options = options.sort((a: any, b: any) => a.label.localeCompare(b.label));
-  }
+  // function compare( a: Option, b: Option ) {
+  //   if ( a.label < b.label ){
+  //     return -1;
+  //   }
+  //   if ( a.label > b.label ){
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
+
+  // if (order === "alphabetic") {
+  //   options = options.sort(compare);
+  // }
 
   return (
     <SelectInput

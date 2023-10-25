@@ -24,13 +24,11 @@ export default function SelectInput<T extends string>(props: Props<T>): React.JS
   // The caller of this component need to know the context - first-time creation or edit.
   isNullable = true;
 
-  function generateOptions() : Option<T>[] {
-    const optionsWithNull: Option<T>[] = [];
-    if (isNullable) {
-      optionsWithNull.push({ value: undefined, label: ''});
-    }
-    return [...optionsWithNull, ...options];
+  let optionsMaybeNull = [];
+  if (isNullable) {
+    optionsMaybeNull.push({ value: undefined, label: ''});
   }
+  optionsMaybeNull = [...optionsMaybeNull, ...options];
 
   return (
     <ChakraSelect
@@ -39,12 +37,14 @@ export default function SelectInput<T extends string>(props: Props<T>): React.JS
       // onChange={newValue => onChange(valueIsNumber ? parseInt(newValue.toString()) : newValue.toString()) }
       onChange={e => onChange(e.target.value as T) }
     >
-      {generateOptions().map(option => <option 
-        key={option.value}
-        value={option.value}
-      >
-        {option.label}
-      </option>)}
+      {
+        optionsMaybeNull.map(option => <option 
+          key={option.value}
+          value={option.value}
+        >
+          {option.label}
+        </option>)
+      }
     </ChakraSelect>
   );
 }

@@ -22,6 +22,7 @@ attributes:
 
 derivedAttributes:
   - name: toStringRepresentation
+    dataType: String
     formula: =name
 
 associations:
