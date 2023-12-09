@@ -14,3 +14,8 @@ attributes:
     dataType: String
     mandatory: true    
     datagen_from_source: ( country => name )
+
+derivedAttributes:
+  - name: toStringRepresentation
+    dataType: String
+    formula: =code + " - " + name

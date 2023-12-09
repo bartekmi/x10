@@ -937,13 +937,19 @@ namespace x10.gen.typescript.library {
               return varName + "Query"; // Must match query name in GqlPlaceholder
             }
           },
-          // TODO: How to deal with this - ideally, we'd like the top
-          // level x10 definition to specify a derived attribute for this
-          // new PlatformAttributeStatic() {
-          //   PlatformName = "toString",
-          //   IsCodeSnippet = true,
-          //   Value = "x => x.toStringRepresentation",
-          // },
+          // TODO: ideally, we'd like the top level x10 definition to specify a derived attribute for this
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "toStringRepresentation",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Entity entity = instance.DataModelEntity;
+              Entity refedEntity = (instance.ModelMember as Association).ReferencedEntity;
+              
+              X10DerivedAttribute toString = refedEntity.GetToStringRepresentationAttr();
+              generator.ImportsPlaceholder.ImportDerivedAttributeFunction(toString);
+              return TypeScriptCodeGenerator.DerivedAttrFuncName(toString);
+            },
+          },
           new JavaScriptAttributeDynamic("order", "order"),
         },
       },

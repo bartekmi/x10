@@ -12,8 +12,10 @@ import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Separator from 'react_lib/Separator';
 
 import { AppContext } from 'SmallAppContext';
+import { buildingToStringRepresentation } from 'x10_generated/small/entities/Building';
 import { moveCalculateErrors, type Move } from 'x10_generated/small/entities/Move';
 import { tenantToStringRepresentation } from 'x10_generated/small/entities/Tenant';
+
 
 
 type Props = {
@@ -59,6 +61,7 @@ function MoveForm(props: Props): React.JSX.Element {
           } }
           isNullable={ false }
           query={ buildingsQuery }
+          toStringRepresentation={ buildingToStringRepresentation }
         />
       </FormField>
       <FormField
@@ -73,6 +76,7 @@ function MoveForm(props: Props): React.JSX.Element {
           } }
           isNullable={ false }
           query={ buildingsQuery }
+          toStringRepresentation={ buildingToStringRepresentation }
         />
       </FormField>
       <FormField

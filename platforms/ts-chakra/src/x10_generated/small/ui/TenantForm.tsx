@@ -16,6 +16,7 @@ import isExistingObject from 'react_lib/utils/isExistingObject';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { AppContext } from 'SmallAppContext';
+import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
 import { tenantCalculateErrors, type Tenant } from 'x10_generated/small/entities/Tenant';
 
 
@@ -163,6 +164,7 @@ function TenantForm(props: Props): React.JSX.Element {
             } }
             isNullable={ false }
             query={ countriesQuery }
+            toStringRepresentation={ countryToStringRepresentation }
           />
         </FormField>
       </FormSection>
@@ -251,6 +253,7 @@ const countriesQuery = gql`
   query TenantForm_countriesQuery {
     entities: countries {
       id
+      code
       name
     }
   }

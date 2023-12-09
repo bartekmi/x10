@@ -52,6 +52,9 @@ derivedAttributes:
     dataType: Integer
     formula: = __Context__.today.year - dateOfOccupancy.year
     toolTip: Strongly affects annual propery maintenance costs.
+  - name: toStringRepresentation
+    dataType: String
+    formula: =name
 
 associations:
   - name: units

@@ -70,6 +70,14 @@ namespace x10.model.definition {
       return Members.FirstOrDefault(x => x.Name == name);
     }
 
+    public X10DerivedAttribute GetToStringRepresentationAttr() {
+      Member toString = FindMemberByName("toStringRepresentation");
+      if (toString is X10DerivedAttribute toStringDerived)
+        return toStringDerived;
+      else
+        throw new Exception("No 'toStringRepresentation' derived attribute on " + Name);
+    }
+
     internal void AddMember(Member member) {
       member.Owner = this;
       LocalMembers.Add(member);

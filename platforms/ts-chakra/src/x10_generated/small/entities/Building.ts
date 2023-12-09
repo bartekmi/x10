@@ -80,6 +80,14 @@ export function buildingAgeInYears(appContext: AppContextType, building?: {
   return isNaN(result) ? null : result;
 }
 
+export function buildingToStringRepresentation(appContext: AppContextType, building?: {
+    name?: string,
+} | null | undefined): string | undefined {
+  if (building == null) return '';
+  const result = building?.name;
+  return result;
+}
+
 export function buildingApplicableWhenForMailingAddress(appContext: AppContextType, building?: {
     mailingAddressSameAsPhysical?: boolean,
 } | null | undefined): boolean | undefined {

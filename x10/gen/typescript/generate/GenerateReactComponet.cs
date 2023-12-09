@@ -278,7 +278,7 @@ namespace x10.gen.typescript.generate {
     public void PrintGraphQL(int indent, MemberWrapper wrapper) {
       if (wrapper.RootEntity != null)
         PrintGraphQL_Children(indent, wrapper);
-      else if (wrapper.Member is Association association) {
+      else if (wrapper.Member is Association) {
         WriteLine(indent, wrapper.Member.Name + " {");
         PrintGraphQL_Children(indent + 1, wrapper);
         WriteLine(indent, "}");
