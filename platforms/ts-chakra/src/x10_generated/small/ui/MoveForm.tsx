@@ -16,7 +16,6 @@ import { moveCalculateErrors, type Move } from 'x10_generated/small/entities/Mov
 import { tenantToStringRepresentation } from 'x10_generated/small/entities/Tenant';
 
 
-
 type Props = {
   readonly move: Move,
   readonly onChange: (move: Move) => void,

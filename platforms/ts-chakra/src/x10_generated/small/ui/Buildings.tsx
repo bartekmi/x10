@@ -41,6 +41,17 @@ export default function Buildings(props: Props): React.JSX.Element {
           [
             {
               id: '_0',
+              Header: 'Age In Years',
+              width: 140,
+              accessor: (data) => buildingAgeInYears(appContext, data),
+              Cell: ( value ) =>
+                <FloatDisplay
+                  value={ value }
+                />
+              ,
+            },
+            {
+              id: '_1',
               Header: 'Name',
               width: 200,
               accessor: (data) => data,
@@ -66,7 +77,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               ,
             },
             {
-              id: '_1',
+              id: '_2',
               Header: 'The Address',
               width: 140,
               accessor: (data) => data?.physicalAddress?.theAddress,
@@ -77,7 +88,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               ,
             },
             {
-              id: '_2',
+              id: '_3',
               Header: 'City / Province',
               width: 140,
               accessor: (data) => addressSecondAddressLine(appContext, data?.physicalAddress),
@@ -88,7 +99,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               ,
             },
             {
-              id: '_3',
+              id: '_4',
               Header: 'Age In Years',
               width: 140,
               accessor: (data) => buildingAgeInYears(appContext, data),
@@ -99,7 +110,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               ,
             },
             {
-              id: '_4',
+              id: '_5',
               Header: 'Pet Policy',
               width: 140,
               accessor: (data) => data?.petPolicy,
@@ -111,7 +122,7 @@ export default function Buildings(props: Props): React.JSX.Element {
               ,
             },
             {
-              id: '_5',
+              id: '_6',
               Header: 'Action',
               width: 140,
               accessor: (data) => data,

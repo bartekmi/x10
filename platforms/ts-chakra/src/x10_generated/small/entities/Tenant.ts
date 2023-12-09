@@ -17,6 +17,17 @@ export type Tenant = {
 };
 
 
+// Derived Attribute Functions
+export function tenantToStringRepresentation(appContext: AppContextType, tenant?: {
+    name?: string,
+} | null | undefined): string | undefined {
+  if (tenant == null) return '';
+  const result = tenant?.name;
+  return result;
+}
+
+
+
 // Create Default Function
 export function createDefaultTenant(): Tenant {
   return {
@@ -26,10 +37,6 @@ export function createDefaultTenant(): Tenant {
     email: '',
     permanentMailingAddress: createDefaultAddress(),
   };
-}
-
-export function tenantToStringRepresentation(tenant?: Tenant): string{
-  return tenant?.name || '';
 }
 
 
