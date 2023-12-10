@@ -56,6 +56,7 @@ export default function Label({
         {indicateRequired ? (
           <span className={css(styles.optionalReqdMargin)}>*</span>
         ) : null}
+        <span style={{ display: "inline-block", width: "10px" }}/>
         {renderHelpTooltip()}
       </label>
       {children}
