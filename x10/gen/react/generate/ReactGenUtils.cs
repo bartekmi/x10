@@ -147,10 +147,6 @@ namespace x10.gen.react.generate {
     #endregion
 
     #region Misc
-    internal static bool IsForm(ClassDefX10 classDef) {
-      return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
-    }
-
     internal static string TypedLiteralToString(object literal, DataTypeEnum asEnum, bool isCodeSnippet) {
       if (literal == null)
         return "null";

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using x10.ui.composition;
+using x10.ui.libraries;
 
 namespace x10.ui {
   public static class UiUtils {
@@ -25,6 +25,16 @@ namespace x10.ui {
     }
 
     /// <summary>
+    /// Similar as the version for finding Instances, but returns a HashSet that 
+    /// includes the passed-in ClassDefX10 and all nested ones.
+    /// </summary>
+    public static HashSet<ClassDefX10> ListSelfAndDescendants(ClassDefX10 classDef) {
+      IEnumerable<Instance> instances = ListSelfAndAncestors(classDef.RootChild);
+      IEnumerable<ClassDefX10> classDefX10s = instances.Select(x => x.RenderAs).OfType<ClassDefX10>();
+      return new HashSet<ClassDefX10>(classDefX10s);
+    }
+
+    /// <summary>
     /// List self, then all ancestors in order down to root
     /// </summary>
     public static IEnumerable<Instance> ListSelfAndAncestors(Instance instance) {
@@ -37,5 +47,10 @@ namespace x10.ui {
 
       return all;
     }
+
+    public static bool IsForm(ClassDefX10 classDef) {
+      return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
+    }
+
   }
 }

@@ -27,7 +27,7 @@ namespace x10.gen.typescript.generate {
 
     public override void Generate(ClassDefX10 classDef) {
       Entity model = classDef.ComponentDataModel;
-      bool isForm = IsForm(classDef);
+      bool isForm = UiUtils.IsForm(classDef);
 
       GenerateMainUiFile(classDef, model, isForm);
       if (model != null && classDef.Url != null)

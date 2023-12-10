@@ -13,6 +13,7 @@ using x10.model.metadata;
 using x10.ui.composition;
 using x10.ui.libraries;
 using x10.compiler;
+using x10.ui;
 
 namespace x10.gen.hotchoc {
   public class HotchocCodeGenerator : CodeGenerator {
@@ -249,7 +250,7 @@ namespace x10.hotchoc.{0} {{
 
       foreach (ClassDefX10 classDef in AllUiDefinitions.All) {
         Entity model = classDef.ComponentDataModel;
-        if (IsForm(classDef) && model != null) {
+        if (UiUtils.IsForm(classDef) && model != null) {
           WriteLine(2, "#region {0}", classDef.Name);
           GenerateMutationInputType(classDef, model);
           WriteLine();
@@ -282,11 +283,6 @@ namespace x10.hotchoc.{0} {{
   public partial class Mutations {{
 
 ", PackageName);
-    }
-
-
-    internal static bool IsForm(ClassDefX10 classDef) {
-      return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
     }
 
     private void GenerateMutationInputType(ClassDefX10 classDef, Entity model) {

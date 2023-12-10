@@ -1,6 +1,7 @@
 using x10.model.definition;
 using x10.ui.composition;
 using x10.gen.react.placeholder;
+using x10.ui;
 
 namespace x10.gen.react.generate {
   public partial class ReactCodeGenerator {
@@ -61,7 +62,7 @@ namespace x10.gen.react.generate {
       WriteLine(3, "match={ props.match }");
       WriteLine(3, "createComponentFunc={ ({0}) => <{1} {0}={ {0} }/> }", variableName, classDefName);
 
-      if (IsForm(classDef)) {
+      if (UiUtils.IsForm(classDef)) {
         string classDefStateful = classDefName + "Stateful";
         WriteLine(3, "createComponentFuncNew={ () => <{0} {1}={ {2}() }/> }", classDefStateful, variableName, createDefaultFunc);
         ImportsPlaceholder.Import(classDefStateful, classDef);

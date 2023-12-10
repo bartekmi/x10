@@ -1002,7 +1002,7 @@ namespace x10.gen.react.library {
               generator.WriteLine(indent, "<Route exact path='{0}' component={ {1} } />",
                 classDef.Url,
                 compInterface);
-            else if (ReactCodeGenerator.IsForm(classDef)) {
+            else if (UiUtils.IsForm(classDef)) {
               generator.WriteLine(indent, "<Route exact path='{0}/edit/:id' component={ {1} } />",
                 classDef.Url,
                 compInterface);

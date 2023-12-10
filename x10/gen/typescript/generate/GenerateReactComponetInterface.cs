@@ -1,6 +1,8 @@
 using x10.model.definition;
 using x10.ui.composition;
 using x10.gen.typescript.placeholder;
+using System.Collections.Generic;
+using x10.ui;
 
 namespace x10.gen.typescript.generate {
   public partial class TypeScriptCodeGenerator {
@@ -55,7 +57,7 @@ namespace x10.gen.typescript.generate {
 
       // For Forms, we use the "stateful" version of the component
       string childElement = null;
-      if (IsForm(classDef)) {
+      if (UiUtils.IsForm(classDef)) {
         childElement = classDefName + "Stateful";
         ImportsPlaceholder.Import(childElement, classDef);
       } else {
@@ -81,7 +83,7 @@ namespace x10.gen.typescript.generate {
 
       string classDefName = classDef.Name;
       string variableName = VariableName(model);
-      string fragmentConst = FragmentConst(classDef);
+      HashSet<ClassDefX10> classDefs = UiUtils.ListSelfAndDescendants(classDef);
 
       WriteLine(0, "const query = gql`");
       WriteLine(1, "query {0}InterfaceQuery($id: String!) {", classDefName);
@@ -89,11 +91,15 @@ namespace x10.gen.typescript.generate {
       WriteLine(3, "...{0}", FragmentName(classDef));
       WriteLine(2, "}");
       WriteLine(1, "}");
-      WriteLine(1, "${ {0} }", fragmentConst);
+
+      foreach (ClassDefX10 classDefRecurse in classDefs)
+        WriteLine(1, "${ {0} }", FragmentConst(classDefRecurse));
+
       WriteLine(0, "`;");
       WriteLine();
 
-      ImportsPlaceholder.Import(fragmentConst, classDef);
+      foreach (ClassDefX10 classDefRecurse in classDefs)
+        ImportsPlaceholder.Import(FragmentConst(classDefRecurse), classDefRecurse);
     }
     #endregion
 

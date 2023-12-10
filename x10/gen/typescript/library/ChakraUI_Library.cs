@@ -1014,7 +1014,7 @@ namespace x10.gen.typescript.library {
               generator.WriteLine(indent, "<Route path='{0}' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
-            else if (TypeScriptCodeGenerator.IsForm(classDef)) {
+            else if (UiUtils.IsForm(classDef)) {
               generator.WriteLine(indent, "<Route path='{0}/edit/:id' element={ <{1}/> } />",
                 classDef.Url,
                 compInterface);
