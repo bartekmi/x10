@@ -12,12 +12,14 @@ import TextareaInput from 'react_lib/chakra_wrappers/TextareaInput';
 import TextInput from 'react_lib/chakra_wrappers/TextInput';
 import FloatDisplay from 'react_lib/display/FloatDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
+import FormErrorDisplay from 'react_lib/form/FormErrorDisplay';
 import FormField from 'react_lib/form/FormField';
 import FormProvider from 'react_lib/form/FormProvider';
 import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
+import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import MultiStacker from 'react_lib/multi/MultiStacker';
 import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
@@ -26,6 +28,7 @@ import x10toString from 'react_lib/utils/x10toString';
 import { AppContext } from 'SmallAppContext';
 import { addressSecondAddressLine } from 'x10_generated/small/entities/Address';
 import { buildingAgeInYears, buildingApplicableWhenForMailingAddress, buildingCalculateErrors, MailboxTypeEnumPairs, PetPolicyEnumPairs, type Building } from 'x10_generated/small/entities/Building';
+import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
 import { createDefaultUnit, NumberOfBathroomsEnumPairs } from 'x10_generated/small/entities/Unit';
 
 
@@ -168,6 +171,23 @@ function BuildingForm(props: Props): React.JSX.Element {
               />
             </FormField>
           </StyleControl>
+          <FormField
+            editorFor='physicalAddress.country'
+            indicateRequired={ true }
+            label='Country'
+          >
+            <AssociationEditor
+              id={ building?.physicalAddress?.country?.id }
+              onChange={ (value) => {
+                let newObj = JSON.parse(JSON.stringify(building));
+                newObj.physicalAddress.country = value == null ? undefined : { id: value };
+                onChange(newObj);
+              } }
+              isNullable={ false }
+              query={ countriesQuery }
+              toStringRepresentation={ countryToStringRepresentation }
+            />
+          </FormField>
         </FormSection>
         <FormSection
           label='Mailing Address'
@@ -251,6 +271,23 @@ function BuildingForm(props: Props): React.JSX.Element {
                   />
                 </FormField>
               </StyleControl>
+              <FormField
+                editorFor='mailingAddress.country'
+                indicateRequired={ true }
+                label='Country'
+              >
+                <AssociationEditor
+                  id={ building?.mailingAddress?.country?.id }
+                  onChange={ (value) => {
+                    let newObj = JSON.parse(JSON.stringify(building));
+                    newObj.mailingAddress.country = value == null ? undefined : { id: value };
+                    onChange(newObj);
+                  } }
+                  isNullable={ false }
+                  query={ countriesQuery }
+                  toStringRepresentation={ countryToStringRepresentation }
+                />
+              </FormField>
             </VerticalStackPanel>
           </StyleControl>
         </FormSection>
@@ -399,6 +436,7 @@ function BuildingForm(props: Props): React.JSX.Element {
             addNewItem={ createDefaultUnit }
           />
         </FormSection>
+        <FormErrorDisplay/>
         <Group
           justifyContent='space-between'
         >
@@ -457,6 +495,9 @@ const mutation = gql`
       mailingAddress {
         id
         city
+        country {
+          id
+        }
         stateOrProvince
         theAddress
         zip
@@ -468,6 +509,9 @@ const mutation = gql`
       physicalAddress {
         id
         city
+        country {
+          id
+        }
         stateOrProvince
         theAddress
         zip
@@ -493,6 +537,9 @@ export const BUILDINGFORM_BUILDING_FRAGMENT = gql`
     mailingAddress {
       id
       city
+      country {
+        id
+      }
       stateOrProvince
       theAddress
       zip
@@ -504,6 +551,9 @@ export const BUILDINGFORM_BUILDING_FRAGMENT = gql`
     physicalAddress {
       id
       city
+      country {
+        id
+      }
       stateOrProvince
       theAddress
       zip
@@ -518,4 +568,14 @@ export const BUILDINGFORM_BUILDING_FRAGMENT = gql`
     }
   }
 `
+
+const countriesQuery = gql`
+  query BuildingForm_countriesQuery {
+    entities: countries {
+      id
+      code
+      name
+    }
+  }
+`;
 

@@ -15,6 +15,7 @@
         <city/>
         <stateOrProvince/>
         <zip/>
+        <country/>
       </FormSection>
 
       <FormSection label="Mailing Address">
@@ -24,6 +25,7 @@
           <city/>
           <stateOrProvince/>
           <zip/>
+          <country/>
         </VerticalStackPanel>
       </FormSection>
 
@@ -52,6 +54,7 @@
         </List>
       </FormSection>
 
+      <FormErrorDisplay/>
       <RepellingRow>
         <Text>* Required</Text>
         <SubmitButton label="Save">

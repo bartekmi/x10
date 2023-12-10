@@ -6,6 +6,8 @@ import {FormContext} from "./FormProvider";
 import colors from "../colors";
 
 type Props = {
+  // This optional setting allows the caller to narrow the 
+  // set of errors that are shown. 
   readonly paths?: string,
 };
 export default function FormErrorDisplay(props: Props): React.JSX.Element {
