@@ -7,6 +7,7 @@ import EntityQueryRenderer from 'react_lib/client_apollo/EntityQueryRenderer';
 
 import { createDefaultMove, type Move } from 'x10_generated/small/entities/Move';
 import MoveView, { MOVEVIEW_MOVE_FRAGMENT } from 'x10_generated/small/ui/MoveView';
+import { BUILDINGVIEW_BUILDING_FRAGMENT } from 'x10_generated/small/ui/BuildingView';
 
 
 
@@ -29,5 +30,6 @@ const query = gql`
     }
   }
   ${ MOVEVIEW_MOVE_FRAGMENT }
+  ${ BUILDINGVIEW_BUILDING_FRAGMENT }
 `;
 
