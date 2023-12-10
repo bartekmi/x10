@@ -29,9 +29,15 @@ namespace x10.ui {
     /// includes the passed-in ClassDefX10 and all nested ones.
     /// </summary>
     public static HashSet<ClassDefX10> ListSelfAndDescendants(ClassDefX10 classDef) {
-      IEnumerable<Instance> instances = ListSelfAndAncestors(classDef.RootChild);
+      IEnumerable<Instance> instances = ListSelfAndDescendants(classDef.RootChild);
       IEnumerable<ClassDefX10> classDefX10s = instances.Select(x => x.RenderAs).OfType<ClassDefX10>();
-      return new HashSet<ClassDefX10>(classDefX10s);
+      HashSet<ClassDefX10> hashSet = new HashSet<ClassDefX10>(classDefX10s);
+
+      // We must explicitly add the inital classDef. Note that classDef.RootChild.RenderAs is
+      // the native "Form" component, not classDef itself.
+      hashSet.Add(classDef);
+
+      return hashSet;
     }
 
     /// <summary>

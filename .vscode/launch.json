@@ -39,7 +39,8 @@
       "request": "launch",
       "preLaunchTask": "build_x10",
       "program": "${workspaceFolder}/x10/bin/Debug/net7.0/x10.dll",
-      "args": ["small-ts", "-f"],
+      //"args": ["small-ts", "-f"],   // Uncomment to investigate formulas
+      "args": ["small-ts"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
       "stopAtEntry": false,

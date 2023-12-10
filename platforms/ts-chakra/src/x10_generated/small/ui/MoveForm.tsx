@@ -11,6 +11,7 @@ import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import Group from 'react_lib/Group';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
 import Separator from 'react_lib/Separator';
+import isNewObject from 'react_lib/utils/isNewObject';
 
 import { AppContext } from 'SmallAppContext';
 import { buildingToStringRepresentation } from 'x10_generated/small/entities/Building';
@@ -35,7 +36,7 @@ function MoveForm(props: Props): React.JSX.Element {
         as='h1'
         size='4xl'
         noOfLines={ 1 }
-        children='New Move'
+        children={ isNewObject(move?.id) ? 'New Move' : 'Editing Move' }
       />
       <Separator/>
       <FormField

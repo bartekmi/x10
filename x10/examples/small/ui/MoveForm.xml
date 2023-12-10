@@ -1,6 +1,6 @@
 <MoveForm model="Move" url="/moves" query="GetMove(tenantId: $tenantId">
   <Form>
-    <Heading1>New Move</Heading1>
+    <Heading1>=IsNewObject(id) ? "New Move" : "Editing Move"</Heading1>
     <HorizontalDivider/>
     <date/>
     <from/>
