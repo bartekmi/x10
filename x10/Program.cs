@@ -143,6 +143,7 @@ namespace x10 {
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "SmallSample",
+          CustomMutationsClass = "MutationsHandCoded",
         },
       },
 

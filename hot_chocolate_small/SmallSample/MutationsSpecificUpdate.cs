@@ -12,14 +12,18 @@ using x10.hotchoc.SmallSample.Repositories;
 namespace x10.hotchoc.SmallSample {
   [ExtendObjectType(Name = "Mutation")]
   public partial class Mutations {
+
     #region MoveForm
     /// <summary>
     /// Input Data Type for MoveFormUpdateMove Mutation
     /// </summary>
     public class MoveFormMove : Base {
       public DateTime? Date { get; set; }
+      [GraphQLNonNullType]
       public IdWrapper? From { get; set; }
+      [GraphQLNonNullType]
       public IdWrapper? To { get; set; }
+      [GraphQLNonNullType]
       public IdWrapper? Tenant { get; set; }
     }
 
@@ -44,7 +48,7 @@ namespace x10.hotchoc.SmallSample {
       public string? Moniker { get; set; }
       public string? Name { get; set; }
       public string? Description { get; set; }
-      public bool? MailingAddressSameAsPhysical { get; set; }
+      public bool MailingAddressSameAsPhysical { get; set; }
       public Address MailingAddress { get; set; }
       public MailboxTypeEnum? MailboxType { get; set; }
       public PetPolicyEnum? PetPolicy { get; set; }

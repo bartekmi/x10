@@ -22,9 +22,9 @@ type Building {
   dateOfOccupancy: DateTime
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
-  mailingAddressSameAsPhysical: Boolean
-  units: [Unit!]
-  physicalAddress: Address
+  mailingAddressSameAsPhysical: Boolean!
+  units: [Unit!]!
+  physicalAddress: Address!
   mailingAddress: Address
   id: String!
 }
@@ -86,7 +86,7 @@ type Tenant {
   name: String
   phone: String
   email: String
-  permanentMailingAddress: Address
+  permanentMailingAddress: Address!
   id: String!
 }
 
@@ -286,7 +286,7 @@ input BuildingFormBuildingInput {
   moniker: String
   name: String
   description: String
-  mailingAddressSameAsPhysical: Boolean
+  mailingAddressSameAsPhysical: Boolean!
   mailingAddress: AddressInput!
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
@@ -396,9 +396,9 @@ input MoveFilter {
 "Input Data Type for MoveFormUpdateMove Mutation"
 input MoveFormMoveInput {
   date: DateTime
-  from: IdWrapperInput
-  to: IdWrapperInput
-  tenant: IdWrapperInput
+  from: IdWrapperInput!
+  to: IdWrapperInput!
+  tenant: IdWrapperInput!
   id: String!
 }
 

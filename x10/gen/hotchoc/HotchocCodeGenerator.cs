@@ -316,7 +316,10 @@ namespace x10.hotchoc.{0} {{
           } else {
             if (association.IsMandatory)
               WriteLine(3, "[GraphQLNonNullType]");
-            WriteLine(3, "public {0} {1} { get; set; }", refedEntity.Name, propName);
+            if (association.Owns)
+              WriteLine(3, "public {0} {1} { get; set; }", refedEntity.Name, propName);
+            else
+              WriteLine(3, "public IdWrapper? {0} { get; set; }", propName);
           }
         } else
           throw new NotImplementedException("Anything coming back from MemberWrapper should be regular attr or association");
