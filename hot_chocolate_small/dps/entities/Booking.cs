@@ -63,10 +63,10 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? shipper_entity = IdUtils.FromRelayId(Shipper_entity?.Id);
+      int? shipper_entity = IdUtils.FromFrontEndId(Shipper_entity?.Id);
       Shipper_entity = shipper_entity == null ? null : repository.GetCompanyEntity(shipper_entity.Value);
 
-      int? consignee_entity = IdUtils.FromRelayId(Consignee_entity?.Id);
+      int? consignee_entity = IdUtils.FromFrontEndId(Consignee_entity?.Id);
       Consignee_entity = consignee_entity == null ? null : repository.GetCompanyEntity(consignee_entity.Value);
 
       Cargo?.SetNonOwnedAssociations(repository);

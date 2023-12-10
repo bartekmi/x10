@@ -15,7 +15,7 @@ namespace x10.hotchoc.dps {
     public override Hit ClearanceFormUpdateHit(
       ClearanceFormHit data,
       [Service] IRepository repository) {
-        int? id = IdUtils.FromRelayId(data.Id);
+        int? id = IdUtils.FromFrontEndId(data.Id);
         if (id == null)
           throw new Exception("Could not extract dbid from " + data.Id);
 
@@ -36,7 +36,7 @@ namespace x10.hotchoc.dps {
     public override Settings SettingsEditorUpdateSettings(
       SettingsEditorSettings data,
       [Service] IRepository repository) {
-        int? id = IdUtils.FromRelayId(data.Id);
+        int? id = IdUtils.FromFrontEndId(data.Id);
         if (id == null)
           throw new Exception("Could not extract dbid from " + data.Id);
 

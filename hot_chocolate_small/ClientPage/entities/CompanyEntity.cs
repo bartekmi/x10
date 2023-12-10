@@ -131,7 +131,7 @@ namespace x10.hotchoc.ClientPage.Entities {
         foreach (VatNumber vatNumbers in VatNumbers)
           vatNumbers.SetNonOwnedAssociations(repository);
 
-      int? netsuiteVendorId = IdUtils.FromRelayId(NetsuiteVendorId?.Id);
+      int? netsuiteVendorId = IdUtils.FromFrontEndId(NetsuiteVendorId?.Id);
       NetsuiteVendorId = netsuiteVendorId == null ? null : repository.GetNetsuiteVendor(netsuiteVendorId.Value);
 
       CtpatReview?.SetNonOwnedAssociations(repository);
@@ -140,10 +140,10 @@ namespace x10.hotchoc.ClientPage.Entities {
         foreach (Document documents in Documents)
           documents.SetNonOwnedAssociations(repository);
 
-      int? countryOfBusinessRegistration = IdUtils.FromRelayId(CountryOfBusinessRegistration?.Id);
+      int? countryOfBusinessRegistration = IdUtils.FromFrontEndId(CountryOfBusinessRegistration?.Id);
       CountryOfBusinessRegistration = countryOfBusinessRegistration == null ? null : repository.GetCountry(countryOfBusinessRegistration.Value);
 
-      int? invoiceCurrencyDefault = IdUtils.FromRelayId(InvoiceCurrencyDefault?.Id);
+      int? invoiceCurrencyDefault = IdUtils.FromFrontEndId(InvoiceCurrencyDefault?.Id);
       InvoiceCurrencyDefault = invoiceCurrencyDefault == null ? null : repository.GetCurrency(invoiceCurrencyDefault.Value);
 
       if (HkspPartners != null)

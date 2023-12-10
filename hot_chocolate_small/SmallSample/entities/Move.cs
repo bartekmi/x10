@@ -29,13 +29,13 @@ namespace x10.hotchoc.SmallSample.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? from = IdUtils.FromRelayId(From?.Id);
+      int? from = IdUtils.FromFrontEndId(From?.Id);
       From = from == null ? null : repository.GetBuilding(from.Value);
 
-      int? to = IdUtils.FromRelayId(To?.Id);
+      int? to = IdUtils.FromFrontEndId(To?.Id);
       To = to == null ? null : repository.GetBuilding(to.Value);
 
-      int? tenant = IdUtils.FromRelayId(Tenant?.Id);
+      int? tenant = IdUtils.FromFrontEndId(Tenant?.Id);
       Tenant = tenant == null ? null : repository.GetTenant(tenant.Value);
     }
   }

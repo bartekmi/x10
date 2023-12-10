@@ -45,7 +45,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? uploadedBy = IdUtils.FromRelayId(UploadedBy?.Id);
+      int? uploadedBy = IdUtils.FromFrontEndId(UploadedBy?.Id);
       UploadedBy = uploadedBy == null ? null : repository.GetUser(uploadedBy.Value);
     }
   }

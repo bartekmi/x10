@@ -20,21 +20,18 @@ namespace x10.hotchoc.SmallSample {
       MoveFormMove data,
       [Service] IRepository repository) {
 
-      int? id = IdUtils.FromRelayId(data.Id);
-      Move move;
-      if (id == null) {
-        move = new Move();
-      } else
-        move = repository.GetMove(id.Value);
+      int? id = IdUtils.FromFrontEndId(data.Id);
+      Move entity = id == null ? new Move() : repository.GetMove(id.Value);
 
-      move.Tenant = new Tenant() { Id = data.Tenant.Id };
-      move.From = new Building() { Id = data.From.Id };
-      move.To = new Building() { Id = data.To.Id };
-      move.Date = data.Date;
+      entity.Tenant = new Tenant() { Id = data.Tenant.Id };
+      entity.From = new Building() { Id = data.From.Id };
+      entity.To = new Building() { Id = data.To.Id };
+      entity.Date = data.Date;
 
-      move.SetNonOwnedAssociations(repository);
-      repository.AddOrUpdateMove(id, move);
-      return move;      
+      entity.SetNonOwnedAssociations(repository);
+      repository.AddOrUpdateMove(id, entity);
+
+      return entity;      
     }
 
     /// <summary>

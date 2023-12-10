@@ -66,10 +66,10 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? companyEntity = IdUtils.FromRelayId(CompanyEntity?.Id);
+      int? companyEntity = IdUtils.FromFrontEndId(CompanyEntity?.Id);
       CompanyEntity = companyEntity == null ? null : repository.GetCompanyEntity(companyEntity.Value);
 
-      int? user = IdUtils.FromRelayId(User?.Id);
+      int? user = IdUtils.FromFrontEndId(User?.Id);
       User = user == null ? null : repository.GetUser(user.Value);
 
       if (Attachments != null)
@@ -100,7 +100,7 @@ namespace x10.hotchoc.dps.Entities {
         foreach (OldHit oldHits in OldHits)
           oldHits.SetNonOwnedAssociations(repository);
 
-      int? whitelistDays = IdUtils.FromRelayId(WhitelistDays?.Id);
+      int? whitelistDays = IdUtils.FromFrontEndId(WhitelistDays?.Id);
       WhitelistDays = whitelistDays == null ? null : repository.GetWhitelistDuration(whitelistDays.Value);
     }
   }

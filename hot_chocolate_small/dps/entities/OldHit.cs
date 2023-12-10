@@ -42,7 +42,7 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? resolvedBy = IdUtils.FromRelayId(ResolvedBy?.Id);
+      int? resolvedBy = IdUtils.FromFrontEndId(ResolvedBy?.Id);
       ResolvedBy = resolvedBy == null ? null : repository.GetUser(resolvedBy.Value);
 
       if (ChangeLog != null)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using HotChocolate;
 using HotChocolate.Types;
-using HotChocolate.Types.Relay;
 
 using x10.hotchoc.SmallSample.Entities;
 using x10.hotchoc.SmallSample.Repositories;
@@ -22,7 +21,7 @@ namespace x10.hotchoc.SmallSample {
     public Building GetBuilding(
         string id,
         [Service] IRepository repository) =>
-          repository.GetBuilding(IdUtils.FromRelayIdMandatory(id));
+          repository.GetBuilding(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Buildings.
@@ -46,7 +45,7 @@ namespace x10.hotchoc.SmallSample {
     public Move GetMove(
         string id,
         [Service] IRepository repository) =>
-          repository.GetMove(IdUtils.FromRelayIdMandatory(id));
+          repository.GetMove(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Moves.
@@ -70,7 +69,7 @@ namespace x10.hotchoc.SmallSample {
     public Tenant GetTenant(
         string id,
         [Service] IRepository repository) =>
-          repository.GetTenant(IdUtils.FromRelayIdMandatory(id));
+          repository.GetTenant(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Tenants.
@@ -94,7 +93,7 @@ namespace x10.hotchoc.SmallSample {
     public Address GetAddress(
         string id,
         [Service] IRepository repository) =>
-          repository.GetAddress(IdUtils.FromRelayIdMandatory(id));
+          repository.GetAddress(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Addresses.
@@ -118,7 +117,7 @@ namespace x10.hotchoc.SmallSample {
     public Country GetCountry(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCountry(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCountry(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Countries.
@@ -142,7 +141,7 @@ namespace x10.hotchoc.SmallSample {
     public Unit GetUnit(
         string id,
         [Service] IRepository repository) =>
-          repository.GetUnit(IdUtils.FromRelayIdMandatory(id));
+          repository.GetUnit(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Units.

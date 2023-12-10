@@ -37,13 +37,13 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? client = IdUtils.FromRelayId(Client?.Id);
+      int? client = IdUtils.FromFrontEndId(Client?.Id);
       Client = client == null ? null : repository.GetClient(client.Value);
 
-      int? departurePort = IdUtils.FromRelayId(DeparturePort?.Id);
+      int? departurePort = IdUtils.FromFrontEndId(DeparturePort?.Id);
       DeparturePort = departurePort == null ? null : repository.GetPort(departurePort.Value);
 
-      int? arrivalPort = IdUtils.FromRelayId(ArrivalPort?.Id);
+      int? arrivalPort = IdUtils.FromFrontEndId(ArrivalPort?.Id);
       ArrivalPort = arrivalPort == null ? null : repository.GetPort(arrivalPort.Value);
     }
   }

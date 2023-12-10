@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 using HotChocolate;
 using HotChocolate.Types;
-using HotChocolate.Types.Relay;
 
 using x10.hotchoc.ClientPage.Entities;
 using x10.hotchoc.ClientPage.Repositories;
@@ -21,7 +20,7 @@ namespace x10.hotchoc.ClientPage {
     public NetsuiteVendor GetNetsuiteVendor(
         string id,
         [Service] IRepository repository) =>
-          repository.GetNetsuiteVendor(IdUtils.FromRelayIdMandatory(id));
+          repository.GetNetsuiteVendor(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all NetsuiteVendors.
@@ -45,7 +44,7 @@ namespace x10.hotchoc.ClientPage {
     public HkspPartner GetHkspPartner(
         string id,
         [Service] IRepository repository) =>
-          repository.GetHkspPartner(IdUtils.FromRelayIdMandatory(id));
+          repository.GetHkspPartner(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all HkspPartners.
@@ -69,7 +68,7 @@ namespace x10.hotchoc.ClientPage {
     public Company GetCompany(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCompany(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCompany(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Companies.
@@ -93,7 +92,7 @@ namespace x10.hotchoc.ClientPage {
     public StateOrProvince GetStateOrProvince(
         string id,
         [Service] IRepository repository) =>
-          repository.GetStateOrProvince(IdUtils.FromRelayIdMandatory(id));
+          repository.GetStateOrProvince(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all StateOrProvinces.
@@ -117,7 +116,7 @@ namespace x10.hotchoc.ClientPage {
     public CtpatReview GetCtpatReview(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCtpatReview(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCtpatReview(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all CtpatReviews.
@@ -141,7 +140,7 @@ namespace x10.hotchoc.ClientPage {
     public HkspPartnerUse GetHkspPartnerUse(
         string id,
         [Service] IRepository repository) =>
-          repository.GetHkspPartnerUse(IdUtils.FromRelayIdMandatory(id));
+          repository.GetHkspPartnerUse(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all HkspPartnerUses.
@@ -165,7 +164,7 @@ namespace x10.hotchoc.ClientPage {
     public CompanyEntity GetCompanyEntity(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCompanyEntity(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCompanyEntity(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all CompanyEntities.
@@ -189,7 +188,7 @@ namespace x10.hotchoc.ClientPage {
     public Currency GetCurrency(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCurrency(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCurrency(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Currencies.
@@ -213,7 +212,7 @@ namespace x10.hotchoc.ClientPage {
     public Address GetAddress(
         string id,
         [Service] IRepository repository) =>
-          repository.GetAddress(IdUtils.FromRelayIdMandatory(id));
+          repository.GetAddress(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Addresses.
@@ -237,7 +236,7 @@ namespace x10.hotchoc.ClientPage {
     public User GetUser(
         string id,
         [Service] IRepository repository) =>
-          repository.GetUser(IdUtils.FromRelayIdMandatory(id));
+          repository.GetUser(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Users.
@@ -261,7 +260,7 @@ namespace x10.hotchoc.ClientPage {
     public Document GetDocument(
         string id,
         [Service] IRepository repository) =>
-          repository.GetDocument(IdUtils.FromRelayIdMandatory(id));
+          repository.GetDocument(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Documents.
@@ -285,7 +284,7 @@ namespace x10.hotchoc.ClientPage {
     public Client GetClient(
         string id,
         [Service] IRepository repository) =>
-          repository.GetClient(IdUtils.FromRelayIdMandatory(id));
+          repository.GetClient(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Clients.
@@ -309,7 +308,7 @@ namespace x10.hotchoc.ClientPage {
     public VatNumber GetVatNumber(
         string id,
         [Service] IRepository repository) =>
-          repository.GetVatNumber(IdUtils.FromRelayIdMandatory(id));
+          repository.GetVatNumber(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all VatNumbers.
@@ -333,7 +332,7 @@ namespace x10.hotchoc.ClientPage {
     public Country GetCountry(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCountry(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCountry(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Countries.
@@ -357,7 +356,7 @@ namespace x10.hotchoc.ClientPage {
     public Contact GetContact(
         string id,
         [Service] IRepository repository) =>
-          repository.GetContact(IdUtils.FromRelayIdMandatory(id));
+          repository.GetContact(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all Contacts.
@@ -381,7 +380,7 @@ namespace x10.hotchoc.ClientPage {
     public CompanyEntityCountryService GetCompanyEntityCountryService(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCompanyEntityCountryService(IdUtils.FromRelayIdMandatory(id));
+          repository.GetCompanyEntityCountryService(IdUtils.FromFrontEndMandatory(id));
 
     /// <summary>
     /// Gets all CompanyEntityCountryServices.

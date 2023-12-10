@@ -33,7 +33,7 @@ namespace x10.hotchoc.ClientPage.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? partner = IdUtils.FromRelayId(Partner?.Id);
+      int? partner = IdUtils.FromFrontEndId(Partner?.Id);
       Partner = partner == null ? null : repository.GetHkspPartner(partner.Value);
     }
   }

@@ -32,7 +32,7 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? user = IdUtils.FromRelayId(User?.Id);
+      int? user = IdUtils.FromFrontEndId(User?.Id);
       User = user == null ? null : repository.GetUser(user.Value);
     }
   }

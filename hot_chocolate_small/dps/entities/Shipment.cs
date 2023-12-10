@@ -60,16 +60,16 @@ namespace x10.hotchoc.dps.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? consignee = IdUtils.FromRelayId(Consignee?.Id);
+      int? consignee = IdUtils.FromFrontEndId(Consignee?.Id);
       Consignee = consignee == null ? null : repository.GetCompanyEntity(consignee.Value);
 
-      int? shipper = IdUtils.FromRelayId(Shipper?.Id);
+      int? shipper = IdUtils.FromFrontEndId(Shipper?.Id);
       Shipper = shipper == null ? null : repository.GetCompanyEntity(shipper.Value);
 
-      int? departurePort = IdUtils.FromRelayId(DeparturePort?.Id);
+      int? departurePort = IdUtils.FromFrontEndId(DeparturePort?.Id);
       DeparturePort = departurePort == null ? null : repository.GetPort(departurePort.Value);
 
-      int? arrivalPort = IdUtils.FromRelayId(ArrivalPort?.Id);
+      int? arrivalPort = IdUtils.FromFrontEndId(ArrivalPort?.Id);
       ArrivalPort = arrivalPort == null ? null : repository.GetPort(arrivalPort.Value);
     }
   }

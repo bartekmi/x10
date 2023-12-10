@@ -16,7 +16,7 @@ namespace x10.hotchoc {
 
     internal void SetDbid(int dbid) {
       DbidHotChoc = dbid;
-      Id = IdUtils.ToRelayId(this, dbid);
+      Id = IdUtils.ToFrontEndId(this, dbid);
     }
 
     private static int _nextUniqueDbid = 1000;

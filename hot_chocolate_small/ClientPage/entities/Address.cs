@@ -42,10 +42,10 @@ namespace x10.hotchoc.ClientPage.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? country = IdUtils.FromRelayId(Country?.Id);
+      int? country = IdUtils.FromFrontEndId(Country?.Id);
       Country = country == null ? null : repository.GetCountry(country.Value);
 
-      int? stateOrProvince = IdUtils.FromRelayId(StateOrProvince?.Id);
+      int? stateOrProvince = IdUtils.FromFrontEndId(StateOrProvince?.Id);
       StateOrProvince = stateOrProvince == null ? null : repository.GetStateOrProvince(stateOrProvince.Value);
     }
   }

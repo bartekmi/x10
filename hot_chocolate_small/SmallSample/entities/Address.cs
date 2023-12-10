@@ -29,7 +29,7 @@ namespace x10.hotchoc.SmallSample.Entities {
     internal override void SetNonOwnedAssociations(IRepository repository) {
       base.SetNonOwnedAssociations(repository);
 
-      int? country = IdUtils.FromRelayId(Country?.Id);
+      int? country = IdUtils.FromFrontEndId(Country?.Id);
       Country = country == null ? null : repository.GetCountry(country.Value);
     }
   }
