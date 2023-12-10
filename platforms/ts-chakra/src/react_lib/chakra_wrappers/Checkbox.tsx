@@ -14,13 +14,11 @@ export default function Checkbox(props: Props): React.JSX.Element {
     <ChakraCheckbox
       checked={checked || false}
       disabled={disabled}
-      //onChange={(newState) => onChangeWrapper( checked, newState, onChange)}
       onChange={(event) => {
-        const newValue = event.target.value;
-        throw "Fix this Checkbox TODO: " + newValue
-        // if (checked !== newState && onChange) {
-        //   onChange(newState)
-        // }
+        const newValue = event.target.checked;
+        if (checked !== newValue && onChange) {
+          onChange(newValue)
+        }
       }}
     >
       {label}

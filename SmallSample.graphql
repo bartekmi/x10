@@ -5,38 +5,35 @@ schema {
 
 "A physical or mailing address"
 type Address {
-  unitNumber: String!
-  theAddress: String!
-  city: String!
-  stateOrProvince: String!
-  zip: String!
+  unitNumber: String
+  theAddress: String
+  city: String
+  stateOrProvince: String
+  zip: String
   country: Country!
   id: String!
-  hashcode: Int!
 }
 
 "A physical building which contains rental units"
 type Building {
-  moniker: String!
-  name: String!
-  description: String!
+  moniker: String
+  name: String
+  description: String
   dateOfOccupancy: DateTime
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
-  mailingAddressSameAsPhysical: Boolean!
-  units: [Unit!]!
-  physicalAddress: Address!
+  mailingAddressSameAsPhysical: Boolean
+  units: [Unit!]
+  physicalAddress: Address
   mailingAddress: Address
   id: String!
-  hashcode: Int!
 }
 
 "Represents a Country"
 type Country {
-  code: String!
-  name: String!
+  code: String
+  name: String
   id: String!
-  hashcode: Int!
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -46,7 +43,6 @@ type Move {
   to: Building!
   tenant: Tenant!
   id: String!
-  hashcode: Int!
 }
 
 type Mutation {
@@ -87,23 +83,21 @@ type Query {
 
 "Tenant of a Unit"
 type Tenant {
-  name: String!
-  phone: String!
-  email: String!
-  permanentMailingAddress: Address!
+  name: String
+  phone: String
+  email: String
+  permanentMailingAddress: Address
   id: String!
-  hashcode: Int!
 }
 
 "An individual rental unit"
 type Unit {
-  number: String!
+  number: String
   squareFeet: Float
   numberOfBedrooms: Int
   numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
   id: String!
-  hashcode: Int!
 }
 
 "A physical or mailing address"
@@ -118,8 +112,8 @@ input AddressFilter {
   unitNumber_not_starts_with: String
   unitNumber_ends_with: String
   unitNumber_not_ends_with: String
-  unitNumber_in: [String!]
-  unitNumber_not_in: [String!]
+  unitNumber_in: [String]
+  unitNumber_not_in: [String]
   theAddress: String
   theAddress_not: String
   theAddress_contains: String
@@ -128,8 +122,8 @@ input AddressFilter {
   theAddress_not_starts_with: String
   theAddress_ends_with: String
   theAddress_not_ends_with: String
-  theAddress_in: [String!]
-  theAddress_not_in: [String!]
+  theAddress_in: [String]
+  theAddress_not_in: [String]
   city: String
   city_not: String
   city_contains: String
@@ -138,8 +132,8 @@ input AddressFilter {
   city_not_starts_with: String
   city_ends_with: String
   city_not_ends_with: String
-  city_in: [String!]
-  city_not_in: [String!]
+  city_in: [String]
+  city_not_in: [String]
   stateOrProvince: String
   stateOrProvince_not: String
   stateOrProvince_contains: String
@@ -148,8 +142,8 @@ input AddressFilter {
   stateOrProvince_not_starts_with: String
   stateOrProvince_ends_with: String
   stateOrProvince_not_ends_with: String
-  stateOrProvince_in: [String!]
-  stateOrProvince_not_in: [String!]
+  stateOrProvince_in: [String]
+  stateOrProvince_not_in: [String]
   zip: String
   zip_not: String
   zip_contains: String
@@ -158,8 +152,8 @@ input AddressFilter {
   zip_not_starts_with: String
   zip_ends_with: String
   zip_not_ends_with: String
-  zip_in: [String!]
-  zip_not_in: [String!]
+  zip_in: [String]
+  zip_not_in: [String]
   country: CountryFilter
   id: String
   id_not: String
@@ -171,30 +165,17 @@ input AddressFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "A physical or mailing address"
 input AddressInput {
-  unitNumber: String!
-  theAddress: String!
-  city: String!
-  stateOrProvince: String!
-  zip: String!
+  unitNumber: String
+  theAddress: String
+  city: String
+  stateOrProvince: String
+  zip: String
   country: CountryInput!
   id: String!
-  hashcode: Int!
 }
 
 "A physical or mailing address"
@@ -206,7 +187,6 @@ input AddressSort {
   zip: SortOperationKind
   country: CountrySort
   id: SortOperationKind
-  hashcode: SortOperationKind
 }
 
 "A physical building which contains rental units"
@@ -221,8 +201,8 @@ input BuildingFilter {
   moniker_not_starts_with: String
   moniker_ends_with: String
   moniker_not_ends_with: String
-  moniker_in: [String!]
-  moniker_not_in: [String!]
+  moniker_in: [String]
+  moniker_not_in: [String]
   name: String
   name_not: String
   name_contains: String
@@ -231,8 +211,8 @@ input BuildingFilter {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  name_in: [String!]
-  name_not_in: [String!]
+  name_in: [String]
+  name_not_in: [String]
   description: String
   description_not: String
   description_contains: String
@@ -241,8 +221,8 @@ input BuildingFilter {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  description_in: [String!]
-  description_not_in: [String!]
+  description_in: [String]
+  description_not_in: [String]
   dateOfOccupancy: DateTime
   dateOfOccupancy_not: DateTime
   dateOfOccupancy_in: [DateTime]
@@ -297,50 +277,21 @@ input BuildingFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "Input Data Type for BuildingFormUpdateBuilding Mutation"
 input BuildingFormBuildingInput {
   physicalAddress: AddressInput!
   dateOfOccupancy: DateTime
-  moniker: String!
-  name: String!
-  description: String!
-  mailingAddressSameAsPhysical: Boolean!
+  moniker: String
+  name: String
+  description: String
+  mailingAddressSameAsPhysical: Boolean
   mailingAddress: AddressInput!
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   units: [UnitInput!]!
   id: String!
-  hashcode: Int!
-}
-
-"A physical building which contains rental units"
-input BuildingInput {
-  moniker: String!
-  name: String!
-  description: String!
-  dateOfOccupancy: DateTime
-  mailboxType: MailboxTypeEnum
-  petPolicy: PetPolicyEnum
-  mailingAddressSameAsPhysical: Boolean!
-  units: [UnitInput!]!
-  physicalAddress: AddressInput!
-  mailingAddress: AddressInput
-  id: String!
-  hashcode: Int!
 }
 
 "A physical building which contains rental units"
@@ -355,7 +306,6 @@ input BuildingSort {
   physicalAddress: AddressSort
   mailingAddress: AddressSort
   id: SortOperationKind
-  hashcode: SortOperationKind
 }
 
 "Represents a Country"
@@ -370,8 +320,8 @@ input CountryFilter {
   code_not_starts_with: String
   code_ends_with: String
   code_not_ends_with: String
-  code_in: [String!]
-  code_not_in: [String!]
+  code_in: [String]
+  code_not_in: [String]
   name: String
   name_not: String
   name_contains: String
@@ -380,8 +330,8 @@ input CountryFilter {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  name_in: [String!]
-  name_not_in: [String!]
+  name_in: [String]
+  name_not_in: [String]
   id: String
   id_not: String
   id_contains: String
@@ -392,26 +342,13 @@ input CountryFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "Represents a Country"
 input CountryInput {
-  code: String!
-  name: String!
+  code: String
+  name: String
   id: String!
-  hashcode: Int!
 }
 
 "Represents a Country"
@@ -419,7 +356,10 @@ input CountrySort {
   code: SortOperationKind
   name: SortOperationKind
   id: SortOperationKind
-  hashcode: SortOperationKind
+}
+
+input IdWrapperInput {
+  id: String!
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -451,28 +391,15 @@ input MoveFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "Input Data Type for MoveFormUpdateMove Mutation"
 input MoveFormMoveInput {
   date: DateTime
-  from: BuildingInput!
-  to: BuildingInput!
-  tenant: TenantInput!
+  from: IdWrapperInput
+  to: IdWrapperInput
+  tenant: IdWrapperInput
   id: String!
-  hashcode: Int!
 }
 
 "Somewhat contrived move event from one apartment to another"
@@ -482,7 +409,6 @@ input MoveSort {
   to: BuildingSort
   tenant: TenantSort
   id: SortOperationKind
-  hashcode: SortOperationKind
 }
 
 "Tenant of a Unit"
@@ -497,8 +423,8 @@ input TenantFilter {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  name_in: [String!]
-  name_not_in: [String!]
+  name_in: [String]
+  name_not_in: [String]
   phone: String
   phone_not: String
   phone_contains: String
@@ -507,8 +433,8 @@ input TenantFilter {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  phone_in: [String!]
-  phone_not_in: [String!]
+  phone_in: [String]
+  phone_not_in: [String]
   email: String
   email_not: String
   email_contains: String
@@ -517,8 +443,8 @@ input TenantFilter {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  email_in: [String!]
-  email_not_in: [String!]
+  email_in: [String]
+  email_not_in: [String]
   permanentMailingAddress: AddressFilter
   id: String
   id_not: String
@@ -530,38 +456,15 @@ input TenantFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "Input Data Type for TenantFormUpdateTenant Mutation"
 input TenantFormTenantInput {
-  id: String!
-  name: String!
-  phone: String!
-  email: String!
+  id: String
+  name: String
+  phone: String
+  email: String
   permanentMailingAddress: AddressInput!
-  hashcode: Int!
-}
-
-"Tenant of a Unit"
-input TenantInput {
-  name: String!
-  phone: String!
-  email: String!
-  permanentMailingAddress: AddressInput!
-  id: String!
-  hashcode: Int!
 }
 
 "Tenant of a Unit"
@@ -571,7 +474,6 @@ input TenantSort {
   email: SortOperationKind
   permanentMailingAddress: AddressSort
   id: SortOperationKind
-  hashcode: SortOperationKind
 }
 
 "An individual rental unit"
@@ -586,8 +488,8 @@ input UnitFilter {
   number_not_starts_with: String
   number_ends_with: String
   number_not_ends_with: String
-  number_in: [String!]
-  number_not_in: [String!]
+  number_in: [String]
+  number_not_in: [String]
   squareFeet: Float
   squareFeet_not: Float
   squareFeet_in: [Float]
@@ -636,29 +538,16 @@ input UnitFilter {
   id_not_ends_with: String
   id_in: [String!]
   id_not_in: [String!]
-  hashcode: Int
-  hashcode_not: Int
-  hashcode_in: [Int!]
-  hashcode_not_in: [Int!]
-  hashcode_gt: Int
-  hashcode_not_gt: Int
-  hashcode_gte: Int
-  hashcode_not_gte: Int
-  hashcode_lt: Int
-  hashcode_not_lt: Int
-  hashcode_lte: Int
-  hashcode_not_lte: Int
 }
 
 "An individual rental unit"
 input UnitInput {
-  number: String!
+  number: String
   squareFeet: Float
   numberOfBedrooms: Int
   numberOfBathrooms: NumberOfBathroomsEnum
   hasBalcony: Boolean!
   id: String!
-  hashcode: Int!
 }
 
 "An individual rental unit"
@@ -669,7 +558,6 @@ input UnitSort {
   numberOfBathrooms: SortOperationKind
   hasBalcony: SortOperationKind
   id: SortOperationKind
-  hashcode: SortOperationKind
 }
 
 enum MailboxTypeEnum {

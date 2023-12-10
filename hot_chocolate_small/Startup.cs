@@ -15,6 +15,7 @@ namespace x10.hotchoc {
       services.AddSingleton(Program.Config.RepositoryInterface, Program.Config.Repository);
 
       services.AddCors();
+      services.AddErrorFilter<MyErrorFilter>();
 
       BuildSchema(services)
         .AddApolloTracing();
@@ -25,7 +26,8 @@ namespace x10.hotchoc {
         .AddGraphQLServer()
         .AllowIntrospection(true)
         .AddQueryType(d => d.Name("Query"))
-        .AddMutationType(d => d.Name("Mutation"));
+        .AddMutationType(d => d.Name("Mutation"))
+        .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
 
       foreach (Type type in Program.Config.Repository.Types())
         builder.AddType(type);
@@ -47,5 +49,12 @@ namespace x10.hotchoc {
           endpoints.MapGraphQL();
         });
     }
+  }
+
+  internal class MyErrorFilter : IErrorFilter {
+      public IError OnError(IError error) {
+          Console.WriteLine(error.Exception?.ToString() ?? error.Message);
+          return error;
+      }
   }
 }

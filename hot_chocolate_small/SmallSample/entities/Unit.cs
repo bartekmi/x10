@@ -23,12 +23,10 @@ namespace x10.hotchoc.SmallSample.Entities {
   /// </summary>
   public class Unit : Base {
     // Regular Attributes
-    [GraphQLNonNullType]
     public string? Number { get; set; }
     public double? SquareFeet { get; set; }
     public int? NumberOfBedrooms { get; set; }
     public NumberOfBathroomsEnum? NumberOfBathrooms { get; set; }
-    [GraphQLNonNullType]
     public bool HasBalcony { get; set; }
 
     public override void EnsureUniqueDbid() {

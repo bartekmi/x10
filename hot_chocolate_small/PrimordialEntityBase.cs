@@ -11,11 +11,6 @@ namespace x10.hotchoc {
       }
     }
 
-    public int Hashcode {
-      get { return GetHashCode(); }
-      set {/* Do nothing */}
-    }
-
     [GraphQLIgnore]
     public int DbidHotChoc { get; private set; }
 
@@ -27,7 +22,7 @@ namespace x10.hotchoc {
     private static int _nextUniqueDbid = 1000;
     public virtual void EnsureUniqueDbid() {
       if (DbidHotChoc == 0)
-        DbidHotChoc = _nextUniqueDbid++;
+        SetDbid(_nextUniqueDbid++);
     }
   }
 }
