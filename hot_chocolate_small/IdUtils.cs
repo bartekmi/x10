@@ -23,7 +23,7 @@ namespace x10.hotchoc {
       return FromFrontEndId(frontEndId, out string dummy);
     }
 
-    public static int FromFrontEndMandatory(string frontEndId) {
+    public static int FromFrontEndIdMandatory(string frontEndId) {
       int? dbid = FromFrontEndId(frontEndId, out string dummy);
       if (dbid == null)
         throw new Exception("Could not convert from Front-End Id: " + frontEndId);

@@ -71,7 +71,6 @@ namespace x10.hotchoc.SmallSample {
     /// Input Data Type for TenantFormUpdateTenant Mutation
     /// </summary>
     public class TenantFormTenant : Base {
-      public string? Id { get; set; }
       public string? Name { get; set; }
       public string? Phone { get; set; }
       public string? Email { get; set; }

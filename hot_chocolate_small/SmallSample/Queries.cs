@@ -21,7 +21,7 @@ namespace x10.hotchoc.SmallSample {
     public Building GetBuilding(
         string id,
         [Service] IRepository repository) =>
-          repository.GetBuilding(IdUtils.FromFrontEndMandatory(id));
+          repository.GetBuilding(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Buildings.
@@ -45,7 +45,7 @@ namespace x10.hotchoc.SmallSample {
     public Move GetMove(
         string id,
         [Service] IRepository repository) =>
-          repository.GetMove(IdUtils.FromFrontEndMandatory(id));
+          repository.GetMove(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Moves.
@@ -69,7 +69,7 @@ namespace x10.hotchoc.SmallSample {
     public Tenant GetTenant(
         string id,
         [Service] IRepository repository) =>
-          repository.GetTenant(IdUtils.FromFrontEndMandatory(id));
+          repository.GetTenant(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Tenants.
@@ -93,7 +93,7 @@ namespace x10.hotchoc.SmallSample {
     public Address GetAddress(
         string id,
         [Service] IRepository repository) =>
-          repository.GetAddress(IdUtils.FromFrontEndMandatory(id));
+          repository.GetAddress(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Addresses.
@@ -117,7 +117,7 @@ namespace x10.hotchoc.SmallSample {
     public Country GetCountry(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCountry(IdUtils.FromFrontEndMandatory(id));
+          repository.GetCountry(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Countries.
@@ -141,7 +141,7 @@ namespace x10.hotchoc.SmallSample {
     public Unit GetUnit(
         string id,
         [Service] IRepository repository) =>
-          repository.GetUnit(IdUtils.FromFrontEndMandatory(id));
+          repository.GetUnit(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Units.

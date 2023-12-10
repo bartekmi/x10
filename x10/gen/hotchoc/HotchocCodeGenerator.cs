@@ -11,7 +11,6 @@ using x10.model;
 using x10.model.definition;
 using x10.model.metadata;
 using x10.ui.composition;
-using x10.ui.libraries;
 using x10.compiler;
 using x10.ui;
 
@@ -196,7 +195,6 @@ namespace x10.gen.hotchoc {
 
 using HotChocolate;
 using HotChocolate.Types;
-using HotChocolate.Types.Relay;
 
 using x10.hotchoc.{0}.Entities;
 using x10.hotchoc.{0}.Repositories;
@@ -219,7 +217,7 @@ namespace x10.hotchoc.{0} {{
     public {0} Get{0}(
         string id,
         [Service] IRepository repository) =>
-          repository.Get{0}(IdUtils.FromRelayIdMandatory(id));
+          repository.Get{0}(IdUtils.FromFrontEndIdMandatory(id));
 
 ", entity.Name);
     }
@@ -296,7 +294,8 @@ namespace x10.hotchoc.{0} {{
       foreach (MemberWrapper wrapper in dataInventory.Children) {
         Member member = wrapper.Member;
         if (member is X10RegularAttribute regular) {
-          GenerateRegularAttribute(3, regular);
+          if (!regular.IsId)
+            GenerateRegularAttribute(3, regular);
         } else if (member is Association association) {
           string propName = PropName(association);
           Entity refedEntity = association.ReferencedEntity;
@@ -501,7 +500,7 @@ namespace x10.hotchoc.{0} {{
           if (association.Owns) {
             WriteLine(3, "{0}?.SetNonOwnedAssociations(repository);", propName);
           } else {
-            WriteLine(3, "int? {0} = IdUtils.FromRelayId({1}?.Id);", varName, propName);
+            WriteLine(3, "int? {0} = IdUtils.FromFrontEndId({1}?.Id);", varName, propName);
             WriteLine(3, "{0} = {1} == null ? null : repository.Get{2}({1}.Value);",
               propName, varName, refedEntity.Name);
           }

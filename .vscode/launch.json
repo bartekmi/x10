@@ -11,7 +11,7 @@
       "request": "launch",
       "preLaunchTask": "build_x10",
       "program": "${workspaceFolder}/x10/bin/Debug/net7.0/x10.dll",
-      "args": ["smallhot"],
+      "args": ["small-hot"],
       "cwd": "${workspaceFolder}/x10",
       "console": "internalConsole",
       "stopAtEntry": false,

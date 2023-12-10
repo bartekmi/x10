@@ -20,7 +20,7 @@ namespace x10.hotchoc.dps {
     public Settings GetSettings(
         string id,
         [Service] IRepository repository) =>
-          repository.GetSettings(IdUtils.FromFrontEndMandatory(id));
+          repository.GetSettings(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Settingses.
@@ -44,7 +44,7 @@ namespace x10.hotchoc.dps {
     public HitEdit GetHitEdit(
         string id,
         [Service] IRepository repository) =>
-          repository.GetHitEdit(IdUtils.FromFrontEndMandatory(id));
+          repository.GetHitEdit(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all HitEdits.
@@ -68,7 +68,7 @@ namespace x10.hotchoc.dps {
     public Company GetCompany(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCompany(IdUtils.FromFrontEndMandatory(id));
+          repository.GetCompany(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Companies.
@@ -92,7 +92,7 @@ namespace x10.hotchoc.dps {
     public CompanyEntity GetCompanyEntity(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCompanyEntity(IdUtils.FromFrontEndMandatory(id));
+          repository.GetCompanyEntity(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all CompanyEntities.
@@ -116,7 +116,7 @@ namespace x10.hotchoc.dps {
     public SettingsAutoAssignment GetSettingsAutoAssignment(
         string id,
         [Service] IRepository repository) =>
-          repository.GetSettingsAutoAssignment(IdUtils.FromFrontEndMandatory(id));
+          repository.GetSettingsAutoAssignment(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all SettingsAutoAssignments.
@@ -140,7 +140,7 @@ namespace x10.hotchoc.dps {
     public WhitelistDuration GetWhitelistDuration(
         string id,
         [Service] IRepository repository) =>
-          repository.GetWhitelistDuration(IdUtils.FromFrontEndMandatory(id));
+          repository.GetWhitelistDuration(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all WhitelistDurations.
@@ -164,7 +164,7 @@ namespace x10.hotchoc.dps {
     public Hit GetHit(
         string id,
         [Service] IRepository repository) =>
-          repository.GetHit(IdUtils.FromFrontEndMandatory(id));
+          repository.GetHit(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Hits.
@@ -188,7 +188,7 @@ namespace x10.hotchoc.dps {
     public MatchInfoSource GetMatchInfoSource(
         string id,
         [Service] IRepository repository) =>
-          repository.GetMatchInfoSource(IdUtils.FromFrontEndMandatory(id));
+          repository.GetMatchInfoSource(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all MatchInfoSources.
@@ -212,7 +212,7 @@ namespace x10.hotchoc.dps {
     public Port GetPort(
         string id,
         [Service] IRepository repository) =>
-          repository.GetPort(IdUtils.FromFrontEndMandatory(id));
+          repository.GetPort(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Ports.
@@ -236,7 +236,7 @@ namespace x10.hotchoc.dps {
     public MatchInfo GetMatchInfo(
         string id,
         [Service] IRepository repository) =>
-          repository.GetMatchInfo(IdUtils.FromFrontEndMandatory(id));
+          repository.GetMatchInfo(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all MatchInfos.
@@ -260,7 +260,7 @@ namespace x10.hotchoc.dps {
     public Booking GetBooking(
         string id,
         [Service] IRepository repository) =>
-          repository.GetBooking(IdUtils.FromFrontEndMandatory(id));
+          repository.GetBooking(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Bookings.
@@ -284,7 +284,7 @@ namespace x10.hotchoc.dps {
     public DpsAttachment GetDpsAttachment(
         string id,
         [Service] IRepository repository) =>
-          repository.GetDpsAttachment(IdUtils.FromFrontEndMandatory(id));
+          repository.GetDpsAttachment(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all DpsAttachments.
@@ -308,7 +308,7 @@ namespace x10.hotchoc.dps {
     public OldHit GetOldHit(
         string id,
         [Service] IRepository repository) =>
-          repository.GetOldHit(IdUtils.FromFrontEndMandatory(id));
+          repository.GetOldHit(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all OldHits.
@@ -332,7 +332,7 @@ namespace x10.hotchoc.dps {
     public User GetUser(
         string id,
         [Service] IRepository repository) =>
-          repository.GetUser(IdUtils.FromFrontEndMandatory(id));
+          repository.GetUser(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Users.
@@ -356,7 +356,7 @@ namespace x10.hotchoc.dps {
     public Quote GetQuote(
         string id,
         [Service] IRepository repository) =>
-          repository.GetQuote(IdUtils.FromFrontEndMandatory(id));
+          repository.GetQuote(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Quotes.
@@ -380,7 +380,7 @@ namespace x10.hotchoc.dps {
     public Cargo GetCargo(
         string id,
         [Service] IRepository repository) =>
-          repository.GetCargo(IdUtils.FromFrontEndMandatory(id));
+          repository.GetCargo(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Cargos.
@@ -404,7 +404,7 @@ namespace x10.hotchoc.dps {
     public Shipment GetShipment(
         string id,
         [Service] IRepository repository) =>
-          repository.GetShipment(IdUtils.FromFrontEndMandatory(id));
+          repository.GetShipment(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Shipments.
@@ -428,7 +428,7 @@ namespace x10.hotchoc.dps {
     public Client GetClient(
         string id,
         [Service] IRepository repository) =>
-          repository.GetClient(IdUtils.FromFrontEndMandatory(id));
+          repository.GetClient(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all Clients.
@@ -452,7 +452,7 @@ namespace x10.hotchoc.dps {
     public AddressType GetAddressType(
         string id,
         [Service] IRepository repository) =>
-          repository.GetAddressType(IdUtils.FromFrontEndMandatory(id));
+          repository.GetAddressType(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all AddressTypes.
@@ -476,7 +476,7 @@ namespace x10.hotchoc.dps {
     public DpsMessage GetDpsMessage(
         string id,
         [Service] IRepository repository) =>
-          repository.GetDpsMessage(IdUtils.FromFrontEndMandatory(id));
+          repository.GetDpsMessage(IdUtils.FromFrontEndIdMandatory(id));
 
     /// <summary>
     /// Gets all DpsMessages.
