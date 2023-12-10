@@ -21,20 +21,13 @@ export default function EnumDisplay(props: Props): React.JSX.Element {
   let display = value;
   let icon: string | null = null;
 
-  if (value != null) {
-    const valueIsString = typeof value === 'string';
-
-    const displayOption = valueIsString ?
-      options.find(x => x.value == value.toLowerCase()) : null;
+  if (display != null) {
+    const displayOption = options.find(x => x.value == display);
 
     if (displayOption) {
       display = displayOption.label;
       icon = displayOption.icon || null;
     }
-  }
-
-  if (display != null) {
-    display = display.toString();
   }
 
   const text = 
