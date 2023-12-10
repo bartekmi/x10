@@ -33,7 +33,19 @@ namespace x10.hotchoc.SmallSample {
     public virtual Move MoveFormUpdateMove(
       MoveFormMove data,
       [Service] IRepository repository) {
-        throw new NotImplementedException("Manually override this method");
+
+      int? id = IdUtils.FromFrontEndId(data.Id);
+      Move entity = id == null ? new Move() : repository.GetMove(id.Value);
+
+      entity.Date = data.Date;
+      entity.From = new Building() { Id = data.From.Id };
+      entity.To = new Building() { Id = data.To.Id };
+      entity.Tenant = new Tenant() { Id = data.Tenant.Id };
+
+      entity.SetNonOwnedAssociations(repository);
+      repository.AddOrUpdateMove(id, entity);
+
+      return entity;
     }
     #endregion
 
@@ -62,7 +74,22 @@ namespace x10.hotchoc.SmallSample {
     public virtual Building BuildingFormUpdateBuilding(
       BuildingFormBuilding data,
       [Service] IRepository repository) {
-        throw new NotImplementedException("Manually override this method");
+
+      int? id = IdUtils.FromFrontEndId(data.Id);
+      Building entity = id == null ? new Building() : repository.GetBuilding(id.Value);
+
+      entity.Moniker = data.Moniker;
+      entity.Name = data.Name;
+      entity.Description = data.Description;
+      entity.DateOfOccupancy = data.DateOfOccupancy;
+      entity.MailboxType = data.MailboxType;
+      entity.PetPolicy = data.PetPolicy;
+      entity.MailingAddressSameAsPhysical = data.MailingAddressSameAsPhysical;
+
+      entity.SetNonOwnedAssociations(repository);
+      repository.AddOrUpdateBuilding(id, entity);
+
+      return entity;
     }
     #endregion
 
@@ -84,7 +111,18 @@ namespace x10.hotchoc.SmallSample {
     public virtual Tenant TenantFormUpdateTenant(
       TenantFormTenant data,
       [Service] IRepository repository) {
-        throw new NotImplementedException("Manually override this method");
+
+      int? id = IdUtils.FromFrontEndId(data.Id);
+      Tenant entity = id == null ? new Tenant() : repository.GetTenant(id.Value);
+
+      entity.Name = data.Name;
+      entity.Phone = data.Phone;
+      entity.Email = data.Email;
+
+      entity.SetNonOwnedAssociations(repository);
+      repository.AddOrUpdateTenant(id, entity);
+
+      return entity;
     }
     #endregion
 

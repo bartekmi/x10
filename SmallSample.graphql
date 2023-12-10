@@ -460,11 +460,11 @@ input TenantFilter {
 
 "Input Data Type for TenantFormUpdateTenant Mutation"
 input TenantFormTenantInput {
-  id: String
   name: String
   phone: String
   email: String
   permanentMailingAddress: AddressInput!
+  id: String!
 }
 
 "Tenant of a Unit"

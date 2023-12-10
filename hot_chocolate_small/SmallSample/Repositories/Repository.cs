@@ -17,7 +17,7 @@ namespace x10.hotchoc.SmallSample.Repositories {
     public override IEnumerable<Type> Types() {
       return new Type[] {
         typeof(Queries),
-        typeof(MutationsHandCoded),
+        typeof(Mutations),
         typeof(Building),
         typeof(Move),
         typeof(Tenant),

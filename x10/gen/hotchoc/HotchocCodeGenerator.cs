@@ -324,18 +324,35 @@ namespace x10.hotchoc.{0} {{
     }
 
     private void GenerateMutationMethodPrototype(ClassDefX10 classDef, Entity model) {
-      WriteRaw(
-@"    /// <summary>
-    /// Update mutation for the {0} component
-    /// </summary>
-    public virtual {1} {0}Update{1}(
-      {0}{1} data,
-      [Service] IRepository repository) {{
-        throw new NotImplementedException(""Manually override this method"");
-    }}
-",
-      classDef.Name,
-      model.Name);
+      WriteLine(2, "/// <summary>");
+      WriteLine(2, "/// Update mutation for the {0} component", classDef.Name);
+      WriteLine(2, "/// </summary>");
+      WriteLine(2, "public virtual {1} {0}Update{1}(", classDef.Name, model.Name);
+      WriteLine(3, "{0}{1} data,", classDef.Name, model.Name);
+      WriteLine(3, "[Service] IRepository repository) {");
+      WriteLine();
+      WriteLine(3, "int? id = IdUtils.FromFrontEndId(data.Id);");
+      WriteLine(3, "{0} entity = id == null ? new {0}() : repository.Get{0}(id.Value);", model.Name);
+      WriteLine();
+
+      foreach (Member member in model.Members) {
+        if (member is X10RegularAttribute regular && !regular.IsId) {
+          WriteLine(3, "entity.{0} = data.{0};", PropName(regular));
+        } else if (member is Association assoc) {
+          if (assoc.Owns) {
+            // TODO
+          } else
+            WriteLine(3, "entity.{0} = new {1}() { Id = data.{0}.Id };", 
+              PropName(assoc), assoc.ReferencedEntity.Name);
+        }
+      }
+
+      WriteLine();
+      WriteLine(3, "entity.SetNonOwnedAssociations(repository);");
+      WriteLine(3, "repository.AddOrUpdate{0}(id, entity);", model.Name);
+      WriteLine();
+      WriteLine(3, "return entity;");
+      WriteLine(2, "}");
     }
 
     #endregion
