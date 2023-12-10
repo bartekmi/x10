@@ -50,7 +50,14 @@ export default function FormSubmitButton(props: Props): React.JSX.Element {
   }
 
   const handleOnClick = () => {
-    mutateFunc({ variables });
+    mutateFunc({ 
+      // We must strip out "__typename" to prevent edited entities
+      // with owned associations from being rejected by the GQL server.
+      // Since the incoming entity has { id: <id>, __typename: <typename> },
+      // if this is echoed back to the server which expects IdWrapper
+      // this blows up.
+      variables: removeTypename(variables) 
+    });
   }
 
   if (loading)
@@ -66,3 +73,19 @@ export default function FormSubmitButton(props: Props): React.JSX.Element {
     </Button>
   );
 }
+
+function removeTypename<T extends Array<any> | object>(obj: T): T {
+  if (Array.isArray(obj)) {
+      return obj.map(value => removeTypename(value)) as T;
+  } else if (obj !== null && typeof obj === 'object') {
+      const newObj: { [key: string]: any } = {};
+      for (const key in obj as object) {
+          if (key !== '__typename') {
+              newObj[key] = removeTypename((obj as { [key: string]: any })[key]);
+          }
+      }
+      return newObj as T;
+  }
+  return obj;
+}
+
