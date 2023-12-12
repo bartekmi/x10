@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { NumberInput } from '@chakra-ui/react'
+import { NumberInput, NumberInputField } from '@chakra-ui/react'
 
 type Props = {
   readonly value: number | null | undefined,
@@ -18,9 +18,11 @@ export default function TextInput(props: Props): React.JSX.Element {
       value={value || ""}
       isDisabled={readOnly}
       precision={decimalPrecision}
-      onChange={(valueAsString: string, valueAsNumber: number) => {
+      onChange={(_valueAsString: string, valueAsNumber: number) => {
         onChange(valueAsNumber)
       }}
-    />
+    >
+      <NumberInputField/>
+    </NumberInput>
   );
 }
