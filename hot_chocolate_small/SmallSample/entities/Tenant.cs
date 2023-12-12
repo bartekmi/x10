@@ -17,7 +17,6 @@ namespace x10.hotchoc.SmallSample.Entities {
     public string? Email { get; set; }
 
     // Associations
-    [GraphQLNonNullType]
     public Address? PermanentMailingAddress { get; set; }
 
     public override void EnsureUniqueDbid() {

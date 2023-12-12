@@ -15,11 +15,8 @@ namespace x10.hotchoc.SmallSample.Entities {
     public DateTime? Date { get; set; }
 
     // Associations
-    [GraphQLNonNullType]
     public Building? From { get; set; }
-    [GraphQLNonNullType]
     public Building? To { get; set; }
-    [GraphQLNonNullType]
     public Tenant? Tenant { get; set; }
 
     public override void EnsureUniqueDbid() {

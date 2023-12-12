@@ -252,7 +252,7 @@ namespace x10.hotchoc.{0} {{
           WriteLine(2, "#region {0}", classDef.Name);
           GenerateMutationInputType(classDef, model);
           WriteLine();
-          GenerateMutationMethodPrototype(classDef, model);
+          GenerateMutationMethod(classDef, model);
           WriteLine(2, "#endregion");
           WriteLine();
         }
@@ -306,11 +306,8 @@ namespace x10.hotchoc.{0} {{
               // which then links to the non-owned entity
               throw new NotImplementedException("Non-owned 'many' association");
 
-            WriteLine(3, "[GraphQLNonNullType]");
             WriteLine(3, "public List<{0}>? {1} { get; set; }", refedEntity.Name, propName);
           } else {
-            if (association.IsMandatory)
-              WriteLine(3, "[GraphQLNonNullType]");
             if (association.Owns)
               WriteLine(3, "public {0} {1} { get; set; }", refedEntity.Name, propName);
             else
@@ -323,7 +320,7 @@ namespace x10.hotchoc.{0} {{
       WriteLine(2, "}");
     }
 
-    private void GenerateMutationMethodPrototype(ClassDefX10 classDef, Entity model) {
+    private void GenerateMutationMethod(ClassDefX10 classDef, Entity model) {
       WriteLine(2, "/// <summary>");
       WriteLine(2, "/// Update mutation for the {0} component", classDef.Name);
       WriteLine(2, "/// </summary>");
@@ -340,7 +337,7 @@ namespace x10.hotchoc.{0} {{
           WriteLine(3, "entity.{0} = data.{0};", PropName(regular));
         } else if (member is Association assoc) {
           if (assoc.Owns) {
-            // TODO
+            WriteLine(3, "entity.{0} = data.{0};", PropName(assoc));
           } else
             WriteLine(3, "entity.{0} = new {1}() { Id = data.{0}.Id };", 
               PropName(assoc), assoc.ReferencedEntity.Name);
@@ -462,11 +459,8 @@ namespace x10.hotchoc.{0} {{
         string propName = PropName(association);
 
         if (association.IsMany) {
-          WriteLine(2, "[GraphQLNonNullType]");
           WriteLine(2, "public List<{0}>? {1} { get; set; }", refedEntity.Name, propName);
         } else {
-          if (association.IsMandatory)
-            WriteLine(2, "[GraphQLNonNullType]");
           WriteLine(2, "public {0}? {1} { get; set; }", refedEntity.Name, propName);
         }
       }

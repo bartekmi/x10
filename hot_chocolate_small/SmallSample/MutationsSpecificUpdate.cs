@@ -19,11 +19,8 @@ namespace x10.hotchoc.SmallSample {
     /// </summary>
     public class MoveFormMove : Base {
       public DateTime? Date { get; set; }
-      [GraphQLNonNullType]
       public IdWrapper? From { get; set; }
-      [GraphQLNonNullType]
       public IdWrapper? To { get; set; }
-      [GraphQLNonNullType]
       public IdWrapper? Tenant { get; set; }
     }
 
@@ -54,7 +51,6 @@ namespace x10.hotchoc.SmallSample {
     /// Input Data Type for BuildingFormUpdateBuilding Mutation
     /// </summary>
     public class BuildingFormBuilding : Base {
-      [GraphQLNonNullType]
       public Address PhysicalAddress { get; set; }
       public DateTime? DateOfOccupancy { get; set; }
       public string? Moniker { get; set; }
@@ -64,7 +60,6 @@ namespace x10.hotchoc.SmallSample {
       public Address MailingAddress { get; set; }
       public MailboxTypeEnum? MailboxType { get; set; }
       public PetPolicyEnum? PetPolicy { get; set; }
-      [GraphQLNonNullType]
       public List<Unit>? Units { get; set; }
     }
 
@@ -85,10 +80,9 @@ namespace x10.hotchoc.SmallSample {
       entity.MailboxType = data.MailboxType;
       entity.PetPolicy = data.PetPolicy;
       entity.MailingAddressSameAsPhysical = data.MailingAddressSameAsPhysical;
-
+      entity.Units = data.Units;
       entity.PhysicalAddress = data.PhysicalAddress;
       entity.MailingAddress = data.MailingAddress;
-      entity.Units = data.Units;
 
       entity.SetNonOwnedAssociations(repository);
       repository.AddOrUpdateBuilding(id, entity);
@@ -105,7 +99,6 @@ namespace x10.hotchoc.SmallSample {
       public string? Name { get; set; }
       public string? Phone { get; set; }
       public string? Email { get; set; }
-      [GraphQLNonNullType]
       public Address PermanentMailingAddress { get; set; }
     }
 
@@ -122,6 +115,7 @@ namespace x10.hotchoc.SmallSample {
       entity.Name = data.Name;
       entity.Phone = data.Phone;
       entity.Email = data.Email;
+      entity.PermanentMailingAddress = data.PermanentMailingAddress;
 
       entity.SetNonOwnedAssociations(repository);
       repository.AddOrUpdateTenant(id, entity);
