@@ -10,7 +10,7 @@ type Address {
   city: String
   stateOrProvince: String
   zip: String
-  country: Country!
+  country: Country
   id: String!
 }
 
@@ -23,8 +23,8 @@ type Building {
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   mailingAddressSameAsPhysical: Boolean!
-  units: [Unit!]!
-  physicalAddress: Address!
+  units: [Unit!]
+  physicalAddress: Address
   mailingAddress: Address
   id: String!
 }
@@ -174,7 +174,7 @@ input AddressInput {
   city: String
   stateOrProvince: String
   zip: String
-  country: CountryInput!
+  country: CountryInput
   id: String!
 }
 

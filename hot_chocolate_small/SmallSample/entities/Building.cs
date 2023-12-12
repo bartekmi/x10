@@ -36,9 +36,7 @@ namespace x10.hotchoc.SmallSample.Entities {
     public bool MailingAddressSameAsPhysical { get; set; }
 
     // Associations
-    [GraphQLNonNullType]
     public List<Unit>? Units { get; set; }
-    [GraphQLNonNullType]
     public Address? PhysicalAddress { get; set; }
     public Address? MailingAddress { get; set; }
 

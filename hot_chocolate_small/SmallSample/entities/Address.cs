@@ -19,7 +19,6 @@ namespace x10.hotchoc.SmallSample.Entities {
     public string? Zip { get; set; }
 
     // Associations
-    [GraphQLNonNullType]
     public Country? Country { get; set; }
 
     public override void EnsureUniqueDbid() {

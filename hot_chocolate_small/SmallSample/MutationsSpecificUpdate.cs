@@ -86,6 +86,10 @@ namespace x10.hotchoc.SmallSample {
       entity.PetPolicy = data.PetPolicy;
       entity.MailingAddressSameAsPhysical = data.MailingAddressSameAsPhysical;
 
+      entity.PhysicalAddress = data.PhysicalAddress;
+      entity.MailingAddress = data.MailingAddress;
+      entity.Units = data.Units;
+
       entity.SetNonOwnedAssociations(repository);
       repository.AddOrUpdateBuilding(id, entity);
 
