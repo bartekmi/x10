@@ -305,8 +305,7 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "IntEdit",
-        // TODO: Use something more specific
-        PlatformName = "FloatInput",
+        PlatformName = "IntInput",
         ImportDir = "react_lib/chakra_wrappers",
 
         LocalPlatformAttributes = new List<PlatformAttribute>() {
@@ -321,7 +320,6 @@ namespace x10.gen.typescript.library {
           },
           new JavaScriptAttributeDynamic("prefix", "prefix"),
           new JavaScriptAttributeDynamic("suffix", "suffix"),
-          new PlatformAttributeStatic("decimalPrecision", 0),
         },
       },
       new PlatformClassDef() {

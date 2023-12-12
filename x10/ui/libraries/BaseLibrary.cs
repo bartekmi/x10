@@ -1303,8 +1303,8 @@ namespace x10.ui.libraries {
       };
 
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.String, "TextEdit", UseMode.ReadWrite);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "FloatEdit", UseMode.ReadWrite);
-      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "IntEdit", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Integer, "IntEdit", UseMode.ReadWrite);
+      library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Float, "FloatEdit", UseMode.ReadWrite);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Boolean, "Checkbox", UseMode.ReadWrite);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Date, "DateEditor", UseMode.ReadWrite);
       library.AddDataTypeToComponentAssociation(DataTypes.Singleton.Time, "TimeEditor", UseMode.ReadWrite);

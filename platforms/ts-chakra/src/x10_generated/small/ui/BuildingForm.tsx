@@ -6,6 +6,7 @@ import * as React from 'react';
 import CalendarDateInput from 'react_lib/chakra_wrappers/CalendarDateInput';
 import Checkbox from 'react_lib/chakra_wrappers/Checkbox';
 import FloatInput from 'react_lib/chakra_wrappers/FloatInput';
+import IntInput from 'react_lib/chakra_wrappers/IntInput';
 import RadioGroup from 'react_lib/chakra_wrappers/RadioGroup';
 import SelectInput from 'react_lib/chakra_wrappers/SelectInput';
 import TextareaInput from 'react_lib/chakra_wrappers/TextareaInput';
@@ -382,7 +383,6 @@ function BuildingForm(props: Props): React.JSX.Element {
                       onChange={ (value) => {
                         onChange({ ...data, squareFeet: value })
                       } }
-                      decimalPrecision={ 0 }
                     />
                   </FormField>
                   <FormField
@@ -408,7 +408,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                     indicateRequired={ true }
                     label='Number Of Bedrooms'
                   >
-                    <FloatInput
+                    <IntInput
                       value={ data?.numberOfBedrooms }
                       onChange={ (value) => {
                         onChange({ ...data, numberOfBedrooms: value })
