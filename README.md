@@ -1,11 +1,14 @@
 This project aims to use code-generation to short-circuit the development process from design to actual working code. It is called x10 because of the anticipated (minimum) gain of ten times in overall speed in going from full design to full implementation.
 
+# x10 Language Definition
+
+
+
 # Sub-Directories
 
 ## data
 
-Data files for help with test data generations - things like list of nouns,
-adjectives, cities, etc.
+Data files for help with test data generations - things like list of nouns, adjectives, cities, etc.
 
 ## hot_chocolate_small
 

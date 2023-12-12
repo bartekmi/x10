@@ -54,6 +54,14 @@ namespace x10.ui.composition {
 
     // Derived
     public Instance ParentInstance { get { return Owner?.Owner as Instance; } }
+    public Instance RootInstance {
+      get {
+        Instance instance = this;
+        while (instance.ParentInstance != null)
+          instance = instance.ParentInstance;
+        return instance;
+      }
+    }
     public IEnumerable<Instance> ChildInstances 
       => AttributeValues.OfType<UiAttributeValueComplex>().SelectMany(x => x.Instances);
     public UiAttributeValue PrimaryValue 

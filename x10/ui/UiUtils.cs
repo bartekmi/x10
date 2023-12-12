@@ -58,5 +58,9 @@ namespace x10.ui {
       return classDef.RootChild.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
     }
 
+    public static bool BelongsToForm(Instance instance) {
+      Instance root = instance.RootInstance;
+      return root.RenderAs.Name == BaseLibrary.CLASS_DEF_FORM;
+    }
   }
 }

@@ -11,15 +11,15 @@ type TItem = {
 };
 
 type Props<T extends TItem> = {
-  readonly items: T[],
+  readonly items: T[] | null | undefined,
   readonly itemDisplayFunc: (data: T, onChange: (data: T) => void, inListIndex?: number) => React.JSX.Element,
-  readonly onChange ?: (newItems: Array<T>) => void,   // Not present for read-only display
-  readonly addNewItem: () => T,
+  readonly onChange?: (newItems: Array<T>) => void,   // Not present for read-only display
+  readonly addNewItem?: (() => T) | null,   // Not present for read-only display
   readonly addItemLabel ?: string,
   readonly layout?: "vertical" | "verticalCompact" | "wrap",
 };
-export default function MultiStacker<T extends TItem>(props: Props<T>): React.JSX.Element {
-  const {layout = "vertical"} = props;
+export default function MultiStacker<T extends TItem>(props: Props<T>): React.JSX.Element | null {
+  const {layout = "vertical", items} = props;
   if (layout == "wrap") {
     return WrapPanel(props);
   }
@@ -31,7 +31,9 @@ function WrapPanel<T extends TItem>({
   items,
   itemDisplayFunc
 }: Props<T>) {
-  // TODO: Currently, not editable
+  if (items == null)
+    return null;
+
   return (
     <Flex gap={12}>
       {items.map((item, index) => itemDisplayFunc(item, () => {}, index))}
@@ -46,8 +48,10 @@ function VerticalList<T extends TItem>({
   addNewItem,
   addItemLabel = "Add",
   layout,
-}: Props<T>): React.JSX.Element {
+}: Props<T>): React.JSX.Element | null{
   const isCompact = layout == "verticalCompact";
+  if (items == null)
+    return null;
 
   return (
     <Flex gap={isCompact ? 0 : 20} flexDirection="column">
@@ -80,19 +84,23 @@ function VerticalList<T extends TItem>({
           {isCompact ? null : <div className={css(styles.divider)}/>}
         </>
       ))}
-      {onChange ? (
-        <Button
-          onClick={() =>
-            onChange([
-              ...items,
-              addNewItem(), // Add a new one at end
-            ])
-          }
-        >
-          {addItemLabel}
-        </Button>
-      ) : null}
+      {onChange && addNewItem && addNewItem && AddNewButton(onChange, addNewItem, items, addItemLabel) }
     </Flex>
+  );
+}
+
+function AddNewButton<T>(onChange: (newItems: Array<T>) => void, addNewItem: () => T, items: T[], addItemLabel: string) {
+  return (
+    <Button
+      onClick={() =>
+        onChange([
+          ...items,
+          addNewItem(), // Add a new one at end
+        ])
+      }
+    >
+      {addItemLabel}
+    </Button>
   );
 }
 

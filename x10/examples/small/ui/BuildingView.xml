@@ -2,6 +2,7 @@
   <DisplayForm>
     <VerticalStackPanel>
       <FormRow>
+        <moniker/>
         <name/>
         <description/>
       </FormRow>
@@ -11,6 +12,29 @@
         <mailboxType/>
         <petPolicy/>
       </FormRow>
+
+      <FormSection path="physicalAddress" label="Physical Address">
+        <theAddress/>
+        <Text text="=city + ', ' + stateOrProvince + '   ' + zip"/>
+        <Text text="=country.name"/>
+      </FormSection>
+
+      <FormSection label="Units">
+        <List path="units">
+          <VerticalStackPanel>
+            <Row>
+              <number/>
+              <squareFeet/>
+              <hasBalcony label="Unit has Blacony?"/>
+            </Row>
+            <Row>
+              <numberOfBedrooms/>
+              <numberOfBathrooms/>
+            </Row>
+          </VerticalStackPanel>
+        </List>
+      </FormSection>
+
     </VerticalStackPanel>
   </DisplayForm>
 </BuildingView>

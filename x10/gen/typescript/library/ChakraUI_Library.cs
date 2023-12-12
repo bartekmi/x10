@@ -566,6 +566,9 @@ namespace x10.gen.typescript.library {
             PlatformName = "addNewItem",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
+              if (!UiUtils.BelongsToForm(instance))
+                return null;
+                
               generator.ImportsPlaceholder.ImportCreateDefaultFunc(instance.DataModelEntity);
               return TypeScriptCodeGenerator.CreateDefaultFuncName(instance.DataModelEntity);
             },
