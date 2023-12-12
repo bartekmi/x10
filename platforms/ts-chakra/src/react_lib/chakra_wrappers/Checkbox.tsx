@@ -12,7 +12,7 @@ export default function Checkbox(props: Props): React.JSX.Element {
   const {checked, disabled = false, label, onChange} = props;
   return (
     <ChakraCheckbox
-      checked={checked || false}
+      isChecked={checked || false}
       disabled={disabled}
       onChange={(event) => {
         const newValue = event.target.checked;

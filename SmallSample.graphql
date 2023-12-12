@@ -39,9 +39,9 @@ type Country {
 "Somewhat contrived move event from one apartment to another"
 type Move {
   date: DateTime
-  from: Building!
-  to: Building!
-  tenant: Tenant!
+  from: Building
+  to: Building
+  tenant: Tenant
   id: String!
 }
 
@@ -86,7 +86,7 @@ type Tenant {
   name: String
   phone: String
   email: String
-  permanentMailingAddress: Address!
+  permanentMailingAddress: Address
   id: String!
 }
 
@@ -290,7 +290,7 @@ input BuildingFormBuildingInput {
   mailingAddress: AddressInput!
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
-  units: [UnitInput!]!
+  units: [UnitInput!]
   id: String!
 }
 
@@ -396,9 +396,9 @@ input MoveFilter {
 "Input Data Type for MoveFormUpdateMove Mutation"
 input MoveFormMoveInput {
   date: DateTime
-  from: IdWrapperInput!
-  to: IdWrapperInput!
-  tenant: IdWrapperInput!
+  from: IdWrapperInput
+  to: IdWrapperInput
+  tenant: IdWrapperInput
   id: String!
 }
 
