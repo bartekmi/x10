@@ -1,7 +1,7 @@
 import * as React from "react";
-import {StyleSheet, css} from "aphrodite";
 
 import { Flex } from '@chakra-ui/react'
+import './FormSection.css'
 
 type Props = {
   readonly children: JSX.Element | JSX.Element[],
@@ -11,20 +11,14 @@ export default function FormSection(props: Props): React.JSX.Element {
   const { children, label } = props
 
   return (
-    <>
-      <div className={css(styles.heading)}>
+    <div className='form-section-component'>
+      <div className='form-section-header'>
         <h2>{label}</h2>
       </div>
-      <Flex flexDirection="column" gap={20}>
+      <Flex flexDirection="column" gap={20} className='form-section-body'>
         {children}
       </Flex>
-    </>
+    </div>
   );
 }
 
-const styles = StyleSheet.create({
-  heading: {
-    paddingTop: 12,
-    paddingBottom: 12,
-  },
-});
