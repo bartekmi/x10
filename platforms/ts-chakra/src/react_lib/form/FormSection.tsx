@@ -15,7 +15,7 @@ export default function FormSection(props: Props): React.JSX.Element {
       <div className='form-section-header'>
         <h2>{label}</h2>
       </div>
-      <Flex flexDirection="column" gap={20} className='form-section-body'>
+      <Flex flexDirection="column" gap={8} className='form-section-body'>
         {children}
       </Flex>
     </div>
