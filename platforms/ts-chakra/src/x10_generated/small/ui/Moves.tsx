@@ -100,10 +100,12 @@ export default function Moves(props: Props): React.JSX.Element {
                   <Button
                     label='View'
                     url={ '/moves/view/' + x10toString(value?.id) }
+                    style='link'
                   />
                   <Button
                     label='Edit'
                     url={ '/moves/edit/' + x10toString(value?.id) }
+                    style='normal'
                   />
                 </Group>
               ,

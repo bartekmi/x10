@@ -18,8 +18,8 @@
         <permanentMailingAddress.country/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" url="='/tenants/view/' + id"/>
-            <Button label="Edit" url="='/tenants/edit/' + id"/>
+            <Button label="View" style="link" url="='/tenants/view/' + id"/>
+            <Button label="Edit" style="normal" url="='/tenants/edit/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>

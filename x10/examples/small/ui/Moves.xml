@@ -10,8 +10,8 @@
         <tenant.name label="Tenant"/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" url="='/moves/view/' + id"/>
-            <Button label="Edit" url="='/moves/edit/' + id"/>
+            <Button label="View" style="link" url="='/moves/view/' + id"/>
+            <Button label="Edit" style="normal" url="='/moves/edit/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>
