@@ -9,12 +9,12 @@
       <BuildingView path="to"/>
     </FormSection>
     <FormSection label="Tenant details..." path="tenant">
-      <FormRow>
+      <Row>
         <name/>
         <phone/>
         <email/>
         <permanentMailingAddress.theAddress/>
-      </FormRow>
+      </Row>
     </FormSection>
   </DisplayForm>
 </MoveView>

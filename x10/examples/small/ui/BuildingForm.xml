@@ -30,10 +30,10 @@
       </FormSection>
 
       <FormSection label="Other Details">
-        <FormRow>
+        <Row>
           <dateOfOccupancy/>
           <ageInYears/>
-        </FormRow>
+        </Row>
         <mailboxType ui="RadioButtonGroup"/>
         <petPolicy/>
       </FormSection>

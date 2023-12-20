@@ -1,6 +1,4 @@
 import * as React from "react";
-// import {StyleSheet, css} from "aphrodite";
-
 type Alignment = "flex-start" | "center" | "flex-end";
 type Justification = "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
 
@@ -11,7 +9,7 @@ type Props = {
   readonly children?: JSX.Element | JSX.Element[],
 };
 export default function Group(props: Props) {
-  const { gap = 8, align = "center", justifyContent = "flex-start", children } = props  
+  const { gap = 40, align = "center", justifyContent = "flex-start", children } = props  
   const elements = React.Children.toArray(children);
 
   return (

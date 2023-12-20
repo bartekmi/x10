@@ -875,15 +875,6 @@ namespace x10.gen.typescript.library {
           new JavaScriptAttributeDynamic("successUrl", "successUrl"),
         },
       },
-      new PlatformClassDef() {
-        LogicalName = "FormRow",
-        PlatformName = "Group",
-        ImportDir = "react_lib",
-
-        LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new PlatformAttributeStatic("gap", 40),
-        },
-      },
       #endregion
 
       #region Misc

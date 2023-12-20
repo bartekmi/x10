@@ -2,17 +2,17 @@
   <DisplayForm>
     <VerticalStackPanel>
       <FormSection label="Building Details">
-        <FormRow>
+        <Row>
           <moniker/>
           <name/>
-        </FormRow>
+        </Row>
         <description/>
-        <FormRow>
+        <Row>
           <dateOfOccupancy/>
           <ageInYears/>
           <mailboxType/>
           <petPolicy/>
-        </FormRow>
+        </Row>
       </FormSection>
 
       <FormSection path="physicalAddress" label="Physical Address">

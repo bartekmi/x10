@@ -296,7 +296,7 @@ function BuildingForm(props: Props): React.JSX.Element {
           label='Other Details'
         >
           <Group
-            gap={ 40 }
+            align='center'
           >
             <FormField
               editorFor='dateOfOccupancy'

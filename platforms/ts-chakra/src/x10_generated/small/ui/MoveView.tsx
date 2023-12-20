@@ -46,7 +46,7 @@ export default function MoveView(props: Props): React.JSX.Element {
         label='Tenant details...'
       >
         <Group
-          gap={ 40 }
+          align='center'
         >
           <DisplayField
             label='Name'

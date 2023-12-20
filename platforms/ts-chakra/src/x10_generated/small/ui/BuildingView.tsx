@@ -37,7 +37,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
           label='Building Details'
         >
           <Group
-            gap={ 40 }
+            align='center'
           >
             <DisplayField
               label='Moniker'
@@ -69,7 +69,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
             />
           </DisplayField>
           <Group
-            gap={ 40 }
+            align='center'
           >
             <DisplayField
               label='Date Of Occupancy'
