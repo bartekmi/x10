@@ -25,8 +25,8 @@
         <petPolicy/>
         <TableColumn label="Action">
           <Row>
-            <Button label="View" url="='/buildings/view/' + id"/>
-            <Button label="Edit" url="='/buildings/edit/' + id"/>
+            <Button label="View" style="link" url="='/buildings/view/' + id"/>
+            <Button label="Edit" style="normal" url="='/buildings/edit/' + id"/>
           </Row>
         </TableColumn>
       </Table.Columns>

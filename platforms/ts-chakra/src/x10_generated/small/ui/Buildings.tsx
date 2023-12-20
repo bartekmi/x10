@@ -133,10 +133,12 @@ export default function Buildings(props: Props): React.JSX.Element {
                 >
                   <Button
                     label='View'
+                    style='link'
                     url={ '/buildings/view/' + x10toString(value?.id) }
                   />
                   <Button
                     label='Edit'
+                    style='normal'
                     url={ '/buildings/edit/' + x10toString(value?.id) }
                   />
                 </Group>
