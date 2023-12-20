@@ -33,28 +33,32 @@ export default function BuildingView(props: Props): React.JSX.Element {
   return (
     <DisplayForm>
       <VerticalStackPanel>
-        <Group
-          gap={ 40 }
+        <FormSection
+          label='Building Details'
         >
-          <DisplayField
-            label='Moniker'
-          >
-            <TextDisplay
-              value={ building?.moniker }
-            />
-          </DisplayField>
-          <StyleControl
-            maxWidth={ 350 }
+          <Group
+            gap={ 40 }
           >
             <DisplayField
-              toolTip='A short and memorable name of the Building'
-              label='Name'
+              label='Moniker'
             >
               <TextDisplay
-                value={ building?.name }
+                value={ building?.moniker }
               />
             </DisplayField>
-          </StyleControl>
+            <StyleControl
+              maxWidth={ 350 }
+            >
+              <DisplayField
+                toolTip='A short and memorable name of the Building'
+                label='Name'
+              >
+                <TextDisplay
+                  value={ building?.name }
+                />
+              </DisplayField>
+            </StyleControl>
+          </Group>
           <DisplayField
             toolTip='Description for advertising purposes'
             label='Description'
@@ -64,42 +68,42 @@ export default function BuildingView(props: Props): React.JSX.Element {
               readOnly={ true }
             />
           </DisplayField>
-        </Group>
-        <Group
-          gap={ 40 }
-        >
-          <DisplayField
-            label='Date Of Occupancy'
+          <Group
+            gap={ 40 }
           >
-            <DateDisplay
-              value={ building?.dateOfOccupancy }
-            />
-          </DisplayField>
-          <DisplayField
-            toolTip='Strongly affects annual propery maintenance costs.'
-            label='Age In Years'
-          >
-            <FloatDisplay
-              value={ buildingAgeInYears(appContext, building) }
-            />
-          </DisplayField>
-          <DisplayField
-            label='Mailbox Type'
-          >
-            <EnumDisplay
-              value={ building?.mailboxType }
-              options={ MailboxTypeEnumPairs }
-            />
-          </DisplayField>
-          <DisplayField
-            label='Pet Policy'
-          >
-            <EnumDisplay
-              value={ building?.petPolicy }
-              options={ PetPolicyEnumPairs }
-            />
-          </DisplayField>
-        </Group>
+            <DisplayField
+              label='Date Of Occupancy'
+            >
+              <DateDisplay
+                value={ building?.dateOfOccupancy }
+              />
+            </DisplayField>
+            <DisplayField
+              toolTip='Strongly affects annual propery maintenance costs.'
+              label='Age In Years'
+            >
+              <FloatDisplay
+                value={ buildingAgeInYears(appContext, building) }
+              />
+            </DisplayField>
+            <DisplayField
+              label='Mailbox Type'
+            >
+              <EnumDisplay
+                value={ building?.mailboxType }
+                options={ MailboxTypeEnumPairs }
+              />
+            </DisplayField>
+            <DisplayField
+              label='Pet Policy'
+            >
+              <EnumDisplay
+                value={ building?.petPolicy }
+                options={ PetPolicyEnumPairs }
+              />
+            </DisplayField>
+          </Group>
+        </FormSection>
         <FormSection
           label='Physical Address'
         >

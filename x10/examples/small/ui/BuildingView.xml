@@ -1,17 +1,19 @@
 <BuildingView model="Building" url="/buildings/view">
   <DisplayForm>
     <VerticalStackPanel>
-      <FormRow>
-        <moniker/>
-        <name/>
+      <FormSection label="Building Details">
+        <FormRow>
+          <moniker/>
+          <name/>
+        </FormRow>
         <description/>
-      </FormRow>
-      <FormRow>
-        <dateOfOccupancy/>
-        <ageInYears/>
-        <mailboxType/>
-        <petPolicy/>
-      </FormRow>
+        <FormRow>
+          <dateOfOccupancy/>
+          <ageInYears/>
+          <mailboxType/>
+          <petPolicy/>
+        </FormRow>
+      </FormSection>
 
       <FormSection path="physicalAddress" label="Physical Address">
         <theAddress/>
