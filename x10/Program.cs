@@ -13,8 +13,6 @@ using x10.ui.libraries;
 using x10.ui.metadata;
 
 using x10.gen;
-using x10.gen.react.library;
-using x10.gen.react.generate;
 using x10.gen.typescript.library;
 using x10.gen.typescript.generate;
 using x10.gen.hotchoc;
@@ -46,74 +44,6 @@ namespace x10 {
 
     #region Configs
     private static readonly GenConfig[] CONFIGS = new GenConfig[] {
-        // DPS
-      new GenConfig() {
-        Name = "DPS - Flow - x10",
-        CommandLine = "dps",
-        SourceDir = "examples/dps",
-        ProjectDir = "../react_small_generated",
-        TargetDir = "x10_generated/dps",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
-          GeneratedCodeSubdir = "dps",
-          FileHeader = "// TEAM: compliance\n// @flow\n",
-        },
-        PostGenerationScript = new ScriptInfo() {
-          Script = "yarn",
-          Args = "relay-dps",
-        }
-      },
-      new GenConfig() {
-        Name = "DPS - Flow - Monorepo",
-        CommandLine = "dps-mono",
-        SourceDir = "examples/dps",
-        ProjectDir = "../../../flexport",
-        TargetDir = "webpack/assets/javascripts/compliance/components/dps/x10",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
-          GeneratedCodeSubdir = "compliance/components/dps/x10",
-          FileHeader = "// TEAM: compliance\n// @flow\n",
-          ReactLibImport = "compliance/react_lib",
-        },
-        CustomConfig = () => {
-          LatitudeLibrary.Singleton().NonDefaultImportPath = "compliance";
-        }
-      },
-      new GenConfig() {
-        Name = "DPS - Hot Chocolate",
-        CommandLine = "dps-hot",
-        SourceDir = "examples/dps",
-        ProjectDir = "../hot_chocolate_small",
-        TargetDir = "dps",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new HotchocCodeGenerator() {
-          GenerateAbstractEntities = true,
-          PackageName = "dps",
-          CustomMutationsClass = "CustomMutations",
-        },
-      },
-
-      // Small (Building, etc) - Flow/Latitude
-      new GenConfig() {
-        Name = "Small Project - Flow",
-        CommandLine = "small-flow",
-        SourceDir = "examples/small",
-        ProjectDir = "../platform/flow/react_small_generated",
-        TargetDir = "x10_generated/small",
-        LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
-          GeneratedCodeSubdir = "small",
-          AppContextImport = "SmallAppContext",
-        },
-        PostGenerationScript = new ScriptInfo() {
-          Script = "yarn",
-          Args = "relay-small",
-        }
-      },
       // Small (Building, etc) - TypeScript/Chakra UI
       new GenConfig() {
         Name = "Small Project - TS",
@@ -139,7 +69,7 @@ namespace x10 {
         ProjectDir = "../hot_chocolate_small",
         TargetDir = "SmallSample",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton() },
+        PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton() },
         Generator = new HotchocCodeGenerator() {
           GenerateAbstractEntities = true,
           PackageName = "SmallSample",
@@ -154,11 +84,11 @@ namespace x10 {
         ProjectDir = "../react_small_generated",
         TargetDir = "x10_generated/client_page",
         LogicalLibraries = new UiLibrary[] { BaseLibrary.Singleton(), IconLibrary.Singleton(), FlexportSpecialLibrary.Singleton() },
-        PlatformLibraries = new PlatformLibrary[] { LatitudeLibrary.Singleton(), LatitudeFlexportSpecialLibrary.Singleton() },
-        Generator = new ReactCodeGenerator() {
-          GeneratedCodeSubdir = "client_page",
-          AppContextImport = "ClientPageAppContext",
-        },
+        // PlatformLibraries = new PlatformLibrary[] { ChakraUI_Library.Singleton(), LatitudeFlexportSpecialLibrary.Singleton() },
+        // Generator = new ReactCodeGenerator() {
+        //   GeneratedCodeSubdir = "client_page",
+        //   AppContextImport = "ClientPageAppContext",
+        // },
         PostGenerationScript = new ScriptInfo() {
           Script = "yarn",
           Args = "relay-cp",

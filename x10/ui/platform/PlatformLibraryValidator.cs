@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using x10.parsing;
@@ -15,6 +13,15 @@ namespace x10.ui.platform {
     }
 
     internal void HydrateAndValidate(UiLibrary logicalLibrary, PlatformLibrary platformLibrary) {
+      try {
+        _messages.PushPreamble(string.Format("Logical Lib: {0}, Platform Lib: {1}", logicalLibrary.Name, platformLibrary.Name));
+        HydrateAndValidatePrivate(logicalLibrary, platformLibrary);
+      } finally {
+        _messages.PopPreamble();
+      }
+    }
+
+    private void HydrateAndValidatePrivate(UiLibrary logicalLibrary, PlatformLibrary platformLibrary) {
       int blankNameClassDefs = platformLibrary.All.Count(x => string.IsNullOrWhiteSpace(x.LogicalName));
       if (blankNameClassDefs > 0)
         _messages.AddError(null, "{0} Platform Class Definitions have a blank Logical Name", blankNameClassDefs);

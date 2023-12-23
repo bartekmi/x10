@@ -29,6 +29,16 @@ namespace x10.parsing {
       Messages.Clear();
     }
 
+    private string _preamble;
+    public void PushPreamble(string preamble) {
+      if (_preamble != null)
+        throw new Exception("Only one push allowed");
+      _preamble = preamble;
+    }
+    public void PopPreamble() {
+      _preamble = null;
+    }
+
     public void AddError(IParseElement element, string message, params object[] substitutions) {
       AddMessage(CompileMessageSeverity.Error, element, message, substitutions);
     }
@@ -71,12 +81,11 @@ namespace x10.parsing {
 
       CompileMessage compileMessage = new CompileMessage() {
         ParseElement = element,
-        Message = message,
+        Message = _preamble == null ? message : string.Format("{0} > {1}", _preamble, message),
         Severity = severity,
+        ActualValue = actualValue,
+        AllowedValues = allowedValues,
       };
-
-      compileMessage.ActualValue = actualValue;
-      compileMessage.AllowedValues = allowedValues;
 
       Add(compileMessage);
     }
