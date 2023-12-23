@@ -144,6 +144,7 @@ export default function BuildingView(props: Props): React.JSX.Element {
                   >
                     <FloatDisplay
                       value={ data?.squareFeet }
+                      decimalPlaces={ 1 }
                     />
                   </DisplayField>
                   <DisplayField

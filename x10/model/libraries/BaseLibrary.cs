@@ -30,15 +30,18 @@ namespace x10.model.libraries {
     internal const string NAME = "name";
     internal const string LABEL = "label";
     internal const string TOOL_TIP = "toolTip";
-    internal const string MAX_WIDTH = "maxWidth";
     internal const string APPLICABLE_WHEN = "applicableWhen";
     internal const string DEFAULT_STRING_REPRESENTATION = "defaultStringRepresentation";
-    internal const string PLACEHOLDER_TEXT = "placeholderText";
     internal const string DEFAULT = "default";
     internal const string FORMULA = "formula";
     internal const string TRIGGER = "trigger";
     internal const string VALUE = "value";
     internal const string READ_ONLY = "readOnly";
+
+    // These attributes are passed-through to the UX
+    internal const string MAX_WIDTH = "maxWidth";
+    internal const string PLACEHOLDER_TEXT = "placeholderText";
+    internal const string DECIMAL_PLACES = "decimalPlaces";
 
     public readonly static DataTypeEnum ICON_DATA_TYPE =
       new DataTypeEnum() {
@@ -243,6 +246,18 @@ Typical use would be if entities are going to be represented on a drop-down.",
         Description = "Maximum width that the attribute should take in the UI under normal circumstances",
         AppliesTo = AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute,
         DataType = DataTypes.Singleton.Integer,
+      },
+      new ModelAttributeDefinitionAtomic() {
+        Name = DECIMAL_PLACES,
+        Description = "For floating-point attributes, how many decimal digits to display",
+        AppliesTo = AppliesTo.RegularAttribute | AppliesTo.DerivedAttribute,
+        DataType = DataTypes.Singleton.Integer,
+        ValidationFunction = (messages, scalarNode, modelComponent, appliesTo) => {
+          X10Attribute attr = (X10Attribute)modelComponent;
+          if (attr.DataTypeName  != DataTypes.Singleton.Float.Name)
+            messages.AddError(scalarNode, "The {0} attribute is only valid for {1} attributes",
+              DECIMAL_PLACES, DataTypes.Singleton.Float.Name);
+        }
       },
 
       //============================================================================

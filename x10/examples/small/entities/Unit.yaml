@@ -13,6 +13,7 @@ attributes:
 
   - name: squareFeet
     dataType: Float
+    decimalPlaces: 1
     datagen_min: 400
     datagen_max: 2500
 

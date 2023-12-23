@@ -147,7 +147,7 @@ namespace x10.gen.typescript.library {
             LogicalName = "value",
             PlatformName = "value",
           },
-        },
+        }
       },
       new PlatformClassDef() {
         LogicalName = "FloatDisplay",

@@ -180,6 +180,7 @@ namespace x10.ui.libraries {
             Name = "decimalPlaces",
             Description = "Optionally, specify to how many decimal place to round the value",
             DataType = DataTypes.Singleton.Integer,
+            TakeValueFromModelAttrName = model.libraries.BaseLibrary.DECIMAL_PLACES,
           },
         }
       },
