@@ -53,8 +53,10 @@ function VerticalList<T extends TItem>({
   if (items == null)
     return null;
 
+  const showAddNew = onChange && addNewItem;
+
   return (
-    <Flex gap={isCompact ? 0 : 20} flexDirection="column">
+    <Flex gap={isCompact ? 0 : 4} flexDirection="column">
       {items.map((item, index) => (
         <>
           <div key={item.id} style={{ display: "flex", alignItems: "flex-end"}}>
@@ -81,10 +83,12 @@ function VerticalList<T extends TItem>({
               </div>
             ) : null}
           </div>
-          {isCompact ? null : <div className={css(styles.divider)}/>}
+          {isCompact || (index == items.length - 1 && !showAddNew) ? 
+            null : 
+            <div className={css(styles.divider)}/>}
         </>
       ))}
-      {onChange && addNewItem && addNewItem && AddNewButton(onChange, addNewItem, items, addItemLabel) }
+      {showAddNew && AddNewButton(onChange, addNewItem, items, addItemLabel) }
     </Flex>
   );
 }
@@ -107,7 +111,7 @@ function AddNewButton<T>(onChange: (newItems: Array<T>) => void, addNewItem: () 
 const styles = StyleSheet.create({
   divider: {
     height: "2px",
-    borderBottom: `1px solid ${colors.grey30}`,
+    borderBottom: `1px solid ${colors.grey50}`,
     margin: "10px 0",
     padding: "0",
   },
