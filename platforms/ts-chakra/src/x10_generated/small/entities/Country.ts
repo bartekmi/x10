@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { addError, type FormError } from 'react_lib/form/FormProvider';
 import isBlank from 'react_lib/utils/isBlank';
+import toUpper from 'react_lib/utils/toUpper';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { AppContextType } from 'SmallAppContext';
@@ -18,11 +19,11 @@ export type Country = {
 
 // Derived Attribute Functions
 export function countryToStringRepresentation(appContext: AppContextType, country?: {
-    code?: string,
     name?: string,
+    code?: string,
 } | null | undefined): string | undefined {
   if (country == null) return '';
-  const result = x10toString(country?.code) + ' - ' + x10toString(country?.name);
+  const result = x10toString(country?.name) + ' (' + x10toString(toUpper(country?.code)) + ')';
   return result;
 }
 

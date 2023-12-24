@@ -15,3 +15,15 @@
   arguments:
     - name: id
       dataType: String
+
+- name: ToUpper
+  returnDataType: String
+  arguments:
+    - name: value
+      dataType: String
+
+- name: ToLower
+  returnDataType: String
+  arguments:
+    - name: value
+      dataType: String

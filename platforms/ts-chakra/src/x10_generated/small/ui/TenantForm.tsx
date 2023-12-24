@@ -254,8 +254,8 @@ const countriesQuery = gql`
   query TenantForm_countriesQuery {
     entities: countries {
       id
-      code
       name
+      code
     }
   }
 `;

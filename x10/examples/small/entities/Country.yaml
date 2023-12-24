@@ -18,4 +18,4 @@ attributes:
 derivedAttributes:
   - name: toStringRepresentation
     dataType: String
-    formula: =code + " - " + name
+    formula: =name + " (" + ToUpper(code) + ")"

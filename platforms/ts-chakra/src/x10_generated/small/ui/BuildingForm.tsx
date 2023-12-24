@@ -573,8 +573,8 @@ const countriesQuery = gql`
   query BuildingForm_countriesQuery {
     entities: countries {
       id
-      code
       name
+      code
     }
   }
 `;
