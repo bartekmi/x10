@@ -1,68 +1,64 @@
 <BuildingForm model="Building" url="/buildings" query="GetBuilding(buildingId: $buildingId">
   <Form>
-    <VerticalStackPanel>
-      <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
-      <Heading1 text='="Age in Years: " + ageInYears'/>
-      <HorizontalDivider/>
-      <FormSection label="Building Info">
-        <moniker/>
-        <name/>
-        <description/>
-      </FormSection>
+    <Heading1 text='="Editing Building in: " + physicalAddress.secondAddressLine'/>
+    <FormSection label="Building Info">
+      <moniker/>
+      <name/>
+      <description/>
+    </FormSection>
 
-      <FormSection path="physicalAddress" label="Physical Address">
-        <theAddress/>
+    <FormSection path="physicalAddress" label="Physical Address">
+      <theAddress/>
+      <city/>
+      <stateOrProvince/>
+      <zip/>
+      <country/>
+    </FormSection>
+
+    <FormSection label="Mailing Address">
+      <Checkbox path="mailingAddressSameAsPhysical" checkboxLabel="Mailing Address Same as Physical Address"/> 
+      <VerticalStackPanel path="mailingAddress" id="break">
+        <theAddress label="Address or Post Office (PO) Box"/>
         <city/>
         <stateOrProvince/>
         <zip/>
         <country/>
-      </FormSection>
+      </VerticalStackPanel>
+    </FormSection>
 
-      <FormSection label="Mailing Address">
-        <Checkbox path="mailingAddressSameAsPhysical" checkboxLabel="Mailing Address Same as Physical Address"/> 
-        <VerticalStackPanel path="mailingAddress" id="break">
-          <theAddress label="Address or Post Office (PO) Box"/>
-          <city/>
-          <stateOrProvince/>
-          <zip/>
-          <country/>
+    <FormSection label="Other Details">
+      <Row>
+        <dateOfOccupancy/>
+        <ageInYears/>
+      </Row>
+      <mailboxType ui="RadioButtonGroup"/>
+      <petPolicy/>
+    </FormSection>
+
+    <FormSection label="Units">
+      <List path="units" addItemLabel="Add Unit">
+        <VerticalStackPanel>
+          <Row>
+            <number/>
+            <squareFeet/>
+            <hasBalcony label="Unit has Blacony?"/>
+          </Row>
+          <Row>
+            <numberOfBedrooms/>
+            <numberOfBathrooms/>
+          </Row>
         </VerticalStackPanel>
-      </FormSection>
+      </List>
+    </FormSection>
 
-      <FormSection label="Other Details">
-        <Row>
-          <dateOfOccupancy/>
-          <ageInYears/>
-        </Row>
-        <mailboxType ui="RadioButtonGroup"/>
-        <petPolicy/>
-      </FormSection>
-
-      <FormSection label="Units">
-        <List path="units" addItemLabel="Add Unit">
-          <VerticalStackPanel>
-            <Row>
-              <number/>
-              <squareFeet/>
-              <hasBalcony label="Unit has Blacony?"/>
-            </Row>
-            <Row>
-              <numberOfBedrooms/>
-              <numberOfBathrooms/>
-            </Row>
-          </VerticalStackPanel>
-        </List>
-      </FormSection>
-
-      <FormErrorDisplay/>
-      <RepellingRow>
-        <Text>* Required</Text>
-        <SubmitButton label="Save">
-          <SubmitButton.Action>
-            <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
-          </SubmitButton.Action>
-        </SubmitButton>
-      </RepellingRow>
-    </VerticalStackPanel>
+    <FormErrorDisplay/>
+    <RepellingRow>
+      <Text>* Required</Text>
+      <SubmitButton label="Save">
+        <SubmitButton.Action>
+          <Action backEndTarget="/buildings/create" successUrl="/buildings"/>
+        </SubmitButton.Action>
+      </SubmitButton>
+    </RepellingRow>
   </Form>
 </BuildingForm>

@@ -8,7 +8,6 @@ import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
 import Group from 'react_lib/Group';
-import Separator from 'react_lib/Separator';
 
 import { AppContext } from 'SmallAppContext';
 import { type Move } from 'x10_generated/small/entities/Move';
@@ -30,7 +29,6 @@ export default function MoveView(props: Props): React.JSX.Element {
         size='2xl'
         children='Move Details'
       />
-      <Separator/>
       <FormSection
         label='Moving from location...'
       >

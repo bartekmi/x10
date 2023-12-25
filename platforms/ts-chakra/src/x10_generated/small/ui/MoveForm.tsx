@@ -10,7 +10,6 @@ import FormProvider from 'react_lib/form/FormProvider';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import Group from 'react_lib/Group';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
-import Separator from 'react_lib/Separator';
 import isNewObject from 'react_lib/utils/isNewObject';
 
 import { AppContext } from 'SmallAppContext';
@@ -37,7 +36,6 @@ function MoveForm(props: Props): React.JSX.Element {
         size='2xl'
         children={ isNewObject(move?.id) ? 'New Move' : 'Editing Move' }
       />
-      <Separator/>
       <FormField
         editorFor='date'
         indicateRequired={ true }

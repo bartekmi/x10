@@ -1,6 +1,6 @@
 <TenantView model="Tenant" url="/tenants/view">
   <DisplayForm>
-    <HorizontalDivider/>
+    <Heading1 text="Tenant Details"/>
     <FormSection label="Tenant Info">
       <name/>
       <phone/>

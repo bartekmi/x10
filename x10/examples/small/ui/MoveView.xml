@@ -1,7 +1,6 @@
 <MoveView model="Move" url="/moves/view">
   <DisplayForm>
     <Heading1>Move Details</Heading1>
-    <HorizontalDivider/>
     <FormSection label="Moving from location...">
       <BuildingView path="from"/>
     </FormSection>

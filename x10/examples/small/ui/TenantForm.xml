@@ -1,7 +1,6 @@
 <TenantForm model="Tenant" url="/tenants" query="GetTenant(tenantId: $tenantId">
   <Form>
     <Heading1 text='=IsExistingObject(id) ? "Editing Tenant: " + name : "New Tenant"'/>
-    <HorizontalDivider/>
     <FormSection label="Tenant Info">
       <name/>
       <phone/>

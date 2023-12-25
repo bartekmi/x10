@@ -51,7 +51,7 @@ export default function FormProvider(props: Props): React.JSX.Element {
 
   return (
     <FormContext.Provider value={context}>
-      <VerticalStackPanel gap={20}>
+      <VerticalStackPanel>
         { children }
       </VerticalStackPanel>
     </FormContext.Provider>    

@@ -11,7 +11,6 @@ import FormSection from 'react_lib/form/FormSection';
 import FormSubmitButton from 'react_lib/form/FormSubmitButton';
 import Group from 'react_lib/Group';
 import AssociationEditor from 'react_lib/multi/AssociationEditor';
-import Separator from 'react_lib/Separator';
 import StyleControl from 'react_lib/StyleControl';
 import isExistingObject from 'react_lib/utils/isExistingObject';
 import x10toString from 'react_lib/utils/x10toString';
@@ -39,7 +38,6 @@ function TenantForm(props: Props): React.JSX.Element {
         size='2xl'
         children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + x10toString(tenant?.name) : 'New Tenant' }
       />
-      <Separator/>
       <FormSection
         label='Tenant Info'
       >

@@ -1,42 +1,40 @@
 <BuildingView model="Building" url="/buildings/view">
   <DisplayForm>
-    <VerticalStackPanel>
-      <FormSection label="Building Details">
-        <Row>
-          <moniker/>
-          <name/>
-        </Row>
-        <description/>
-        <Row>
-          <dateOfOccupancy/>
-          <ageInYears/>
-          <mailboxType/>
-          <petPolicy/>
-        </Row>
-      </FormSection>
+    <Heading1 text="Building Details"/>
+    <FormSection label="Building Info">
+      <Row>
+        <moniker/>
+        <name/>
+      </Row>
+      <description/>
+      <Row>
+        <dateOfOccupancy/>
+        <ageInYears/>
+        <mailboxType/>
+        <petPolicy/>
+      </Row>
+    </FormSection>
 
-      <FormSection path="physicalAddress" label="Physical Address">
-        <theAddress/>
-        <Text text="=city + ', ' + stateOrProvince + '   ' + zip"/>
-        <Text text="=country.name"/>
-      </FormSection>
+    <FormSection path="physicalAddress" label="Physical Address">
+      <theAddress/>
+      <Text text="=city + ', ' + stateOrProvince + '   ' + zip"/>
+      <Text text="=country.name"/>
+    </FormSection>
 
-      <FormSection label="Units">
-        <List path="units">
-          <VerticalStackPanel>
-            <Row>
-              <number/>
-              <squareFeet/>
-              <hasBalcony label="Unit has Blacony?"/>
-            </Row>
-            <Row>
-              <numberOfBedrooms/>
-              <numberOfBathrooms/>
-            </Row>
-          </VerticalStackPanel>
-        </List>
-      </FormSection>
-
-    </VerticalStackPanel>
+    <FormSection label="Units">
+      <List path="units">
+        <VerticalStackPanel>
+          <Row>
+            <number/>
+            <squareFeet/>
+            <hasBalcony label="Unit has Blacony?"/>
+          </Row>
+          <Row>
+            <numberOfBedrooms/>
+            <numberOfBathrooms/>
+          </Row>
+        </VerticalStackPanel>
+      </List>
+    </FormSection>
   </DisplayForm>
 </BuildingView>
