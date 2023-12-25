@@ -49,10 +49,32 @@ namespace x10.gen.sql.primitives {
       };
     }
 
-    private string[] ParseCsvLine(string line) {
-      return line.Split(',')
-        .Select(x => NameUtils.StripQuotes(x))
-        .ToArray();
+    private static string[] ParseCsvLine(string line) {
+      bool isInQuote = false;
+      List<string> fields = new List<string>();
+      StringBuilder builder = new StringBuilder();
+
+      // Special characters: , and "
+      foreach (char c in line) {
+        if (c == ',') {
+          if (isInQuote)
+            builder.Append(',');
+          else {
+            fields.Add(builder.ToString());
+            builder.Clear();
+          }
+        } else if (c == '"') {
+          // At present, we do not allow escaped quotes ("") in the middle of fields
+          isInQuote = !isInQuote;
+        } else
+          builder.Append(c);
+      }
+
+      if (isInQuote)
+        throw new Exception("Missing terminating quote while parsing CSV line: " + line);
+
+      fields.Add(builder.ToString());
+      return fields.ToArray();
     }
   }
 

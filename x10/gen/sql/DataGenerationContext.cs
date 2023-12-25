@@ -26,7 +26,7 @@ namespace x10.gen.sql {
         Entity entity, 
         string dataFilesRoot) {
 
-      dataFilesRoot = dataFilesRoot ?? DEFAULT_DATA_FILES_ROOT;
+      dataFilesRoot ??= DEFAULT_DATA_FILES_ROOT;
 
       DataGenerationContext context = new DataGenerationContext() {
         _random = random,
