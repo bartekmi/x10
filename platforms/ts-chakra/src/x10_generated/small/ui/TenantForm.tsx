@@ -36,8 +36,7 @@ function TenantForm(props: Props): React.JSX.Element {
     >
       <Heading
         as='h1'
-        size='4xl'
-        noOfLines={ 1 }
+        size='2xl'
         children={ isExistingObject(tenant?.id) ? 'Editing Tenant: ' + x10toString(tenant?.name) : 'New Tenant' }
       />
       <Separator/>

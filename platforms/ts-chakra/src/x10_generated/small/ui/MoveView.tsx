@@ -27,8 +27,7 @@ export default function MoveView(props: Props): React.JSX.Element {
     <DisplayForm>
       <Heading
         as='h1'
-        size='4xl'
-        noOfLines={ 1 }
+        size='2xl'
         children='Move Details'
       />
       <Separator/>

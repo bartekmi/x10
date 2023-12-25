@@ -72,8 +72,7 @@ namespace x10.gen.typescript.library {
         IsNonDefaultImport = true,
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new PlatformAttributeStatic("as", "h1"),
-          new PlatformAttributeStatic("size", "4xl"),
-          new PlatformAttributeStatic("noOfLines", 1),
+          new PlatformAttributeStatic("size", "2xl"),
           new JavaScriptAttributeDynamic("text", "children"),
         },
       },

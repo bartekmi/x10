@@ -34,8 +34,7 @@ function MoveForm(props: Props): React.JSX.Element {
     >
       <Heading
         as='h1'
-        size='4xl'
-        noOfLines={ 1 }
+        size='2xl'
         children={ isNewObject(move?.id) ? 'New Move' : 'Editing Move' }
       />
       <Separator/>

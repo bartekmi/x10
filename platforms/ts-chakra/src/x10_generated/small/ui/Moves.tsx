@@ -28,8 +28,7 @@ export default function Moves(props: Props): React.JSX.Element {
     <VerticalStackPanel>
       <Heading
         as='h1'
-        size='4xl'
-        noOfLines={ 1 }
+        size='2xl'
         children='Moves'
       />
       <Table

@@ -49,14 +49,12 @@ function BuildingForm(props: Props): React.JSX.Element {
       <VerticalStackPanel>
         <Heading
           as='h1'
-          size='4xl'
-          noOfLines={ 1 }
+          size='2xl'
           children={ 'Editing Building in: ' + x10toString(addressSecondAddressLine(appContext, building?.physicalAddress)) }
         />
         <Heading
           as='h1'
-          size='4xl'
-          noOfLines={ 1 }
+          size='2xl'
           children={ 'Age in Years: ' + x10toString(buildingAgeInYears(appContext, building)) }
         />
         <Separator/>

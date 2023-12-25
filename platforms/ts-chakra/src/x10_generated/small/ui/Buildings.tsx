@@ -32,8 +32,7 @@ export default function Buildings(props: Props): React.JSX.Element {
     <VerticalStackPanel>
       <Heading
         as='h1'
-        size='4xl'
-        noOfLines={ 1 }
+        size='2xl'
         children='Buildings'
       />
       <Table
