@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace x10.gen.sql.primitives {
   internal static class GenSqlUtils {

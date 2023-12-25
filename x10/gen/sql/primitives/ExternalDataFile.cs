@@ -21,7 +21,7 @@ namespace x10.gen.sql.primitives {
 
     internal DataFileRow GetRandomRow(Random random) {
       int index = random.Next(_rows.Count);
-      return _rows[index];
+      return GetRow(index);
     }
 
     internal void Parse(string rootDir) {

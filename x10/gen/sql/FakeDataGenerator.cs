@@ -226,7 +226,7 @@ namespace x10.gen.sql {
       }
 
       DataGenerationContext context = EntityInfos[entity].Context;
-      DataFileRow externalRow = context.GetRandomExternalFileRow();
+      DataFileRow externalRow = context.GetExternalFileRow();
       IEnumerable<MemberAndOwner> allColumns = _declaredColumnCalculator.GetDeclaredColumns(entity);
 
       foreach (MemberAndOwner memberAndOwner in allColumns)
@@ -316,13 +316,11 @@ namespace x10.gen.sql {
     }
 
     private int GetCount(Entity entity) {
-      if (!entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity)) {
-        DataGenerationContext context = EntityInfos[entity].Context;
-        if (context.ExternalDataFiles.Count == 1)
-          return context.ExternalDataFiles.Single().Count;
-        return 0;
-      }
+      DataGenerationContext context = EntityInfos[entity].Context;
+      if (context.UseFullExternalFile(out int rowCount))
+        return rowCount;
 
+      entity.FindValue<int>(DataGenLibrary.QUANTITY, out int quantity);
       return TestingReducedNumberOfRows ?? quantity;
     }
     #endregion
