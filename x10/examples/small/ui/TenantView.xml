@@ -12,8 +12,7 @@
       <city/>
       <stateOrProvince/>
       <zip/>
-      <!-- This does not yet work -->
-      <!-- <country/> -->
+      <country/>
     </FormSection>
   </DisplayForm>
 </TenantView>

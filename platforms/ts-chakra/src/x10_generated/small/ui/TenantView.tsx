@@ -11,6 +11,7 @@ import StyleControl from 'react_lib/StyleControl';
 
 import { AppContext } from 'SmallAppContext';
 import { type Tenant } from 'x10_generated/small/entities/Tenant';
+import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
 
 
 
@@ -96,6 +97,13 @@ export default function TenantView(props: Props): React.JSX.Element {
             />
           </DisplayField>
         </StyleControl>
+        <DisplayField
+          label='Country'
+        >
+          <TextDisplay
+            value={ countryToStringRepresentation(appContext, tenant?.permanentMailingAddress?.country) }
+          />
+        </DisplayField>
       </FormSection>
     </DisplayForm>
   );
@@ -109,6 +117,11 @@ export const TENANTVIEW_TENANT_FRAGMENT = gql`
     permanentMailingAddress {
       id
       city
+      country {
+        id
+        name
+        code
+      }
       stateOrProvince
       theAddress
       zip

@@ -944,6 +944,7 @@ namespace x10.gen.typescript.library {
           new JavaScriptAttributeDynamic("order", "order"),
         },
       },
+      // This is incorrect... This is not rendered using toStringRepresentation() +++
       new PlatformClassDef() {
         LogicalName = "AssociationDisplay",
         PlatformName = "TextDisplay",
