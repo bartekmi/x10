@@ -8,6 +8,7 @@ import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
 import StyleControl from 'react_lib/StyleControl';
+import AssociationDisplay from 'react_lib/display/AssociationDisplay';
 
 import { AppContext } from 'SmallAppContext';
 import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
@@ -100,8 +101,9 @@ export default function TenantView(props: Props): React.JSX.Element {
         <DisplayField
           label='Country'
         >
-          <TextDisplay
-            value={ countryToStringRepresentation(appContext, tenant?.permanentMailingAddress?.country) }
+          <AssociationDisplay
+            value={ tenant?.permanentMailingAddress?.country }
+            toStringRepresentation={ countryToStringRepresentation }
           />
         </DisplayField>
       </FormSection>

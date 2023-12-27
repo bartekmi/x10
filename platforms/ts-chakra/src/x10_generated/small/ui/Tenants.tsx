@@ -4,6 +4,7 @@ import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
 import Button from 'react_lib/chakra_wrappers/Button';
+import AssociationDisplay from 'react_lib/display/AssociationDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import Group from 'react_lib/Group';
 import VerticalStackPanel from 'react_lib/layout/VerticalStackPanel';
@@ -73,8 +74,9 @@ export default function Tenants(props: Props): React.JSX.Element {
               width: 140,
               accessor: (data) => data?.permanentMailingAddress?.country,
               Cell: ( value ) =>
-                <TextDisplay
-                  value={ countryToStringRepresentation(appContext, value?.permanentMailingAddress?.country) }
+                <AssociationDisplay
+                  value={ value }
+                  toStringRepresentation={countryToStringRepresentation}
                 />
               ,
             },
