@@ -946,12 +946,17 @@ namespace x10.gen.typescript.library {
       },
       new PlatformClassDef() {
         LogicalName = "AssociationDisplay",
-        PlatformName = "TextDisplay",
+        PlatformName = "AssociationDisplay",
         ImportDir = "react_lib/display",
         InheritsFromName = "TextualDisplay",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeByFunc() {
+          new JavaScriptAttributeDynamic() {
+            IsMainDatabindingAttribute = true,
+            LogicalName = "text",
             PlatformName = "value",
+          },
+          new JavaScriptAttributeByFunc() {
+            PlatformName = "toStringRepresentation",
             IsCodeSnippet = true,
             Function = (generator, instance) => {
               Entity entity = instance.DataModelEntity;
@@ -959,9 +964,7 @@ namespace x10.gen.typescript.library {
               
               X10DerivedAttribute toString = refedEntity.GetToStringRepresentationAttr();
               generator.ImportsPlaceholder.ImportDerivedAttributeFunction(toString);
-              string toStringFunc = TypeScriptCodeGenerator.DerivedAttrFuncName(toString);
-              string bindingPath = generator.GetBindingPath(instance);
-              return string.Format("{0}(appContext, {1})", toStringFunc, bindingPath);
+              return TypeScriptCodeGenerator.DerivedAttrFuncName(toString);
             },
           },
         },

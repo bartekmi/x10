@@ -76,7 +76,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               Cell: ( value ) =>
                 <AssociationDisplay
                   value={ value }
-                  toStringRepresentation={countryToStringRepresentation}
+                  toStringRepresentation={ countryToStringRepresentation }
                 />
               ,
             },

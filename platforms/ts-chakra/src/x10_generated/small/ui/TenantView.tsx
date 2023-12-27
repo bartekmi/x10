@@ -3,12 +3,12 @@ import { gql } from '@apollo/client';
 import { Heading } from '@chakra-ui/react';
 import * as React from 'react';
 
+import AssociationDisplay from 'react_lib/display/AssociationDisplay';
 import TextDisplay from 'react_lib/display/TextDisplay';
 import DisplayField from 'react_lib/form/DisplayField';
 import DisplayForm from 'react_lib/form/DisplayForm';
 import FormSection from 'react_lib/form/FormSection';
 import StyleControl from 'react_lib/StyleControl';
-import AssociationDisplay from 'react_lib/display/AssociationDisplay';
 
 import { AppContext } from 'SmallAppContext';
 import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
