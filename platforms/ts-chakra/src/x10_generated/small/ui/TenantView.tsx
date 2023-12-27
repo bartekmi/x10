@@ -10,8 +10,8 @@ import FormSection from 'react_lib/form/FormSection';
 import StyleControl from 'react_lib/StyleControl';
 
 import { AppContext } from 'SmallAppContext';
-import { type Tenant } from 'x10_generated/small/entities/Tenant';
 import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
+import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
 
 
@@ -119,8 +119,8 @@ export const TENANTVIEW_TENANT_FRAGMENT = gql`
       city
       country {
         id
-        name
         code
+        name
       }
       stateOrProvince
       theAddress

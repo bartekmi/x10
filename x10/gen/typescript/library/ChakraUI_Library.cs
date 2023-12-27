@@ -944,17 +944,25 @@ namespace x10.gen.typescript.library {
           new JavaScriptAttributeDynamic("order", "order"),
         },
       },
-      // This is incorrect... This is not rendered using toStringRepresentation() +++
       new PlatformClassDef() {
         LogicalName = "AssociationDisplay",
         PlatformName = "TextDisplay",
         ImportDir = "react_lib/display",
         InheritsFromName = "TextualDisplay",
         LocalPlatformAttributes = new List<PlatformAttribute>() {
-          new JavaScriptAttributeDynamic() {
-            IsMainDatabindingAttribute = true,
-            LogicalName = "value",
+          new JavaScriptAttributeByFunc() {
             PlatformName = "value",
+            IsCodeSnippet = true,
+            Function = (generator, instance) => {
+              Entity entity = instance.DataModelEntity;
+              Entity refedEntity = (instance.ModelMember as Association).ReferencedEntity;
+              
+              X10DerivedAttribute toString = refedEntity.GetToStringRepresentationAttr();
+              generator.ImportsPlaceholder.ImportDerivedAttributeFunction(toString);
+              string toStringFunc = TypeScriptCodeGenerator.DerivedAttrFuncName(toString);
+              string bindingPath = generator.GetBindingPath(instance);
+              return string.Format("{0}(appContext, {1})", toStringFunc, bindingPath);
+            },
           },
         },
       },

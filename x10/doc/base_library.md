@@ -65,11 +65,6 @@ Display a non-owned association in a read-only context
 
 - Inherits From: TextualDisplay
 
-### Attribute 'value' (Primary)
-
-The value to display - at present, this is assumed to be returned by the back-end in the form of the 'toStringRepresentation' property
-
-- Data Type: String
 ### Attribute 'borderColor'
 
 If specified, element will have a border of this color and some small padding

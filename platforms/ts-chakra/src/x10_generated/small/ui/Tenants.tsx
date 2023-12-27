@@ -11,6 +11,7 @@ import Table from 'react_lib/table/Table';
 import x10toString from 'react_lib/utils/x10toString';
 
 import { AppContext } from 'SmallAppContext';
+import { countryToStringRepresentation } from 'x10_generated/small/entities/Country';
 import { type Tenant } from 'x10_generated/small/entities/Tenant';
 
 
@@ -73,7 +74,7 @@ export default function Tenants(props: Props): React.JSX.Element {
               accessor: (data) => data?.permanentMailingAddress?.country,
               Cell: ( value ) =>
                 <TextDisplay
-                  value={ value }
+                  value={ countryToStringRepresentation(appContext, value?.permanentMailingAddress?.country) }
                 />
               ,
             },
@@ -115,6 +116,8 @@ export const TENANTS_TENANTS_FRAGMENT = gql`
       id
       country {
         id
+        code
+        name
       }
     }
     phone

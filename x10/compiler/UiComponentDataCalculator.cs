@@ -8,6 +8,7 @@ using x10.formula;
 using x10.model.definition;
 using x10.ui.composition;
 using x10.ui;
+using x10.model.libraries;
 
 // The UiComponentDataCalculator class can be used to generate a tree structure of all 
 // data referenced in a Class Def. Perfect for generating GraphQL Fragments, for example.
@@ -16,6 +17,8 @@ using x10.ui;
 namespace x10.compiler {
 
   #region Helper Classes
+  // MemberWrapper builds a tree of members for which data need to be pulled in by the UI.
+  // A tree of MemberWrappers will be a partial subset of the graph formed by Member.
   public class MemberWrapper {
     public Entity RootEntity { get; private set; }
     public Member Member { get; private set; }
@@ -79,7 +82,7 @@ namespace x10.compiler {
           member.Owner.IsContext)         // Context is not part of fetchable data
         return this;
 
-      // Treat derived attributes in a special way - they need to be decomposed
+      // Treat derived attributes by recursing - they need to be decomposed
       // into their source regular attributes
       if (member is X10DerivedAttribute derived) {
         foreach (X10RegularAttribute regular in derived.ExtractSourceAttributes())
@@ -132,8 +135,19 @@ namespace x10.compiler {
         wrapper = BuildWrapper(instance.PathComponents, wrapper);
 
       // If the instance references an X10 component, record this in the wrapper
+      // (Used for including fragments)
       if (instance.RenderAs is ClassDefX10 classDef)
         wrapper.ComponentReferences.Add(classDef);
+
+      // This is a hack, but a nicker solution would take more serious thought
+      // Ideally, at the BaseLibrary level, a component definition should
+      // be able to define a default function or derived attribute. The default
+      // would be toStringRepresentation.
+      if (instance.RenderAs.Name == x10.ui.libraries.BaseLibrary.ASSOCIATION_DISPLAY) {
+        X10DerivedAttribute toString = instance.DataModelEntity.GetToStringRepresentationAttr();
+        foreach (IEnumerable<Member> path in FormulaUtils.ExtractMemberPaths(toString.Expression))
+          BuildWrapper(path, wrapper);
+      }
 
       foreach (Instance child in instance.ChildInstances)
         ExtractDataRecursive(child, wrapper);

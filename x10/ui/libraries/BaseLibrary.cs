@@ -12,6 +12,8 @@ namespace x10.ui.libraries {
 
     public const string CLASS_DEF_FORM = "Form";
     public const string CLASS_DEF_LIST = "List";
+    public const string ASSOCIATION_DISPLAY = "AssociationDisplay";
+
     private const string MANDATORY_INDICATOR = "mandatoryIndicator";
 
     private readonly static List<ClassDef> definitions = new List<ClassDef>() {
@@ -519,16 +521,10 @@ namespace x10.ui.libraries {
         }
       },
       new ClassDefNative() {
-        Name = "AssociationDisplay",
+        Name = ASSOCIATION_DISPLAY,
         Description = "Display a non-owned association in a read-only context",
         InheritsFromName = "TextualDisplay",
         LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
-          new UiAttributeDefinitionAtomic() {
-            Name = "value",
-            Description = "The value to display - at present, this is assumed to be returned by the back-end in the form of the 'toStringRepresentation' property",
-            DataType = DataTypes.Singleton.String,
-            IsPrimary = true,
-          },
         }
       },
 
@@ -1311,7 +1307,7 @@ namespace x10.ui.libraries {
       library.SetComponentForEnums("EnumDisplay", UseMode.ReadOnly);
 
       library.SetComponentForAssociations("AssociationEditor", UseMode.ReadWrite);
-      library.SetComponentForAssociations("AssociationDisplay", UseMode.ReadOnly);
+      library.SetComponentForAssociations(ASSOCIATION_DISPLAY, UseMode.ReadOnly);
 
       return library;
     }
