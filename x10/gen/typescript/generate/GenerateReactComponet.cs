@@ -288,9 +288,6 @@ namespace x10.gen.typescript.generate {
 
     private void PrintGraphQL_Children(int indent, MemberWrapper wrapper) {
       WriteLine(indent, "id");
-      // More comments why this is removed in hot_chocolate generation
-      // if (wrapper.Member != null && wrapper.Member.IsNonOwnedAssociation)
-      //   WriteLine(indent, "toStringRepresentation");
 
       foreach (MemberWrapper child in wrapper.Children.OrderBy(x => x.Member.Name))
         if (child.Member.Name != "id")
