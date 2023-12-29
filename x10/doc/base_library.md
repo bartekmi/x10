@@ -261,6 +261,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -482,6 +487,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -1028,6 +1038,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -1133,6 +1148,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -1441,6 +1461,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -1771,6 +1796,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -2099,6 +2129,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -2420,6 +2455,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'prefix'
 
 Prefix string to display before the edited text - e.g. '$'
@@ -3925,6 +3965,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'prefix'
 
 Prefix string to display before the edited text - e.g. '$'
@@ -4812,6 +4857,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -6197,6 +6247,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -6303,6 +6358,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'prefix'
 
 Prefix string to display before the edited text - e.g. '$'
@@ -6633,6 +6693,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 
@@ -6849,6 +6914,11 @@ Padding to the right of the component (in pixels)
 Padding on top of the component (in pixels)
 
 - Data Type: Float
+### Attribute 'placeholder'
+
+Placeholder text to show when input is blank
+
+- Data Type: String
 ### Attribute 'readOnly'
 
 

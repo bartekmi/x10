@@ -75,6 +75,7 @@ function BuildingForm(props: Props): React.JSX.Element {
               onChange={ (value) => {
                 onChange({ ...building, name: value })
               } }
+              placeholder='Name of building'
             />
           </FormField>
         </StyleControl>
@@ -361,6 +362,7 @@ function BuildingForm(props: Props): React.JSX.Element {
                     onChange={ (value) => {
                       onChange({ ...data, number: value })
                     } }
+                    placeholder='Unit number'
                   />
                 </FormField>
                 <FormField

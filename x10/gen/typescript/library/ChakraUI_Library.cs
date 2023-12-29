@@ -283,6 +283,7 @@ namespace x10.gen.typescript.library {
           },
           new JavaScriptAttributeDynamic("prefix", "prefix"),
           new JavaScriptAttributeDynamic("suffix", "suffix"),
+          new JavaScriptAttributeDynamic("placeholder", "placeholder"),
         },
       },
       new PlatformClassDef() {
@@ -295,11 +296,10 @@ namespace x10.gen.typescript.library {
             IsMainDatabindingAttribute = true,
             PlatformName = "value",
           },
-          new JavaScriptAttributeDynamic() {
-            LogicalName = "readOnly",
-            PlatformName = "readOnly",
+          new JavaScriptAttributeDynamic("readOnly", "readOnly") {
             AttributeUnnecessaryWhen = false,
           },
+          new JavaScriptAttributeDynamic("placeholder", "placeholder"),
         },
       },
       new PlatformClassDef() {

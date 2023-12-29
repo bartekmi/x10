@@ -151,6 +151,12 @@ namespace x10.ui.metadata {
           DataType = DataTypes.Singleton.Boolean,
           DefaultValue = true,
         },
+        new UiAttributeDefinitionAtomic() {
+          Name = "placeholder",
+          Description = "Placeholder text to show when input is blank",
+          DataType = DataTypes.Singleton.String,
+          TakeValueFromModelAttrName = model.libraries.BaseLibrary.PLACEHOLDER_TEXT,
+        },
       }
     };
 
