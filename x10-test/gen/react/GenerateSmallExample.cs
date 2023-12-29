@@ -7,8 +7,8 @@ using x10.parsing;
 using x10.compiler;
 using x10.model;
 using x10.ui.platform;
-using x10.gen.react.library;
-using x10.gen.react.generate;
+using x10.gen.typescript.library;
+using x10.gen.typescript.generate;
 
 namespace x10.gen.react {
   public class GenerateSmallExample {
@@ -29,16 +29,16 @@ namespace x10.gen.react {
         out AllFunctions allFuncs,
         out AllUiDefinitions allUiDefinitions);
 
-      LatitudeLibrary.Singleton().HydrateAndValidate(_messages);
+      ChakraUI_Library.Singleton().HydrateAndValidate(_messages);
       PlatformLibrary[] libraries = new PlatformLibrary[] {
-        LatitudeLibrary.Singleton(),
+        ChakraUI_Library.Singleton(),
       };
 
       TestUtils.DumpMessages(_messages, _output);
       Assert.Empty(_messages.Errors);
 
       string targetDir = "../../../__generated__/react_small_generated";
-      ReactCodeGenerator generator = new ReactCodeGenerator() {
+      TypeScriptCodeGenerator generator = new() {
         AppContextImport = "SmallAppContext",
       };
 

@@ -71,16 +71,16 @@ attributes:
 
       string expected =
 @"INSERT INTO ""entity"" (""id"", ""integer"", ""float"", ""char_replacement"", ""percentage_pattern"") VALUES
-(1, 8, 10.576802268939467, 'ZZ.52.OXL', 'Division'),
-(2, 7, 10.563265907281668, 'ZZ.49.AWZ', 'Equity'),
-(3, 8, 10.599190217535565, 'ZZ.06.NYR', 'Bid'),
-(4, 7, 10.52971718657283, 'ZZ.96.TAJ', 'Well-informed Leather'),
-(5, 7, 10.527345148347013, 'ZZ.97.ILD', 'Ill-informed Rain'),
-(6, 7, 10.519491343674945, 'ZZ.88.TWR', 'Crash'),
-(7, 8, 10.508657988351144, 'ZZ.81.QVF', 'Joey'),
-(8, 8, 10.580946258027547, 'ZZ.17.SDX', 'Large Manufacturing'),
-(9, 8, 10.546839774142411, 'ZZ.88.UTY', 'Measly Pint'),
-(10, 7, 10.582061007331154, 'ZZ.21.BQS', 'Trend');
+(1, 8, 10.58, 'ZZ.52.OXL', 'Division'),
+(2, 7, 10.56, 'ZZ.49.AWZ', 'Equity'),
+(3, 8, 10.6, 'ZZ.06.NYR', 'Bid'),
+(4, 7, 10.53, 'ZZ.96.TAJ', 'Well-informed Leather'),
+(5, 7, 10.53, 'ZZ.97.ILD', 'Ill-informed Rain'),
+(6, 7, 10.52, 'ZZ.88.TWR', 'Crash'),
+(7, 8, 10.51, 'ZZ.81.QVF', 'Joey'),
+(8, 8, 10.58, 'ZZ.17.SDX', 'Large Manufacturing'),
+(9, 8, 10.55, 'ZZ.88.UTY', 'Measly Pint'),
+(10, 7, 10.58, 'ZZ.21.BQS', 'Trend');
 
 ";
 
@@ -317,7 +317,7 @@ attributes:
 
       string expected =
 @"INSERT INTO ""dog"" (""id"", ""number_of_legs"", ""bark_volume_in_db"") VALUES
-(1, 6, 2.8542983861892943);
+(1, 6, 2.85);
 
 INSERT INTO ""animal"" (""id"", ""number_of_legs"") VALUES
 (1, 9);
