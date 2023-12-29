@@ -1,9 +1,10 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite";
 
-import { Button, Flex, IconButton } from '@chakra-ui/react'
+import { Flex, IconButton } from '@chakra-ui/react'
 
 import colors from "../colors"
+import Button from "../chakra_wrappers/Button"
 import { DeleteIcon } from "@chakra-ui/icons";
 
 type TItem = {
@@ -95,16 +96,17 @@ function VerticalList<T extends TItem>({
 
 function AddNewButton<T>(onChange: (newItems: Array<T>) => void, addNewItem: () => T, items: T[], addItemLabel: string) {
   return (
-    <Button
-      onClick={() =>
-        onChange([
-          ...items,
-          addNewItem(), // Add a new one at end
-        ])
-      }
-    >
-      {addItemLabel}
-    </Button>
+    <div>
+      <Button
+        onClick={() =>
+          onChange([
+            ...items,
+            addNewItem(), // Add a new one at end
+          ])
+        }
+        label={addItemLabel}
+      />
+    </div>
   );
 }
 
