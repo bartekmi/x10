@@ -10,6 +10,7 @@ using x10.model.definition;
 using x10.model.metadata;
 using x10.gen.sql.primitives;
 using x10.gen.sql.parser;
+using x10.model.libraries;
 
 namespace x10.gen.sql {
   internal class AtomicDataGenerator {
@@ -17,6 +18,7 @@ namespace x10.gen.sql {
     private const int DEFAULT_INT_MAX = 10;
     private const double DEFAULT_FLOAT_MIN = 1.0;
     private const double DEFAULT_FLOAT_MAX = 10.0;
+    private const int DEFAULT_FLOAT_DECIMAL_PLACES = 2;
 
     private const int DEFAULT_DATE_OFFSET_DAYS_MIN = -20;
     private const int DEFAULT_DATE_OFFSET_DAYS_MAX = +5;
@@ -60,7 +62,11 @@ namespace x10.gen.sql {
         double min = objMin is double _min ? _min : DEFAULT_FLOAT_MIN;
         double max = objMax is double _max ? _max : DEFAULT_FLOAT_MAX;
 
-        value = random.NextDouble() * (max - min) + min;
+        object objDecimalPlaces = x10Attr.FindValue(BaseLibrary.DECIMAL_PLACES);
+        int decimalPlaces = objDecimalPlaces is int _decimalPlaces ? _decimalPlaces : DEFAULT_FLOAT_DECIMAL_PLACES;
+
+        double d = random.NextDouble() * (max - min) + min;
+        value = Math.Round(d, decimalPlaces);
       } else if (x10Attr.DataType == DataTypes.Singleton.Boolean) {
         value = random.Next(2) == 0;
       } else if (x10Attr.DataType == DataTypes.Singleton.Date) {
