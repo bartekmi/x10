@@ -52,12 +52,12 @@ namespace x10.hotchoc.SmallSample {
     /// </summary>
     public class BuildingFormBuilding : Base {
       public Address PhysicalAddress { get; set; }
-      public DateTime? DateOfOccupancy { get; set; }
       public string? Moniker { get; set; }
       public string? Name { get; set; }
       public string? Description { get; set; }
       public bool MailingAddressSameAsPhysical { get; set; }
       public Address MailingAddress { get; set; }
+      public DateTime? DateOfOccupancy { get; set; }
       public MailboxTypeEnum? MailboxType { get; set; }
       public PetPolicyEnum? PetPolicy { get; set; }
       public List<Unit>? Units { get; set; }

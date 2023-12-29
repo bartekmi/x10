@@ -282,12 +282,12 @@ input BuildingFilter {
 "Input Data Type for BuildingFormUpdateBuilding Mutation"
 input BuildingFormBuildingInput {
   physicalAddress: AddressInput!
-  dateOfOccupancy: DateTime
   moniker: String
   name: String
   description: String
   mailingAddressSameAsPhysical: Boolean!
   mailingAddress: AddressInput!
+  dateOfOccupancy: DateTime
   mailboxType: MailboxTypeEnum
   petPolicy: PetPolicyEnum
   units: [UnitInput!]

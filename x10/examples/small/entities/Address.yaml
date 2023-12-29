@@ -34,7 +34,7 @@ attributes:
     label: Zip or Postal Code
     mandatory: true
     maxWidth: 150
-    datagen_from_source: ( city => zips )
+    datagen_pattern: (70% => ~DDDDD~ | 30% => ~DDDDD-DDDD~)
 
 derivedAttributes:
   - name: firstAddressLine
