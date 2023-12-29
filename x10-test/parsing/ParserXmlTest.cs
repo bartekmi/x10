@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Xunit;
 using Xunit.Abstractions;
+using System;
 
 namespace x10.parsing {
   public class ParserXmlTest {
@@ -49,6 +50,22 @@ namespace x10.parsing {
       VerifyElement(level3, "Level3", 2, 0, 5, 6);
       VerifyAttribute(level3, "Name", "Level3", 5, 6);
       VerifyAttribute(level3, "attr3", "3", 5, 13);
+    }
+    [Fact]
+    public void ParseValidMultiline() {
+      XmlElement root = (XmlElement)_parser.Parse("../../../parsing/data/GoodMultiline.xml");
+
+      TestUtils.DumpMessages(_messages, _output);
+      Assert.True(_messages.IsEmpty);
+
+      string content = root.TextContent.ToString().Trim();
+
+      string expected = 
+@"`${addressLine1()}
+${city}, ${stateOrProvince}   ${zip}
+${country.name}`";      
+
+      Assert.Equal(expected, content);
     }
 
     [Fact]
