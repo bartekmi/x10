@@ -5,16 +5,27 @@ import { useNavigate } from "react-router-dom";
 // import { Button as ChakraButton, Link } from '@chakra-ui/react'
 
 type Props = {
-  readonly label: string,
+  readonly children?: React.JSX.Element | string,
+  readonly label?: string,
   readonly onClick?: () => unknown,
   readonly url?: string,
   readonly disabled?: boolean,
-  readonly style?: "normal" | "link"
+  readonly style?: "normal" | "link",
+  readonly intent?: "default" | "save-changes"
 };
 export default function Button(props: Props): React.JSX.Element {
-  const {label, onClick, url, disabled=false, style='normal'} = props;
-
+  let {
+    children, 
+    label="Click", 
+    onClick, 
+    url, 
+    disabled=false, 
+    style="normal",
+    intent="default"
+  } = props;
   const navigation = useNavigate();
+
+  children = children || label;
 
   function navigateToUrl() {
     if (url != null)
@@ -22,15 +33,23 @@ export default function Button(props: Props): React.JSX.Element {
   }
 
   const myOnClick = url == null ? onClick : navigateToUrl;
-  const myStyle = style == 'normal' ? styles.button : styles.link;
   
+  var myStyles;
+  if (style == "normal") {
+    myStyles = [styles.button];
+    if (intent == "save-changes")
+      myStyles.push(styles.buttonSaveChanges);
+  } else {
+    myStyles = [styles.link];
+  }
+
   return (
       <button 
         onClick={myOnClick}
         disabled={disabled}
-        className={css(myStyle)}
+        className={css(myStyles)}
       >
-        {label}
+        {children}
       </button>
   );
 }
@@ -64,4 +83,10 @@ const styles = StyleSheet.create({
         textDecoration: 'none',
       }
     },
+    buttonSaveChanges: {
+      backgroundColor: '#1E90FF',
+      ':hover': {
+        backgroundColor: '#0000FF', /* Darker shade of green */
+      }
+    }
   });

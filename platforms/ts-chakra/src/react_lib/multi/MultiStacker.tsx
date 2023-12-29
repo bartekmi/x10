@@ -104,8 +104,9 @@ function AddNewButton<T>(onChange: (newItems: Array<T>) => void, addNewItem: () 
             addNewItem(), // Add a new one at end
           ])
         }
-        label={addItemLabel}
-      />
+      >
+        {addItemLabel}
+      </Button>
     </div>
   );
 }

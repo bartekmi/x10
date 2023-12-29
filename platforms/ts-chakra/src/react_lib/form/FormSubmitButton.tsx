@@ -2,8 +2,9 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
-import { Button, useToast, AlertStatus, Spinner } from '@chakra-ui/react'
+import { useToast, AlertStatus, Spinner } from '@chakra-ui/react'
 
+import Button from "../chakra_wrappers/Button";
 import {FormContext} from "./FormProvider";
 
 
@@ -17,7 +18,7 @@ type Props = {
 };
 export default function FormSubmitButton(props: Props): React.JSX.Element {
   const { 
-    label, 
+    label="Save Changes", 
     mutation, 
     variables, 
     successMessage = "Your data has been saved.", 
@@ -66,8 +67,9 @@ export default function FormSubmitButton(props: Props): React.JSX.Element {
   const hasErrors = formContext.errors.filter(x => x).length > 0;
   return (
     <Button 
-      isDisabled={hasErrors}
+      disabled={hasErrors}
       onClick={handleOnClick}
+      intent="save-changes"
     >
       {label}
     </Button>
@@ -88,4 +90,3 @@ function removeTypename<T extends Array<any> | object>(obj: T): T {
   }
   return obj;
 }
-
