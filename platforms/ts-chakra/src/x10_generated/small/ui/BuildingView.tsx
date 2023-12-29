@@ -99,14 +99,18 @@ export default function BuildingView(props: Props): React.JSX.Element {
               options={ MailboxTypeEnumPairs }
             />
           </DisplayField>
-          <DisplayField
-            label='Pet Policy'
+          <StyleControl
+            maxWidth={ 300 }
           >
-            <EnumDisplay
-              value={ building?.petPolicy }
-              options={ PetPolicyEnumPairs }
-            />
-          </DisplayField>
+            <DisplayField
+              label='Pet Policy'
+            >
+              <EnumDisplay
+                value={ building?.petPolicy }
+                options={ PetPolicyEnumPairs }
+              />
+            </DisplayField>
+          </StyleControl>
         </Group>
       </FormSection>
       <FormSection

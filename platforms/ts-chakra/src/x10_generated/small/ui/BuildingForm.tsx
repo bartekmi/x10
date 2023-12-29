@@ -324,18 +324,22 @@ function BuildingForm(props: Props): React.JSX.Element {
             options={ MailboxTypeEnumPairs }
           />
         </FormField>
-        <FormField
-          editorFor='petPolicy'
-          label='Pet Policy'
+        <StyleControl
+          maxWidth={ 300 }
         >
-          <SelectInput
-            value={ building?.petPolicy }
-            onChange={ (value) => {
-              onChange({ ...building, petPolicy: value })
-            } }
-            options={ PetPolicyEnumPairs }
-          />
-        </FormField>
+          <FormField
+            editorFor='petPolicy'
+            label='Pet Policy'
+          >
+            <SelectInput
+              value={ building?.petPolicy }
+              onChange={ (value) => {
+                onChange({ ...building, petPolicy: value })
+              } }
+              options={ PetPolicyEnumPairs }
+            />
+          </FormField>
+        </StyleControl>
       </FormSection>
       <FormSection
         label='Units'

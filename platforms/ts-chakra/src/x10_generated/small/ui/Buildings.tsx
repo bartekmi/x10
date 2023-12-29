@@ -113,12 +113,16 @@ export default function Buildings(props: Props): React.JSX.Element {
               id: '_5',
               Header: 'Pet Policy',
               width: 140,
-              accessor: (data) => data?.petPolicy,
+              accessor: (data) => data,
               Cell: ( value ) =>
-                <EnumDisplay
-                  value={ value }
-                  options={ PetPolicyEnumPairs }
-                />
+                <StyleControl
+                  maxWidth={ 300 }
+                >
+                  <EnumDisplay
+                    value={ value?.petPolicy }
+                    options={ PetPolicyEnumPairs }
+                  />
+                </StyleControl>
               ,
             },
             {
