@@ -190,6 +190,10 @@ namespace x10.gen.react {
       exp.WhenFalse.Accept(this);
     }
 
+    public void VisitStringInterpolation(ExpStringInterpolation exp) {
+      throw new NotImplementedException();
+    }
+
     public void VisitUnknown(ExpUnknown exp) {
       // This should never happen if the x10 code was compiled cleanly
     }

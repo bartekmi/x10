@@ -2,9 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using x10.parsing;
 
 namespace x10.formula {
@@ -14,7 +12,7 @@ namespace x10.formula {
       ExpressionSyntax expression = SyntaxFactory.ParseExpression(formula, 0, options, true);
 
       foreach (Diagnostic diagnostic in expression.GetDiagnostics())
-        parser.Errors.Messages.Add(CreateMessage(parser, element, diagnostic));
+        AddError(parser, element, diagnostic.GetMessage(), diagnostic.Location.SourceSpan);
 
       return ConvertToExpBase(parser, element, expression);
     }
@@ -78,19 +76,24 @@ namespace x10.formula {
       return x10Expression;
     }
 
+    #region Utils
+
     private static void SetFilePosition(IParseElement source, ExpBase x10Expression, TextSpan textSpan) {
       x10Expression.SetRelativeTo(source, textSpan.Start, textSpan.End);
     }
 
-    private static CompileMessage CreateMessage(FormulaParser parser, IParseElement element, Diagnostic diagnostic) {
+    internal static void AddError(FormulaParser parser, IParseElement element, string message, TextSpan span) {
       ExpBase dummyExpression = new ExpUnknown(parser);
-      SetFilePosition(element, dummyExpression, diagnostic.Location.SourceSpan);
+      SetFilePosition(element, dummyExpression, span);
 
-      return new CompileMessage() {
+      CompileMessage compMessage = new CompileMessage() {
         ParseElement = dummyExpression,
-        Message = diagnostic.GetMessage(),
+        Message = message,
         Severity = CompileMessageSeverity.Error,
       };
+
+      parser.Errors.Add(compMessage);
     }
+    #endregion
   }
 }

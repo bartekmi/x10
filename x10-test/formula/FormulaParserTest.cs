@@ -140,7 +140,9 @@ arguments:
 
       TestExpectedSuccess("a > c ? -7 : 7", DataTypes.Singleton.Integer);           // Conditional
       TestExpectedSuccess("a > c ? -7 : null", DataTypes.Singleton.Integer);        // Conditional
-      TestExpectedSuccess("a > c ? null : 7", DataTypes.Singleton.Integer);        // Conditional
+      TestExpectedSuccess("a > c ? null : 7", DataTypes.Singleton.Integer);         // Conditional
+
+      TestExpectedSuccess("`Abc ${a} ${b}`", DataTypes.Singleton.String);         // Interpolation
     }
 
     // Assume an expression A.B.C
@@ -259,6 +261,11 @@ arguments:
     [Fact]
     public void ConditionalIncompatibleTypes() {
       TestExpectedError("a > c ? 7 : \"Hello\"", "Type on the left is Integer, but type on the right is String", 0, 19);
+    }
+
+    [Fact]
+    public void ExpStringInterpolationMismatchBraces() {
+      TestExpectedError("`Abc ${exp`", "Mismatches braces in string interpolation", 6, 9);
     }
     #endregion
 

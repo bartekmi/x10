@@ -66,6 +66,10 @@ namespace x10.gen.wpf {
       exp.WhenFalse.Accept(this);
     }
 
+    public void VisitStringInterpolation(ExpStringInterpolation exp) {
+      _writer.WriteLine(exp.Template);
+    }
+
     public void VisitUnknown(ExpUnknown exp) {
       _writer.Write("UNKNOWN");
     }

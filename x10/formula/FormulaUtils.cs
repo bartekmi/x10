@@ -53,7 +53,7 @@ namespace x10.formula {
     }
 
     public static IEnumerable<IEnumerable<Member>> ExtractMemberPaths(ExpBase root) {
-      IEnumerable<ExpBase> subExpressions = FormulaUtils.ListAll(root);
+      IEnumerable<ExpBase> subExpressions = ListAll(root);
       List<IEnumerable<Member>> paths = new List<IEnumerable<Member>>();
 
       foreach (ExpBase expression in subExpressions) 

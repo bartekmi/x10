@@ -199,6 +199,10 @@ namespace x10.gen.typescript {
       exp.WhenFalse.Accept(this);
     }
 
+    public void VisitStringInterpolation(ExpStringInterpolation exp) {
+      _writer.WriteLine(exp.Template);
+    }
+
     public void VisitUnknown(ExpUnknown exp) {
       // This should never happen if the x10 code was compiled cleanly
     }

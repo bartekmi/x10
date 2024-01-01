@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using x10.model;
-using x10.model.definition;
 using x10.model.metadata;
 using x10.parsing;
 
@@ -30,6 +27,9 @@ namespace x10.formula {
     }
 
     public ExpBase Parse(IParseElement element, string formula, X10DataType rootType) {
+      if (ExpStringInterpolation.IsStringInterpolation(formula))
+        return ExpStringInterpolation.Parse(this, element, formula, rootType);
+
       ExpBase expression = MicrosoftCsParser.Parse(this, element, formula);
       expression.DetermineType(rootType);
 
