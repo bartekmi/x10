@@ -39,9 +39,7 @@ attributes:
 derivedAttributes:
   - name: firstAddressLine
     dataType: String
-# TODO
-#    formula: '=isEmpty(unitNumber) ? address : address + "   Unit " + unitNumber'
-    formula: '=theAddress + "   Unit " + unitNumber'
+    formula: '=IsBlank(unitNumber) ? theAddress : theAddress + "   Unit " + unitNumber'
   - name: secondAddressLine
     dataType: String
     formula: =city + ', ' + stateOrProvince

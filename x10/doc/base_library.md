@@ -6166,6 +6166,11 @@ Multi-line editor for text. Suitable for longer descriptions.
 - Inherits From: ClassDefEditable
 - Expects Data Type: String
 
+### Attribute 'text' (Primary)
+
+The text to display
+
+- Data Type: String
 ### Attribute 'borderColor'
 
 If specified, element will have a border of this color and some small padding

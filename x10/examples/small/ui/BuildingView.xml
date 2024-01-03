@@ -16,9 +16,11 @@
     </FormSection>
 
     <FormSection path="physicalAddress" label="Physical Address">
-      <theAddress/>
-      <Text text="=city + ', ' + stateOrProvince + '   ' + zip"/>
-      <Text text="=country.name"/>
+      <TextArea text=
+"=`${firstAddressLine}
+${city}, ${stateOrProvince}   ${zip}
+${country.name}`"
+      />
     </FormSection>
 
     <FormSection label="Units">

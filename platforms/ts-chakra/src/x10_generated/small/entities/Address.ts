@@ -27,7 +27,7 @@ export function addressFirstAddressLine(appContext: AppContextType, address?: {
     unitNumber?: string,
 } | null | undefined): string | undefined {
   if (address == null) return '';
-  const result = x10toString(address?.theAddress) + '   Unit ' + x10toString(address?.unitNumber);
+  const result = isBlank(address?.unitNumber) ? address?.theAddress : x10toString(address?.theAddress) + '   Unit ' + x10toString(address?.unitNumber);
   return result;
 }
 

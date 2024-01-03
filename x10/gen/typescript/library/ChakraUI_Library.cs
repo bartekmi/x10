@@ -294,6 +294,7 @@ namespace x10.gen.typescript.library {
         LocalPlatformAttributes = new List<PlatformAttribute>() {
           new JavaScriptAttributeDynamic() {
             IsMainDatabindingAttribute = true,
+            LogicalName = "text",
             PlatformName = "value",
           },
           new JavaScriptAttributeDynamic("readOnly", "readOnly") {

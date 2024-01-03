@@ -200,7 +200,18 @@ namespace x10.gen.typescript {
     }
 
     public void VisitStringInterpolation(ExpStringInterpolation exp) {
-      _writer.WriteLine(exp.Template);
+      _writer.Write('`');
+
+      foreach (ExpStringInterpolation.StringOrExpression chunk in exp.Chunks)
+        if (chunk.Expression == null)
+          _writer.Write(chunk.String);
+        else {
+          _writer.Write("${");
+          chunk.Expression.Accept(this);
+          _writer.Write("}");
+        }
+
+      _writer.Write('`');
     }
 
     public void VisitUnknown(ExpUnknown exp) {

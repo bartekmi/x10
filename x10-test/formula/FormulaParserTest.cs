@@ -150,7 +150,7 @@ arguments:
     // (A.B) . C
     [Fact]
     public void ParsePropertyOfDataType() {
-      ExpBase expression = TestExpectedSuccess("nested.attr.year", DataTypes.Singleton.Integer);         
+      ExpBase expression = TestExpectedSuccess("nested.attr.year", DataTypes.Singleton.Integer);
 
       Assert.True(expression is ExpMemberAccess);
       ExpMemberAccess expMemberAccess = (ExpMemberAccess)expression;
@@ -161,10 +161,26 @@ arguments:
 
     #endregion
 
+    #region ExpStringInterpolation
+    [Fact]
+    public void ExpStringInterpolation() {
+      TestInterpol("`A ${a} B ${b} C`", new string[] { "A ", null, " B ", null, " C" });
+      TestInterpol("`${a} B ${b} C`", new string[] { null, " B ", null, " C" });
+      TestInterpol("`A ${a} B ${b}`", new string[] { "A ", null, " B ", null });
+    }
+
+    private void TestInterpol(string expression, string[] chunks) {
+      ExpStringInterpolation exp = (ExpStringInterpolation)TestExpectedSuccess(expression, DataTypes.Singleton.String);
+      Assert.Equal(chunks.Length, exp.Chunks.Count);
+      for (int ii = 0; ii < chunks.Length; ii++)
+        Assert.Equal(chunks[ii], exp.Chunks[ii].String);
+    }
+    #endregion
+
     #region Enumerated Types
     [Fact]
     public void ParseEnum() {
-      TestExpectedSuccess("myEnumValue == MyEnum.three", DataTypes.Singleton.Boolean);    
+      TestExpectedSuccess("myEnumValue == MyEnum.three", DataTypes.Singleton.Boolean);
     }
 
     [Fact]

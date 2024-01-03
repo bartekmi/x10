@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis.Text;
 
 using x10.model.metadata;
@@ -7,11 +8,16 @@ using x10.parsing;
 
 namespace x10.formula {
   public class ExpStringInterpolation : ExpBase {
+    public class StringOrExpression {
+      internal string String;
+      internal ExpBase Expression;
+    }
+
     public string Template { get; set; }
-    public List<ExpBase> Expressions { get; set; }
+    public List<StringOrExpression> Chunks { get; set; }
 
     public ExpStringInterpolation(FormulaParser parser) : base(parser) { 
-      Expressions = new List<ExpBase>();
+      Chunks = new List<StringOrExpression>();
     }
 
     public override void Accept(IVisitor visitor) {
@@ -19,7 +25,7 @@ namespace x10.formula {
     }
 
     public override IEnumerable<ExpBase> ChildExpressions() {
-      return Expressions;
+      return Chunks.Where(x => x.Expression != null).Select(x => x.Expression);
     }
 
     public override X10DataType DetermineTypeRaw(X10DataType rootType) {
@@ -51,23 +57,41 @@ namespace x10.formula {
       exp.DetermineType(rootType);
 
       int start = 0;
+      int end = 0;
       while((start = template.IndexOf(TAG_START, start)) != -1) {
+        MaybeAddString(exp, start, end);
+
         start += TAG_START.Length;
-        int end = template.IndexOf(TAG_END, start);
+        end = template.IndexOf(TAG_END, start);
         if (end == -1) {
           MicrosoftCsParser.AddError(parser, element, "Mismatches braces in string interpolation",
             new TextSpan(start, template.Length - start));
-          break;
+          return exp;
         }
 
         string formula = template.Substring(start, end - start);
         ExpBase expChild = parser.Parse(element, formula, rootType);
-        exp.Expressions.Add(expChild);
+        exp.Chunks.Add(new StringOrExpression() {
+          Expression = expChild,
+        });
 
         start = end + TAG_END.Length;
+        end = start;
       }
 
+      // Add any remaining string
+      MaybeAddString(exp, template.Length, end);
+
       return exp;
+    }
+
+    private static void MaybeAddString(ExpStringInterpolation exp, int nextStart, int prevEnd) {
+      if (nextStart > prevEnd) {
+        exp.Chunks.Add(new StringOrExpression() {
+          String = exp.Template.Substring(prevEnd, nextStart - prevEnd),
+        });
+      }
+
     }
   }
 }

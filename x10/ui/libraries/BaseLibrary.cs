@@ -148,7 +148,7 @@ namespace x10.ui.libraries {
             IsPrimary = true,
             // Not mandatory - it may come from binding. 
             // TODO: Ideally, we should make it mandatory, but also indicate that this is the binding attribute
-            // and acto accordingly - i.e. only raise error if Text is used in a non-binding context
+            // and act accordingly - i.e. only raise error if Text is used in a non-binding context
           },
         }
       },
@@ -310,6 +310,15 @@ namespace x10.ui.libraries {
         Description = "Multi-line editor for text. Suitable for longer descriptions.",
         InheritsFrom = ClassDefNative.Editable,
         AtomicDataModel = DataTypes.Singleton.String,
+        LocalAttributeDefinitions = new List<UiAttributeDefinition>() {
+          new UiAttributeDefinitionAtomic() {
+            Name = "text",
+            Description = "The text to display",
+            DataType = DataTypes.Singleton.String,
+            IsPrimary = true,
+            // See comments on "Text"
+          },
+        }
       },
       new ClassDefNative() {
         Name = "IntEdit",
